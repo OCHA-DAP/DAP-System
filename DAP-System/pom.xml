@@ -215,4 +215,42 @@
 		<!-- </repository> -->
 
 	</repositories>
+	<profiles>
+		<profile>
+			<id>ddl</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>hibernate3-maven-plugin</artifactId>
+						<version>2.2</version>
+						<executions>
+							<execution>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>hbm2ddl</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<components>
+								<component>
+									<name>hbm2ddl</name>
+									<implementation>jpaconfiguration</implementation>
+								</component>
+							</components>
+							<componentProperties>
+								<persistenceunit>dap</persistenceunit>
+								<outputfilename>schema.ddl</outputfilename>
+								<drop>true</drop>
+								<create>true</create>
+								<export>false</export>
+								<format>true</format>
+							</componentProperties>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

@@ -9,6 +9,7 @@ public interface UserDAO {
 
 	public void createUser(final String id, final String password, final String apiKey) throws Exception;
 	public List<User> listUsers();
+	public String getUserApiKey(final String id) throws Exception;
 
 	public void authenticate(final String id, final String password) throws AuthenticationException;
 

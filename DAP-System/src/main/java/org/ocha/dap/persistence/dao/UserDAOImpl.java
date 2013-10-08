@@ -11,6 +11,7 @@ import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.tools.AESCipher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 public class UserDAOImpl implements UserDAO {
 	
@@ -21,6 +22,7 @@ public class UserDAOImpl implements UserDAO {
 	private EntityManager em;
 
 	@Override
+	@Transactional
 	public void createUser(final String id, final String password, final String ckanApiKey) throws Exception {
 		final User userToCreate = new User(id, sha1Encrypt(password), aesCipher.encrypt(ckanApiKey));
 
@@ -32,6 +34,12 @@ public class UserDAOImpl implements UserDAO {
 		final TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
 		return query.getResultList();
 	}
+	
+	@Override
+	public String getUserApiKey(final String id) throws Exception {
+		final User user = em.find(User.class, id);
+		return aesCipher.decrypt(user.getCkanApiKey());
+	}
 
 	@Override
 	public void authenticate(final String id, final String password) throws AuthenticationException {
@@ -40,6 +48,9 @@ public class UserDAOImpl implements UserDAO {
 		}
 		final User user = em.find(User.class, id);
 
+		if(user == null)
+			throw new AuthenticationException();
+		
 		if (!sha1Encrypt(password).equals(user.getPassword()))
 			throw new AuthenticationException();
 	}

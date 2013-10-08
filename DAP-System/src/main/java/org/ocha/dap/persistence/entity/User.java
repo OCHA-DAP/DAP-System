@@ -25,6 +25,13 @@ public class User {
 		this.ckanApiKey = ckanApiKey;
 	}
 
+	private User() {
+		super();
+		this.id = null;
+		this.password = null;
+		this.ckanApiKey = null;
+	}
+
 	public String getId() {
 		return id;
 	}
