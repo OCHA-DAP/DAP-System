@@ -1,7 +1,10 @@
 package org.ocha.dap.persistence.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.ocha.dap.persistence.entity.User;
 import org.ocha.dap.security.exception.AuthenticationException;
@@ -23,6 +26,12 @@ public class UserDAOImpl implements UserDAO {
 
 		em.persist(userToCreate);
 	}
+	
+	@Override
+	public List<User> listUsers() {
+		final TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+		return query.getResultList();
+	}
 
 	@Override
 	public void authenticate(final String id, final String password) throws AuthenticationException {
@@ -42,5 +51,4 @@ public class UserDAOImpl implements UserDAO {
 		md.setEncodeHashAsBase64(true);
 		return "{SHA}" + md.encodePassword(plaintext, null);
 	}
-
 }

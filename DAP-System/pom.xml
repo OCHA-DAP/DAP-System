@@ -13,6 +13,8 @@
 		<org.springframework.security.version>3.1.4.RELEASE</org.springframework.security.version>
 		<jersey.spring.version>1.17</jersey.spring.version>
 		<javax.servlet.api.version>2.5</javax.servlet.api.version>
+		<c3p0.version>0.9.1</c3p0.version>
+		<derby.version>10.9.1.0</derby.version>
 	</properties>
 
 	<dependencies>
@@ -49,6 +51,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 			<version>${org.springframework.security.version}</version>
@@ -64,6 +72,12 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>4.1.9.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mchange.c3p0</groupId>
+			<artifactId>com.springsource.com.mchange.v2.c3p0</artifactId>
+			<version>${c3p0.version}</version>
 		</dependency>
 
 		<dependency>
@@ -130,6 +144,13 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>${derby.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework.version}</version>
@@ -139,4 +160,59 @@
 	<build>
 		<finalName>dap</finalName>
 	</build>
+
+	<repositories>
+
+		<repository>
+			<id>Maven Central</id>
+			<url>http://repo1.maven.org/maven2/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>springsource-repo</id>
+			<name>SpringSource Repository</name>
+			<url>http://repo.springsource.org/release</url>
+		</repository>
+
+		<repository>
+			<id>springsource-repo-snapshot</id>
+			<name>SpringSource Repository</name>
+			<url>http://repo.springsource.org/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>springsource-repo-external</id>
+			<name>SpringSource External Repository</name>
+			<url>http://repository.springsource.com/maven/bundles/external/</url>
+		</repository>
+
+		<repository>
+			<id>java.net</id>
+			<url>http://download.java.net/maven/2/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+
+
+
+
+
+
+		<!-- <repository> -->
+		<!-- <id>apache-snapshots</id> -->
+		<!-- <url>http://repository.apache.org/snapshots/</url> -->
+		<!-- <snapshots> -->
+		<!-- <enabled>true</enabled> -->
+		<!-- </snapshots> -->
+		<!-- </repository> -->
+
+	</repositories>
 </project>

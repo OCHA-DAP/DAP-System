@@ -7,8 +7,6 @@
       ">
 	<context:annotation-config />
 	
-	<bean id="aesCipher" class="org.ocha.dap.security.tools.AESCipher">
-		<constructor-arg name="secret" value="${secret}" />
-	</bean>
+	<bean id="userDAO" class="org.ocha.dap.persistence.dao.UserDAOImpl" />
 
 </beans>

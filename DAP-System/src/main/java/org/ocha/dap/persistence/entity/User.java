@@ -1,9 +1,21 @@
 package org.ocha.dap.persistence.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "dap_user")
 public class User {
 	
+	@Id
 	private final String id;
+	
+	@Column(name = "password", updatable = true)
 	private final String password;
+	
+	@Column(name = "ckanApiKey", updatable = true)
 	private final String ckanApiKey;
 	
 	public User(final String id, final String password, final String ckanApiKey) {
