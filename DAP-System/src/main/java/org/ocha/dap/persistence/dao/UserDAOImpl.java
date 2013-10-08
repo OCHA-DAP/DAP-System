@@ -6,16 +6,20 @@ import javax.persistence.PersistenceContext;
 import org.ocha.dap.persistence.entity.User;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.tools.AESCipher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 
 public class UserDAOImpl implements UserDAO {
+	
+	@Autowired
+	private AESCipher aesCipher;
 
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
 	public void createUser(final String id, final String password, final String ckanApiKey) throws Exception {
-		final User userToCreate = new User(id, sha1Encrypt(password), AESCipher.encrypt(ckanApiKey));
+		final User userToCreate = new User(id, sha1Encrypt(password), aesCipher.encrypt(ckanApiKey));
 
 		em.persist(userToCreate);
 	}

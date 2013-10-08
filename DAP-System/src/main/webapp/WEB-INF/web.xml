@@ -37,6 +37,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:/ctx-config.xml
+			classpath:/ctx-core.xml
 		</param-value>
 	</context-param>
 
@@ -44,18 +45,18 @@
 		<filter-name>jersey-spring</filter-name>
 		<filter-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</filter-class>
 		<init-param>
-			<description>package(s) to scan for REST root resource classes</description>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
 			<param-value>org.ocha.dap.rest</param-value>
+			<description>package(s) to scan for REST root resource classes</description>
 		</init-param>
 		<init-param>
 			<param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
 			<param-value>org.ocha.dap.rest.AuthenticationFilter</param-value>
 		</init-param>
 		<init-param>
-			<description>Base directory for JSP templates to be included</description>
 			<param-name>com.sun.jersey.config.property.JSPTemplatesBasePath</param-name>
 			<param-value>/WEB-INF/jsp</param-value>
+			<description>Base directory for JSP templates to be included</description>
 		</init-param>
 	</filter>
 </web-app>

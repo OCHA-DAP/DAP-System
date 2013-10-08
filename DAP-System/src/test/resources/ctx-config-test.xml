@@ -10,24 +10,10 @@
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>file:.../dap-secret</value>
-				<value>/WEB-INF/db.properties</value>
+				<value>classpath:/dap-secret</value>
 			</list>
 		</property>
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
-	
-	
-<!-- 	<bean id="encryptedPropertyPlaceholderConfigurer" class="org.ocha.dap.security.tools.EncryptedPropertyPlaceholderConfigurer"> -->
-<!-- 		<property name="locations"> -->
-<!-- 			<list> -->
-<!-- 				<value>file:.../config/dap-test</value> -->
-<!-- 				<value>/WEB-INF/db.properties</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 		<property name="ignoreUnresolvablePlaceholders" value="true" /> -->
-<!-- 	</bean> -->
-
-
 
 </beans>
