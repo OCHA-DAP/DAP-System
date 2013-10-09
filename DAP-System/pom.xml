@@ -63,6 +63,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${org.springframework.security.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>4.1.9.Final</version>
@@ -159,6 +165,12 @@
 	</dependencies>
 	<build>
 		<finalName>dap</finalName>
+		<resources>
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 
 	<repositories>
@@ -216,6 +228,23 @@
 
 	</repositories>
 	<profiles>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<dap.logging.folder>/opt/dap/logs</dap.logging.folder>
+				<dap.config.folder>/opt/dap/config</dap.config.folder>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>seustachi</id>
+			<properties>
+				<dap.logging.folder>E:\DAP_FOLDER\logs</dap.logging.folder>
+				<dap.config.folder>E:\DAP_FOLDER\config</dap.config.folder>
+			</properties>
+		</profile>
 		<profile>
 			<id>ddl</id>
 			<build>

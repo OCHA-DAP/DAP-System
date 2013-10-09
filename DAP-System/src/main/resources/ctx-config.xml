@@ -10,7 +10,7 @@
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>file:.../dap-secret</value>
+				<value>file:${dap.config.folder}/dap-secret</value>
 				<value>/WEB-INF/db.properties</value>
 			</list>
 		</property>
