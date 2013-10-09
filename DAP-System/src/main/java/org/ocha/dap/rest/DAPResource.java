@@ -51,16 +51,16 @@ public class DAPResource {
 	 */
 	@POST
 	@Path("/login/")
-	public Response login(@FormParam("id") final String id, @FormParam("password") final String password) throws AuthenticationException, URISyntaxException {
-		logger.debug(String.format("Entering login for user : %s", id));
-		if (dapService != null && dapService.authenticate(id, password)) {
+	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password) throws AuthenticationException, URISyntaxException {
+		logger.debug(String.format("Entering login for user : %s", userId));
+		if (dapService != null && dapService.authenticate(userId, password)) {
 			final HttpSession session = request.getSession(true);
-			session.setAttribute(SESSION_PARAM_UID, id);
+			session.setAttribute(SESSION_PARAM_UID, userId);
 			// 300 seconds = 5 minutes
 			session.setMaxInactiveInterval(300);
 
 			URI newURI = null;
-			newURI = new URI("/index");
+			newURI = new URI("/index/");
 
 			return Response.seeOther(newURI).build();
 		}
@@ -75,6 +75,7 @@ public class DAPResource {
 	}
 
 	@GET
+	@Path("/index/")
 	public Response index() {
 		return Response.ok(new Viewable("/index", null)).build();
 	}

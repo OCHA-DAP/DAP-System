@@ -1,8 +1,11 @@
 package org.ocha.dap.persistence.dao;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ocha.dap.persistence.entity.User;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,7 +24,8 @@ public class UserDAOImplTest {
 		
 		userDAO.createUser("seustachi", "dummyPwd", "079f6194-45e1-4534-8ca7-1bd4130ef897");
 		
-		Assert.assertEquals(1, userDAO.listUsers().size());
+		final List<User> users = userDAO.listUsers();
+		Assert.assertEquals(1, users.size());
 		
 		userDAO.authenticate("seustachi", "dummyPwd");
 		
@@ -39,6 +43,8 @@ public class UserDAOImplTest {
 		
 		final String userApiKey = userDAO.getUserApiKey("seustachi");
 		Assert.assertEquals("079f6194-45e1-4534-8ca7-1bd4130ef897", userApiKey);
+		
+		userDAO.deleteUser("seustachi");
 	}
 
 }

@@ -6,9 +6,12 @@
       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
       ">
 	<context:annotation-config />
-	
+
 	<bean id="userDAO" class="org.ocha.dap.persistence.dao.UserDAOImpl" />
-	
-	<bean id="dapService" class="org.ocha.dap.service.DAPServiceImpl" />
+
+	<bean id="dapService" class="org.ocha.dap.service.DAPServiceImpl">
+		<constructor-arg name="host" value="${ckan.host}" />
+		<constructor-arg name="technicalAPIKey" value="${ckan.technical.api.key}" />
+	</bean>
 
 </beans>

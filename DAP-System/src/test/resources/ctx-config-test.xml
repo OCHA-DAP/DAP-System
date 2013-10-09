@@ -11,6 +11,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:/dap-secret</value>
+				<value>classpath:/dap-test</value>
 			</list>
 		</property>
 		<property name="ignoreUnresolvablePlaceholders" value="true" />

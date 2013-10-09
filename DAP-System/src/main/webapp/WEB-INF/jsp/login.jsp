@@ -5,9 +5,9 @@
 </head>
 <body>
 <h2>Login</h2>
-<form method="POST">	
-	<label for="login">Login</label>
-  	<input type="text" name="login" id="login" />
+<form method="POST" action="">	
+	<label for="userId">User id</label>
+  	<input type="text" name="userId" id="userId" />
   	
   	<label for="password">Password</label>
   	<input type="password" name="password" id="password"/>

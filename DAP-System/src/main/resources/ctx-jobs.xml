@@ -11,8 +11,5 @@
 	<!-- allows the threads to have a meaningful prefix -->
 	<task:scheduler id="dap-JobsScheduler" />
 
-	<bean id="preCacheRunner" class="org.ocha.dap.jobs.CKANPollingClient">
-		<constructor-arg name="host" value="${ckan.host}" />
-		<constructor-arg name="technicalAPIKey" value="${ckan.technical.api.key}" />
-	</bean>
+	<bean id="preCacheRunner" class="org.ocha.dap.jobs.CKANPollingClient" />
 </beans>

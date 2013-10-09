@@ -40,6 +40,7 @@
 			classpath:/ctx-core.xml
 			classpath:/ctx-dao.xml
 			classpath:/ctx-jobs.xml
+			classpath:/ctx-rest.xml
 			classpath:/ctx-persistence.xml
 		</param-value>
 	</context-param>
