@@ -11,6 +11,7 @@
 		<property name="locations">
 			<list>
 				<value>file:${dap.config.folder}/dap-secret</value>
+				<value>file:${dap.config.folder}/dap-config</value>
 				<value>/WEB-INF/db.properties</value>
 			</list>
 		</property>
@@ -21,7 +22,7 @@
 <!-- 	<bean id="encryptedPropertyPlaceholderConfigurer" class="org.ocha.dap.security.tools.EncryptedPropertyPlaceholderConfigurer"> -->
 <!-- 		<property name="locations"> -->
 <!-- 			<list> -->
-<!-- 				<value>file:.../config/dap-test</value> -->
+<!-- 				<value>file:${dap.config.folder}/dap-config</value> -->
 <!-- 				<value>/WEB-INF/db.properties</value> -->
 <!-- 			</list> -->
 <!-- 		</property> -->

@@ -29,6 +29,10 @@
 	<logger name="org.hibernate.hql.ast">
 		<level value="info" />
 	</logger>
+	
+	<logger name="org.apache.http">
+		<level value="info" />
+	</logger>
 
 
 	<!-- ======== c3p0 -->
