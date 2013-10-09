@@ -10,11 +10,13 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.ocha.dap.dto.DatasetDTO;
 import org.ocha.dap.rest.helper.Index;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
@@ -87,6 +89,15 @@ public class DAPResource {
 		index.setUserId(userId);
 		index.setDatasets(datasets);
 		return Response.ok(new Viewable("/index", index)).build();
+	}
+	
+	@GET
+	@Path("/dataset/{datasetName}")
+	public Response getDatasetContent(@PathParam("datasetName") final String datasetName) throws InsufficientCredentialsException {
+		final HttpSession session = request.getSession(false);
+		final String userId = session.getAttribute(SESSION_PARAM_UID).toString();
+		final DatasetDTO result = dapService.getDatasetContentFromCKAN(userId, datasetName);
+		return Response.ok(new Viewable("/dataset", result)).build();
 	}
 
 }
