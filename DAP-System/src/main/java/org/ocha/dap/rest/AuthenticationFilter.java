@@ -48,7 +48,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	 */
 	private void checkSessionAndSetCommonRequestAttributesForJspViews() {
 		final HttpSession session = request.getSession(false);
-		if (session != null) {
+		if (session != null && session.getAttribute(SESSION_PARAM_UID) != null) {
 			final String uid = session.getAttribute(SESSION_PARAM_UID).toString();
 			log.debug(String.format("got uid : %s in session", uid));
 			request.setAttribute("uid", uid);

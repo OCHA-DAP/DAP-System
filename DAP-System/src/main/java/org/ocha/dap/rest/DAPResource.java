@@ -2,6 +2,7 @@ package org.ocha.dap.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,7 +15,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.ocha.dap.rest.helper.Index;
 import org.ocha.dap.security.exception.AuthenticationException;
+import org.ocha.dap.security.exception.InsufficientCredentialsException;
 import org.ocha.dap.service.DAPService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,8 +59,8 @@ public class DAPResource {
 		if (dapService != null && dapService.authenticate(userId, password)) {
 			final HttpSession session = request.getSession(true);
 			session.setAttribute(SESSION_PARAM_UID, userId);
-			// 300 seconds = 5 minutes
-			session.setMaxInactiveInterval(300);
+			// 1800 seconds = 30 minutes
+			session.setMaxInactiveInterval(1800);
 
 			URI newURI = null;
 			newURI = new URI("/index/");
@@ -76,8 +79,14 @@ public class DAPResource {
 
 	@GET
 	@Path("/index/")
-	public Response index() {
-		return Response.ok(new Viewable("/index", null)).build();
+	public Response index() throws InsufficientCredentialsException {
+		final HttpSession session = request.getSession(false);
+		final String userId = session.getAttribute(SESSION_PARAM_UID).toString();
+		final List<String> datasets = dapService.getDatasetsListFromCKAN(userId);
+		final Index index = new Index();
+		index.setUserId(userId);
+		index.setDatasets(datasets);
+		return Response.ok(new Viewable("/index", index)).build();
 	}
 
 }

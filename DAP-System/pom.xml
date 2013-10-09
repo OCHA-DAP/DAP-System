@@ -15,6 +15,7 @@
 		<javax.servlet.api.version>2.5</javax.servlet.api.version>
 		<c3p0.version>0.9.1</c3p0.version>
 		<derby.version>10.9.1.0</derby.version>
+		<jstl.impl.version>1.2</jstl.impl.version>
 	</properties>
 
 	<dependencies>
@@ -133,6 +134,19 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jstl-impl</artifactId>
+			<version>${jstl.impl.version}</version>
+			<scope>runtime</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>jsp-api</artifactId>
+					<groupId>javax.servlet.jsp</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
