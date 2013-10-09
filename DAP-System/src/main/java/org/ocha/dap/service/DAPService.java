@@ -6,6 +6,6 @@ public interface DAPService {
 	
 	public void getFilesFromCKAN();
 	
-	public void authenticate(final String id, final String password) throws AuthenticationException;
+	public boolean authenticate(final String id, final String password) throws AuthenticationException;
 
 }

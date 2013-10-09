@@ -42,7 +42,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void authenticate(final String id, final String password) throws AuthenticationException {
+	public boolean authenticate(final String id, final String password) throws AuthenticationException {
 		if (id == null || password == null) {
 			throw new AuthenticationException();
 		}
@@ -53,6 +53,8 @@ public class UserDAOImpl implements UserDAO {
 		
 		if (!sha1Encrypt(password).equals(user.getPassword()))
 			throw new AuthenticationException();
+		
+		return true;
 	}
 
 	// encryption method

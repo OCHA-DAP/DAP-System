@@ -16,8 +16,8 @@ public class DAPServiceImpl implements DAPService {
 	}
 
 	@Override
-	public void authenticate(final String id, final String password) throws AuthenticationException {
-		userDao.authenticate(id, password);
+	public boolean authenticate(final String id, final String password) throws AuthenticationException {
+		return userDao.authenticate(id, password);
 	}
 
 }

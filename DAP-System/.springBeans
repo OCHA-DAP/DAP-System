@@ -10,14 +10,10 @@
 		<config>src/main/resources/ctx-config.xml</config>
 		<config>src/test/resources/ctx-config-test.xml</config>
 		<config>src/main/resources/ctx-core.xml</config>
-		<config>target/dap/WEB-INF/classes/ctx-config.xml</config>
-		<config>target/dap/WEB-INF/classes/ctx-core.xml</config>
-		<config>target/dap/WEB-INF/classes/ctx-dao.xml</config>
 		<config>src/main/resources/ctx-dao.xml</config>
 		<config>src/main/resources/ctx-jobs.xml</config>
 		<config>src/test/resources/ctx-persistence-test.xml</config>
 		<config>src/main/resources/ctx-persistence.xml</config>
-		<config>target/dap/WEB-INF/classes/ctx-persistence.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

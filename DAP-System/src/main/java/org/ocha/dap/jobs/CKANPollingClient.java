@@ -26,14 +26,14 @@ public class CKANPollingClient implements Runnable {
 	}
 
 	@Override
-	@Scheduled(fixedDelay = 100000, initialDelay=100000)
+	@Scheduled(fixedDelay = 100000, initialDelay = 100000)
 	public void run() {
 		try {
 			// for now, just a simple get, no JSON POST
-			// FIXME we should have the name of the dataset here, either static or
+			// FIXME we should have the name of the dataset here, either static
+			// or
 			// discovered
 			final DatasetDTO dto = getDatasetDTOFromQuery(null, technicalAPIKey, null);
-			dto.getResult();
 			// FIXME do something with it
 		} catch (final Throwable e) {
 			log.error(e.toString(), e);

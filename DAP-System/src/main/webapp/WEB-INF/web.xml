@@ -62,4 +62,9 @@
 			<description>Base directory for JSP templates to be included</description>
 		</init-param>
 	</filter>
+	
+	 <filter-mapping>
+    <filter-name>jersey-spring</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

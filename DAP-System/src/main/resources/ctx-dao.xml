@@ -8,5 +8,7 @@
 	<context:annotation-config />
 	
 	<bean id="userDAO" class="org.ocha.dap.persistence.dao.UserDAOImpl" />
+	
+	<bean id="dapService" class="org.ocha.dap.service.DAPServiceImpl" />
 
 </beans>

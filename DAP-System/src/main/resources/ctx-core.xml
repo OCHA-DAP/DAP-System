@@ -6,7 +6,7 @@
       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
       ">
 	<context:annotation-config />
-	
+
 	<bean id="aesCipher" class="org.ocha.dap.security.tools.AESCipher">
 		<constructor-arg name="secret" value="${secret}" />
 	</bean>
