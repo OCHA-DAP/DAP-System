@@ -10,6 +10,9 @@
 <h2>Content of dataset : </h2>
 	<c:if test="${it.success}">
 	${it.result.license_title}
+		<c:forEach var="resource" items="${it.result.resources}">
+			<li><a href="${resource.url}">${resource.url}</a></li>
+		</c:forEach>
 	</c:if>
 	
 	<c:if test="${!it.success}">
