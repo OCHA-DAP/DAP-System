@@ -8,10 +8,12 @@
 </head>
 <body>
 <h2>Content of dataset : </h2>
-			<ul>
-				<c:forEach var="dataset" items="${it.datasets}">
-					<li>${dataset}</li>
-				</c:forEach>
-			</ul>
+	<c:if test="${it.success}">
+	${it.result.license_title}
+	</c:if>
+	
+	<c:if test="${!it.success}">
+	fail
+	</c:if>
 </body>
 </html>

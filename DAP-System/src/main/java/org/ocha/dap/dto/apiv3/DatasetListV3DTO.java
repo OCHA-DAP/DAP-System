@@ -1,8 +1,8 @@
-package org.ocha.dap.dto;
+package org.ocha.dap.dto.apiv3;
 
 import java.util.List;
 
-public class DatasetListDTO {
+public class DatasetListV3DTO {
 
 	private boolean success;
 	private List<String> result;

@@ -4,32 +4,41 @@ import java.util.List;
 
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.ocha.dap.dto.DatasetDTO;
-import org.ocha.dap.dto.DatasetListDTO;
+import org.ocha.dap.dto.apiv2.DatasetV2DTO;
+import org.ocha.dap.dto.apiv3.DatasetListV3DTO;
+import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.persistence.dao.UserDAO;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
+import org.ocha.dap.tools.GSONBuilderWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class DAPServiceImpl implements DAPService {
 
 	private static final Logger log = LoggerFactory.getLogger(DAPServiceImpl.class);
 
+	private static String DATASET_LIST_V3_API_PATTERN = "http://%s/api/3/action/package_list";
+	private static String DATASET_V3_API_PATTERN = "http://%s/api/3/action/package_show?id=";
+
+	// can be useful to update a dataset
+	private static String DATASET_V2_API_PATTERN = "http://%s/api/2/rest/dataset/";
+
 	private final String urlBaseForDatasetsList;
-	private final String urlBaseForDatasetContent;
+	private final String urlBaseForDatasetContentV3;
+	private final String urlBaseForDatasetContentV2;
 	private final String technicalAPIKey;
 
 	public DAPServiceImpl(final String host, final String technicalAPIKey) {
 		super();
-		this.urlBaseForDatasetsList = String.format("http://%s/api/3/action/package_list", host);
-		this.urlBaseForDatasetContent = String.format("http://%s/api/3/action/package_show?id=", host);
+		this.urlBaseForDatasetsList = String.format(DATASET_LIST_V3_API_PATTERN, host);
+		this.urlBaseForDatasetContentV3 = String.format(DATASET_V3_API_PATTERN, host);
+		this.urlBaseForDatasetContentV2 = String.format(DATASET_V2_API_PATTERN, host);
 		this.technicalAPIKey = technicalAPIKey;
 	}
 
@@ -43,23 +52,33 @@ public class DAPServiceImpl implements DAPService {
 	}
 
 	@Override
-	public DatasetDTO getDatasetContentFromCKAN(final String userId, final String datasetName) throws InsufficientCredentialsException {
+	public DatasetV3DTO getDatasetContentFromCKANV3(final String userId, final String datasetName) throws InsufficientCredentialsException {
 		final String apiKey = userDao.getUserApiKey(userId);
 
-		return getDatasetDTOFromQuery(datasetName, apiKey, null);
+		return getDatasetDTOFromQueryV3(datasetName, apiKey);
 
 	}
 
+	@Override
+	public DatasetV2DTO getDatasetContentFromCKANV2(final String userId, final String datasetName) throws InsufficientCredentialsException {
+		final String apiKey = userDao.getUserApiKey(userId);
+
+		return getDatasetDTOFromQueryV2(datasetName, apiKey);
+	}
+	
+	@Override
+	public void updateDatasetContent(final String userId, final String datasetName, final DatasetV2DTO datasetV2DTO) throws InsufficientCredentialsException {
+		final String apiKey = userDao.getUserApiKey(userId);
+
+		updateDatasetDTO(datasetName, apiKey, datasetV2DTO);
+	}
+
 	List<String> getDatasetListDTOFromQuery(final String apiKey) {
-		final String jsonResult = performHttpCallAndGetResponse(urlBaseForDatasetsList, apiKey, null);
+		final String jsonResult = performHttpGET(urlBaseForDatasetsList, apiKey);
 		if (jsonResult == null) {
 			return null;
 		} else {
-			final GsonBuilder gsonBuilder = new GsonBuilder();
-			gsonBuilder.setDateFormat("yyyyMMdd'T'HH:mm:ss'.'SSSZ");
-			final Gson gson = gsonBuilder.create();
-
-			final DatasetListDTO returnedValue =  gson.fromJson(jsonResult, DatasetListDTO.class);
+			final DatasetListV3DTO returnedValue = GSONBuilderWrapper.getGSON().fromJson(jsonResult, DatasetListV3DTO.class);
 			return returnedValue.getResult();
 		}
 	}
@@ -69,32 +88,44 @@ public class DAPServiceImpl implements DAPService {
 		return userDao.authenticate(id, password);
 	}
 
-	DatasetDTO getDatasetDTOFromQuery(final String datasetName, final String apiKey, final String query) {
-		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContent, datasetName);
-		final String jsonResult = performHttpCallAndGetResponse(urlForDataSet, apiKey, query);
+	DatasetV3DTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey) {
+		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV3, datasetName);
+		final String jsonResult = performHttpGET(urlForDataSet, apiKey);
 		if (jsonResult == null) {
 			return null;
 		} else {
-			final GsonBuilder gsonBuilder = new GsonBuilder();
-			gsonBuilder.setDateFormat("yyyyMMdd'T'HH:mm:ss'.'SSSZ");
-			final Gson gson = gsonBuilder.create();
-
-			return gson.fromJson(jsonResult, DatasetDTO.class);
+			
+			return GSONBuilderWrapper.getGSON().fromJson(jsonResult, DatasetV3DTO.class);
 		}
 	}
 
-	private String performHttpCallAndGetResponse(final String url, final String apiKey, final String query) {
+	DatasetV2DTO getDatasetDTOFromQueryV2(final String datasetName, final String apiKey) {
+		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV2, datasetName);
+		final String jsonResult = performHttpGET(urlForDataSet, apiKey);
+		if (jsonResult == null) {
+			return null;
+		} else {
+			
+
+			return GSONBuilderWrapper.getGSON().fromJson(jsonResult, DatasetV2DTO.class);
+		}
+	}
+
+	void updateDatasetDTO(final String datasetName, final String apiKey, final DatasetV2DTO datasetV2DTO) {
+		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV2, datasetName);
+		
+		final String query = GSONBuilderWrapper.getGSON().toJson(datasetV2DTO);
+		
+		final String jsonResult = performHttpPOST(urlForDataSet, apiKey, query);
+		jsonResult.toString();
+	}
+
+	private String performHttpGET(final String url, final String apiKey) {
 		String responseBody = null;
 		final DefaultHttpClient httpclient = new DefaultHttpClient();
 
-		// final HttpPost httpPost = new HttpPost(urlString);
 		final HttpGet httpGet = new HttpGet(url);
 		try {
-
-			// final StringEntity se = new StringEntity(query);
-			// httpPost.setEntity(se);
-
-			// se.setContentType("text/xml");
 			httpGet.addHeader("Content-Type", "application/json");
 			httpGet.addHeader("accept", "application/json");
 
@@ -102,10 +133,38 @@ public class DAPServiceImpl implements DAPService {
 				httpGet.addHeader("X-CKAN-API-Key", apiKey);
 			}
 
+			final ResponseHandler<String> responseHandler = new BasicResponseHandler();
+			responseBody = httpclient.execute(httpGet, responseHandler);
+		} catch (final Exception e) {
+			log.debug(e.toString(), e);
+		}
+
+		return responseBody;
+
+	}
+
+	private String performHttpPOST(final String url, final String apiKey, final String query) {
+		String responseBody = null;
+		final DefaultHttpClient httpclient = new DefaultHttpClient();
+
+		final HttpPost httpPost = new HttpPost(url);
+		try {
+
+			final StringEntity se = new StringEntity(query);
+			httpPost.setEntity(se);
+
+			// se.setContentType("text/xml");
+			httpPost.addHeader("Content-Type", "application/json");
+			httpPost.addHeader("accept", "application/json");
+
+			if (apiKey != null) {
+				httpPost.addHeader("X-CKAN-API-Key", apiKey);
+			}
+
 			// log.debug("about to send query: " + query);
 
 			final ResponseHandler<String> responseHandler = new BasicResponseHandler();
-			responseBody = httpclient.execute(httpGet, responseHandler);
+			responseBody = httpclient.execute(httpPost, responseHandler);
 		} catch (final Exception e) {
 			log.debug(e.toString(), e);
 		}
