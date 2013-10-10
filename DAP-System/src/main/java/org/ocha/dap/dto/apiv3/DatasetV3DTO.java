@@ -1,21 +1,112 @@
 package org.ocha.dap.dto.apiv3;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 public class DatasetV3DTO {
 	
-	private boolean success;
-	private DatasetResultV3DTO result;
+	private String license_title;
+	private Date revision_timestamp;
 	
-	public boolean isSuccess() {
-		return success;
+	private String name;
+	private String revision_id;
+
+	private List<Tag> tags;
+	private List<Extra> extras;
+
+	public String getLicense_title() {
+		return license_title;
 	}
-	public void setSuccess(final boolean success) {
-		this.success = success;
+
+	public void setLicense_title(final String license_title) {
+		this.license_title = license_title;
 	}
-	public DatasetResultV3DTO getResult() {
-		return result;
+
+	public Date getRevision_timestamp() {
+		return revision_timestamp;
 	}
-	public void setResult(final DatasetResultV3DTO result) {
-		this.result = result;
+
+	public void setRevision_timestamp(final Date revision_timestamp) {
+		this.revision_timestamp = revision_timestamp;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	public String getRevision_id() {
+		return revision_id;
+	}
+
+	public void setRevision_id(final String revision_id) {
+		this.revision_id = revision_id;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(final List<Tag> tags) {
+		this.tags = tags;
+	}
+	
+	public List<Extra> getExtras() {
+		return extras;
+	}
+
+	public void setExtras(final List<Extra> extras) {
+		this.extras = extras;
+	}
+	
+	public class Tag{
+		private String name;
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(final String name) {
+			this.name = name;
+		}
+	}
+
+	public class Extra{
+		
+		private String key;
+		private String value;
+		
+		private Map<String, String> __extras;
+
+		public String getKey() {
+			return key;
+		}
+
+		public void setKey(final String key) {
+			this.key = key;
+		}
+
+		public String getValue() {
+			return value;
+		}
+
+		public void setValue(final String value) {
+			this.value = value;
+		}
+
+		public Map<String, String> get__extras() {
+			return __extras;
+		}
+
+		public void set__extras(final Map<String, String> __extras) {
+			this.__extras = __extras;
+		}
+		
+		
 	}
 
 }

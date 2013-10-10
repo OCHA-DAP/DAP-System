@@ -10,7 +10,7 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.ocha.dap.dto.apiv2.DatasetV2DTO;
 import org.ocha.dap.dto.apiv3.DatasetListV3DTO;
-import org.ocha.dap.dto.apiv3.DatasetV3DTO;
+import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.dap.persistence.dao.UserDAO;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
@@ -52,7 +52,7 @@ public class DAPServiceImpl implements DAPService {
 	}
 
 	@Override
-	public DatasetV3DTO getDatasetContentFromCKANV3(final String userId, final String datasetName) throws InsufficientCredentialsException {
+	public DatasetV3WrapperDTO getDatasetContentFromCKANV3(final String userId, final String datasetName) throws InsufficientCredentialsException {
 		final String apiKey = userDao.getUserApiKey(userId);
 
 		return getDatasetDTOFromQueryV3(datasetName, apiKey);
@@ -88,14 +88,14 @@ public class DAPServiceImpl implements DAPService {
 		return userDao.authenticate(id, password);
 	}
 
-	DatasetV3DTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey) {
+	DatasetV3WrapperDTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey) {
 		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV3, datasetName);
 		final String jsonResult = performHttpGET(urlForDataSet, apiKey);
 		if (jsonResult == null) {
 			return null;
 		} else {
 			
-			return GSONBuilderWrapper.getGSON().fromJson(jsonResult, DatasetV3DTO.class);
+			return GSONBuilderWrapper.getGSON().fromJson(jsonResult, DatasetV3WrapperDTO.class);
 		}
 	}
 

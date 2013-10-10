@@ -7,7 +7,7 @@ public class GSONBuilderWrapper {
 	
 	public static Gson getGSON(){
 		final GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.serializeNulls().setDateFormat("yyyyMMdd'T'HH:mm:ss'.'SSSZ");
+		gsonBuilder.serializeNulls().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSSSSS");
 		return gsonBuilder.create();
 	}
 

@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.dap.dto.apiv2.DatasetV2DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
+import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.dap.persistence.dao.UserDAO;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class DAPServiceImplTest {
 	@Test
 	public void testGetDatasetContentFromCKANV3() throws Exception {
 		{
-			final DatasetV3DTO dto = dapService.getDatasetContentFromCKANV3("seustachi", "testforauth");
+			final DatasetV3WrapperDTO dto = dapService.getDatasetContentFromCKANV3("seustachi", "testforauth");
 			Assert.assertTrue(dto.isSuccess());
 		}
 
@@ -116,9 +117,26 @@ public class DAPServiceImplTest {
 
 	@Test
 	public void testGetDatasetDTOFromQueryV3() {
-		final DAPServiceImpl dapServiceImpl = new DAPServiceImpl("ckan.megginson.com", "079f6194-45e1-4534-8ca7-1bd4130ef897");
-		final DatasetV3DTO dto = dapServiceImpl.getDatasetDTOFromQueryV3("mali-hp-data-test", null);
-		Assert.assertTrue(dto.isSuccess());
+		{
+			final DAPServiceImpl dapServiceImpl = new DAPServiceImpl("ckan.megginson.com", "079f6194-45e1-4534-8ca7-1bd4130ef897");
+			final DatasetV3WrapperDTO dto = dapServiceImpl.getDatasetDTOFromQueryV3("mali-hp-data-test", null);
+			Assert.assertTrue(dto.isSuccess());
+		}
+		
+		{
+			final DAPServiceImpl dapServiceImpl = new DAPServiceImpl("ckan.megginson.com", "079f6194-45e1-4534-8ca7-1bd4130ef897");
+			final DatasetV3WrapperDTO wrapper = dapServiceImpl.getDatasetDTOFromQueryV3("test1", null);
+			final DatasetV3DTO dto = wrapper.getResult();
+			Assert.assertEquals("test1", dto.getName());
+			Assert.assertEquals(1380794534042L, dto.getRevision_timestamp().getTime());
+			Assert.assertEquals("77d87b78-4773-4c02-b613-756bdbd421f2", dto.getRevision_id());
+			Assert.assertEquals(2, dto.getTags().size());
+			Assert.assertEquals("Junk", dto.getTags().get(0).getName());
+			Assert.assertEquals("toBeCurated", dto.getTags().get(1).getName());
+			Assert.assertEquals(1, dto.getExtras().size());
+			Assert.assertEquals("dap_status", dto.getExtras().get(0).getKey());
+			Assert.assertEquals("initial_upload", dto.getExtras().get(0).getValue());
+		}
 	}
 
 	@Test
@@ -139,13 +157,13 @@ public class DAPServiceImplTest {
 	public void testGetPrivateDatasetDTOFromQueryV3() {
 		final DAPServiceImpl dapServiceImpl = new DAPServiceImpl("ckan.megginson.com", "079f6194-45e1-4534-8ca7-1bd4130ef897");
 		{
-			final DatasetV3DTO dto = dapServiceImpl.getDatasetDTOFromQueryV3("testforauth", null);
+			final DatasetV3WrapperDTO dto = dapServiceImpl.getDatasetDTOFromQueryV3("testforauth", null);
 			// Cannot access private dataset without API key
 			Assert.assertNull(dto);
 		}
 
 		{
-			final DatasetV3DTO dto = dapServiceImpl.getDatasetDTOFromQueryV3("testforauth", "079f6194-45e1-4534-8ca7-1bd4130ef897");
+			final DatasetV3WrapperDTO dto = dapServiceImpl.getDatasetDTOFromQueryV3("testforauth", "079f6194-45e1-4534-8ca7-1bd4130ef897");
 			Assert.assertTrue(dto.isSuccess());
 		}
 	}

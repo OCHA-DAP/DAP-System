@@ -10,6 +10,8 @@ public class DatasetV2DTO {
 
 	private List<String> tags;
 	private Map<String,String> extras;
+	
+	private List<ResourceV2DTO> resources;
 
 	public String getName() {
 		return name;
@@ -41,6 +43,14 @@ public class DatasetV2DTO {
 
 	public void setExtras(final Map<String,String> extras) {
 		this.extras = extras;
+	}
+
+	public List<ResourceV2DTO> getResources() {
+		return resources;
+	}
+
+	public void setResources(final List<ResourceV2DTO> resources) {
+		this.resources = resources;
 	}
 
 }

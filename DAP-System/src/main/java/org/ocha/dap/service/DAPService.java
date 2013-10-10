@@ -3,7 +3,7 @@ package org.ocha.dap.service;
 import java.util.List;
 
 import org.ocha.dap.dto.apiv2.DatasetV2DTO;
-import org.ocha.dap.dto.apiv3.DatasetV3DTO;
+import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
 
@@ -25,7 +25,7 @@ public interface DAPService {
 	 * @param userId id of the user performing the query
 	 * @param datasetName name of the dataset 
 	 */
-	public DatasetV3DTO getDatasetContentFromCKANV3(final String userId, final String datasetName) throws InsufficientCredentialsException;
+	public DatasetV3WrapperDTO getDatasetContentFromCKANV3(final String userId, final String datasetName) throws InsufficientCredentialsException;
 	
 	/**
 	 * uses the CKAN api V2

@@ -16,7 +16,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.ocha.dap.dto.apiv3.DatasetV3DTO;
+import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.dap.rest.helper.Index;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
@@ -96,7 +96,7 @@ public class DAPResource {
 	public Response getDatasetContent(@PathParam("datasetName") final String datasetName) throws InsufficientCredentialsException {
 		final HttpSession session = request.getSession(false);
 		final String userId = session.getAttribute(SESSION_PARAM_UID).toString();
-		final DatasetV3DTO result = dapService.getDatasetContentFromCKANV3(userId, datasetName);
+		final DatasetV3WrapperDTO result = dapService.getDatasetContentFromCKANV3(userId, datasetName);
 		return Response.ok(new Viewable("/dataset", result)).build();
 	}
 
