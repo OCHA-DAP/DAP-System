@@ -5,15 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 public class DatasetV3DTO {
-	
+
 	private String license_title;
 	private Date revision_timestamp;
-	
+
 	private String name;
 	private String revision_id;
 
 	private List<Tag> tags;
 	private List<Extra> extras;
+	private List<Resource> resources;
 
 	public String getLicense_title() {
 		return license_title;
@@ -54,7 +55,7 @@ public class DatasetV3DTO {
 	public void setTags(final List<Tag> tags) {
 		this.tags = tags;
 	}
-	
+
 	public List<Extra> getExtras() {
 		return extras;
 	}
@@ -62,8 +63,16 @@ public class DatasetV3DTO {
 	public void setExtras(final List<Extra> extras) {
 		this.extras = extras;
 	}
-	
-	public class Tag{
+
+	public List<Resource> getResources() {
+		return resources;
+	}
+
+	public void setResources(final List<Resource> resources) {
+		this.resources = resources;
+	}
+
+	public class Tag {
 		private String name;
 
 		public String getName() {
@@ -75,11 +84,11 @@ public class DatasetV3DTO {
 		}
 	}
 
-	public class Extra{
-		
+	public class Extra {
+
 		private String key;
 		private String value;
-		
+
 		private Map<String, String> __extras;
 
 		public String getKey() {
@@ -105,8 +114,55 @@ public class DatasetV3DTO {
 		public void set__extras(final Map<String, String> __extras) {
 			this.__extras = __extras;
 		}
-		
-		
+
+	}
+
+	public class Resource {
+		private String id;
+		private Date revision_timestamp;
+		private Date created;
+		private String state;
+		private String url;
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(final String id) {
+			this.id = id;
+		}
+
+		public Date getRevision_timestamp() {
+			return revision_timestamp;
+		}
+
+		public void setRevision_timestamp(final Date revision_timestamp) {
+			this.revision_timestamp = revision_timestamp;
+		}
+
+		public Date getCreated() {
+			return created;
+		}
+
+		public void setCreated(final Date created) {
+			this.created = created;
+		}
+
+		public String getState() {
+			return state;
+		}
+
+		public void setState(final String state) {
+			this.state = state;
+		}
+
+		public String getUrl() {
+			return url;
+		}
+
+		public void setUrl(final String url) {
+			this.url = url;
+		}
 	}
 
 }
