@@ -37,7 +37,7 @@ public class CKANResourceDAOImplTest {
 
 		{
 			final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId");
-			Assert.assertEquals(WorkflowState.Detected, r.getWorkfowState());
+			Assert.assertEquals(WorkflowState.Detected_NEW, r.getWorkflowState());
 			Assert.assertEquals(revisionTs, r.getRevision_timestamp());
 			Assert.assertNull(r.getDownloadDate());
 		}
@@ -46,11 +46,32 @@ public class CKANResourceDAOImplTest {
 
 		{
 			final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId");
-			Assert.assertEquals(WorkflowState.Downloaded, r.getWorkfowState());
+			Assert.assertEquals(WorkflowState.Downloaded, r.getWorkflowState());
 			Assert.assertEquals(revisionTs, r.getRevision_timestamp());
 			Assert.assertNotNull(r.getDownloadDate());
 		}
 		Assert.assertEquals(1, ckanResourceDAO.listCKANResources().size());
+		
+		final Date revision2Ts = new Date();
+		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId2", revision2Ts, "parentDataset_id",
+				"parentDataset_revision_id", revision2Ts);
+		
+		// no change expected, the resource already exist
+		Assert.assertEquals(2, ckanResourceDAO.listCKANResources().size());
+		
+		{
+			final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId");
+			Assert.assertEquals(WorkflowState.Downloaded, r.getWorkflowState());
+			Assert.assertEquals(revisionTs, r.getRevision_timestamp());
+			Assert.assertNotNull(r.getDownloadDate());
+		}
+		
+		{
+			final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId2");
+			Assert.assertEquals(WorkflowState.Detected_REVISION, r.getWorkflowState());
+			Assert.assertEquals(revision2Ts, r.getRevision_timestamp());
+			Assert.assertNull(r.getDownloadDate());
+		}
 	}
 
 }

@@ -12,7 +12,7 @@
         parentDataset_revision_id varchar(255) not null,
         parentDataset_revision_timestamp timestamp not null,
         revision_timestamp timestamp not null,
-        workfowState int4 not null,
+        workflowState int4 not null,
         primary key (id, revision_id)
     );
 

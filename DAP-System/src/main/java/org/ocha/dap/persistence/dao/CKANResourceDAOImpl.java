@@ -27,17 +27,31 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 		ckanResource.setParentDataset_revision_timestamp(parentDataset_revision_timestamp);
 		ckanResource.setDetectionDate(new Date());
 		ckanResource.setDownloadDate(null);
-		ckanResource.setWorkfowState(WorkflowState.Detected);
+		if(ckanResourceExists(id)){
+			ckanResource.setWorkflowState(WorkflowState.Detected_REVISION);
+		}else{
+			ckanResource.setWorkflowState(WorkflowState.Detected_NEW);
+		}
 
 		em.persist(ckanResource);
 
+	}
+	
+	/**
+	 * a new (id,revision_id) can be a brand new resource or a revision of an existing resource
+	 * revisions of a resource will have a distinct revision_id, but will share the same id
+	 * So we want to know if there is already a cken resource with the given ID
+	 */
+	private boolean ckanResourceExists(final String id){
+		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r WHERE r.id.id = :id", CKANResource.class).setParameter("id", id);
+		return !query.getResultList().isEmpty();
 	}
 
 	@Override
 	@Transactional
 	public void flagCKANResourceAsDownloaded(final String id, final String revision_id) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
-		ckanResourceToFlag.setWorkfowState(WorkflowState.Downloaded);
+		ckanResourceToFlag.setWorkflowState(WorkflowState.Downloaded);
 		ckanResourceToFlag.setDownloadDate(new Date());
 	}
 

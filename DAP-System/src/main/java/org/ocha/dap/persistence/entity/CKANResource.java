@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class CKANResource {
 
 	public enum WorkflowState {
-		Detected, Downloaded;
+		Detected_NEW, Detected_REVISION, Downloaded;
 	}
 
 	@Embeddable
@@ -95,8 +95,8 @@ public class CKANResource {
 		return id;
 	}
 
-	@Column(name = "workfowState", nullable = false, updatable = true)
-	private WorkflowState workfowState;
+	@Column(name = "workflowState", nullable = false, updatable = true)
+	private WorkflowState workflowState;
 
 	@Column(name = "revision_timestamp", columnDefinition = "timestamp", nullable = false, updatable = false)
 	private Date revision_timestamp;
@@ -116,12 +116,12 @@ public class CKANResource {
 	@Column(name = "downloadDate", columnDefinition = "timestamp", nullable = true, updatable = true)
 	private Date downloadDate;
 
-	public WorkflowState getWorkfowState() {
-		return workfowState;
+	public WorkflowState getWorkflowState() {
+		return workflowState;
 	}
 
-	public void setWorkfowState(final WorkflowState workfowState) {
-		this.workfowState = workfowState;
+	public void setWorkflowState(final WorkflowState workflowState) {
+		this.workflowState = workflowState;
 	}
 
 	public Date getRevision_timestamp() {

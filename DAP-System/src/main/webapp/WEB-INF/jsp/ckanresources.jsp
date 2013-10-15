@@ -16,6 +16,7 @@
 		<tr>
 			<th>Id</th>
 			<th>Revision Id</th>
+			<th>Workflow State</th>
 		</tr>
 		
 		
@@ -23,6 +24,7 @@
 			<tr>
 				<td>${ckanResource.id.id}</td>
 				<td>${ckanResource.id.revision_id}</td>
+				<td>${ckanResource.workflowState}</td>
 			</tr>
 		</c:forEach>
 		

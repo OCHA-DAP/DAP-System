@@ -10,6 +10,7 @@ public class DatasetV3DTO {
 	private Date revision_timestamp;
 
 	private String name;
+	private String title;
 	private String id;
 	private String revision_id;
 
@@ -39,6 +40,14 @@ public class DatasetV3DTO {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(final String title) {
+		this.title = title;
 	}
 
 	public String getId() {

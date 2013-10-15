@@ -132,8 +132,8 @@ public class DAPServiceImplTest {
 			final DatasetV3WrapperDTO wrapper = dapServiceImpl.getDatasetDTOFromQueryV3("test1", null);
 			final DatasetV3DTO dto = wrapper.getResult();
 			Assert.assertEquals("test1", dto.getName());
-			Assert.assertEquals(1380794534042L, dto.getRevision_timestamp().getTime());
-			Assert.assertEquals("77d87b78-4773-4c02-b613-756bdbd421f2", dto.getRevision_id());
+			Assert.assertEquals(1381841484380L, dto.getRevision_timestamp().getTime());
+			Assert.assertEquals("16d36b88-ce78-4a69-94a1-634dd77133fc", dto.getRevision_id());
 			Assert.assertEquals(2, dto.getTags().size());
 			Assert.assertEquals("Junk", dto.getTags().get(0).getName());
 			Assert.assertEquals("toBeCurated", dto.getTags().get(1).getName());
@@ -150,7 +150,7 @@ public class DAPServiceImplTest {
 		final DAPServiceImpl dapServiceImpl = new DAPServiceImpl("ckan.megginson.com", "079f6194-45e1-4534-8ca7-1bd4130ef897");
 		final DatasetV2DTO dto = dapServiceImpl.getDatasetDTOFromQueryV2("test1", null);
 		Assert.assertEquals("test1", dto.getName());
-		Assert.assertEquals("77d87b78-4773-4c02-b613-756bdbd421f2", dto.getRevision_id());
+		Assert.assertEquals("16d36b88-ce78-4a69-94a1-634dd77133fc", dto.getRevision_id());
 		Assert.assertEquals(2, dto.getTags().size());
 		Assert.assertEquals("Junk", dto.getTags().get(0));
 		Assert.assertEquals("toBeCurated", dto.getTags().get(1));
