@@ -1,5 +1,11 @@
 package org.ocha.dap.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 import org.apache.http.client.ResponseHandler;
@@ -37,8 +43,15 @@ public class DAPServiceImpl implements DAPService {
 	private final String urlBaseForDatasetContentV2;
 	private final String technicalAPIKey;
 
-	public DAPServiceImpl(final String host, final String technicalAPIKey) {
+	private final File stagingDirectory;
+
+	public DAPServiceImpl(final String host, final String technicalAPIKey, final File stagingDirectory) {
 		super();
+		if (!stagingDirectory.isDirectory()) {
+			throw new IllegalArgumentException("staging  directory doesn't exist: " + stagingDirectory.getAbsolutePath());
+		}
+		this.stagingDirectory = stagingDirectory;
+
 		this.urlBaseForDatasetsList = String.format(DATASET_LIST_V3_API_PATTERN, host);
 		this.urlBaseForDatasetContentV3 = String.format(DATASET_V3_API_PATTERN, host);
 		this.urlBaseForDatasetContentV2 = String.format(DATASET_V2_API_PATTERN, host);
@@ -59,16 +72,51 @@ public class DAPServiceImpl implements DAPService {
 			final List<Resource> resources = dataset.getResult().getResources();
 			for (final Resource resource : resources) {
 				if (resourceDAO.getCKANResource(resource.getId(), resource.getRevision_id()) == null) {
-					resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getRevision_timestamp(), dataset.getResult().getId(), dataset.getResult().getRevision_id(),
-							dataset.getResult().getRevision_timestamp());
+					resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getRevision_timestamp(), dataset.getResult()
+							.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
 				}
 			}
 		}
 	}
-	
+
 	@Override
 	public List<CKANResource> listCKANResources() {
 		return resourceDAO.listCKANResources();
+	}
+
+	@Override
+	public void downloadFileForCKANResource(final String id, final String revision_id) throws IOException {
+		// FIXME see the best way to get the revision url
+		// if the url might change, while ids cannot, it nmight be best to get
+		// the url
+		// from the api (just in time), and never store it
+		final String urlString = "";
+
+		final File reourceFolder = new File(stagingDirectory, id);
+		final File revisionFile = new File(reourceFolder, id);
+
+		final URL url = new URL(urlString);
+		final URLConnection uCon = url.openConnection();
+
+		final InputStream is = uCon.getInputStream();
+
+		final byte[] buf = new byte[1024];
+		int byteRead = 0;
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(revisionFile);
+
+			while ((byteRead = is.read(buf)) != -1) {
+				fos.write(buf, 0, byteRead);
+			}
+			fos.close();
+		} catch (final Exception e) {
+			log.error(e.toString(), e);
+		} finally {
+			if (fos != null)
+				fos.close();
+		}
+
 	}
 
 	@Override
@@ -193,9 +241,6 @@ public class DAPServiceImpl implements DAPService {
 		} catch (final Exception e) {
 			log.debug(e.toString(), e);
 		}
-
 		return responseBody;
-
 	}
-
 }

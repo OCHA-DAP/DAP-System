@@ -13,6 +13,11 @@
 	<bean id="dapService" class="org.ocha.dap.service.DAPServiceImpl">
 		<constructor-arg name="host" value="${ckan.host}" />
 		<constructor-arg name="technicalAPIKey" value="${ckan.technical.api.key}" />
+		<constructor-arg name="stagingDirectory">
+			<bean class="java.io.File">
+				<constructor-arg value="${dap.staging.folder}" />
+			</bean>
+		</constructor-arg>
 	</bean>
 
 </beans>

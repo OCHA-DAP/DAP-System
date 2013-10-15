@@ -247,6 +247,7 @@
 			<properties>
 				<dap.logging.folder>/opt/dap/logs</dap.logging.folder>
 				<dap.config.folder>/opt/dap/config</dap.config.folder>
+				<dap.staging.folder>/opt/dap/staging</dap.staging.folder>
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -257,6 +258,7 @@
 			<properties>
 				<dap.logging.folder>E:\DAP_FOLDER\logs</dap.logging.folder>
 				<dap.config.folder>E:\DAP_FOLDER\config</dap.config.folder>
+				<dap.staging.folder>E:\DAP_FOLDER\staging</dap.staging.folder>
 			</properties>
 		</profile>
 		<profile>
