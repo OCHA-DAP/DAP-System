@@ -10,8 +10,11 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.ocha.dap.dto.apiv2.DatasetV2DTO;
 import org.ocha.dap.dto.apiv3.DatasetListV3DTO;
+import org.ocha.dap.dto.apiv3.DatasetV3DTO.Resource;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.dap.persistence.dao.CKANResourceDAO;
 import org.ocha.dap.persistence.dao.UserDAO;
+import org.ocha.dap.persistence.entity.CKANResource;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
 import org.ocha.dap.tools.GSONBuilderWrapper;
@@ -45,6 +48,29 @@ public class DAPServiceImpl implements DAPService {
 	@Autowired
 	private UserDAO userDao;
 
+	@Autowired
+	private CKANResourceDAO resourceDAO;
+
+	@Override
+	public void checkForNewCKANResources() {
+		final List<String> datasetList = getDatasetListDTOFromQuery(technicalAPIKey);
+		for (final String datasetName : datasetList) {
+			final DatasetV3WrapperDTO dataset = getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
+			final List<Resource> resources = dataset.getResult().getResources();
+			for (final Resource resource : resources) {
+				if (resourceDAO.getCKANResource(resource.getId(), resource.getRevision_id()) == null) {
+					resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getRevision_timestamp(), dataset.getResult().getId(), dataset.getResult().getRevision_id(),
+							dataset.getResult().getRevision_timestamp());
+				}
+			}
+		}
+	}
+	
+	@Override
+	public List<CKANResource> listCKANResources() {
+		return resourceDAO.listCKANResources();
+	}
+
 	@Override
 	public List<String> getDatasetsListFromCKAN(final String userId) throws InsufficientCredentialsException {
 		final String apiKey = userDao.getUserApiKey(userId);
@@ -65,7 +91,7 @@ public class DAPServiceImpl implements DAPService {
 
 		return getDatasetDTOFromQueryV2(datasetName, apiKey);
 	}
-	
+
 	@Override
 	public void updateDatasetContent(final String userId, final String datasetName, final DatasetV2DTO datasetV2DTO) throws InsufficientCredentialsException {
 		final String apiKey = userDao.getUserApiKey(userId);
@@ -94,7 +120,7 @@ public class DAPServiceImpl implements DAPService {
 		if (jsonResult == null) {
 			return null;
 		} else {
-			
+
 			return GSONBuilderWrapper.getGSON().fromJson(jsonResult, DatasetV3WrapperDTO.class);
 		}
 	}
@@ -105,7 +131,6 @@ public class DAPServiceImpl implements DAPService {
 		if (jsonResult == null) {
 			return null;
 		} else {
-			
 
 			return GSONBuilderWrapper.getGSON().fromJson(jsonResult, DatasetV2DTO.class);
 		}
@@ -113,9 +138,9 @@ public class DAPServiceImpl implements DAPService {
 
 	void updateDatasetDTO(final String datasetName, final String apiKey, final DatasetV2DTO datasetV2DTO) {
 		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV2, datasetName);
-		
+
 		final String query = GSONBuilderWrapper.getGSON().toJson(datasetV2DTO);
-		
+
 		final String jsonResult = performHttpPOST(urlForDataSet, apiKey, query);
 		jsonResult.toString();
 	}

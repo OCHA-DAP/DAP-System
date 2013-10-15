@@ -99,5 +99,22 @@ public class DAPResource {
 		final DatasetV3WrapperDTO result = dapService.getDatasetContentFromCKANV3(userId, datasetName);
 		return Response.ok(new Viewable("/dataset", result)).build();
 	}
+	
+	@GET
+	@Path("/status/")
+	public Response getCKANResources() {
+		return Response.ok(new Viewable("/ckanresources", dapService.listCKANResources())).build();
+	}
+	
+	@GET
+	@Path("/status/manuallyTriggerDetection")
+	public Response manuallyTriggerDetection() throws URISyntaxException {
+		dapService.checkForNewCKANResources();
+		
+		URI newURI = null;
+	    newURI = new URI("/status/");
+
+	    return Response.seeOther(newURI).build();
+	}
 
 }

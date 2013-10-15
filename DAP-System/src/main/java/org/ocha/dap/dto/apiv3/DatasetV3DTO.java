@@ -10,6 +10,7 @@ public class DatasetV3DTO {
 	private Date revision_timestamp;
 
 	private String name;
+	private String id;
 	private String revision_id;
 
 	private List<Tag> tags;
@@ -38,6 +39,14 @@ public class DatasetV3DTO {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(final String id) {
+		this.id = id;
 	}
 
 	public String getRevision_id() {
@@ -119,6 +128,7 @@ public class DatasetV3DTO {
 
 	public class Resource {
 		private String id;
+		private String revision_id;
 		private Date revision_timestamp;
 		private Date created;
 		private String state;
@@ -130,6 +140,14 @@ public class DatasetV3DTO {
 
 		public void setId(final String id) {
 			this.id = id;
+		}
+
+		public String getRevision_id() {
+			return revision_id;
+		}
+
+		public void setRevision_id(final String revision_id) {
+			this.revision_id = revision_id;
 		}
 
 		public Date getRevision_timestamp() {

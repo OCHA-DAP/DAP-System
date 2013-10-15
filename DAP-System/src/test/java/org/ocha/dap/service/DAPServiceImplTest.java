@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.ocha.dap.dto.apiv2.DatasetV2DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.dap.persistence.dao.CKANResourceDAO;
 import org.ocha.dap.persistence.dao.UserDAO;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,22 @@ public class DAPServiceImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		userDao.createUser("seustachi", "dummyPwd", "079f6194-45e1-4534-8ca7-1bd4130ef897");
+		userDAO.createUser("seustachi", "dummyPwd", "079f6194-45e1-4534-8ca7-1bd4130ef897");
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		userDao.deleteUser("seustachi");
+		userDAO.deleteUser("seustachi");
 	}
 
 	@Autowired
 	private DAPService dapService;
 
 	@Autowired
-	private UserDAO userDao;
+	private UserDAO userDAO;
+	
+	@Autowired
+	private CKANResourceDAO ckanResourceDAO;
 
 	@Test
 	public void testGetDatasetsListFromCKAN() throws InsufficientCredentialsException {
@@ -168,6 +172,13 @@ public class DAPServiceImplTest {
 			final DatasetV3WrapperDTO dto = dapServiceImpl.getDatasetDTOFromQueryV3("testforauth", "079f6194-45e1-4534-8ca7-1bd4130ef897");
 			Assert.assertTrue(dto.isSuccess());
 		}
+	}
+	
+	@Test
+	public void testCheckForNewCKANResources(){
+		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
+		dapService.checkForNewCKANResources();
+		Assert.assertEquals(4, ckanResourceDAO.listCKANResources().size());
 	}
 
 }

@@ -1,7 +1,9 @@
+<c:set value="${pageContext.request.contextPath}" var="ctx" scope="request" />
 <!DOCTYPE html> 
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
 </head>
 <body>
 <h2>Login</h2>
