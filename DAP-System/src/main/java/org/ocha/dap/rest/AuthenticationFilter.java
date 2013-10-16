@@ -57,7 +57,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
 			URI newURI = null;
 			try {
-				newURI = new URI("/login/");
+				newURI = new URI("/admin/login/");
 			} catch (final URISyntaxException e) {
 			}
 			final Response response = Response.seeOther(newURI).build();

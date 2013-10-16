@@ -23,6 +23,13 @@ public interface DAPService {
 
 	public List<CKANResource> listCKANResources();
 
+	/**
+	 * 
+	 * downloads the file associated to the given id / revision
+	 * and flags the record as downloaded
+	 * 
+	 * The record must be in a Workflow State allowing download  
+	 */
 	public void downloadFileForCKANResource(final String id, final String revision_id) throws IOException;
 
 	/**
@@ -45,6 +52,8 @@ public interface DAPService {
 	 */
 	public DatasetV3WrapperDTO getDatasetContentFromCKANV3(final String userId, final String datasetName) throws InsufficientCredentialsException;
 
+	public DatasetV2DTO getDatasetDTOFromQueryV2(final String datasetName, final String apiKey);
+	public DatasetV3WrapperDTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey);
 	/**
 	 * uses the CKAN api V2 fetchs the content of the given dataset Performing
 	 * the query on behalf of the user

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.ocha.dap.tools.GSONBuilderWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 public class DAPServiceImpl implements DAPService {
 
@@ -85,17 +87,35 @@ public class DAPServiceImpl implements DAPService {
 	}
 
 	@Override
+	@Transactional
 	public void downloadFileForCKANResource(final String id, final String revision_id) throws IOException {
-		// FIXME see the best way to get the revision url
-		// if the url might change, while ids cannot, it nmight be best to get
-		// the url
-		// from the api (just in time), and never store it
-		final String urlString = "";
-
 		final File reourceFolder = new File(stagingDirectory, id);
-		final File revisionFile = new File(reourceFolder, id);
+		final File revisionFile = new File(reourceFolder, revision_id);
 
-		final URL url = new URL(urlString);
+		final URL url = getResourceURLFromAPI(id, revision_id);
+		
+		// if the resource is not in a workflowstate allowing download, we do nothing
+		final CKANResource ckanResource = resourceDAO.getCKANResource(id, revision_id);
+		if(!ckanResource.isDownloadable())
+			return;
+		
+		resourceDAO.flagCKANResourceAsDownloaded(id, revision_id);
+		
+		// if we can't download the file, the flag will be rolled back
+		final boolean success = performDownload(url, revisionFile);
+		if(!success)
+			throw new RuntimeException("Failed downloading the given resource");
+	}
+
+	/**
+	 * 
+	 * @return true if the file was successfully downloaded
+	 */
+	private boolean performDownload(final URL url, final File destinationFile) throws IOException {
+		// if the resource does not exist anymore in CKAN
+		if (url == null)
+			return false;
+		
 		final URLConnection uCon = url.openConnection();
 
 		final InputStream is = uCon.getInputStream();
@@ -104,19 +124,44 @@ public class DAPServiceImpl implements DAPService {
 		int byteRead = 0;
 		FileOutputStream fos = null;
 		try {
-			fos = new FileOutputStream(revisionFile);
+			destinationFile.getParentFile().mkdirs();
+			fos = new FileOutputStream(destinationFile);
 
 			while ((byteRead = is.read(buf)) != -1) {
 				fos.write(buf, 0, byteRead);
 			}
-			fos.close();
+
+			return true;
 		} catch (final Exception e) {
 			log.error(e.toString(), e);
+			return false;
 		} finally {
 			if (fos != null)
 				fos.close();
 		}
+	}
 
+	/**
+	 * 
+	 * The url might change, while ids cannot, so it is best to get the url from
+	 * the api (just in time), and never store it
+	 * 
+	 * Up to now, this requires a very inefficient browsing of the whole tree of
+	 * datasets and resources
+	 * 
+	 * @throws MalformedURLException
+	 */
+	private URL getResourceURLFromAPI(final String id, final String revision_id) throws MalformedURLException {
+		final List<String> datasetList = getDatasetListDTOFromQuery(technicalAPIKey);
+		for (final String datasetName : datasetList) {
+			final DatasetV3WrapperDTO dataset = getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
+			final List<Resource> resources = dataset.getResult().getResources();
+			for (final Resource resource : resources) {
+				if (resource.getId().equals(id) && resource.getRevision_id().equals(revision_id))
+					return new URL(resource.getUrl());
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -162,7 +207,8 @@ public class DAPServiceImpl implements DAPService {
 		return userDao.authenticate(id, password);
 	}
 
-	DatasetV3WrapperDTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey) {
+	@Override
+	public DatasetV3WrapperDTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey) {
 		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV3, datasetName);
 		final String jsonResult = performHttpGET(urlForDataSet, apiKey);
 		if (jsonResult == null) {
@@ -173,7 +219,8 @@ public class DAPServiceImpl implements DAPService {
 		}
 	}
 
-	DatasetV2DTO getDatasetDTOFromQueryV2(final String datasetName, final String apiKey) {
+	@Override
+	public DatasetV2DTO getDatasetDTOFromQueryV2(final String datasetName, final String apiKey) {
 		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV2, datasetName);
 		final String jsonResult = performHttpGET(urlForDataSet, apiKey);
 		if (jsonResult == null) {

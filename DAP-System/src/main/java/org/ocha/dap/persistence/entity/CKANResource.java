@@ -123,6 +123,10 @@ public class CKANResource {
 	public void setWorkflowState(final WorkflowState workflowState) {
 		this.workflowState = workflowState;
 	}
+	
+	public boolean isDownloadable(){
+		return this.workflowState.equals(WorkflowState.Detected_NEW) || this.workflowState.equals(WorkflowState.Detected_REVISION);
+	}
 
 	public Date getRevision_timestamp() {
 		return revision_timestamp;

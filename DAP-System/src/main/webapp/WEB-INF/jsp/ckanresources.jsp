@@ -17,6 +17,7 @@
 			<th>Id</th>
 			<th>Revision Id</th>
 			<th>Workflow State</th>
+			<th>Action</th>
 		</tr>
 		
 		
@@ -25,6 +26,7 @@
 				<td>${ckanResource.id.id}</td>
 				<td>${ckanResource.id.revision_id}</td>
 				<td>${ckanResource.workflowState}</td>
+				<td><c:if test="${ckanResource.isDownloadable()}"><a href="${ctx}/admin/status/manuallyTriggerDownload/${ckanResource.id.id}/${ckanResource.id.revision_id}/">download</a> </c:if></td>
 			</tr>
 		</c:forEach>
 		

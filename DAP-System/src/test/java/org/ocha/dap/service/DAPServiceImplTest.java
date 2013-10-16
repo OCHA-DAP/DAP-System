@@ -1,5 +1,8 @@
 package org.ocha.dap.service;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,6 +13,7 @@ import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.dap.persistence.dao.CKANResourceDAO;
 import org.ocha.dap.persistence.dao.UserDAO;
+import org.ocha.dap.persistence.entity.CKANResource;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,6 +32,7 @@ public class DAPServiceImplTest {
 	@After
 	public void tearDown() throws Exception {
 		userDAO.deleteUser("seustachi");
+		ckanResourceDAO.deleteAllCKANResourcesRecords();
 	}
 
 	@Autowired
@@ -35,7 +40,7 @@ public class DAPServiceImplTest {
 
 	@Autowired
 	private UserDAO userDAO;
-	
+
 	@Autowired
 	private CKANResourceDAO ckanResourceDAO;
 
@@ -122,14 +127,12 @@ public class DAPServiceImplTest {
 	@Test
 	public void testGetDatasetDTOFromQueryV3() {
 		{
-			final DAPServiceImpl dapServiceImpl = new DAPServiceImpl("ckan.megginson.com", "079f6194-45e1-4534-8ca7-1bd4130ef897");
-			final DatasetV3WrapperDTO dto = dapServiceImpl.getDatasetDTOFromQueryV3("mali-hp-data-test", null);
+			final DatasetV3WrapperDTO dto = dapService.getDatasetDTOFromQueryV3("mali-hp-data-test", null);
 			Assert.assertTrue(dto.isSuccess());
 		}
-		
+
 		{
-			final DAPServiceImpl dapServiceImpl = new DAPServiceImpl("ckan.megginson.com", "079f6194-45e1-4534-8ca7-1bd4130ef897");
-			final DatasetV3WrapperDTO wrapper = dapServiceImpl.getDatasetDTOFromQueryV3("test1", null);
+			final DatasetV3WrapperDTO wrapper = dapService.getDatasetDTOFromQueryV3("test1", null);
 			final DatasetV3DTO dto = wrapper.getResult();
 			Assert.assertEquals("test1", dto.getName());
 			Assert.assertEquals(1381841484380L, dto.getRevision_timestamp().getTime());
@@ -140,15 +143,14 @@ public class DAPServiceImplTest {
 			Assert.assertEquals(1, dto.getExtras().size());
 			Assert.assertEquals("dap_status", dto.getExtras().get(0).getKey());
 			Assert.assertEquals(1, dto.getResources().size());
-			
+
 			Assert.assertEquals("active", dto.getResources().get(0).getState());
 		}
 	}
 
 	@Test
 	public void testGetDatasetDTOFromQueryV2() {
-		final DAPServiceImpl dapServiceImpl = new DAPServiceImpl("ckan.megginson.com", "079f6194-45e1-4534-8ca7-1bd4130ef897");
-		final DatasetV2DTO dto = dapServiceImpl.getDatasetDTOFromQueryV2("test1", null);
+		final DatasetV2DTO dto = dapService.getDatasetDTOFromQueryV2("test1", null);
 		Assert.assertEquals("test1", dto.getName());
 		Assert.assertEquals("16d36b88-ce78-4a69-94a1-634dd77133fc", dto.getRevision_id());
 		Assert.assertEquals(2, dto.getTags().size());
@@ -161,24 +163,40 @@ public class DAPServiceImplTest {
 
 	@Test
 	public void testGetPrivateDatasetDTOFromQueryV3() {
-		final DAPServiceImpl dapServiceImpl = new DAPServiceImpl("ckan.megginson.com", "079f6194-45e1-4534-8ca7-1bd4130ef897");
 		{
-			final DatasetV3WrapperDTO dto = dapServiceImpl.getDatasetDTOFromQueryV3("testforauth", null);
+			final DatasetV3WrapperDTO dto = dapService.getDatasetDTOFromQueryV3("testforauth", null);
 			// Cannot access private dataset without API key
 			Assert.assertNull(dto);
 		}
 
 		{
-			final DatasetV3WrapperDTO dto = dapServiceImpl.getDatasetDTOFromQueryV3("testforauth", "079f6194-45e1-4534-8ca7-1bd4130ef897");
+			final DatasetV3WrapperDTO dto = dapService.getDatasetDTOFromQueryV3("testforauth", "079f6194-45e1-4534-8ca7-1bd4130ef897");
 			Assert.assertTrue(dto.isSuccess());
 		}
 	}
-	
+
 	@Test
-	public void testCheckForNewCKANResources(){
+	public void testCheckForNewCKANResources() {
 		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
 		dapService.checkForNewCKANResources();
 		Assert.assertEquals(4, ckanResourceDAO.listCKANResources().size());
 	}
 
+	@Test
+	public void testStandardWorkflow() throws IOException {
+		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
+		dapService.checkForNewCKANResources();
+
+		final List<CKANResource> resources = ckanResourceDAO.listCKANResources();
+		Assert.assertEquals(4, resources.size());
+
+		final CKANResource firstResource = resources.get(0);
+		Assert.assertTrue(firstResource.isDownloadable());
+
+		dapService.downloadFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+
+		final CKANResource firstResourceAfterDownload = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+		Assert.assertFalse(firstResourceAfterDownload.isDownloadable());
+		
+	}
 }

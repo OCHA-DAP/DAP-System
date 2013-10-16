@@ -1,5 +1,6 @@
 package org.ocha.dap.rest;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -28,7 +29,7 @@ import org.springframework.stereotype.Component;
 
 import com.sun.jersey.api.view.Viewable;
 
-@Path("/")
+@Path("/admin")
 @Produces(MediaType.TEXT_HTML)
 @Component
 public class DAPResource {
@@ -65,7 +66,7 @@ public class DAPResource {
 			session.setMaxInactiveInterval(1800);
 
 			URI newURI = null;
-			newURI = new URI("/index/");
+			newURI = new URI("/admin/index/");
 
 			return Response.seeOther(newURI).build();
 		}
@@ -107,12 +108,23 @@ public class DAPResource {
 	}
 	
 	@GET
+	@Path("/status/manuallyTriggerDownload/{id}/{revision_id}")
+	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
+		dapService.downloadFileForCKANResource(id, revision_id);
+		
+		URI newURI = null;
+	    newURI = new URI("/admin/status/");
+
+	    return Response.seeOther(newURI).build();
+	}
+	
+	@GET
 	@Path("/status/manuallyTriggerDetection")
 	public Response manuallyTriggerDetection() throws URISyntaxException {
 		dapService.checkForNewCKANResources();
 		
 		URI newURI = null;
-	    newURI = new URI("/status/");
+	    newURI = new URI("/admin/status/");
 
 	    return Response.seeOther(newURI).build();
 	}
