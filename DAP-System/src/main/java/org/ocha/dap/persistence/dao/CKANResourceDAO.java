@@ -16,9 +16,19 @@ public interface CKANResourceDAO {
 	 * @param revision_id
 	 */
 	public void flagCKANResourceAsDownloaded(final String id, final String revision_id);
+	
+	/**
+	 * Flags the given record as Outdated
+	 * 
+	 * @param id
+	 * @param revision_id
+	 */
+	public void flagCKANResourceAsOutdated(final String id, final String revision_id);
 
 	public CKANResource getCKANResource(final String id, final String revision_id);
 
+	public List<CKANResource> listCKANResourceRevisions(final String id);
+	
 	public List<CKANResource> listCKANResources();
 	
 	public void deleteAllCKANResourcesRecords();

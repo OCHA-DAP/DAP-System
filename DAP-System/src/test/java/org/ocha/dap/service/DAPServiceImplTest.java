@@ -14,6 +14,7 @@ import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.dap.persistence.dao.CKANResourceDAO;
 import org.ocha.dap.persistence.dao.UserDAO;
 import org.ocha.dap.persistence.entity.CKANResource;
+import org.ocha.dap.persistence.entity.CKANResource.WorkflowState;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -191,12 +192,12 @@ public class DAPServiceImplTest {
 		Assert.assertEquals(4, resources.size());
 
 		final CKANResource firstResource = resources.get(0);
-		Assert.assertTrue(firstResource.isDownloadable());
+		Assert.assertEquals(WorkflowState.DETECTED_NEW, firstResource.getWorkflowState());
 
 		dapService.downloadFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 
 		final CKANResource firstResourceAfterDownload = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
-		Assert.assertFalse(firstResourceAfterDownload.isDownloadable());
+		Assert.assertEquals(WorkflowState.DOWNLOADED, firstResourceAfterDownload.getWorkflowState());
 		
 	}
 }

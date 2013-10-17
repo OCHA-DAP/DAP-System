@@ -20,49 +20,57 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Transactional
 	public void newCKANResourceDetected(final String id, final String revision_id, final Date revision_timestamp, final String parentDataset_id,
 			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp) {
-		final CKANResource ckanResource = new CKANResource(id, revision_id);
+		final CKANResource ckanResource = new CKANResource(id, revision_id, !ckanResourceExists(id));
 		ckanResource.setRevision_timestamp(revision_timestamp);
 		ckanResource.setParentDataset_id(parentDataset_id);
 		ckanResource.setParentDataset_revision_id(parentDataset_revision_id);
 		ckanResource.setParentDataset_revision_timestamp(parentDataset_revision_timestamp);
 		ckanResource.setDetectionDate(new Date());
 		ckanResource.setDownloadDate(null);
-		if(ckanResourceExists(id)){
-			ckanResource.setWorkflowState(WorkflowState.Detected_REVISION);
-		}else{
-			ckanResource.setWorkflowState(WorkflowState.Detected_NEW);
-		}
 
 		em.persist(ckanResource);
 
 	}
-	
+
 	/**
-	 * a new (id,revision_id) can be a brand new resource or a revision of an existing resource
-	 * revisions of a resource will have a distinct revision_id, but will share the same id
-	 * So we want to know if there is already a cken resource with the given ID
+	 * a new (id,revision_id) can be a brand new resource or a revision of an
+	 * existing resource revisions of a resource will have a distinct
+	 * revision_id, but will share the same id So we want to know if there is
+	 * already a ckan resource with the given ID
 	 */
-	private boolean ckanResourceExists(final String id){
-		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r WHERE r.id.id = :id", CKANResource.class).setParameter("id", id);
-		return !query.getResultList().isEmpty();
+	private boolean ckanResourceExists(final String id) {
+		return !listCKANResourceRevisions(id).isEmpty();
 	}
 
 	@Override
 	@Transactional
 	public void flagCKANResourceAsDownloaded(final String id, final String revision_id) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
-		ckanResourceToFlag.setWorkflowState(WorkflowState.Downloaded);
+		ckanResourceToFlag.setWorkflowState(WorkflowState.DOWNLOADED);
 		ckanResourceToFlag.setDownloadDate(new Date());
+	}
+
+	@Override
+	@Transactional
+	public void flagCKANResourceAsOutdated(final String id, final String revision_id) {
+		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		ckanResourceToFlag.setWorkflowState(WorkflowState.OUTDATED);
 	}
 
 	@Override
 	public CKANResource getCKANResource(final String id, final String revision_id) {
 		return em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 	}
+	
+	@Override
+	public List<CKANResource> listCKANResourceRevisions(final String id) {
+		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r WHERE r.id.id = :id", CKANResource.class).setParameter("id", id);
+		return query.getResultList();
+	}
 
 	@Override
 	public List<CKANResource> listCKANResources() {
-		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r", CKANResource.class);
+		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r ORDER BY id.id, detectionDate desc", CKANResource.class);
 		return query.getResultList();
 	}
 
@@ -70,9 +78,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Transactional
 	public void deleteAllCKANResourcesRecords() {
 		em.createQuery("DELETE FROM CKANResource").executeUpdate();
-		
+
 	}
-	
-	
 
 }

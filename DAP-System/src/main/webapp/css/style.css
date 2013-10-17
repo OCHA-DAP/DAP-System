@@ -1,3 +1,20 @@
+body {
+	padding: 0;
+	margin: 10px 0 10px 0;
+	font-family: verdana, arial, sans-serif;
+	font-size: 12px;
+	color: #444444; /* DEFAULT FONT COLOR */
+	background: #FFFFFF;
+	text-align: center;
+}
+
+td{
+	padding: 10px;
+	border-width: 1px;
+	border-style: dotted;
+	border-color: black;
+}
+
 #menu ul {
   list-style-type: none;
   line-height: 26px;

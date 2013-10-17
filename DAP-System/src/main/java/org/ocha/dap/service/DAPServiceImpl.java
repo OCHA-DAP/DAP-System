@@ -66,14 +66,28 @@ public class DAPServiceImpl implements DAPService {
 	@Autowired
 	private CKANResourceDAO resourceDAO;
 
+	@Autowired
+	private WorkflowService workflowService;
+
 	@Override
+	@Transactional
 	public void checkForNewCKANResources() {
 		final List<String> datasetList = getDatasetListDTOFromQuery(technicalAPIKey);
 		for (final String datasetName : datasetList) {
 			final DatasetV3WrapperDTO dataset = getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
 			final List<Resource> resources = dataset.getResult().getResources();
 			for (final Resource resource : resources) {
+				// if the same id/revisionId is already present, do nothing,
+				// this has already been processed
 				if (resourceDAO.getCKANResource(resource.getId(), resource.getRevision_id()) == null) {
+					// If some revisions were detected before, but were not
+					// processed yet, (i.e a revision was uploaded in the mean
+					// time )we mark them as outdated
+					final List<CKANResource> ckanResources = resourceDAO.listCKANResourceRevisions(resource.getId());
+					for (final CKANResource ckanResource : ckanResources) {
+						workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
+					}
+
 					resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getRevision_timestamp(), dataset.getResult()
 							.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
 				}
@@ -93,17 +107,13 @@ public class DAPServiceImpl implements DAPService {
 		final File revisionFile = new File(reourceFolder, revision_id);
 
 		final URL url = getResourceURLFromAPI(id, revision_id);
-		
-		// if the resource is not in a workflowstate allowing download, we do nothing
-		final CKANResource ckanResource = resourceDAO.getCKANResource(id, revision_id);
-		if(!ckanResource.isDownloadable())
+
+		if (!workflowService.flagCKANResourceAsDownloaded(id, revision_id))
 			return;
-		
-		resourceDAO.flagCKANResourceAsDownloaded(id, revision_id);
-		
+
 		// if we can't download the file, the flag will be rolled back
 		final boolean success = performDownload(url, revisionFile);
-		if(!success)
+		if (!success)
 			throw new RuntimeException("Failed downloading the given resource");
 	}
 
@@ -115,7 +125,7 @@ public class DAPServiceImpl implements DAPService {
 		// if the resource does not exist anymore in CKAN
 		if (url == null)
 			return false;
-		
+
 		final URLConnection uCon = url.openConnection();
 
 		final InputStream is = uCon.getInputStream();

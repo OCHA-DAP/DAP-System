@@ -14,7 +14,7 @@
 Logged as : ${it.userId}
 			<ul>
 				<c:forEach var="dataset" items="${it.datasets}">
-					<li><a href="${ctx}/dataset/${dataset}">${dataset}</a></li>
+					<li><a href="${ctx}/admin/dataset/${dataset}">${dataset}</a></li>
 				</c:forEach>
 			</ul>
 </body>

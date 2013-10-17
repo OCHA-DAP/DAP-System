@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx" scope="request" />
 <!DOCTYPE html> 
 <html>
@@ -16,6 +17,7 @@
 		<tr>
 			<th>Id</th>
 			<th>Revision Id</th>
+			<th>Revision Ts</th>
 			<th>Workflow State</th>
 			<th>Action</th>
 		</tr>
@@ -23,8 +25,9 @@
 		
 		<c:forEach var="ckanResource" items="${it}">
 			<tr>
-				<td>${ckanResource.id.id}</td>
+				<td><c:if test="${ckanResource.workflowState ne 'OUTDATED' && ckanResource.workflowState ne 'DOWNLOADED'}">${ckanResource.id.id}</c:if></td>
 				<td>${ckanResource.id.revision_id}</td>
+				<td><fmt:formatDate value="${ckanResource.revision_timestamp}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td>${ckanResource.workflowState}</td>
 				<td><c:if test="${ckanResource.isDownloadable()}"><a href="${ctx}/admin/status/manuallyTriggerDownload/${ckanResource.id.id}/${ckanResource.id.revision_id}/">download</a> </c:if></td>
 			</tr>

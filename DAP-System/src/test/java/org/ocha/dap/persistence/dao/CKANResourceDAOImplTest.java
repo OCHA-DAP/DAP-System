@@ -37,7 +37,7 @@ public class CKANResourceDAOImplTest {
 
 		{
 			final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId");
-			Assert.assertEquals(WorkflowState.Detected_NEW, r.getWorkflowState());
+			Assert.assertEquals(WorkflowState.DETECTED_NEW, r.getWorkflowState());
 			Assert.assertEquals(revisionTs, r.getRevision_timestamp());
 			Assert.assertNull(r.getDownloadDate());
 		}
@@ -46,7 +46,7 @@ public class CKANResourceDAOImplTest {
 
 		{
 			final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId");
-			Assert.assertEquals(WorkflowState.Downloaded, r.getWorkflowState());
+			Assert.assertEquals(WorkflowState.DOWNLOADED, r.getWorkflowState());
 			Assert.assertEquals(revisionTs, r.getRevision_timestamp());
 			Assert.assertNotNull(r.getDownloadDate());
 		}
@@ -61,14 +61,14 @@ public class CKANResourceDAOImplTest {
 		
 		{
 			final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId");
-			Assert.assertEquals(WorkflowState.Downloaded, r.getWorkflowState());
+			Assert.assertEquals(WorkflowState.DOWNLOADED, r.getWorkflowState());
 			Assert.assertEquals(revisionTs, r.getRevision_timestamp());
 			Assert.assertNotNull(r.getDownloadDate());
 		}
 		
 		{
 			final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId2");
-			Assert.assertEquals(WorkflowState.Detected_REVISION, r.getWorkflowState());
+			Assert.assertEquals(WorkflowState.DETECTED_REVISION, r.getWorkflowState());
 			Assert.assertEquals(revision2Ts, r.getRevision_timestamp());
 			Assert.assertNull(r.getDownloadDate());
 		}

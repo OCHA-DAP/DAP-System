@@ -14,9 +14,9 @@ import javax.persistence.Table;
 public class CKANResource {
 
 	public enum WorkflowState {
-		Detected_NEW, Detected_REVISION, Downloaded;
+		DETECTED_NEW, DETECTED_REVISION, OUTDATED, DOWNLOADED;
 	}
-
+	
 	@Embeddable
 	public static class Id implements Serializable {
 		private static final long serialVersionUID = 1L;
@@ -83,9 +83,14 @@ public class CKANResource {
 		super();
 	}
 
-	public CKANResource(final String id, final String revision_id) {
+	public CKANResource(final String id, final String revision_id, final boolean isNew) {
 		this.id.id = id;
 		this.id.revision_id = revision_id;
+		if(isNew){
+			this.workflowState = WorkflowState.DETECTED_NEW;
+		}else{
+			this.workflowState = WorkflowState.DETECTED_REVISION;
+		}
 	}
 
 	@EmbeddedId
@@ -125,7 +130,7 @@ public class CKANResource {
 	}
 	
 	public boolean isDownloadable(){
-		return this.workflowState.equals(WorkflowState.Detected_NEW) || this.workflowState.equals(WorkflowState.Detected_REVISION);
+		return this.workflowState.equals(WorkflowState.DETECTED_NEW) || this.workflowState.equals(WorkflowState.DETECTED_REVISION);
 	}
 
 	public Date getRevision_timestamp() {
