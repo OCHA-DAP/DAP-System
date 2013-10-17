@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class CKANResource {
 
 	public enum WorkflowState {
-		DETECTED_NEW, DETECTED_REVISION, OUTDATED, DOWNLOADED;
+		DETECTED_NEW, DETECTED_REVISION, OUTDATED, DOWNLOADED, TECH_EVALUTATION_SUCCESS, TECH_EVALUTATION_FAIL;
 	}
 	
 	@Embeddable

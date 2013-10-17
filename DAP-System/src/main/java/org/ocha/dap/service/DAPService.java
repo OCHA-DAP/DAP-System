@@ -26,11 +26,20 @@ public interface DAPService {
 	/**
 	 * 
 	 * downloads the file associated to the given id / revision
-	 * and flags the record as downloaded
+	 * and flags the record as {@link WorkflowState#DOWNLOADED}
 	 * 
 	 * The record must be in a Workflow State allowing download  
 	 */
 	public void downloadFileForCKANResource(final String id, final String revision_id) throws IOException;
+	
+	/**
+	 * 
+	 * evaluate the file associated to the given id / revision
+	 * and flags the record as {@link WorkflowState#TECH_EVALUTATION_SUCCESS} or {@link WorkflowState#TECH_EVALUTATION_FAIL}
+	 * 
+	 * The record must be in a Workflow State allowing download  
+	 */
+	public void evaluateFileForCKANResource(final String id, final String revision_id) throws IOException;
 
 	/**
 	 * return the list of the Datasets Performing the query on behalf of the

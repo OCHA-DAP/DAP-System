@@ -60,4 +60,16 @@ public class WorkflowServiceImpl implements WorkflowService {
 		}
 	}
 
+	@Override
+	public boolean flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

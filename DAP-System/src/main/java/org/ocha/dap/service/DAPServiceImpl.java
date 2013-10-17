@@ -68,6 +68,9 @@ public class DAPServiceImpl implements DAPService {
 
 	@Autowired
 	private WorkflowService workflowService;
+	
+	@Autowired
+	private FileEvaluatorAndExtractor fileEvaluatorAndExtractor;
 
 	@Override
 	@Transactional
@@ -115,6 +118,18 @@ public class DAPServiceImpl implements DAPService {
 		final boolean success = performDownload(url, revisionFile);
 		if (!success)
 			throw new RuntimeException("Failed downloading the given resource");
+	}
+	
+	@Override
+	public void evaluateFileForCKANResource(final String id, final String revision_id) throws IOException {
+		final boolean result = fileEvaluatorAndExtractor.evaluateDummyCSVFile(id, revision_id);
+		
+		if(result){
+			workflowService.flagCKANResourceAsTechEvaluationSuccess(id, revision_id);
+		}else{
+			workflowService.flagCKANResourceAsTechEvaluationFail(id, revision_id);
+		}
+		
 	}
 
 	/**

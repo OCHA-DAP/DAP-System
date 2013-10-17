@@ -9,5 +9,7 @@ public interface WorkflowService {
 	
 	public boolean flagCKANResourceAsOutdated(final String id, final String revision_id);
 	public boolean flagCKANResourceAsDownloaded(final String id, final String revision_id);
+	public boolean flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id);
+	public boolean flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id);
 
 }

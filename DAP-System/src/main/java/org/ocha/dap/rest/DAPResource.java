@@ -66,7 +66,7 @@ public class DAPResource {
 			session.setMaxInactiveInterval(1800);
 
 			URI newURI = null;
-			newURI = new URI("/admin/index/");
+			newURI = new URI("/admin/status/");
 
 			return Response.seeOther(newURI).build();
 		}
@@ -81,8 +81,8 @@ public class DAPResource {
 	}
 
 	@GET
-	@Path("/index/")
-	public Response index() throws InsufficientCredentialsException {
+	@Path("/ckancontent/")
+	public Response ckanContent() throws InsufficientCredentialsException {
 		final HttpSession session = request.getSession(false);
 		final String userId = session.getAttribute(SESSION_PARAM_UID).toString();
 		final List<String> datasets = dapService.getDatasetsListFromCKAN(userId);
@@ -110,6 +110,17 @@ public class DAPResource {
 	@GET
 	@Path("/status/manuallyTriggerDownload/{id}/{revision_id}")
 	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
+		dapService.downloadFileForCKANResource(id, revision_id);
+		
+		URI newURI = null;
+	    newURI = new URI("/admin/status/");
+
+	    return Response.seeOther(newURI).build();
+	}
+	
+	@GET
+	@Path("/status/manuallyTriggerEvaluation/{id}/{revision_id}")
+	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
 		dapService.downloadFileForCKANResource(id, revision_id);
 		
 		URI newURI = null;

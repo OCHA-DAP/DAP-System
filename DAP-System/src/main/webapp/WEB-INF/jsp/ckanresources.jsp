@@ -22,14 +22,17 @@
 			<th>Action</th>
 		</tr>
 		
-		
 		<c:forEach var="ckanResource" items="${it}">
 			<tr>
-				<td><c:if test="${ckanResource.workflowState ne 'OUTDATED' && ckanResource.workflowState ne 'DOWNLOADED'}">${ckanResource.id.id}</c:if></td>
+				<td><c:if test="${previousId ne ckanResource.id.id}">${ckanResource.id.id}</c:if></td>
+				<c:set scope="request" var="previousId" value="${ckanResource.id.id}" />
 				<td>${ckanResource.id.revision_id}</td>
 				<td><fmt:formatDate value="${ckanResource.revision_timestamp}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td>${ckanResource.workflowState}</td>
-				<td><c:if test="${ckanResource.isDownloadable()}"><a href="${ctx}/admin/status/manuallyTriggerDownload/${ckanResource.id.id}/${ckanResource.id.revision_id}/">download</a> </c:if></td>
+				<td>
+					<c:if test="${ckanResource.isDownloadable()}"><a href="${ctx}/admin/status/manuallyTriggerDownload/${ckanResource.id.id}/${ckanResource.id.revision_id}/">download</a> </c:if>
+					<c:if test="${ckanResource.workflowState eq 'DOWNLOADED'}"><a href="${ctx}/admin/status/manuallyTriggerEvaluation/${ckanResource.id.id}/${ckanResource.id.revision_id}/">evaluate</a> </c:if>
+				</td>
 			</tr>
 		</c:forEach>
 		
