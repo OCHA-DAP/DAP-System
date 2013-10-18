@@ -64,7 +64,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 	public boolean flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.TECH_EVALUTATION_SUCCESS)) {
-			resourceDAO.flagCKANResourceAsDownloaded(id, revision_id);
+			resourceDAO.flagCKANResourceAsTechEvaluationSuccess(id, revision_id);
 			return true;
 		} else {
 			return false;
@@ -75,7 +75,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 	public boolean flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.TECH_EVALUTATION_FAIL)) {
-			resourceDAO.flagCKANResourceAsDownloaded(id, revision_id);
+			resourceDAO.flagCKANResourceAsTechEvaluationFail(id, revision_id);
 			return true;
 		} else {
 			return false;

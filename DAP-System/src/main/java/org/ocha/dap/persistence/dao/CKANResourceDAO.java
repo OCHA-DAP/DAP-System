@@ -18,6 +18,23 @@ public interface CKANResourceDAO {
 	public void flagCKANResourceAsDownloaded(final String id, final String revision_id);
 	
 	/**
+	 * Flags the given record as Downloaded
+	 * 
+	 * @param id
+	 * @param revision_id
+	 */
+	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id);
+	
+	/**
+	 * Flags the given record as Downloaded
+	 * 
+	 * @param id
+	 * @param revision_id
+	 */
+	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id);
+	
+	
+	/**
 	 * Flags the given record as Outdated
 	 * 
 	 * @param id

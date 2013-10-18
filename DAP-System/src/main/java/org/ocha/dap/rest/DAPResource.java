@@ -121,7 +121,7 @@ public class DAPResource {
 	@GET
 	@Path("/status/manuallyTriggerEvaluation/{id}/{revision_id}")
 	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
-		dapService.downloadFileForCKANResource(id, revision_id);
+		dapService.evaluateFileForCKANResource(id, revision_id);
 		
 		URI newURI = null;
 	    newURI = new URI("/admin/status/");

@@ -49,6 +49,22 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 		ckanResourceToFlag.setWorkflowState(WorkflowState.DOWNLOADED);
 		ckanResourceToFlag.setDownloadDate(new Date());
 	}
+	
+	@Override
+	@Transactional
+	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id) {
+		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUTATION_SUCCESS);
+		ckanResourceToFlag.setDownloadDate(new Date());
+	}
+	
+	@Override
+	@Transactional
+	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id) {
+		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUTATION_FAIL);
+		ckanResourceToFlag.setDownloadDate(new Date());
+	}
 
 	@Override
 	@Transactional

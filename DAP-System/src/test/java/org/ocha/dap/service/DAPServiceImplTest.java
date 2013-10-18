@@ -199,5 +199,10 @@ public class DAPServiceImplTest {
 		final CKANResource firstResourceAfterDownload = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 		Assert.assertEquals(WorkflowState.DOWNLOADED, firstResourceAfterDownload.getWorkflowState());
 		
+		dapService.evaluateFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+		
+		final CKANResource firstResourceAfterEvaluation = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+		Assert.assertEquals(WorkflowState.TECH_EVALUTATION_FAIL, firstResourceAfterEvaluation.getWorkflowState());
+		
 	}
 }
