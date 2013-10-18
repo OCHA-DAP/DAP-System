@@ -1,5 +1,7 @@
 package org.ocha.dap.service;
 
+import java.io.File;
+
 public interface FileEvaluatorAndExtractor {
 	
 	/**
@@ -12,5 +14,6 @@ public interface FileEvaluatorAndExtractor {
 	 * 
 	 */
 	public boolean evaluateDummyCSVFile(final String id, final String revision_id);
+	public boolean evaluateDummyCSVFile(File file);
 
 }

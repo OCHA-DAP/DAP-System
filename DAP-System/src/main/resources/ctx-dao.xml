@@ -21,11 +21,20 @@
 		</constructor-arg>
 	</bean>
 
+	<bean id="fileEvaluatorAndExtractor" class="org.ocha.dap.service.FileEvaluatorAndExtractorImpl">
+		<constructor-arg name="stagingDirectory">
+			<bean class="java.io.File">
+				<constructor-arg value="${dap.staging.folder}" />
+			</bean>
+		</constructor-arg>
+	</bean>
+	
 	<bean id="workflowService" class="org.ocha.dap.service.WorkflowServiceImpl">
 		<constructor-arg>
 			<map key-type="java.lang.String" value-type="java.lang.String">
 				<entry key="DETECTED_NEW" value-ref="listForDetected" />
 				<entry key="DETECTED_REVISION" value-ref="listForRevision" />
+				<entry key="DOWNLOADED" value-ref="listForDownloaded" />
 			</map>
 		</constructor-arg>
 	</bean>
@@ -36,6 +45,10 @@
 	<util:list id="listForRevision">
 		<value>OUTDATED</value>
 		<value>DOWNLOADED</value>
+	</util:list>
+	<util:list id="listForDownloaded">
+		<value>TECH_EVALUTATION_SUCCESS</value>
+		<value>TECH_EVALUTATION_FAIL</value>
 	</util:list>
 
 </beans>

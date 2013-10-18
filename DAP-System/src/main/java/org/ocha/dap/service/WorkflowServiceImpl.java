@@ -62,14 +62,24 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Override
 	public boolean flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id) {
-		// TODO Auto-generated method stub
-		return false;
+		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
+		if (nextStateIsPossible(res, WorkflowState.TECH_EVALUTATION_SUCCESS)) {
+			resourceDAO.flagCKANResourceAsDownloaded(id, revision_id);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id) {
-		// TODO Auto-generated method stub
-		return false;
+		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
+		if (nextStateIsPossible(res, WorkflowState.TECH_EVALUTATION_FAIL)) {
+			resourceDAO.flagCKANResourceAsDownloaded(id, revision_id);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
