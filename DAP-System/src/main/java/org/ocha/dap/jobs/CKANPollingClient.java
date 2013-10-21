@@ -4,7 +4,6 @@ import org.ocha.dap.service.DAPService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 
 public class CKANPollingClient implements Runnable {
 
@@ -14,7 +13,7 @@ public class CKANPollingClient implements Runnable {
 	private DAPService dapService;
 
 	@Override
-	@Scheduled(fixedDelay = 100000, initialDelay = 100000)
+//	@Scheduled(fixedDelay = 100000, initialDelay = 100000)
 	public void run() {
 		try {
 			// for now, just a simple get, no JSON POST
