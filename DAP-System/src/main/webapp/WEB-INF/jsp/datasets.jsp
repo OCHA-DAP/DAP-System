@@ -31,7 +31,7 @@
   							<option value="SCRAPPER">SCRAPPER</option>
   							<option value="DUMMY">DUMMY</option>
 						</select> 
-						<input type="submit" value="flag as to be curated" />
+						<input type="submit" value="flag for curation" />
 					</form>
 				</td>
 			</tr>

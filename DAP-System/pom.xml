@@ -251,9 +251,9 @@
 				<dap.config.folder>/opt/ocha/dap/config</dap.config.folder>
 				<dap.staging.folder>/opt/ocha/dap/staging</dap.staging.folder>
 			</properties>
-			<!-- <activation> -->
-			<!-- <activeByDefault>true</activeByDefault> -->
-			<!-- </activation> -->
+			<activation>
+			<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
 		<profile>
 			<id>seustachi</id>
@@ -262,9 +262,9 @@
 				<dap.config.folder>E:\DAP_FOLDER\config</dap.config.folder>
 				<dap.staging.folder>E:\DAP_FOLDER\staging</dap.staging.folder>
 			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
+<!-- 			<activation> -->
+<!-- 				<activeByDefault>true</activeByDefault> -->
+<!-- 			</activation> -->
 		</profile>
 		<profile>
 			<id>ddl</id>

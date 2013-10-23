@@ -88,7 +88,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		case DUMMY:
 			return evaluateDummyCSVFile(id, revision_id);
 
-		case SCRAPPER:
+		case SCRAPER:
 			return false;
 
 		default:
