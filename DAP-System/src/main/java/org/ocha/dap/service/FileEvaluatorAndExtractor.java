@@ -15,5 +15,12 @@ public interface FileEvaluatorAndExtractor {
 	 */
 	public boolean evaluateDummyCSVFile(final String id, final String revision_id);
 	public boolean evaluateDummyCSVFile(File file);
+	
+	/**
+	 * Performs the evaluation of the resource, using the appropriate evaluator (DUmmy evaluator, ScrapperEvaluator etc...)
+	 * 
+	 * @return
+	 */
+	public boolean evaluateResource(final String id, final String revision_id);
 
 }

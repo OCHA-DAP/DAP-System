@@ -19,7 +19,7 @@ public class WorkflowServiceImplTest {
 
 	@Test
 	public void testNextStateIsPossible() {
-		final CKANResource resource = new CKANResource("id", "revision_id", true);
+		final CKANResource resource = new CKANResource("id", "revision_id", true, "theParent");
 		Assert.assertTrue(workflowService.nextStateIsPossible(resource, WorkflowState.DOWNLOADED));
 		Assert.assertTrue(workflowService.nextStateIsPossible(resource, WorkflowState.OUTDATED));
 		Assert.assertFalse(workflowService.nextStateIsPossible(resource, WorkflowState.DETECTED_NEW));
@@ -27,7 +27,7 @@ public class WorkflowServiceImplTest {
 		Assert.assertFalse(workflowService.nextStateIsPossible(resource, WorkflowState.TECH_EVALUTATION_SUCCESS));
 		Assert.assertFalse(workflowService.nextStateIsPossible(resource, WorkflowState.TECH_EVALUTATION_FAIL));
 		
-		final CKANResource revision = new CKANResource("id", "revision_id", false);
+		final CKANResource revision = new CKANResource("id", "revision_id", false, "theParent");
 		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.DOWNLOADED));
 		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.OUTDATED));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DETECTED_NEW));

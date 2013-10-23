@@ -85,7 +85,7 @@ public class CKANResource {
 		super();
 	}
 
-	public CKANResource(final String id, final String revision_id, final boolean isNew) {
+	public CKANResource(final String id, final String revision_id, final boolean isNew, final String parentDataset_name) {
 		this.id.id = id;
 		this.id.revision_id = revision_id;
 		if(isNew){
@@ -93,6 +93,7 @@ public class CKANResource {
 		}else{
 			this.workflowState = WorkflowState.DETECTED_REVISION;
 		}
+		this.parentDataset_name = parentDataset_name;
 	}
 
 	@EmbeddedId
@@ -109,6 +110,9 @@ public class CKANResource {
 	@Column(name = "revision_timestamp", columnDefinition = "timestamp", nullable = false, updatable = false)
 	private Date revision_timestamp;
 
+	@Column(name = "parentDataset_name", nullable = false, updatable = false)
+	private String parentDataset_name;
+	
 	@Column(name = "parentDataset_id", nullable = false, updatable = false)
 	private String parentDataset_id;
 
@@ -142,6 +146,14 @@ public class CKANResource {
 
 	public void setRevision_timestamp(final Date revision_timestamp) {
 		this.revision_timestamp = revision_timestamp;
+	}
+
+	public String getParentDataset_name() {
+		return parentDataset_name;
+	}
+
+	public void setParentDataset_name(final String parentDataset_name) {
+		this.parentDataset_name = parentDataset_name;
 	}
 
 	public String getParentDataset_id() {

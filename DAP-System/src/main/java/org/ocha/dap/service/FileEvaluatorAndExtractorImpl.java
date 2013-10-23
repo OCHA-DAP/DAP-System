@@ -65,4 +65,10 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		}
 	}
 
+	@Override
+	public boolean evaluateResource(final String id, final String revision_id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
