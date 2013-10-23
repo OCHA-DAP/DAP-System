@@ -138,6 +138,9 @@ public class DatasetV3DTO {
 	public class Resource {
 		private String id;
 		private String revision_id;
+		
+		private String name;
+		private String description;
 		private Date revision_timestamp;
 		private Date created;
 		private String state;
@@ -157,6 +160,22 @@ public class DatasetV3DTO {
 
 		public void setRevision_id(final String revision_id) {
 			this.revision_id = revision_id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(final String name) {
+			this.name = name;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(final String description) {
+			this.description = description;
 		}
 
 		public Date getRevision_timestamp() {

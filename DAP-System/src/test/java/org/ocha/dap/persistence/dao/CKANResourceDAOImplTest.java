@@ -30,7 +30,7 @@ public class CKANResourceDAOImplTest {
 		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
 
 		final Date revisionTs = new Date();
-		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", revisionTs, "theParent", "parentDataset_id",
+		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", "newUnitTestResourceName", revisionTs, "theParent", "parentDataset_id",
 				"parentDataset_revision_id", revisionTs);
 
 		Assert.assertEquals(1, ckanResourceDAO.listCKANResources().size());
@@ -53,7 +53,7 @@ public class CKANResourceDAOImplTest {
 		Assert.assertEquals(1, ckanResourceDAO.listCKANResources().size());
 		
 		final Date revision2Ts = new Date();
-		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId2", revision2Ts, "theParent", "parentDataset_id",
+		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId2", "newUnitTestResourceName2", revision2Ts, "theParent", "parentDataset_id",
 				"parentDataset_revision_id", revision2Ts);
 		
 		// no change expected, the resource already exist

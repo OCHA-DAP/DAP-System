@@ -18,9 +18,10 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 
 	@Override
 	@Transactional
-	public void newCKANResourceDetected(final String id, final String revision_id, final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
+	public void newCKANResourceDetected(final String id, final String revision_id, final String name, final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
 			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp) {
 		final CKANResource ckanResource = new CKANResource(id, revision_id, !ckanResourceExists(id), parentDataset_name);
+		ckanResource.setName(name);
 		ckanResource.setRevision_timestamp(revision_timestamp);
 		ckanResource.setParentDataset_id(parentDataset_id);
 		ckanResource.setParentDataset_revision_id(parentDataset_revision_id);

@@ -18,11 +18,11 @@ public class CKANResource {
 	public enum WorkflowState {
 		DETECTED_NEW, DETECTED_REVISION, OUTDATED, DOWNLOADED, TECH_EVALUTATION_SUCCESS, TECH_EVALUTATION_FAIL;
 	}
-	
+
 	@Embeddable
 	public static class Id implements Serializable {
 		private static final long serialVersionUID = 1L;
-		
+
 		@Column(name = "id", nullable = false, updatable = false)
 		private String id;
 
@@ -78,8 +78,6 @@ public class CKANResource {
 		}
 
 	}
-	
-	
 
 	public CKANResource() {
 		super();
@@ -88,9 +86,9 @@ public class CKANResource {
 	public CKANResource(final String id, final String revision_id, final boolean isNew, final String parentDataset_name) {
 		this.id.id = id;
 		this.id.revision_id = revision_id;
-		if(isNew){
+		if (isNew) {
 			this.workflowState = WorkflowState.DETECTED_NEW;
-		}else{
+		} else {
 			this.workflowState = WorkflowState.DETECTED_REVISION;
 		}
 		this.parentDataset_name = parentDataset_name;
@@ -98,10 +96,13 @@ public class CKANResource {
 
 	@EmbeddedId
 	private final Id id = new Id();
-	
+
 	public Id getId() {
 		return id;
 	}
+
+	@Column(name = "name", nullable = false, updatable = false)
+	private String name;
 
 	@Column(name = "workflowState", nullable = false, updatable = true)
 	@Enumerated(EnumType.STRING)
@@ -112,7 +113,7 @@ public class CKANResource {
 
 	@Column(name = "parentDataset_name", nullable = false, updatable = false)
 	private String parentDataset_name;
-	
+
 	@Column(name = "parentDataset_id", nullable = false, updatable = false)
 	private String parentDataset_id;
 
@@ -128,6 +129,21 @@ public class CKANResource {
 	@Column(name = "downloadDate", columnDefinition = "timestamp", nullable = true, updatable = true)
 	private Date downloadDate;
 
+	@Column(name = "evaluationDate", columnDefinition = "timestamp", nullable = true, updatable = true)
+	private Date evaluationDate;
+
+	@Column(name = "evaluator", nullable = true, updatable = true)
+	@Enumerated(EnumType.STRING)
+	private CKANDataset.Type evaluator;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
 	public WorkflowState getWorkflowState() {
 		return workflowState;
 	}
@@ -135,8 +151,8 @@ public class CKANResource {
 	public void setWorkflowState(final WorkflowState workflowState) {
 		this.workflowState = workflowState;
 	}
-	
-	public boolean isDownloadable(){
+
+	public boolean isDownloadable() {
 		return this.workflowState.equals(WorkflowState.DETECTED_NEW) || this.workflowState.equals(WorkflowState.DETECTED_REVISION);
 	}
 
@@ -194,6 +210,22 @@ public class CKANResource {
 
 	public void setDownloadDate(final Date downloadDate) {
 		this.downloadDate = downloadDate;
+	}
+
+	public Date getEvaluationDate() {
+		return evaluationDate;
+	}
+
+	public void setEvaluationDate(final Date evaluationDate) {
+		this.evaluationDate = evaluationDate;
+	}
+
+	public CKANDataset.Type getEvaluator() {
+		return evaluator;
+	}
+
+	public void setEvaluator(final CKANDataset.Type evaluator) {
+		this.evaluator = evaluator;
 	}
 
 }

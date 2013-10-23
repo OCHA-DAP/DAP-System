@@ -106,7 +106,7 @@ public class DAPServiceImpl implements DAPService {
 							workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
 						}
 
-						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getRevision_timestamp(), datasetName, dataset.getResult()
+						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName, dataset.getResult()
 								.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
 					}
 				}
