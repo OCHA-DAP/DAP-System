@@ -19,8 +19,11 @@ import org.ocha.dap.dto.apiv2.DatasetV2DTO;
 import org.ocha.dap.dto.apiv3.DatasetListV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO.Resource;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.dap.persistence.dao.CKANDatasetDAO;
 import org.ocha.dap.persistence.dao.CKANResourceDAO;
 import org.ocha.dap.persistence.dao.UserDAO;
+import org.ocha.dap.persistence.entity.CKANDataset;
+import org.ocha.dap.persistence.entity.CKANDataset.Type;
 import org.ocha.dap.persistence.entity.CKANResource;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
@@ -67,32 +70,45 @@ public class DAPServiceImpl implements DAPService {
 	private CKANResourceDAO resourceDAO;
 
 	@Autowired
+	private CKANDatasetDAO datasetDAO;
+
+	@Autowired
 	private WorkflowService workflowService;
-	
+
 	@Autowired
 	private FileEvaluatorAndExtractor fileEvaluatorAndExtractor;
+
+	@Override
+	public void checkForNewCKANDatasets() {
+		final List<String> datasetList = getDatasetListDTOFromQuery(technicalAPIKey);
+		datasetDAO.importDetectedDatasetsIfNotPresent(datasetList);
+	}
 
 	@Override
 	@Transactional
 	public void checkForNewCKANResources() {
 		final List<String> datasetList = getDatasetListDTOFromQuery(technicalAPIKey);
+		final List<String> datasetToBeCurated = datasetDAO.listToBeCuratedCKANDatasets();
 		for (final String datasetName : datasetList) {
-			final DatasetV3WrapperDTO dataset = getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
-			final List<Resource> resources = dataset.getResult().getResources();
-			for (final Resource resource : resources) {
-				// if the same id/revisionId is already present, do nothing,
-				// this has already been processed
-				if (resourceDAO.getCKANResource(resource.getId(), resource.getRevision_id()) == null) {
-					// If some revisions were detected before, but were not
-					// processed yet, (i.e a revision was uploaded in the mean
-					// time )we mark them as outdated
-					final List<CKANResource> ckanResources = resourceDAO.listCKANResourceRevisions(resource.getId());
-					for (final CKANResource ckanResource : ckanResources) {
-						workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
-					}
+			if (datasetToBeCurated.contains(datasetName)) {
+				final DatasetV3WrapperDTO dataset = getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
+				final List<Resource> resources = dataset.getResult().getResources();
+				for (final Resource resource : resources) {
+					// if the same id/revisionId is already present, do nothing,
+					// this has already been processed
+					if (resourceDAO.getCKANResource(resource.getId(), resource.getRevision_id()) == null) {
+						// If some revisions were detected before, but were not
+						// processed yet, (i.e a revision was uploaded in the
+						// mean
+						// time )we mark them as outdated
+						final List<CKANResource> ckanResources = resourceDAO.listCKANResourceRevisions(resource.getId());
+						for (final CKANResource ckanResource : ckanResources) {
+							workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
+						}
 
-					resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getRevision_timestamp(), dataset.getResult()
-							.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
+						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getRevision_timestamp(), dataset.getResult()
+								.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
+					}
 				}
 			}
 		}
@@ -101,6 +117,18 @@ public class DAPServiceImpl implements DAPService {
 	@Override
 	public List<CKANResource> listCKANResources() {
 		return resourceDAO.listCKANResources();
+	}
+
+	@Override
+	public List<CKANDataset> listCKANDatasets() {
+		// TODO Auto-generated method stub
+		return datasetDAO.listCKANDatasets();
+	}
+	
+	@Override
+	public void flagDatasetAsToBeCurated(final String datasetName, final Type type) {
+		datasetDAO.flagDatasetAsToBeCurated(datasetName, type);
+		
 	}
 
 	@Override
@@ -119,17 +147,17 @@ public class DAPServiceImpl implements DAPService {
 		if (!success)
 			throw new RuntimeException("Failed downloading the given resource");
 	}
-	
+
 	@Override
 	public void evaluateFileForCKANResource(final String id, final String revision_id) throws IOException {
 		final boolean result = fileEvaluatorAndExtractor.evaluateDummyCSVFile(id, revision_id);
-		
-		if(result){
+
+		if (result) {
 			workflowService.flagCKANResourceAsTechEvaluationSuccess(id, revision_id);
-		}else{
+		} else {
 			workflowService.flagCKANResourceAsTechEvaluationFail(id, revision_id);
 		}
-		
+
 	}
 
 	/**

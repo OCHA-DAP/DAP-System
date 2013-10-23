@@ -11,8 +11,10 @@ import org.junit.runner.RunWith;
 import org.ocha.dap.dto.apiv2.DatasetV2DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.dap.persistence.dao.CKANDatasetDAO;
 import org.ocha.dap.persistence.dao.CKANResourceDAO;
 import org.ocha.dap.persistence.dao.UserDAO;
+import org.ocha.dap.persistence.entity.CKANDataset;
 import org.ocha.dap.persistence.entity.CKANResource;
 import org.ocha.dap.persistence.entity.CKANResource.WorkflowState;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
@@ -34,6 +36,7 @@ public class DAPServiceImplTest {
 	public void tearDown() throws Exception {
 		userDAO.deleteUser("seustachi");
 		ckanResourceDAO.deleteAllCKANResourcesRecords();
+		ckanDatasetDAO.deleteAllCKANDatasetsRecords();
 	}
 
 	@Autowired
@@ -45,9 +48,12 @@ public class DAPServiceImplTest {
 	@Autowired
 	private CKANResourceDAO ckanResourceDAO;
 
+	@Autowired
+	private CKANDatasetDAO ckanDatasetDAO;
+
 	@Test
 	public void testGetDatasetsListFromCKAN() throws InsufficientCredentialsException {
-		Assert.assertEquals(5, dapService.getDatasetsListFromCKAN("seustachi").size());
+		Assert.assertTrue(dapService.getDatasetsListFromCKAN("seustachi").size() > 0);
 
 		try {
 			dapService.getDatasetsListFromCKAN("otherUser");
@@ -177,19 +183,49 @@ public class DAPServiceImplTest {
 	}
 
 	@Test
+	public void testCheckForNewCKANDatasets() {
+		Assert.assertEquals(0, ckanDatasetDAO.listCKANDatasets().size());
+		dapService.checkForNewCKANDatasets();
+		Assert.assertTrue(ckanDatasetDAO.listCKANDatasets().size() > 0);
+		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
+			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
+			dapService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPPER);
+		}
+		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
+			Assert.assertEquals(CKANDataset.Status.TO_BE_CURATED, ckandDataset.getStatus());
+		}
+	}
+
+	@Test
 	public void testCheckForNewCKANResources() {
+		// we need to initialize datasets as to be curated to get some data to
+		// work on
+		dapService.checkForNewCKANDatasets();
+		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
+			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
+			dapService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPPER);
+		}
+
 		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
 		dapService.checkForNewCKANResources();
-		Assert.assertEquals(4, ckanResourceDAO.listCKANResources().size());
+		Assert.assertTrue(ckanResourceDAO.listCKANResources().size() > 0);
 	}
 
 	@Test
 	public void testStandardWorkflow() throws IOException {
+		// we need to initialize datasets as to be curated to get some data to
+		// work on
+		dapService.checkForNewCKANDatasets();
+		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
+			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
+			dapService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPPER);
+		}
+
 		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
 		dapService.checkForNewCKANResources();
 
 		final List<CKANResource> resources = ckanResourceDAO.listCKANResources();
-		Assert.assertEquals(4, resources.size());
+		Assert.assertTrue(resources.size() > 0);
 
 		final CKANResource firstResource = resources.get(0);
 		Assert.assertEquals(WorkflowState.DETECTED_NEW, firstResource.getWorkflowState());
@@ -198,11 +234,12 @@ public class DAPServiceImplTest {
 
 		final CKANResource firstResourceAfterDownload = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 		Assert.assertEquals(WorkflowState.DOWNLOADED, firstResourceAfterDownload.getWorkflowState());
-		
+
 		dapService.evaluateFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
-		
-		final CKANResource firstResourceAfterEvaluation = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+
+		final CKANResource firstResourceAfterEvaluation = ckanResourceDAO
+				.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 		Assert.assertEquals(WorkflowState.TECH_EVALUTATION_FAIL, firstResourceAfterEvaluation.getWorkflowState());
-		
+
 	}
 }

@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.dap.persistence.entity.CKANDataset;
 import org.ocha.dap.rest.helper.Index;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
@@ -57,7 +58,8 @@ public class DAPResource {
 	 */
 	@POST
 	@Path("/login/")
-	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password) throws AuthenticationException, URISyntaxException {
+	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password) throws AuthenticationException,
+			URISyntaxException {
 		logger.debug(String.format("Entering login for user : %s", userId));
 		if (dapService != null && dapService.authenticate(userId, password)) {
 			final HttpSession session = request.getSession(true);
@@ -66,7 +68,7 @@ public class DAPResource {
 			session.setMaxInactiveInterval(1800);
 
 			URI newURI = null;
-			newURI = new URI("/admin/status/");
+			newURI = new URI("/admin/status/datasets/");
 
 			return Response.seeOther(newURI).build();
 		}
@@ -91,7 +93,7 @@ public class DAPResource {
 		index.setDatasets(datasets);
 		return Response.ok(new Viewable("/index", index)).build();
 	}
-	
+
 	@GET
 	@Path("/dataset/{datasetName}")
 	public Response getDatasetContent(@PathParam("datasetName") final String datasetName) throws InsufficientCredentialsException {
@@ -100,44 +102,74 @@ public class DAPResource {
 		final DatasetV3WrapperDTO result = dapService.getDatasetContentFromCKANV3(userId, datasetName);
 		return Response.ok(new Viewable("/dataset", result)).build();
 	}
-	
+
 	@GET
-	@Path("/status/")
-	public Response getCKANResources() {
-		return Response.ok(new Viewable("/ckanresources", dapService.listCKANResources())).build();
+	@Path("/status/datasets/")
+	public Response getCKANDatasetsStatus() {
+		return Response.ok(new Viewable("/datasets", dapService.listCKANDatasets())).build();
 	}
-	
+
+	@POST
+	@Path("/status/datasets/")
+	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type)
+			throws URISyntaxException {
+		dapService.flagDatasetAsToBeCurated(datasetName, type);
+
+		final URI newURI = new URI("/admin/status/datasets/");
+
+		return Response.seeOther(newURI).build();
+	}
+
+	@GET
+	@Path("/status/resources/")
+	public Response getCKANResourcesStatus() {
+		return Response.ok(new Viewable("/resources", dapService.listCKANResources())).build();
+	}
+
 	@GET
 	@Path("/status/manuallyTriggerDownload/{id}/{revision_id}")
-	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
+	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException,
+			IOException {
 		dapService.downloadFileForCKANResource(id, revision_id);
-		
-		URI newURI = null;
-	    newURI = new URI("/admin/status/");
 
-	    return Response.seeOther(newURI).build();
+		final URI newURI = new URI("/admin/status/resources/");
+
+		return Response.seeOther(newURI).build();
 	}
-	
+
 	@GET
 	@Path("/status/manuallyTriggerEvaluation/{id}/{revision_id}")
-	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
+	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException,
+			IOException {
 		dapService.evaluateFileForCKANResource(id, revision_id);
-		
-		URI newURI = null;
-	    newURI = new URI("/admin/status/");
 
-	    return Response.seeOther(newURI).build();
+		URI newURI = null;
+		newURI = new URI("/admin/status/resources/");
+
+		return Response.seeOther(newURI).build();
 	}
-	
-	@GET
-	@Path("/status/manuallyTriggerDetection")
-	public Response manuallyTriggerDetection() throws URISyntaxException {
-		dapService.checkForNewCKANResources();
-		
-		URI newURI = null;
-	    newURI = new URI("/admin/status/");
 
-	    return Response.seeOther(newURI).build();
+	@GET
+	@Path("/status/manuallyTriggerDatasetsDetection")
+	public Response manuallyTriggerDatasetsDetection() throws URISyntaxException {
+		dapService.checkForNewCKANDatasets();
+		;
+
+		URI newURI = null;
+		newURI = new URI("/admin/status/datasets/");
+
+		return Response.seeOther(newURI).build();
+	}
+
+	@GET
+	@Path("/status/manuallyTriggerResourcesDetection")
+	public Response manuallyTriggerResourcesDetection() throws URISyntaxException {
+		dapService.checkForNewCKANResources();
+
+		URI newURI = null;
+		newURI = new URI("/admin/status/resources/");
+
+		return Response.seeOther(newURI).build();
 	}
 
 }

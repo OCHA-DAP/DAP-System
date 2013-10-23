@@ -10,7 +10,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp" />
-<h2>List of datasets!</h2>
+<h2>List of datasets (in CKAN, not DAP)!</h2>
 Logged as : ${it.userId}
 			<ul>
 				<c:forEach var="dataset" items="${it.datasets}">

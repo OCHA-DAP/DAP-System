@@ -5,12 +5,16 @@ import java.util.List;
 
 import org.ocha.dap.dto.apiv2.DatasetV2DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.dap.persistence.entity.CKANDataset;
+import org.ocha.dap.persistence.entity.CKANDataset.Type;
 import org.ocha.dap.persistence.entity.CKANResource;
 import org.ocha.dap.persistence.entity.CKANResource.WorkflowState;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
 
 public interface DAPService {
+	
+	public void checkForNewCKANDatasets();
 
 	/**
 	 * will try to get all the resources from CKAN instance first datasets and
@@ -22,6 +26,9 @@ public interface DAPService {
 	public void checkForNewCKANResources();
 
 	public List<CKANResource> listCKANResources();
+	public List<CKANDataset> listCKANDatasets();
+	
+	public void flagDatasetAsToBeCurated(final String datasetName, final Type type);
 
 	/**
 	 * 

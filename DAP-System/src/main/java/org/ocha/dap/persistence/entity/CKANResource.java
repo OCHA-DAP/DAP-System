@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 @Entity
@@ -101,6 +103,7 @@ public class CKANResource {
 	}
 
 	@Column(name = "workflowState", nullable = false, updatable = true)
+	@Enumerated(EnumType.STRING)
 	private WorkflowState workflowState;
 
 	@Column(name = "revision_timestamp", columnDefinition = "timestamp", nullable = false, updatable = false)
