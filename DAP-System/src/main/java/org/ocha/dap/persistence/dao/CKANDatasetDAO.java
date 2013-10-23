@@ -22,5 +22,7 @@ public interface CKANDatasetDAO {
 	public List<String> listToBeCuratedCKANDatasets();
 
 	public void deleteAllCKANDatasetsRecords();
+	
+	public CKANDataset.Type getTypeForName(String name);
 
 }

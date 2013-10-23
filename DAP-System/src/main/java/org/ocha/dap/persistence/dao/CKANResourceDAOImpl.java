@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.ocha.dap.persistence.entity.CKANDataset;
 import org.ocha.dap.persistence.entity.CKANResource;
 import org.ocha.dap.persistence.entity.CKANResource.WorkflowState;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,18 +54,20 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	
 	@Override
 	@Transactional
-	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id) {
+	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final CKANDataset.Type evaluator) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUTATION_SUCCESS);
-		ckanResourceToFlag.setDownloadDate(new Date());
+		ckanResourceToFlag.setEvaluationDate(new Date());
+		ckanResourceToFlag.setEvaluator(evaluator);
 	}
 	
 	@Override
 	@Transactional
-	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id) {
+	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final CKANDataset.Type evaluator) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUTATION_FAIL);
-		ckanResourceToFlag.setDownloadDate(new Date());
+		ckanResourceToFlag.setEvaluationDate(new Date());
+		ckanResourceToFlag.setEvaluator(evaluator);
 	}
 
 	@Override

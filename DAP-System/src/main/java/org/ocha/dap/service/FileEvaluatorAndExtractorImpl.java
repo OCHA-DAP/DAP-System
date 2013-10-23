@@ -7,6 +7,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.ocha.dap.persistence.dao.CKANDatasetDAO;
+import org.ocha.dap.persistence.dao.CKANResourceDAO;
+import org.ocha.dap.persistence.entity.CKANDataset.Type;
+import org.ocha.dap.persistence.entity.CKANResource;
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor {
 
 	private final File stagingDirectory;
@@ -19,6 +25,12 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 
 		this.stagingDirectory = stagingDirectory;
 	}
+
+	@Autowired
+	private CKANResourceDAO resourceDAO;
+
+	@Autowired
+	private CKANDatasetDAO datasetDAO;
 
 	@Override
 	public boolean evaluateDummyCSVFile(final String id, final String revision_id) {
@@ -39,26 +51,25 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 				// use comma as separator
 				final String[] values = line.split(",");
 
-				if(values.length != 4)
+				if (values.length != 4)
 					return false;
-				
-				
+
 				final String country = values[0];
 				final Integer value = Integer.parseInt(values[2]);
-				
+
 				final Integer total = totalForCountries.get(country);
-				if(total != null){
+				if (total != null) {
 					totalForCountries.put(country, total + value);
-				}else{
+				} else {
 					totalForCountries.put(country, value);
 				}
 
 			}
-			for(final Integer value : totalForCountries.values()){
-				if(value != 100)
+			for (final Integer value : totalForCountries.values()) {
+				if (value != 100)
 					return false;
 			}
-			
+
 			return true;
 		} catch (final IOException e) {
 			return false;
@@ -66,9 +77,23 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	}
 
 	@Override
-	public boolean evaluateResource(final String id, final String revision_id) {
-		// TODO Auto-generated method stub
-		return false;
+	public Type getTypeForFile(final String id, final String revision_id) {
+		final CKANResource ckanResource = resourceDAO.getCKANResource(id, revision_id);
+		return datasetDAO.getTypeForName(ckanResource.getParentDataset_name());
+	}
+
+	@Override
+	public boolean evaluateResource(final String id, final String revision_id, final Type type) {
+		switch (type) {
+		case DUMMY:
+			return evaluateDummyCSVFile(id, revision_id);
+
+		case SCRAPPER:
+			return false;
+
+		default:
+			return false;
+		}
 	}
 
 }

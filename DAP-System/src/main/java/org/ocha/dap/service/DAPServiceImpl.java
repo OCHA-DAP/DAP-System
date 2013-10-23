@@ -150,12 +150,13 @@ public class DAPServiceImpl implements DAPService {
 
 	@Override
 	public void evaluateFileForCKANResource(final String id, final String revision_id) throws IOException {
+		final CKANDataset.Type type = fileEvaluatorAndExtractor.getTypeForFile(id, revision_id);
 		final boolean result = fileEvaluatorAndExtractor.evaluateDummyCSVFile(id, revision_id);
 
 		if (result) {
-			workflowService.flagCKANResourceAsTechEvaluationSuccess(id, revision_id);
+			workflowService.flagCKANResourceAsTechEvaluationSuccess(id, revision_id, type);
 		} else {
-			workflowService.flagCKANResourceAsTechEvaluationFail(id, revision_id);
+			workflowService.flagCKANResourceAsTechEvaluationFail(id, revision_id, type);
 		}
 
 	}

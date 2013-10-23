@@ -2,6 +2,8 @@ package org.ocha.dap.service;
 
 import java.io.File;
 
+import org.ocha.dap.persistence.entity.CKANDataset;
+
 public interface FileEvaluatorAndExtractor {
 	
 	/**
@@ -17,10 +19,18 @@ public interface FileEvaluatorAndExtractor {
 	public boolean evaluateDummyCSVFile(File file);
 	
 	/**
-	 * Performs the evaluation of the resource, using the appropriate evaluator (DUmmy evaluator, ScrapperEvaluator etc...)
+	 * In order to evaluate a file, we must know its type (to use the appropriate evaluator
+	 * The Type is defined on the Dataset level)
 	 * 
 	 * @return
 	 */
-	public boolean evaluateResource(final String id, final String revision_id);
+	public CKANDataset.Type getTypeForFile(final String id, final String revision_id);
+	
+	/**
+	 * Performs the evaluation of the resource, using the appropriate evaluator (Dummy evaluator, ScrapperEvaluator etc...)
+	 * 
+	 * @return
+	 */
+	public boolean evaluateResource(final String id, final String revision_id, final CKANDataset.Type type);
 
 }

@@ -67,4 +67,10 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 		em.createQuery("DELETE FROM CKANDataset").executeUpdate();
 	}
 
+	@Override
+	public Type getTypeForName(final String name) {
+		final CKANDataset dataset = em.find(CKANDataset.class, name);
+		return dataset.getType();
+	}
+
 }
