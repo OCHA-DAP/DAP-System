@@ -7,6 +7,10 @@
 
     create table ckan_dataset (
         name varchar(255) not null,
+        author varchar(255),
+        author_email varchar(255),
+        maintainer varchar(255),
+        maintainer_email varchar(255),
         status varchar(255) not null,
         type varchar(255),
         primary key (name)

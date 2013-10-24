@@ -28,7 +28,7 @@
 					<form method="POST" action="">
 						<input type="hidden" name="datasetName" value="${dataset.name}" /> 
 						<select name="type">
-  							<option value="SCRAPPER">SCRAPPER</option>
+  							<option value="SCRAPER">SCRAPER</option>
   							<option value="DUMMY">DUMMY</option>
 						</select> 
 						<input type="submit" value="flag for curation" />
