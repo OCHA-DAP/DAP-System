@@ -14,6 +14,8 @@
 		<config>src/main/resources/ctx-jobs.xml</config>
 		<config>src/test/resources/ctx-persistence-test.xml</config>
 		<config>src/main/resources/ctx-persistence.xml</config>
+		<config>src/main/resources/ctx-rest.xml</config>
+		<config>src/main/resources/ctx-service.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

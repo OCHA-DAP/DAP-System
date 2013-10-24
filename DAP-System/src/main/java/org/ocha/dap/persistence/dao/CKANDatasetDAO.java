@@ -2,6 +2,7 @@ package org.ocha.dap.persistence.dao;
 
 import java.util.List;
 
+import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.persistence.entity.CKANDataset;
 
 public interface CKANDatasetDAO {
@@ -12,7 +13,7 @@ public interface CKANDatasetDAO {
 	 * 
 	 * @param datasets
 	 */
-	public void importDetectedDatasetsIfNotPresent(List<String> datasets);
+	public void importDetectedDatasetsIfNotPresent(List<DatasetV3DTO> datasets);
 
 	public void flagDatasetAsToBeCurated(String datasetName, CKANDataset.Type type);
 
@@ -24,5 +25,6 @@ public interface CKANDatasetDAO {
 	public void deleteAllCKANDatasetsRecords();
 	
 	public CKANDataset.Type getTypeForName(String name);
+	public String getMaintainerMailForName(String name);
 
 }

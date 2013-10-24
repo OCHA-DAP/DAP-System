@@ -84,6 +84,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.mchange.c3p0</groupId>
 			<artifactId>com.springsource.com.mchange.v2.c3p0</artifactId>
 			<version>${c3p0.version}</version>
@@ -252,7 +258,7 @@
 				<dap.staging.folder>/opt/ocha/dap/staging</dap.staging.folder>
 			</properties>
 			<activation>
-			<activeByDefault>true</activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 		</profile>
 		<profile>
@@ -262,9 +268,9 @@
 				<dap.config.folder>E:\DAP_FOLDER\config</dap.config.folder>
 				<dap.staging.folder>E:\DAP_FOLDER\staging</dap.staging.folder>
 			</properties>
-<!-- 			<activation> -->
-<!-- 				<activeByDefault>true</activeByDefault> -->
-<!-- 			</activation> -->
+			<!-- <activation> -->
+			<!-- <activeByDefault>true</activeByDefault> -->
+			<!-- </activation> -->
 		</profile>
 		<profile>
 			<id>ddl</id>

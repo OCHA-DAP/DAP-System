@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.persistence.entity.CKANDataset;
 import org.ocha.dap.persistence.entity.CKANDataset.Type;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +19,11 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 
 	@Override
 	@Transactional
-	public void importDetectedDatasetsIfNotPresent(final List<String> datasets) {
-		for(final String datasetId : datasets){
-			final CKANDataset dataset = em.find(CKANDataset.class, datasetId);
+	public void importDetectedDatasetsIfNotPresent(final List<DatasetV3DTO> datasets) {
+		for(final DatasetV3DTO datasetV3DTO : datasets){
+			final CKANDataset dataset = em.find(CKANDataset.class, datasetV3DTO.getName());
 			if(dataset == null){
-				final CKANDataset newDataset = new CKANDataset(datasetId);
+				final CKANDataset newDataset = new CKANDataset(datasetV3DTO.getName(), datasetV3DTO.getMaintainer(), datasetV3DTO.getMaintainer_email(), datasetV3DTO.getAuthor(), datasetV3DTO.getAuthor_email());
 				em.persist(newDataset);
 			}
 		}
@@ -71,6 +72,12 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 	public Type getTypeForName(final String name) {
 		final CKANDataset dataset = em.find(CKANDataset.class, name);
 		return dataset.getType();
+	}
+
+	@Override
+	public String getMaintainerMailForName(final String name) {
+		final CKANDataset dataset = em.find(CKANDataset.class, name);
+		return dataset.getMaintainer_email();
 	}
 
 }

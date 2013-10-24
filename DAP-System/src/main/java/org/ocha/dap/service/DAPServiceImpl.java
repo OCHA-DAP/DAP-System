@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.client.ResponseHandler;
@@ -17,6 +18,7 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.ocha.dap.dto.apiv2.DatasetV2DTO;
 import org.ocha.dap.dto.apiv3.DatasetListV3DTO;
+import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO.Resource;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.dap.persistence.dao.CKANDatasetDAO;
@@ -74,20 +76,23 @@ public class DAPServiceImpl implements DAPService {
 
 	@Autowired
 	private WorkflowService workflowService;
+	
+	@Autowired
+	private MailService mailService;
 
 	@Autowired
 	private FileEvaluatorAndExtractor fileEvaluatorAndExtractor;
 
 	@Override
 	public void checkForNewCKANDatasets() {
-		final List<String> datasetList = getDatasetListDTOFromQuery(technicalAPIKey);
-		datasetDAO.importDetectedDatasetsIfNotPresent(datasetList);
+		final List<DatasetV3DTO> datasetV3DTOList = getDatasetV3DTOsFromQuery(technicalAPIKey);
+		datasetDAO.importDetectedDatasetsIfNotPresent(datasetV3DTOList);
 	}
 
 	@Override
 	@Transactional
 	public void checkForNewCKANResources() {
-		final List<String> datasetList = getDatasetListDTOFromQuery(technicalAPIKey);
+		final List<String> datasetList = getDatasetNamesFromQuery(technicalAPIKey);
 		final List<String> datasetToBeCurated = datasetDAO.listToBeCuratedCKANDatasets();
 		for (final String datasetName : datasetList) {
 			if (datasetToBeCurated.contains(datasetName)) {
@@ -151,12 +156,13 @@ public class DAPServiceImpl implements DAPService {
 	@Override
 	public void evaluateFileForCKANResource(final String id, final String revision_id) throws IOException {
 		final CKANDataset.Type type = fileEvaluatorAndExtractor.getTypeForFile(id, revision_id);
-		final boolean result = fileEvaluatorAndExtractor.evaluateDummyCSVFile(id, revision_id);
+		final boolean result = fileEvaluatorAndExtractor.evaluateResource(id, revision_id, type);
 
 		if (result) {
 			workflowService.flagCKANResourceAsTechEvaluationSuccess(id, revision_id, type);
 		} else {
 			workflowService.flagCKANResourceAsTechEvaluationFail(id, revision_id, type);
+			mailService.sendMailForResourceEvaluationFailure(id, revision_id, type);
 		}
 
 	}
@@ -206,7 +212,7 @@ public class DAPServiceImpl implements DAPService {
 	 * @throws MalformedURLException
 	 */
 	private URL getResourceURLFromAPI(final String id, final String revision_id) throws MalformedURLException {
-		final List<String> datasetList = getDatasetListDTOFromQuery(technicalAPIKey);
+		final List<String> datasetList = getDatasetNamesFromQuery(technicalAPIKey);
 		for (final String datasetName : datasetList) {
 			final DatasetV3WrapperDTO dataset = getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
 			final List<Resource> resources = dataset.getResult().getResources();
@@ -221,7 +227,7 @@ public class DAPServiceImpl implements DAPService {
 	@Override
 	public List<String> getDatasetsListFromCKAN(final String userId) throws InsufficientCredentialsException {
 		final String apiKey = userDao.getUserApiKey(userId);
-		return getDatasetListDTOFromQuery(apiKey);
+		return getDatasetNamesFromQuery(apiKey);
 	}
 
 	@Override
@@ -246,7 +252,16 @@ public class DAPServiceImpl implements DAPService {
 		updateDatasetDTO(datasetName, apiKey, datasetV2DTO);
 	}
 
-	List<String> getDatasetListDTOFromQuery(final String apiKey) {
+	List<DatasetV3DTO> getDatasetV3DTOsFromQuery(final String apiKey){
+		final List<String> names = getDatasetNamesFromQuery(apiKey);
+		final List<DatasetV3DTO> result = new ArrayList<>();
+		
+		for(final String name : names){
+			result.add(getDatasetDTOFromQueryV3(name, apiKey).getResult());
+		}
+		return result;
+	}
+	List<String> getDatasetNamesFromQuery(final String apiKey) {
 		final String jsonResult = performHttpGET(urlBaseForDatasetsList, apiKey);
 		if (jsonResult == null) {
 			return null;

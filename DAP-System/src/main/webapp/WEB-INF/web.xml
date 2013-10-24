@@ -38,6 +38,7 @@
 			classpath:/ctx-config.xml
 			classpath:/ctx-core.xml
 			classpath:/ctx-dao.xml
+			classpath:/ctx-service.xml
 			classpath:/ctx-jobs.xml
 			classpath:/ctx-rest.xml
 			classpath:/ctx-persistence.xml

@@ -17,6 +17,43 @@ public class DatasetV3DTO {
 	private List<Tag> tags;
 	private List<Extra> extras;
 	private List<Resource> resources;
+	
+	private String maintainer;
+	private String maintainer_email;
+	private String author;
+	private String author_email;
+	
+	public String getMaintainer() {
+		return maintainer;
+	}
+
+	public void setMaintainer(final String maintainer) {
+		this.maintainer = maintainer;
+	}
+
+	public String getMaintainer_email() {
+		return maintainer_email;
+	}
+
+	public void setMaintainer_email(final String maintainer_email) {
+		this.maintainer_email = maintainer_email;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(final String author) {
+		this.author = author;
+	}
+
+	public String getAuthor_email() {
+		return author_email;
+	}
+
+	public void setAuthor_email(final String author_email) {
+		this.author_email = author_email;
+	}
 
 	public String getLicense_title() {
 		return license_title;
@@ -138,13 +175,14 @@ public class DatasetV3DTO {
 	public class Resource {
 		private String id;
 		private String revision_id;
-		
+
 		private String name;
 		private String description;
 		private Date revision_timestamp;
 		private Date created;
 		private String state;
 		private String url;
+		
 
 		public String getId() {
 			return id;
@@ -209,6 +247,7 @@ public class DatasetV3DTO {
 		public void setUrl(final String url) {
 			this.url = url;
 		}
+
 	}
 
 }

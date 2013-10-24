@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.persistence.entity.CKANDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,10 +30,25 @@ public class CKANDatasetDAOImplTest {
 	public void testImportDetectedDatasetsIfNotPresent() {
 		Assert.assertEquals(0, ckanDatasetDAO.listCKANDatasets().size());
 
-		final List<String> datasets = new ArrayList<>();
-		datasets.add("TestA");
-		datasets.add("TestB");
-		datasets.add("TestC");
+		final List<DatasetV3DTO> datasets = new ArrayList<>();
+		{
+			final DatasetV3DTO aDto = new DatasetV3DTO();
+			aDto.setName("TestA");
+			datasets.add(aDto);
+		}
+
+		{
+			final DatasetV3DTO aDto = new DatasetV3DTO();
+			aDto.setName("TestB");
+			datasets.add(aDto);
+		}
+
+		{
+			final DatasetV3DTO aDto = new DatasetV3DTO();
+			aDto.setName("TestC");
+			datasets.add(aDto);
+		}
+
 		ckanDatasetDAO.importDetectedDatasetsIfNotPresent(datasets);
 
 		{
@@ -57,7 +73,7 @@ public class CKANDatasetDAOImplTest {
 			Assert.assertEquals(CKANDataset.Type.SCRAPER, storedDatasets.get(1).getType());
 			Assert.assertEquals(CKANDataset.Status.TO_BE_CURATED, storedDatasets.get(1).getStatus());
 			Assert.assertEquals(CKANDataset.Status.IGNORED, storedDatasets.get(2).getStatus());
-			
+
 			Assert.assertEquals(2, ckanDatasetDAO.listToBeCuratedCKANDatasets().size());
 		}
 
