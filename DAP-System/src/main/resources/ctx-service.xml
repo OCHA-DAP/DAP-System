@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+      ">
+	<context:annotation-config />
+
+	<bean id="dapService" class="org.ocha.dap.service.DAPServiceImpl">
+		<constructor-arg name="host" value="${ckan.host}" />
+		<constructor-arg name="technicalAPIKey" value="${ckan.technical.api.key}" />
+		<constructor-arg name="stagingDirectory">
+			<bean class="java.io.File">
+				<constructor-arg value="${dap.staging.folder}" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="fileEvaluatorAndExtractor" class="org.ocha.dap.service.FileEvaluatorAndExtractorImpl">
+		<constructor-arg name="stagingDirectory">
+			<bean class="java.io.File">
+				<constructor-arg value="${dap.staging.folder}" />
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="workflowService" class="org.ocha.dap.service.WorkflowServiceImpl">
+		<constructor-arg>
+			<map key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="DETECTED_NEW" value-ref="listForDetected" />
+				<entry key="DETECTED_REVISION" value-ref="listForRevision" />
+				<entry key="DOWNLOADED" value-ref="listForDownloaded" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<util:list id="listForDetected">
+		<value>OUTDATED</value>
+		<value>DOWNLOADED</value>
+	</util:list>
+	<util:list id="listForRevision">
+		<value>OUTDATED</value>
+		<value>DOWNLOADED</value>
+	</util:list>
+	<util:list id="listForDownloaded">
+		<value>TECH_EVALUTATION_SUCCESS</value>
+		<value>TECH_EVALUTATION_FAIL</value>
+	</util:list>
+	
+	<bean id="mailService" class="org.ocha.dap.service.MailServiceImpl" >
+		<constructor-arg name="smtpHost" value="${smtp.host}" />
+		<constructor-arg name="smtpPort" value="${smtp.port}" />
+		<constructor-arg name="from" value="${mail.from}" />
+	</bean>
+
+</beans>
