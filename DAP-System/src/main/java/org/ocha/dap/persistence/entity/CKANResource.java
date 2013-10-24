@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class CKANResource {
 
 	public enum WorkflowState {
-		DETECTED_NEW, DETECTED_REVISION, OUTDATED, DOWNLOADED, TECH_EVALUTATION_SUCCESS, TECH_EVALUTATION_FAIL;
+		DETECTED_NEW, DETECTED_REVISION, OUTDATED, DOWNLOADED, TECH_EVALUATION_SUCCESS, TECH_EVALUATION_FAIL, IMPORT_SUCCESS, IMPORT_FAIL;
 	}
 
 	@Embeddable
@@ -135,6 +135,13 @@ public class CKANResource {
 	@Column(name = "evaluator", nullable = true, updatable = true)
 	@Enumerated(EnumType.STRING)
 	private CKANDataset.Type evaluator;
+	
+	@Column(name = "importDate", columnDefinition = "timestamp", nullable = true, updatable = true)
+	private Date importDate;
+
+	@Column(name = "importer", nullable = true, updatable = true)
+	@Enumerated(EnumType.STRING)
+	private CKANDataset.Type importer;
 
 	public String getName() {
 		return name;
@@ -226,6 +233,22 @@ public class CKANResource {
 
 	public void setEvaluator(final CKANDataset.Type evaluator) {
 		this.evaluator = evaluator;
+	}
+
+	public Date getImportDate() {
+		return importDate;
+	}
+
+	public void setImportDate(final Date importDate) {
+		this.importDate = importDate;
+	}
+
+	public CKANDataset.Type getImporter() {
+		return importer;
+	}
+
+	public void setImporter(final CKANDataset.Type importer) {
+		this.importer = importer;
 	}
 
 }

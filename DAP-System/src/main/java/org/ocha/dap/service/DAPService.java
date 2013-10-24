@@ -44,9 +44,18 @@ public interface DAPService {
 	 * evaluate the file associated to the given id / revision
 	 * and flags the record as {@link WorkflowState#TECH_EVALUTATION_SUCCESS} or {@link WorkflowState#TECH_EVALUTATION_FAIL}
 	 * 
-	 * The record must be in a Workflow State allowing download  
+	 * The record must be in a Workflow State allowing evaluation  
 	 */
 	public void evaluateFileForCKANResource(final String id, final String revision_id) throws IOException;
+	
+	/**
+	 * 
+	 * Performs the required transformation and import data from the file associated to the given id / revision
+	 * and flags the record as {@link WorkflowState#IMPORT_SUCCESS} or {@link WorkflowState#IMPORT_FAIL}
+	 * 
+	 * The record must be in a Workflow State allowing transformationAndImport  
+	 */
+	public void transformAndImportDataFromFileForCKANResource(final String id, final String revision_id);
 
 	/**
 	 * return the list of the Datasets Performing the query on behalf of the

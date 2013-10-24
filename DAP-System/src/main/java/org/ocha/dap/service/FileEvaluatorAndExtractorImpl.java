@@ -96,4 +96,18 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		}
 	}
 
+	@Override
+	public boolean transformAndImportDataFromResource(final String id, final String revision_id, final Type type) {
+		switch (type) {
+		case DUMMY:
+			return false;
+
+		case SCRAPER:
+			return false;
+
+		default:
+			return false;
+		}
+	}
+
 }

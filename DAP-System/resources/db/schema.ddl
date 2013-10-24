@@ -23,6 +23,8 @@
         downloadDate timestamp,
         evaluationDate timestamp,
         evaluator varchar(255),
+        importDate timestamp,
+        importer varchar(255),
         name varchar(255) not null,
         parentDataset_id varchar(255) not null,
         parentDataset_name varchar(255) not null,

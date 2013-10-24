@@ -22,13 +22,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.sun.mail.smtp.SMTPTransport;
 
 public class MailServiceImpl implements MailService {
-	
+
 	@Autowired
 	private CKANResourceDAO resourceDAO;
-	
+
 	@Autowired
 	private CKANDatasetDAO datasetDAO;
-	
+
 	private static final Logger log = LoggerFactory.getLogger(MailServiceImpl.class);
 
 	private final String smtpHost;
@@ -89,11 +89,21 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public void sendMailForResourceEvaluationFailure(final String id, final String revision_id, final Type evaluator) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		
-		final String mailSubject = String.format("CKAN Resource %s evaluation failed, for type : %s", res.getName(), res.getEvaluator());
-		final String mailBody = String.format("CKAN Resource %s evaluation failed, for type : %s", res.getName(), res.getEvaluator());
+
+		final String mailSubject = String.format("CKAN Resource [%s] EVALUATION failed, for type : %s", res.getName(), res.getEvaluator());
+		final String mailBody = String.format("CKAN Resource [%s] EVALUATION failed, for type : %s", res.getName(), res.getEvaluator());
 		sendMail(getMaintainerForFile(id, revision_id), mailSubject, mailBody);
-		
+
+	}
+
+	@Override
+	public void sendMailForResourceImportFailure(final String id, final String revision_id, final Type evaluator) {
+		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
+
+		final String mailSubject = String.format("CKAN Resource [%s] IMPORT failed, for type : %s", res.getName(), res.getEvaluator());
+		final String mailBody = String.format("CKAN Resource [%s] IMPORT failed, for type : %s", res.getName(), res.getEvaluator());
+		sendMail(getMaintainerForFile(id, revision_id), mailSubject, mailBody);
+
 	}
 
 	@Override

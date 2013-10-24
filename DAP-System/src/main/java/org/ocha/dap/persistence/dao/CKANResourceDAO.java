@@ -19,7 +19,7 @@ public interface CKANResourceDAO {
 	public void flagCKANResourceAsDownloaded(final String id, final String revision_id);
 	
 	/**
-	 * Flags the given record as Downloaded
+	 * Flags the given record as Tech Evaluation Success and stores which evaluator triggered the success
 	 * 
 	 * @param id
 	 * @param revision_id
@@ -27,14 +27,22 @@ public interface CKANResourceDAO {
 	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final CKANDataset.Type evaluator);
 	
 	/**
-	 * Flags the given record as Downloaded
+	 * Flags the given record as Tech Evaluation Fail and stores which evaluator triggered the failure
 	 * 
 	 * @param id
 	 * @param revision_id
 	 */
 	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final CKANDataset.Type evaluator);
 	
+	/**
+	 * 
+	 * @param id
+	 * @param revision_id
+	 * @param evaluator
+	 */
+	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer);
 	
+	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer);
 	/**
 	 * Flags the given record as Outdated
 	 * 

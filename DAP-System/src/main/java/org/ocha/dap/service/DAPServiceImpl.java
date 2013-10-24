@@ -166,6 +166,19 @@ public class DAPServiceImpl implements DAPService {
 		}
 
 	}
+	
+	@Override
+	public void transformAndImportDataFromFileForCKANResource(final String id, final String revision_id){
+		final CKANDataset.Type type = fileEvaluatorAndExtractor.getTypeForFile(id, revision_id);
+		final boolean result = fileEvaluatorAndExtractor.transformAndImportDataFromResource(id, revision_id, type);
+		
+		if (result) {
+			workflowService.flagCKANResourceAsImportSuccess(id, revision_id, type);
+		} else {
+			workflowService.flagCKANResourceAsImportFail(id, revision_id, type);
+			mailService.sendMailForResourceImportFailure(id, revision_id, type);
+		}
+	}
 
 	/**
 	 * 

@@ -19,8 +19,8 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 
 	@Override
 	@Transactional
-	public void newCKANResourceDetected(final String id, final String revision_id, final String name, final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
-			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp) {
+	public void newCKANResourceDetected(final String id, final String revision_id, final String name, final Date revision_timestamp,
+			final String parentDataset_name, final String parentDataset_id, final String parentDataset_revision_id, final Date parentDataset_revision_timestamp) {
 		final CKANResource ckanResource = new CKANResource(id, revision_id, !ckanResourceExists(id), parentDataset_name);
 		ckanResource.setName(name);
 		ckanResource.setRevision_timestamp(revision_timestamp);
@@ -51,23 +51,42 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 		ckanResourceToFlag.setWorkflowState(WorkflowState.DOWNLOADED);
 		ckanResourceToFlag.setDownloadDate(new Date());
 	}
-	
+
 	@Override
 	@Transactional
 	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final CKANDataset.Type evaluator) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
-		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUTATION_SUCCESS);
+		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUATION_SUCCESS);
 		ckanResourceToFlag.setEvaluationDate(new Date());
 		ckanResourceToFlag.setEvaluator(evaluator);
 	}
-	
+
 	@Override
 	@Transactional
 	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final CKANDataset.Type evaluator) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
-		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUTATION_FAIL);
+		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUATION_FAIL);
 		ckanResourceToFlag.setEvaluationDate(new Date());
 		ckanResourceToFlag.setEvaluator(evaluator);
+	}
+
+	@Override
+	@Transactional
+	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer) {
+		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		ckanResourceToFlag.setWorkflowState(WorkflowState.IMPORT_SUCCESS);
+		ckanResourceToFlag.setImportDate(new Date());
+		ckanResourceToFlag.setImporter(importer);
+
+	}
+
+	@Override
+	@Transactional
+	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer) {
+		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		ckanResourceToFlag.setWorkflowState(WorkflowState.IMPORT_FAIL);
+		ckanResourceToFlag.setImportDate(new Date());
+		ckanResourceToFlag.setImporter(importer);
 	}
 
 	@Override
@@ -81,7 +100,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	public CKANResource getCKANResource(final String id, final String revision_id) {
 		return em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 	}
-	
+
 	@Override
 	public List<CKANResource> listCKANResourceRevisions(final String id) {
 		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r WHERE r.id.id = :id", CKANResource.class).setParameter("id", id);

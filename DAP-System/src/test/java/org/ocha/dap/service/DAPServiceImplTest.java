@@ -218,7 +218,7 @@ public class DAPServiceImplTest {
 		dapService.checkForNewCKANDatasets();
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
-			dapService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER);
+			dapService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.DUMMY);
 		}
 
 		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
@@ -227,19 +227,52 @@ public class DAPServiceImplTest {
 		final List<CKANResource> resources = ckanResourceDAO.listCKANResources();
 		Assert.assertTrue(resources.size() > 0);
 
-		final CKANResource firstResource = resources.get(0);
-		Assert.assertEquals(WorkflowState.DETECTED_NEW, firstResource.getWorkflowState());
+		{
+			final CKANResource firstResource = resources.get(0);
+			Assert.assertEquals(WorkflowState.DETECTED_NEW, firstResource.getWorkflowState());
 
-		dapService.downloadFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+			dapService.downloadFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 
-		final CKANResource firstResourceAfterDownload = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
-		Assert.assertEquals(WorkflowState.DOWNLOADED, firstResourceAfterDownload.getWorkflowState());
+			final CKANResource firstResourceAfterDownload = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId()
+					.getRevision_id());
+			Assert.assertEquals(WorkflowState.DOWNLOADED, firstResourceAfterDownload.getWorkflowState());
 
-		dapService.evaluateFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+			dapService.evaluateFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 
-		final CKANResource firstResourceAfterEvaluation = ckanResourceDAO
-				.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
-		Assert.assertEquals(WorkflowState.TECH_EVALUTATION_FAIL, firstResourceAfterEvaluation.getWorkflowState());
+			final CKANResource firstResourceAfterEvaluation = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId()
+					.getRevision_id());
+			Assert.assertEquals(WorkflowState.TECH_EVALUATION_SUCCESS, firstResourceAfterEvaluation.getWorkflowState());
+			
+			dapService.transformAndImportDataFromFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+			
+			final CKANResource firstResourceAfterImport = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId()
+					.getRevision_id());
+			Assert.assertEquals(WorkflowState.IMPORT_FAIL, firstResourceAfterImport.getWorkflowState());
+		}
+		
+		{
+			final CKANResource secondResource = resources.get(1);
+			Assert.assertEquals(WorkflowState.DETECTED_NEW, secondResource.getWorkflowState());
+
+			dapService.downloadFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
+
+			final CKANResource secondResourceAfterDownload = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId()
+					.getRevision_id());
+			Assert.assertEquals(WorkflowState.DOWNLOADED, secondResourceAfterDownload.getWorkflowState());
+
+			dapService.evaluateFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
+
+			final CKANResource secondResourceAfterEvaluation = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId()
+					.getRevision_id());
+			Assert.assertEquals(WorkflowState.TECH_EVALUATION_FAIL, secondResourceAfterEvaluation.getWorkflowState());
+			
+			dapService.transformAndImportDataFromFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
+			
+			//we should still be in TECH_EVALUATION_FAIL, as the workflow cannot go from TECH_EVALUATION_FAIL to IMPORT_XXX
+			final CKANResource secondResourceAfterImport = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId()
+					.getRevision_id());
+			Assert.assertEquals(WorkflowState.TECH_EVALUATION_FAIL, secondResourceAfterImport.getWorkflowState());
+		}
 
 	}
 }

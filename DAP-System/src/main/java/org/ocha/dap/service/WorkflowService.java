@@ -10,7 +10,11 @@ public interface WorkflowService {
 	
 	public boolean flagCKANResourceAsOutdated(final String id, final String revision_id);
 	public boolean flagCKANResourceAsDownloaded(final String id, final String revision_id);
+	
 	public boolean flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final CKANDataset.Type evaluator);
 	public boolean flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final CKANDataset.Type evaluator);
+	
+	public boolean flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type evaluator);
+	public boolean flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type evaluator);
 
 }

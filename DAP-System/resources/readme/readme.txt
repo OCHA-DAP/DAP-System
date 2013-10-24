@@ -1,5 +1,6 @@
 #how to build the project
 This is a maven project. The build command is "mvn clean install"
+The db schema can be generated : mvn clean process-classes -Pddl
 
 #profiles
 by default, the project is built for production
@@ -13,5 +14,8 @@ To prepare the environment, 3 SQL scripts are needed (TODO, a sys-admin will pro
 3 - sample.sql (optional, setting up some users)
 
 #additional configuration
+The app needs 2 config files(dap-config, dap-secret). 
+A sample of dap-config can be found in resources/config_sample
+
 1 folder needs to be set up for logs  (default: /opt/dap/logs)
 1 folder needs to be set up for config(default: /opt/dap/config)

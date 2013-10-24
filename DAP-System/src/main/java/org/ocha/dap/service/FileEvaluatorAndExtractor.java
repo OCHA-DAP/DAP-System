@@ -32,5 +32,12 @@ public interface FileEvaluatorAndExtractor {
 	 * @return
 	 */
 	public boolean evaluateResource(final String id, final String revision_id, final CKANDataset.Type type);
+	
+	/**
+	 * Performs the required transformation and import data of the resource, using the appropriate importer (Dummy importer, ScrapperImporter etc...)
+	 * 
+	 * @return
+	 */
+	public boolean transformAndImportDataFromResource(final String id, final String revision_id, final CKANDataset.Type type);
 
 }
