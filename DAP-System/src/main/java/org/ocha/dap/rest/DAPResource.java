@@ -148,6 +148,18 @@ public class DAPResource {
 
 		return Response.seeOther(newURI).build();
 	}
+	
+	@GET
+	@Path("/status/manuallyTriggerImport/{id}/{revision_id}")
+	public Response manuallyTriggerImport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException,
+			IOException {
+		dapService.transformAndImportDataFromFileForCKANResource(id, revision_id);
+
+		URI newURI = null;
+		newURI = new URI("/admin/status/resources/");
+
+		return Response.seeOther(newURI).build();
+	}
 
 	@GET
 	@Path("/status/manuallyTriggerDatasetsDetection")
