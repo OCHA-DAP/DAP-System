@@ -28,12 +28,12 @@ public class FileEvaluatorAndExtractorImplTest {
 		}
 		{
 			final File csvFile = new ClassPathResource("samples/country_category_wrong_total.csv").getFile();
-			Assert.assertEquals(ValidationStatus.ERROR, fileEvaluatorAndExtractor.evaluateDummyCSVFile(csvFile));
+			Assert.assertEquals(ValidationStatus.ERROR, fileEvaluatorAndExtractor.evaluateDummyCSVFile(csvFile).getStatus());
 		}
 		
 		{
 			final File csvFile = new ClassPathResource("samples/country_category_malformed_file.csv").getFile();
-			Assert.assertEquals(ValidationStatus.ERROR, fileEvaluatorAndExtractor.evaluateDummyCSVFile(csvFile));
+			Assert.assertEquals(ValidationStatus.ERROR, fileEvaluatorAndExtractor.evaluateDummyCSVFile(csvFile).getStatus());
 		}
 	}
 
