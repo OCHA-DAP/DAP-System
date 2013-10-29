@@ -6,9 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.ocha.dap.model.ValidationReport;
+import org.ocha.dap.model.ValidationStatus;
 import org.ocha.dap.persistence.dao.CKANDatasetDAO;
 import org.ocha.dap.persistence.dao.CKANResourceDAO;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +37,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	private CKANDatasetDAO datasetDAO;
 
 	@Override
-	public boolean evaluateDummyCSVFile(final String id, final String revision_id) {
+	public ValidationReport evaluateDummyCSVFile(final String id, final String revision_id) {
 		final File reourceFolder = new File(stagingDirectory, id);
 		final File revisionFile = new File(reourceFolder, revision_id);
 
@@ -42,7 +46,8 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	}
 
 	@Override
-	public boolean evaluateDummyCSVFile(final File file) {
+	public ValidationReport evaluateDummyCSVFile(final File file) {
+		final ValidationReport report = new ValidationReport(CKANDataset.Type.DUMMY);
 		try (final BufferedReader br = new BufferedReader(new FileReader(file))) {
 			final Map<String, Integer> totalForCountries = new HashMap<>();
 			String line;
@@ -51,9 +56,13 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 				// use comma as separator
 				final String[] values = line.split(",");
 
-				if (values.length != 4)
-					return false;
-
+				if (values.length != 4) {
+					report.addEntry(ValidationStatus.ERROR,
+							String.format("A ligne contains an incorrect number of values, expected : 4, actual : %d", values.length));
+					//In this case, the next test cannot even be performed, so we return the root error
+					return report;
+				}
+				
 				final String country = values[0];
 				final Integer value = Integer.parseInt(values[2]);
 
@@ -65,15 +74,29 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 				}
 
 			}
-			for (final Integer value : totalForCountries.values()) {
-				if (value != 100)
-					return false;
+			for (final Entry<String, Integer> entry : totalForCountries.entrySet()) {
+				if (entry.getValue() != 100)
+					report.addEntry(ValidationStatus.ERROR, String.format("Total for region : %s is not 100", entry.getKey()));
 			}
 
-			return true;
 		} catch (final IOException e) {
-			return false;
+			report.addEntry(ValidationStatus.ERROR, "Error caused by an exception");
 		}
+		return report;
+	}
+
+	private ValidationReport evaluateScraper(final String id, final String revision_id) {
+		final ValidationReport report = new ValidationReport(CKANDataset.Type.SCRAPER);
+
+		report.addEntry(ValidationStatus.ERROR, "Mocked evaluator, always failing");
+		return report;
+	}
+
+	private ValidationReport defaultFail(final String id, final String revision_id) {
+		final ValidationReport report = new ValidationReport(CKANDataset.Type.SCRAPER);
+
+		report.addEntry(ValidationStatus.ERROR, "Mocked evaluator, always failing");
+		return report;
 	}
 
 	@Override
@@ -83,16 +106,16 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	}
 
 	@Override
-	public boolean evaluateResource(final String id, final String revision_id, final Type type) {
+	public ValidationReport evaluateResource(final String id, final String revision_id, final Type type) {
 		switch (type) {
 		case DUMMY:
 			return evaluateDummyCSVFile(id, revision_id);
 
 		case SCRAPER:
-			return false;
+			return evaluateScraper(id, revision_id);
 
 		default:
-			return false;
+			return defaultFail(id, revision_id);
 		}
 	}
 

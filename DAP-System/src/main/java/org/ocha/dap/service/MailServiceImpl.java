@@ -11,9 +11,9 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.ocha.dap.model.ValidationReport;
 import org.ocha.dap.persistence.dao.CKANDatasetDAO;
 import org.ocha.dap.persistence.dao.CKANResourceDAO;
-import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,17 +87,17 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void sendMailForResourceEvaluationFailure(final String id, final String revision_id, final Type evaluator) {
+	public void sendMailForResourceEvaluationFailure(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 
 		final String mailSubject = String.format("CKAN Resource [%s] EVALUATION failed, for type : %s", res.getName(), res.getEvaluator());
-		final String mailBody = String.format("CKAN Resource [%s] EVALUATION failed, for type : %s", res.getName(), res.getEvaluator());
+		final String mailBody = String.format("CKAN Resource [%s] EVALUATION failed, report : %s", res.getName(), report);
 		sendMail(getMaintainerForFile(id, revision_id), mailSubject, mailBody);
 
 	}
 
 	@Override
-	public void sendMailForResourceImportFailure(final String id, final String revision_id, final Type evaluator) {
+	public void sendMailForResourceImportFailure(final String id, final String revision_id) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 
 		final String mailSubject = String.format("CKAN Resource [%s] IMPORT failed, for type : %s", res.getName(), res.getEvaluator());

@@ -1,14 +1,14 @@
 package org.ocha.dap.service;
 
-import org.ocha.dap.persistence.entity.ckan.CKANDataset;
+import org.ocha.dap.model.ValidationReport;
 
 
 public interface MailService {
 	
 	public void sendMail(final String recipient, final String mailSubject, final String mailBody);
 	
-	public void sendMailForResourceEvaluationFailure(final String id, final String revision_id, final CKANDataset.Type evaluator);
-	public void sendMailForResourceImportFailure(final String id, final String revision_id, final CKANDataset.Type evaluator);
+	public void sendMailForResourceEvaluationFailure(final String id, final String revision_id, final ValidationReport report);
+	public void sendMailForResourceImportFailure(final String id, final String revision_id);
 	
 	public String getMaintainerForFile(final String id, final String revision_id);
 

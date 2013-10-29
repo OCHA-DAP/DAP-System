@@ -21,6 +21,7 @@ import org.ocha.dap.dto.apiv3.DatasetListV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO.Resource;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.dap.model.ValidationReport;
 import org.ocha.dap.persistence.dao.CKANDatasetDAO;
 import org.ocha.dap.persistence.dao.CKANResourceDAO;
 import org.ocha.dap.persistence.dao.UserDAO;
@@ -156,13 +157,13 @@ public class DAPServiceImpl implements DAPService {
 	@Override
 	public void evaluateFileForCKANResource(final String id, final String revision_id) throws IOException {
 		final CKANDataset.Type type = fileEvaluatorAndExtractor.getTypeForFile(id, revision_id);
-		final boolean result = fileEvaluatorAndExtractor.evaluateResource(id, revision_id, type);
+		final ValidationReport report = fileEvaluatorAndExtractor.evaluateResource(id, revision_id, type);
 
-		if (result) {
+		if (report.isNotInError()) {
 			workflowService.flagCKANResourceAsTechEvaluationSuccess(id, revision_id, type);
 		} else {
 			workflowService.flagCKANResourceAsTechEvaluationFail(id, revision_id, type);
-			mailService.sendMailForResourceEvaluationFailure(id, revision_id, type);
+			mailService.sendMailForResourceEvaluationFailure(id, revision_id, report);
 		}
 
 	}
@@ -176,7 +177,7 @@ public class DAPServiceImpl implements DAPService {
 			workflowService.flagCKANResourceAsImportSuccess(id, revision_id, type);
 		} else {
 			workflowService.flagCKANResourceAsImportFail(id, revision_id, type);
-			mailService.sendMailForResourceImportFailure(id, revision_id, type);
+			mailService.sendMailForResourceImportFailure(id, revision_id);
 		}
 	}
 
