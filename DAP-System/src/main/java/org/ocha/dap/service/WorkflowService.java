@@ -1,8 +1,8 @@
 package org.ocha.dap.service;
 
-import org.ocha.dap.persistence.entity.CKANDataset;
-import org.ocha.dap.persistence.entity.CKANResource;
-import org.ocha.dap.persistence.entity.CKANResource.WorkflowState;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset;
+import org.ocha.dap.persistence.entity.ckan.CKANResource;
+import org.ocha.dap.persistence.entity.ckan.CKANResource.WorkflowState;
 
 public interface WorkflowService {
 	

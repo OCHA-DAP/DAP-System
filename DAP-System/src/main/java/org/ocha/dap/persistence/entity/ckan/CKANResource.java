@@ -1,4 +1,4 @@
-package org.ocha.dap.persistence.entity;
+package org.ocha.dap.persistence.entity.ckan;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
-import org.ocha.dap.persistence.entity.CKANDataset;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

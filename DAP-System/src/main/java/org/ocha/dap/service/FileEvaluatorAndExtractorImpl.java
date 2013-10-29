@@ -9,8 +9,8 @@ import java.util.Map;
 
 import org.ocha.dap.persistence.dao.CKANDatasetDAO;
 import org.ocha.dap.persistence.dao.CKANResourceDAO;
-import org.ocha.dap.persistence.entity.CKANDataset.Type;
-import org.ocha.dap.persistence.entity.CKANResource;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
+import org.ocha.dap.persistence.entity.ckan.CKANResource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor {

@@ -2,7 +2,7 @@ package org.ocha.dap.service;
 
 import java.io.File;
 
-import org.ocha.dap.persistence.entity.CKANDataset;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 
 public interface FileEvaluatorAndExtractor {
 	

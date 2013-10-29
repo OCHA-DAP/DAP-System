@@ -7,9 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.ocha.dap.persistence.entity.CKANDataset;
-import org.ocha.dap.persistence.entity.CKANResource;
-import org.ocha.dap.persistence.entity.CKANResource.WorkflowState;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset;
+import org.ocha.dap.persistence.entity.ckan.CKANResource;
+import org.ocha.dap.persistence.entity.ckan.CKANResource.WorkflowState;
 import org.springframework.transaction.annotation.Transactional;
 
 public class CKANResourceDAOImpl implements CKANResourceDAO {

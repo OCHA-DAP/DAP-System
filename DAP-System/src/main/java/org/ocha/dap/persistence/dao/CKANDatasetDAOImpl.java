@@ -8,8 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
-import org.ocha.dap.persistence.entity.CKANDataset;
-import org.ocha.dap.persistence.entity.CKANDataset.Type;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
 import org.springframework.transaction.annotation.Transactional;
 
 public class CKANDatasetDAOImpl implements CKANDatasetDAO {

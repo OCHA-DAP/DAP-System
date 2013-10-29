@@ -3,7 +3,7 @@ package org.ocha.dap.persistence.dao;
 import java.util.List;
 
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
-import org.ocha.dap.persistence.entity.CKANDataset;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 
 public interface CKANDatasetDAO {
 

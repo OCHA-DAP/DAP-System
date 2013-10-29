@@ -1,4 +1,4 @@
-package org.ocha.dap.persistence.entity;
+package org.ocha.dap.persistence.entity.ckan;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

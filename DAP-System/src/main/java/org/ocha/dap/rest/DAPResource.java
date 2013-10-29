@@ -18,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
-import org.ocha.dap.persistence.entity.CKANDataset;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.rest.helper.Index;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;

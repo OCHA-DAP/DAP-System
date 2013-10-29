@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.ocha.dap.persistence.dao.CKANResourceDAO;
-import org.ocha.dap.persistence.entity.CKANDataset;
-import org.ocha.dap.persistence.entity.CKANDataset.Type;
-import org.ocha.dap.persistence.entity.CKANResource;
-import org.ocha.dap.persistence.entity.CKANResource.WorkflowState;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
+import org.ocha.dap.persistence.entity.ckan.CKANResource;
+import org.ocha.dap.persistence.entity.ckan.CKANResource.WorkflowState;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class WorkflowServiceImpl implements WorkflowService {

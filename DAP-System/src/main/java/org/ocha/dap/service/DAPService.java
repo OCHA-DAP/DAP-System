@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.ocha.dap.dto.apiv2.DatasetV2DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
-import org.ocha.dap.persistence.entity.CKANDataset;
-import org.ocha.dap.persistence.entity.CKANDataset.Type;
-import org.ocha.dap.persistence.entity.CKANResource;
-import org.ocha.dap.persistence.entity.CKANResource.WorkflowState;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
+import org.ocha.dap.persistence.entity.ckan.CKANResource;
+import org.ocha.dap.persistence.entity.ckan.CKANResource.WorkflowState;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
 

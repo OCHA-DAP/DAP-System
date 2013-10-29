@@ -3,8 +3,8 @@ package org.ocha.dap.persistence.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.ocha.dap.persistence.entity.CKANDataset;
-import org.ocha.dap.persistence.entity.CKANResource;
+import org.ocha.dap.persistence.entity.ckan.CKANDataset;
+import org.ocha.dap.persistence.entity.ckan.CKANResource;
 
 public interface CKANResourceDAO {
 	public void newCKANResourceDetected(final String id, final String revision_id, final String name, final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
