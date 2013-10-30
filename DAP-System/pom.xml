@@ -15,8 +15,8 @@
 		<org.springframework.security.version>3.1.4.RELEASE</org.springframework.security.version>
 		<jersey.spring.version>1.17</jersey.spring.version>
 		<javax.servlet.api.version>2.5</javax.servlet.api.version>
-		<c3p0.version>0.9.1</c3p0.version>
-		<derby.version>10.9.1.0</derby.version>
+		<c3p0.version>0.9.2</c3p0.version>
+		<derby.version>10.10.1.1</derby.version>
 		<jstl.impl.version>1.2</jstl.impl.version>
 	</properties>
 
@@ -89,10 +89,16 @@
 			<version>1.4.7</version>
 		</dependency>
 
+		<!-- <dependency> -->
+		<!-- <groupId>com.mchange.c3p0</groupId> -->
+		<!-- <artifactId>com.springsource.com.mchange.v2.c3p0</artifactId> -->
+		<!-- <version>${c3p0.version}</version> -->
+		<!-- </dependency> -->
+
 		<dependency>
-			<groupId>com.mchange.c3p0</groupId>
-			<artifactId>com.springsource.com.mchange.v2.c3p0</artifactId>
-			<version>${c3p0.version}</version>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.2.1</version>
 		</dependency>
 
 		<dependency>
@@ -257,9 +263,9 @@
 				<dap.config.folder>/opt/ocha/dap/config</dap.config.folder>
 				<dap.staging.folder>/opt/ocha/dap/staging</dap.staging.folder>
 			</properties>
-			<!-- <activation> -->
-			<!-- <activeByDefault>true</activeByDefault> -->
-			<!-- </activation> -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
 		<profile>
 			<id>seustachi</id>
@@ -268,9 +274,9 @@
 				<dap.config.folder>E:\DAP_FOLDER\config</dap.config.folder>
 				<dap.staging.folder>E:\DAP_FOLDER\staging</dap.staging.folder>
 			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
+			<!-- <activation> -->
+			<!-- <activeByDefault>true</activeByDefault> -->
+			<!-- </activation> -->
 		</profile>
 		<profile>
 			<id>ddl</id>

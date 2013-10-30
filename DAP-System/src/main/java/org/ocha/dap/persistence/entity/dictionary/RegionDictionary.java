@@ -11,6 +11,10 @@ public class RegionDictionary {
 	@Id
 	private final String unnormalized_name;
 
+	// FIXME it will probably be a composite key, (unnormalized_name, source) as
+	// the same unnormalized_name can refer to different regions
+	// for different sources
+
 	private final String normalized_region;
 
 	public RegionDictionary(final String unnormalized_name, final String normalized_region) {

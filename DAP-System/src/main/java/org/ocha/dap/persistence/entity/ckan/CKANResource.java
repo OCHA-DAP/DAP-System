@@ -9,7 +9,10 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import org.ocha.dap.model.ValidationReport;
 
 @Entity
 @Table(name = "ckan_resource")
@@ -135,9 +138,15 @@ public class CKANResource {
 	@Column(name = "evaluator", nullable = true, updatable = true)
 	@Enumerated(EnumType.STRING)
 	private CKANDataset.Type evaluator;
-	
+
 	@Column(name = "importDate", columnDefinition = "timestamp", nullable = true, updatable = true)
 	private Date importDate;
+
+	// FIXME here we store the serialization of the report for fast prototyping
+	// this is something we'll probably want to change
+	@Lob
+	@Column(name = "validationReport", length = 50000, nullable = true, updatable = true)
+	private ValidationReport validationReport;
 
 	@Column(name = "importer", nullable = true, updatable = true)
 	@Enumerated(EnumType.STRING)
@@ -241,6 +250,14 @@ public class CKANResource {
 
 	public void setImportDate(final Date importDate) {
 		this.importDate = importDate;
+	}
+
+	public ValidationReport getValidationReport() {
+		return validationReport;
+	}
+
+	public void setValidationReport(final ValidationReport validationReport) {
+		this.validationReport = validationReport;
 	}
 
 	public CKANDataset.Type getImporter() {

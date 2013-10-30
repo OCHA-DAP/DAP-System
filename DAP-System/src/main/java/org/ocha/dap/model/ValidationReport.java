@@ -1,11 +1,17 @@
 package org.ocha.dap.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 
-public class ValidationReport {
+public class ValidationReport implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6222487518749118335L;
 
 	private ValidationStatus status;
 

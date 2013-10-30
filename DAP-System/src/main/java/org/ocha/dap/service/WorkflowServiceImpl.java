@@ -3,8 +3,8 @@ package org.ocha.dap.service;
 import java.util.List;
 import java.util.Map;
 
+import org.ocha.dap.model.ValidationReport;
 import org.ocha.dap.persistence.dao.CKANResourceDAO;
-import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
 import org.ocha.dap.persistence.entity.ckan.CKANResource.WorkflowState;
@@ -63,10 +63,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	@Override
-	public boolean flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final CKANDataset.Type evaluator) {
+	public boolean flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.TECH_EVALUATION_SUCCESS)) {
-			resourceDAO.flagCKANResourceAsTechEvaluationSuccess(id, revision_id, evaluator);
+			resourceDAO.flagCKANResourceAsTechEvaluationSuccess(id, revision_id, report);
 			return true;
 		} else {
 			return false;
@@ -74,10 +74,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	@Override
-	public boolean flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final CKANDataset.Type evaluator) {
+	public boolean flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.TECH_EVALUATION_FAIL)) {
-			resourceDAO.flagCKANResourceAsTechEvaluationFail(id, revision_id, evaluator);
+			resourceDAO.flagCKANResourceAsTechEvaluationFail(id, revision_id, report);
 			return true;
 		} else {
 			return false;

@@ -3,6 +3,7 @@ package org.ocha.dap.persistence.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.ocha.dap.model.ValidationReport;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
 
@@ -24,7 +25,7 @@ public interface CKANResourceDAO {
 	 * @param id
 	 * @param revision_id
 	 */
-	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final CKANDataset.Type evaluator);
+	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final ValidationReport report);
 	
 	/**
 	 * Flags the given record as Tech Evaluation Fail and stores which evaluator triggered the failure
@@ -32,7 +33,7 @@ public interface CKANResourceDAO {
 	 * @param id
 	 * @param revision_id
 	 */
-	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final CKANDataset.Type evaluator);
+	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final ValidationReport report);
 	
 	/**
 	 * 

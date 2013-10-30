@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.ocha.dap.model.ValidationReport;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
 import org.ocha.dap.persistence.entity.ckan.CKANResource.WorkflowState;
@@ -22,7 +23,11 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	public void newCKANResourceDetected(final String id, final String revision_id, final String name, final Date revision_timestamp,
 			final String parentDataset_name, final String parentDataset_id, final String parentDataset_revision_id, final Date parentDataset_revision_timestamp) {
 		final CKANResource ckanResource = new CKANResource(id, revision_id, !ckanResourceExists(id), parentDataset_name);
-		ckanResource.setName(name);
+		if (name != null) {
+			ckanResource.setName(name);
+		} else {
+			ckanResource.setName(revision_id);
+		}
 		ckanResource.setRevision_timestamp(revision_timestamp);
 		ckanResource.setParentDataset_id(parentDataset_id);
 		ckanResource.setParentDataset_revision_id(parentDataset_revision_id);
@@ -54,20 +59,22 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 
 	@Override
 	@Transactional
-	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final CKANDataset.Type evaluator) {
+	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUATION_SUCCESS);
 		ckanResourceToFlag.setEvaluationDate(new Date());
-		ckanResourceToFlag.setEvaluator(evaluator);
+		ckanResourceToFlag.setEvaluator(report.getValidator());
+		ckanResourceToFlag.setValidationReport(report);
 	}
 
 	@Override
 	@Transactional
-	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final CKANDataset.Type evaluator) {
+	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUATION_FAIL);
 		ckanResourceToFlag.setEvaluationDate(new Date());
-		ckanResourceToFlag.setEvaluator(evaluator);
+		ckanResourceToFlag.setEvaluator(report.getValidator());
+		ckanResourceToFlag.setValidationReport(report);
 	}
 
 	@Override
@@ -97,17 +104,20 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public CKANResource getCKANResource(final String id, final String revision_id) {
 		return em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<CKANResource> listCKANResourceRevisions(final String id) {
 		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r WHERE r.id.id = :id", CKANResource.class).setParameter("id", id);
 		return query.getResultList();
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<CKANResource> listCKANResources() {
 		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r ORDER BY id.id, detectionDate desc", CKANResource.class);
 		return query.getResultList();

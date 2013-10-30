@@ -5,6 +5,8 @@
 
     drop table dap_user;
 
+    drop table region_dictionary;
+
     create table ckan_dataset (
         name varchar(255) not null,
         author varchar(255),
@@ -31,6 +33,7 @@
         parentDataset_revision_id varchar(255) not null,
         parentDataset_revision_timestamp timestamp not null,
         revision_timestamp timestamp not null,
+        validationReport oid,
         workflowState varchar(255) not null,
         primary key (id, revision_id)
     );
@@ -40,4 +43,10 @@
         ckanApiKey varchar(255),
         password varchar(255),
         primary key (id)
+    );
+
+    create table region_dictionary (
+        unnormalized_name varchar(255) not null,
+        normalized_region varchar(255),
+        primary key (unnormalized_name)
     );

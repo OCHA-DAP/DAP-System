@@ -160,9 +160,9 @@ public class DAPServiceImpl implements DAPService {
 		final ValidationReport report = fileEvaluatorAndExtractor.evaluateResource(destinationFile, type);
 
 		if (report.isNotInError()) {
-			workflowService.flagCKANResourceAsTechEvaluationSuccess(id, revision_id, type);
+			workflowService.flagCKANResourceAsTechEvaluationSuccess(id, revision_id, report);
 		} else {
-			workflowService.flagCKANResourceAsTechEvaluationFail(id, revision_id, type);
+			workflowService.flagCKANResourceAsTechEvaluationFail(id, revision_id, report);
 			mailService.sendMailForResourceEvaluationFailure(id, revision_id, report);
 		}
 
