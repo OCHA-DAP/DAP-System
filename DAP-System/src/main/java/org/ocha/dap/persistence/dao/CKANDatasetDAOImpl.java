@@ -46,7 +46,7 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 
 	@Override
 	public List<CKANDataset> listCKANDatasets() {
-		final TypedQuery<CKANDataset> query = em.createQuery("SELECT r FROM CKANDataset r", CKANDataset.class);
+		final TypedQuery<CKANDataset> query = em.createQuery("SELECT d FROM CKANDataset d ORDER BY d.name", CKANDataset.class);
 		return query.getResultList();
 	}
 	
