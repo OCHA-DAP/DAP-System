@@ -39,3 +39,10 @@ td{
 #menu ul a:hover {
   text-decoration: underline;
 }
+.ERROR {
+	color: #DD0000;
+}
+
+.SUCCESS {
+	color: #00DD00;
+}
