@@ -10,43 +10,21 @@ import java.util.Map.Entry;
 
 import org.ocha.dap.model.ValidationReport;
 import org.ocha.dap.model.ValidationStatus;
-import org.ocha.dap.persistence.dao.CKANDatasetDAO;
-import org.ocha.dap.persistence.dao.CKANResourceDAO;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
-import org.ocha.dap.persistence.entity.ckan.CKANResource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor {
 
-	private final File stagingDirectory;
-
-	public FileEvaluatorAndExtractorImpl(final File stagingDirectory) {
-		super();
-		if (!stagingDirectory.isDirectory()) {
-			throw new IllegalArgumentException("staging  directory doesn't exist: " + stagingDirectory.getAbsolutePath());
-		}
-
-		this.stagingDirectory = stagingDirectory;
-	}
-
-	@Autowired
-	private CKANResourceDAO resourceDAO;
-
-	@Autowired
-	private CKANDatasetDAO datasetDAO;
-
-	@Override
-	public ValidationReport evaluateDummyCSVFile(final String id, final String revision_id) {
-		final File reourceFolder = new File(stagingDirectory, id);
-		final File revisionFile = new File(reourceFolder, revision_id);
-
-		return evaluateDummyCSVFile(revisionFile);
-
-	}
-
-	@Override
-	public ValidationReport evaluateDummyCSVFile(final File file) {
+	/**
+	 * performs a dummy evaluation of a CSV file
+	 * 
+	 * for this example, we assume we got some percentage for some categories,
+	 * per country all countries sum should be 100.
+	 * 
+	 * @return true if all countries have a sum of 100, false otherwise
+	 * 
+	 */
+	ValidationReport evaluateDummyCSVFile(final File file) {
 		final ValidationReport report = new ValidationReport(CKANDataset.Type.DUMMY);
 		try (final BufferedReader br = new BufferedReader(new FileReader(file))) {
 			final Map<String, Integer> totalForCountries = new HashMap<>();
@@ -59,10 +37,11 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 				if (values.length != 4) {
 					report.addEntry(ValidationStatus.ERROR,
 							String.format("A ligne contains an incorrect number of values, expected : 4, actual : %d", values.length));
-					//In this case, the next test cannot even be performed, so we return the root error
+					// In this case, the next test cannot even be performed, so
+					// we return the root error
 					return report;
 				}
-				
+
 				final String country = values[0];
 				final Integer value = Integer.parseInt(values[2]);
 
@@ -85,14 +64,14 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		return report;
 	}
 
-	private ValidationReport evaluateScraper(final String id, final String revision_id) {
+	private ValidationReport evaluateScraper(final File file) {
 		final ValidationReport report = new ValidationReport(CKANDataset.Type.SCRAPER);
 
 		report.addEntry(ValidationStatus.ERROR, "Mocked evaluator, always failing");
 		return report;
 	}
 
-	private ValidationReport defaultFail(final String id, final String revision_id) {
+	private ValidationReport defaultFail(final File file) {
 		final ValidationReport report = new ValidationReport(CKANDataset.Type.SCRAPER);
 
 		report.addEntry(ValidationStatus.ERROR, "Mocked evaluator, always failing");
@@ -100,27 +79,21 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	}
 
 	@Override
-	public Type getTypeForFile(final String id, final String revision_id) {
-		final CKANResource ckanResource = resourceDAO.getCKANResource(id, revision_id);
-		return datasetDAO.getTypeForName(ckanResource.getParentDataset_name());
-	}
-
-	@Override
-	public ValidationReport evaluateResource(final String id, final String revision_id, final Type type) {
+	public ValidationReport evaluateResource(final File file, final Type type) {
 		switch (type) {
 		case DUMMY:
-			return evaluateDummyCSVFile(id, revision_id);
+			return evaluateDummyCSVFile(file);
 
 		case SCRAPER:
-			return evaluateScraper(id, revision_id);
+			return evaluateScraper(file);
 
 		default:
-			return defaultFail(id, revision_id);
+			return defaultFail(file);
 		}
 	}
 
 	@Override
-	public boolean transformAndImportDataFromResource(final String id, final String revision_id, final Type type) {
+	public boolean transformAndImportDataFromResource(final File file, final Type type) {
 		switch (type) {
 		case DUMMY:
 			return false;

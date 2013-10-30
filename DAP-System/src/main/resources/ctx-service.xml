@@ -18,14 +18,8 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="fileEvaluatorAndExtractor" class="org.ocha.dap.service.FileEvaluatorAndExtractorImpl">
-		<constructor-arg name="stagingDirectory">
-			<bean class="java.io.File">
-				<constructor-arg value="${dap.staging.folder}" />
-			</bean>
-		</constructor-arg>
-	</bean>
-	
+	<bean id="fileEvaluatorAndExtractor" class="org.ocha.dap.service.FileEvaluatorAndExtractorImpl" />
+
 	<bean id="workflowService" class="org.ocha.dap.service.WorkflowServiceImpl">
 		<constructor-arg>
 			<map key-type="java.lang.String" value-type="java.lang.String">
@@ -52,8 +46,8 @@
 		<value>IMPORT_SUCCESS</value>
 		<value>IMPORT_FAIL</value>
 	</util:list>
-	
-	<bean id="mailService" class="org.ocha.dap.service.MailServiceImpl" >
+
+	<bean id="mailService" class="org.ocha.dap.service.MailServiceImpl">
 		<constructor-arg name="smtpHost" value="${smtp.host}" />
 		<constructor-arg name="smtpPort" value="${smtp.port}" />
 		<constructor-arg name="from" value="${mail.from}" />

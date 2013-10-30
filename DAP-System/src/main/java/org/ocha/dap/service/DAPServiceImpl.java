@@ -77,7 +77,7 @@ public class DAPServiceImpl implements DAPService {
 
 	@Autowired
 	private WorkflowService workflowService;
-	
+
 	@Autowired
 	private MailService mailService;
 
@@ -112,8 +112,8 @@ public class DAPServiceImpl implements DAPService {
 							workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
 						}
 
-						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName, dataset.getResult()
-								.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
+						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(),
+								datasetName, dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
 					}
 				}
 			}
@@ -130,34 +130,34 @@ public class DAPServiceImpl implements DAPService {
 		// TODO Auto-generated method stub
 		return datasetDAO.listCKANDatasets();
 	}
-	
+
 	@Override
 	public void flagDatasetAsToBeCurated(final String datasetName, final Type type) {
 		datasetDAO.flagDatasetAsToBeCurated(datasetName, type);
-		
+
 	}
 
 	@Override
 	@Transactional
 	public void downloadFileForCKANResource(final String id, final String revision_id) throws IOException {
-		final File reourceFolder = new File(stagingDirectory, id);
-		final File revisionFile = new File(reourceFolder, revision_id);
-
+		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
 		final URL url = getResourceURLFromAPI(id, revision_id);
 
 		if (!workflowService.flagCKANResourceAsDownloaded(id, revision_id))
 			return;
 
 		// if we can't download the file, the flag will be rolled back
-		final boolean success = performDownload(url, revisionFile);
+		final boolean success = performDownload(url, destinationFile);
 		if (!success)
 			throw new RuntimeException("Failed downloading the given resource");
 	}
 
 	@Override
 	public void evaluateFileForCKANResource(final String id, final String revision_id) throws IOException {
-		final CKANDataset.Type type = fileEvaluatorAndExtractor.getTypeForFile(id, revision_id);
-		final ValidationReport report = fileEvaluatorAndExtractor.evaluateResource(id, revision_id, type);
+		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
+
+		final CKANDataset.Type type = getTypeForFile(id, revision_id);
+		final ValidationReport report = fileEvaluatorAndExtractor.evaluateResource(destinationFile, type);
 
 		if (report.isNotInError()) {
 			workflowService.flagCKANResourceAsTechEvaluationSuccess(id, revision_id, type);
@@ -167,12 +167,14 @@ public class DAPServiceImpl implements DAPService {
 		}
 
 	}
-	
+
 	@Override
-	public void transformAndImportDataFromFileForCKANResource(final String id, final String revision_id){
-		final CKANDataset.Type type = fileEvaluatorAndExtractor.getTypeForFile(id, revision_id);
-		final boolean result = fileEvaluatorAndExtractor.transformAndImportDataFromResource(id, revision_id, type);
+	public void transformAndImportDataFromFileForCKANResource(final String id, final String revision_id) {
+		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
 		
+		final CKANDataset.Type type = getTypeForFile(id, revision_id);
+		final boolean result = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type);
+
 		if (result) {
 			workflowService.flagCKANResourceAsImportSuccess(id, revision_id, type);
 		} else {
@@ -213,6 +215,14 @@ public class DAPServiceImpl implements DAPService {
 			if (fos != null)
 				fos.close();
 		}
+	}
+
+	private File getLocalFileFromResourceIdAndRevisionId(final String id, final String revision_id) {
+		final String fileName = resourceDAO.getCKANResource(id, revision_id).getName();
+
+		final File reourceFolder = new File(stagingDirectory, id);
+		final File revisionFolder = new File(reourceFolder, revision_id);
+		return new File(revisionFolder, fileName);
 	}
 
 	/**
@@ -266,15 +276,16 @@ public class DAPServiceImpl implements DAPService {
 		updateDatasetDTO(datasetName, apiKey, datasetV2DTO);
 	}
 
-	List<DatasetV3DTO> getDatasetV3DTOsFromQuery(final String apiKey){
+	List<DatasetV3DTO> getDatasetV3DTOsFromQuery(final String apiKey) {
 		final List<String> names = getDatasetNamesFromQuery(apiKey);
 		final List<DatasetV3DTO> result = new ArrayList<>();
-		
-		for(final String name : names){
+
+		for (final String name : names) {
 			result.add(getDatasetDTOFromQueryV3(name, apiKey).getResult());
 		}
 		return result;
 	}
+
 	List<String> getDatasetNamesFromQuery(final String apiKey) {
 		final String jsonResult = performHttpGET(urlBaseForDatasetsList, apiKey);
 		if (jsonResult == null) {
@@ -372,5 +383,16 @@ public class DAPServiceImpl implements DAPService {
 			log.debug(e.toString(), e);
 		}
 		return responseBody;
+	}
+
+	/**
+	 * In order to evaluate a file, we must know its type (to use the
+	 * appropriate evaluator The Type is defined on the Dataset level)
+	 * 
+	 * @return
+	 */
+	private Type getTypeForFile(final String id, final String revision_id) {
+		final CKANResource ckanResource = resourceDAO.getCKANResource(id, revision_id);
+		return datasetDAO.getTypeForName(ckanResource.getParentDataset_name());
 	}
 }
