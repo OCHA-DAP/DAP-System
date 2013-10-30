@@ -98,9 +98,9 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		
 		final File valueFile = new File(parent, "value.csv");
 		if(valueFile.exists()){
-			report.addEntry(ValidationStatus.SUCCESS, "dataset.csv does exist");
+			report.addEntry(ValidationStatus.SUCCESS, "value.csv does exist");
 		}else {
-			report.addEntry(ValidationStatus.ERROR, "dataset.csv does not exist");
+			report.addEntry(ValidationStatus.ERROR, "value.csv does not exist");
 		}
 		
 		return report;
