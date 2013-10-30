@@ -395,4 +395,9 @@ public class DAPServiceImpl implements DAPService {
 		final CKANResource ckanResource = resourceDAO.getCKANResource(id, revision_id);
 		return datasetDAO.getTypeForName(ckanResource.getParentDataset_name());
 	}
+
+	@Override
+	public CKANResource getCKANResource(final String id, final String revision_id) {
+		return resourceDAO.getCKANResource(id, revision_id);
+	}
 }

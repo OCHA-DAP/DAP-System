@@ -125,6 +125,12 @@ public class DAPResource {
 	public Response getCKANResourcesStatus() {
 		return Response.ok(new Viewable("/resources", dapService.listCKANResources())).build();
 	}
+	
+	@GET
+	@Path("/status/resources/{id}/{revision_id}/report")
+	public Response getCKANResourceReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
+		return Response.ok(new Viewable("/report", dapService.getCKANResource(id, revision_id))).build();
+	}
 
 	@GET
 	@Path("/status/manuallyTriggerDownload/{id}/{revision_id}")
