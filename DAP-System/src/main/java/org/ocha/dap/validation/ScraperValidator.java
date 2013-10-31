@@ -2,8 +2,11 @@ package org.ocha.dap.validation;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -54,26 +57,43 @@ public class ScraperValidator implements DAPValidator {
 
 		return report;
 	}
-	
-	private List<ValidationReportEntry> validateDatasetFile(final File datasetFile){
+
+	List<ValidationReportEntry> validateDatasetFile(final File datasetFile) {
 		final List<ValidationReportEntry> result = new ArrayList<>();
-		//TODO
+		try (final BufferedReader br = new BufferedReader(new FileReader(datasetFile))) {
+			String line;
+			// first validating first line
+			line = br.readLine();
+			// use comma as separator
+			final String[] values = line.split(",");
+			if (values.length != 4 || !values[0].equals("dsID") || !values[1].equals("last_updated") || !values[2].equals("last_scraped") || !values[3].equals("name")) {
+				result.add(new ValidationReportEntry(ValidationStatus.ERROR, "Incorrect first line for Dataset file"));
+			}
+			while ((line = br.readLine()) != null) {
+				if (values.length != 4) {
+					result.add(new ValidationReportEntry(ValidationStatus.ERROR, String.format(
+							"A ligne contains an incorrect number of values, expected : 4, actual : %d", values.length)));
+				}
+			}
+		} catch (final IOException e) {
+			result.add(new ValidationReportEntry(ValidationStatus.ERROR, "Error caused by an exception"));
+		}
 		return result;
-		
+
 	}
-	
-	private List<ValidationReportEntry> validateIndicatorFile(final File indicatorFile){
+
+	private List<ValidationReportEntry> validateIndicatorFile(final File indicatorFile) {
 		final List<ValidationReportEntry> result = new ArrayList<>();
-		//TODO
+		// TODO
 		return result;
-		
+
 	}
-	
-	private List<ValidationReportEntry> validateValueFile(final File valueFile){
+
+	private List<ValidationReportEntry> validateValueFile(final File valueFile) {
 		final List<ValidationReportEntry> result = new ArrayList<>();
-		//TODO
+		// TODO
 		return result;
-		
+
 	}
 
 	private void extractZipContent(final File zipFile) {
