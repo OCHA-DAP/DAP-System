@@ -38,6 +38,12 @@ public class ValidationReport implements Serializable{
 		final ValidationReportEntry newEntry = new ValidationReportEntry(newEntryStatus, newEntryMessage);
 		entries.add(newEntry);
 	}
+	
+	public void addEntries(final List<ValidationReportEntry> newEntries){
+		for(final ValidationReportEntry newEntry : newEntries){
+			addEntry(newEntry.getStatus(), newEntry.getMessage());
+		}
+	}
 
 	public ValidationStatus getStatus() {
 		return status;

@@ -4,11 +4,14 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.ocha.dap.model.ValidationReport;
+import org.ocha.dap.model.ValidationReportEntry;
 import org.ocha.dap.model.ValidationStatus;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.tools.IOTools;
@@ -28,28 +31,49 @@ public class ScraperValidator implements DAPValidator {
 		final File datasetFile = new File(parent, "dataset.csv");
 		if (datasetFile.exists()) {
 			report.addEntry(ValidationStatus.SUCCESS, "dataset.csv does exist");
+			report.addEntries(validateDatasetFile(datasetFile));
 		} else {
 			report.addEntry(ValidationStatus.ERROR, "dataset.csv does not exist");
-			return report;
 		}
 
 		final File indicatorFile = new File(parent, "indicator.csv");
 		if (indicatorFile.exists()) {
 			report.addEntry(ValidationStatus.SUCCESS, "indicator.csv does exist");
+			report.addEntries(validateIndicatorFile(indicatorFile));
 		} else {
 			report.addEntry(ValidationStatus.ERROR, "indicator.csv does not exist");
-			return report;
 		}
 
 		final File valueFile = new File(parent, "value.csv");
 		if (valueFile.exists()) {
 			report.addEntry(ValidationStatus.SUCCESS, "value.csv does exist");
+			report.addEntries(validateValueFile(valueFile));
 		} else {
 			report.addEntry(ValidationStatus.ERROR, "value.csv does not exist");
-			return report;
 		}
 
 		return report;
+	}
+	
+	private List<ValidationReportEntry> validateDatasetFile(final File datasetFile){
+		final List<ValidationReportEntry> result = new ArrayList<>();
+		//TODO
+		return result;
+		
+	}
+	
+	private List<ValidationReportEntry> validateIndicatorFile(final File indicatorFile){
+		final List<ValidationReportEntry> result = new ArrayList<>();
+		//TODO
+		return result;
+		
+	}
+	
+	private List<ValidationReportEntry> validateValueFile(final File valueFile){
+		final List<ValidationReportEntry> result = new ArrayList<>();
+		//TODO
+		return result;
+		
 	}
 
 	private void extractZipContent(final File zipFile) {
