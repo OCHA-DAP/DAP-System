@@ -24,3 +24,4 @@ Samples of these files can be found in resources/config_sample
 we need to setup a tomcat instance where to deploy the war
 tomcat needs an additional jar : postgres jdbc driver
 (currently, version 9.3-1100)
+should go in lib folder of tomcat (for tomcat7)
