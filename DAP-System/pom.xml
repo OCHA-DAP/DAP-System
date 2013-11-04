@@ -268,17 +268,6 @@
 			</activation>
 		</profile>
 		<profile>
-			<id>seustachi</id>
-			<properties>
-				<dap.logging.folder>E:\DAP_FOLDER\logs</dap.logging.folder>
-				<dap.config.folder>E:\DAP_FOLDER\config</dap.config.folder>
-				<dap.staging.folder>E:\DAP_FOLDER\staging</dap.staging.folder>
-			</properties>
-			<!-- <activation> -->
-			<!-- <activeByDefault>true</activeByDefault> -->
-			<!-- </activation> -->
-		</profile>
-		<profile>
 			<id>ddl</id>
 			<build>
 				<plugins>

@@ -14,8 +14,13 @@ To prepare the environment, 3 SQL scripts are needed (TODO, a sys-admin will pro
 3 - sample.sql (optional, setting up some users)
 
 #additional configuration
-The app needs 2 config files(dap-config, dap-secret). 
-A sample of dap-config can be found in resources/config_sample
+The app needs 2 config files(dap-config, dap-secret), to be deployed in dap config folder
+Samples of these files can be found in resources/config_sample
 
 1 folder needs to be set up for logs  (default: /opt/dap/logs)
 1 folder needs to be set up for config(default: /opt/dap/config)
+
+#tomcat
+we need to setup a tomcat instance where to deploy the war
+tomcat needs an additional jar : postgres jdbc driver
+(currently, version 9.3-1100)
