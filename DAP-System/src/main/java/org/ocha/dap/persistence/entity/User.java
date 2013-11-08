@@ -25,6 +25,8 @@ public class User {
 		this.ckanApiKey = ckanApiKey;
 	}
 
+	// this constructor is here for hibernate (used via reflection)
+	@SuppressWarnings("unused")
 	private User() {
 		super();
 		this.id = null;
