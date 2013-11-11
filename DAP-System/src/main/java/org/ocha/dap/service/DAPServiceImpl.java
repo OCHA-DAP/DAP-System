@@ -16,7 +16,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.ocha.dap.dto.apiv2.DatasetV2DTO;
 import org.ocha.dap.dto.apiv3.DatasetListV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO.Resource;
@@ -171,7 +170,7 @@ public class DAPServiceImpl implements DAPService {
 	@Override
 	public void transformAndImportDataFromFileForCKANResource(final String id, final String revision_id) {
 		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
-		
+
 		final CKANDataset.Type type = getTypeForFile(id, revision_id);
 		final boolean result = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type);
 
@@ -262,20 +261,6 @@ public class DAPServiceImpl implements DAPService {
 
 	}
 
-	@Override
-	public DatasetV2DTO getDatasetContentFromCKANV2(final String userId, final String datasetName) throws InsufficientCredentialsException {
-		final String apiKey = userDao.getUserApiKey(userId);
-
-		return getDatasetDTOFromQueryV2(datasetName, apiKey);
-	}
-
-	@Override
-	public void updateDatasetContent(final String userId, final String datasetName, final DatasetV2DTO datasetV2DTO) throws InsufficientCredentialsException {
-		final String apiKey = userDao.getUserApiKey(userId);
-
-		updateDatasetDTO(datasetName, apiKey, datasetV2DTO);
-	}
-
 	List<DatasetV3DTO> getDatasetV3DTOsFromQuery(final String apiKey) {
 		final List<String> names = getDatasetNamesFromQuery(apiKey);
 		final List<DatasetV3DTO> result = new ArrayList<>();
@@ -311,27 +296,6 @@ public class DAPServiceImpl implements DAPService {
 
 			return GSONBuilderWrapper.getGSON().fromJson(jsonResult, DatasetV3WrapperDTO.class);
 		}
-	}
-
-	@Override
-	public DatasetV2DTO getDatasetDTOFromQueryV2(final String datasetName, final String apiKey) {
-		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV2, datasetName);
-		final String jsonResult = performHttpGET(urlForDataSet, apiKey);
-		if (jsonResult == null) {
-			return null;
-		} else {
-
-			return GSONBuilderWrapper.getGSON().fromJson(jsonResult, DatasetV2DTO.class);
-		}
-	}
-
-	void updateDatasetDTO(final String datasetName, final String apiKey, final DatasetV2DTO datasetV2DTO) {
-		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV2, datasetName);
-
-		final String query = GSONBuilderWrapper.getGSON().toJson(datasetV2DTO);
-
-		final String jsonResult = performHttpPOST(urlForDataSet, apiKey, query);
-		jsonResult.toString();
 	}
 
 	private String performHttpGET(final String url, final String apiKey) {

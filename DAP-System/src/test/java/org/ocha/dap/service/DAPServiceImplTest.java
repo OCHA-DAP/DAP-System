@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ocha.dap.dto.apiv2.DatasetV2DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.dap.persistence.dao.CKANDatasetDAO;
@@ -76,60 +75,7 @@ public class DAPServiceImplTest {
 		}
 	}
 
-	@Test
-	public void testGetDatasetContentFromCKANV2() throws Exception {
-		{
-			final DatasetV2DTO dto = dapService.getDatasetContentFromCKANV2("seustachi", "testforauth");
-			Assert.assertEquals("testforauth", dto.getName());
-			Assert.assertEquals("1da0dd94-33c2-4934-a541-c04871c3dc52", dto.getRevision_id());
-			Assert.assertEquals(0, dto.getTags().size());
-			Assert.assertEquals(0, dto.getExtras().size());
-		}
 
-		try {
-			dapService.getDatasetContentFromCKANV2("otherUser", "testforauth");
-			Assert.fail("Should have raised an InsufficientCredentialsException");
-		} catch (final InsufficientCredentialsException e) {
-		}
-	}
-
-	@Test
-	public void testDatasetContentCRUDFromCKANV2() throws Exception {
-		{
-			final DatasetV2DTO dto = dapService.getDatasetContentFromCKANV2("seustachi", "testforauth");
-			Assert.assertEquals("testforauth", dto.getName());
-			Assert.assertEquals("1da0dd94-33c2-4934-a541-c04871c3dc52", dto.getRevision_id());
-			Assert.assertEquals(0, dto.getTags().size());
-			Assert.assertEquals(0, dto.getExtras().size());
-
-			dto.getTags().add("FromUnitTests");
-			dto.getExtras().put("UnitTestsKey", "UnitTestsValue");
-
-			dapService.updateDatasetContent("seustachi", "testforauth", dto);
-
-		}
-
-		{
-			final DatasetV2DTO dto = dapService.getDatasetContentFromCKANV2("seustachi", "testforauth");
-			Assert.assertEquals("testforauth", dto.getName());
-			Assert.assertEquals("1da0dd94-33c2-4934-a541-c04871c3dc52", dto.getRevision_id());
-			Assert.assertEquals(1, dto.getTags().size());
-			Assert.assertEquals(1, dto.getExtras().size());
-
-			dto.getTags().clear();
-			dto.getExtras().put("UnitTestsKey", null);
-			dapService.updateDatasetContent("seustachi", "testforauth", dto);
-		}
-
-		{
-			final DatasetV2DTO dto = dapService.getDatasetContentFromCKANV2("seustachi", "testforauth");
-			Assert.assertEquals("testforauth", dto.getName());
-			Assert.assertEquals("1da0dd94-33c2-4934-a541-c04871c3dc52", dto.getRevision_id());
-			Assert.assertEquals(0, dto.getTags().size());
-			Assert.assertEquals(0, dto.getExtras().size());
-		}
-
-	}
 
 	@Test
 	public void testGetDatasetDTOFromQueryV3() {
@@ -153,19 +99,6 @@ public class DAPServiceImplTest {
 
 			Assert.assertEquals("active", dto.getResources().get(0).getState());
 		}
-	}
-
-	@Test
-	public void testGetDatasetDTOFromQueryV2() {
-		final DatasetV2DTO dto = dapService.getDatasetDTOFromQueryV2("test1", null);
-		Assert.assertEquals("test1", dto.getName());
-		Assert.assertEquals("16d36b88-ce78-4a69-94a1-634dd77133fc", dto.getRevision_id());
-		Assert.assertEquals(2, dto.getTags().size());
-		Assert.assertEquals("Junk", dto.getTags().get(0));
-		Assert.assertEquals("toBeCurated", dto.getTags().get(1));
-		Assert.assertEquals(1, dto.getExtras().size());
-		Assert.assertTrue(dto.getExtras().containsKey("dap_status"));
-		Assert.assertTrue(dto.getExtras().containsValue("initial_upload"));
 	}
 
 	@Test
@@ -218,7 +151,7 @@ public class DAPServiceImplTest {
 		dapService.checkForNewCKANDatasets();
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
-			if(!ckandDataset.getName().equals("nope"))
+			if (!ckandDataset.getName().equals("nope"))
 				dapService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.DUMMY);
 		}
 
@@ -243,14 +176,14 @@ public class DAPServiceImplTest {
 			final CKANResource firstResourceAfterEvaluation = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId()
 					.getRevision_id());
 			Assert.assertEquals(WorkflowState.TECH_EVALUATION_SUCCESS, firstResourceAfterEvaluation.getWorkflowState());
-			
+
 			dapService.transformAndImportDataFromFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
-			
-			final CKANResource firstResourceAfterImport = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId()
-					.getRevision_id());
+
+			final CKANResource firstResourceAfterImport = ckanResourceDAO
+					.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.IMPORT_FAIL, firstResourceAfterImport.getWorkflowState());
 		}
-		
+
 		{
 			final CKANResource secondResource = resources.get(1);
 			Assert.assertEquals(WorkflowState.DETECTED_NEW, secondResource.getWorkflowState());
@@ -266,10 +199,11 @@ public class DAPServiceImplTest {
 			final CKANResource secondResourceAfterEvaluation = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId()
 					.getRevision_id());
 			Assert.assertEquals(WorkflowState.TECH_EVALUATION_FAIL, secondResourceAfterEvaluation.getWorkflowState());
-			
+
 			dapService.transformAndImportDataFromFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
-			
-			//we should still be in TECH_EVALUATION_FAIL, as the workflow cannot go from TECH_EVALUATION_FAIL to IMPORT_XXX
+
+			// we should still be in TECH_EVALUATION_FAIL, as the workflow
+			// cannot go from TECH_EVALUATION_FAIL to IMPORT_XXX
 			final CKANResource secondResourceAfterImport = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId()
 					.getRevision_id());
 			Assert.assertEquals(WorkflowState.TECH_EVALUATION_FAIL, secondResourceAfterImport.getWorkflowState());
