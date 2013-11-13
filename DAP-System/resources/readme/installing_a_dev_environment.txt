@@ -20,7 +20,7 @@
 
 	Setup the env variable
 		"DAP_FOLDER" this is the path of the folder where DAP can use the file system
-			example :  export DAP_FOLDER=/opt/ocha/
+			example :  export DAP_FOLDER=/opt/ocha/dap
 		it must contain 3 folders
 			config : where we place the configuration files of the DAP app
 			logs : where DAP will write the logs
