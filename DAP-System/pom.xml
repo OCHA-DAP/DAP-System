@@ -258,11 +258,6 @@
 	<profiles>
 		<profile>
 			<id>prod</id>
-			<properties>
-				<dap.logging.folder>/opt/ocha/dap/logs</dap.logging.folder>
-				<dap.config.folder>/opt/ocha/dap/config</dap.config.folder>
-				<dap.staging.folder>/opt/ocha/dap/staging</dap.staging.folder>
-			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>

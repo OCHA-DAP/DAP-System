@@ -13,7 +13,7 @@
 		<constructor-arg name="technicalAPIKey" value="${ckan.technical.api.key}" />
 		<constructor-arg name="stagingDirectory">
 			<bean class="java.io.File">
-				<constructor-arg value="${dap.staging.folder}" />
+				<constructor-arg value="${dap.folder}/staging" />
 			</bean>
 		</constructor-arg>
 	</bean>

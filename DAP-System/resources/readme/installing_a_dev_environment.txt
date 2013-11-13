@@ -1,18 +1,57 @@
-Sign up to GitHub (and ask to be added to the appropriate projects)
+### 1. Getting the sources, installing the required software ###
+	Sign up to GitHub (and ask to be added to the appropriate projects)
 
-Set up Git (or install the GitHub Client) : https://help.github.com/articles/set-up-git
+	Set up Git (or install the GitHub Client) : https://help.github.com/articles/set-up-git
+	
+	Install Java 7 JDK
 
-Install Java 7 JDK
+	Install Postgres : http://www.postgresql.org/download/
 
-Install Postgres : http://www.postgresql.org/download/
+	Install maven
 
-Install maven
+	Install Eclipse (latest version. Tested with Kepler JEE edition)
+		With this edition, plugins for maven and for Git are already bundled.
+		With other editions, it might be useful to install these plugins
+		Create an Eclipse workspace
 
-Install Eclipse (latest version. Tested with Kepler JEE edition)
-	With this edition, plugins for maven and for Git are already bundled.
-	With other editions, it might be useful to install these plugins
-	Create an Eclipse workspace
+	Configure GitHub client to store the clones in the Eclipse workspace
+	Import the Project in Eclipse ("from existing projects in the workspace" works fine)
 
-Configure GitHub client to store the clones in the Eclipse workspace
-Import the Project in Eclipse ("from existing projects in the workspace" works fine)
 
+	Setup the env variable
+		"dap.folder" this is the path of the folder where DAP can use the file system
+		it must contain 3 folders
+			config : where we place the configuration files of the DAP app
+			logs : where DAP will write the logs
+			staging : where DAP can temporarily or permanently store some file for processing, validation etc ...
+		
+	additional configuration
+		The app needs 2 config files(dap-config, dap-secret), to be deployed in dap config folder
+		Samples of these files can be found in resources/config_sample
+
+### 2. Checks to perform ### 
+	run mvn clean install from the project directory (where pom.xml is), should be a success
+	run the Unit Tests from Eclipse
+	
+### 3. Build the artefact (the war) ###
+	This is a maven project. The build command is "mvn clean install"
+	
+	If the db schema changes, it can be generated using the command : mvn clean process-classes -Pddl
+	The incremental update has to be made manually
+	
+### 4. preparing an environment for deployement ###
+	Tomcat : we need to setup a tomcat instance where to deploy the war
+		tomcat needs an additional jar : postgres jdbc driver
+		(currently, version 9.3-1100)
+		should go in lib folder of tomcat (for tomcat7)
+		
+	Postgres : 
+		To prepare the environment, 3 SQL scripts are needed (TODO, a sys-admin will probably want to decide which user should run these scripts)
+		1 - db.sql (prepares the db) 
+		2 - schema.sql (prepares the data model)
+		3 - sample.sql (optional, setting up some users)
+		The tables must be owned by user "dap-user"
+		
+	Setup the env variable
+		"dap.folder" must be defined, like on the dev machine (and the 3 folders config, logs and staging created)
+	

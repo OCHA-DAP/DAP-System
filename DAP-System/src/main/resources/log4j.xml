@@ -6,7 +6,7 @@
 	<!-- =================================== === APPENDERS =================================== -->
 
 	<appender name="dap-file-core" class="org.apache.log4j.RollingFileAppender">
-		<param name="file" value="${dap.logging.folder}/dap.log" />
+		<param name="file" value="${dap.folder}/dap.log" />
 		<param name="MaxFileSize" value="500KB" />
 		<param name="MaxBackupIndex" value="20" />
 		<layout class="org.apache.log4j.PatternLayout">
