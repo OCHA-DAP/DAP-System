@@ -59,3 +59,10 @@
 ### 5. optional, setup of a VPN access to emergency.lu hosting for DAP ###
 	in a web browser, go to https://sslvpn.emergency.lu to download the Cisco anyConnect VPN Client
 	You will need your account credentials
+	dap-dev.service.emergency.lu is only accessible with VPN and allows several services (ssh etc....)
+	dap-dev.emergency.lu is public, allows access to the tomcat server
+	
+	urls to connect : 
+		http://ckan.megginson.com/
+		http://dap-dev.emergency.lu:8080/manager/html
+		http://dap-dev.emergency.lu:8080/dap-1.0.0/admin/status/datasets/
