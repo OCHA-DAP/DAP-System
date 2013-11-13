@@ -13,7 +13,7 @@
 <h2>List of datasets in DAP</h2>
 	<table>
 		<tr>
-			<th>name</th>
+			<th>Title (name)</th>
 			<th>status</th>
 			<th>type</th>
 			<th>Choose a type and flag as to be curated</th>
@@ -21,7 +21,7 @@
 		
 		<c:forEach var="dataset" items="${it}">
 			<tr>
-				<td>${dataset.name}</td>
+				<td>${dataset.title} (${dataset.name})</td>
 				<td>${dataset.status}</td>
 				<td>${dataset.type}</td>
 				<td>

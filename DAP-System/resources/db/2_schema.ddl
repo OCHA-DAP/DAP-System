@@ -14,6 +14,7 @@
         maintainer varchar(255),
         maintainer_email varchar(255),
         status varchar(255) not null,
+        title varchar(255) not null,
         type varchar(255),
         primary key (name)
     );

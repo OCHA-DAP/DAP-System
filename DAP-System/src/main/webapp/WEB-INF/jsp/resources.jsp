@@ -15,9 +15,9 @@
 	
 	<table>
 		<tr>
-			<th>Id</th>
-			<th>Revision Id</th>
 			<th>Resource Name</th>
+			<th>Parrent Dataset</th>
+			<th>Revision Id</th>
 			<th>Revision Ts</th>
 			<th>Workflow State</th>
 			<th>Action</th>
@@ -25,10 +25,10 @@
 		
 		<c:forEach var="ckanResource" items="${it}">
 			<tr>
-				<td><c:if test="${previousId ne ckanResource.id.id}">${ckanResource.id.id}</c:if></td>
+				<td title="Resource Id : ${ckanResource.id.id}"><c:if test="${previousId ne ckanResource.id.id}">${ckanResource.name}</c:if></td>
+				<td><c:if test="${previousId ne ckanResource.id.id}">${ckanResource.parentDataset_name}</c:if></td>
 				<c:set scope="request" var="previousId" value="${ckanResource.id.id}" />
 				<td>${ckanResource.id.revision_id}</td>
-				<td>${ckanResource.name}</td>
 				<td><fmt:formatDate value="${ckanResource.revision_timestamp}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td>
 				<c:if test="${ckanResource.workflowState eq 'TECH_EVALUATION_SUCCESS' || ckanResource.workflowState eq 'TECH_EVALUATION_FAIL'}"> <a  target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report"></c:if>

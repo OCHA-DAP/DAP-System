@@ -35,15 +35,27 @@ public class CKANDataset {
 		super();
 	}
 
-	public CKANDataset(final String name, final String maintainer, final String maintainer_email, final String author, final String author_email) {
+	public CKANDataset(final String name, final String title, final String maintainer, final String maintainer_email, final String author, final String author_email) {
 		super();
 		this.name = name;
+		this.title = title;
 		this.maintainer = maintainer;
 		this.maintainer_email = maintainer_email;
 		this.author = author;
 		this.author_email = author_email;
 		this.status = Status.PENDING;
 		this.type = null;
+	}
+	
+	@Column(name = "title", nullable = false, updatable = true)
+	private String title;
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	@Column(name = "status", nullable = false, updatable = true)

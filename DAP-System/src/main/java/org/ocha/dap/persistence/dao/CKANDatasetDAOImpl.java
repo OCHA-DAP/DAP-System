@@ -23,7 +23,7 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 		for(final DatasetV3DTO datasetV3DTO : datasets){
 			final CKANDataset dataset = em.find(CKANDataset.class, datasetV3DTO.getName());
 			if(dataset == null){
-				final CKANDataset newDataset = new CKANDataset(datasetV3DTO.getName(), datasetV3DTO.getMaintainer(), datasetV3DTO.getMaintainer_email(), datasetV3DTO.getAuthor(), datasetV3DTO.getAuthor_email());
+				final CKANDataset newDataset = new CKANDataset(datasetV3DTO.getName(), datasetV3DTO.getTitle(), datasetV3DTO.getMaintainer(), datasetV3DTO.getMaintainer_email(), datasetV3DTO.getAuthor(), datasetV3DTO.getAuthor_email());
 				em.persist(newDataset);
 			}
 		}
