@@ -19,7 +19,8 @@
 
 
 	Setup the env variable
-		"dap.folder" this is the path of the folder where DAP can use the file system
+		"DAP_FOLDER" this is the path of the folder where DAP can use the file system
+			example :  export DAP_FOLDER=/opt/ocha/
 		it must contain 3 folders
 			config : where we place the configuration files of the DAP app
 			logs : where DAP will write the logs
@@ -53,5 +54,8 @@
 		The tables must be owned by user "dap-user"
 		
 	Setup the env variable
-		"dap.folder" must be defined, like on the dev machine (and the 3 folders config, logs and staging created)
-	
+		"DAP_FOLDER" must be defined, like on the dev machine (and the 3 folders config, logs and staging created)
+		
+### 5. optional, setup of a VPN access to emergency.lu hosting for DAP ###
+	in a web browser, go to https://sslvpn.emergency.lu to download the Cisco anyConnect VPN Client
+	You will need your account credentials
