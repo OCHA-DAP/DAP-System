@@ -49,7 +49,7 @@
 	Postgres : 
 		To prepare the environment, 3 SQL scripts are needed (TODO, a sys-admin will probably want to decide which user should run these scripts)
 		1 - db.sql (prepares the db) 
-		2 - schema.sql (prepares the data model)
+		2 - schema.sql (prepares the data model) (remove the drop statements for an initial setup)
 		3 - sample.sql (optional, setting up some users)
 		The tables must be owned by user "dap-user"
 		
