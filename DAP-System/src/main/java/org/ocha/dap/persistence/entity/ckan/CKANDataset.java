@@ -13,12 +13,15 @@ public class CKANDataset {
 
 	/**
 	 * 
-	 * @author seustachi
+	 * @author Samuel Eustachi
 	 * 
 	 * 
 	 *         PENDING : initial Status, the dataset resource won't be processed
+	 * 
 	 *         IGNORED : a data manager flagged this as ignored, the dataset resource won't be processed
-	 *         TO_BE_CURATED : all resources from this dataset will be curated (using processor (validator, importer...) according to CKANDataset#Type )
+	 * 
+	 *         TO_BE_CURATED : all resources from this dataset will be curated (using processor (validator, importer...) according to
+	 *         CKANDataset#Type )
 	 */
 	public enum Status {
 		PENDING, TO_BE_CURATED, IGNORED;
@@ -46,7 +49,7 @@ public class CKANDataset {
 		this.status = Status.PENDING;
 		this.type = null;
 	}
-	
+
 	@Column(name = "title", nullable = false, updatable = true)
 	private String title;
 
@@ -54,7 +57,7 @@ public class CKANDataset {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
@@ -85,7 +88,7 @@ public class CKANDataset {
 	public String getName() {
 		return name;
 	}
-	
+
 	@Column(name = "maintainer", nullable = true, updatable = true)
 	private String maintainer;
 	@Column(name = "maintainer_email", nullable = true, updatable = true)
@@ -103,15 +106,12 @@ public class CKANDataset {
 		return maintainer_email;
 	}
 
-
 	public String getAuthor() {
 		return author;
 	}
 
-
 	public String getAuthor_email() {
 		return author_email;
 	}
-
 
 }
