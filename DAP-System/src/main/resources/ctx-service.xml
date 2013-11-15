@@ -53,4 +53,5 @@
 		<constructor-arg name="from" value="${mail.from}" />
 	</bean>
 
+	<bean id="curatedDataService" class="org.ocha.dap.service.CuratedDataServiceImpl" />
 </beans>

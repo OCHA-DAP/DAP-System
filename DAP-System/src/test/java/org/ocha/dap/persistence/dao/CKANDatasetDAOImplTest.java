@@ -34,18 +34,21 @@ public class CKANDatasetDAOImplTest {
 		{
 			final DatasetV3DTO aDto = new DatasetV3DTO();
 			aDto.setName("TestA");
+			aDto.setTitle("TestA");
 			datasets.add(aDto);
 		}
 
 		{
 			final DatasetV3DTO aDto = new DatasetV3DTO();
 			aDto.setName("TestB");
+			aDto.setTitle("TestB");
 			datasets.add(aDto);
 		}
 
 		{
 			final DatasetV3DTO aDto = new DatasetV3DTO();
 			aDto.setName("TestC");
+			aDto.setTitle("TestC");
 			datasets.add(aDto);
 		}
 

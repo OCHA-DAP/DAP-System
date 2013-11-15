@@ -62,11 +62,14 @@ public class Indicator {
 	@Enumerated(EnumType.STRING)
 	private Periodicity periodicity;
 
-	@Column(name = "numeric", nullable = false, updatable = true)
+	@Column(name = "numeric", nullable = false, updatable = false)
 	private boolean numeric;
 
-	@Column(name = "value", nullable = false, updatable = true)
+	@Column(name = "value", nullable = false, updatable = false)
 	private String value;
+	
+	@Column(name = "initial_value", nullable = false, updatable = false)
+	private String initialValue;
 
 	// will be used for soft delete
 	// private int version;
@@ -141,6 +144,14 @@ public class Indicator {
 
 	public void setValue(final String value) {
 		this.value = value;
+	}
+
+	public String getInitialValue() {
+		return initialValue;
+	}
+
+	public void setInitialValue(final String initialValue) {
+		this.initialValue = initialValue;
 	}
 
 }

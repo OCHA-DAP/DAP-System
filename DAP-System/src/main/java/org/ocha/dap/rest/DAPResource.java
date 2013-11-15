@@ -22,6 +22,7 @@ import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.rest.helper.Index;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
+import org.ocha.dap.service.CuratedDataService;
 import org.ocha.dap.service.DAPService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,9 @@ public class DAPResource {
 
 	@Autowired
 	private DAPService dapService;
+	
+	@Autowired
+	private CuratedDataService curatedDataService;
 
 	/**
 	 * Create a session from the token
@@ -125,7 +129,7 @@ public class DAPResource {
 	public Response getCKANResourcesStatus() {
 		return Response.ok(new Viewable("/resources", dapService.listCKANResources())).build();
 	}
-	
+
 	@GET
 	@Path("/status/resources/{id}/{revision_id}/report")
 	public Response getCKANResourceReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
@@ -154,7 +158,7 @@ public class DAPResource {
 
 		return Response.seeOther(newURI).build();
 	}
-	
+
 	@GET
 	@Path("/status/manuallyTriggerImport/{id}/{revision_id}")
 	public Response manuallyTriggerImport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException,
@@ -171,7 +175,6 @@ public class DAPResource {
 	@Path("/status/manuallyTriggerDatasetsDetection")
 	public Response manuallyTriggerDatasetsDetection() throws URISyntaxException {
 		dapService.checkForNewCKANDatasets();
-		;
 
 		URI newURI = null;
 		newURI = new URI("/admin/status/datasets/");
@@ -190,4 +193,9 @@ public class DAPResource {
 		return Response.seeOther(newURI).build();
 	}
 
+	@GET
+	@Path("/curated/entitytypes")
+	public Response displayEntityTypesList() {
+		return Response.ok(new Viewable("/entityTypes", curatedDataService.listEntityTypes())).build();
+	}
 }

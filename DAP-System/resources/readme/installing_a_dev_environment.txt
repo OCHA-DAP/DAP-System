@@ -38,6 +38,7 @@
 	This is a maven project. The build command is "mvn clean install"
 	
 	If the db schema changes, it can be generated using the command : mvn clean process-classes -Pddl
+	(The file will be generated in target/hibernate3/sql/schema.ddl)
 	The incremental update has to be made manually
 	
 ### 4. preparing an environment for deployement ###

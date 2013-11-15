@@ -15,7 +15,7 @@ td{
 	border-color: black;
 }
 
-#menu ul {
+.menu ul {
   list-style-type: none;
   line-height: 26px;
   padding: 0 10px;
@@ -26,17 +26,17 @@ td{
   background: #CECFBD;
 }
 
-#menu ul li {
+.menu ul li {
  display: inline;
  padding: 5px;
 }
 
-#menu ul a {
+.menu ul a {
  font-variant: small-caps;
  text-decoration: none;
 }
 
-#menu ul a:hover {
+.menu ul a:hover {
   text-decoration: underline;
 }
 .ERROR {

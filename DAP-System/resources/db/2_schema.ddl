@@ -85,6 +85,7 @@
     create table indicator (
         id int8 not null,
         end timestamp,
+        initial_value varchar(255) not null,
         numeric bool not null,
         periodicity varchar(255) not null,
         start timestamp not null,

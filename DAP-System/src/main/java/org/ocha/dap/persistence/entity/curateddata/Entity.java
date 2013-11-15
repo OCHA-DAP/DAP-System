@@ -25,7 +25,7 @@ public class Entity {
 	private long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "entity_type_id")
 	@ForeignKey(name = "fk_entity_to_type")
 	private EntityType type;
 
