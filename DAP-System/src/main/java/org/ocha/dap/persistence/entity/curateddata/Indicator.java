@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,7 +29,7 @@ import org.hibernate.annotations.ForeignKey;
  */
 @Entity
 @Table(name = "indicator", uniqueConstraints=
-@UniqueConstraint(columnNames = {"source_id", "entity_id", "type_id", "start"}))
+@UniqueConstraint(columnNames = {"source_id", "entity_id", "type_id", "start_time"}))
 public class Indicator {
 
 	public enum Periodicity {
@@ -35,6 +37,8 @@ public class Indicator {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false)
 	private long id;
 
 	@ManyToOne
@@ -52,10 +56,10 @@ public class Indicator {
 	@JoinColumn(name = "type_id")
 	private IndicatorType type;
 
-	@Column(name = "start", columnDefinition = "timestamp", nullable = false, updatable = false)
+	@Column(name = "start_time", columnDefinition = "timestamp", nullable = false, updatable = false)
 	private Date start;
 
-	@Column(name = "end", columnDefinition = "timestamp", nullable = true, updatable = false)
+	@Column(name = "end_time", columnDefinition = "timestamp", nullable = true, updatable = false)
 	private Date end;
 
 	@Column(name = "periodicity", nullable = false, updatable = true)

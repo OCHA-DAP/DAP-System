@@ -7,5 +7,6 @@ import org.ocha.dap.persistence.entity.curateddata.EntityType;
 public interface CuratedDataService {
 	
 	public List<EntityType> listEntityTypes();
+	public void addEntityType(String code, String name);
 
 }

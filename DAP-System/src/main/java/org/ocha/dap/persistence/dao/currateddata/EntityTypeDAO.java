@@ -7,5 +7,6 @@ import org.ocha.dap.persistence.entity.curateddata.EntityType;
 public interface EntityTypeDAO {
 	
 	public List<EntityType> listEntityTypes();
+	public void addEntityType(String code, String name);
 
 }

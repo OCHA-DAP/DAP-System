@@ -1,6 +1,8 @@
 package org.ocha.dap.persistence.entity.curateddata;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,8 +15,7 @@ import org.hibernate.annotations.ForeignKey;
  * @author Samuel Eustachi
  * @author David Megginson
  * 
- *         a table listing specific entities, with a reference to each entity's
- *         type in the {@link EntityType} table.
+ *         a table listing specific entities, with a reference to each entity's type in the {@link EntityType} table.
  * 
  */
 @javax.persistence.Entity
@@ -22,6 +23,8 @@ import org.hibernate.annotations.ForeignKey;
 public class Entity {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false)
 	private long id;
 
 	@ManyToOne

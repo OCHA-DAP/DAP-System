@@ -16,4 +16,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return entityTypeDAO.listEntityTypes();
 	}
 
+	@Override
+	public void addEntityType(final String code, final String name) {
+		entityTypeDAO.addEntityType(code, name);
+	}
+
 }

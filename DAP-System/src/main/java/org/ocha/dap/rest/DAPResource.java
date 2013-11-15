@@ -198,4 +198,11 @@ public class DAPResource {
 	public Response displayEntityTypesList() {
 		return Response.ok(new Viewable("/entityTypes", curatedDataService.listEntityTypes())).build();
 	}
+	
+	@POST
+	@Path("/curated/entitytypes")
+	public Response addEntityType(@FormParam("code") final String code, @FormParam("name") final String name) {
+		curatedDataService.addEntityType(code, name);
+		return displayEntityTypesList();
+	}
 }

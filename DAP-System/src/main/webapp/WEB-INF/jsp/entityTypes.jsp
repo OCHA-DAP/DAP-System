@@ -11,8 +11,20 @@
 </head>
 <body>
 <jsp:include page="header.jsp" />
-<h2>List of entity types</h2>
+<h2>Add a new entity type</h2>
+
+	<form method="POST" action="">	
+		<label for="code">Code</label>
+  		<input type="text" name="code" id="code" />
+  	
+  		<label for="name">name</label>
+  		<input type="text" name="name" id="name"/>
+  	
+  		<input type="submit" value="submit" />
+  	
+  	</form>
 	
+<h2>List of entity types</h2>	
 	<table>
 		<tr>
 			<th>Id</th>

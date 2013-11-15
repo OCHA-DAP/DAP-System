@@ -29,6 +29,8 @@
 
     drop table source;
 
+    drop sequence hibernate_sequence;
+
     create table ckan_dataset (
         name varchar(255) not null,
         author varchar(255),
@@ -72,6 +74,7 @@
         id int8 not null,
         code varchar(255) not null,
         name varchar(255) not null,
+        entity_type_id int8,
         primary key (id)
     );
 
@@ -84,17 +87,17 @@
 
     create table indicator (
         id int8 not null,
-        end timestamp,
+        end_time timestamp,
         initial_value varchar(255) not null,
         numeric bool not null,
         periodicity varchar(255) not null,
-        start timestamp not null,
+        start_time timestamp not null,
         value varchar(255) not null,
         entity_id int8,
         source_id int8,
         type_id int8,
         primary key (id),
-        unique (source_id, entity_id, type_id, start)
+        unique (source_id, entity_id, type_id, start_time)
     );
 
     create table indicator_type (
@@ -122,7 +125,7 @@
 
     alter table entity 
         add constraint fk_entity_to_type 
-        foreign key (id) 
+        foreign key (entity_type_id) 
         references entity_type;
 
     alter table indicator 
@@ -139,3 +142,5 @@
         add constraint fk_indicator_to_type 
         foreign key (type_id) 
         references indicator_type;
+
+    create sequence hibernate_sequence;
