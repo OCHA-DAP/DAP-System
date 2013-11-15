@@ -1,11 +1,33 @@
 
+    alter table entity 
+        drop constraint fk_entity_to_type;
+
+    alter table indicator 
+        drop constraint fk_indicator_to_source;
+
+    alter table indicator 
+        drop constraint fk_indicator_to_entity;
+
+    alter table indicator 
+        drop constraint fk_indicator_to_type;
+
     drop table ckan_dataset;
 
     drop table ckan_resource;
 
     drop table dap_user;
 
+    drop table entity;
+
+    drop table entity_type;
+
+    drop table indicator;
+
+    drop table indicator_type;
+
     drop table region_dictionary;
+
+    drop table source;
 
     create table ckan_dataset (
         name varchar(255) not null,
@@ -46,8 +68,73 @@
         primary key (id)
     );
 
-    create table region_dictionary (
-        unnormalized_name varchar(255) not null,
-        normalized_region varchar(255),
-        primary key (unnormalized_name)
+    create table entity (
+        id int8 not null,
+        code varchar(255) not null,
+        name varchar(255) not null,
+        primary key (id)
     );
+
+    create table entity_type (
+        id int8 not null,
+        code varchar(255) not null,
+        name varchar(255) not null,
+        primary key (id)
+    );
+
+    create table indicator (
+        id int8 not null,
+        end timestamp,
+        numeric bool not null,
+        periodicity varchar(255) not null,
+        start timestamp not null,
+        value varchar(255) not null,
+        entity_id int8,
+        source_id int8,
+        type_id int8,
+        primary key (id),
+        unique (source_id, entity_id, type_id, start)
+    );
+
+    create table indicator_type (
+        id int8 not null,
+        code varchar(255) not null,
+        name varchar(255) not null,
+        unit varchar(255),
+        primary key (id)
+    );
+
+    create table region_dictionary (
+        source varchar(255) not null,
+        unnormalized_name varchar(255) not null,
+        entity_code varchar(255) not null,
+        entity_type varchar(255) not null,
+        primary key (source, unnormalized_name)
+    );
+
+    create table source (
+        id int8 not null,
+        code varchar(255) not null,
+        name varchar(255) not null,
+        primary key (id)
+    );
+
+    alter table entity 
+        add constraint fk_entity_to_type 
+        foreign key (id) 
+        references entity_type;
+
+    alter table indicator 
+        add constraint fk_indicator_to_source 
+        foreign key (source_id) 
+        references source;
+
+    alter table indicator 
+        add constraint fk_indicator_to_entity 
+        foreign key (entity_id) 
+        references entity;
+
+    alter table indicator 
+        add constraint fk_indicator_to_type 
+        foreign key (type_id) 
+        references indicator_type;

@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * 
@@ -23,7 +26,8 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "indicator")
+@Table(name = "indicator", uniqueConstraints=
+@UniqueConstraint(columnNames = {"source_id", "entity_id", "type_id", "start"}))
 public class Indicator {
 
 	public enum Periodicity {
@@ -34,15 +38,18 @@ public class Indicator {
 	private long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@ForeignKey(name = "fk_indicator_to_source")
+	@JoinColumn(name = "source_id")
 	private Source source;
 
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@ForeignKey(name = "fk_indicator_to_entity")
+	@JoinColumn(name = "entity_id")
 	private org.ocha.dap.persistence.entity.curateddata.Entity entity;
 
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@ForeignKey(name = "fk_indicator_to_type")
+	@JoinColumn(name = "type_id")
 	private IndicatorType type;
 
 	@Column(name = "start", columnDefinition = "timestamp", nullable = false, updatable = false)

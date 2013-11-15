@@ -6,6 +6,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ForeignKey;
+
 /**
  * 
  * @author Samuel Eustachi
@@ -24,6 +26,7 @@ public class Entity {
 
 	@ManyToOne
 	@JoinColumn(name = "id")
+	@ForeignKey(name = "fk_entity_to_type")
 	private EntityType type;
 
 	@Column(name = "code", nullable = false, updatable = false)
