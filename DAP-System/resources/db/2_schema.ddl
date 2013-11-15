@@ -80,7 +80,7 @@
 
     create table entity_type (
         id int8 not null,
-        code varchar(255) not null,
+        code varchar(255) not null unique,
         name varchar(255) not null,
         primary key (id)
     );

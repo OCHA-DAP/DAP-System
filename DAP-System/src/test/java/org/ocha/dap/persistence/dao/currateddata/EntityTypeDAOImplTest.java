@@ -1,8 +1,11 @@
 package org.ocha.dap.persistence.dao.currateddata;
 
+import javax.persistence.NoResultException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ocha.dap.persistence.entity.curateddata.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,8 +20,17 @@ public class EntityTypeDAOImplTest {
 
 	@Test
 	public void testListEntityTypes() {
+		try {
+			entityTypeDAO.getEntityTypeByCode("CodeFromUnitTest");
+			Assert.fail("Should have raised a NoResultException");
+		} catch (final NoResultException e) {
+			//expected
+		}
+		
 		Assert.assertEquals(0, entityTypeDAO.listEntityTypes().size());
-		entityTypeDAO.addEntityType("CodeFromUnitTest", "nameFromUnitTest");
+		entityTypeDAO.addEntityType("country", "Country");
+		final EntityType entityTypeForCode = entityTypeDAO.getEntityTypeByCode("country");
+		Assert.assertEquals("Country", entityTypeForCode.getName());
 		Assert.assertEquals(1, entityTypeDAO.listEntityTypes().size());
 	}
 

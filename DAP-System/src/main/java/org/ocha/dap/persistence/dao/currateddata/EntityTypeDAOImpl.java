@@ -29,4 +29,10 @@ public class EntityTypeDAOImpl implements EntityTypeDAO {
 		em.persist(entityType);
 	}
 
+	@Override
+	public EntityType getEntityTypeByCode(final String code) {
+		final TypedQuery<EntityType> query = em.createQuery("SELECT et FROM EntityType et Where et.code = :code", EntityType.class).setParameter("code", code);
+		return query.getSingleResult();
+	}
+
 }

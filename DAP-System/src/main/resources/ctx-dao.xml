@@ -13,5 +13,6 @@
 	<bean id="ckanDatasetDAO" class="org.ocha.dap.persistence.dao.CKANDatasetDAOImpl" />
 	
 	<bean id="entityTypeDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityTypeDAOImpl" />
+	<bean id="entityDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityDAOImpl" />
 
 </beans>

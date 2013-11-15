@@ -205,4 +205,10 @@ public class DAPResource {
 		curatedDataService.addEntityType(code, name);
 		return displayEntityTypesList();
 	}
+	
+	@GET
+	@Path("/curated/entities")
+	public Response displayEntitiesList() {
+		return Response.ok(new Viewable("/entities", curatedDataService.listEntityTypes())).build();
+	}
 }

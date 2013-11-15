@@ -8,5 +8,7 @@ public interface EntityTypeDAO {
 	
 	public List<EntityType> listEntityTypes();
 	public void addEntityType(String code, String name);
+	
+	public EntityType getEntityTypeByCode(String code);
 
 }
