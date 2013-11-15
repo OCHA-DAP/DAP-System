@@ -31,7 +31,8 @@ public class IndicatorType {
 	private String name;
 
 	/**
-	 * this is a
+	 * this is a simple text field, just giving a hint about what the unit should be for this type of indicator
+	 * might be modelized more strictly later 
 	 */
 	@Column(name = "unit", nullable = true, updatable = true)
 	private String unit;

@@ -11,7 +11,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp" />
-<h2>Add a new entity type</h2>
+<h2>Add a new entity</h2>
 
 	<form method="POST" action="">	
 		<label for="code">Code</label>
@@ -19,24 +19,33 @@
   	
   		<label for="name">Name</label>
   		<input type="text" name="name" id="name"/>
+  		
+  		<label for="entityTypeCode">Type</label>
+  		<select name="entityTypeCode" id="entityTypeCode">
+  			<c:forEach var="entityType" items="${it.entityTypes}">
+  				<option value="${entityType.code}">${entityType.name}</option>
+  			</c:forEach>
+		</select> 
   	
   		<input type="submit" value="submit" />
   	
   	</form>
 	
-<h2>List of entity types</h2>	
+<h2>List of entity</h2>	
 	<table>
 		<tr>
 			<th>Id</th>
 			<th>Code</th>
 			<th>Name</th>
+			<th>Type</th>
 		</tr>
 		
-		<c:forEach var="entityType" items="${it}">
+		<c:forEach var="entity" items="${it.entities}">
 			<tr>
-				<td>${entityType.id}</td>
-				<td>${entityType.code}</td>
-				<td>${entityType.name}</td>
+				<td>${entity.id}</td>
+				<td>${entity.code}</td>
+				<td>${entity.name}</td>
+				<td>${entity.type.name}</td>
 			</tr>
 		</c:forEach>
 		

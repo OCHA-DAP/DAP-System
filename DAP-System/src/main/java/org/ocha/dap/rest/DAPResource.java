@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
+import org.ocha.dap.rest.helper.DisplayEntities;
 import org.ocha.dap.rest.helper.Index;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
@@ -209,6 +210,16 @@ public class DAPResource {
 	@GET
 	@Path("/curated/entities")
 	public Response displayEntitiesList() {
-		return Response.ok(new Viewable("/entities", curatedDataService.listEntityTypes())).build();
+		final DisplayEntities displayEntities = new DisplayEntities();
+		displayEntities.setEntities(curatedDataService.listEntities());
+		displayEntities.setEntityTypes(curatedDataService.listEntityTypes());
+		return Response.ok(new Viewable("/entities", displayEntities)).build();
+	}
+	
+	@POST
+	@Path("/curated/entities")
+	public Response addEntity(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("entityTypeCode") final String entityTypeCode) {
+		curatedDataService.addEntity(code, name, entityTypeCode);
+		return displayEntitiesList();
 	}
 }

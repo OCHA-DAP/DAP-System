@@ -11,6 +11,7 @@
   <div class="menu" id="menu2">
     <ul>
       <li><a href="${ctx}/admin/curated/entitytypes/">Entity types</a></li>
+      <li><a href="${ctx}/admin/curated/entities/">Entities</a></li>
     </ul>
   </div>
 </div>
