@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
-import org.ocha.dap.persistence.dao.CKANDatasetDAO;
-import org.ocha.dap.persistence.dao.CKANResourceDAO;
 import org.ocha.dap.persistence.dao.UserDAO;
+import org.ocha.dap.persistence.dao.ckan.CKANDatasetDAO;
+import org.ocha.dap.persistence.dao.ckan.CKANResourceDAO;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
 import org.ocha.dap.persistence.entity.ckan.CKANResource.WorkflowState;
@@ -22,8 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml",
-		"classpath:/ctx-persistence-test.xml" })
+@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
 public class DAPServiceImplTest {
 
 	@Before
@@ -74,8 +73,6 @@ public class DAPServiceImplTest {
 		} catch (final InsufficientCredentialsException e) {
 		}
 	}
-
-
 
 	@Test
 	public void testGetDatasetDTOFromQueryV3() {
@@ -167,20 +164,17 @@ public class DAPServiceImplTest {
 
 			dapService.downloadFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 
-			final CKANResource firstResourceAfterDownload = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId()
-					.getRevision_id());
+			final CKANResource firstResourceAfterDownload = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.DOWNLOADED, firstResourceAfterDownload.getWorkflowState());
 
 			dapService.evaluateFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 
-			final CKANResource firstResourceAfterEvaluation = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId()
-					.getRevision_id());
+			final CKANResource firstResourceAfterEvaluation = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.TECH_EVALUATION_SUCCESS, firstResourceAfterEvaluation.getWorkflowState());
 
 			dapService.transformAndImportDataFromFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 
-			final CKANResource firstResourceAfterImport = ckanResourceDAO
-					.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+			final CKANResource firstResourceAfterImport = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.IMPORT_FAIL, firstResourceAfterImport.getWorkflowState());
 		}
 
@@ -190,22 +184,19 @@ public class DAPServiceImplTest {
 
 			dapService.downloadFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 
-			final CKANResource secondResourceAfterDownload = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId()
-					.getRevision_id());
+			final CKANResource secondResourceAfterDownload = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.DOWNLOADED, secondResourceAfterDownload.getWorkflowState());
 
 			dapService.evaluateFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 
-			final CKANResource secondResourceAfterEvaluation = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId()
-					.getRevision_id());
+			final CKANResource secondResourceAfterEvaluation = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.TECH_EVALUATION_FAIL, secondResourceAfterEvaluation.getWorkflowState());
 
 			dapService.transformAndImportDataFromFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 
 			// we should still be in TECH_EVALUATION_FAIL, as the workflow
 			// cannot go from TECH_EVALUATION_FAIL to IMPORT_XXX
-			final CKANResource secondResourceAfterImport = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId()
-					.getRevision_id());
+			final CKANResource secondResourceAfterImport = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.TECH_EVALUATION_FAIL, secondResourceAfterImport.getWorkflowState());
 		}
 

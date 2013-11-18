@@ -1,4 +1,4 @@
-package org.ocha.dap.persistence.dao;
+package org.ocha.dap.persistence.dao.ckan;
 
 import java.util.Date;
 import java.util.List;
@@ -18,7 +18,7 @@ public interface CKANResourceDAO {
 	 * @param revision_id
 	 */
 	public void flagCKANResourceAsDownloaded(final String id, final String revision_id);
-	
+
 	/**
 	 * Flags the given record as Tech Evaluation Success and stores which evaluator triggered the success
 	 * 
@@ -26,7 +26,7 @@ public interface CKANResourceDAO {
 	 * @param revision_id
 	 */
 	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final ValidationReport report);
-	
+
 	/**
 	 * Flags the given record as Tech Evaluation Fail and stores which evaluator triggered the failure
 	 * 
@@ -34,7 +34,7 @@ public interface CKANResourceDAO {
 	 * @param revision_id
 	 */
 	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final ValidationReport report);
-	
+
 	/**
 	 * 
 	 * @param id
@@ -42,8 +42,9 @@ public interface CKANResourceDAO {
 	 * @param evaluator
 	 */
 	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer);
-	
+
 	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer);
+
 	/**
 	 * Flags the given record as Outdated
 	 * 
@@ -55,9 +56,9 @@ public interface CKANResourceDAO {
 	public CKANResource getCKANResource(final String id, final String revision_id);
 
 	public List<CKANResource> listCKANResourceRevisions(final String id);
-	
+
 	public List<CKANResource> listCKANResources();
-	
+
 	public void deleteAllCKANResourcesRecords();
 
 }

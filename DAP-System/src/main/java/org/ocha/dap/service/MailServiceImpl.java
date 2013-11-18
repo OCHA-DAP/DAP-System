@@ -12,8 +12,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.ocha.dap.model.ValidationReport;
-import org.ocha.dap.persistence.dao.CKANDatasetDAO;
-import org.ocha.dap.persistence.dao.CKANResourceDAO;
+import org.ocha.dap.persistence.dao.ckan.CKANDatasetDAO;
+import org.ocha.dap.persistence.dao.ckan.CKANResourceDAO;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

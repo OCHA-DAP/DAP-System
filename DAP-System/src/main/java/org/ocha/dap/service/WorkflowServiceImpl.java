@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.ocha.dap.model.ValidationReport;
-import org.ocha.dap.persistence.dao.CKANResourceDAO;
+import org.ocha.dap.persistence.dao.ckan.CKANResourceDAO;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
 import org.ocha.dap.persistence.entity.ckan.CKANResource.WorkflowState;

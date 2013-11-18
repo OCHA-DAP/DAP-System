@@ -1,4 +1,4 @@
-package org.ocha.dap.persistence.dao;
+package org.ocha.dap.persistence.dao.ckan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,17 +13,18 @@ import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
 import org.springframework.transaction.annotation.Transactional;
 
 public class CKANDatasetDAOImpl implements CKANDatasetDAO {
-	
+
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
 	@Transactional
 	public void importDetectedDatasetsIfNotPresent(final List<DatasetV3DTO> datasets) {
-		for(final DatasetV3DTO datasetV3DTO : datasets){
+		for (final DatasetV3DTO datasetV3DTO : datasets) {
 			final CKANDataset dataset = em.find(CKANDataset.class, datasetV3DTO.getName());
-			if(dataset == null){
-				final CKANDataset newDataset = new CKANDataset(datasetV3DTO.getName(), datasetV3DTO.getTitle(), datasetV3DTO.getMaintainer(), datasetV3DTO.getMaintainer_email(), datasetV3DTO.getAuthor(), datasetV3DTO.getAuthor_email());
+			if (dataset == null) {
+				final CKANDataset newDataset = new CKANDataset(datasetV3DTO.getName(), datasetV3DTO.getTitle(), datasetV3DTO.getMaintainer(), datasetV3DTO.getMaintainer_email(),
+						datasetV3DTO.getAuthor(), datasetV3DTO.getAuthor_email());
 				em.persist(newDataset);
 			}
 		}
@@ -49,14 +50,14 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 		final TypedQuery<CKANDataset> query = em.createQuery("SELECT d FROM CKANDataset d ORDER BY d.name", CKANDataset.class);
 		return query.getResultList();
 	}
-	
+
 	@Override
 	public List<String> listToBeCuratedCKANDatasets() {
 		final List<String> result = new ArrayList<>();
 		final TypedQuery<CKANDataset> query = em.createQuery("SELECT r FROM CKANDataset r WHERE r.status='TO_BE_CURATED'", CKANDataset.class);
 		final List<CKANDataset> toBeCuratedDatasets = query.getResultList();
-		
-		for(final CKANDataset toBeCuratedDataset : toBeCuratedDatasets){
+
+		for (final CKANDataset toBeCuratedDataset : toBeCuratedDatasets) {
 			result.add(toBeCuratedDataset.getName());
 		}
 		return result;
