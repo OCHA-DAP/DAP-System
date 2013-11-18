@@ -16,7 +16,7 @@ public class SourceDAOImpl implements SourceDAO {
 
 	@Override
 	public List<Source> listSources() {
-		final TypedQuery<Source> query = em.createQuery("SELECT et FROM Source et ORDER BY et.code", Source.class);
+		final TypedQuery<Source> query = em.createQuery("SELECT s FROM Source s ORDER BY s.code", Source.class);
 		return query.getResultList();
 	}
 

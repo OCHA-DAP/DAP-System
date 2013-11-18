@@ -32,6 +32,13 @@ public class ImportFromCKAN {
 	@Column(name = "timestamp", columnDefinition = "timestamp", nullable = false, updatable = false)
 	private Date timestamp;
 
+	public ImportFromCKAN(final String resourceId, final String revisionId, final Date timestamp) {
+		super();
+		this.resourceId = resourceId;
+		this.revisionId = revisionId;
+		this.timestamp = timestamp;
+	}
+
 	public long getId() {
 		return id;
 	}

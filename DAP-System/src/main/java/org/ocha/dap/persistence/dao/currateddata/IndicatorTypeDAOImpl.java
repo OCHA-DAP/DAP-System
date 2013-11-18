@@ -16,7 +16,7 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 
 	@Override
 	public List<IndicatorType> listIndicatorTypes() {
-		final TypedQuery<IndicatorType> query = em.createQuery("SELECT et FROM IndicatorType et ORDER BY et.code", IndicatorType.class);
+		final TypedQuery<IndicatorType> query = em.createQuery("SELECT it FROM IndicatorType it ORDER BY it.code", IndicatorType.class);
 		return query.getResultList();
 	}
 

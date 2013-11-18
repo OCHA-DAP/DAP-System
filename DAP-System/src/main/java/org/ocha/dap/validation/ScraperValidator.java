@@ -71,8 +71,7 @@ public class ScraperValidator implements DAPValidator {
 			}
 			while ((line = br.readLine()) != null) {
 				if (values.length != 4) {
-					result.add(new ValidationReportEntry(ValidationStatus.ERROR, String.format(
-							"A ligne contains an incorrect number of values, expected : 4, actual : %d", values.length)));
+					result.add(new ValidationReportEntry(ValidationStatus.ERROR, String.format("A ligne contains an incorrect number of values, expected : 4, actual : %d", values.length)));
 				}
 			}
 		} catch (final IOException e) {
