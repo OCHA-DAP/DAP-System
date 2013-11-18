@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
+import org.ocha.dap.persistence.entity.ImportFromCKAN;
 
 /**
  * 
@@ -26,10 +27,14 @@ import org.hibernate.annotations.ForeignKey;
  *         specific indicator in question. This table will hold most of the data in the repository, and is expected to grow eventually into
  *         the millions of rows (or more).
  * 
+ * 
+ *         The main prupose of this table is to contain the curated data. However, some columns represent some technical metadata used by
+ *         the application
+ * 
+ * 
  */
 @Entity
-@Table(name = "indicator", uniqueConstraints=
-@UniqueConstraint(columnNames = {"source_id", "entity_id", "type_id", "start_time"}))
+@Table(name = "indicator", uniqueConstraints = @UniqueConstraint(columnNames = { "source_id", "entity_id", "type_id", "start_time" }))
 public class Indicator {
 
 	public enum Periodicity {
@@ -71,13 +76,17 @@ public class Indicator {
 
 	@Column(name = "value", nullable = false, updatable = false)
 	private String value;
-	
+
 	@Column(name = "initial_value", nullable = false, updatable = false)
 	private String initialValue;
 
+	@ManyToOne
+	@ForeignKey(name = "fk_import_from_ckan")
+	@JoinColumn(name = "import_from_ckan_id")
+	private ImportFromCKAN importFromCKAN;
+
 	// will be used for soft delete
 	// private int version;
-
 	public long getId() {
 		return id;
 	}
@@ -156,6 +165,14 @@ public class Indicator {
 
 	public void setInitialValue(final String initialValue) {
 		this.initialValue = initialValue;
+	}
+
+	public ImportFromCKAN getImportFromCKAN() {
+		return importFromCKAN;
+	}
+
+	public void setImportFromCKAN(final ImportFromCKAN importFromCKAN) {
+		this.importFromCKAN = importFromCKAN;
 	}
 
 }

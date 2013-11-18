@@ -9,6 +9,9 @@
         drop constraint fk_indicator_to_entity;
 
     alter table indicator 
+        drop constraint fk_import_from_ckan;
+
+    alter table indicator 
         drop constraint fk_indicator_to_type;
 
     drop table ckan_dataset;
@@ -20,6 +23,8 @@
     drop table entity;
 
     drop table entity_type;
+
+    drop table import_from_ckan;
 
     drop table indicator;
 
@@ -85,6 +90,14 @@
         primary key (id)
     );
 
+    create table import_from_ckan (
+        id int8 not null,
+        resource_id varchar(255) not null,
+        revision_id varchar(255) not null,
+        timestamp timestamp not null,
+        primary key (id)
+    );
+
     create table indicator (
         id int8 not null,
         end_time timestamp,
@@ -94,6 +107,7 @@
         start_time timestamp not null,
         value varchar(255) not null,
         entity_id int8,
+        import_from_ckan_id int8,
         source_id int8,
         type_id int8,
         primary key (id),
@@ -137,6 +151,11 @@
         add constraint fk_indicator_to_entity 
         foreign key (entity_id) 
         references entity;
+
+    alter table indicator 
+        add constraint fk_import_from_ckan 
+        foreign key (import_from_ckan_id) 
+        references import_from_ckan;
 
     alter table indicator 
         add constraint fk_indicator_to_type 
