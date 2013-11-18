@@ -46,7 +46,7 @@ public class DAPResource {
 
 	@Autowired
 	private DAPService dapService;
-	
+
 	@Autowired
 	private CuratedDataService curatedDataService;
 
@@ -63,8 +63,7 @@ public class DAPResource {
 	 */
 	@POST
 	@Path("/login/")
-	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password) throws AuthenticationException,
-			URISyntaxException {
+	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password) throws AuthenticationException, URISyntaxException {
 		logger.debug(String.format("Entering login for user : %s", userId));
 		if (dapService != null && dapService.authenticate(userId, password)) {
 			final HttpSession session = request.getSession(true);
@@ -116,8 +115,7 @@ public class DAPResource {
 
 	@POST
 	@Path("/status/datasets/")
-	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type)
-			throws URISyntaxException {
+	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type) throws URISyntaxException {
 		dapService.flagDatasetAsToBeCurated(datasetName, type);
 
 		final URI newURI = new URI("/admin/status/datasets/");
@@ -139,8 +137,7 @@ public class DAPResource {
 
 	@GET
 	@Path("/status/manuallyTriggerDownload/{id}/{revision_id}")
-	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException,
-			IOException {
+	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
 		dapService.downloadFileForCKANResource(id, revision_id);
 
 		final URI newURI = new URI("/admin/status/resources/");
@@ -150,8 +147,7 @@ public class DAPResource {
 
 	@GET
 	@Path("/status/manuallyTriggerEvaluation/{id}/{revision_id}")
-	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException,
-			IOException {
+	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
 		dapService.evaluateFileForCKANResource(id, revision_id);
 
 		URI newURI = null;
@@ -162,8 +158,7 @@ public class DAPResource {
 
 	@GET
 	@Path("/status/manuallyTriggerImport/{id}/{revision_id}")
-	public Response manuallyTriggerImport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException,
-			IOException {
+	public Response manuallyTriggerImport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
 		dapService.transformAndImportDataFromFileForCKANResource(id, revision_id);
 
 		URI newURI = null;
@@ -199,14 +194,14 @@ public class DAPResource {
 	public Response displayEntityTypesList() {
 		return Response.ok(new Viewable("/entityTypes", curatedDataService.listEntityTypes())).build();
 	}
-	
+
 	@POST
 	@Path("/curated/entitytypes")
 	public Response addEntityType(@FormParam("code") final String code, @FormParam("name") final String name) {
 		curatedDataService.addEntityType(code, name);
 		return displayEntityTypesList();
 	}
-	
+
 	@GET
 	@Path("/curated/entities")
 	public Response displayEntitiesList() {
@@ -215,11 +210,37 @@ public class DAPResource {
 		displayEntities.setEntityTypes(curatedDataService.listEntityTypes());
 		return Response.ok(new Viewable("/entities", displayEntities)).build();
 	}
-	
+
 	@POST
 	@Path("/curated/entities")
 	public Response addEntity(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("entityTypeCode") final String entityTypeCode) {
 		curatedDataService.addEntity(code, name, entityTypeCode);
 		return displayEntitiesList();
+	}
+
+	@GET
+	@Path("/curated/indicatortypes")
+	public Response displayIndicatorTypesList() {
+		return Response.ok(new Viewable("/indicatorTypes", curatedDataService.listIndicatorTypes())).build();
+	}
+
+	@POST
+	@Path("/curated/indicatortypes")
+	public Response addIndicatorType(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("unit") final String unit) {
+		curatedDataService.addIndicatorType(code, name, unit);
+		return displayIndicatorTypesList();
+	}
+
+	@GET
+	@Path("/curated/sources")
+	public Response displaySourcesList() {
+		return Response.ok(new Viewable("/sources", curatedDataService.listSources())).build();
+	}
+
+	@POST
+	@Path("/curated/sources")
+	public Response addSource(@FormParam("code") final String code, @FormParam("name") final String name) {
+		curatedDataService.addSource(code, name);
+		return displaySourcesList();
 	}
 }

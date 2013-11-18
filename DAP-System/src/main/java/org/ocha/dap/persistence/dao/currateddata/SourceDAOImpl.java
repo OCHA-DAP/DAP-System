@@ -1,0 +1,38 @@
+package org.ocha.dap.persistence.dao.currateddata;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.ocha.dap.persistence.entity.curateddata.Source;
+import org.springframework.transaction.annotation.Transactional;
+
+public class SourceDAOImpl implements SourceDAO {
+
+	@PersistenceContext
+	private EntityManager em;
+
+	@Override
+	public List<Source> listSources() {
+		final TypedQuery<Source> query = em.createQuery("SELECT et FROM Source et ORDER BY et.code", Source.class);
+		return query.getResultList();
+	}
+
+	@Override
+	@Transactional
+	public void addSource(final String code, final String name) {
+		final Source source = new Source();
+		source.setCode(code);
+		source.setName(name);
+		em.persist(source);
+	}
+
+	@Override
+	public Source getSourceByCode(final String code) {
+		final TypedQuery<Source> query = em.createQuery("SELECT s FROM Source s Where s.code = :code", Source.class).setParameter("code", code);
+		return query.getSingleResult();
+	}
+
+}

@@ -42,12 +42,8 @@ public class DAPServiceImpl implements DAPService {
 	private static String DATASET_LIST_V3_API_PATTERN = "http://%s/api/3/action/package_list";
 	private static String DATASET_V3_API_PATTERN = "http://%s/api/3/action/package_show?id=";
 
-	// can be useful to update a dataset
-	private static String DATASET_V2_API_PATTERN = "http://%s/api/2/rest/dataset/";
-
 	private final String urlBaseForDatasetsList;
 	private final String urlBaseForDatasetContentV3;
-	private final String urlBaseForDatasetContentV2;
 	private final String technicalAPIKey;
 
 	private final File stagingDirectory;
@@ -61,7 +57,6 @@ public class DAPServiceImpl implements DAPService {
 
 		this.urlBaseForDatasetsList = String.format(DATASET_LIST_V3_API_PATTERN, host);
 		this.urlBaseForDatasetContentV3 = String.format(DATASET_V3_API_PATTERN, host);
-		this.urlBaseForDatasetContentV2 = String.format(DATASET_V2_API_PATTERN, host);
 		this.technicalAPIKey = technicalAPIKey;
 	}
 
@@ -111,8 +106,8 @@ public class DAPServiceImpl implements DAPService {
 							workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
 						}
 
-						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(),
-								datasetName, dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
+						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName,
+								dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
 					}
 				}
 			}
@@ -226,11 +221,9 @@ public class DAPServiceImpl implements DAPService {
 
 	/**
 	 * 
-	 * The url might change, while ids cannot, so it is best to get the url from
-	 * the api (just in time), and never store it
+	 * The url might change, while ids cannot, so it is best to get the url from the api (just in time), and never store it
 	 * 
-	 * Up to now, this requires a very inefficient browsing of the whole tree of
-	 * datasets and resources
+	 * Up to now, this requires a very inefficient browsing of the whole tree of datasets and resources
 	 * 
 	 * @throws MalformedURLException
 	 */
@@ -350,10 +343,8 @@ public class DAPServiceImpl implements DAPService {
 	}
 
 	/**
-	 * In order to evaluate a file, we must know its type (to use the
-	 * appropriate evaluator The Type is defined on the Dataset level)
+	 * In order to evaluate a file, we must know its type (to use the appropriate evaluator The Type is defined on the Dataset level)
 	 * 
-	 * @return
 	 */
 	private Type getTypeForFile(final String id, final String revision_id) {
 		final CKANResource ckanResource = resourceDAO.getCKANResource(id, revision_id);

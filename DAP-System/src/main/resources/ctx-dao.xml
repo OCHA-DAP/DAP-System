@@ -14,5 +14,7 @@
 	
 	<bean id="entityTypeDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityTypeDAOImpl" />
 	<bean id="entityDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityDAOImpl" />
+	<bean id="indicatorTypeDAO" class="org.ocha.dap.persistence.dao.currateddata.IndicatorTypeDAOImpl" />
+	<bean id="sourceDAO" class="org.ocha.dap.persistence.dao.currateddata.SourceDAOImpl" />
 
 </beans>

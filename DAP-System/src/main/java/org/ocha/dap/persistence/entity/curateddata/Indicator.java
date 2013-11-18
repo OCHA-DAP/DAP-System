@@ -31,6 +31,10 @@ import org.ocha.dap.persistence.entity.ImportFromCKAN;
  *         The main prupose of this table is to contain the curated data. However, some columns represent some technical metadata used by
  *         the application
  * 
+ *         {@link Indicator#importFromCKAN}
+ * 
+ *         {@link Indicator#initialValue}
+ * 
  * 
  */
 @Entity
@@ -77,9 +81,15 @@ public class Indicator {
 	@Column(name = "value", nullable = false, updatable = false)
 	private String value;
 
+	/**
+	 * Storing the initial value as represented in the resource before import. For troubleshooting
+	 */
 	@Column(name = "initial_value", nullable = false, updatable = false)
 	private String initialValue;
 
+	/**
+	 * stores a reference to the technical import. Might be useful to trace and rollback an import if something went wrong
+	 */
 	@ManyToOne
 	@ForeignKey(name = "fk_import_from_ckan")
 	@JoinColumn(name = "import_from_ckan_id")

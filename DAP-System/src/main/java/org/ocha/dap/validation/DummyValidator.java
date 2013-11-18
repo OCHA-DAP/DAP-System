@@ -15,14 +15,14 @@ import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 /**
  * performs a dummy evaluation of a CSV file
  * 
- * for this example, we assume we got some percentage for some categories, per
- * country all countries sum should be 100.
- * 
- * @return true if all countries have a sum of 100, false otherwise
+ * for this example, we assume we got some percentage for some categories, per country all countries sum should be 100.
  * 
  */
 public class DummyValidator implements DAPValidator {
 
+	/**
+	 * @return SUCCESS if all countries have a sum of 100, false otherwise
+	 */
 	@Override
 	public ValidationReport evaluateFile(final File file) {
 		final ValidationReport report = new ValidationReport(CKANDataset.Type.DUMMY);
@@ -35,8 +35,7 @@ public class DummyValidator implements DAPValidator {
 				final String[] values = line.split(",");
 
 				if (values.length != 4) {
-					report.addEntry(ValidationStatus.ERROR,
-							String.format("A ligne contains an incorrect number of values, expected : 4, actual : %d", values.length));
+					report.addEntry(ValidationStatus.ERROR, String.format("A ligne contains an incorrect number of values, expected : 4, actual : %d", values.length));
 					// In this case, the next test cannot even be performed, so
 					// we return the root error
 					return report;

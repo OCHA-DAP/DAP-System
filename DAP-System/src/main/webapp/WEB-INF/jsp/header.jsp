@@ -12,6 +12,9 @@
     <ul>
       <li><a href="${ctx}/admin/curated/entitytypes/">Entity types</a></li>
       <li><a href="${ctx}/admin/curated/entities/">Entities</a></li>
+      <li><a href="${ctx}/admin/curated/indicatortypes/">Indicator types</a></li>
+      <li><a href="${ctx}/admin/curated/sources/">Sources</a></li>
+      <li><a href="${ctx}/admin/curated/indicators/">Indicators</a></li>
     </ul>
   </div>
 </div>
