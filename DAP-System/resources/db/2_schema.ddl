@@ -76,10 +76,10 @@
         periodicity varchar(255) not null,
         start_time timestamp not null,
         value varchar(255) not null,
-        entity_id int8,
+        entity_id int8 not null,
         import_from_ckan_id int8,
-        source_id int8,
-        type_id int8,
+        source_id int8 not null,
+        type_id int8 not null,
         primary key (id),
         unique (source_id, entity_id, type_id, start_time)
     );

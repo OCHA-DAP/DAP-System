@@ -4,6 +4,7 @@ import java.util.Date;
 
 import junit.framework.Assert;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
@@ -79,10 +80,12 @@ public class IndicatorDAOImplTest {
 		indicatorDAO.addIndicator(source, entity, indicatorType, start, end, Periodicity.YEAR, true, "10000", "10000$", importFromCKAN);
 		Assert.assertEquals(1, indicatorDAO.listLastIndicators(100).size());
 
-		indicatorDAO.addIndicator(source, entity, indicatorType, start, end, Periodicity.YEAR, true, "10000", "10000$", importFromCKAN);
+		try {
+			indicatorDAO.addIndicator(source, entity, indicatorType, start, end, Periodicity.YEAR, true, "10000", "10000$", importFromCKAN);
+			Assert.fail("Should not be possible to add the same value twice, multiple column constraint not enforced");
+		} catch (final ConstraintViolationException e) {
+			// Expected behavior
+		}
 
-		Assert.assertEquals(1, indicatorDAO.listLastIndicators(100).size());
-		Assert.fail("Not yet implemented");
 	}
-
 }

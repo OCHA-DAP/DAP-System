@@ -52,17 +52,17 @@ public class Indicator {
 
 	@ManyToOne
 	@ForeignKey(name = "fk_indicator_to_source")
-	@JoinColumn(name = "source_id")
+	@JoinColumn(name = "source_id", nullable = false)
 	private Source source;
 
 	@ManyToOne
 	@ForeignKey(name = "fk_indicator_to_entity")
-	@JoinColumn(name = "entity_id")
+	@JoinColumn(name = "entity_id", nullable = false)
 	private org.ocha.dap.persistence.entity.curateddata.Entity entity;
 
 	@ManyToOne
 	@ForeignKey(name = "fk_indicator_to_type")
-	@JoinColumn(name = "type_id")
+	@JoinColumn(name = "type_id", nullable = false)
 	private IndicatorType type;
 
 	@Column(name = "start_time", columnDefinition = "timestamp", nullable = false, updatable = false)
