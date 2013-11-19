@@ -1,13 +1,19 @@
 package org.ocha.dap.service;
 
+import java.util.Date;
 import java.util.List;
 
+import org.ocha.dap.persistence.dao.ImportFromCKANDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
+import org.ocha.dap.persistence.dao.currateddata.IndicatorDAO;
 import org.ocha.dap.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.dap.persistence.dao.currateddata.SourceDAO;
+import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
+import org.ocha.dap.persistence.entity.curateddata.Indicator;
+import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +32,12 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private SourceDAO sourceDAO;
+
+	@Autowired
+	private IndicatorDAO indicatorDAO;
+
+	@Autowired
+	private ImportFromCKANDAO importFromCKANDAO;
 
 	@Override
 	public List<EntityType> listEntityTypes() {
@@ -67,6 +79,24 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	public void addSource(final String code, final String name) {
 		sourceDAO.addSource(code, name);
+	}
+
+	@Override
+	@Transactional
+	public void addIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
+			final String value, final String initialValue) {
+		final Source source = sourceDAO.getSourceByCode(sourceCode);
+		final Entity entity = entityDAO.getEntityById(entityId);
+		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
+
+		final ImportFromCKAN importFromCKAN = importFromCKANDAO.getDummyImport();
+		indicatorDAO.addIndicator(source, entity, indicatorType, start, end, periodicity, numeric, value, initialValue, importFromCKAN);
+
+	}
+
+	@Override
+	public List<Indicator> listLastIndicators(final int limit) {
+		return indicatorDAO.listLastIndicators(limit);
 	}
 
 }

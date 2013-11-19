@@ -26,4 +26,15 @@ public class ImportFromCKANDAOImplTest {
 		Assert.assertEquals("anyRevisionId", importFromCKAN.getRevisionId());
 	}
 
+	@Test
+	public void testGetDummyImport() {
+		final ImportFromCKAN dummy1 = importFromCKANDAO.getDummyImport();
+		Assert.assertEquals("dummy", dummy1.getResourceId());
+
+		final ImportFromCKAN dummy2 = importFromCKANDAO.getDummyImport();
+		Assert.assertEquals("dummy", dummy2.getResourceId());
+
+		Assert.assertEquals(dummy1.getId(), dummy2.getId());
+	}
+
 }

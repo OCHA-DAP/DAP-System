@@ -13,6 +13,8 @@ public interface EntityDAO {
 
 	public Entity getEntityByCodeAndType(String code, String type);
 
+	public Entity getEntityById(long id);
+
 	public void deleteEntityByCodeAndType(String code, String type);
 
 }

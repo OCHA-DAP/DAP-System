@@ -3,6 +3,7 @@ package org.ocha.dap.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +18,14 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
+import org.ocha.dap.persistence.entity.curateddata.Indicator;
+import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.rest.helper.DisplayEntities;
+import org.ocha.dap.rest.helper.DisplayIndicators;
 import org.ocha.dap.rest.helper.Index;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
@@ -242,5 +248,29 @@ public class DAPResource {
 	public Response addSource(@FormParam("code") final String code, @FormParam("name") final String name) {
 		curatedDataService.addSource(code, name);
 		return displaySourcesList();
+	}
+
+	@GET
+	@Path("/curated/indicators")
+	public Response displayIndicatorsList() {
+		final DisplayIndicators displayIndicators = new DisplayIndicators();
+		displayIndicators.setIndicators(curatedDataService.listLastIndicators(100));
+		displayIndicators.setSources(curatedDataService.listSources());
+		displayIndicators.setEntities(curatedDataService.listEntities());
+		displayIndicators.setIndicatorTypes(curatedDataService.listIndicatorTypes());
+		displayIndicators.setPeriodicities(Indicator.Periodicity.values());
+		return Response.ok(new Viewable("/indicators", displayIndicators)).build();
+	}
+
+	@POST
+	@Path("/curated/indicators")
+	public Response addIndicator(@FormParam("sourceCode") final String sourceCode, @FormParam("entityId") final long entityId, @FormParam("indicatorTypeCode") final String indicatorTypeCode,
+			@FormParam("start") final String start, @FormParam("end") final String end, @FormParam("periodicity") final Periodicity periodicity, @FormParam("periodicity") final boolean numeric,
+			@FormParam("value") final String value, @FormParam("initialValue") final String initialValue) {
+		final DateTimeFormatter fmt = ISODateTimeFormat.date();
+		final Date startDate = fmt.parseDateTime(start).toDate();
+		final Date endDate = fmt.parseDateTime(end).toDate();
+		curatedDataService.addIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, numeric, value, initialValue);
+		return displayIndicatorsList();
 	}
 }

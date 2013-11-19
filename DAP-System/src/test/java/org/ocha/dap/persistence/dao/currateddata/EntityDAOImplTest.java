@@ -49,6 +49,9 @@ public class EntityDAOImplTest {
 		Assert.assertEquals("Russia", entityForCode.getName());
 		Assert.assertEquals(1, entityDAO.listEntities().size());
 
+		final Entity entityById = entityDAO.getEntityById(entityForCode.getId());
+		Assert.assertEquals("Russia", entityById.getName());
+
 		entityDAO.deleteEntityByCodeAndType("RU", "country");
 
 		Assert.assertEquals(0, entityDAO.listEntities().size());

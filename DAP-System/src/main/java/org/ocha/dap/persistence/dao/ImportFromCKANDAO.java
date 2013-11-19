@@ -17,4 +17,10 @@ public interface ImportFromCKANDAO {
 	 */
 	public ImportFromCKAN createNewImportRecord(final String resourceId, final String revisionId, final Date timestamp);
 
+	/**
+	 * 
+	 * @return a dummy import object to use for an import from the UI only
+	 */
+	public ImportFromCKAN getDummyImport();
+
 }

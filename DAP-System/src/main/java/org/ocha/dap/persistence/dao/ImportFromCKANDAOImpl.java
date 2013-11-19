@@ -3,7 +3,9 @@ package org.ocha.dap.persistence.dao;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,5 +22,20 @@ public class ImportFromCKANDAOImpl implements ImportFromCKANDAO {
 		em.persist(importFromCKAN);
 
 		return importFromCKAN;
+	}
+
+	@Override
+	public ImportFromCKAN getDummyImport() {
+		final TypedQuery<ImportFromCKAN> query = em.createQuery("SELECT ifckan FROM ImportFromCKAN ifckan Where ifckan.resourceId = 'dummy'", ImportFromCKAN.class);
+
+		ImportFromCKAN importFromCkan;
+		try {
+			importFromCkan = query.getSingleResult();
+		} catch (final NoResultException e) {
+			// TODO create the record if not found
+			importFromCkan = createNewImportRecord("dummy", "dummy", new Date());
+		}
+
+		return importFromCkan;
 	}
 }

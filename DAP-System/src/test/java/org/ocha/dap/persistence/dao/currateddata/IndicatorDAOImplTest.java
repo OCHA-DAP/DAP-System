@@ -81,8 +81,8 @@ public class IndicatorDAOImplTest {
 
 		indicatorDAO.addIndicator(source, entity, indicatorType, start, end, Periodicity.YEAR, true, "10000", "10000$", importFromCKAN);
 
-		// Assert.assertEquals(1, indicatorDAO.listLastIndicators(100).size());
-		// Assert.fail("Not yet implemented");
+		Assert.assertEquals(1, indicatorDAO.listLastIndicators(100).size());
+		Assert.fail("Not yet implemented");
 	}
 
 }

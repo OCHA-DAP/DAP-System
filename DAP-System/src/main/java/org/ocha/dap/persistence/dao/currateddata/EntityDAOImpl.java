@@ -42,8 +42,14 @@ public class EntityDAOImpl implements EntityDAO {
 	}
 
 	@Override
+	public Entity getEntityById(final long id) {
+		return em.find(Entity.class, id);
+	}
+
+	@Override
 	@Transactional
 	public void deleteEntityByCodeAndType(final String code, final String type) {
 		em.remove(getEntityByCodeAndType(code, type));
 	}
+
 }
