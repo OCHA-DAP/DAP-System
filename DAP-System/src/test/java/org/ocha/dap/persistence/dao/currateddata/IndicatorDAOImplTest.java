@@ -2,9 +2,10 @@ package org.ocha.dap.persistence.dao.currateddata;
 
 import java.util.Date;
 
+import javax.persistence.PersistenceException;
+
 import junit.framework.Assert;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
@@ -83,8 +84,8 @@ public class IndicatorDAOImplTest {
 		try {
 			indicatorDAO.addIndicator(source, entity, indicatorType, start, end, Periodicity.YEAR, true, "10000", "10000$", importFromCKAN);
 			Assert.fail("Should not be possible to add the same value twice, multiple column constraint not enforced");
-		} catch (final ConstraintViolationException e) {
-			// Expected behavior
+		} catch (final PersistenceException e) {
+			// Expected behavior () caused by a ConstraintViolationException
 		}
 
 	}
