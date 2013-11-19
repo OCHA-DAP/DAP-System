@@ -22,7 +22,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Override
 	public List<Indicator> listLastIndicators(final int limit) {
-		final TypedQuery<Indicator> query = em.createQuery("SELECT i FROM Indicator i ORDER BY i.code", Indicator.class).setMaxResults(limit);
+		final TypedQuery<Indicator> query = em.createQuery("SELECT i FROM Indicator i ORDER BY i.id", Indicator.class).setMaxResults(limit);
 		return query.getResultList();
 	}
 
@@ -44,6 +44,12 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		indicator.setImportFromCKAN(importFromCKAN);
 		em.persist(indicator);
 
+	}
+
+	@Override
+	@Transactional
+	public void deleteAllIndicators() {
+		em.createQuery("DELETE FROM Indicator").executeUpdate();
 	}
 
 }

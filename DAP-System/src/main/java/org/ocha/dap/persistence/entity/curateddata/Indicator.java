@@ -38,7 +38,7 @@ import org.ocha.dap.persistence.entity.ImportFromCKAN;
  * 
  */
 @Entity
-@Table(name = "indicator", uniqueConstraints = @UniqueConstraint(columnNames = { "source_id", "entity_id", "type_id", "start_time" }))
+@Table(name = "dap_indicator", uniqueConstraints = @UniqueConstraint(columnNames = { "source_id", "entity_id", "type_id", "start_time" }))
 public class Indicator {
 
 	public enum Periodicity {
@@ -75,7 +75,7 @@ public class Indicator {
 	@Enumerated(EnumType.STRING)
 	private Periodicity periodicity;
 
-	@Column(name = "numeric", nullable = false, updatable = false)
+	@Column(name = "is_numeric", nullable = false, updatable = false)
 	private boolean numeric;
 
 	@Column(name = "value", nullable = false, updatable = false)

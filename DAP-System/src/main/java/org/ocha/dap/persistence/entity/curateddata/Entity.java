@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
 
@@ -19,7 +20,7 @@ import org.hibernate.annotations.ForeignKey;
  * 
  */
 @javax.persistence.Entity
-@Table(name = "entity")
+@Table(name = "entity", uniqueConstraints = @UniqueConstraint(columnNames = { "code", "entity_type_id" }))
 public class Entity {
 
 	@Id

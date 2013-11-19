@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class EntityDAOImpl implements EntityDAO {
-	
+
 	@Autowired
 	EntityTypeDAO entityTypeDAO;
-	
+
 	@PersistenceContext
 	private EntityManager em;
 
@@ -25,7 +25,6 @@ public class EntityDAOImpl implements EntityDAO {
 		return query.getResultList();
 	}
 
-	
 	@Override
 	@Transactional
 	public void addEntity(final String code, final String name, final EntityType entityType) {
@@ -36,4 +35,15 @@ public class EntityDAOImpl implements EntityDAO {
 		em.persist(entity);
 	}
 
+	@Override
+	public Entity getEntityByCodeAndType(final String code, final String type) {
+		final TypedQuery<Entity> query = em.createQuery("SELECT e FROM Entity e Where e.code = :code AND e.type.code = :type", Entity.class).setParameter("code", code).setParameter("type", type);
+		return query.getSingleResult();
+	}
+
+	@Override
+	@Transactional
+	public void deleteEntityByCodeAndType(final String code, final String type) {
+		em.remove(getEntityByCodeAndType(code, type));
+	}
 }

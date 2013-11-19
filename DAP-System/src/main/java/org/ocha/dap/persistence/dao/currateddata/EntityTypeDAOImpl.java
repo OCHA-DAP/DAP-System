@@ -35,4 +35,10 @@ public class EntityTypeDAOImpl implements EntityTypeDAO {
 		return query.getSingleResult();
 	}
 
+	@Override
+	@Transactional
+	public void deleteEntityTypeByCode(final String code) {
+		em.remove(getEntityTypeByCode(code));
+	}
+
 }

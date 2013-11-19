@@ -31,6 +31,9 @@ public class IndicatorTypeDAOImplTest {
 		final IndicatorType indicatorTypeForCode = indicatorTypeDAO.getIndicatorTypeByCode("per-capita-gdp");
 		Assert.assertEquals("Per capita gdp", indicatorTypeForCode.getName());
 		Assert.assertEquals(1, indicatorTypeDAO.listIndicatorTypes().size());
+
+		indicatorTypeDAO.deleteIndicatorTypeByCode("per-capita-gdp");
+		Assert.assertEquals(0, indicatorTypeDAO.listIndicatorTypes().size());
 	}
 
 }

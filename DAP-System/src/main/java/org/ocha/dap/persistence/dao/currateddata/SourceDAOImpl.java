@@ -35,4 +35,11 @@ public class SourceDAOImpl implements SourceDAO {
 		return query.getSingleResult();
 	}
 
+	@Override
+	@Transactional
+	public void deleteSourceByCode(final String code) {
+		em.remove(getSourceByCode(code));
+
+	}
+
 }

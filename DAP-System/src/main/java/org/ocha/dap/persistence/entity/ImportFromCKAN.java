@@ -39,6 +39,10 @@ public class ImportFromCKAN {
 		this.timestamp = timestamp;
 	}
 
+	public ImportFromCKAN() {
+		super();
+	}
+
 	public long getId() {
 		return id;
 	}

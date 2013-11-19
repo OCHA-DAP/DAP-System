@@ -12,9 +12,12 @@
 	<bean id="ckanResourceDAO" class="org.ocha.dap.persistence.dao.ckan.CKANResourceDAOImpl" />
 	<bean id="ckanDatasetDAO" class="org.ocha.dap.persistence.dao.ckan.CKANDatasetDAOImpl" />
 	
+	<bean id="importFromCKANDAO" class="org.ocha.dap.persistence.dao.ImportFromCKANDAOImpl" />
+	
 	<bean id="entityTypeDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityTypeDAOImpl" />
 	<bean id="entityDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityDAOImpl" />
 	<bean id="indicatorTypeDAO" class="org.ocha.dap.persistence.dao.currateddata.IndicatorTypeDAOImpl" />
 	<bean id="sourceDAO" class="org.ocha.dap.persistence.dao.currateddata.SourceDAOImpl" />
+	<bean id="indicatorDAO" class="org.ocha.dap.persistence.dao.currateddata.IndicatorDAOImpl" />
 
 </beans>

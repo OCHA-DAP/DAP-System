@@ -17,4 +17,9 @@ public interface IndicatorDAO {
 	public void addIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
 			final String value, final String initialValue, final ImportFromCKAN importFromCKAN);
 
+	/**
+	 * very likely to be used by the unit tests only
+	 */
+	public void deleteAllIndicators();
+
 }

@@ -1,8 +1,11 @@
 package org.ocha.dap.persistence.dao.currateddata;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,6 +21,16 @@ public class EntityDAOImplTest {
 	@Autowired
 	private EntityTypeDAO entityTypeDAO;
 
+	@Before
+	public void setUp() {
+		entityTypeDAO.addEntityType("country", "Country");
+	}
+
+	@After
+	public void tearDown() {
+		entityTypeDAO.deleteEntityTypeByCode("country");
+	}
+
 	@Test
 	public void testListEntities() {
 		Assert.assertEquals(0, entityDAO.listEntities().size());
@@ -29,12 +42,16 @@ public class EntityDAOImplTest {
 			// expected
 		}
 
-		entityTypeDAO.addEntityType("country", "Country");
-		final EntityType entityTypeForCode = entityTypeDAO.getEntityTypeByCode("country");
+		final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
 
-		entityDAO.addEntity("RU", "Russia", entityTypeForCode);
-		
+		entityDAO.addEntity("RU", "Russia", country);
+		final Entity entityForCode = entityDAO.getEntityByCodeAndType("RU", "country");
+		Assert.assertEquals("Russia", entityForCode.getName());
 		Assert.assertEquals(1, entityDAO.listEntities().size());
+
+		entityDAO.deleteEntityByCodeAndType("RU", "country");
+
+		Assert.assertEquals(0, entityDAO.listEntities().size());
 
 	}
 

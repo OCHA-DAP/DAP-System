@@ -31,5 +31,8 @@ public class SourceDAOImplTest {
 		final Source source = sourceDAO.getSourceByCode("WB");
 		Assert.assertEquals("World Bank", source.getName());
 		Assert.assertEquals(1, sourceDAO.listSources().size());
+
+		sourceDAO.deleteSourceByCode("WB");
+		Assert.assertEquals(0, sourceDAO.listSources().size());
 	}
 }

@@ -2,9 +2,13 @@ package org.ocha.dap.service;
 
 import javax.persistence.NoResultException;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ocha.dap.persistence.dao.currateddata.EntityDAO;
+import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,23 +20,37 @@ public class CuratedDataServiceImplTest {
 	@Autowired
 	CuratedDataService curatedDataService;
 
+	@Autowired
+	private EntityTypeDAO entityTypeDAO;
+
+	@Autowired
+	private EntityDAO entityDAO;
+
+	@Before
+	public void setUp() {
+		entityTypeDAO.addEntityType("country", "Country");
+	}
+
+	@After
+	public void tearDown() {
+		entityDAO.deleteEntityByCodeAndType("RU", "country");
+		entityTypeDAO.deleteEntityTypeByCode("country");
+	}
+
 	@Test
-	public void testListEntityTypes() {
+	public void testListEntities() {
 		Assert.assertEquals(0, curatedDataService.listEntities().size());
-		Assert.assertEquals(0, curatedDataService.listEntityTypes().size());
 
 		try {
-			curatedDataService.addEntity("RU", "Russia", "country");
-			Assert.fail("entity type Country does not exist");
+			curatedDataService.addEntity("RU", "Russia", "crisis");
+			Assert.fail("entity type crisis does not exist");
 		} catch (final NoResultException e) {
 			// expected
 		}
-		
-		curatedDataService.addEntityType("country", "Country");
+
 		curatedDataService.addEntity("RU", "Russia", "country");
-		
+
 		Assert.assertEquals(1, curatedDataService.listEntities().size());
-		Assert.assertEquals(1, curatedDataService.listEntityTypes().size());
 	}
 
 }

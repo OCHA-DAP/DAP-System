@@ -37,4 +37,10 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 		return query.getSingleResult();
 	}
 
+	@Override
+	@Transactional
+	public void deleteIndicatorTypeByCode(final String code) {
+		em.remove(getIndicatorTypeByCode(code));
+	}
+
 }

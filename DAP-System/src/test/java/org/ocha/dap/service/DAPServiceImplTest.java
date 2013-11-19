@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+//FIXME reactivate these integration tests when the dedicated ckan instance is ready
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
 public class DAPServiceImplTest {
@@ -74,6 +76,7 @@ public class DAPServiceImplTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testGetDatasetDTOFromQueryV3() {
 		{
@@ -141,6 +144,7 @@ public class DAPServiceImplTest {
 		Assert.assertTrue(ckanResourceDAO.listCKANResources().size() > 0);
 	}
 
+	@Ignore
 	@Test
 	public void testStandardWorkflow() throws IOException {
 		// we need to initialize datasets as to be curated to get some data to
