@@ -3,6 +3,7 @@ package org.ocha.dap.service;
 import java.util.Date;
 import java.util.List;
 
+import org.ocha.dap.importer.PreparedIndicator;
 import org.ocha.dap.persistence.dao.ImportFromCKANDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
@@ -91,6 +92,17 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.getDummyImport();
 		indicatorDAO.addIndicator(source, entity, indicatorType, start, end, periodicity, numeric, value, initialValue, importFromCKAN);
+
+	}
+
+	@Override
+	public void addIndicator(final PreparedIndicator preparedIndicator, final ImportFromCKAN importFromCKAN) {
+		final Source source = sourceDAO.getSourceByCode(preparedIndicator.getSourceCode());
+		final Entity entity = entityDAO.getEntityByCodeAndType(preparedIndicator.getEntityCode(), preparedIndicator.getEntityTypeCode());
+		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(preparedIndicator.getIndicatorTypeCode());
+
+		indicatorDAO.addIndicator(source, entity, indicatorType, preparedIndicator.getStart(), preparedIndicator.getEnd(), preparedIndicator.getPeriodicity(), preparedIndicator.isNumeric(),
+				preparedIndicator.getValue(), preparedIndicator.getInitialValue(), importFromCKAN);
 
 	}
 

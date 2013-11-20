@@ -7,20 +7,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ocha.dap.persistence.entity.curateddata.Indicator;
-
 public class ScraperImporter implements DAPImporter {
 
 	private final List<String> acceptedIndicatorTypes = new ArrayList<>();
+	private final List<String> acceptedCountries = new ArrayList<>();
 
 	public ScraperImporter() {
 		super();
 		acceptedIndicatorTypes.add("PVX040");
+		acceptedCountries.add("RWA");
 	}
 
 	@Override
 	public PreparedData prepareDataForImport(final File file) {
-		final List<Indicator> preparedIndicators = new ArrayList<>();
+		final List<PreparedIndicator> preparedIndicators = new ArrayList<>();
 		final File parent = file.getParentFile();
 		final File valueFile = new File(parent, "value.csv");
 
@@ -30,9 +30,22 @@ public class ScraperImporter implements DAPImporter {
 
 				// use comma as separator
 				final String[] values = line.split(",");
-				if (acceptedIndicatorTypes.contains(values[2])) {
-					final Indicator indicator = new Indicator();
-					// FIXME finish this
+				if (acceptedIndicatorTypes.contains(values[2]) && acceptedCountries.contains(values[1])) {
+					final PreparedIndicator preparedIndicator = new PreparedIndicator();
+					preparedIndicator.setSourceCode(values[0]);
+					preparedIndicator.setEntityCode(values[1]);
+					preparedIndicator.setEntityTypeCode("country");
+					preparedIndicator.setIndicatorTypeCode(values[2]);
+
+					final TimeRange timeRange = new TimeRange(values[3]);
+					preparedIndicator.setStart(timeRange.getStart());
+					preparedIndicator.setEnd(timeRange.getEnd());
+					preparedIndicator.setPeriodicity(timeRange.getPeriodicity());
+					preparedIndicator.setNumeric("0".equals((values[5])));
+					preparedIndicator.setValue(values[4]);
+					preparedIndicator.setInitialValue(values[4]);
+
+					preparedIndicators.add(preparedIndicator);
 				}
 			}
 

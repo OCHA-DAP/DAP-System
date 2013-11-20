@@ -167,7 +167,7 @@ public class DAPServiceImpl implements DAPService {
 		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
 
 		final CKANDataset.Type type = getTypeForFile(id, revision_id);
-		final boolean result = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type);
+		final boolean result = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type, id, revision_id);
 
 		if (result) {
 			workflowService.flagCKANResourceAsImportSuccess(id, revision_id, type);

@@ -34,6 +34,7 @@
   				<option value="${indicatorType.code}">${indicatorType.name}</option>
   			</c:forEach>
 		</select> 
+		<br/>
 		
 		<label for="start">Start date (yyyy-mm-dd)</label>
   		<input type="text" name="start" id="start" />
@@ -41,12 +42,17 @@
   		<label for="end">End date (yyyy-mm-dd)</label>
   		<input type="text" name="end" id="end" />
   		
+  		<label for="periodicity">Periodicity</label>
   		<select name="periodicity" id="periodicity">
   			<c:forEach var="periodicity" items="${it.periodicities}">
   				<option value="${periodicity}">${periodicity}</option>
   			</c:forEach>
 		</select> 
 		
+		<label for="numeric">Is numeric</label>
+		<input type="checkbox" name="numeric" value="true">
+		
+		<br/>
 		<label for="value">Value</label>
   		<input type="text" name="value" id="value" />
   		

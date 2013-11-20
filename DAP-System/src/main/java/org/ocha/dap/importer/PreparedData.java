@@ -2,15 +2,13 @@ package org.ocha.dap.importer;
 
 import java.util.List;
 
-import org.ocha.dap.persistence.entity.curateddata.Indicator;
-
 public class PreparedData {
 
 	private final boolean success;
 
-	private final List<Indicator> indicatorsToImport;
+	private final List<PreparedIndicator> indicatorsToImport;
 
-	public PreparedData(final boolean success, final List<Indicator> indicatorsToImport) {
+	public PreparedData(final boolean success, final List<PreparedIndicator> indicatorsToImport) {
 		super();
 		this.success = success;
 		this.indicatorsToImport = indicatorsToImport;
@@ -20,7 +18,7 @@ public class PreparedData {
 		return success;
 	}
 
-	public List<Indicator> getIndicatorsToImport() {
+	public List<PreparedIndicator> getIndicatorsToImport() {
 		return indicatorsToImport;
 	}
 

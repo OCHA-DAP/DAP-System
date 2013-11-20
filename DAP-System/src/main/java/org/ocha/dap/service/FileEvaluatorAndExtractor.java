@@ -17,7 +17,9 @@ public interface FileEvaluatorAndExtractor {
 	 * Performs the required transformation and import data of the resource, using the appropriate importer (Dummy importer,
 	 * ScrapperImporter etc...)
 	 * 
+	 * Also responsible for the creation of a record for the import in db (to perform all this is one transaction, ensuring consistency)
+	 * 
 	 */
-	public boolean transformAndImportDataFromResource(final File file, final CKANDataset.Type type);
+	public boolean transformAndImportDataFromResource(final File file, final CKANDataset.Type type, final String resourceId, final String revisionId);
 
 }

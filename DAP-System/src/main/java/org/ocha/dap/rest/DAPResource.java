@@ -265,7 +265,7 @@ public class DAPResource {
 	@POST
 	@Path("/curated/indicators")
 	public Response addIndicator(@FormParam("sourceCode") final String sourceCode, @FormParam("entityId") final long entityId, @FormParam("indicatorTypeCode") final String indicatorTypeCode,
-			@FormParam("start") final String start, @FormParam("end") final String end, @FormParam("periodicity") final Periodicity periodicity, @FormParam("periodicity") final boolean numeric,
+			@FormParam("start") final String start, @FormParam("end") final String end, @FormParam("periodicity") final Periodicity periodicity, @FormParam("numeric") final boolean numeric,
 			@FormParam("value") final String value, @FormParam("initialValue") final String initialValue) {
 		final DateTimeFormatter fmt = ISODateTimeFormat.date();
 		final Date startDate = fmt.parseDateTime(start).toDate();
