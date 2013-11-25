@@ -12,7 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
-import org.ocha.dap.model.ValidationReport;
+import org.ocha.dap.model.validation.ValidationReport;
 
 @Entity
 @Table(name = "ckan_resource")

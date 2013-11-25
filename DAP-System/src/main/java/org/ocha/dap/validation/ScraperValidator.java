@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.ocha.dap.model.ValidationReport;
-import org.ocha.dap.model.ValidationReportEntry;
-import org.ocha.dap.model.ValidationStatus;
+import org.ocha.dap.model.validation.ValidationReport;
+import org.ocha.dap.model.validation.ValidationReportEntry;
+import org.ocha.dap.model.validation.ValidationStatus;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.tools.IOTools;
 import org.slf4j.Logger;

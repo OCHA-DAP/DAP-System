@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.ocha.dap.model.ValidationStatus;
+import org.ocha.dap.model.validation.ValidationStatus;
 import org.springframework.core.io.ClassPathResource;
 
 public class DummyValidatorTest {

@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.ocha.dap.model.ValidationReport;
+import org.ocha.dap.model.validation.ValidationReport;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
 import org.ocha.dap.persistence.entity.ckan.CKANResource.WorkflowState;

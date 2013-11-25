@@ -41,9 +41,9 @@ import com.sun.jersey.api.view.Viewable;
 @Path("/admin")
 @Produces(MediaType.TEXT_HTML)
 @Component
-public class DAPResource {
+public class AdminResource {
 
-	private static Logger logger = LoggerFactory.getLogger(DAPResource.class);
+	private static Logger logger = LoggerFactory.getLogger(AdminResource.class);
 
 	private static String SESSION_PARAM_UID = "SESSION_PARAM_UID";
 

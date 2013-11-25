@@ -111,4 +111,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return indicatorDAO.listLastIndicators(limit);
 	}
 
+	@Override
+	public List<Indicator> listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode) {
+		return indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(periodicity, sourceCode, indicatorTypeCode);
+	}
+
 }

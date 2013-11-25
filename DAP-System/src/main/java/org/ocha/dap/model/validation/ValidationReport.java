@@ -1,4 +1,4 @@
-package org.ocha.dap.model;
+package org.ocha.dap.model.validation;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 
-public class ValidationReport implements Serializable{
+public class ValidationReport implements Serializable {
 
 	/**
 	 * 
@@ -38,9 +38,9 @@ public class ValidationReport implements Serializable{
 		final ValidationReportEntry newEntry = new ValidationReportEntry(newEntryStatus, newEntryMessage);
 		entries.add(newEntry);
 	}
-	
-	public void addEntries(final List<ValidationReportEntry> newEntries){
-		for(final ValidationReportEntry newEntry : newEntries){
+
+	public void addEntries(final List<ValidationReportEntry> newEntries) {
+		for (final ValidationReportEntry newEntry : newEntries) {
 			addEntry(newEntry.getStatus(), newEntry.getMessage());
 		}
 	}

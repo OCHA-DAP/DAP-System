@@ -1,16 +1,16 @@
-package org.ocha.dap.model;
+package org.ocha.dap.model.validation;
 
 import java.io.Serializable;
 
-public class ValidationReportEntry implements Serializable{
-	
+public class ValidationReportEntry implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 192590799226450518L;
 	private final ValidationStatus status;
 	private final String message;
-	
+
 	public ValidationReportEntry(final ValidationStatus status, final String message) {
 		super();
 		this.status = status;

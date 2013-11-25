@@ -2,7 +2,7 @@ package org.ocha.dap.service;
 
 import java.io.File;
 
-import org.ocha.dap.model.ValidationReport;
+import org.ocha.dap.model.validation.ValidationReport;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 
 public interface FileEvaluatorAndExtractor {

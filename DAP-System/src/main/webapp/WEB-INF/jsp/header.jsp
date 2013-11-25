@@ -15,6 +15,7 @@
       <li><a href="${ctx}/admin/curated/indicatortypes/">Indicator types</a></li>
       <li><a href="${ctx}/admin/curated/sources/">Sources</a></li>
       <li><a href="${ctx}/admin/curated/indicators/">Indicators</a></li>
+      <li><a href="${ctx}/admin/curated/indicators/charts/">Charts</a></li>
     </ul>
   </div>
 </div>

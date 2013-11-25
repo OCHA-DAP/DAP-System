@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.ocha.dap.model.ValidationReportEntry;
-import org.ocha.dap.model.ValidationStatus;
+import org.ocha.dap.model.validation.ValidationReportEntry;
+import org.ocha.dap.model.validation.ValidationStatus;
 import org.springframework.core.io.ClassPathResource;
 
 public class ScraperValidatorTest {
@@ -30,7 +30,7 @@ public class ScraperValidatorTest {
 			final List<ValidationReportEntry> result = scraperValidator.validateDatasetFile(csvFile);
 			Assert.assertEquals(0, result.size());
 		}
-		
+
 		{
 			final File csvFile = new ClassPathResource("samples/scraper/dataset-from-csv-from-dragon-without-first-line.csv").getFile();
 			final List<ValidationReportEntry> result = scraperValidator.validateDatasetFile(csvFile);

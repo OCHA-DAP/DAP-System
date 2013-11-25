@@ -42,4 +42,6 @@ public interface CuratedDataService {
 
 	public List<Indicator> listLastIndicators(final int limit);
 
+	public List<Indicator> listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode);
+
 }

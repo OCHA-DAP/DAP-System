@@ -49,44 +49,74 @@ public class IndicatorDAOImplTest {
 		entityTypeDAO.addEntityType("country", "Country");
 
 		final EntityType entityTypeForCode = entityTypeDAO.getEntityTypeByCode("country");
-		entityDAO.addEntity("RU", "Russia", entityTypeForCode);
+		entityDAO.addEntity("LUX", "Luxembourg", entityTypeForCode);
+		entityDAO.addEntity("RUS", "Russia", entityTypeForCode);
+		entityDAO.addEntity("RWA", "Rwanda", entityTypeForCode);
 
 		indicatorTypeDAO.addIndicatorType("per-capita-gdp", "Per capita gdp", "dollar");
+		indicatorTypeDAO.addIndicatorType("PVX040", "Incidence of conflict", "Count");
 
 		sourceDAO.addSource("WB", "World Bank");
+		sourceDAO.addSource("acled", "Armed Conflict Location and Event Dataset");
 	}
 
 	@After
 	public void tearDown() {
 		indicatorDAO.deleteAllIndicators();
-		entityDAO.deleteEntityByCodeAndType("RU", "country");
+		entityDAO.deleteEntityByCodeAndType("LUX", "country");
+		entityDAO.deleteEntityByCodeAndType("RUS", "country");
+		entityDAO.deleteEntityByCodeAndType("RWA", "country");
+
 		entityTypeDAO.deleteEntityTypeByCode("country");
+
 		indicatorTypeDAO.deleteIndicatorTypeByCode("per-capita-gdp");
+		indicatorTypeDAO.deleteIndicatorTypeByCode("PVX040");
+
 		sourceDAO.deleteSourceByCode("WB");
+		sourceDAO.deleteSourceByCode("acled");
 	}
 
 	@Test
 	public void testListLastIndicators() {
 		Assert.assertEquals(0, indicatorDAO.listLastIndicators(100).size());
 
-		final Entity entity = entityDAO.getEntityByCodeAndType("RU", "country");
+		final Entity russia = entityDAO.getEntityByCodeAndType("RUS", "country");
+		final Entity luxembourg = entityDAO.getEntityByCodeAndType("LUX", "country");
+
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode("per-capita-gdp");
-		final Source source = sourceDAO.getSourceByCode("WB");
+		final Source sourceWB = sourceDAO.getSourceByCode("WB");
+		final Source sourceAcled = sourceDAO.getSourceByCode("acled");
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord("anyResourceId", "anyRevisionId", new Date());
 
-		final DateTime dateTime = new DateTime(2013, 1, 1, 0, 0);
-		final Date start = dateTime.toDate();
-		final Date end = dateTime.plusYears(1).toDate();
+		final DateTime dateTime2013 = new DateTime(2013, 1, 1, 0, 0);
+		final Date date2013 = dateTime2013.toDate();
+		final Date date2014 = dateTime2013.plusYears(1).toDate();
 
-		indicatorDAO.addIndicator(source, entity, indicatorType, start, end, Periodicity.YEAR, true, "10000", "10000$", importFromCKAN);
+		indicatorDAO.addIndicator(sourceWB, russia, indicatorType, date2013, date2014, Periodicity.YEAR, true, "10000", "10000$", importFromCKAN);
 		Assert.assertEquals(1, indicatorDAO.listLastIndicators(100).size());
 
 		try {
-			indicatorDAO.addIndicator(source, entity, indicatorType, start, end, Periodicity.YEAR, true, "10000", "10000$", importFromCKAN);
+			indicatorDAO.addIndicator(sourceWB, russia, indicatorType, date2013, date2014, Periodicity.YEAR, true, "10000", "10000$", importFromCKAN);
 			Assert.fail("Should not be possible to add the same value twice, multiple column constraint not enforced");
 		} catch (final PersistenceException e) {
 			// Expected behavior () caused by a ConstraintViolationException
 		}
+
+		indicatorDAO.addIndicator(sourceAcled, russia, indicatorType, date2013, date2014, Periodicity.YEAR, true, "9000", "9000$", importFromCKAN);
+		Assert.assertEquals(2, indicatorDAO.listLastIndicators(100).size());
+		Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp").size());
+
+		indicatorDAO.addIndicator(sourceAcled, luxembourg, indicatorType, date2013, date2014, Periodicity.YEAR, true, "100000", "100000$", importFromCKAN);
+		Assert.assertEquals(3, indicatorDAO.listLastIndicators(100).size());
+		Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp").size());
+		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "acled", "per-capita-gdp").size());
+
+		indicatorDAO.addIndicator(sourceAcled, luxembourg, indicatorType, dateTime2013.plusDays(1).toDate(), dateTime2013.plusDays(2).toDate(), Periodicity.DAY, true, "273.97", "237.97$ per day",
+				importFromCKAN);
+
+		Assert.assertEquals(4, indicatorDAO.listLastIndicators(100).size());
+		Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp").size());
+		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "acled", "per-capita-gdp").size());
 
 	}
 }

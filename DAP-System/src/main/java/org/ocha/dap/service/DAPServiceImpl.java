@@ -20,7 +20,7 @@ import org.ocha.dap.dto.apiv3.DatasetListV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO;
 import org.ocha.dap.dto.apiv3.DatasetV3DTO.Resource;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
-import org.ocha.dap.model.ValidationReport;
+import org.ocha.dap.model.validation.ValidationReport;
 import org.ocha.dap.persistence.dao.UserDAO;
 import org.ocha.dap.persistence.dao.ckan.CKANDatasetDAO;
 import org.ocha.dap.persistence.dao.ckan.CKANResourceDAO;
