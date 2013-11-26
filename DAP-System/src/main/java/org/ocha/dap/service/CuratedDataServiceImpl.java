@@ -1,9 +1,13 @@
 package org.ocha.dap.service;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.ocha.dap.importer.PreparedIndicator;
+import org.ocha.dap.importer.TimeRange;
+import org.ocha.dap.model.api.DataTable;
 import org.ocha.dap.persistence.dao.ImportFromCKANDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
@@ -112,8 +116,29 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public List<Indicator> listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode) {
-		return indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(periodicity, sourceCode, indicatorTypeCode);
+	public DataTable listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode) {
+
+		final List<Indicator> indicators = indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(periodicity, sourceCode, indicatorTypeCode);
+		final Set<String> entities = new HashSet<>();
+		entities.add("Entities");
+		final Set<String> periods = new HashSet<>();
+		for (final Indicator indicator : indicators) {
+			entities.add(indicator.getEntity().getCode());
+			final TimeRange timeRange = new TimeRange(indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity());
+			periods.add(timeRange.getTimeRangeAsSimpleString());
+		}
+
+		final DataTable dataTable = new DataTable(entities);
+		for (final String period : periods) {
+			dataTable.addRow(period);
+		}
+
+		for (final Indicator indicator : indicators) {
+			final TimeRange timeRange = new TimeRange(indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity());
+			dataTable.addValue(timeRange.getTimeRangeAsSimpleString(), indicator.getEntity().getCode(), indicator.getValue());
+		}
+
+		return dataTable;
 	}
 
 }

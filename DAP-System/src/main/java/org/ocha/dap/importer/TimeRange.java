@@ -29,6 +29,13 @@ public class TimeRange {
 
 	}
 
+	public TimeRange(final Date start, final Date end, final Periodicity periodicity) {
+		super();
+		this.start = start;
+		this.end = end;
+		this.periodicity = periodicity;
+	}
+
 	public Date getStart() {
 		return start;
 	}
@@ -39,6 +46,17 @@ public class TimeRange {
 
 	public Periodicity getPeriodicity() {
 		return periodicity;
+	}
+
+	public String getTimeRangeAsSimpleString() {
+		switch (periodicity) {
+		case YEAR:
+			return new Integer(new DateTime(start.getTime()).getYear()).toString();
+
+		default:
+			return start.toString();
+		}
+
 	}
 
 }

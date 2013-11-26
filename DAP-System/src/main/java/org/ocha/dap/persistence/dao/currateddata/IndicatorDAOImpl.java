@@ -49,7 +49,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public List<Indicator> listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode) {
 		final TypedQuery<Indicator> query = em
-				.createQuery("SELECT i FROM Indicator i WHERE i.periodicity = :periodicity AND i.source.code = :source AND i.type.code = :indicatorType ORDER BY i.id", Indicator.class)
+				.createQuery("SELECT i FROM Indicator i WHERE i.periodicity = :periodicity AND i.source.code = :source AND i.type.code = :indicatorType ORDER BY i.entity.code", Indicator.class)
 				.setParameter("periodicity", periodicity).setParameter("source", sourceCode).setParameter("indicatorType", indicatorTypeCode);
 
 		return query.getResultList();

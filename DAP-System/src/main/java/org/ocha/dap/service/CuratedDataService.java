@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.ocha.dap.importer.PreparedIndicator;
+import org.ocha.dap.model.api.DataTable;
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
@@ -42,6 +43,6 @@ public interface CuratedDataService {
 
 	public List<Indicator> listLastIndicators(final int limit);
 
-	public List<Indicator> listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode);
+	public DataTable listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode);
 
 }
