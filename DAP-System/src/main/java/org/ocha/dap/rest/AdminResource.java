@@ -251,6 +251,19 @@ public class AdminResource {
 	}
 
 	@GET
+	@Path("/curated/importsfromckan")
+	public Response displayImportFromCKANList() {
+		return Response.ok(new Viewable("/importsFromCKAN", curatedDataService.listImportsFromCKAN())).build();
+	}
+
+	@POST
+	@Path("/curated/importsfromckan/delete")
+	public Response deleteImportFromCKAN(@FormParam("importToDeleteId") final long importToDeleteId) {
+		curatedDataService.deleteImportFromCKAN(importToDeleteId);
+		return displayImportFromCKANList();
+	}
+
+	@GET
 	@Path("/curated/indicators")
 	public Response displayIndicatorsList() {
 		final DisplayIndicators displayIndicators = new DisplayIndicators();

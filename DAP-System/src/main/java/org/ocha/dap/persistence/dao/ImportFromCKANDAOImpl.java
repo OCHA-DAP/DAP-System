@@ -1,6 +1,7 @@
 package org.ocha.dap.persistence.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -37,5 +38,18 @@ public class ImportFromCKANDAOImpl implements ImportFromCKANDAO {
 		}
 
 		return importFromCkan;
+	}
+
+	@Override
+	public List<ImportFromCKAN> listImportsFromCKAN() {
+		final TypedQuery<ImportFromCKAN> query = em.createQuery("SELECT i FROM ImportFromCKAN i ORDER BY i.id", ImportFromCKAN.class);
+		return query.getResultList();
+	}
+
+	@Override
+	@Transactional
+	public void deleteImportFromCKAN(final long id) {
+		em.remove(em.find(ImportFromCKAN.class, id));
+
 	}
 }

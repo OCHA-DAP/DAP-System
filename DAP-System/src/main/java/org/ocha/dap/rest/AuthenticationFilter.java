@@ -36,15 +36,16 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 		log.debug(String.format("Entering ContainerRequest.filter %s", path));
 		if (path.matches(".*login/")) {
 			log.debug("Do nothing, login page must be allowed");
-		} else {
+		} else if (path.matches(".*admin*")) {
 			checkSessionAndSetCommonRequestAttributesForJspViews();
+		} else {
+			log.debug("Do nothing, pages other than admin are public");
 		}
 		return containerRequest;
 	}
 
 	/**
-	 * checks session and sets request attributes that are required by all JSP
-	 * views.
+	 * checks session and sets request attributes that are required by all JSP views.
 	 */
 	private void checkSessionAndSetCommonRequestAttributesForJspViews() {
 		final HttpSession session = request.getSession(false);

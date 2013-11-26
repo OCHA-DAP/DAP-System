@@ -30,8 +30,8 @@
       var data = new google.visualization.DataTable(jsonData);
 
       // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-      chart.draw(data, {width: 400, height: 240});
+      var chart = new google.visualization.${it}(document.getElementById('chart_div'));
+      chart.draw(data, {width: 800, height: 480});
     }
 
     </script>

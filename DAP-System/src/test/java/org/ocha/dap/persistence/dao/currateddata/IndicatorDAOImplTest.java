@@ -87,6 +87,7 @@ public class IndicatorDAOImplTest {
 		final Source sourceWB = sourceDAO.getSourceByCode("WB");
 		final Source sourceAcled = sourceDAO.getSourceByCode("acled");
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord("anyResourceId", "anyRevisionId", new Date());
+		final ImportFromCKAN importFromCKAN2 = importFromCKANDAO.createNewImportRecord("anyResourceId", "anyRevisionId", new Date());
 
 		final DateTime dateTime2013 = new DateTime(2013, 1, 1, 0, 0);
 		final Date date2013 = dateTime2013.toDate();
@@ -117,6 +118,15 @@ public class IndicatorDAOImplTest {
 		Assert.assertEquals(4, indicatorDAO.listLastIndicators(100).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp").size());
 		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "acled", "per-capita-gdp").size());
+
+		indicatorDAO.addIndicator(sourceAcled, luxembourg, indicatorType, dateTime2013.plusDays(2).toDate(), dateTime2013.plusDays(3).toDate(), Periodicity.DAY, true, "273.97", "237.97$ per day",
+				importFromCKAN2);
+
+		Assert.assertEquals(5, indicatorDAO.listLastIndicators(100).size());
+
+		indicatorDAO.deleteAllIndicatorsFromImport(importFromCKAN.getId());
+
+		Assert.assertEquals(1, indicatorDAO.listLastIndicators(100).size());
 
 	}
 }

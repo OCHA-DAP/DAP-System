@@ -14,8 +14,15 @@
       <li><a href="${ctx}/admin/curated/entities/">Entities</a></li>
       <li><a href="${ctx}/admin/curated/indicatortypes/">Indicator types</a></li>
       <li><a href="${ctx}/admin/curated/sources/">Sources</a></li>
+      <li><a href="${ctx}/admin/curated/importsfromckan/">Imports From CKAN</a></li>
       <li><a href="${ctx}/admin/curated/indicators/">Indicators</a></li>
-      <li><a href="${ctx}/admin/curated/indicators/charts/">Charts</a></li>
+    </ul>
+  </div>
+  
+   <div class="menu" id="menu3">
+    <ul>
+		<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/BarChart">Bar Chart</a></li>
+      	<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/PieChart">Pie Chart</a></li>
     </ul>
   </div>
 </div>

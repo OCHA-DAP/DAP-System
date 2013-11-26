@@ -91,6 +91,18 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
+	public List<ImportFromCKAN> listImportsFromCKAN() {
+		return importFromCKANDAO.listImportsFromCKAN();
+	}
+
+	@Override
+	@Transactional
+	public void deleteImportFromCKAN(final long id) {
+		indicatorDAO.deleteAllIndicatorsFromImport(id);
+		importFromCKANDAO.deleteImportFromCKAN(id);
+	}
+
+	@Override
 	@Transactional
 	public void addIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
 			final String value, final String initialValue) {
@@ -152,4 +164,5 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		dataTable.addRows(rows);
 		return dataTable;
 	}
+
 }

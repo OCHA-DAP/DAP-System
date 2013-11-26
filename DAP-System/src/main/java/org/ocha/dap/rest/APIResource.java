@@ -49,10 +49,11 @@ public class APIResource {
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	@Path("/yearly/source/{sourceCode}/indicatortype/{indicatorTypeCode}/")
-	public Response getChartWithYearlyDataForSourceAndIndicatorType(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode") final String indicatorTypeCode)
-			throws TypeMismatchException {
-		return Response.ok(new Viewable("/charts")).build();
+	@Path("/yearly/source/{sourceCode}/indicatortype/{indicatorTypeCode}/{chartType}")
+	public Response getChartWithYearlyDataForSourceAndIndicatorType(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode") final String indicatorTypeCode,
+			@PathParam("chartType") final String chartType) throws TypeMismatchException {
+
+		return Response.ok(new Viewable("/charts", chartType)).build();
 	}
 
 }

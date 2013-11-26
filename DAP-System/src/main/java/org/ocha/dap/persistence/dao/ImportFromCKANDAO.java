@@ -1,6 +1,7 @@
 package org.ocha.dap.persistence.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
 
@@ -22,5 +23,9 @@ public interface ImportFromCKANDAO {
 	 * @return a dummy import object to use for an import from the UI only
 	 */
 	public ImportFromCKAN getDummyImport();
+
+	public List<ImportFromCKAN> listImportsFromCKAN();
+
+	public void deleteImportFromCKAN(long id);
 
 }

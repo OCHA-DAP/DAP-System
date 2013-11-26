@@ -24,4 +24,6 @@ public interface IndicatorDAO {
 	 */
 	public void deleteAllIndicators();
 
+	public void deleteAllIndicatorsFromImport(long importId);
+
 }

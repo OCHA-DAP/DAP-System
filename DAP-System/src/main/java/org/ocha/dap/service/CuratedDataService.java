@@ -33,6 +33,10 @@ public interface CuratedDataService {
 
 	public void addSource(String code, String name);
 
+	public List<ImportFromCKAN> listImportsFromCKAN();
+
+	public void deleteImportFromCKAN(long id);
+
 	/**
 	 * Add an indicator for the provided parameters
 	 * 

@@ -62,4 +62,11 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		em.createQuery("DELETE FROM Indicator").executeUpdate();
 	}
 
+	@Override
+	@Transactional
+	public void deleteAllIndicatorsFromImport(final long importId) {
+		em.createQuery("DELETE FROM Indicator i WHERE i.importFromCKAN.id = :importId").setParameter("importId", importId).executeUpdate();
+
+	}
+
 }
