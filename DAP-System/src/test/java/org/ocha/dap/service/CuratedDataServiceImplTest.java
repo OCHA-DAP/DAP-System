@@ -10,7 +10,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ocha.dap.model.api.DataTable;
 import org.ocha.dap.persistence.dao.ImportFromCKANDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
@@ -26,6 +25,10 @@ import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.google.visualization.datasource.base.TypeMismatchException;
+import com.google.visualization.datasource.datatable.DataTable;
+import com.google.visualization.datasource.render.JsonRenderer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
@@ -106,7 +109,7 @@ public class CuratedDataServiceImplTest {
 	}
 
 	@Test
-	public void testListIndicatorsByPeriodicityAndSourceAndIndicatorType() {
+	public void testListIndicatorsByPeriodicityAndSourceAndIndicatorType() throws TypeMismatchException {
 		final Entity russia = entityDAO.getEntityByCodeAndType("RUS", "country");
 		final Entity luxembourg = entityDAO.getEntityByCodeAndType("LUX", "country");
 
@@ -124,42 +127,35 @@ public class CuratedDataServiceImplTest {
 
 		{
 			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp");
-			Assert.assertEquals(2, dataTable.getFirstRow().size());
-			Assert.assertEquals("RUS", dataTable.getFirstRow().get(1));
-			Assert.assertEquals(1, dataTable.getOtherRows().size());
+			Assert.assertEquals(2, dataTable.getNumberOfColumns());
+			Assert.assertEquals("RUS", dataTable.getColumnDescription(1).getId());
+			Assert.assertEquals(1, dataTable.getNumberOfRows());
 		}
 
 		indicatorDAO.addIndicator(sourceAcled, luxembourg, indicatorType, date2013, date2014, Periodicity.YEAR, true, "100000", "100000$", importFromCKAN);
 
 		{
 			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp");
-			Assert.assertEquals(2, dataTable.getFirstRow().size());
-			Assert.assertEquals("RUS", dataTable.getFirstRow().get(1));
-			Assert.assertEquals(1, dataTable.getOtherRows().size());
+			Assert.assertEquals(2, dataTable.getNumberOfColumns());
+			Assert.assertEquals("RUS", dataTable.getColumnDescription(1).getId());
+			Assert.assertEquals(1, dataTable.getNumberOfRows());
 		}
 
 		{
 			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "acled", "per-capita-gdp");
-			Assert.assertEquals(3, dataTable.getFirstRow().size());
-			Assert.assertEquals("RUS", dataTable.getFirstRow().get(1));
-			Assert.assertEquals("LUX", dataTable.getFirstRow().get(2));
-			Assert.assertEquals(1, dataTable.getOtherRows().size());
-			Assert.assertEquals(3, dataTable.getOtherRows().get("2013").length);
-			Assert.assertEquals("2013", dataTable.getOtherRows().get("2013")[0]);
-			Assert.assertEquals("9000", dataTable.getOtherRows().get("2013")[1]);
+			Assert.assertEquals(3, dataTable.getNumberOfColumns());
+			Assert.assertEquals("LUX", dataTable.getColumnDescription(1).getId());
+			Assert.assertEquals("RUS", dataTable.getColumnDescription(2).getId());
+			Assert.assertEquals(1, dataTable.getNumberOfRows());
+			Assert.assertEquals(3, dataTable.getRow(0).getCells().size());
+			Assert.assertEquals("2013", dataTable.getRow(0).getCell(0).getValue().toString());
+			Assert.assertEquals("100000.0", dataTable.getRow(0).getCell(1).getValue().toString());
+			Assert.assertEquals("9000.0", dataTable.getRow(0).getCell(2).getValue().toString());
+
+			final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
+			// final String result = GSONBuilderWrapper.getGSON().toJson(dataTable);
+			result.toString();
 		}
-		// Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB",
-		// "per-capita-gdp").size());
-		// Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "acled",
-		// "per-capita-gdp").size());
-		//
-		// indicatorDAO.addIndicator(sourceAcled, luxembourg, indicatorType, dateTime2013.plusDays(1).toDate(),
-		// dateTime2013.plusDays(2).toDate(), Periodicity.DAY, true, "273.97", "237.97$ per day",
-		// importFromCKAN);
-		//
-		// Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB",
-		// "per-capita-gdp").size());
-		// Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "acled",
-		// "per-capita-gdp").size());
+
 	}
 }

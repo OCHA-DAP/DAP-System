@@ -1,13 +1,11 @@
 package org.ocha.dap.service;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.ocha.dap.importer.PreparedIndicator;
 import org.ocha.dap.importer.TimeRange;
-import org.ocha.dap.model.api.DataTable;
 import org.ocha.dap.persistence.dao.ImportFromCKANDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
@@ -23,6 +21,12 @@ import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.google.visualization.datasource.base.TypeMismatchException;
+import com.google.visualization.datasource.datatable.ColumnDescription;
+import com.google.visualization.datasource.datatable.DataTable;
+import com.google.visualization.datasource.datatable.TableRow;
+import com.google.visualization.datasource.datatable.value.ValueType;
 
 public class CuratedDataServiceImpl implements CuratedDataService {
 
@@ -116,29 +120,36 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public DataTable listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode) {
+	public DataTable listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode) throws TypeMismatchException {
 
+		// must be sorted by start, entity
 		final List<Indicator> indicators = indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(periodicity, sourceCode, indicatorTypeCode);
-		final Set<String> entities = new HashSet<>();
-		entities.add("Entities");
-		final Set<String> periods = new HashSet<>();
+		final DataTable dataTable = new DataTable();
+
+		dataTable.addColumn(new ColumnDescription("Year", ValueType.TEXT, "Year"));
+
+		TimeRange previousTR = null;
+		TableRow currentRow = null;
+		final List<TableRow> rows = new ArrayList<>();
 		for (final Indicator indicator : indicators) {
-			entities.add(indicator.getEntity().getCode());
+			final String code = indicator.getEntity().getCode();
+			if (!dataTable.containsColumn(code))
+				dataTable.addColumn(new ColumnDescription(indicator.getEntity().getCode(), ValueType.NUMBER, indicator.getEntity().getName()));
+
 			final TimeRange timeRange = new TimeRange(indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity());
-			periods.add(timeRange.getTimeRangeAsSimpleString());
+			if (timeRange.equals(previousTR)) {
+				currentRow.addCell(Double.parseDouble(indicator.getValue()));
+			} else {
+				final TableRow aRow = new TableRow();
+				aRow.addCell(timeRange.getTimeRangeAsSimpleString());
+				currentRow = aRow;
+				aRow.addCell(Double.parseDouble(indicator.getValue()));
+				rows.add(aRow);
+				previousTR = timeRange;
+			}
 		}
 
-		final DataTable dataTable = new DataTable(entities);
-		for (final String period : periods) {
-			dataTable.addRow(period);
-		}
-
-		for (final Indicator indicator : indicators) {
-			final TimeRange timeRange = new TimeRange(indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity());
-			dataTable.addValue(timeRange.getTimeRangeAsSimpleString(), indicator.getEntity().getCode(), indicator.getValue());
-		}
-
+		dataTable.addRows(rows);
 		return dataTable;
 	}
-
 }

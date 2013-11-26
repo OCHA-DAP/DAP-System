@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.ocha.dap.importer.PreparedIndicator;
-import org.ocha.dap.model.api.DataTable;
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
@@ -12,6 +11,9 @@ import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.Source;
+
+import com.google.visualization.datasource.base.TypeMismatchException;
+import com.google.visualization.datasource.datatable.DataTable;
 
 public interface CuratedDataService {
 
@@ -43,6 +45,6 @@ public interface CuratedDataService {
 
 	public List<Indicator> listLastIndicators(final int limit);
 
-	public DataTable listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode);
+	public DataTable listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode) throws TypeMismatchException;
 
 }
