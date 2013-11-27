@@ -38,7 +38,6 @@ public class APIResource {
 	@Path("/yearly/source/{sourceCode}/indicatortype/{indicatorTypeCode}/json")
 	public String getYearlyDataForSourceAndIndicatorType(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode") final String indicatorTypeCode) throws TypeMismatchException {
 		final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, sourceCode, indicatorTypeCode);
-		// final String result = GSONBuilderWrapper.getGSON().toJson(dataTable);
 		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
 
 		logger.debug("about to return from getYearlyDataForSourceAndIndicatorType");
@@ -51,6 +50,29 @@ public class APIResource {
 	@Produces(MediaType.TEXT_HTML)
 	@Path("/yearly/source/{sourceCode}/indicatortype/{indicatorTypeCode}/{chartType}")
 	public Response getChartWithYearlyDataForSourceAndIndicatorType(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode") final String indicatorTypeCode,
+			@PathParam("chartType") final String chartType) throws TypeMismatchException {
+
+		return Response.ok(new Viewable("/charts", chartType)).build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype/{indicatorTypeCode}/json")
+	public String getDataForYearAndSourceAndIndicatorType(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
+			@PathParam("indicatorTypeCode") final String indicatorTypeCode) throws TypeMismatchException {
+		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode);
+		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
+
+		logger.debug("about to return from getDataForYearAndSourceAndIndicatorType");
+		logger.debug(result);
+
+		return result;
+	}
+
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype/{indicatorTypeCode}/{chartType}")
+	public Response getChartForYearAndSourceAndIndicatorType(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode") final String indicatorTypeCode,
 			@PathParam("chartType") final String chartType) throws TypeMismatchException {
 
 		return Response.ok(new Viewable("/charts", chartType)).build();

@@ -20,6 +20,15 @@ public interface IndicatorDAO {
 	public List<Indicator> listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode);
 
 	/**
+	 * periodicity is implicitely YEAR
+	 * 
+	 * @param year
+	 * @param sourceCode
+	 * @param indicatorTypeCode
+	 */
+	public List<Indicator> listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode);
+
+	/**
 	 * very likely to be used by the unit tests only
 	 */
 	public void deleteAllIndicators();

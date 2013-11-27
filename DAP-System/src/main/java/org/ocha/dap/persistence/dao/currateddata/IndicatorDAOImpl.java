@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.ocha.dap.importer.TimeRange;
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.Indicator;
@@ -52,6 +53,18 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 				.createQuery(
 						"SELECT i FROM Indicator i WHERE i.periodicity = :periodicity AND i.source.code = :source AND i.type.code = :indicatorType ORDER BY i.start, i.entity.type.code, i.entity.code",
 						Indicator.class).setParameter("periodicity", periodicity).setParameter("source", sourceCode).setParameter("indicatorType", indicatorTypeCode);
+
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Indicator> listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode) {
+		final TimeRange timeRange = new TimeRange(year);
+		final TypedQuery<Indicator> query = em
+				.createQuery(
+						"SELECT i FROM Indicator i WHERE i.periodicity = :periodicity AND i.source.code = :source AND i.type.code = :indicatorType AND i.start = :start ORDER BY i.entity.type.code, i.entity.code",
+						Indicator.class).setParameter("periodicity", Periodicity.YEAR).setParameter("start", timeRange.getStart()).setParameter("source", sourceCode)
+				.setParameter("indicatorType", indicatorTypeCode);
 
 		return query.getResultList();
 	}

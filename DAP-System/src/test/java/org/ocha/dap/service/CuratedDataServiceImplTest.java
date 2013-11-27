@@ -132,6 +132,13 @@ public class CuratedDataServiceImplTest {
 			Assert.assertEquals(1, dataTable.getNumberOfRows());
 		}
 
+		{
+			final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp");
+			Assert.assertEquals(2, dataTable.getNumberOfColumns());
+			Assert.assertEquals("per-capita-gdp", dataTable.getColumnDescription(1).getId());
+			Assert.assertEquals(1, dataTable.getNumberOfRows());
+		}
+
 		indicatorDAO.addIndicator(sourceAcled, luxembourg, indicatorType, date2013, date2014, Periodicity.YEAR, true, "100000", "100000$", importFromCKAN);
 
 		{

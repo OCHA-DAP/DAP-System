@@ -165,4 +165,19 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return dataTable;
 	}
 
+	@Override
+	public DataTable listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode) throws TypeMismatchException {
+		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode);
+
+		final DataTable dataTable = new DataTable();
+		dataTable.addColumn(new ColumnDescription("Entity", ValueType.TEXT, "Entity"));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode, ValueType.NUMBER, indicatorTypeCode));
+		for (final Indicator indicator : indicators) {
+			final TableRow aRow = new TableRow();
+			aRow.addCell(indicator.getEntity().getName());
+			aRow.addCell(Double.parseDouble(indicator.getValue()));
+			dataTable.addRow(aRow);
+		}
+		return dataTable;
+	}
 }

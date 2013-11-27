@@ -21,9 +21,10 @@
   
    <div class="menu" id="menu3">
     <ul>
-		<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/BarChart">Bar Chart</a></li>
-      	<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/PieChart">Pie Chart</a></li>
-      	<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/ColumnChart">Column Chart</a></li>
+		<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/BarChart">Bar Chart (2D data)</a></li>
+      	<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/ColumnChart">Column Chart (2D data)</a></li>
+      	<li><a href="${ctx}/api/yearly/year/2010/source/acled/indicatortype/PVX040/GeoChart">Geo Chart (1D data)</a></li>
+      	<li><a href="${ctx}/api/yearly/year/2010/source/acled/indicatortype/PVX040/PieChart">Pie Chart (1D data)</a></li>
     </ul>
   </div>
 </div>
