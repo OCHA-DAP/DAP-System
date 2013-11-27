@@ -15,7 +15,12 @@ public class ScraperImporter implements DAPImporter {
 	public ScraperImporter() {
 		super();
 		acceptedIndicatorTypes.add("PVX040");
+		acceptedIndicatorTypes.add("PSP080");
+		acceptedCountries.add("RUS");
 		acceptedCountries.add("RWA");
+		acceptedCountries.add("CMR");
+		acceptedCountries.add("LUX");
+
 	}
 
 	@Override

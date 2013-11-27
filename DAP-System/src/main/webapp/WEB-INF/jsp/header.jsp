@@ -23,6 +23,7 @@
     <ul>
 		<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/BarChart">Bar Chart</a></li>
       	<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/PieChart">Pie Chart</a></li>
+      	<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/ColumnChart">Column Chart</a></li>
     </ul>
   </div>
 </div>

@@ -24,7 +24,8 @@ public class CKANResource {
 
 	@Embeddable
 	public static class Id implements Serializable {
-		private static final long serialVersionUID = 1L;
+
+		private static final long serialVersionUID = 2984070231545567772L;
 
 		@Column(name = "id", nullable = false, updatable = false)
 		private String id;

@@ -41,6 +41,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	}
 
 	@Override
+	@Transactional
 	public boolean transformAndImportDataFromResource(final File file, final Type type, final String resourceId, final String revisionId) {
 		// FIXME we probably want something else here, map of DAPImporter, or Factory....
 		final PreparedData preparedData;
@@ -62,8 +63,8 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 
 	}
 
-	@Transactional
-	private void incorporatePreparedDataForImport(final PreparedData preparedData, final String resourceId, final String revisionId) {
+	@Override
+	public void incorporatePreparedDataForImport(final PreparedData preparedData, final String resourceId, final String revisionId) {
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
 		for (final PreparedIndicator preparedIndicator : preparedData.getIndicatorsToImport()) {
 			curatedDataService.addIndicator(preparedIndicator, importFromCKAN);

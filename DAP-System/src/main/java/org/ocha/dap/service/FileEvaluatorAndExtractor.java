@@ -2,6 +2,7 @@ package org.ocha.dap.service;
 
 import java.io.File;
 
+import org.ocha.dap.importer.PreparedData;
 import org.ocha.dap.model.validation.ValidationReport;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 
@@ -21,5 +22,7 @@ public interface FileEvaluatorAndExtractor {
 	 * 
 	 */
 	public boolean transformAndImportDataFromResource(final File file, final CKANDataset.Type type, final String resourceId, final String revisionId);
+
+	public void incorporatePreparedDataForImport(final PreparedData preparedData, final String resourceId, final String revisionId);
 
 }
