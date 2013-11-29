@@ -25,6 +25,8 @@ public interface CuratedDataService {
 
 	public void addEntity(final String code, final String name, final String entityTypeCode);
 
+	public Entity getEntityByCodeAndType(final String code, final String type);
+
 	public List<IndicatorType> listIndicatorTypes();
 
 	public void addIndicatorType(String code, String name, String unit);
@@ -34,6 +36,8 @@ public interface CuratedDataService {
 	public List<Source> listSources();
 
 	public void addSource(String code, String name);
+
+	public Source getSourceByCode(final String code);
 
 	public List<ImportFromCKAN> listImportsFromCKAN();
 
@@ -60,6 +64,17 @@ public interface CuratedDataService {
 	 * @throws TypeMismatchException If some data doest not match the expect type of the column
 	 */
 	public DataTable listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode) throws TypeMismatchException;
+
+	/**
+	 * returns a 2D Datatable with Sources as columns, and periods as rows. Something like
+	 * 		Year	WB		UN		ACLED
+	 * 		2011
+	 * 		2012	
+	 * 		2013
+	 * @throws TypeMismatchException If some data doest not match the expect type of the column
+	 */
+	public DataTable listIndicatorsByPeriodicityAndEntityAndIndicatorType(final Periodicity periodicity, final String entityType, final String entityCode, final String indicatorTypeCode)
+			throws TypeMismatchException;
 
 	/**
 	 * returns a 1D Datatable with entities as rows

@@ -19,6 +19,8 @@ public interface IndicatorDAO {
 
 	public List<Indicator> listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode);
 
+	public List<Indicator> listIndicatorsByPeriodicityAndEntityAndIndicatorType(final Periodicity periodicity, final String entityType, final String entityCode, final String indicatorTypeCode);
+
 	/**
 	 * periodicity is implicitely YEAR
 	 * 

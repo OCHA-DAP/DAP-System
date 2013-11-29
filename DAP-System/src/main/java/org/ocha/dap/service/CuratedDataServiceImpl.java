@@ -64,6 +64,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
+	public Entity getEntityByCodeAndType(final String code, final String type) {
+		return entityDAO.getEntityByCodeAndType(code, type);
+	}
+
+	@Override
 	@Transactional
 	public void addEntity(final String code, final String name, final String entityTypeCode) {
 		final EntityType entityType = entityTypeDAO.getEntityTypeByCode(entityTypeCode);
@@ -93,6 +98,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	public void addSource(final String code, final String name) {
 		sourceDAO.addSource(code, name);
+	}
+
+	@Override
+	public Source getSourceByCode(final String code) {
+		return sourceDAO.getSourceByCode(code);
 	}
 
 	@Override
@@ -141,8 +151,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		// must be sorted by start, entity
 		final List<Indicator> indicators = indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(periodicity, sourceCode, indicatorTypeCode);
-		final DataTable dataTable = new DataTable();
 
+		final DataTable dataTable = new DataTable();
 		dataTable.addColumn(new ColumnDescription("Year", ValueType.TEXT, "Year"));
 
 		TimeRange previousTR = null;
@@ -168,6 +178,41 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		dataTable.addRows(rows);
 		return dataTable;
+	}
+
+	@Override
+	public DataTable listIndicatorsByPeriodicityAndEntityAndIndicatorType(final Periodicity periodicity, final String entityType, final String entityCode, final String indicatorTypeCode)
+			throws TypeMismatchException {
+
+		// must be sorted by start, source
+		final List<Indicator> indicators = indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(periodicity, entityType, entityCode, indicatorTypeCode);
+
+		final DataTable dataTable = new DataTable();
+		dataTable.addColumn(new ColumnDescription("Year", ValueType.TEXT, "Year"));
+
+		TimeRange previousTR = null;
+		TableRow currentRow = null;
+		final List<TableRow> rows = new ArrayList<>();
+		for (final Indicator indicator : indicators) {
+			final String code = indicator.getSource().getCode();
+			if (!dataTable.containsColumn(code))
+				dataTable.addColumn(new ColumnDescription(indicator.getSource().getCode(), ValueType.NUMBER, indicator.getSource().getName()));
+
+			final TimeRange timeRange = new TimeRange(indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity());
+			if (timeRange.equals(previousTR)) {
+				currentRow.addCell(Double.parseDouble(indicator.getValue()));
+			} else {
+				final TableRow aRow = new TableRow();
+				aRow.addCell(timeRange.getTimeRangeAsSimpleString());
+				currentRow = aRow;
+				aRow.addCell(Double.parseDouble(indicator.getValue()));
+				rows.add(aRow);
+				previousTR = timeRange;
+			}
+		}
+		dataTable.addRows(rows);
+		return dataTable;
+
 	}
 
 	@Override

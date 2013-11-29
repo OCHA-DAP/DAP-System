@@ -12,6 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.service.CuratedDataService;
@@ -76,7 +77,7 @@ public class APIResource {
 		final Map<String, String> model = new HashMap<String, String>();
 		model.put("chartType", chartType);
 		final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode);
-		model.put("title", indicatorType.getDisplayableTitle());
+		model.put("title", indicatorType.getDisplayableTitle() + " according to " + curatedDataService.getSourceByCode(sourceCode).getName());
 		if ("BarChart".equals(chartType)) {
 			model.put("vAxisTitle", "year");
 			model.put("hAxisTitle", indicatorType.getName());
@@ -114,4 +115,53 @@ public class APIResource {
 		return Response.ok(new Viewable("/charts", model)).build();
 	}
 
+	@GET
+	@Produces({ "text/csv" })
+	@Path("/yearly/entity/{entityType}/{entityCode}/indicatortype/{indicatorTypeCode}/csv")
+	public String getYearlyDataForEntityAndIndicatorTypeAsCSV(@PathParam("entityType") final String entityType, @PathParam("entityCode") final String entityCode,
+			@PathParam("indicatorTypeCode") final String indicatorTypeCode) throws TypeMismatchException {
+		final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndEntityAndIndicatorType(Periodicity.YEAR, entityType, entityCode, indicatorTypeCode);
+		final String result = CsvRenderer.renderDataTable(dataTable, ULocale.ENGLISH, ",").toString();
+		logger.debug("about to return from getYearlyDataForSourceAndIndicatorType");
+		logger.debug(result);
+
+		return result;
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/yearly/entity/{entityType}/{entityCode}/indicatortype/{indicatorTypeCode}/json")
+	public String getYearlyDataForEntityAndIndicatorType(@PathParam("entityType") final String entityType, @PathParam("entityCode") final String entityCode,
+			@PathParam("indicatorTypeCode") final String indicatorTypeCode) throws TypeMismatchException {
+		final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndEntityAndIndicatorType(Periodicity.YEAR, entityType, entityCode, indicatorTypeCode);
+		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
+		logger.debug("about to return from getYearlyDataForSourceAndIndicatorType");
+		logger.debug(result);
+
+		return result;
+	}
+
+	/**
+	 * The actual data is fetched in a separate call
+	 * @see #getYearlyDataForSourceAndIndicatorType
+	 */
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	@Path("/yearly/entity/{entityType}/{entityCode}/indicatortype/{indicatorTypeCode}/{chartType}")
+	public Response getChartWithYearlyDataForEntityAndIndicatorType(@PathParam("entityType") final String entityType, @PathParam("entityCode") final String entityCode,
+			@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("chartType") final String chartType) {
+		final Map<String, String> model = new HashMap<String, String>();
+		model.put("chartType", chartType);
+		final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode);
+		final Entity entity = curatedDataService.getEntityByCodeAndType(entityCode, entityType);
+		model.put("title", indicatorType.getDisplayableTitle() + " for " + entity.getName());
+		if ("BarChart".equals(chartType)) {
+			model.put("vAxisTitle", "year");
+			model.put("hAxisTitle", indicatorType.getName());
+		} else if ("ColumnChart".equals(chartType) || "AreaChart".equals(chartType)) {
+			model.put("vAxisTitle", indicatorType.getName());
+			model.put("hAxisTitle", "year");
+		}
+		return Response.ok(new Viewable("/charts", model)).build();
+	}
 }
