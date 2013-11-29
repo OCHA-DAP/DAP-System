@@ -81,6 +81,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
+	public IndicatorType getIndicatorTypeByCode(final String code) {
+		return indicatorTypeDAO.getIndicatorTypeByCode(code);
+	}
+
+	@Override
 	public List<Source> listSources() {
 		return sourceDAO.listSources();
 	}
@@ -180,4 +185,5 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		}
 		return dataTable;
 	}
+
 }

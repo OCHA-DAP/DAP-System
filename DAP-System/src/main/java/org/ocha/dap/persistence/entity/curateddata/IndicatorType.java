@@ -69,4 +69,9 @@ public class IndicatorType {
 		this.unit = unit;
 	}
 
+	public String getDisplayableTitle() {
+		return name + " in " + unit;
+
+	}
+
 }

@@ -30,8 +30,11 @@
       var data = new google.visualization.DataTable(jsonData);
 
       // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.${it}(document.getElementById('chart_div'));
-      chart.draw(data, {width: 1200, height: 600});
+      var chart = new google.visualization.${it.chartType}(document.getElementById('chart_div'));
+      chart.draw(data, {title:"${it.title}",
+          width:1200, height:600,
+          vAxis: {title: "${it.vAxisTitle}"},
+          hAxis: {title: "${it.hAxisTitle}"}});
     }
 
     </script>
