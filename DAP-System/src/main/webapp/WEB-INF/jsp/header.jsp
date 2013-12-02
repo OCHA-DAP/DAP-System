@@ -39,4 +39,12 @@
       	<li><a href="${ctx}/api/yearly/entity/country/CMR/indicatortype/PVX040/ColumnChart">TODO add here bubble chart displaying PVX040 and gdp</a></li>
     </ul>
   </div>
+  
+  <div class="menu" id="menu5">
+    <ul>
+      	<li><a href="${ctx}/api/yearly/year/2010/source/acled/indicatortype1/PVX040/indicatortype2/capita-per-gdp/csv">Countries CSV (3D data)</a></li>
+      	<li><a href="${ctx}/api/yearly/year/2010/source/acled/indicatortype1/PVX040/indicatortype2/capita-per-gdp/json">Countries JSON (3D data)</a></li>
+      	<li><a href="${ctx}/api/yearly/year/2010/source/acled/indicatortype1/PVX040/indicatortype2/capita-per-gdp/BubbleChart">Countries BubbleChart (3D data)</a></li>
+    </ul>
+  </div>
 </div>

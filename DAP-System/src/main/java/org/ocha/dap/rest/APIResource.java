@@ -1,6 +1,8 @@
 package org.ocha.dap.rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,6 +69,7 @@ public class APIResource {
 
 	/**
 	 * The actual data is fetched in a separate call
+	 * 
 	 * @see #getYearlyDataForSourceAndIndicatorType
 	 */
 	@GET
@@ -143,6 +146,7 @@ public class APIResource {
 
 	/**
 	 * The actual data is fetched in a separate call
+	 * 
 	 * @see #getYearlyDataForSourceAndIndicatorType
 	 */
 	@GET
@@ -162,6 +166,57 @@ public class APIResource {
 			model.put("vAxisTitle", indicatorType.getName());
 			model.put("hAxisTitle", "year");
 		}
+		return Response.ok(new Viewable("/charts", model)).build();
+	}
+
+	@GET
+	@Produces({ "text/csv" })
+	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/csv")
+	public String getDataForYearAndSourceAndIndicatorTypesAsCSV(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
+			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2) throws TypeMismatchException {
+		List<String> indicatorTypes = new ArrayList<>();
+		indicatorTypes.add(indicatorTypeCode1);
+		indicatorTypes.add(indicatorTypeCode2);
+
+		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypes);
+
+		final String result = CsvRenderer.renderDataTable(dataTable, ULocale.ENGLISH, ",").toString();
+
+		logger.debug("about to return from getDataForYearAndSourceAndIndicatorType");
+		logger.debug(result);
+
+		return result;
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/json")
+	public String getDataForYearAndSourceAndIndicatorTypes(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
+			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2) throws TypeMismatchException {
+		List<String> indicatorTypes = new ArrayList<>();
+		indicatorTypes.add(indicatorTypeCode1);
+		indicatorTypes.add(indicatorTypeCode2);
+
+		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypes);
+
+		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
+
+		logger.debug("about to return from getDataForYearAndSourceAndIndicatorType");
+		logger.debug(result);
+
+		return result;
+	}
+
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/{chartType}")
+	public Response getChartForYearAndSourceAndIndicatorTypes(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode1") final String indicatorTypeCode1,
+			@PathParam("indicatorTypeCode2") final String indicatorTypeCode2, @PathParam("chartType") final String chartType) throws TypeMismatchException {
+
+		final Map<String, String> model = new HashMap<String, String>();
+		model.put("chartType", chartType);
+		final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);
+		model.put("title", indicatorType.getDisplayableTitle());
 		return Response.ok(new Viewable("/charts", model)).build();
 	}
 }

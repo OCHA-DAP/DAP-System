@@ -81,6 +81,18 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	}
 
 	@Override
+	public List<Indicator> listIndicatorsByYearAndSourceAndIndicatorTypes(int year, String sourceCode, List<String> indicatorTypeCodes) {
+		final TimeRange timeRange = new TimeRange(year);
+		final TypedQuery<Indicator> query = em
+				.createQuery(
+						"SELECT i FROM Indicator i WHERE i.periodicity = :periodicity AND i.source.code = :source AND i.type.code IN :indicatorTypes AND i.start = :start ORDER BY i.entity.type.code, i.entity.code, i.type.code",
+						Indicator.class).setParameter("periodicity", Periodicity.YEAR).setParameter("start", timeRange.getStart()).setParameter("source", sourceCode)
+				.setParameter("indicatorTypes", indicatorTypeCodes);
+
+		return query.getResultList();
+	}
+
+	@Override
 	@Transactional
 	public void deleteAllIndicators() {
 		em.createQuery("DELETE FROM Indicator").executeUpdate();

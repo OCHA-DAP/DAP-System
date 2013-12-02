@@ -46,7 +46,8 @@ public interface CuratedDataService {
 	/**
 	 * Add an indicator for the provided parameters
 	 * 
-	 * The importFromCKAN param is not provided. This will be added to the default "dummy" import
+	 * The importFromCKAN param is not provided. This will be added to the
+	 * default "dummy" import
 	 */
 	public void addIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
 			final String value, final String initialValue);
@@ -56,34 +57,33 @@ public interface CuratedDataService {
 	public List<Indicator> listLastIndicators(final int limit);
 
 	/**
-	 * returns a 2D Datatable with Entities as columns, and periods as rows. Something like
-	 * 		Year	Germany		Russia		France
-	 * 		2011
-	 * 		2012	
-	 * 		2013
-	 * @throws TypeMismatchException If some data doest not match the expect type of the column
+	 * returns a 2D Datatable with Entities as columns, and periods as rows.
+	 * Something like Year Germany Russia France 2011 2012 2013
+	 * 
+	 * @throws TypeMismatchException
+	 *             If some data doest not match the expect type of the column
 	 */
 	public DataTable listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode) throws TypeMismatchException;
 
 	/**
-	 * returns a 2D Datatable with Sources as columns, and periods as rows. Something like
-	 * 		Year	WB		UN		ACLED
-	 * 		2011
-	 * 		2012	
-	 * 		2013
-	 * @throws TypeMismatchException If some data doest not match the expect type of the column
+	 * returns a 2D Datatable with Sources as columns, and periods as rows.
+	 * Something like Year WB UN ACLED 2011 2012 2013
+	 * 
+	 * @throws TypeMismatchException
+	 *             If some data doest not match the expect type of the column
 	 */
 	public DataTable listIndicatorsByPeriodicityAndEntityAndIndicatorType(final Periodicity periodicity, final String entityType, final String entityCode, final String indicatorTypeCode)
 			throws TypeMismatchException;
 
 	/**
-	 * returns a 1D Datatable with entities as rows
-	 * 		Country		indicatorType Name			
-	 * 		Germany
-	 * 		Russia	
-	 * 		France
-	 * @throws TypeMismatchException If some data doest not match the expect type of the column
+	 * returns a 1D Datatable with entities as rows Country indicatorType Name
+	 * Germany Russia France
+	 * 
+	 * @throws TypeMismatchException
+	 *             If some data doest not match the expect type of the column
 	 */
 	public DataTable listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode) throws TypeMismatchException;
+
+	public DataTable listIndicatorsByYearAndSourceAndIndicatorTypes(final int year, final String sourceCode, final List<String> indicatorTypeCodes) throws TypeMismatchException;
 
 }
