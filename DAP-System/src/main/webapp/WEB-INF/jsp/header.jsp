@@ -36,7 +36,6 @@
       	<li><a href="${ctx}/api/yearly/entity/country/CMR/indicatortype/PVX040/csv">sources CSV (2D data)</a></li>
       	<li><a href="${ctx}/api/yearly/entity/country/CMR/indicatortype/PVX040/json">sources JSON (2D data)</a></li>
       	<li><a href="${ctx}/api/yearly/entity/country/CMR/indicatortype/PVX040/ColumnChart">sources  Column Chart (2D data)</a></li>
-      	<li><a href="${ctx}/api/yearly/entity/country/CMR/indicatortype/PVX040/ColumnChart">TODO add here bubble chart displaying PVX040 and gdp</a></li>
     </ul>
   </div>
   
