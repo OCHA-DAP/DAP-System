@@ -10,8 +10,8 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
 </head>
 <body>
-<jsp:include page="header.jsp" />
-<h2>Add a new entity</h2>
+<jsp:include page="admin-header.jsp" />
+<h2>Add a new source</h2>
 
 	<form method="POST" action="">	
 		<label for="code">Code</label>
@@ -19,33 +19,24 @@
   	
   		<label for="name">Name</label>
   		<input type="text" name="name" id="name"/>
-  		
-  		<label for="entityTypeCode">Type</label>
-  		<select name="entityTypeCode" id="entityTypeCode">
-  			<c:forEach var="entityType" items="${it.entityTypes}">
-  				<option value="${entityType.code}">${entityType.name}</option>
-  			</c:forEach>
-		</select> 
   	
   		<input type="submit" value="submit" />
   	
   	</form>
 	
-<h2>List of entity</h2>	
+<h2>List of sources</h2>	
 	<table>
 		<tr>
 			<th>Id</th>
 			<th>Code</th>
 			<th>Name</th>
-			<th>Type</th>
 		</tr>
 		
-		<c:forEach var="entity" items="${it.entities}">
+		<c:forEach var="source" items="${it}">
 			<tr>
-				<td>${entity.id}</td>
-				<td>${entity.code}</td>
-				<td>${entity.name}</td>
-				<td>${entity.type.name}</td>
+				<td>${source.id}</td>
+				<td>${source.code}</td>
+				<td>${source.name}</td>
 			</tr>
 		</c:forEach>
 		

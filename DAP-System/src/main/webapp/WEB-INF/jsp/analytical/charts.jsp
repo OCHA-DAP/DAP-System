@@ -42,7 +42,7 @@
 	
 </head>
 	<body>
-	<jsp:include page="header.jsp" />
+	<jsp:include page="analytical-header.jsp" />
 	<div id="chart_div" />
 	</body>
 </html>

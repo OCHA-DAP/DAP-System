@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
 </head>
 <body>
-<jsp:include page="header.jsp" />
+<jsp:include page="admin-header.jsp" />
 <h2>List of datasets in DAP</h2>
 	<table>
 		<tr>

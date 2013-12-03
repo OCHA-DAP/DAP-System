@@ -10,8 +10,8 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
 </head>
 <body>
-<jsp:include page="header.jsp" />
-<h2>Add a new entity type</h2>
+<jsp:include page="admin-header.jsp" />
+<h2>Add a new indicator type</h2>
 
 	<form method="POST" action="">	
 		<label for="code">Code</label>
@@ -19,24 +19,29 @@
   	
   		<label for="name">Name</label>
   		<input type="text" name="name" id="name"/>
+  		
+  		<label for=unit>Unit</label>
+  		<input type="text" name="unit" id="unit"/>
   	
   		<input type="submit" value="submit" />
   	
   	</form>
 	
-<h2>List of entity types</h2>	
+<h2>List of indicator types</h2>	
 	<table>
 		<tr>
 			<th>Id</th>
 			<th>Code</th>
 			<th>Name</th>
+			<th>Unit</th>
 		</tr>
 		
-		<c:forEach var="entityType" items="${it}">
+		<c:forEach var="indicatorType" items="${it}">
 			<tr>
-				<td>${entityType.id}</td>
-				<td>${entityType.code}</td>
-				<td>${entityType.name}</td>
+				<td>${indicatorType.id}</td>
+				<td>${indicatorType.code}</td>
+				<td>${indicatorType.name}</td>
+				<td>${indicatorType.unit}</td>
 			</tr>
 		</c:forEach>
 		

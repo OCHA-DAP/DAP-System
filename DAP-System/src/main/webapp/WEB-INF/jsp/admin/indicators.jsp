@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
 </head>
 <body>
-<jsp:include page="header.jsp" />
+<jsp:include page="admin-header.jsp" />
 <h2>Add a new indicator</h2>
 
 	<form method="POST" action="">	

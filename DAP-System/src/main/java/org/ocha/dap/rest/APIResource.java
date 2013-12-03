@@ -88,7 +88,7 @@ public class APIResource {
 			model.put("vAxisTitle", indicatorType.getName());
 			model.put("hAxisTitle", "year");
 		}
-		return Response.ok(new Viewable("/charts", model)).build();
+		return Response.ok(new Viewable("/analytical/charts", model)).build();
 	}
 
 	@GET
@@ -115,7 +115,7 @@ public class APIResource {
 		model.put("chartType", chartType);
 		final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode);
 		model.put("title", indicatorType.getDisplayableTitle());
-		return Response.ok(new Viewable("/charts", model)).build();
+		return Response.ok(new Viewable("/analytical/charts", model)).build();
 	}
 
 	@GET
@@ -166,7 +166,7 @@ public class APIResource {
 			model.put("vAxisTitle", indicatorType.getName());
 			model.put("hAxisTitle", "year");
 		}
-		return Response.ok(new Viewable("/charts", model)).build();
+		return Response.ok(new Viewable("/analytical/charts", model)).build();
 	}
 
 	@GET
@@ -215,8 +215,48 @@ public class APIResource {
 
 		final Map<String, String> model = new HashMap<String, String>();
 		model.put("chartType", chartType);
+		// FIXME Build a title based on the different indicator types
 		final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);
 		model.put("title", indicatorType.getDisplayableTitle());
-		return Response.ok(new Viewable("/charts", model)).build();
+		return Response.ok(new Viewable("/analytical/charts", model)).build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/indicatortype3/{indicatorTypeCode3}/json")
+	public String getDataForYearAndSourceAnd3IndicatorTypes(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
+			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2,
+			@PathParam("indicatorTypeCode3") final String indicatorTypeCode3) throws TypeMismatchException {
+		List<String> indicatorTypes = new ArrayList<>();
+		indicatorTypes.add(indicatorTypeCode1);
+		indicatorTypes.add(indicatorTypeCode2);
+		indicatorTypes.add(indicatorTypeCode3);
+
+		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypes);
+
+		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
+
+		logger.debug("about to return from getDataForYearAndSourceAndIndicatorType");
+		logger.debug(result);
+
+		return result;
+	}
+
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/indicatortype3/{indicatorTypeCode3}/{chartType}")
+	public Response getChartForYearAndSourceAnd3IndicatorTypes(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode1") final String indicatorTypeCode1,
+			@PathParam("indicatorTypeCode2") final String indicatorTypeCode2, @PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @PathParam("chartType") final String chartType)
+			throws TypeMismatchException {
+
+		final Map<String, String> model = new HashMap<String, String>();
+		model.put("chartType", chartType);
+		final IndicatorType indicatorType1 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);
+		final IndicatorType indicatorType2 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode2);
+		final IndicatorType indicatorType3 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode3);
+		model.put("vAxisTitle", indicatorType1.getDisplayableTitle());
+		model.put("hAxisTitle", indicatorType2.getDisplayableTitle());
+		model.put("title", indicatorType3.getDisplayableTitle());
+		return Response.ok(new Viewable("/analytical/charts", model)).build();
 	}
 }

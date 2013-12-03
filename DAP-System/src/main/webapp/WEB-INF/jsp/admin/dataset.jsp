@@ -10,12 +10,16 @@
 </head>
 <body>
 <jsp:include page="admin-header.jsp" />
-<h2>List of datasets (in CKAN, not DAP)!</h2>
-Logged as : ${it.userId}
-			<ul>
-				<c:forEach var="dataset" items="${it.datasets}">
-					<li><a href="${ctx}/admin/dataset/${dataset}">${dataset}</a></li>
-				</c:forEach>
-			</ul>
+<h2>Content of dataset : </h2>
+	<c:if test="${it.success}">
+	${it.result.license_title}
+		<c:forEach var="resource" items="${it.result.resources}">
+			<li><a href="${resource.url}">${resource.url}</a></li>
+		</c:forEach>
+	</c:if>
+	
+	<c:if test="${!it.success}">
+	fail
+	</c:if>
 </body>
 </html>

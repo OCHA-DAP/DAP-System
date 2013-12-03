@@ -10,8 +10,8 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
 </head>
 <body>
-<jsp:include page="header.jsp" />
-<h2>Add a new source</h2>
+<jsp:include page="admin-header.jsp" />
+<h2>Add a new entity type</h2>
 
 	<form method="POST" action="">	
 		<label for="code">Code</label>
@@ -24,7 +24,7 @@
   	
   	</form>
 	
-<h2>List of sources</h2>	
+<h2>List of entity types</h2>	
 	<table>
 		<tr>
 			<th>Id</th>
@@ -32,11 +32,11 @@
 			<th>Name</th>
 		</tr>
 		
-		<c:forEach var="source" items="${it}">
+		<c:forEach var="entityType" items="${it}">
 			<tr>
-				<td>${source.id}</td>
-				<td>${source.code}</td>
-				<td>${source.name}</td>
+				<td>${entityType.id}</td>
+				<td>${entityType.code}</td>
+				<td>${entityType.name}</td>
 			</tr>
 		</c:forEach>
 		

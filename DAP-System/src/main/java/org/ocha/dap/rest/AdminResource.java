@@ -110,13 +110,13 @@ public class AdminResource {
 		final HttpSession session = request.getSession(false);
 		final String userId = session.getAttribute(SESSION_PARAM_UID).toString();
 		final DatasetV3WrapperDTO result = dapService.getDatasetContentFromCKANV3(userId, datasetName);
-		return Response.ok(new Viewable("/dataset", result)).build();
+		return Response.ok(new Viewable("/admin/dataset", result)).build();
 	}
 
 	@GET
 	@Path("/status/datasets/")
 	public Response getCKANDatasetsStatus() {
-		return Response.ok(new Viewable("/datasets", dapService.listCKANDatasets())).build();
+		return Response.ok(new Viewable("/admin/datasets", dapService.listCKANDatasets())).build();
 	}
 
 	@POST
@@ -132,13 +132,13 @@ public class AdminResource {
 	@GET
 	@Path("/status/resources/")
 	public Response getCKANResourcesStatus() {
-		return Response.ok(new Viewable("/resources", dapService.listCKANResources())).build();
+		return Response.ok(new Viewable("/admin/resources", dapService.listCKANResources())).build();
 	}
 
 	@GET
 	@Path("/status/resources/{id}/{revision_id}/report")
 	public Response getCKANResourceReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
-		return Response.ok(new Viewable("/report", dapService.getCKANResource(id, revision_id))).build();
+		return Response.ok(new Viewable("/admin/report", dapService.getCKANResource(id, revision_id))).build();
 	}
 
 	@GET
@@ -198,7 +198,7 @@ public class AdminResource {
 	@GET
 	@Path("/curated/entitytypes")
 	public Response displayEntityTypesList() {
-		return Response.ok(new Viewable("/entityTypes", curatedDataService.listEntityTypes())).build();
+		return Response.ok(new Viewable("/admin/entityTypes", curatedDataService.listEntityTypes())).build();
 	}
 
 	@POST
@@ -214,7 +214,7 @@ public class AdminResource {
 		final DisplayEntities displayEntities = new DisplayEntities();
 		displayEntities.setEntities(curatedDataService.listEntities());
 		displayEntities.setEntityTypes(curatedDataService.listEntityTypes());
-		return Response.ok(new Viewable("/entities", displayEntities)).build();
+		return Response.ok(new Viewable("/admin/entities", displayEntities)).build();
 	}
 
 	@POST
@@ -227,7 +227,7 @@ public class AdminResource {
 	@GET
 	@Path("/curated/indicatortypes")
 	public Response displayIndicatorTypesList() {
-		return Response.ok(new Viewable("/indicatorTypes", curatedDataService.listIndicatorTypes())).build();
+		return Response.ok(new Viewable("/admin/indicatorTypes", curatedDataService.listIndicatorTypes())).build();
 	}
 
 	@POST
@@ -240,7 +240,7 @@ public class AdminResource {
 	@GET
 	@Path("/curated/sources")
 	public Response displaySourcesList() {
-		return Response.ok(new Viewable("/sources", curatedDataService.listSources())).build();
+		return Response.ok(new Viewable("/admin/sources", curatedDataService.listSources())).build();
 	}
 
 	@POST
@@ -253,7 +253,7 @@ public class AdminResource {
 	@GET
 	@Path("/curated/importsfromckan")
 	public Response displayImportFromCKANList() {
-		return Response.ok(new Viewable("/importsFromCKAN", curatedDataService.listImportsFromCKAN())).build();
+		return Response.ok(new Viewable("/admin/importsFromCKAN", curatedDataService.listImportsFromCKAN())).build();
 	}
 
 	@POST
@@ -272,7 +272,7 @@ public class AdminResource {
 		displayIndicators.setEntities(curatedDataService.listEntities());
 		displayIndicators.setIndicatorTypes(curatedDataService.listIndicatorTypes());
 		displayIndicators.setPeriodicities(Indicator.Periodicity.values());
-		return Response.ok(new Viewable("/indicators", displayIndicators)).build();
+		return Response.ok(new Viewable("/admin/indicators", displayIndicators)).build();
 	}
 
 	@POST
