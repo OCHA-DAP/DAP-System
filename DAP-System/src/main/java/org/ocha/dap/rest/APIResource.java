@@ -222,6 +222,27 @@ public class APIResource {
 	}
 
 	@GET
+	@Produces({ "text/csv" })
+	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/indicatortype3/{indicatorTypeCode3}/csv")
+	public String getDataForYearAndSourceAnd3IndicatorTypesAsCSV(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
+			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2,
+			@PathParam("indicatorTypeCode3") final String indicatorTypeCode3) throws TypeMismatchException {
+		List<String> indicatorTypes = new ArrayList<>();
+		indicatorTypes.add(indicatorTypeCode1);
+		indicatorTypes.add(indicatorTypeCode2);
+		indicatorTypes.add(indicatorTypeCode3);
+
+		//FIXME we have a sorting problem here
+		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypes);
+
+		final String result = CsvRenderer.renderDataTable(dataTable, ULocale.ENGLISH, ",").toString();
+
+		logger.debug(result);
+
+		return result;
+	}
+
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/indicatortype3/{indicatorTypeCode3}/json")
 	public String getDataForYearAndSourceAnd3IndicatorTypes(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
@@ -232,11 +253,11 @@ public class APIResource {
 		indicatorTypes.add(indicatorTypeCode2);
 		indicatorTypes.add(indicatorTypeCode3);
 
+		//FIXME we have a sorting problem here
 		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypes);
 
 		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
 
-		logger.debug("about to return from getDataForYearAndSourceAndIndicatorType");
 		logger.debug(result);
 
 		return result;

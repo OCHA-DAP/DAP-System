@@ -24,7 +24,7 @@ public class SourceDAOImpl implements SourceDAO {
 	@Transactional
 	public void addSource(final String code, final String name) {
 		final Source source = new Source();
-		source.setCode(code);
+		source.setCode(code.toLowerCase());
 		source.setName(name);
 		em.persist(source);
 	}

@@ -24,7 +24,7 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 	@Transactional
 	public void addIndicatorType(final String code, final String name, final String unit) {
 		final IndicatorType indicatorType = new IndicatorType();
-		indicatorType.setCode(code);
+		indicatorType.setCode(code.toLowerCase());
 		indicatorType.setName(name);
 		indicatorType.setUnit(unit);
 		em.persist(indicatorType);

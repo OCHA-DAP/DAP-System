@@ -29,7 +29,7 @@ public class EntityDAOImpl implements EntityDAO {
 	@Transactional
 	public void addEntity(final String code, final String name, final EntityType entityType) {
 		final Entity entity = new Entity();
-		entity.setCode(code);
+		entity.setCode(code.toLowerCase());
 		entity.setName(name);
 		entity.setType(entityType);
 		em.persist(entity);

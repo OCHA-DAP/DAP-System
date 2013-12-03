@@ -1,6 +1,7 @@
 package org.ocha.dap.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -233,6 +234,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public DataTable listIndicatorsByYearAndSourceAndIndicatorTypes(final int year, final String sourceCode, final List<String> indicatorTypeCodes) throws TypeMismatchException {
+		Collections.sort(indicatorTypeCodes);
 		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypeCodes);
 
 		final DataTable dataTable = new DataTable();
