@@ -262,6 +262,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			}
 
 		}
+		
 		dataTable.addRows(rows);
 		return dataTable;
 	}

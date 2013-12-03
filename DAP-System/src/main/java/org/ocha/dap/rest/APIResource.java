@@ -1,6 +1,7 @@
 package org.ocha.dap.rest;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.visualization.datasource.base.TypeMismatchException;
+import com.google.visualization.datasource.datatable.ColumnDescription;
 import com.google.visualization.datasource.datatable.DataTable;
 import com.google.visualization.datasource.render.CsvRenderer;
 import com.google.visualization.datasource.render.JsonRenderer;
@@ -227,13 +229,15 @@ public class APIResource {
 	public String getDataForYearAndSourceAnd3IndicatorTypesAsCSV(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
 			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2,
 			@PathParam("indicatorTypeCode3") final String indicatorTypeCode3) throws TypeMismatchException {
-		List<String> indicatorTypes = new ArrayList<>();
-		indicatorTypes.add(indicatorTypeCode1);
-		indicatorTypes.add(indicatorTypeCode2);
-		indicatorTypes.add(indicatorTypeCode3);
+		List<String> indicatorTypeCodes = new ArrayList<>();
+		indicatorTypeCodes.add(indicatorTypeCode1);
+		indicatorTypeCodes.add(indicatorTypeCode2);
+		indicatorTypeCodes.add(indicatorTypeCode3);
+		
+		Collections.sort(indicatorTypeCodes);
 
 		//FIXME we have a sorting problem here
-		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypes);
+		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypeCodes);
 
 		final String result = CsvRenderer.renderDataTable(dataTable, ULocale.ENGLISH, ",").toString();
 
@@ -248,13 +252,15 @@ public class APIResource {
 	public String getDataForYearAndSourceAnd3IndicatorTypes(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
 			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2,
 			@PathParam("indicatorTypeCode3") final String indicatorTypeCode3) throws TypeMismatchException {
-		List<String> indicatorTypes = new ArrayList<>();
-		indicatorTypes.add(indicatorTypeCode1);
-		indicatorTypes.add(indicatorTypeCode2);
-		indicatorTypes.add(indicatorTypeCode3);
+		List<String> indicatorTypeCodes = new ArrayList<>();
+		indicatorTypeCodes.add(indicatorTypeCode1);
+		indicatorTypeCodes.add(indicatorTypeCode2);
+		indicatorTypeCodes.add(indicatorTypeCode3);
+		
+		Collections.sort(indicatorTypeCodes);
 
 		//FIXME we have a sorting problem here
-		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypes);
+		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypeCodes);
 
 		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
 
@@ -270,13 +276,20 @@ public class APIResource {
 			@PathParam("indicatorTypeCode2") final String indicatorTypeCode2, @PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @PathParam("chartType") final String chartType)
 			throws TypeMismatchException {
 
+		List<String> indicatorTypeCodes = new ArrayList<>();
+		indicatorTypeCodes.add(indicatorTypeCode1);
+		indicatorTypeCodes.add(indicatorTypeCode2);
+		indicatorTypeCodes.add(indicatorTypeCode3);
+		
+		Collections.sort(indicatorTypeCodes);
+		
 		final Map<String, String> model = new HashMap<String, String>();
 		model.put("chartType", chartType);
-		final IndicatorType indicatorType1 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);
-		final IndicatorType indicatorType2 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode2);
-		final IndicatorType indicatorType3 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode3);
-		model.put("vAxisTitle", indicatorType1.getDisplayableTitle());
-		model.put("hAxisTitle", indicatorType2.getDisplayableTitle());
+		final IndicatorType indicatorType1 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCodes.get(0));
+		final IndicatorType indicatorType2 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCodes.get(1));
+		final IndicatorType indicatorType3 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCodes.get(2));
+		model.put("hAxisTitle", indicatorType1.getDisplayableTitle());
+		model.put("vAxisTitle", indicatorType2.getDisplayableTitle());
 		model.put("title", indicatorType3.getDisplayableTitle());
 		return Response.ok(new Viewable("/analytical/charts", model)).build();
 	}
