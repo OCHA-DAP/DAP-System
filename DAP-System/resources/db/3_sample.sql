@@ -13,9 +13,13 @@ INSERT INTO indicator_type(id, code, name, unit) VALUES (7, 'capita-per-gdp', 'C
 INSERT INTO indicator_type(id, code, name) VALUES (8, 'population', 'Population');
 INSERT INTO indicator_type(id, code, name, unit) VALUES (9, 'PVX040', 'Incidence of conflict', 'Count');
 INSERT INTO indicator_type(id, code, name, unit) VALUES (10, 'PSP080', 'Population Density', 'persons per square km');
+INSERT INTO indicator_type(id, code, name, unit) VALUES (11, 'PSP010', 'Population (Total M+F)', 'persons');
 
 
-INSERT INTO source(id, code, name) VALUES (11, 'WB', 'World Bank');
-INSERT INTO source(id, code, name) VALUES (12, 'acled', 'Armed Conflict Location and Event Dataset');
 
-ALTER SEQUENCE hibernate_sequence RESTART WITH 13;
+INSERT INTO source(id, code, name) VALUES (12, 'WB', 'World Bank');
+INSERT INTO source(id, code, name) VALUES (13, 'acled', 'Armed Conflict Location and Event Dataset');
+INSERT INTO source(id, code, name) VALUES (13, 'esa-unpd-WPP2012', 'esa-unpd-WPP2012');
+
+
+ALTER SEQUENCE hibernate_sequence RESTART WITH 14;

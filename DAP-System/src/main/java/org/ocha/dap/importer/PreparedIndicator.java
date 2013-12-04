@@ -96,4 +96,10 @@ public class PreparedIndicator {
 	public void setInitialValue(final String initialValue) {
 		this.initialValue = initialValue;
 	}
+
+	@Override
+	public String toString() {
+		return "PreparedIndicator [sourceCode=" + sourceCode + ", entityCode=" + entityCode + ", entityTypeCode=" + entityTypeCode + ", indicatorTypeCode=" + indicatorTypeCode + ", start=" + start
+				+ ", end=" + end + ", periodicity=" + periodicity + ", numeric=" + numeric + ", value=" + value + ", initialValue=" + initialValue + "]";
+	}
 }

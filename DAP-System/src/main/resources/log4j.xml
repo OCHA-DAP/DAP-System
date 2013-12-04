@@ -6,20 +6,22 @@
 	<!-- =================================== === APPENDERS =================================== -->
 
 	<appender name="dap-file-core" class="org.apache.log4j.RollingFileAppender">
-<!-- 		<param name="file" value="D:\DAP\logs\dap.log" /> -->
-		<param name="file" value="/opt/ocha/dap/logs/dap.log" />
+		<param name="file" value="D:\\DAP\\logs\\dap.log" />
+<!-- 		<param name="file" value="/opt/ocha/dap/logs/dap.log" /> -->
 		<param name="MaxFileSize" value="500KB" />
 		<param name="MaxBackupIndex" value="20" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-5p %d{yy-MM-dd HH:mm:ss}: %m (%F:%L) [%t]%n" />
 		</layout>
-		<!--filter class="org.apache.log4j.varia.LevelRangeFilter"> <param name="levelMin" value="INFO" /> <param name="levelMax" value="FATAL" /> </filter -->
 	</appender>
 
 	<!-- =================================== === PACKAGE-LEVEL logging settings =================================== -->
 
 	<!-- ======== Hibernate -->
 	<logger name="org.hibernate">
+		<level value="info" />
+	</logger>
+	<logger name="org.postgresql">
 		<level value="info" />
 	</logger>
 	<!-- Hibernate generated SQL -->
