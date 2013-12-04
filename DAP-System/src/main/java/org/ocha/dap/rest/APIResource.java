@@ -234,8 +234,6 @@ public class APIResource {
 		indicatorTypeCodes.add(indicatorTypeCode2);
 		indicatorTypeCodes.add(indicatorTypeCode3);
 		
-		Collections.sort(indicatorTypeCodes);
-
 		//FIXME we have a sorting problem here
 		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypeCodes);
 
@@ -257,7 +255,6 @@ public class APIResource {
 		indicatorTypeCodes.add(indicatorTypeCode2);
 		indicatorTypeCodes.add(indicatorTypeCode3);
 		
-		Collections.sort(indicatorTypeCodes);
 
 		//FIXME we have a sorting problem here
 		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypeCodes);
@@ -276,18 +273,13 @@ public class APIResource {
 			@PathParam("indicatorTypeCode2") final String indicatorTypeCode2, @PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @PathParam("chartType") final String chartType)
 			throws TypeMismatchException {
 
-		List<String> indicatorTypeCodes = new ArrayList<>();
-		indicatorTypeCodes.add(indicatorTypeCode1);
-		indicatorTypeCodes.add(indicatorTypeCode2);
-		indicatorTypeCodes.add(indicatorTypeCode3);
 		
-		Collections.sort(indicatorTypeCodes);
 		
 		final Map<String, String> model = new HashMap<String, String>();
 		model.put("chartType", chartType);
-		final IndicatorType indicatorType1 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCodes.get(0));
-		final IndicatorType indicatorType2 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCodes.get(1));
-		final IndicatorType indicatorType3 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCodes.get(2));
+		final IndicatorType indicatorType1 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);
+		final IndicatorType indicatorType2 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode2);
+		final IndicatorType indicatorType3 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode3);
 		model.put("hAxisTitle", indicatorType1.getDisplayableTitle());
 		model.put("vAxisTitle", indicatorType2.getDisplayableTitle());
 		model.put("title", indicatorType3.getDisplayableTitle());

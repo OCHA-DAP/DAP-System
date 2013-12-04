@@ -3,7 +3,9 @@ package org.ocha.dap.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.ocha.dap.importer.PreparedIndicator;
 import org.ocha.dap.importer.TimeRange;
@@ -20,6 +22,9 @@ import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.Source;
+import org.ocha.dap.rest.APIResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +35,8 @@ import com.google.visualization.datasource.datatable.TableRow;
 import com.google.visualization.datasource.datatable.value.ValueType;
 
 public class CuratedDataServiceImpl implements CuratedDataService {
+
+	private static Logger logger = LoggerFactory.getLogger(CuratedDataServiceImpl.class);
 
 	@Autowired
 	private EntityTypeDAO entityTypeDAO;
@@ -234,37 +241,30 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public DataTable listIndicatorsByYearAndSourceAndIndicatorTypes(final int year, final String sourceCode, final List<String> indicatorTypeCodes) throws TypeMismatchException {
-		Collections.sort(indicatorTypeCodes);
-		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypeCodes);
-
 		final DataTable dataTable = new DataTable();
 		dataTable.addColumn(new ColumnDescription("Entity", ValueType.TEXT, "Entity"));
 
+		Map<String, TableRow> rows = new HashMap<String, TableRow>();
 		for (String indicatorTypeCode : indicatorTypeCodes) {
 			dataTable.addColumn(new ColumnDescription(indicatorTypeCode, ValueType.NUMBER, indicatorTypeCode));
-		}
 
-		final List<TableRow> rows = new ArrayList<>();
-
-		String previousEntity = null;
-		TableRow currentRow = null;
-		for (final Indicator indicator : indicators) {
-			String currentEntity = indicator.getEntity().getName();
-			if (currentEntity.equals(previousEntity)) {
-				currentRow.addCell(Double.parseDouble(indicator.getValue()));
-			} else {
-				final TableRow aRow = new TableRow();
-				aRow.addCell(indicator.getEntity().getName());
-				currentRow = aRow;
-				aRow.addCell(Double.parseDouble(indicator.getValue()));
-				rows.add(aRow);
-				previousEntity = currentEntity;
+			final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode);
+			for (final Indicator indicator : indicators) {
+				if (rows.containsKey(indicator.getEntity().getCode())) {
+					rows.get(indicator.getEntity().getCode()).addCell(Double.parseDouble(indicator.getValue()));
+				} else {
+					final TableRow aRow = new TableRow();
+					aRow.addCell(indicator.getEntity().getName());
+					aRow.addCell(Double.parseDouble(indicator.getValue()));
+					rows.put(indicator.getEntity().getCode(), aRow);
+				}
 			}
-
 		}
-		
-		dataTable.addRows(rows);
+
+		for(TableRow row : rows.values()){
+		logger.debug(String.format("row : %s contains %d cells",  row.getCell(0).getValue().toString(), row.getCells().size()));
+		dataTable.addRow(row);
+		}
 		return dataTable;
 	}
-
 }

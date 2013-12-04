@@ -24,7 +24,7 @@ public class EntityTypeDAOImpl implements EntityTypeDAO {
 	@Transactional
 	public void addEntityType(final String code, final String name) {
 		final EntityType entityType = new EntityType();
-		entityType.setCode(code.toLowerCase());
+		entityType.setCode(code);
 		entityType.setName(name);
 		em.persist(entityType);
 	}
