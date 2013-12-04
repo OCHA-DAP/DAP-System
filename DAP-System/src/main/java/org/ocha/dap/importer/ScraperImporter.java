@@ -23,7 +23,9 @@ public class ScraperImporter implements DAPImporter {
 		super();
 		acceptedIndicatorTypes.add("PVX040");
 		acceptedIndicatorTypes.add("PSP080");
+		acceptedIndicatorTypes.add("PSE030");
 		acceptedIndicatorTypes.add("PSP010");
+		acceptedIndicatorTypes.add("_emdat:total_affected");
 //		acceptedCountries.add("RUS");
 //		acceptedCountries.add("RWA");
 //		acceptedCountries.add("CMR");
