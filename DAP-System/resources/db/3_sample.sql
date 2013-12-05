@@ -15,14 +15,16 @@ INSERT INTO indicator_type(id, code, name, unit) VALUES (9, 'PSP080', 'Populatio
 INSERT INTO indicator_type(id, code, name, unit) VALUES (10, 'PSP010', 'Population (Total M+F)', 'persons');
 INSERT INTO indicator_type(id, code, name, unit) VALUES (11, 'PSE030', 'GDP per capita, PPP', 'current international $');
 INSERT INTO indicator_type(id, code, name, unit) VALUES (12, '_emdat:total_affected', 'Total affected', 'persons');
-
-
-INSERT INTO source(id, code, name) VALUES (13, 'WB', 'World Bank');
-INSERT INTO source(id, code, name) VALUES (14, 'acled', 'Armed Conflict Location and Event Dataset');
-INSERT INTO source(id, code, name) VALUES (15, 'esa-unpd-WPP2012', 'esa-unpd-WPP2012');
-INSERT INTO source(id, code, name) VALUES (16, 'emdat', 'emdat');
-emdat
+INSERT INTO indicator_type(id, code, name, unit) VALUES (13, 'PCX051', 'Mobile cellular subscriptions', 'per 100 inhabitants');
+INSERT INTO indicator_type(id, code, name, unit) VALUES (14, 'PVF020', 'Per capita food supply', 'kcal/capita/day');
 
 
 
-ALTER SEQUENCE hibernate_sequence RESTART WITH 17;
+INSERT INTO source(id, code, name) VALUES (15, 'WB', 'World Bank');
+INSERT INTO source(id, code, name) VALUES (16, 'acled', 'Armed Conflict Location and Event Dataset');
+INSERT INTO source(id, code, name) VALUES (17, 'esa-unpd-WPP2012', 'esa-unpd-WPP2012');
+INSERT INTO source(id, code, name) VALUES (18, 'emdat', 'emdat');
+INSERT INTO source(id, code, name) VALUES (19, 'mdgs', 'mdgs');
+INSERT INTO source(id, code, name) VALUES (20, 'faostat3', 'faostat3');
+
+ALTER SEQUENCE hibernate_sequence RESTART WITH 21;

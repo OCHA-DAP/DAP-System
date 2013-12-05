@@ -13,7 +13,7 @@ public class ScraperImporterTest {
 	public void testPrepareDataForImport() throws IOException {
 		final ScraperImporter scraperImporter = new ScraperImporter();
 
-		final File csvValueFile = new ClassPathResource("samples/scraper/csv-from-dragon.zip").getFile();
+		final File csvValueFile = new ClassPathResource("samples/scraper/csv.zip").getFile();
 
 		final PreparedData preparedData = scraperImporter.prepareDataForImport(csvValueFile);
 		Assert.assertTrue(preparedData.isSuccess());
