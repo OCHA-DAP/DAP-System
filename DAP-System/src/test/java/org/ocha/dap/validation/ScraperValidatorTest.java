@@ -16,7 +16,7 @@ public class ScraperValidatorTest {
 	public void testEvaluateFile() throws IOException {
 		final ScraperValidator scraperValidator = new ScraperValidator();
 
-		final File csvFile = new ClassPathResource("samples/scraper/csv-from-dragon.zip").getFile();
+		final File csvFile = new ClassPathResource("samples/scraper/csv.zip").getFile();
 		Assert.assertEquals(ValidationStatus.SUCCESS, scraperValidator.evaluateFile(csvFile).getStatus());
 		Assert.assertEquals(3, scraperValidator.evaluateFile(csvFile).getEntries().size());
 	}

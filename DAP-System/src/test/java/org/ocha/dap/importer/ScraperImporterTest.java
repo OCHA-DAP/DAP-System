@@ -17,7 +17,7 @@ public class ScraperImporterTest {
 
 		final PreparedData preparedData = scraperImporter.prepareDataForImport(csvValueFile);
 		Assert.assertTrue(preparedData.isSuccess());
-		Assert.assertEquals(38392, preparedData.getIndicatorsToImport().size());
+		Assert.assertEquals(50081, preparedData.getIndicatorsToImport().size());
 	}
 
 }
