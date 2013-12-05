@@ -42,7 +42,7 @@ import org.ocha.dap.persistence.entity.ImportFromCKAN;
 public class Indicator {
 
 	public enum Periodicity {
-		NONE, DAY, WEEK, MONTH, QUARTER, YEAR, FIVE_YEARS;
+		NONE, DAY, WEEK, MONTH, QUARTER, YEAR, FIVE_YEARS, TEN_YEARS;
 	}
 
 	@Id

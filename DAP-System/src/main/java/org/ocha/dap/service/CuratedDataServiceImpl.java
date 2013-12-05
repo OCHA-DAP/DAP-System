@@ -239,31 +239,57 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public DataTable listIndicatorsByYearAndSourceAndIndicatorTypes(final int year, final String sourceCode, final List<String> indicatorTypeCodes) throws TypeMismatchException {
+	public DataTable listIndicatorsByYearAndSourcesAndIndicatorTypes(final int year, final String sourceCode1, final String indicatorTypeCode1, final String sourceCode2,
+			final String indicatorTypeCode2, final String sourceCode3, final String indicatorTypeCode3) throws TypeMismatchException {
 		final DataTable dataTable = new DataTable();
 		dataTable.addColumn(new ColumnDescription("Entity", ValueType.TEXT, "Entity"));
-
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode1, ValueType.NUMBER, indicatorTypeCode1));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode2, ValueType.NUMBER, indicatorTypeCode2));
+		//This is a Hack to have the third indicator moved to the 4th
+		dataTable.addColumn(new ColumnDescription("dummy", ValueType.NUMBER, "dummy"));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode3, ValueType.NUMBER, indicatorTypeCode3));
+		
 		Map<String, TableRow> rows = new HashMap<String, TableRow>();
-		for (String indicatorTypeCode : indicatorTypeCodes) {
-			dataTable.addColumn(new ColumnDescription(indicatorTypeCode, ValueType.NUMBER, indicatorTypeCode));
+		addColumnData(year, rows, sourceCode1, indicatorTypeCode1);
+		addColumnData(year, rows, sourceCode2, indicatorTypeCode2);
+		//This is a Hack to have the third indicator moved to the 4th
+		addACellToEveryRow(rows);
+		addColumnData(year, rows, sourceCode3, indicatorTypeCode3);
 
-			final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode);
-			for (final Indicator indicator : indicators) {
-				if (rows.containsKey(indicator.getEntity().getCode())) {
-					rows.get(indicator.getEntity().getCode()).addCell(Double.parseDouble(indicator.getValue()));
-				} else {
-					final TableRow aRow = new TableRow();
-					aRow.addCell(indicator.getEntity().getName());
-					aRow.addCell(Double.parseDouble(indicator.getValue()));
-					rows.put(indicator.getEntity().getCode(), aRow);
-				}
+		for (TableRow row : rows.values()) {
+			
+			if(row.getCells().size() == 5){
+				dataTable.addRow(row);
+			}else{
+				logger.debug(String.format("Ignoring incomplete row : %s contains %d cells", row.getCell(0).getValue().toString(), row.getCells().size()));
+				
+				///FIXME remove this
+//				dataTable.addRow(row);
 			}
 		}
-
-		for(TableRow row : rows.values()){
-		logger.debug(String.format("row : %s contains %d cells",  row.getCell(0).getValue().toString(), row.getCells().size()));
-		dataTable.addRow(row);
-		}
 		return dataTable;
+	}
+
+	private Map<String, TableRow> addColumnData(final int year, final Map<String, TableRow> rows, final String sourceCode, final String indicatorTypeCode) {
+		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode);
+		
+		for (final Indicator indicator : indicators) {
+			if (rows.containsKey(indicator.getEntity().getCode())) {
+				rows.get(indicator.getEntity().getCode()).addCell(Double.parseDouble(indicator.getValue()));
+			} else {
+				final TableRow aRow = new TableRow();
+				aRow.addCell(indicator.getEntity().getName());
+				aRow.addCell(Double.parseDouble(indicator.getValue()));
+				rows.put(indicator.getEntity().getCode(), aRow);
+			}
+		}
+		return rows;
+	}
+	
+	private Map<String, TableRow> addACellToEveryRow(final Map<String, TableRow> rows) {
+		for(TableRow row : rows.values()){
+			row.addCell(0);
+		}
+		return rows;
 	}
 }

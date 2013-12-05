@@ -9,17 +9,20 @@ INSERT INTO entity(id, code, name, entity_type_id) VALUES (5, 'CMR', 'Cameroon',
 INSERT INTO entity(id, code, name, entity_type_id) VALUES (6, 'LUX', 'Luxembourg', 1);
 
  
-INSERT INTO indicator_type(id, code, name, unit) VALUES (7, 'capita-per-gdp', 'Capita per GDP', 'USD');
-INSERT INTO indicator_type(id, code, name) VALUES (8, 'population', 'Population');
-INSERT INTO indicator_type(id, code, name, unit) VALUES (9, 'PVX040', 'Incidence of conflict', 'Count');
-INSERT INTO indicator_type(id, code, name, unit) VALUES (10, 'PSP080', 'Population Density', 'persons per square km');
-INSERT INTO indicator_type(id, code, name, unit) VALUES (11, 'PSP010', 'Population (Total M+F)', 'persons');
+INSERT INTO indicator_type(id, code, name) VALUES (7, 'population', 'Population');
+INSERT INTO indicator_type(id, code, name, unit) VALUES (8, 'PVX040', 'Incidence of conflict', 'Count');
+INSERT INTO indicator_type(id, code, name, unit) VALUES (9, 'PSP080', 'Population Density', 'persons per square km');
+INSERT INTO indicator_type(id, code, name, unit) VALUES (10, 'PSP010', 'Population (Total M+F)', 'persons');
+INSERT INTO indicator_type(id, code, name, unit) VALUES (11, 'PSE030', 'GDP per capita, PPP', 'current international $');
+INSERT INTO indicator_type(id, code, name, unit) VALUES (12, '_emdat:total_affected', 'Total affected', 'persons');
+
+
+INSERT INTO source(id, code, name) VALUES (13, 'WB', 'World Bank');
+INSERT INTO source(id, code, name) VALUES (14, 'acled', 'Armed Conflict Location and Event Dataset');
+INSERT INTO source(id, code, name) VALUES (15, 'esa-unpd-WPP2012', 'esa-unpd-WPP2012');
+INSERT INTO source(id, code, name) VALUES (16, 'emdat', 'emdat');
+emdat
 
 
 
-INSERT INTO source(id, code, name) VALUES (12, 'WB', 'World Bank');
-INSERT INTO source(id, code, name) VALUES (13, 'acled', 'Armed Conflict Location and Event Dataset');
-INSERT INTO source(id, code, name) VALUES (13, 'esa-unpd-WPP2012', 'esa-unpd-WPP2012');
-
-
-ALTER SEQUENCE hibernate_sequence RESTART WITH 14;
+ALTER SEQUENCE hibernate_sequence RESTART WITH 17;

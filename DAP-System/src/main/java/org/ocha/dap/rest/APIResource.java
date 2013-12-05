@@ -1,7 +1,6 @@
 package org.ocha.dap.rest;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.visualization.datasource.base.TypeMismatchException;
-import com.google.visualization.datasource.datatable.ColumnDescription;
 import com.google.visualization.datasource.datatable.DataTable;
 import com.google.visualization.datasource.render.CsvRenderer;
 import com.google.visualization.datasource.render.JsonRenderer;
@@ -171,20 +169,84 @@ public class APIResource {
 		return Response.ok(new Viewable("/analytical/charts", model)).build();
 	}
 
+	// @GET
+	// @Produces({ "text/csv" })
+	// @Path("/yearly/year/{year}/source1/{sourceCode1}/source2/{sourceCode2}/source3/{sourceCode3}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/indicatortype3/{indicatorTypeCode3}/csv")
+	// public String
+	// getDataForYearAndSourceAndIndicatorTypesAsCSV(@PathParam("year") final
+	// int year, @PathParam("sourceCode") final String sourceCode,
+	// @PathParam("indicatorTypeCode1") final String indicatorTypeCode1,
+	// @PathParam("indicatorTypeCode2") final String indicatorTypeCode2) throws
+	// TypeMismatchException {
+	// List<String> indicatorTypes = new ArrayList<>();
+	// indicatorTypes.add(indicatorTypeCode1);
+	// indicatorTypes.add(indicatorTypeCode2);
+	//
+	// final DataTable dataTable =
+	// curatedDataService.listIndicatorsByYearAndSourcesAndIndicatorTypes(year,
+	// sourceCode, indicatorTypes);
+	//
+	// final String result = CsvRenderer.renderDataTable(dataTable,
+	// ULocale.ENGLISH, ",").toString();
+	//
+	// logger.debug("about to return from getDataForYearAndSourceAndIndicatorType");
+	// logger.debug(result);
+	//
+	// return result;
+	// }
+
+	// @GET
+	// @Produces(MediaType.APPLICATION_JSON)
+	// @Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/json")
+	// public String getDataForYearAndSourceAndIndicatorTypes(@PathParam("year")
+	// final int year, @PathParam("sourceCode") final String sourceCode,
+	// @PathParam("indicatorTypeCode1") final String indicatorTypeCode1,
+	// @PathParam("indicatorTypeCode2") final String indicatorTypeCode2) throws
+	// TypeMismatchException {
+	// List<String> indicatorTypes = new ArrayList<>();
+	// indicatorTypes.add(indicatorTypeCode1);
+	// indicatorTypes.add(indicatorTypeCode2);
+	//
+	// final DataTable dataTable =
+	// curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year,
+	// sourceCode, indicatorTypes);
+	//
+	// final String result = JsonRenderer.renderDataTable(dataTable, true,
+	// false, false).toString();
+	//
+	// logger.debug("about to return from getDataForYearAndSourceAndIndicatorType");
+	// logger.debug(result);
+	//
+	// return result;
+	// }
+
+//	@GET
+//	@Produces(MediaType.TEXT_HTML)
+//	@Path("/yearly/year/{year}/source1/{sourceCode1}/indicatortype1/{indicatorTypeCode1}/source2/{sourceCode2}/indicatortype2/{indicatorTypeCode2}/source3/{sourceCode3}/indicatortype3/{indicatorTypeCode3}/{chartType}")
+//	public Response getChartForYearAndSourceAndIndicatorTypes(@PathParam("sourceCode1") final String sourceCode1, @PathParam("indicatorTypeCode1") final String indicatorTypeCode1,
+//			@PathParam("sourceCode2") final String sourceCode2, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2, @PathParam("sourceCode3") final String sourceCode3,
+//			@PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @PathParam("chartType") final String chartType) throws TypeMismatchException {
+//
+//		final Map<String, String> model = new HashMap<String, String>();
+//		model.put("chartType", chartType);
+//		// FIXME Build a title based on the different indicator types
+//		final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);
+//		model.put("title", indicatorType.getDisplayableTitle());
+//		return Response.ok(new Viewable("/analytical/charts", model)).build();
+//	}
+
 	@GET
 	@Produces({ "text/csv" })
-	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/csv")
-	public String getDataForYearAndSourceAndIndicatorTypesAsCSV(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
-			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2) throws TypeMismatchException {
-		List<String> indicatorTypes = new ArrayList<>();
-		indicatorTypes.add(indicatorTypeCode1);
-		indicatorTypes.add(indicatorTypeCode2);
+	@Path("/yearly/year/{year}/source1/{sourceCode1}/indicatortype1/{indicatorTypeCode1}/source2/{sourceCode2}/indicatortype2/{indicatorTypeCode2}/source3/{sourceCode3}/indicatortype3/{indicatorTypeCode3}/csv")
+	public String getDataForYearAndSourceAnd3IndicatorTypesAsCSV(@PathParam("year") final int year, @PathParam("sourceCode1") final String sourceCode1,
+			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("sourceCode2") final String sourceCode2, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2,
+			@PathParam("sourceCode3") final String sourceCode3, @PathParam("indicatorTypeCode3") final String indicatorTypeCode3) throws TypeMismatchException {
 
-		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypes);
+		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourcesAndIndicatorTypes(year, sourceCode1, indicatorTypeCode1, sourceCode2, indicatorTypeCode2, sourceCode3,
+				indicatorTypeCode3);
 
 		final String result = CsvRenderer.renderDataTable(dataTable, ULocale.ENGLISH, ",").toString();
 
-		logger.debug("about to return from getDataForYearAndSourceAndIndicatorType");
 		logger.debug(result);
 
 		return result;
@@ -192,72 +254,13 @@ public class APIResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/json")
-	public String getDataForYearAndSourceAndIndicatorTypes(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
-			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2) throws TypeMismatchException {
-		List<String> indicatorTypes = new ArrayList<>();
-		indicatorTypes.add(indicatorTypeCode1);
-		indicatorTypes.add(indicatorTypeCode2);
+	@Path("/yearly/year/{year}/source1/{sourceCode1}/indicatortype1/{indicatorTypeCode1}/source2/{sourceCode2}/indicatortype2/{indicatorTypeCode2}/source3/{sourceCode3}/indicatortype3/{indicatorTypeCode3}/json")
+	public String getDataForYearAndSourceAnd3IndicatorTypes(@PathParam("year") final int year, @PathParam("sourceCode1") final String sourceCode1,
+			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("sourceCode2") final String sourceCode2, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2,
+			@PathParam("sourceCode3") final String sourceCode3, @PathParam("indicatorTypeCode3") final String indicatorTypeCode3) throws TypeMismatchException {
 
-		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypes);
-
-		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
-
-		logger.debug("about to return from getDataForYearAndSourceAndIndicatorType");
-		logger.debug(result);
-
-		return result;
-	}
-
-	@GET
-	@Produces(MediaType.TEXT_HTML)
-	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/{chartType}")
-	public Response getChartForYearAndSourceAndIndicatorTypes(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode1") final String indicatorTypeCode1,
-			@PathParam("indicatorTypeCode2") final String indicatorTypeCode2, @PathParam("chartType") final String chartType) throws TypeMismatchException {
-
-		final Map<String, String> model = new HashMap<String, String>();
-		model.put("chartType", chartType);
-		// FIXME Build a title based on the different indicator types
-		final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);
-		model.put("title", indicatorType.getDisplayableTitle());
-		return Response.ok(new Viewable("/analytical/charts", model)).build();
-	}
-
-	@GET
-	@Produces({ "text/csv" })
-	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/indicatortype3/{indicatorTypeCode3}/csv")
-	public String getDataForYearAndSourceAnd3IndicatorTypesAsCSV(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
-			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2,
-			@PathParam("indicatorTypeCode3") final String indicatorTypeCode3) throws TypeMismatchException {
-		List<String> indicatorTypeCodes = new ArrayList<>();
-		indicatorTypeCodes.add(indicatorTypeCode1);
-		indicatorTypeCodes.add(indicatorTypeCode2);
-		indicatorTypeCodes.add(indicatorTypeCode3);
-		
-		//FIXME we have a sorting problem here
-		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypeCodes);
-
-		final String result = CsvRenderer.renderDataTable(dataTable, ULocale.ENGLISH, ",").toString();
-
-		logger.debug(result);
-
-		return result;
-	}
-
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/indicatortype3/{indicatorTypeCode3}/json")
-	public String getDataForYearAndSourceAnd3IndicatorTypes(@PathParam("year") final int year, @PathParam("sourceCode") final String sourceCode,
-			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2,
-			@PathParam("indicatorTypeCode3") final String indicatorTypeCode3) throws TypeMismatchException {
-		List<String> indicatorTypeCodes = new ArrayList<>();
-		indicatorTypeCodes.add(indicatorTypeCode1);
-		indicatorTypeCodes.add(indicatorTypeCode2);
-		indicatorTypeCodes.add(indicatorTypeCode3);
-		
-
-		//FIXME we have a sorting problem here
-		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourceAndIndicatorTypes(year, sourceCode, indicatorTypeCodes);
+		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourcesAndIndicatorTypes(year, sourceCode1, indicatorTypeCode1, sourceCode2, indicatorTypeCode2, sourceCode3,
+				indicatorTypeCode3);
 
 		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
 
@@ -268,13 +271,11 @@ public class APIResource {
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	@Path("/yearly/year/{year}/source/{sourceCode}/indicatortype1/{indicatorTypeCode1}/indicatortype2/{indicatorTypeCode2}/indicatortype3/{indicatorTypeCode3}/{chartType}")
-	public Response getChartForYearAndSourceAnd3IndicatorTypes(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode1") final String indicatorTypeCode1,
-			@PathParam("indicatorTypeCode2") final String indicatorTypeCode2, @PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @PathParam("chartType") final String chartType)
-			throws TypeMismatchException {
+	@Path("/yearly/year/{year}/source1/{sourceCode1}/indicatortype1/{indicatorTypeCode1}/source2/{sourceCode2}/indicatortype2/{indicatorTypeCode2}/source3/{sourceCode3}/indicatortype3/{indicatorTypeCode3}/{chartType}")
+	public Response getChartForYearAndSourceAnd3IndicatorTypes(@PathParam("sourceCode1") final String sourceCode1, @PathParam("indicatorTypeCode1") final String indicatorTypeCode1,
+			@PathParam("sourceCode2") final String sourceCode2, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2, @PathParam("sourceCode3") final String sourceCode3,
+			@PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @PathParam("chartType") final String chartType) throws TypeMismatchException {
 
-		
-		
 		final Map<String, String> model = new HashMap<String, String>();
 		model.put("chartType", chartType);
 		final IndicatorType indicatorType1 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);

@@ -16,7 +16,8 @@ public class TimeRange {
 	 * 
 	 * @param rangeAsString
 	 * @throws IllegalArgumentException
-	 *             if the provided String do not match any pattern, and cannot be interpreted as a valid TimeRange
+	 *             if the provided String do not match any pattern, and cannot
+	 *             be interpreted as a valid TimeRange
 	 */
 	public TimeRange(final String rangeAsString) throws IllegalArgumentException {
 		super();
@@ -25,19 +26,35 @@ public class TimeRange {
 		if (rangeAsString == null)
 			throw new IllegalArgumentException("No Time Range could be build from a null String");
 
-		if (rangeAsString.length() != 4)
-			throw new IllegalArgumentException("Only 4 digits String are allowed for now");
+		if (rangeAsString.length() == 4) {
+			final DateTime dateTime = new DateTime(Integer.parseInt(rangeAsString), 1, 1, 0, 0);
+			start = dateTime.toDate();
+			end = dateTime.plusYears(1).toDate();
 
-		final DateTime dateTime = new DateTime(Integer.parseInt(rangeAsString), 1, 1, 0, 0);
-		start = dateTime.toDate();
-		end = dateTime.plusYears(1).toDate();
+			periodicity = Periodicity.YEAR;
+		}else if(rangeAsString.length() == 8 && rangeAsString.endsWith("/P1Y")){
+			final DateTime dateTime = new DateTime(Integer.parseInt(rangeAsString.substring(0, 4)), 1, 1, 0, 0);
+			start = dateTime.toDate();
+			end = dateTime.plusYears(1).toDate();
 
-		periodicity = Periodicity.YEAR;
+			periodicity = Periodicity.YEAR;
+		}
+		else if(rangeAsString.length() == 9 && rangeAsString.endsWith("/P10Y")){
+			final DateTime dateTime = new DateTime(Integer.parseInt(rangeAsString.substring(0, 4)), 1, 1, 0, 0);
+			start = dateTime.toDate();
+			end = dateTime.plusYears(10).toDate();
+
+			periodicity = Periodicity.TEN_YEARS;
+		}else{
+			throw new IllegalArgumentException(String.format("No time range could be build from String : %s", rangeAsString));
+		}
+			
 
 	}
 
 	/**
-	 * builds a time range of 1 year, from the January 1st of the year in param to the January 1st of the next year
+	 * builds a time range of 1 year, from the January 1st of the year in param
+	 * to the January 1st of the next year
 	 * 
 	 * @param year
 	 */
