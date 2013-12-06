@@ -1,8 +1,6 @@
 package org.ocha.dap.rest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +15,7 @@ import javax.ws.rs.core.Response;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
+import org.ocha.dap.rest.helper.BubbleChartConfigurer;
 import org.ocha.dap.service.CuratedDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -220,20 +219,23 @@ public class APIResource {
 	// return result;
 	// }
 
-//	@GET
-//	@Produces(MediaType.TEXT_HTML)
-//	@Path("/yearly/year/{year}/source1/{sourceCode1}/indicatortype1/{indicatorTypeCode1}/source2/{sourceCode2}/indicatortype2/{indicatorTypeCode2}/source3/{sourceCode3}/indicatortype3/{indicatorTypeCode3}/{chartType}")
-//	public Response getChartForYearAndSourceAndIndicatorTypes(@PathParam("sourceCode1") final String sourceCode1, @PathParam("indicatorTypeCode1") final String indicatorTypeCode1,
-//			@PathParam("sourceCode2") final String sourceCode2, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2, @PathParam("sourceCode3") final String sourceCode3,
-//			@PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @PathParam("chartType") final String chartType) throws TypeMismatchException {
-//
-//		final Map<String, String> model = new HashMap<String, String>();
-//		model.put("chartType", chartType);
-//		// FIXME Build a title based on the different indicator types
-//		final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);
-//		model.put("title", indicatorType.getDisplayableTitle());
-//		return Response.ok(new Viewable("/analytical/charts", model)).build();
-//	}
+	// @GET
+	// @Produces(MediaType.TEXT_HTML)
+	// @Path("/yearly/year/{year}/source1/{sourceCode1}/indicatortype1/{indicatorTypeCode1}/source2/{sourceCode2}/indicatortype2/{indicatorTypeCode2}/source3/{sourceCode3}/indicatortype3/{indicatorTypeCode3}/{chartType}")
+	// public Response getChartForYearAndSourceAndIndicatorTypes(@PathParam("sourceCode1") final String sourceCode1,
+	// @PathParam("indicatorTypeCode1") final String indicatorTypeCode1,
+	// @PathParam("sourceCode2") final String sourceCode2, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2,
+	// @PathParam("sourceCode3") final String sourceCode3,
+	// @PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @PathParam("chartType") final String chartType) throws
+	// TypeMismatchException {
+	//
+	// final Map<String, String> model = new HashMap<String, String>();
+	// model.put("chartType", chartType);
+	// // FIXME Build a title based on the different indicator types
+	// final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);
+	// model.put("title", indicatorType.getDisplayableTitle());
+	// return Response.ok(new Viewable("/analytical/charts", model)).build();
+	// }
 
 	@GET
 	@Produces({ "text/csv" })
@@ -276,6 +278,8 @@ public class APIResource {
 			@PathParam("sourceCode2") final String sourceCode2, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2, @PathParam("sourceCode3") final String sourceCode3,
 			@PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @PathParam("chartType") final String chartType) throws TypeMismatchException {
 
+		final BubbleChartConfigurer bcc = new BubbleChartConfigurer();
+
 		final Map<String, String> model = new HashMap<String, String>();
 		model.put("chartType", chartType);
 		final IndicatorType indicatorType1 = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);
@@ -284,6 +288,16 @@ public class APIResource {
 		model.put("hAxisTitle", indicatorType1.getDisplayableTitle());
 		model.put("vAxisTitle", indicatorType2.getDisplayableTitle());
 		model.put("title", indicatorType3.getDisplayableTitle());
-		return Response.ok(new Viewable("/analytical/charts", model)).build();
+
+		bcc.setModel(model);
+		bcc.setIndicatorTypes(curatedDataService.listIndicatorTypes());
+		bcc.setSources(curatedDataService.listSources());
+		bcc.setSource1(sourceCode1);
+		bcc.setSource2(sourceCode2);
+		bcc.setSource3(sourceCode3);
+		bcc.setIndicatorType1(indicatorTypeCode1);
+		bcc.setIndicatorType2(indicatorTypeCode2);
+		bcc.setIndicatorType3(indicatorTypeCode3);
+		return Response.ok(new Viewable("/analytical/BubbleChart", bcc)).build();
 	}
 }
