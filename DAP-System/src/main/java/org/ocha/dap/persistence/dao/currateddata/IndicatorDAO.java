@@ -17,7 +17,12 @@ public interface IndicatorDAO {
 	public void addIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
 			final String value, final String initialValue, final ImportFromCKAN importFromCKAN);
 
-	public List<Indicator> listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode);
+	/**
+	 * 
+	 * @param countryCodes optional filter to only get some countries (cannot deal other entityTypes yet)
+	 * @return
+	 */
+	public List<Indicator> listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode, final List<String> countryCodes);
 
 	public List<Indicator> listIndicatorsByPeriodicityAndEntityAndIndicatorType(final Periodicity periodicity, final String entityType, final String entityCode, final String indicatorTypeCode);
 

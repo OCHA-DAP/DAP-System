@@ -126,7 +126,7 @@ public class CuratedDataServiceImplTest {
 		indicatorDAO.addIndicator(sourceAcled, russia, indicatorType, date2013, date2014, Periodicity.YEAR, true, "9000", "9000$", importFromCKAN);
 
 		{
-			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp");
+			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null);
 			Assert.assertEquals(2, dataTable.getNumberOfColumns());
 			Assert.assertEquals("RUS", dataTable.getColumnDescription(1).getId());
 			Assert.assertEquals(1, dataTable.getNumberOfRows());
@@ -142,14 +142,14 @@ public class CuratedDataServiceImplTest {
 		indicatorDAO.addIndicator(sourceAcled, luxembourg, indicatorType, date2013, date2014, Periodicity.YEAR, true, "100000", "100000$", importFromCKAN);
 
 		{
-			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp");
+			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null);
 			Assert.assertEquals(2, dataTable.getNumberOfColumns());
 			Assert.assertEquals("RUS", dataTable.getColumnDescription(1).getId());
 			Assert.assertEquals(1, dataTable.getNumberOfRows());
 		}
 
 		{
-			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "acled", "per-capita-gdp");
+			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "acled", "per-capita-gdp", null);
 			Assert.assertEquals(3, dataTable.getNumberOfColumns());
 			Assert.assertEquals("LUX", dataTable.getColumnDescription(1).getId());
 			Assert.assertEquals("RUS", dataTable.getColumnDescription(2).getId());

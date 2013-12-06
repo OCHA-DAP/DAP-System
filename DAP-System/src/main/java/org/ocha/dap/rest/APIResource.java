@@ -1,6 +1,7 @@
 package org.ocha.dap.rest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -44,9 +46,9 @@ public class APIResource {
 	@GET
 	@Produces({ "text/csv" })
 	@Path("/yearly/source/{sourceCode}/indicatortype/{indicatorTypeCode}/csv")
-	public String getYearlyDataForSourceAndIndicatorTypeAsCSV(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode") final String indicatorTypeCode)
-			throws TypeMismatchException {
-		final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, sourceCode, indicatorTypeCode);
+	public String getYearlyDataForSourceAndIndicatorTypeAsCSV(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode") final String indicatorTypeCode,
+			@QueryParam("c") final List<String> countryCodes) throws TypeMismatchException {
+		final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, sourceCode, indicatorTypeCode, countryCodes);
 		final String result = CsvRenderer.renderDataTable(dataTable, ULocale.ENGLISH, ",").toString();
 		logger.debug("about to return from getYearlyDataForSourceAndIndicatorType");
 		logger.debug(result);
@@ -57,8 +59,9 @@ public class APIResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/yearly/source/{sourceCode}/indicatortype/{indicatorTypeCode}/json")
-	public String getYearlyDataForSourceAndIndicatorType(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode") final String indicatorTypeCode) throws TypeMismatchException {
-		final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, sourceCode, indicatorTypeCode);
+	public String getYearlyDataForSourceAndIndicatorType(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode") final String indicatorTypeCode,
+			@QueryParam("c") final List<String> countryCodes) throws TypeMismatchException {
+		final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, sourceCode, indicatorTypeCode, countryCodes);
 		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
 		logger.debug("about to return from getYearlyDataForSourceAndIndicatorType");
 		logger.debug(result);
@@ -73,7 +76,7 @@ public class APIResource {
 	 */
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	@Path("/yearly/source/{sourceCode}/indicatortype/{indicatorTypeCode}/{chartType}")
+	@Path("/yearly/source/{sourceCode}/indicatortype/{indicatorTypeCode}/{chartType}/")
 	public Response getChartWithYearlyDataForSourceAndIndicatorType(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode") final String indicatorTypeCode,
 			@PathParam("chartType") final String chartType) {
 		final Map<String, String> model = new HashMap<String, String>();

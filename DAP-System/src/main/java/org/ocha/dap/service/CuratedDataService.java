@@ -58,16 +58,26 @@ public interface CuratedDataService {
 
 	/**
 	 * returns a 2D Datatable with Entities as columns, and periods as rows.
-	 * Something like Year Germany Russia France 2011 2012 2013
+	 * Something like 	
+	 * 	Year 	Germany 	Russia 		France 
+	 * 	2011 
+	 * 	2012 
+	 * 	2013
 	 * 
+	 * @param countryCodes optional. Return all the known entities if null 
 	 * @throws TypeMismatchException
 	 *             If some data doest not match the expect type of the column
 	 */
-	public DataTable listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode) throws TypeMismatchException;
+	public DataTable listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode, List<String> countryCodes)
+			throws TypeMismatchException;
 
 	/**
 	 * returns a 2D Datatable with Sources as columns, and periods as rows.
-	 * Something like Year WB UN ACLED 2011 2012 2013
+	 * Something like 
+	 * Year 	WB 	UN 	ACLED 
+	 * 2011 
+	 * 2012 
+	 * 2013
 	 * 
 	 * @throws TypeMismatchException
 	 *             If some data doest not match the expect type of the column
