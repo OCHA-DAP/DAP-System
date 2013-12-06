@@ -30,7 +30,7 @@
   <div class="menu" id="menu4">
     <ul>
       	<li><a href="${ctx}/api/yearly/year/2010/source1/acled/indicatortype1/PVX040/source2/WB/indicatortype2/PSE030/source3/esa-unpd-WPP2012/indicatortype3/PSP010/BubbleChart">Countries BubbleChart (3D data)</a></li>
-      	<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/LineChart">countries Line Chart (2D data)</a></li>
+      	<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/LineChart/">countries Line Chart (2D data)</a></li>
     </ul>
   </div>
 </div>

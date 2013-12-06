@@ -18,6 +18,7 @@ import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.rest.helper.BubbleChartConfigurer;
+import org.ocha.dap.rest.helper.IndicatorAndSourceChartConfigurer;
 import org.ocha.dap.service.CuratedDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +80,9 @@ public class APIResource {
 	@Path("/yearly/source/{sourceCode}/indicatortype/{indicatorTypeCode}/{chartType}/")
 	public Response getChartWithYearlyDataForSourceAndIndicatorType(@PathParam("sourceCode") final String sourceCode, @PathParam("indicatorTypeCode") final String indicatorTypeCode,
 			@PathParam("chartType") final String chartType) {
+
+		final IndicatorAndSourceChartConfigurer iascc = new IndicatorAndSourceChartConfigurer();
+
 		final Map<String, String> model = new HashMap<String, String>();
 		model.put("chartType", chartType);
 		final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode);
@@ -90,7 +94,14 @@ public class APIResource {
 			model.put("vAxisTitle", indicatorType.getName());
 			model.put("hAxisTitle", "year");
 		}
-		return Response.ok(new Viewable("/analytical/charts", model)).build();
+
+		iascc.setModel(model);
+		iascc.setIndicatorTypes(curatedDataService.listIndicatorTypes());
+		iascc.setSources(curatedDataService.listSources());
+		iascc.setSource(sourceCode);
+		iascc.setIndicatorType(indicatorTypeCode);
+
+		return Response.ok(new Viewable("/analytical/IndicatorAndSourceChart", iascc)).build();
 	}
 
 	@GET
