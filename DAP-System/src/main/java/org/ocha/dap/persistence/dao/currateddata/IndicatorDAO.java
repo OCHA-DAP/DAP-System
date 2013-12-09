@@ -60,4 +60,13 @@ public interface IndicatorDAO {
 	 */
 	public List<String> getExistingSourcesCodesForYearAndIndicatorType(final int year, final String indicatorTypeCode);
 
+	/**
+	 * Based on the existing indicators
+	 * 
+	 * @param indicatorTypeCode
+	 * 
+	 * @return the list of sources for which there is ar least one matching record in Indicators (IndicatorType)
+	 */
+	public List<String> getExistingSourcesCodesForIndicatorType(final String indicatorTypeCode);
+
 }

@@ -99,4 +99,6 @@ public interface CuratedDataService {
 
 	public List<Source> getExistingSourcesForYearAndIndicatorType(final int year, final String indicatorTypeCode);
 
+	public List<Source> getExistingSourcesForIndicatorType(final String indicatorTypeCode);
+
 }

@@ -54,6 +54,24 @@
 		var url = '${ctx}/api/yearly/source/'+ source +'/indicatortype/'+ indicatorType +'/${it.model.chartType}/?${pageContext.request.queryString}';
 		window.location = url;
 	}
+	
+	$("select#indicatorType").change(function(){
+
+		var indicatorType = configForm.elements["indicatorType"].value;
+		var url = '${ctx}/api/sources/indicatorTypeCode/'+ indicatorType +'/';
+		$.get(url, function(data) {
+
+		    $("#Type option").remove();
+		    var typeData = JSON.parse(data);
+
+		    for (var i = 0; i < j.length; i++) {
+		        options += '<option value="' + j[i].code + '">' + j[i].name + '</option>';
+		      }
+		      $("select#source").html(options);
+
+		});
+	});
+	}
 </script>
 </head>
 
@@ -62,6 +80,15 @@
 	<jsp:include page="analytical-header.jsp" />
 	<div>
 		<form id="configForm">
+		
+			<label for="indicatorType">Indicator Type</label>
+			<select name="indicatorType" id="indicatorType" onchange="">
+				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
+					<option value="${indicatorType.code}"
+						<c:if test="${indicatorType.code eq it.indicatorType}">selected</c:if>>${indicatorType.name}</option>
+				</c:forEach>
+			</select>
+			
 			<label for="source">Source</label>
 			<select name="source" id="source">
 				<c:forEach var="source" items="${it.sources}">
@@ -70,13 +97,7 @@
 				</c:forEach>
 			</select>
 
-			<label for="indicatorType">Indicator Type</label>
-			<select name="indicatorType" id="indicatorType">
-				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
-					<option value="${indicatorType.code}"
-						<c:if test="${indicatorType.code eq it.indicatorType}">selected</c:if>>${indicatorType.name}</option>
-				</c:forEach>
-			</select>
+			
 		</form>
 		<button onclick="JavaScript:redirectWithFormParams()">Update</button>
 		<div id="chart_div" />

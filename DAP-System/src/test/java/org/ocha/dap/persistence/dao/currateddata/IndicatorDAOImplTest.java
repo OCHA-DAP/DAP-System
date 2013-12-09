@@ -175,6 +175,9 @@ public class IndicatorDAOImplTest {
 		final List<String> sourcesForCapita2013 = indicatorDAO.getExistingSourcesCodesForYearAndIndicatorType(2013, "per-capita-gdp");
 		Assert.assertEquals(2, sourcesForCapita2013.size());
 
+		final List<String> sourcesForCapita = indicatorDAO.getExistingSourcesCodesForIndicatorType("per-capita-gdp");
+		Assert.assertEquals(2, sourcesForCapita.size());
+
 		indicatorDAO.deleteAllIndicatorsFromImport(importFromCKAN.getId());
 
 		Assert.assertEquals(4, indicatorDAO.listLastIndicators(100).size());

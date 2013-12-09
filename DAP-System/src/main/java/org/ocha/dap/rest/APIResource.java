@@ -99,7 +99,7 @@ public class APIResource {
 
 		iascc.setModel(model);
 		iascc.setIndicatorTypes(curatedDataService.listIndicatorTypes());
-		iascc.setSources(curatedDataService.listSources());
+		iascc.setSources(curatedDataService.getExistingSourcesForIndicatorType(indicatorTypeCode));
 		iascc.setSource(sourceCode);
 		iascc.setIndicatorType(indicatorTypeCode);
 
@@ -322,6 +322,15 @@ public class APIResource {
 	@Path("/sources/year/{year}/indicatorTypeCode/{indicatorTypeCode}/")
 	public String getExistingSourcesForYearAndIndicatorType(@PathParam("year") final int year, @PathParam("indicatorTypeCode") final String indicatorTypeCode) {
 		final List<Source> sources = curatedDataService.getExistingSourcesForYearAndIndicatorType(year, indicatorTypeCode);
+
+		return GSONBuilderWrapper.getGSON().toJson(sources);
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/sources/indicatorTypeCode/{indicatorTypeCode}/")
+	public String getExistingSourcesForIndicatorType(@PathParam("indicatorTypeCode") final String indicatorTypeCode) {
+		final List<Source> sources = curatedDataService.getExistingSourcesForIndicatorType(indicatorTypeCode);
 
 		return GSONBuilderWrapper.getGSON().toJson(sources);
 	}

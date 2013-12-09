@@ -305,4 +305,15 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return sources;
 	}
 
+	@Override
+	public List<Source> getExistingSourcesForIndicatorType(final String indicatorTypeCode) {
+		final List<String> sourceCodes = indicatorDAO.getExistingSourcesCodesForIndicatorType(indicatorTypeCode);
+
+		final List<Source> sources = new ArrayList<>();
+		for (final String code : sourceCodes) {
+			sources.add(sourceDAO.getSourceByCode(code));
+		}
+		return sources;
+	}
+
 }

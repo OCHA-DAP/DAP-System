@@ -123,4 +123,11 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<String> getExistingSourcesCodesForIndicatorType(final String indicatorTypeCode) {
+		final TypedQuery<String> query = em.createQuery("SELECT DISTINCT(i.source.code) FROM Indicator i Where i.type.code = :indicatorTypeCode", String.class).setParameter("indicatorTypeCode",
+				indicatorTypeCode);
+		return query.getResultList();
+	}
+
 }
