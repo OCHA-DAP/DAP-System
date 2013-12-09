@@ -40,10 +40,12 @@
 			width : 1200,
 			height : 600,
 			vAxis : {
-				title : "${it.model.vAxisTitle}"
+				title : "${it.model.vAxisTitle}",
+				logScale : true
 			},
 			hAxis : {
-				title : "${it.model.hAxisTitle}"
+				title : "${it.model.hAxisTitle}",
+				logScale : true
 			}
 		});
 	}

@@ -17,9 +17,11 @@ import javax.ws.rs.core.Response;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
+import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.ocha.dap.rest.helper.BubbleChartConfigurer;
 import org.ocha.dap.rest.helper.IndicatorAndSourceChartConfigurer;
 import org.ocha.dap.service.CuratedDataService;
+import org.ocha.dap.tools.GSONBuilderWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -313,5 +315,14 @@ public class APIResource {
 		bcc.setIndicatorType2(indicatorTypeCode2);
 		bcc.setIndicatorType3(indicatorTypeCode3);
 		return Response.ok(new Viewable("/analytical/BubbleChart", bcc)).build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/sources/year/{year}/indicatorTypeCode/{indicatorTypeCode}/")
+	public String getExistingSourcesForYearAndIndicatorType(@PathParam("year") final int year, @PathParam("indicatorTypeCode") final String indicatorTypeCode) {
+		final List<Source> sources = curatedDataService.getExistingSourcesForYearAndIndicatorType(year, indicatorTypeCode);
+
+		return GSONBuilderWrapper.getGSON().toJson(sources);
 	}
 }

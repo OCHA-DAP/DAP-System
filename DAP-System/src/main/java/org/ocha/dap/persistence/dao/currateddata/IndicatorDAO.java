@@ -50,4 +50,14 @@ public interface IndicatorDAO {
 
 	public void deleteAllIndicatorsFromImport(long importId);
 
+	/**
+	 * Based on the existing indicators
+	 * 
+	 * @param year
+	 * @param indicatorTypeCode
+	 * 
+	 * @return the list of sources for which there is ar least one matching record in Indicators (Year, IndicatorType)
+	 */
+	public List<String> getExistingSourcesCodesForYearAndIndicatorType(final int year, final String indicatorTypeCode);
+
 }

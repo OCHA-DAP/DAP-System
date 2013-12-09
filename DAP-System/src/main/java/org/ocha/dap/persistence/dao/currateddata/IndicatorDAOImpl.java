@@ -113,4 +113,14 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	}
 
+	@Override
+	public List<String> getExistingSourcesCodesForYearAndIndicatorType(final int year, final String indicatorTypeCode) {
+		final TimeRange timerange = new TimeRange(Integer.valueOf(year).toString());
+		final TypedQuery<String> query = em
+				.createQuery("SELECT DISTINCT(i.source.code) FROM Indicator i Where i.start = :start AND i.end = :end AND i.periodicity = :periodicity AND i.type.code = :indicatorTypeCode",
+						String.class).setParameter("start", timerange.getStart()).setParameter("end", timerange.getEnd()).setParameter("periodicity", timerange.getPeriodicity())
+				.setParameter("indicatorTypeCode", indicatorTypeCode);
+		return query.getResultList();
+	}
+
 }
