@@ -55,23 +55,7 @@
 		window.location = url;
 	}
 	
-	$("select#indicatorType").change(function(){
-
-		var indicatorType = configForm.elements["indicatorType"].value;
-		var url = '${ctx}/api/sources/indicatorTypeCode/'+ indicatorType +'/';
-		$.get(url, function(data) {
-
-		    $("#Type option").remove();
-		    var typeData = JSON.parse(data);
-
-		    for (var i = 0; i < j.length; i++) {
-		        options += '<option value="' + j[i].code + '">' + j[i].name + '</option>';
-		      }
-		      $("select#source").html(options);
-
-		});
-	});
-	}
+	
 </script>
 </head>
 
@@ -82,7 +66,7 @@
 		<form id="configForm">
 		
 			<label for="indicatorType">Indicator Type</label>
-			<select name="indicatorType" id="indicatorType" onchange="">
+			<select name="indicatorType" id="indicatorType">
 				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
 					<option value="${indicatorType.code}"
 						<c:if test="${indicatorType.code eq it.indicatorType}">selected</c:if>>${indicatorType.name}</option>
@@ -101,5 +85,24 @@
 		</form>
 		<button onclick="JavaScript:redirectWithFormParams()">Update</button>
 		<div id="chart_div" />
+		
+		
+		<script type="text/javascript">
+		$("select#indicatorType").change(function(){
+
+			var indicatorType = configForm.elements["indicatorType"].value;
+			var url = '${ctx}/api/sources/indicatorTypeCode/'+ indicatorType +'/';
+			$.get(url, function(data) {
+
+				$("select#source").html("");
+				var options = '';
+			    for (var i = 0; i < data.length; i++) {
+			        options += '<option value="' + data[i].code + '">' + data[i].name + '</option>';
+			      }
+			      $("select#source").html(options);
+
+			});
+		});
+		</script>
 </body>
 </html>
