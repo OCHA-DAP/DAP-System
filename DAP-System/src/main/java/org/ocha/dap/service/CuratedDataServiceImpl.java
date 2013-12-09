@@ -1,6 +1,7 @@
 package org.ocha.dap.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import org.ocha.dap.importer.PreparedIndicator;
 import org.ocha.dap.importer.TimeRange;
+import org.ocha.dap.model.api.CellDescriptor;
 import org.ocha.dap.persistence.dao.ImportFromCKANDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
@@ -30,6 +32,7 @@ import com.google.visualization.datasource.base.TypeMismatchException;
 import com.google.visualization.datasource.datatable.ColumnDescription;
 import com.google.visualization.datasource.datatable.DataTable;
 import com.google.visualization.datasource.datatable.TableRow;
+import com.google.visualization.datasource.datatable.value.NumberValue;
 import com.google.visualization.datasource.datatable.value.ValueType;
 
 public class CuratedDataServiceImpl implements CuratedDataService {
@@ -159,38 +162,60 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		// must be sorted by start, entity
 		final List<Indicator> indicators = indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(periodicity, sourceCode, indicatorTypeCode, countryCodes);
+		final List<String> years = new ArrayList<String>();
+		final List<Entity> entities = new ArrayList<Entity>();
+		final Map<CellDescriptor, Indicator> tableContent = new HashMap<CellDescriptor, Indicator>();
+		for (final Indicator indicator : indicators) {
+			final String year = new TimeRange(indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity()).getTimeRangeAsSimpleString();
+			if (!years.contains(year)) {
+				logger.debug(String.format("Found year : %s", year));
+				years.add(year);
+			}
+
+			if (!entities.contains(indicator.getEntity())) {
+				logger.debug(String.format("Found entity : %s", indicator.getEntity()));
+				entities.add(indicator.getEntity());
+			}
+
+			tableContent.put(new CellDescriptor(year, indicator.getEntity().getCode()), indicator);
+		}
 
 		final DataTable dataTable = new DataTable();
 		dataTable.addColumn(new ColumnDescription("Year", ValueType.TEXT, "Year"));
+		final Map<String, TableRow> rows = new HashMap<String, TableRow>();
 
-		TimeRange previousTR = null;
-		TableRow currentRow = null;
-		final List<TableRow> rows = new ArrayList<>();
-		for (final Indicator indicator : indicators) {
-			final String code = indicator.getEntity().getCode();
-			if (!dataTable.containsColumn(code))
-				dataTable.addColumn(new ColumnDescription(indicator.getEntity().getCode(), ValueType.NUMBER, indicator.getEntity().getName()));
+		for (final String year : years) {
+			final TableRow aRow = new TableRow();
+			aRow.addCell(year);
+			logger.debug(String.format("Adding a row for year : %s", year));
+			rows.put(year, aRow);
+		}
 
-			final TimeRange timeRange = new TimeRange(indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity());
-			if (timeRange.equals(previousTR)) {
-				currentRow.addCell(Double.parseDouble(indicator.getValue()));
-			} else {
-				final TableRow aRow = new TableRow();
-				aRow.addCell(timeRange.getTimeRangeAsSimpleString());
-				currentRow = aRow;
-				aRow.addCell(Double.parseDouble(indicator.getValue()));
-				rows.add(aRow);
-				previousTR = timeRange;
+		for (final Entity entity : entities) {
+			dataTable.addColumn(new ColumnDescription(entity.getCode(), ValueType.NUMBER, entity.getName()));
+			for (final String year : years) {
+				final Indicator cellIndicator = tableContent.get(new CellDescriptor(year, entity.getCode()));
+				if (cellIndicator == null) {
+					rows.get(year).addCell(NumberValue.getNullValue());
+				} else {
+					rows.get(year).addCell(Double.parseDouble(cellIndicator.getValue()));
+				}
 			}
 		}
 
-		dataTable.addRows(rows);
+		final List<String> sortedKeys = new ArrayList<String>(rows.keySet());
+		Collections.sort(sortedKeys);
+		for (final String key : sortedKeys) {
+			dataTable.addRow(rows.get(key));
+		}
 		return dataTable;
 	}
 
 	@Override
 	public DataTable listIndicatorsByPeriodicityAndEntityAndIndicatorType(final Periodicity periodicity, final String entityType, final String entityCode, final String indicatorTypeCode)
 			throws TypeMismatchException {
+		
+		//FIXME probably has a problem if some data are missing in the Table, see how it is fixed for listIndicatorsByPeriodicityAndSourceAndIndicatorType
 
 		// must be sorted by start, source
 		final List<Indicator> indicators = indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(periodicity, entityType, entityCode, indicatorTypeCode);
@@ -206,6 +231,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			if (!dataTable.containsColumn(code))
 				dataTable.addColumn(new ColumnDescription(indicator.getSource().getCode(), ValueType.NUMBER, indicator.getSource().getName()));
 
+		}
+		for (final Indicator indicator : indicators) {
 			final TimeRange timeRange = new TimeRange(indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity());
 			if (timeRange.equals(previousTR)) {
 				currentRow.addCell(Double.parseDouble(indicator.getValue()));
