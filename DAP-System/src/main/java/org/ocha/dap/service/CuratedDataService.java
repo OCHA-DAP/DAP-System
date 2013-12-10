@@ -95,7 +95,7 @@ public interface CuratedDataService {
 	public DataTable listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode) throws TypeMismatchException;
 
 	public DataTable listIndicatorsByYearAndSourcesAndIndicatorTypes(final int year, final String sourceCode1, final String indicatorTypeCode1, final String sourceCode2,
-			final String indicatorTypeCode2, final String sourceCode3, final String indicatorTypeCode3) throws TypeMismatchException;
+			final String indicatorTypeCode2, final String sourceCode3, final String indicatorTypeCode3, final List<String> countryCodes) throws TypeMismatchException;
 
 	public List<Source> getExistingSourcesForYearAndIndicatorType(final int year, final String indicatorTypeCode);
 

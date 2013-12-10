@@ -32,7 +32,7 @@ public interface IndicatorDAO {
 	 * @param sourceCode
 	 * @param indicatorTypeCode
 	 */
-	public List<Indicator> listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode);
+	public List<Indicator> listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode, final List<String> countryCodes);
 
 	/**
 	 * periodicity is implicitely YEAR

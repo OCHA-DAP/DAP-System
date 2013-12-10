@@ -117,7 +117,7 @@ public class IndicatorDAOImplTest {
 		Assert.assertEquals(2, indicatorDAO.listLastIndicators(100).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null).size());
 		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(Periodicity.YEAR, "country", "RUS", "per-capita-gdp").size());
-		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp").size());
+		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp", null).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorTypes(2013, "WB", indicatorTypesOnlyPerCapita).size());
 
 		indicatorDAO.addIndicator(sourceAcled, luxembourg, perCapitaGdp, date2013, date2014, Periodicity.YEAR, true, "100000", "100000$", importFromCKAN);
@@ -140,15 +140,15 @@ public class IndicatorDAOImplTest {
 		Assert.assertEquals(5, indicatorDAO.listLastIndicators(100).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null).size());
 		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(Periodicity.YEAR, "country", "RUS", "per-capita-gdp").size());
-		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp").size());
+		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp", null).size());
 
 		indicatorDAO.addIndicator(sourceWB, luxembourg, perCapitaGdp, date2012, date2013, Periodicity.YEAR, true, "273.97", "237.97$ per day", importFromCKAN2);
 
 		Assert.assertEquals(6, indicatorDAO.listLastIndicators(100).size());
 		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null).size());
 		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(Periodicity.YEAR, "country", "RUS", "per-capita-gdp").size());
-		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp").size());
-		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2012, "WB", "per-capita-gdp").size());
+		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp", null).size());
+		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2012, "WB", "per-capita-gdp", null).size());
 
 		indicatorDAO.addIndicator(sourceWB, russia, perCapitaGdp, date2012, date2013, Periodicity.YEAR, true, "273.97", "237.97$ per day", importFromCKAN2);
 
@@ -156,15 +156,15 @@ public class IndicatorDAOImplTest {
 		Assert.assertEquals(3, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", countriesOnlyLuxembourg).size());
 		Assert.assertEquals(3, indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(Periodicity.YEAR, "country", "RUS", "per-capita-gdp").size());
-		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp").size());
-		Assert.assertEquals(2, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2012, "WB", "per-capita-gdp").size());
+		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp", null).size());
+		Assert.assertEquals(2, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2012, "WB", "per-capita-gdp", null).size());
 
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorTypes(2013, "WB", indicatorTypesOnlyPerCapita).size());
 
 		indicatorDAO.addIndicator(sourceWB, russia, pvx040, date2013, date2014, Periodicity.YEAR, true, "273.97", "237.97$ per day", importFromCKAN2);
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorTypes(2013, "WB", indicatorTypesOnlyPerCapita).size());
-		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp").size());
-		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "PVX040").size());
+		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp", null).size());
+		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "PVX040", null).size());
 
 		final List<String> indicatorTypes = new ArrayList<>();
 		indicatorTypes.add("per-capita-gdp");

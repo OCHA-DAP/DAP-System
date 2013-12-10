@@ -253,7 +253,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public DataTable listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode) throws TypeMismatchException {
-		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode);
+		//No filter on country for now
+		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode, null);
 
 		final DataTable dataTable = new DataTable();
 		dataTable.addColumn(new ColumnDescription("Entity", ValueType.TEXT, "Entity"));
@@ -269,7 +270,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public DataTable listIndicatorsByYearAndSourcesAndIndicatorTypes(final int year, final String sourceCode1, final String indicatorTypeCode1, final String sourceCode2,
-			final String indicatorTypeCode2, final String sourceCode3, final String indicatorTypeCode3) throws TypeMismatchException {
+			final String indicatorTypeCode2, final String sourceCode3, final String indicatorTypeCode3, final List<String> countryCodes) throws TypeMismatchException {
 		final DataTable dataTable = new DataTable();
 		dataTable.addColumn(new ColumnDescription("Entity", ValueType.TEXT, "Entity"));
 		dataTable.addColumn(new ColumnDescription(indicatorTypeCode1, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode1).getName()));
@@ -279,11 +280,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		dataTable.addColumn(new ColumnDescription(indicatorTypeCode3, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode3).getName()));
 
 		final Map<String, TableRow> rows = new HashMap<String, TableRow>();
-		addColumnData(year, rows, sourceCode1, indicatorTypeCode1);
-		addColumnData(year, rows, sourceCode2, indicatorTypeCode2);
+		addColumnData(year, rows, sourceCode1, indicatorTypeCode1, countryCodes);
+		addColumnData(year, rows, sourceCode2, indicatorTypeCode2, countryCodes);
 		// This is a Hack to have the third indicator moved to the 4th
 		addACellToEveryRow(rows);
-		addColumnData(year, rows, sourceCode3, indicatorTypeCode3);
+		addColumnData(year, rows, sourceCode3, indicatorTypeCode3, countryCodes);
 
 		for (final TableRow row : rows.values()) {
 
@@ -299,8 +300,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return dataTable;
 	}
 
-	private Map<String, TableRow> addColumnData(final int year, final Map<String, TableRow> rows, final String sourceCode, final String indicatorTypeCode) {
-		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode);
+	private Map<String, TableRow> addColumnData(final int year, final Map<String, TableRow> rows, final String sourceCode, final String indicatorTypeCode, final List<String> countryCodes) {
+		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode, countryCodes);
 
 		for (final Indicator indicator : indicators) {
 			if (rows.containsKey(indicator.getEntity().getCode())) {

@@ -77,14 +77,20 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	}
 
 	@Override
-	public List<Indicator> listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode) {
+	public List<Indicator> listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode, final List<String> countryCodes) {
 		final TimeRange timeRange = new TimeRange(year);
-		final TypedQuery<Indicator> query = em
-				.createQuery(
-						"SELECT i FROM Indicator i WHERE i.periodicity = :periodicity AND i.source.code = :source AND i.type.code = :indicatorType AND i.start = :start ORDER BY i.entity.type.code, i.entity.code",
-						Indicator.class).setParameter("periodicity", Periodicity.YEAR).setParameter("start", timeRange.getStart()).setParameter("source", sourceCode)
-				.setParameter("indicatorType", indicatorTypeCode);
+		final StringBuilder sb = new StringBuilder();
+		sb.append("SELECT i FROM Indicator i WHERE i.periodicity = :periodicity AND i.source.code = :source AND i.type.code = :indicatorType AND i.start = :start ");
+		if (countryCodes != null && !countryCodes.isEmpty()) {
+			sb.append(" AND i.entity.type.code = 'country' AND i.entity.code IN :countryCodes ");
+		}
+		sb.append(" ORDER BY i.entity.type.code, i.entity.code ");
+		final TypedQuery<Indicator> query = em.createQuery(sb.toString(), Indicator.class).setParameter("periodicity", Periodicity.YEAR).setParameter("start", timeRange.getStart())
+				.setParameter("source", sourceCode).setParameter("indicatorType", indicatorTypeCode);
 
+		if (countryCodes != null && !countryCodes.isEmpty()) {
+			query.setParameter("countryCodes", countryCodes);
+		}
 		return query.getResultList();
 	}
 
