@@ -16,6 +16,7 @@ import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
 import org.ocha.dap.persistence.dao.currateddata.IndicatorDAO;
 import org.ocha.dap.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.dap.persistence.dao.currateddata.SourceDAO;
+import org.ocha.dap.persistence.dao.dictionary.RegionDictionaryDAO;
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
@@ -23,6 +24,7 @@ import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.Source;
+import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private ImportFromCKANDAO importFromCKANDAO;
+	
+	@Autowired
+	private RegionDictionaryDAO regionDictionaryDAO;
 
 	@Override
 	public List<EntityType> listEntityTypes() {
@@ -343,6 +348,16 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			sources.add(sourceDAO.getSourceByCode(code));
 		}
 		return sources;
+	}
+
+	@Override
+	public List<RegionDictionary> listRegionDictionary() {
+		return regionDictionaryDAO.listRegionDictionary();
+	}
+
+	@Override
+	public void addRegionDictionary(final String unnormalizedName, final String source, final String entityType, final String entityCode) {
+		regionDictionaryDAO.addRegionDictionary(unnormalizedName, source, entityType, entityCode);
 	}
 
 }

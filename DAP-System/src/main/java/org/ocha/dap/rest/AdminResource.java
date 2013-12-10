@@ -26,6 +26,7 @@ import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.rest.helper.DisplayEntities;
 import org.ocha.dap.rest.helper.DisplayIndicators;
+import org.ocha.dap.rest.helper.DisplayRegionDictionaries;
 import org.ocha.dap.rest.helper.Index;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
@@ -285,5 +286,14 @@ public class AdminResource {
 		final Date endDate = fmt.parseDateTime(end).toDate();
 		curatedDataService.addIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, numeric, value, initialValue);
 		return displayIndicatorsList();
+	}
+	
+	@GET
+	@Path("/dictionaries/regions")
+	public Response displayRegionDictionariesList() {
+		final DisplayRegionDictionaries displayRegionDictionaries = new DisplayRegionDictionaries();
+		displayRegionDictionaries.setEntities(curatedDataService.listEntities());
+		displayRegionDictionaries.setRegionDictionaries(curatedDataService.listRegionDictionary());
+		return Response.ok(new Viewable("/admin/regionDictionaries", displayRegionDictionaries)).build();
 	}
 }
