@@ -151,16 +151,15 @@ public class CuratedDataServiceImplTest {
 		{
 			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "acled", "per-capita-gdp", null);
 			Assert.assertEquals(3, dataTable.getNumberOfColumns());
-			Assert.assertEquals("RUS", dataTable.getColumnDescription(1).getId());
-			Assert.assertEquals("LUX", dataTable.getColumnDescription(2).getId());
+			Assert.assertEquals("LUX", dataTable.getColumnDescription(1).getId());
+			Assert.assertEquals("RUS", dataTable.getColumnDescription(2).getId());
 			Assert.assertEquals(1, dataTable.getNumberOfRows());
 			Assert.assertEquals(3, dataTable.getRow(0).getCells().size());
 			Assert.assertEquals("2013", dataTable.getRow(0).getCell(0).getValue().toString());
-			Assert.assertEquals("9000.0", dataTable.getRow(0).getCell(1).getValue().toString());
-			Assert.assertEquals("100000.0", dataTable.getRow(0).getCell(2).getValue().toString());
+			Assert.assertEquals("100000.0", dataTable.getRow(0).getCell(1).getValue().toString());
+			Assert.assertEquals("9000.0", dataTable.getRow(0).getCell(2).getValue().toString());
 
 			final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
-			// final String result = GSONBuilderWrapper.getGSON().toJson(dataTable);
 			result.toString();
 		}
 

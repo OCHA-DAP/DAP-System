@@ -191,6 +191,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			rows.put(year, aRow);
 		}
 
+		Collections.sort(entities);
 		for (final Entity entity : entities) {
 			dataTable.addColumn(new ColumnDescription(entity.getCode(), ValueType.NUMBER, entity.getName()));
 			for (final String year : years) {
@@ -271,11 +272,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			final String indicatorTypeCode2, final String sourceCode3, final String indicatorTypeCode3) throws TypeMismatchException {
 		final DataTable dataTable = new DataTable();
 		dataTable.addColumn(new ColumnDescription("Entity", ValueType.TEXT, "Entity"));
-		dataTable.addColumn(new ColumnDescription(indicatorTypeCode1, ValueType.NUMBER, indicatorTypeCode1));
-		dataTable.addColumn(new ColumnDescription(indicatorTypeCode2, ValueType.NUMBER, indicatorTypeCode2));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode1, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode1).getName()));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode2, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode2).getName()));
 		// This is a Hack to have the third indicator moved to the 4th
-		dataTable.addColumn(new ColumnDescription("dummy", ValueType.NUMBER, "dummy"));
-		dataTable.addColumn(new ColumnDescription(indicatorTypeCode3, ValueType.NUMBER, indicatorTypeCode3));
+		dataTable.addColumn(new ColumnDescription("d", ValueType.NUMBER, "d"));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode3, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode3).getName()));
 
 		final Map<String, TableRow> rows = new HashMap<String, TableRow>();
 		addColumnData(year, rows, sourceCode1, indicatorTypeCode1);

@@ -21,7 +21,7 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @Table(name = "entity", uniqueConstraints = @UniqueConstraint(columnNames = { "code", "entity_type_id" }))
-public class Entity {
+public class Entity implements Comparable<Entity>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -68,6 +68,12 @@ public class Entity {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	@Override
+	public int compareTo(final Entity o) {
+		// TODO Auto-generated method stub
+		return this.code.compareTo(o.code);
 	}
 
 }

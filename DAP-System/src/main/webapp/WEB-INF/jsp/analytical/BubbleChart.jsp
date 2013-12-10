@@ -68,13 +68,7 @@
 	<jsp:include page="analytical-header.jsp" />
 	<div>
 		<form id="configForm">
-			<label for="source1">Source 1</label>
-			<select name="source1" id="source1">
-				<c:forEach var="source" items="${it.sources}">
-					<option value="${source.code}" <c:if test="${source.code eq it.source1}">selected</c:if> >${source.name}</option>
-				</c:forEach>
-			</select>
-			
+		
 			<label for="indicatorType1">Indicator Type 1</label>
 			<select name="indicatorType1" id="indicatorType1">
 				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
@@ -82,14 +76,15 @@
 				</c:forEach>
 			</select>
 			
-			<br/>
-			<br/>
-			<label for="source2">Source 2</label>
-			<select name="source2" id="source2">
+			<label for="source1">Source 1</label>
+			<select name="source1" id="source1">
 				<c:forEach var="source" items="${it.sources}">
-					<option value="${source.code}" <c:if test="${source.code eq it.source2}">selected</c:if> >${source.name}</option>
+					<option value="${source.code}" <c:if test="${source.code eq it.source1}">selected</c:if> >${source.name}</option>
 				</c:forEach>
 			</select>
+			
+			<br/>
+			<br/>
 			
 			<label for="indicatorType2">Indicator Type 2</label>
 			<select name="indicatorType2" id="indicatorType2">
@@ -98,14 +93,15 @@
 				</c:forEach>
 			</select>
 			
-			<br/>
-			<br/>
-			<label for="source3">Source 3</label>
-			<select name="source3" id="source3">
+			<label for="source2">Source 2</label>
+			<select name="source2" id="source2">
 				<c:forEach var="source" items="${it.sources}">
-					<option value="${source.code}" <c:if test="${source.code eq it.source3}">selected</c:if> >${source.name}</option>
+					<option value="${source.code}" <c:if test="${source.code eq it.source2}">selected</c:if> >${source.name}</option>
 				</c:forEach>
 			</select>
+			
+			<br/>
+			<br/>
 			
 			<label for="indicatorType3">Indicator Type 3</label>
 			<select name="indicatorType3" id="indicatorType3">
@@ -113,11 +109,68 @@
 					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType3}">selected</c:if> >${indicatorType.name}</option>
 				</c:forEach>
 			</select>
-
+			
+			<label for="source3">Source 3</label>
+			<select name="source3" id="source3">
+				<c:forEach var="source" items="${it.sources}">
+					<option value="${source.code}" <c:if test="${source.code eq it.source3}">selected</c:if> >${source.name}</option>
+				</c:forEach>
+			</select>
+			
 			<br/>
 		</form>
 		<button onclick="JavaScript:redirectWithFormParams()">Update</button>
 	</div>
 	<div id="chart_div" />
+	
+	<script type="text/javascript">
+		$("select#indicatorType1").change(function(){
+
+			var indicatorType = configForm.elements["indicatorType1"].value;
+			var url = '${ctx}/api/sources/indicatorTypeCode/'+ indicatorType +'/';
+			$.get(url, function(data) {
+
+				$("select#source1").html("");
+				var options = '';
+			    for (var i = 0; i < data.length; i++) {
+			        options += '<option value="' + data[i].code + '">' + data[i].name + '</option>';
+			      }
+			      $("select#source1").html(options);
+
+			});
+		});
+		
+		$("select#indicatorType2").change(function(){
+
+			var indicatorType = configForm.elements["indicatorType2"].value;
+			var url = '${ctx}/api/sources/indicatorTypeCode/'+ indicatorType +'/';
+			$.get(url, function(data) {
+
+				$("select#source2").html("");
+				var options = '';
+			    for (var i = 0; i < data.length; i++) {
+			        options += '<option value="' + data[i].code + '">' + data[i].name + '</option>';
+			      }
+			      $("select#source2").html(options);
+
+			});
+		});
+		
+		$("select#indicatorType3").change(function(){
+
+			var indicatorType = configForm.elements["indicatorType3"].value;
+			var url = '${ctx}/api/sources/indicatorTypeCode/'+ indicatorType +'/';
+			$.get(url, function(data) {
+
+				$("select#source3").html("");
+				var options = '';
+			    for (var i = 0; i < data.length; i++) {
+			        options += '<option value="' + data[i].code + '">' + data[i].name + '</option>';
+			      }
+			      $("select#source3").html(options);
+
+			});
+		});
+		</script>
 </body>
 </html>
