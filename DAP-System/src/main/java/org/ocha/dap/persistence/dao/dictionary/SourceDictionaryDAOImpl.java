@@ -28,4 +28,17 @@ public class SourceDictionaryDAOImpl implements SourceDictionaryDAO {
 		em.persist(sourceDictionary);
 	}
 
+	@Override
+	public List<SourceDictionary> getSourceDictionariesByImporter(final String importer) {
+		final TypedQuery<SourceDictionary> query = em.createQuery("SELECT sd FROM SourceDictionary sd WHERE sd.id.importer = :importer ORDER BY sd.id", SourceDictionary.class).setParameter(
+				"importer", importer);
+		return query.getResultList();
+	}
+
+	@Override
+	@Transactional
+	public void deleteAllSourceDictionaries() {
+		em.createQuery("DELETE FROM SourceDictionary").executeUpdate();
+	}
+
 }

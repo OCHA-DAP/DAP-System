@@ -11,4 +11,11 @@ public interface SourceDictionaryDAO {
 
 	public void addSourceDictionary(final String unnormalizedName, final String importer, final Source source);
 
+	public List<SourceDictionary> getSourceDictionariesByImporter(final String importer);
+
+	/**
+	 * very likely to be used by the unit tests only
+	 */
+	public void deleteAllSourceDictionaries();
+
 }

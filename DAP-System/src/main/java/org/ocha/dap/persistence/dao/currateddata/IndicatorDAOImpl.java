@@ -23,7 +23,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Override
 	public List<Indicator> listLastIndicators(final int limit) {
-		final TypedQuery<Indicator> query = em.createQuery("SELECT i FROM Indicator i ORDER BY i.id", Indicator.class).setMaxResults(limit);
+		final TypedQuery<Indicator> query = em.createQuery("SELECT i FROM Indicator i ORDER BY i.id DESC", Indicator.class).setMaxResults(limit);
 		return query.getResultList();
 	}
 

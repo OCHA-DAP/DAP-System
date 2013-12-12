@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ocha.dap.persistence.entity.dictionary.SourceDictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +19,16 @@ public class ScraperImporter implements DAPImporter {
 
 	private final List<String> acceptedIndicatorTypes = new ArrayList<>();
 
-	public ScraperImporter() {
+	Map<String, String> sourcesMap = new HashMap<>();
+
+	public ScraperImporter(final List<SourceDictionary> sourceDictionaries) {
 		super();
+
+		if (sourceDictionaries != null) {
+			for (final SourceDictionary sourceDictionary : sourceDictionaries) {
+				sourcesMap.put(sourceDictionary.getId().getUnnormalizedName(), sourceDictionary.getSource().getCode());
+			}
+		}
 		acceptedIndicatorTypes.add("PVX040");
 		acceptedIndicatorTypes.add("PSP080");
 		acceptedIndicatorTypes.add("PSE030");
@@ -31,7 +40,7 @@ public class ScraperImporter implements DAPImporter {
 	}
 
 	public Map<String, String> getCountryList(final File file) {
-		Map<String, String> result = new HashMap<String, String>();
+		final Map<String, String> result = new HashMap<String, String>();
 		final File parent = file.getParentFile();
 		final File valueFile = new File(parent, "value.csv");
 
@@ -53,6 +62,9 @@ public class ScraperImporter implements DAPImporter {
 
 	@Override
 	public PreparedData prepareDataForImport(final File file) {
+		// get the dictionary entries for the scraper importer
+		// TODO should it be linked to the enum CKANDataset.Type ?
+
 		final List<PreparedIndicator> preparedIndicators = new ArrayList<>();
 		final File parent = file.getParentFile();
 		final File valueFile = new File(parent, "value.csv");
@@ -66,10 +78,9 @@ public class ScraperImporter implements DAPImporter {
 				if (acceptedIndicatorTypes.contains(values[2])) {
 					final PreparedIndicator preparedIndicator = new PreparedIndicator();
 
-					//FIXME Hack, should be replaced when the source dictionary is available
-					if (values[0].contains("World Bank")) {
-						preparedIndicator.setSourceCode("WB");
-					}else{
+					if (sourcesMap.containsKey(values[0])) {
+						preparedIndicator.setSourceCode(sourcesMap.get(values[0]));
+					} else {
 						preparedIndicator.setSourceCode(values[0]);
 					}
 					preparedIndicator.setEntityCode(values[1]);
@@ -83,9 +94,9 @@ public class ScraperImporter implements DAPImporter {
 					preparedIndicator.setNumeric("1".equals((values[5])));
 
 					// FIXME we should deal about units later, here for
-					// population we must X10
+					// population we must X1000
 					if ("PSP010".equals(values[2])) {
-						Double population = Double.parseDouble(values[4]) * 1000;
+						final Double population = Double.parseDouble(values[4]) * 1000;
 						preparedIndicator.setValue(population.toString());
 					} else {
 						preparedIndicator.setValue(values[4]);

@@ -12,6 +12,7 @@ import org.ocha.dap.model.validation.ValidationStatus;
 import org.ocha.dap.persistence.dao.ImportFromCKANDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
+import org.ocha.dap.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
@@ -20,7 +21,6 @@ import org.ocha.dap.validation.ScraperValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor {
 
@@ -34,6 +34,9 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 
 	@Autowired
 	private EntityTypeDAO entityTypeDAO;
+
+	@Autowired
+	private SourceDictionaryDAO sourceDictionaryDAO;
 
 	@Autowired
 	private CuratedDataService curatedDataService;
@@ -64,11 +67,11 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			preparedData = defaultImportFail(file);
 			break;
 		case SCRAPER:
-			ScraperImporter scraperImporter = new ScraperImporter();
-			for (Entry<String, String> entry : scraperImporter.getCountryList(file).entrySet()) {
+			final ScraperImporter scraperImporter = new ScraperImporter(sourceDictionaryDAO.getSourceDictionariesByImporter("scraper"));
+			for (final Entry<String, String> entry : scraperImporter.getCountryList(file).entrySet()) {
 				try {
 					entityDAO.addEntity(entry.getKey(), entry.getValue(), entityTypeDAO.getEntityTypeByCode("country"));
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.debug(String.format("Not creating country : %s already exist", entry.getKey()));
 				}
 			}
@@ -91,7 +94,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		for (final PreparedIndicator preparedIndicator : preparedData.getIndicatorsToImport()) {
 			try {
 				curatedDataService.addIndicator(preparedIndicator, importFromCKAN);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.debug(String.format("Error trying to create preparedIndicator : %s", preparedIndicator.toString()));
 			}
 		}
