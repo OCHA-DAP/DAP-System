@@ -287,7 +287,7 @@ public class AdminResource {
 		curatedDataService.addIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, numeric, value, initialValue);
 		return displayIndicatorsList();
 	}
-	
+
 	@GET
 	@Path("/dictionaries/regions")
 	public Response displayRegionDictionariesList() {
@@ -296,4 +296,12 @@ public class AdminResource {
 		displayRegionDictionaries.setRegionDictionaries(curatedDataService.listRegionDictionary());
 		return Response.ok(new Viewable("/admin/regionDictionaries", displayRegionDictionaries)).build();
 	}
+
+	@POST
+	@Path("/dictionaries/regions")
+	public Response addRegionDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("source") final String source, @FormParam("entity") final long entity) {
+		curatedDataService.addRegionDictionary(unnormalizedName, source, entity);
+		return displayRegionDictionariesList();
+	}
+
 }

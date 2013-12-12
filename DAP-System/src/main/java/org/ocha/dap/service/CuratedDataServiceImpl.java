@@ -58,7 +58,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private ImportFromCKANDAO importFromCKANDAO;
-	
+
 	@Autowired
 	private RegionDictionaryDAO regionDictionaryDAO;
 
@@ -220,8 +220,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	public DataTable listIndicatorsByPeriodicityAndEntityAndIndicatorType(final Periodicity periodicity, final String entityType, final String entityCode, final String indicatorTypeCode)
 			throws TypeMismatchException {
-		
-		//FIXME probably has a problem if some data are missing in the Table, see how it is fixed for listIndicatorsByPeriodicityAndSourceAndIndicatorType
+
+		// FIXME probably has a problem if some data are missing in the Table, see how it is fixed for
+		// listIndicatorsByPeriodicityAndSourceAndIndicatorType
 
 		// must be sorted by start, source
 		final List<Indicator> indicators = indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(periodicity, entityType, entityCode, indicatorTypeCode);
@@ -258,7 +259,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public DataTable listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode) throws TypeMismatchException {
-		//No filter on country for now
+		// No filter on country for now
 		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode, null);
 
 		final DataTable dataTable = new DataTable();
@@ -356,8 +357,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void addRegionDictionary(final String unnormalizedName, final String source, final String entityType, final String entityCode) {
-		regionDictionaryDAO.addRegionDictionary(unnormalizedName, source, entityType, entityCode);
+	public void addRegionDictionary(final String unnormalizedName, final String source, final long entityId) {
+		final Entity entity = entityDAO.getEntityById(entityId);
+		regionDictionaryDAO.addRegionDictionary(unnormalizedName, source, entity);
 	}
 
 }

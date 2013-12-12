@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -16,10 +17,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "import_from_ckan")
+@SequenceGenerator(name = "import_from_ckan_seq", sequenceName = "import_from_ckan_seq")
 public class ImportFromCKAN {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "import_from_ckan_seq")
 	@Column(name = "id", nullable = false)
 	private long id;
 

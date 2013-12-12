@@ -6,11 +6,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
 import org.springframework.transaction.annotation.Transactional;
 
 public class RegionDictionaryDAOImpl implements RegionDictionaryDAO {
-	
+
 	@PersistenceContext
 	private EntityManager em;
 
@@ -22,8 +23,8 @@ public class RegionDictionaryDAOImpl implements RegionDictionaryDAO {
 
 	@Override
 	@Transactional
-	public void addRegionDictionary(final String unnormalizedName, final String source, final String entityType, final String entityCode) {
-		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, source, entityType, entityCode);
+	public void addRegionDictionary(final String unnormalizedName, final String source, final Entity entity) {
+		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, source, entity);
 		em.persist(regionDictionary);
 	}
 

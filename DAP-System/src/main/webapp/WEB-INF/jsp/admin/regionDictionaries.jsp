@@ -17,7 +17,7 @@
 	<label for="entity">For Entity</label>
   		<select name="entity" id="entity">
   			<c:forEach var="entity" items="${it.entities}">
-  				<option value="${entity.id}">${entity.type.name} / >${entity.name}</option>
+  				<option value="${entity.id}">${entity.type.name} / ${entity.name}</option>
   			</c:forEach>
 		</select>
 		 
@@ -36,19 +36,18 @@
 <h2>List of region dictionaries</h2>	
 	<table>
 		<tr>
-			<th>Id</th>
 			<th>Entity Type</th>
-			<th>Entity Code</th>
+			<th>Entity name</th>
 			<th>Source</th>
+			<th>Unnormalized Name</th>
 		</tr>
 		
-		<c:forEach var="entity" items="${it.regionDictionaries}">
+		<c:forEach var="regionDictionary" items="${it.regionDictionaries}">
 			<tr>
-				<td>${regionDictionary.id}</td>
-				<td>${regionDictionary.entityType}</td>
-				<td>${regionDictionary.entityCode}</td>
-				<td>${regionDictionary.unnormalizedName}</td>
-				<td>${regionDictionary.source}</td>
+				<td>${regionDictionary.entity.type.name}</td>
+				<td>${regionDictionary.entity.name}</td>
+				<td>${regionDictionary.id.source}</td>
+				<td>${regionDictionary.id.unnormalizedName}</td>
 			</tr>
 		</c:forEach>
 		

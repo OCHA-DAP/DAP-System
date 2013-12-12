@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -19,10 +20,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "indicator_type")
+@SequenceGenerator(name = "indicator_type_seq", sequenceName = "indicator_type_seq")
 public class IndicatorType {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "indicator_type_seq")
 	@Column(name = "id", nullable = false)
 	private long id;
 	@Column(name = "code", nullable = false, updatable = false)

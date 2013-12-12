@@ -101,8 +101,9 @@ public interface CuratedDataService {
 	public List<Source> getExistingSourcesForYearAndIndicatorType(final int year, final String indicatorTypeCode);
 
 	public List<Source> getExistingSourcesForIndicatorType(final String indicatorTypeCode);
-	
+
 	public List<RegionDictionary> listRegionDictionary();
-	public void addRegionDictionary(final String unnormalizedName, final String source, final String entityType, final String entityCode);
+
+	public void addRegionDictionary(final String unnormalizedName, final String source, final long entityId);
 
 }

@@ -6,7 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @Table(name = "region_dictionary")
@@ -40,6 +44,14 @@ public class RegionDictionary {
 			return source;
 		}
 
+		public void setUnnormalizedName(final String unnormalizedName) {
+			this.unnormalizedName = unnormalizedName;
+		}
+
+		public void setSource(final String source) {
+			this.source = source;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -57,7 +69,7 @@ public class RegionDictionary {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Id other = (Id) obj;
+			final Id other = (Id) obj;
 			if (source == null) {
 				if (other.source != null)
 					return false;
@@ -79,26 +91,30 @@ public class RegionDictionary {
 		return id;
 	}
 
-	@Column(name = "entity_type", nullable = false, updatable = false)
-	private final String entityType;
+	@ManyToOne
+	@ForeignKey(name = "fk_region_dictionary_to_entity")
+	@JoinColumn(name = "entity_id", nullable = false)
+	private org.ocha.dap.persistence.entity.curateddata.Entity entity;
 
-	@Column(name = "entity_code", nullable = false, updatable = false)
-	private final String entityCode;
+	public void setEntity(final org.ocha.dap.persistence.entity.curateddata.Entity entity) {
+		this.entity = entity;
+	}
 
-	public RegionDictionary(final String unnormalizedName, final String source, final String entityType, final String entityCode) {
+	public RegionDictionary(final String unnormalizedName, final String source, final org.ocha.dap.persistence.entity.curateddata.Entity entity) {
 		super();
 		this.id.unnormalizedName = unnormalizedName;
 		this.id.source = source;
-		this.entityType = entityType;
-		this.entityCode = entityCode;
+		this.entity = entity;
 	}
 
-	public String getEntityType() {
-		return entityType;
+	public RegionDictionary() {
+		super();
+		this.entity = null;
+
 	}
 
-	public String getEntityCode() {
-		return entityCode;
+	public org.ocha.dap.persistence.entity.curateddata.Entity getEntity() {
+		return entity;
 	}
 
 }

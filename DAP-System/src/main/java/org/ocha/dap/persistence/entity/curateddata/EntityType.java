@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -19,13 +20,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "entity_type")
+@SequenceGenerator(name = "entity_type_seq", sequenceName = "entity_type_seq")
 public class EntityType {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_type_seq")
 	@Column(name = "id", nullable = false)
 	private long id;
-	@Column(name = "code", nullable = false, updatable = false, unique=true)
+	@Column(name = "code", nullable = false, updatable = false, unique = true)
 	private String code;
 	@Column(name = "name", nullable = false, updatable = false)
 	private String name;

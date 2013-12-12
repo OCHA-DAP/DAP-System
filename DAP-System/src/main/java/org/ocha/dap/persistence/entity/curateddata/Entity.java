@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -21,10 +22,11 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @Table(name = "entity", uniqueConstraints = @UniqueConstraint(columnNames = { "code", "entity_type_id" }))
-public class Entity implements Comparable<Entity>{
+@SequenceGenerator(name = "entity_seq", sequenceName = "entity_seq")
+public class Entity implements Comparable<Entity> {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "entity_seq")
 	@Column(name = "id", nullable = false)
 	private long id;
 

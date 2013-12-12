@@ -14,6 +14,9 @@
     alter table entity 
         drop constraint fk_entity_to_type;
 
+    alter table region_dictionary 
+        drop constraint fk_region_dictionary_to_entity;
+
     drop table ckan_dataset;
 
     drop table ckan_resource;
@@ -34,7 +37,17 @@
 
     drop table source;
 
-    drop sequence hibernate_sequence;
+    drop sequence entity_seq;
+
+    drop sequence entity_type_seq;
+
+    drop sequence import_from_ckan_seq;
+
+    drop sequence indicator_seq;
+
+    drop sequence indicator_type_seq;
+
+    drop sequence source_seq;
 
     create table ckan_dataset (
         name varchar(255) not null,
@@ -126,8 +139,7 @@
     create table region_dictionary (
         source varchar(255) not null,
         unnormalized_name varchar(255) not null,
-        entity_code varchar(255) not null,
-        entity_type varchar(255) not null,
+        entity_id int8 not null,
         primary key (source, unnormalized_name)
     );
 
@@ -163,4 +175,19 @@
         foreign key (entity_type_id) 
         references entity_type;
 
-    create sequence hibernate_sequence;
+    alter table region_dictionary 
+        add constraint fk_region_dictionary_to_entity 
+        foreign key (entity_id) 
+        references entity;
+
+    create sequence entity_seq;
+
+    create sequence entity_type_seq;
+
+    create sequence import_from_ckan_seq;
+
+    create sequence indicator_seq;
+
+    create sequence indicator_type_seq;
+
+    create sequence source_seq;
