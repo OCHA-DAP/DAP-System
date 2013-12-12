@@ -16,15 +16,15 @@ public class RegionDictionaryDAOImpl implements RegionDictionaryDAO {
 	private EntityManager em;
 
 	@Override
-	public List<RegionDictionary> listRegionDictionary() {
+	public List<RegionDictionary> listRegionDictionaries() {
 		final TypedQuery<RegionDictionary> query = em.createQuery("SELECT rd FROM RegionDictionary rd ORDER BY rd.id", RegionDictionary.class);
 		return query.getResultList();
 	}
 
 	@Override
 	@Transactional
-	public void addRegionDictionary(final String unnormalizedName, final String source, final Entity entity) {
-		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, source, entity);
+	public void addRegionDictionary(final String unnormalizedName, final String importer, final Entity entity) {
+		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer, entity);
 		em.persist(regionDictionary);
 	}
 

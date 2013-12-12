@@ -11,10 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
+import org.ocha.dap.persistence.entity.curateddata.Source;
 
 @Entity
-@Table(name = "region_dictionary")
-public class RegionDictionary {
+@Table(name = "source_dictionary")
+public class SourceDictionary {
 
 	@Embeddable
 	public static class Id implements Serializable {
@@ -42,10 +43,6 @@ public class RegionDictionary {
 
 		public String getImporter() {
 			return importer;
-		}
-
-		public void setUnnormalizedName(final String unnormalizedName) {
-			this.unnormalizedName = unnormalizedName;
 		}
 
 		@Override
@@ -88,29 +85,25 @@ public class RegionDictionary {
 	}
 
 	@ManyToOne
-	@ForeignKey(name = "fk_region_dictionary_to_entity")
-	@JoinColumn(name = "entity_id", nullable = false)
-	private org.ocha.dap.persistence.entity.curateddata.Entity entity;
+	@ForeignKey(name = "fk_source_dictionary_to_source")
+	@JoinColumn(name = "source_id", nullable = false)
+	private final Source source;
 
-	public void setEntity(final org.ocha.dap.persistence.entity.curateddata.Entity entity) {
-		this.entity = entity;
+	public Source getSource() {
+		return source;
 	}
 
-	public RegionDictionary(final String unnormalizedName, final String importer, final org.ocha.dap.persistence.entity.curateddata.Entity entity) {
+	public SourceDictionary(final String unnormalizedName, final String importer, final Source source) {
 		super();
 		this.id.unnormalizedName = unnormalizedName;
 		this.id.importer = importer;
-		this.entity = entity;
+		this.source = source;
 	}
 
-	public RegionDictionary() {
+	public SourceDictionary() {
 		super();
-		this.entity = null;
+		this.source = null;
 
-	}
-
-	public org.ocha.dap.persistence.entity.curateddata.Entity getEntity() {
-		return entity;
 	}
 
 }

@@ -17,6 +17,9 @@
     alter table region_dictionary 
         drop constraint fk_region_dictionary_to_entity;
 
+    alter table source_dictionary 
+        drop constraint fk_source_dictionary_to_source;
+
     drop table ckan_dataset;
 
     drop table ckan_resource;
@@ -36,6 +39,8 @@
     drop table region_dictionary;
 
     drop table source;
+
+    drop table source_dictionary;
 
     drop sequence entity_seq;
 
@@ -137,10 +142,10 @@
     );
 
     create table region_dictionary (
-        source varchar(255) not null,
+        importer varchar(255) not null,
         unnormalized_name varchar(255) not null,
         entity_id int8 not null,
-        primary key (source, unnormalized_name)
+        primary key (importer, unnormalized_name)
     );
 
     create table source (
@@ -148,6 +153,13 @@
         code varchar(255) not null,
         name varchar(255) not null,
         primary key (id)
+    );
+
+    create table source_dictionary (
+        importer varchar(255) not null,
+        unnormalized_name varchar(255) not null,
+        source_id int8 not null,
+        primary key (importer, unnormalized_name)
     );
 
     alter table dap_indicator 
@@ -179,6 +191,11 @@
         add constraint fk_region_dictionary_to_entity 
         foreign key (entity_id) 
         references entity;
+
+    alter table source_dictionary 
+        add constraint fk_source_dictionary_to_source 
+        foreign key (source_id) 
+        references source;
 
     create sequence entity_seq;
 

@@ -17,6 +17,7 @@ import org.ocha.dap.persistence.dao.currateddata.IndicatorDAO;
 import org.ocha.dap.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.dap.persistence.dao.currateddata.SourceDAO;
 import org.ocha.dap.persistence.dao.dictionary.RegionDictionaryDAO;
+import org.ocha.dap.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
@@ -25,6 +26,7 @@ import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
+import org.ocha.dap.persistence.entity.dictionary.SourceDictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +63,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private RegionDictionaryDAO regionDictionaryDAO;
+
+	@Autowired
+	private SourceDictionaryDAO sourceDictionaryDAO;
 
 	@Override
 	public List<EntityType> listEntityTypes() {
@@ -352,14 +357,26 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public List<RegionDictionary> listRegionDictionary() {
-		return regionDictionaryDAO.listRegionDictionary();
+	public List<RegionDictionary> listRegionDictionaries() {
+		return regionDictionaryDAO.listRegionDictionaries();
 	}
 
 	@Override
-	public void addRegionDictionary(final String unnormalizedName, final String source, final long entityId) {
+	public List<SourceDictionary> listSourceDictionaries() {
+		return sourceDictionaryDAO.listSourceDictionaries();
+	}
+
+	@Override
+	public void addRegionDictionary(final String unnormalizedName, final String importer, final long entityId) {
 		final Entity entity = entityDAO.getEntityById(entityId);
-		regionDictionaryDAO.addRegionDictionary(unnormalizedName, source, entity);
+		regionDictionaryDAO.addRegionDictionary(unnormalizedName, importer, entity);
+	}
+
+	@Override
+	public void addSourceDictionary(final String unnormalizedName, final String importer, final long sourceId) {
+		final Source source = sourceDAO.getSourceById(sourceId);
+		sourceDictionaryDAO.addSourceDictionary(unnormalizedName, importer, source);
+
 	}
 
 }

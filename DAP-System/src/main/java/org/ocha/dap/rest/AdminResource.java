@@ -27,6 +27,7 @@ import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.rest.helper.DisplayEntities;
 import org.ocha.dap.rest.helper.DisplayIndicators;
 import org.ocha.dap.rest.helper.DisplayRegionDictionaries;
+import org.ocha.dap.rest.helper.DisplaySourceDictionaries;
 import org.ocha.dap.rest.helper.Index;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
@@ -293,15 +294,31 @@ public class AdminResource {
 	public Response displayRegionDictionariesList() {
 		final DisplayRegionDictionaries displayRegionDictionaries = new DisplayRegionDictionaries();
 		displayRegionDictionaries.setEntities(curatedDataService.listEntities());
-		displayRegionDictionaries.setRegionDictionaries(curatedDataService.listRegionDictionary());
+		displayRegionDictionaries.setRegionDictionaries(curatedDataService.listRegionDictionaries());
 		return Response.ok(new Viewable("/admin/regionDictionaries", displayRegionDictionaries)).build();
 	}
 
 	@POST
 	@Path("/dictionaries/regions")
-	public Response addRegionDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("source") final String source, @FormParam("entity") final long entity) {
-		curatedDataService.addRegionDictionary(unnormalizedName, source, entity);
+	public Response addRegionDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entity") final long entity) {
+		curatedDataService.addRegionDictionary(unnormalizedName, importer, entity);
 		return displayRegionDictionariesList();
+	}
+
+	@GET
+	@Path("/dictionaries/sources")
+	public Response displaySourceDictionariesList() {
+		final DisplaySourceDictionaries displaySourceDictionaries = new DisplaySourceDictionaries();
+		displaySourceDictionaries.setSources(curatedDataService.listSources());
+		displaySourceDictionaries.setSourceDictionaries(curatedDataService.listSourceDictionaries());
+		return Response.ok(new Viewable("/admin/sourceDictionaries", displaySourceDictionaries)).build();
+	}
+
+	@POST
+	@Path("/dictionaries/sources")
+	public Response addSourceDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("source") final long source) {
+		curatedDataService.addSourceDictionary(unnormalizedName, importer, source);
+		return displaySourceDictionariesList();
 	}
 
 }

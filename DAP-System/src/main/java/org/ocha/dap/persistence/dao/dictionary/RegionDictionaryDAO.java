@@ -7,8 +7,8 @@ import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
 
 public interface RegionDictionaryDAO {
 
-	public List<RegionDictionary> listRegionDictionary();
+	public List<RegionDictionary> listRegionDictionaries();
 
-	public void addRegionDictionary(final String unnormalizedName, final String source, final Entity entity);
+	public void addRegionDictionary(final String unnormalizedName, final String importer, final Entity entity);
 
 }

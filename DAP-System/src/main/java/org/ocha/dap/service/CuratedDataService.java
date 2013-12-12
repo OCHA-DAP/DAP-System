@@ -12,6 +12,7 @@ import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
+import org.ocha.dap.persistence.entity.dictionary.SourceDictionary;
 
 import com.google.visualization.datasource.base.TypeMismatchException;
 import com.google.visualization.datasource.datatable.DataTable;
@@ -102,8 +103,12 @@ public interface CuratedDataService {
 
 	public List<Source> getExistingSourcesForIndicatorType(final String indicatorTypeCode);
 
-	public List<RegionDictionary> listRegionDictionary();
+	public List<RegionDictionary> listRegionDictionaries();
 
-	public void addRegionDictionary(final String unnormalizedName, final String source, final long entityId);
+	public List<SourceDictionary> listSourceDictionaries();
+
+	public void addRegionDictionary(final String unnormalizedName, final String importer, final long entityId);
+
+	public void addSourceDictionary(final String unnormalizedName, final String importer, final long sourceId);
 
 }

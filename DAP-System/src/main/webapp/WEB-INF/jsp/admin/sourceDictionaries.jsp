@@ -11,13 +11,13 @@
 </head>
 <body>
 <jsp:include page="admin-header.jsp" />
-<h2>Add a new Region Dictionary</h2>
+<h2>Add a new SOurce Dictionary</h2>
 
 	<form method="POST" action="">
 	<label for="entity">For Entity</label>
-  		<select name="entity" id="entity">
-  			<c:forEach var="entity" items="${it.entities}">
-  				<option value="${entity.id}">${entity.type.name} / ${entity.name}</option>
+  		<select name="source" id="source">
+  			<c:forEach var="source" items="${it.sources}">
+  				<option value="${source.id}">${source.name} </option>
   			</c:forEach>
 		</select>
 		 
@@ -36,18 +36,16 @@
 <h2>List of region dictionaries</h2>	
 	<table>
 		<tr>
-			<th>Entity Type</th>
-			<th>Entity name</th>
+			<th>Source name</th>
 			<th>Importer</th>
 			<th>Unnormalized Name</th>
 		</tr>
 		
-		<c:forEach var="regionDictionary" items="${it.regionDictionaries}">
+		<c:forEach var="sourceDictionary" items="${it.sourceDictionaries}">
 			<tr>
-				<td>${regionDictionary.entity.type.name}</td>
-				<td>${regionDictionary.entity.name}</td>
-				<td>${regionDictionary.id.importer}</td>
-				<td>${regionDictionary.id.unnormalizedName}</td>
+				<td>${sourceDictionary.source.name}</td>
+				<td>${sourceDictionary.id.importer}</td>
+				<td>${sourceDictionary.id.unnormalizedName}</td>
 			</tr>
 		</c:forEach>
 		

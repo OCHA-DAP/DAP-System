@@ -22,6 +22,7 @@
   <div class="menu" id="menu3">
     <ul>
       <li><a href="${ctx}/admin/dictionaries/regions/">Region Dictionaries</a></li>
+      <li><a href="${ctx}/admin/dictionaries/sources/">Source Dictionaries</a></li>
     </ul>
   </div>
 </div>

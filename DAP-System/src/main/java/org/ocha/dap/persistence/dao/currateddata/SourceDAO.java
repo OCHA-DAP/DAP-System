@@ -12,6 +12,8 @@ public interface SourceDAO {
 
 	public Source getSourceByCode(String code);
 
+	public Source getSourceById(long id);
+
 	public void deleteSourceByCode(String code);
 
 }

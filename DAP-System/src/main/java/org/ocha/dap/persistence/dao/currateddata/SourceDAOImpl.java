@@ -39,7 +39,11 @@ public class SourceDAOImpl implements SourceDAO {
 	@Transactional
 	public void deleteSourceByCode(final String code) {
 		em.remove(getSourceByCode(code));
+	}
 
+	@Override
+	public Source getSourceById(final long id) {
+		return em.find(Source.class, id);
 	}
 
 }
