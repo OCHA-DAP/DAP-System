@@ -7,14 +7,6 @@
       ">
 	<context:annotation-config />
 
-	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:/dap-secret</value>
-				<value>classpath:/dap-test</value>
-			</list>
-		</property>
-		<property name="ignoreUnresolvablePlaceholders" value="true" />
-	</bean>
-	
+	<bean id="integrationTestSetUpAndTearDown" class="org.ocha.dap.IntegrationTestSetUpAndTearDown" />
+
 </beans>
