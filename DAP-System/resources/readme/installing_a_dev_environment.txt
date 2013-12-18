@@ -49,10 +49,12 @@
 		
 	Postgres : 
 		To prepare the environment, 3 SQL scripts are needed (TODO, a sys-admin will probably want to decide which user should run these scripts)
+
 		1 - db.sql (prepares the db) 
-		2 - schema.sql (prepares the data model) (remove the drop statements for an initial setup)
+		2 - schema.sql (schema.ddl if generated from maven) (prepares the data model) (remove the alter and drop statements for an initial setup)
 		3 - sample.sql (optional, setting up some users)
-		The tables must be owned by user "dap-user".
+		****NOTE: The tables and relations must be owned by user "dap-user".  This can be done by editing each one after creation, or by switching to dap-user before running schema.sql.****
+
 		It is recommended (required for a production deployment!) to change the default password for dap-user and enter this password in %DAP_FOLDER%/config/dap-config.
 		
 	If not already done, setup the environment variable
