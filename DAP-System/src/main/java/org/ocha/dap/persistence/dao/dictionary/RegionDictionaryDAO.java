@@ -2,7 +2,10 @@ package org.ocha.dap.persistence.dao.dictionary;
 
 import java.util.List;
 
+import javax.persistence.TypedQuery;
+
 import org.ocha.dap.persistence.entity.curateddata.Entity;
+import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
 
 public interface RegionDictionaryDAO {
@@ -11,4 +14,14 @@ public interface RegionDictionaryDAO {
 
 	public void addRegionDictionary(final String unnormalizedName, final String importer, final Entity entity);
 
+	public void deleteRegionDictionary(String unnormalizedName, String importer,
+			Entity entity);
+
+	public RegionDictionary getRegionDictionaryByName(String unnormalizedName);
+
+	public RegionDictionary getRegionDictionaryByFields(String unnormalizedName,
+			String importer, Entity entity);
+
 }
+
+

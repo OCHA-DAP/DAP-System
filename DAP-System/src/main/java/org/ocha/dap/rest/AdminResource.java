@@ -21,9 +21,12 @@ import javax.ws.rs.core.Response;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.dap.persistence.dao.dictionary.RegionDictionaryDAOImpl;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
+import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.dap.rest.helper.DisplayEntities;
 import org.ocha.dap.rest.helper.DisplayIndicators;
 import org.ocha.dap.rest.helper.DisplayRegionDictionaries;
@@ -65,9 +68,9 @@ public class AdminResource {
 	 *            the token
 	 * @return response with session
 	 * @throws AuthenticationException
-	 *             if authentication exception occur
+	 *             if authentication exception occurs
 	 * @throws URISyntaxException
-	 *             the URI syntax exception occur
+	 *             the URI syntax exception occurs
 	 */
 	@POST
 	@Path("/login/")
@@ -320,5 +323,18 @@ public class AdminResource {
 		curatedDataService.addSourceDictionary(unnormalizedName, importer, source);
 		return displaySourceDictionariesList();
 	}
-
+	
+	@GET
+	@Path("/dictionaries/cjtest")
+	public Response displayCjTest() {
+		Entity entity = curatedDataService.getEntityByCodeAndType("CMR", "country");
+		System.out.println(entity);
+		curatedDataService.regionDictionaryDAO.getRegionDictionaryByFields();
+		final DisplayRegionDictionaries displayRegionDictionaries = new DisplayRegionDictionaries();
+		displayRegionDictionaries.setEntities(curatedDataService.listEntities());
+		displayRegionDictionaries.setRegionDictionaries(curatedDataService.listRegionDictionaries());
+		
+		return Response.ok(new Viewable("/admin/cjtest", displayRegionDictionaries)).build();
+	}
+	
 }

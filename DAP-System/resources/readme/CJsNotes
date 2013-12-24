@@ -1,0 +1,3 @@
+2013-12-24:  AdminResource has a mapping for .../cjtest which I intend to get a regionDictionary for the hardcoded values of the "CameroonTest" dictionary (in the db).
+I have successfully gotten the entity by it's code and entity type, but struggling to get the RD using the RD.getRegionDictionaryByFields method I created in the RDDao.
+The curatedDataService in AdminResource does not have a RDDao.  Think this might be the key. 

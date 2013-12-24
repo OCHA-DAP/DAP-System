@@ -1,4 +1,3 @@
-Test edit
 ### 1. Getting the sources, installing the required software ###
 	Sign up to GitHub (and ask to be added to the appropriate projects)
 
