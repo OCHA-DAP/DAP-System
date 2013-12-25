@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.dap.persistence.dao.dictionary.RegionDictionaryDAO;
 import org.ocha.dap.persistence.dao.dictionary.RegionDictionaryDAOImpl;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
@@ -328,8 +329,8 @@ public class AdminResource {
 	@Path("/dictionaries/cjtest")
 	public Response displayCjTest() {
 		Entity entity = curatedDataService.getEntityByCodeAndType("CMR", "country");
-		System.out.println(entity);
-		curatedDataService.regionDictionaryDAO.getRegionDictionaryByFields();
+		RegionDictionary regionDictionary = new RegionDictionary("CameroonTest", "BLAH", entity);
+		curatedDataService.deleteRegionDictionary(regionDictionary);
 		final DisplayRegionDictionaries displayRegionDictionaries = new DisplayRegionDictionaries();
 		displayRegionDictionaries.setEntities(curatedDataService.listEntities());
 		displayRegionDictionaries.setRegionDictionaries(curatedDataService.listRegionDictionaries());

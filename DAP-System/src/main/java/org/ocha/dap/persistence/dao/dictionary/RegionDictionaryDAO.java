@@ -14,13 +14,9 @@ public interface RegionDictionaryDAO {
 
 	public void addRegionDictionary(final String unnormalizedName, final String importer, final Entity entity);
 
-	public void deleteRegionDictionary(String unnormalizedName, String importer,
-			Entity entity);
+	public void deleteRegionDictionary(final RegionDictionary regionDictionary);
 
-	public RegionDictionary getRegionDictionaryByName(String unnormalizedName);
 
-	public RegionDictionary getRegionDictionaryByFields(String unnormalizedName,
-			String importer, Entity entity);
 
 }
 

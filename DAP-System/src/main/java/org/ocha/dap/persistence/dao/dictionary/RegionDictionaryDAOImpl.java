@@ -31,18 +31,11 @@ public class RegionDictionaryDAOImpl implements RegionDictionaryDAO {
 	
 	@Override
 	@Transactional
-	public void deleteRegionDictionary(final String unnormalizedName, final String importer, final Entity entity) {
-		//RegionDictionary regionDictionary = new RegionDictionary;
+	public void deleteRegionDictionary(RegionDictionary regionDictionary) {
+		em.remove(em.contains(regionDictionary) ? regionDictionary : em.merge(regionDictionary));
 		return;
 	}
 
-	@Override
-	@Transactional
-	public RegionDictionary getRegionDictionaryByFields(final String unnormalizedName, final String importer, final Entity entity) {
-		final TypedQuery<RegionDictionary> query = em.createQuery("SELET rd FROM RegionDictionary Where rd.unnormalizedname = :unnormalizedName AND rd.importer = :importer AND rd.entity = :entity", RegionDictionary.class);
-		System.out.println("RD queried: " + query.getSingleResult());
-		return query.getSingleResult();
-	}
 }
 
 
