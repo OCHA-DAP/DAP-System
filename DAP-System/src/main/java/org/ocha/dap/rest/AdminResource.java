@@ -328,14 +328,22 @@ public class AdminResource {
 	@GET
 	@Path("/dictionaries/cjtest")
 	public Response displayCjTest() {
-		Entity entity = curatedDataService.getEntityByCodeAndType("CMR", "country");
-		RegionDictionary regionDictionary = new RegionDictionary("CameroonTest", "BLAH", entity);
-		curatedDataService.deleteRegionDictionary(regionDictionary);
 		final DisplayRegionDictionaries displayRegionDictionaries = new DisplayRegionDictionaries();
 		displayRegionDictionaries.setEntities(curatedDataService.listEntities());
 		displayRegionDictionaries.setRegionDictionaries(curatedDataService.listRegionDictionaries());
-		
 		return Response.ok(new Viewable("/admin/cjtest", displayRegionDictionaries)).build();
 	}
+	
+	@POST
+	@Path("/dictionaries/cjtest")
+	public Response deleteRegionDictionary (@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entity") final long entity){
+		System.out.println("delete called");
+		
+		//Entity entity = curatedDataService.getEntityByCodeAndType("CMR", "country");
+		RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer, entity);
+		curatedDataService.deleteRegionDictionary(regionDictionary);
+		return displayRegionDictionariesList();
+	}
+	
 	
 }

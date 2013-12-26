@@ -11,27 +11,7 @@
 </head>
 <body>
 <jsp:include page="admin-header.jsp" />
-<h2>Add a new Region Dictionary</h2>
 
-	<form method="POST" action="">
-	<label for="entity">For Entity</label>
-  		<select name="entity" id="entity">
-  			<c:forEach var="entity" items="${it.entities}">
-  				<option value="${entity.id}">${entity.type.name} / ${entity.name}</option>
-  			</c:forEach>
-		</select>
-		 
-		<label for="unnormalizedName">Unnormalized Name</label>
-  		<input type="text" name="unnormalizedName" id="unnormalizedName" />
-  	
-  		<label for="importer">Importer</label>
-  		<input type="text" name="importer" id="importer"/>
-  		
-  		
-  	
-  		<input type="submit" value="submit" />
-  	
-  	</form>
 	
 <h2>List of region dictionaries</h2>	
 	<table>
@@ -40,6 +20,7 @@
 			<th>Entity name</th>
 			<th>Importer</th>
 			<th>Unnormalized Name</th>
+			<th>Action</th>
 		</tr>
 		
 		<c:forEach var="regionDictionary" items="${it.regionDictionaries}">
@@ -48,6 +29,14 @@
 				<td>${regionDictionary.entity.name}</td>
 				<td>${regionDictionary.id.importer}</td>
 				<td>${regionDictionary.id.unnormalizedName}</td>
+				<td>
+					<form method="POST" action="">
+						<input type="hidden" name="unnormalizedName" value="${regionDictionary.id.unnormalizedName}" />
+						<input type="hidden" name="importer" value="${regionDictionary.id.importer}" />
+						<input type="hidden" name="entity" value="${entity}" />
+						<input type="submit" value="Delete" />
+					</form>
+				</td>
 			</tr>
 		</c:forEach>
 		
