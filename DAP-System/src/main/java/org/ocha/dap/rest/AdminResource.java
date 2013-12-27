@@ -335,12 +335,9 @@ public class AdminResource {
 	}
 	
 	@POST
-	@Path("/dictionaries/cjtest")
-	public Response deleteRegionDictionary (@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entity") final long entity){
-		System.out.println("delete called");
-		
-		//Entity entity = curatedDataService.getEntityByCodeAndType("CMR", "country");
-		RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer, entity);
+	@Path("/dictionaries/regions/submitdelete")
+	public Response deleteRegionDictionary (@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer){
+		RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
 		curatedDataService.deleteRegionDictionary(regionDictionary);
 		return displayRegionDictionariesList();
 	}

@@ -40,6 +40,7 @@
 			<th>Entity name</th>
 			<th>Importer</th>
 			<th>Unnormalized Name</th>
+			<th>Action</th>
 		</tr>
 		
 		<c:forEach var="regionDictionary" items="${it.regionDictionaries}">
@@ -48,6 +49,15 @@
 				<td>${regionDictionary.entity.name}</td>
 				<td>${regionDictionary.id.importer}</td>
 				<td>${regionDictionary.id.unnormalizedName}</td>
+				<td>
+					<form method="POST" action="submitdelete">
+						<input type="hidden" name="unnormalizedName" value="${regionDictionary.id.unnormalizedName}" />
+						<input type="hidden" name="importer" value="${regionDictionary.id.importer}" />
+<!-- 						TODO Should this be regionDictionary.entity?  -->
+<%-- 						input type="hidden" name="entity" value="${entity}"  --%>
+						<input type="submit" value="Delete" />
+					</form>
+				</td> 
 			</tr>
 		</c:forEach>
 		

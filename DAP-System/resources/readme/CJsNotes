@@ -7,7 +7,7 @@ The curatedDataService in AdminResource does not have a RDDao.  Think this might
 ?? Why have the rest.helper classes rather than just putting that in the DAO?  Is it to avoid creating another basic class alongside the others?
 ?? Why not have a UID for RegionDictionary instead of the composite UID?
 
-2013-12-25: Added RD.delete() method to RDDaoImpl which is called by CDSImpl which is called by AR (through the CDS Interface instead of the CDSIImpl, 
+2013-12-25: Added RD.delete() method to RDDaoImpl which is called by CDSImpl which is called by AR (through the CDS Interface instead of the CDSImpl, 
 which seems odd to me) to delete a hardcoded RD from the database.
 Next: add a button to the jsp that calls this method, then have the button populate itself from the RDs listed on the page (or just one of them?), 
 then add unique buttons for each RD in the table.
@@ -16,4 +16,11 @@ then add unique buttons for each RD in the table.
 However, the entity that is passed from the html table is a LONG, not an actual entity.
 Next: trace how these entities get into the model to understand what they are and how to use them to retrieve the underlying Entity object.
 
+2013-12-26: Solved the previous issue (simply needed to declare the form parameter entity as org.ocha.dap.persistence.entity.curateddata.Entity 
+(full name needed to distinguish with the javax persistence Entity object).  However, this causes jersey-spring not to start and all pages return 404.
+Trying without passing the entity.  Original line in AR.deleteRegionDictionary before this change:
+	public Response deleteRegionDictionary (@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entity") final org.ocha.dap.persistence.entity.curateddata.Entity entity){
 
+Actually, the entity wasn't needed at all.  Probably because of the composite key of unnormalizedName and importer.  
+Delete buttons are working, but they submit to a subpath (/submitdelete) which then no longer has a post method for the addRegionDictionary form. 
+Next: need to figure out how to have multiple post methods on a page, but have them return to the same page. 

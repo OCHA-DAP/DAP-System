@@ -113,6 +113,12 @@ public class RegionDictionary {
 
 	}
 
+	public RegionDictionary(String unnormalizedName, String importer) {
+		super();
+		this.id.unnormalizedName = unnormalizedName;
+		this.id.importer = importer;
+	}
+
 	public org.ocha.dap.persistence.entity.curateddata.Entity getEntity() {
 		return entity;
 	}

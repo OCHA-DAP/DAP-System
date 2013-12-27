@@ -30,10 +30,11 @@
 				<td>${regionDictionary.id.importer}</td>
 				<td>${regionDictionary.id.unnormalizedName}</td>
 				<td>
-					<form method="POST" action="">
+					<form method="POST" action="/dictionaries/cjtest">
 						<input type="hidden" name="unnormalizedName" value="${regionDictionary.id.unnormalizedName}" />
 						<input type="hidden" name="importer" value="${regionDictionary.id.importer}" />
-						<input type="hidden" name="entity" value="${entity}" />
+						<!-- TODO Should this be regionDictionary.entity?  -->
+						<!-- input type="hidden" name="entity" value="${entity}" --> 
 						<input type="submit" value="Delete" />
 					</form>
 				</td>
