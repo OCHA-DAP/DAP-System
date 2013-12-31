@@ -32,3 +32,4 @@ Next: need to figure out how to have multiple post methods on a page, but have t
 
 2013-12-31:  Delete button implemented and pushed.  Finishing unit tests. 
 
+Finished unit tests.  Next:  clean up cjtest.jsp and realated items in AR.java.  Check other edited files for any loose ends.
