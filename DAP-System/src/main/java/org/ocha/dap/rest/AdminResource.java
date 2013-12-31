@@ -336,11 +336,15 @@ public class AdminResource {
 	
 	@POST
 	@Path("/dictionaries/regions/submitdelete")
-	public Response deleteRegionDictionary (@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer){
+	public Response deleteRegionDictionary (@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer) throws URISyntaxException {
 		RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
 		curatedDataService.deleteRegionDictionary(regionDictionary);
-		return displayRegionDictionariesList();
+			
+		URI newURI = null;
+		newURI = new URI("/admin/dictionaries/regions");
+
+		return Response.seeOther(newURI).build();
 	}
 	
-	
 }
+

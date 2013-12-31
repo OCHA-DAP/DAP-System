@@ -53,7 +53,7 @@
 					<form method="POST" action="submitdelete">
 						<input type="hidden" name="unnormalizedName" value="${regionDictionary.id.unnormalizedName}" />
 						<input type="hidden" name="importer" value="${regionDictionary.id.importer}" />
-<!-- 						TODO Should this be regionDictionary.entity?  -->
+<!-- 						TODO Should this submit regionDictionary.entity instead of the unnormalizedName and importer? Something like: -->
 <%-- 						input type="hidden" name="entity" value="${entity}"  --%>
 						<input type="submit" value="Delete" />
 					</form>
