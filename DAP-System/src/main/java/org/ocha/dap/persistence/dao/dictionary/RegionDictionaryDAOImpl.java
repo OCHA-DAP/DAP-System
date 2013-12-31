@@ -24,7 +24,7 @@ public class RegionDictionaryDAOImpl implements RegionDictionaryDAO {
 
 	@Override
 	@Transactional
-	public void addRegionDictionary(final String unnormalizedName, final String importer, final Entity entity) {
+	public void addRegionDictionary(final String unnormalizedName, final String importer, final Entity entity) { //TODO The list of importers should probably be available in a table.
 		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer, entity);
 		em.persist(regionDictionary);
 	}
@@ -36,6 +36,12 @@ public class RegionDictionaryDAOImpl implements RegionDictionaryDAO {
 		return;
 	}
 
+	@Override
+	@Transactional
+	public void deleteRegionDictionaryByUnnormalizedNameAndImporter(String unnormalizedName, String importer){
+		RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
+		em.remove(em.contains(regionDictionary) ? regionDictionary : em.merge(regionDictionary));
+	}
 }
 
 

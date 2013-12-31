@@ -24,3 +24,11 @@ Trying without passing the entity.  Original line in AR.deleteRegionDictionary b
 Actually, the entity wasn't needed at all.  Probably because of the composite key of unnormalizedName and importer.  
 Delete buttons are working, but they submit to a subpath (/submitdelete) which then no longer has a post method for the addRegionDictionary form. 
 Next: need to figure out how to have multiple post methods on a page, but have them return to the same page. 
+
+-------------------------------------------------------------
+
+?? The methods addRegionDictionary() and addEntity(), for example, don't throw any exception.  How are we handling data access exceptions?  Should we use the message library approach from hibernate (or is it spring?)?
+?? The methods in SourceDictionaryDAOImpl and RegionDictionaryDAOImpl don't mirror each other.  Should they?  Should we abstract Dictionary as a Superclass?
+
+2013-12-31:  Delete button implemented and pushed.  Finishing unit tests. 
+
