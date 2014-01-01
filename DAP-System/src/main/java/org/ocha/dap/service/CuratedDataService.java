@@ -111,4 +111,6 @@ public interface CuratedDataService {
 
 	public void addSourceDictionary(final String unnormalizedName, final String importer, final long sourceId);
 
+	public void deleteRegionDictionary(RegionDictionary regionDictionary);
+
 }
