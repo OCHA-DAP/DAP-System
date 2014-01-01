@@ -6,6 +6,8 @@ import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.FormParam;
@@ -17,7 +19,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
+import org.glassfish.jersey.server.mvc.Viewable;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
@@ -38,8 +42,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sun.jersey.api.view.Viewable;
-
+@RolesAllowed("seustachi")
 @Path("/admin")
 @Produces(MediaType.TEXT_HTML)
 @Component
@@ -69,9 +72,10 @@ public class AdminResource {
 	 * @throws URISyntaxException
 	 *             the URI syntax exception occur
 	 */
+	@PermitAll
 	@POST
 	@Path("/login/")
-	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password) throws AuthenticationException, URISyntaxException {
+	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password, @Context final UriInfo uriInfo) throws AuthenticationException, URISyntaxException {
 		logger.debug(String.format("Entering login for user : %s", userId));
 		if (dapService != null && dapService.authenticate(userId, password)) {
 			final HttpSession session = request.getSession(true);
@@ -79,8 +83,7 @@ public class AdminResource {
 			// 1800 seconds = 30 minutes
 			session.setMaxInactiveInterval(1800);
 
-			URI newURI = null;
-			newURI = new URI("/admin/status/datasets/");
+			final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 
 			return Response.seeOther(newURI).build();
 		}
@@ -88,6 +91,7 @@ public class AdminResource {
 		throw new AuthenticationException();
 	}
 
+	@PermitAll
 	@GET
 	@Path("/login/")
 	public Response loginForm() {

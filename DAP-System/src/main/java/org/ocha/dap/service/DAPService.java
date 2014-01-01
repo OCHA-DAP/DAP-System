@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.dap.persistence.entity.User;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
@@ -84,5 +85,7 @@ public interface DAPService {
 	public DatasetV3WrapperDTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey);
 
 	public boolean authenticate(final String id, final String password) throws AuthenticationException;
+
+	public User getUserById(String userId);
 
 }

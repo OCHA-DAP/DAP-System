@@ -24,6 +24,7 @@ import org.ocha.dap.model.validation.ValidationReport;
 import org.ocha.dap.persistence.dao.UserDAO;
 import org.ocha.dap.persistence.dao.ckan.CKANDatasetDAO;
 import org.ocha.dap.persistence.dao.ckan.CKANResourceDAO;
+import org.ocha.dap.persistence.entity.User;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
@@ -280,6 +281,11 @@ public class DAPServiceImpl implements DAPService {
 	}
 
 	@Override
+	public User getUserById(final String userId) {
+		return userDao.getUserById(userId);
+	}
+
+	@Override
 	public DatasetV3WrapperDTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey) {
 		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV3, datasetName);
 		final String jsonResult = performHttpGET(urlForDataSet, apiKey);
@@ -355,4 +361,5 @@ public class DAPServiceImpl implements DAPService {
 	public CKANResource getCKANResource(final String id, final String revision_id) {
 		return resourceDAO.getCKANResource(id, revision_id);
 	}
+
 }

@@ -33,7 +33,7 @@ public class UserDAOImpl implements UserDAO {
 
 		em.persist(userToCreate);
 	}
-	
+
 	@Override
 	@Transactional
 	public void deleteUser(final String id) {
@@ -59,7 +59,7 @@ public class UserDAOImpl implements UserDAO {
 
 		if (apiKey == null)
 			throw new InsufficientCredentialsException();
-		
+
 		return apiKey;
 	}
 
@@ -86,6 +86,11 @@ public class UserDAOImpl implements UserDAO {
 		md = new MessageDigestPasswordEncoder("SHA-1");
 		md.setEncodeHashAsBase64(true);
 		return "{SHA}" + md.encodePassword(plaintext, null);
+	}
+
+	@Override
+	public User getUserById(final String userId) {
+		return em.find(User.class, userId);
 	}
 
 }

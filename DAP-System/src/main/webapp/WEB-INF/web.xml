@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 	<display-name>DAP Web Application</display-name>
@@ -16,7 +17,8 @@
 		<param-value>/WEB-INF/classes/log4j.xml</param-value>
 	</context-param>
 
-	<!-- disables log file locations relative to the context path, and prevents problems when multiple webapps use the spring log4j config setup -->
+	<!-- disables log file locations relative to the context path, and prevents 
+		problems when multiple webapps use the spring log4j config setup -->
 	<context-param>
 		<param-name>log4jExposeWebAppRoot</param-name>
 		<param-value>false</param-value>
@@ -25,8 +27,9 @@
 
 	<!-- ====================================== SPRING =================================== -->
 
-	<!-- Start the Spring listener that loads the application context when the Web app starts up. It assumes the context is named WEB-INF/applicationContext.xml unless 
-		you set a context param called contextConfigLocation to override it. -->
+	<!-- Start the Spring listener that loads the application context when the 
+		Web app starts up. It assumes the context is named WEB-INF/applicationContext.xml 
+		unless you set a context param called contextConfigLocation to override it. -->
 	<listener>
 		<description>Starts Spring listener to load app context</description>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -47,20 +50,33 @@
 
 	<filter>
 		<filter-name>jersey-spring</filter-name>
-		<filter-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</filter-class>
+		<filter-class>org.glassfish.jersey.servlet.ServletContainer</filter-class>
+<!-- 		<init-param> -->
+<!-- 			<description>package(s) to scan for REST root resource classes</description> -->
+<!-- 			<param-name>jersey.config.server.provider.packages</param-name> -->
+<!-- 			<param-value>org.ocha.dap.rest</param-value> -->
+<!-- 		</init-param> -->
 		<init-param>
-			<description>package(s) to scan for REST root resource classes</description>
-			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>org.ocha.dap.rest</param-value>
-		</init-param>
-		<init-param>
-			<param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
-			<param-value>org.ocha.dap.rest.AuthenticationFilter</param-value>
-		</init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>org.ocha.dap.rest.MyResourceConfig</param-value>
+        </init-param>
+<!-- 		<init-param> -->
+<!-- 			<param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name> -->
+<!-- 			<param-value>com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFacto‌​ry</param-value> -->
+<!-- 		</init-param> -->
+		<!-- <init-param> -->
+		<!-- <param-name>com.sun.jersey.spi.container.ResourceFilters</param-name> -->
+		<!-- <param-value>com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFacto‌​ry</param-value> -->
+		<!-- </init-param> -->
 		<init-param>
 			<description>Base directory for JSP templates to be included</description>
-			<param-name>com.sun.jersey.config.property.JSPTemplatesBasePath</param-name>
+			<param-name>jersey.config.server.mvc.templateBasePath.jsp</param-name>
 			<param-value>/WEB-INF/jsp</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>jersey.config.server.provider.classnames</param-name>
+			<param-value>org.glassfish.jersey.server.mvc.jsp.JspMvcFeature</param-value>
 		</init-param>
 	</filter>
 
@@ -68,7 +84,7 @@
 		<filter-name>jersey-spring</filter-name>
 		<url-pattern>/admin/*</url-pattern>
 	</filter-mapping>
-	
+
 	<filter-mapping>
 		<filter-name>jersey-spring</filter-name>
 		<url-pattern>/api/*</url-pattern>
