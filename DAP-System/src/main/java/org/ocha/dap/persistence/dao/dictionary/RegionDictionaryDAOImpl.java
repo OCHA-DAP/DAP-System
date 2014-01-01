@@ -38,7 +38,7 @@ public class RegionDictionaryDAOImpl implements RegionDictionaryDAO {
 
 	@Override
 	@Transactional
-	public void deleteRegionDictionaryByUnnormalizedNameAndImporter(String unnormalizedName, String importer){
+	public void deleteRegionDictionary(String unnormalizedName, String importer){
 		RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
 		em.remove(em.contains(regionDictionary) ? regionDictionary : em.merge(regionDictionary));
 	}

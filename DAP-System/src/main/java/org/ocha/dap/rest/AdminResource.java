@@ -308,6 +308,18 @@ public class AdminResource {
 		curatedDataService.addRegionDictionary(unnormalizedName, importer, entity);
 		return displayRegionDictionariesList();
 	}
+	
+	@POST
+	@Path("/dictionaries/regions/submitdelete")
+	public Response deleteRegionDictionary (@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer) throws URISyntaxException {
+		RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
+		curatedDataService.deleteRegionDictionary(regionDictionary);
+			
+		URI newURI = null;
+		newURI = new URI("/admin/dictionaries/regions/");
+
+		return Response.seeOther(newURI).build();
+	}
 
 	@GET
 	@Path("/dictionaries/sources")
@@ -325,26 +337,7 @@ public class AdminResource {
 		return displaySourceDictionariesList();
 	}
 	
-	@GET
-	@Path("/dictionaries/cjtest")
-	public Response displayCjTest() {
-		final DisplayRegionDictionaries displayRegionDictionaries = new DisplayRegionDictionaries();
-		displayRegionDictionaries.setEntities(curatedDataService.listEntities());
-		displayRegionDictionaries.setRegionDictionaries(curatedDataService.listRegionDictionaries());
-		return Response.ok(new Viewable("/admin/cjtest", displayRegionDictionaries)).build();
-	}
 	
-	@POST
-	@Path("/dictionaries/regions/submitdelete")
-	public Response deleteRegionDictionary (@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer) throws URISyntaxException {
-		RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
-		curatedDataService.deleteRegionDictionary(regionDictionary);
-			
-		URI newURI = null;
-		newURI = new URI("/admin/dictionaries/regions/");
-
-		return Response.seeOther(newURI).build();
-	}
 	
 }
 

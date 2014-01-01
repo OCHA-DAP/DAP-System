@@ -29,7 +29,11 @@ Next: need to figure out how to have multiple post methods on a page, but have t
 
 ?? The methods addRegionDictionary() and addEntity(), for example, don't throw any exception.  How are we handling data access exceptions?  Should we use the message library approach from hibernate (or is it spring?)?
 ?? The methods in SourceDictionaryDAOImpl and RegionDictionaryDAOImpl don't mirror each other.  Should they?  Should we abstract Dictionary as a Superclass?
+?? The trailing slashes are present for some URL mappings and not for others.  Any reason?  For the newURI redirects, the trailing slashes were critical, but it seems not to be so not in the Spring (Jersey?) URL mappings. Compare AR.java lines 139 and 205.  What about for mappings that include variables, like line 172?
+?? See the TODO on line 87 of RDDAOImplTest.  
 
 2013-12-31:  Delete button implemented and pushed.  Finishing unit tests. 
 
 Finished unit tests.  Next:  clean up cjtest.jsp and realated items in AR.java.  Check other edited files for any loose ends.
+
+2014-01-01

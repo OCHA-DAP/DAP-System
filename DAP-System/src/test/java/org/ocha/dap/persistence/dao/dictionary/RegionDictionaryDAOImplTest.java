@@ -39,28 +39,18 @@ public class RegionDictionaryDAOImplTest {
 
 	@Before
 	public void setUp() {
-		//check for Foolandia
-		//System.out.println("Entities in db = " + entityDAO.listEntities().size());
-		
 		//set up the EntityTypes
 		entityTypeDAO.addEntityType("country", "Country");
 		entityTypeDAO.addEntityType("crisis", "Crisis");
 		country = entityTypeDAO.getEntityTypeByCode("country");  //TODO could we (should we) make the addEntityType method return the created entity?
 		crisis = entityTypeDAO.getEntityTypeByCode("crisis");
-		//System.out.println(country.getCode());
-		//System.out.println(crisis.getCode());
-		
+				
 		//set up the Entities
 		entityDAO.addEntity("FOO","Foolandia", country);
 		entityDAO.addEntity("BAR","Barlandia", country);
 		entityDAO.addEntity("Crisis1","First Test Crisis", crisis);
 		entityDAO.addEntity("Crisis2","Second Test Crisis", crisis);
-		//System.out.println("Entities in db = " + entityDAO.listEntities().size());		
-		//System.out.println("Entity added.");
-		//Entity foolandia = entityDAO.getEntityByCodeAndType("FOO", country.getCode());
-		//System.out.println(foolandia.getCode());
-		
-		
+				
 	}
 
 	@After
@@ -130,7 +120,7 @@ public class RegionDictionaryDAOImplTest {
 		//delete a specific RegionDictionary by unique fields
 		final String unnormalizedName = regionDictionaryToDelete.getId().getUnnormalizedName();
 		final String importer = regionDictionaryToDelete.getId().getImporter();
-		regionDictionaryDAO.deleteRegionDictionaryByUnnormalizedNameAndImporter(unnormalizedName, importer);
+		regionDictionaryDAO.deleteRegionDictionary(unnormalizedName, importer);
 		regionDictionaryList = regionDictionaryDAO.listRegionDictionaries();
 		assertEquals("After deletion, there should be 4 RegionDictionaries in the table.", 4, regionDictionaryList.size());
 		//TODO Should try to get the deleted RD and make sure it fails.
