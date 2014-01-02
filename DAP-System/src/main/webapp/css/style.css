@@ -27,8 +27,13 @@ td{
 }
 
 .menu ul li {
- display: inline;
- padding: 5px;
+ 	display: inline;
+ 	padding: 5px;
+}
+
+.menu ul li.right {
+	float:right;
+	padding-top: 0px;
 }
 
 .menu ul a {

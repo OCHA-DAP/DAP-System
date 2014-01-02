@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -19,12 +18,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 import org.glassfish.jersey.server.mvc.Viewable;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.ocha.dap.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
@@ -32,9 +31,7 @@ import org.ocha.dap.rest.helper.DisplayEntities;
 import org.ocha.dap.rest.helper.DisplayIndicators;
 import org.ocha.dap.rest.helper.DisplayRegionDictionaries;
 import org.ocha.dap.rest.helper.DisplaySourceDictionaries;
-import org.ocha.dap.rest.helper.Index;
 import org.ocha.dap.security.exception.AuthenticationException;
-import org.ocha.dap.security.exception.InsufficientCredentialsException;
 import org.ocha.dap.service.CuratedDataService;
 import org.ocha.dap.service.DAPService;
 import org.slf4j.Logger;
@@ -75,17 +72,22 @@ public class AdminResource {
 	@PermitAll
 	@POST
 	@Path("/login/")
-	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password, @Context final UriInfo uriInfo) throws AuthenticationException, URISyntaxException {
+	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password, @Context final UriInfo uriInfo, @Context final SecurityContext sc) throws AuthenticationException, URISyntaxException {
 		logger.debug(String.format("Entering login for user : %s", userId));
 		if (dapService != null && dapService.authenticate(userId, password)) {
 			final HttpSession session = request.getSession(true);
 			session.setAttribute(SESSION_PARAM_UID, userId);
 			// 1800 seconds = 30 minutes
 			session.setMaxInactiveInterval(1800);
-
-			final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
-
-			return Response.seeOther(newURI).build();
+			
+			if ("admin".equals(dapService.getUserById(userId).getRole())) {
+				final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
+				return Response.seeOther(newURI).build();
+			}else{
+				final URI newURI = uriInfo.getBaseUriBuilder().path("api/yearly/source/acled/indicatortype/PVX040/BarChart/").build();
+				return Response.seeOther(newURI).build();
+			}
+			
 		}
 
 		throw new AuthenticationException();
@@ -97,27 +99,25 @@ public class AdminResource {
 	public Response loginForm() {
 		return Response.ok(new Viewable("/login", null)).build();
 	}
-
+	
+	@PermitAll
 	@GET
-	@Path("/ckancontent/")
-	public Response ckanContent() throws InsufficientCredentialsException {
+	@Path("/logout/")
+	public Response logout(@Context final UriInfo uriInfo) {
 		final HttpSession session = request.getSession(false);
-		final String userId = session.getAttribute(SESSION_PARAM_UID).toString();
-		final List<String> datasets = dapService.getDatasetsListFromCKAN(userId);
-		final Index index = new Index();
-		index.setUserId(userId);
-		index.setDatasets(datasets);
-		return Response.ok(new Viewable("/index", index)).build();
+		session.invalidate();
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/login/").build();
+		return Response.seeOther(newURI).build();
 	}
 
-	@GET
-	@Path("/dataset/{datasetName}")
-	public Response getDatasetContent(@PathParam("datasetName") final String datasetName) throws InsufficientCredentialsException {
-		final HttpSession session = request.getSession(false);
-		final String userId = session.getAttribute(SESSION_PARAM_UID).toString();
-		final DatasetV3WrapperDTO result = dapService.getDatasetContentFromCKANV3(userId, datasetName);
-		return Response.ok(new Viewable("/admin/dataset", result)).build();
-	}
+//	@GET
+//	@Path("/dataset/{datasetName}")
+//	public Response getDatasetContent(@PathParam("datasetName") final String datasetName) throws InsufficientCredentialsException {
+//		final HttpSession session = request.getSession(false);
+//		final String userId = session.getAttribute(SESSION_PARAM_UID).toString();
+//		final DatasetV3WrapperDTO result = dapService.getDatasetContentFromCKANV3(userId, datasetName);
+//		return Response.ok(new Viewable("/admin/dataset", result)).build();
+//	}
 
 	@GET
 	@Path("/status/datasets/")
