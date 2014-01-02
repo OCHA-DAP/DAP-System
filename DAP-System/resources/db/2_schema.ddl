@@ -106,6 +106,7 @@
         id varchar(255) not null,
         ckanApiKey varchar(255),
         password varchar(255),
+        role varchar(255),
         primary key (id)
     );
 

@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@RolesAllowed("seustachi")
+@RolesAllowed("admin")
 @Path("/admin")
 @Produces(MediaType.TEXT_HTML)
 @Component
