@@ -15,12 +15,16 @@ public class User {
 	@Column(name = "password", updatable = true)
 	private final String password;
 	
+	@Column(name = "role", updatable = true)
+	private final String role;
+	
 	@Column(name = "ckanApiKey", updatable = true)
 	private final String ckanApiKey;
 	
-	public User(final String id, final String password, final String ckanApiKey) {
+	public User(final String id, final String password, final String role, final String ckanApiKey) {
 		super();
 		this.id = id;
+		this.role = role;
 		this.password = password;
 		this.ckanApiKey = ckanApiKey;
 	}
@@ -30,6 +34,7 @@ public class User {
 	private User() {
 		super();
 		this.id = null;
+		this.role = null;
 		this.password = null;
 		this.ckanApiKey = null;
 	}
@@ -40,6 +45,10 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public String getRole() {
+		return role;
 	}
 
 	public String getCkanApiKey() {

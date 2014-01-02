@@ -3,13 +3,11 @@ package org.ocha.dap.rest;
 import java.security.Principal;
 
 import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.ext.Provider;
 
 import org.ocha.dap.persistence.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Provider
 public class AuthorizationSecurityContext implements SecurityContext {
 
 	private static final Logger log = LoggerFactory.getLogger(AuthorizationSecurityContext.class);
@@ -52,8 +50,7 @@ public class AuthorizationSecurityContext implements SecurityContext {
 		}
 
 		log.debug(String.format("about to evaluate user : %s and role : %s", user.getId(), role));
-		// FIXME have a role in User instead of using the name
-		return role.equals(user.getId());
+		return role.equals(user.getRole());
 	}
 
 }

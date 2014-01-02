@@ -22,7 +22,7 @@ public class UserDAOImplTest {
 	public void testCreateUser() throws Exception {
 		Assert.assertEquals(0, userDAO.listUsers().size());
 		
-		userDAO.createUser("seustachi", "dummyPwd", "079f6194-45e1-4534-8ca7-1bd4130ef897");
+		userDAO.createUser("seustachi", "dummyPwd", "admin", "079f6194-45e1-4534-8ca7-1bd4130ef897");
 		
 		final List<User> users = userDAO.listUsers();
 		Assert.assertEquals(1, users.size());

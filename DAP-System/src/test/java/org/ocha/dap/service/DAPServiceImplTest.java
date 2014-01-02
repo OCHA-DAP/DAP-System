@@ -29,7 +29,7 @@ public class DAPServiceImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		userDAO.createUser("seustachi", "dummyPwd", "079f6194-45e1-4534-8ca7-1bd4130ef897");
+		userDAO.createUser("seustachi", "dummyPwd", "admin", "079f6194-45e1-4534-8ca7-1bd4130ef897");
 	}
 
 	@After

@@ -28,8 +28,8 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	@Transactional
-	public void createUser(final String id, final String password, final String ckanApiKey) throws Exception {
-		final User userToCreate = new User(id, sha1Encrypt(password), aesCipher.encrypt(ckanApiKey));
+	public void createUser(final String id, final String password, final String role, final String ckanApiKey) throws Exception {
+		final User userToCreate = new User(id, sha1Encrypt(password), role, aesCipher.encrypt(ckanApiKey));
 
 		em.persist(userToCreate);
 	}

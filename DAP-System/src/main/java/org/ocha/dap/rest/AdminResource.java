@@ -127,10 +127,10 @@ public class AdminResource {
 
 	@POST
 	@Path("/status/datasets/")
-	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type) throws URISyntaxException {
+	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type, @Context final UriInfo uriInfo) throws URISyntaxException {
 		dapService.flagDatasetAsToBeCurated(datasetName, type);
 
-		final URI newURI = new URI("/admin/status/datasets/");
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 
 		return Response.seeOther(newURI).build();
 	}
@@ -149,54 +149,50 @@ public class AdminResource {
 
 	@GET
 	@Path("/status/manuallyTriggerDownload/{id}/{revision_id}")
-	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
+	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException, IOException {
 		dapService.downloadFileForCKANResource(id, revision_id);
 
-		final URI newURI = new URI("/admin/status/resources/");
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 
 		return Response.seeOther(newURI).build();
 	}
 
 	@GET
 	@Path("/status/manuallyTriggerEvaluation/{id}/{revision_id}")
-	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
+	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException, IOException {
 		dapService.evaluateFileForCKANResource(id, revision_id);
 
-		URI newURI = null;
-		newURI = new URI("/admin/status/resources/");
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 
 		return Response.seeOther(newURI).build();
 	}
 
 	@GET
 	@Path("/status/manuallyTriggerImport/{id}/{revision_id}")
-	public Response manuallyTriggerImport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) throws URISyntaxException, IOException {
+	public Response manuallyTriggerImport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException, IOException {
 		dapService.transformAndImportDataFromFileForCKANResource(id, revision_id);
 
-		URI newURI = null;
-		newURI = new URI("/admin/status/resources/");
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 
 		return Response.seeOther(newURI).build();
 	}
 
 	@GET
 	@Path("/status/manuallyTriggerDatasetsDetection")
-	public Response manuallyTriggerDatasetsDetection() throws URISyntaxException {
+	public Response manuallyTriggerDatasetsDetection(@Context final UriInfo uriInfo) throws URISyntaxException {
 		dapService.checkForNewCKANDatasets();
 
-		URI newURI = null;
-		newURI = new URI("/admin/status/datasets/");
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 
 		return Response.seeOther(newURI).build();
 	}
 
 	@GET
 	@Path("/status/manuallyTriggerResourcesDetection")
-	public Response manuallyTriggerResourcesDetection() throws URISyntaxException {
+	public Response manuallyTriggerResourcesDetection(@Context final UriInfo uriInfo) throws URISyntaxException {
 		dapService.checkForNewCKANResources();
 
-		URI newURI = null;
-		newURI = new URI("/admin/status/resources/");
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 
 		return Response.seeOther(newURI).build();
 	}

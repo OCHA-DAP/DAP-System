@@ -8,7 +8,7 @@ import org.ocha.dap.security.exception.InsufficientCredentialsException;
 
 public interface UserDAO {
 
-	public void createUser(final String id, final String password, final String apiKey) throws Exception;
+	public void createUser(final String id, final String password, final String role, final String apiKey) throws Exception;
 
 	public void deleteUser(final String id);
 
