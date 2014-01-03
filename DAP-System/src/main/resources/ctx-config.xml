@@ -17,17 +17,17 @@
 		</property>
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
-	
-	
-<!-- 	<bean id="encryptedPropertyPlaceholderConfigurer" class="org.ocha.dap.security.tools.EncryptedPropertyPlaceholderConfigurer"> -->
-<!-- 		<property name="locations"> -->
-<!-- 			<list> -->
-<!-- 				<value>file:${DAP_FOLDER}/config/dap-config</value> -->
-<!-- 				<value>/WEB-INF/db.properties</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 		<property name="ignoreUnresolvablePlaceholders" value="true" /> -->
-<!-- 	</bean> -->
+
+
+	<!-- <bean id="encryptedPropertyPlaceholderConfigurer" class="org.ocha.dap.security.tools.EncryptedPropertyPlaceholderConfigurer"> -->
+	<!-- <property name="locations"> -->
+	<!-- <list> -->
+	<!-- <value>file:${DAP_FOLDER}/config/dap-config</value> -->
+	<!-- <value>/WEB-INF/db.properties</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- <property name="ignoreUnresolvablePlaceholders" value="true" /> -->
+	<!-- </bean> -->
 
 
 

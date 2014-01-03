@@ -8,7 +8,7 @@ body {
 	text-align: left;
 }
 
-td{
+td {
 	padding: 10px;
 	border-width: 1px;
 	border-style: dotted;
@@ -16,34 +16,35 @@ td{
 }
 
 .menu ul {
-  list-style-type: none;
-  line-height: 26px;
-  padding: 0 10px;
-  text-align: left;
-  border-width: 1px 0;
-  border-style: solid;
-  border-color: black;
-  background: #CECFBD;
+	list-style-type: none;
+	line-height: 26px;
+	padding: 0 10px;
+	text-align: left;
+	border-width: 1px 0;
+	border-style: solid;
+	border-color: black;
+	background: #CECFBD;
 }
 
 .menu ul li {
- 	display: inline;
- 	padding: 5px;
+	display: inline;
+	padding: 5px;
 }
 
 .menu ul li.right {
-	float:right;
+	float: right;
 	padding-top: 0px;
 }
 
 .menu ul a {
- font-variant: small-caps;
- text-decoration: none;
+	font-variant: small-caps;
+	text-decoration: none;
 }
 
 .menu ul a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
+
 .ERROR {
 	color: #DD0000;
 }

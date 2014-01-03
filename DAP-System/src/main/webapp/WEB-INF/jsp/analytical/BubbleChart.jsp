@@ -1,10 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<c:set value="${pageContext.request.contextPath}" var="ctx"
-	scope="request" />
+<c:set value="${pageContext.request.contextPath}" var="ctx" scope="request" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +10,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
 <!--Load the AJAX API-->
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript"
-	src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
 	// Load the Visualization API and the piechart package.
 	google.load('visualization', '1', {
@@ -68,61 +65,37 @@
 	<jsp:include page="analytical-header.jsp" />
 	<div>
 		<form id="configForm">
-		
-			<label for="indicatorType1">Indicator Type 1</label>
-			<select name="indicatorType1" id="indicatorType1">
+
+			<label for="indicatorType1">Indicator Type 1</label> <select name="indicatorType1" id="indicatorType1">
 				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
-					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType1}">selected</c:if> >${indicatorType.name}</option>
+					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType1}">selected</c:if>>${indicatorType.name}</option>
 				</c:forEach>
-			</select>
-			
-			<label for="source1">Source 1</label>
-			<select name="source1" id="source1">
+			</select> <label for="source1">Source 1</label> <select name="source1" id="source1">
 				<c:forEach var="source" items="${it.sources}">
-					<option value="${source.code}" <c:if test="${source.code eq it.source1}">selected</c:if> >${source.name}</option>
+					<option value="${source.code}" <c:if test="${source.code eq it.source1}">selected</c:if>>${source.name}</option>
 				</c:forEach>
-			</select>
-			
-			<br/>
-			<br/>
-			
-			<label for="indicatorType2">Indicator Type 2</label>
-			<select name="indicatorType2" id="indicatorType2">
+			</select> <br /> <br /> <label for="indicatorType2">Indicator Type 2</label> <select name="indicatorType2" id="indicatorType2">
 				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
-					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType2}">selected</c:if> >${indicatorType.name}</option>
+					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType2}">selected</c:if>>${indicatorType.name}</option>
 				</c:forEach>
-			</select>
-			
-			<label for="source2">Source 2</label>
-			<select name="source2" id="source2">
+			</select> <label for="source2">Source 2</label> <select name="source2" id="source2">
 				<c:forEach var="source" items="${it.sources}">
-					<option value="${source.code}" <c:if test="${source.code eq it.source2}">selected</c:if> >${source.name}</option>
+					<option value="${source.code}" <c:if test="${source.code eq it.source2}">selected</c:if>>${source.name}</option>
 				</c:forEach>
-			</select>
-			
-			<br/>
-			<br/>
-			
-			<label for="indicatorType3">Indicator Type 3</label>
-			<select name="indicatorType3" id="indicatorType3">
+			</select> <br /> <br /> <label for="indicatorType3">Indicator Type 3</label> <select name="indicatorType3" id="indicatorType3">
 				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
-					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType3}">selected</c:if> >${indicatorType.name}</option>
+					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType3}">selected</c:if>>${indicatorType.name}</option>
 				</c:forEach>
-			</select>
-			
-			<label for="source3">Source 3</label>
-			<select name="source3" id="source3">
+			</select> <label for="source3">Source 3</label> <select name="source3" id="source3">
 				<c:forEach var="source" items="${it.sources}">
-					<option value="${source.code}" <c:if test="${source.code eq it.source3}">selected</c:if> >${source.name}</option>
+					<option value="${source.code}" <c:if test="${source.code eq it.source3}">selected</c:if>>${source.name}</option>
 				</c:forEach>
-			</select>
-			
-			<br/>
+			</select> <br />
 		</form>
 		<button onclick="JavaScript:redirectWithFormParams()">Update</button>
 	</div>
 	<div id="chart_div" />
-	
+
 	<script type="text/javascript">
 		$("select#indicatorType1").change(function(){
 
