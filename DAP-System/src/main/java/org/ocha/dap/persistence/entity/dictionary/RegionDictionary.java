@@ -47,7 +47,7 @@ public class RegionDictionary {
 		public void setUnnormalizedName(final String unnormalizedName) {
 			this.unnormalizedName = unnormalizedName;
 		}
-		
+
 		public void setImporter(String importer) {
 			this.importer = importer;
 		}
@@ -123,6 +123,4 @@ public class RegionDictionary {
 		return entity;
 	}
 
-	
-	
 }

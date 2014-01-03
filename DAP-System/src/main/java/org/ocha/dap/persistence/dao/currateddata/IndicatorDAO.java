@@ -19,7 +19,8 @@ public interface IndicatorDAO {
 
 	/**
 	 * 
-	 * @param countryCodes optional filter to only get some countries (cannot deal other entityTypes yet)
+	 * @param countryCodes
+	 *            optional filter to only get some countries (cannot deal other entityTypes yet)
 	 */
 	public List<Indicator> listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode, final List<String> countryCodes);
 

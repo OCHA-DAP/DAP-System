@@ -48,8 +48,7 @@ public interface CuratedDataService {
 	/**
 	 * Add an indicator for the provided parameters
 	 * 
-	 * The importFromCKAN param is not provided. This will be added to the
-	 * default "dummy" import
+	 * The importFromCKAN param is not provided. This will be added to the default "dummy" import
 	 */
 	public void addIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
 			final String value, final String initialValue);
@@ -59,14 +58,10 @@ public interface CuratedDataService {
 	public List<Indicator> listLastIndicators(final int limit);
 
 	/**
-	 * returns a 2D Datatable with Entities as columns, and periods as rows.
-	 * Something like 	
-	 * 	Year 	Germany 	Russia 		France 
-	 * 	2011 
-	 * 	2012 
-	 * 	2013
+	 * returns a 2D Datatable with Entities as columns, and periods as rows. Something like Year Germany Russia France 2011 2012 2013
 	 * 
-	 * @param countryCodes optional. Return all the known entities if null 
+	 * @param countryCodes
+	 *            optional. Return all the known entities if null
 	 * @throws TypeMismatchException
 	 *             If some data doest not match the expect type of the column
 	 */
@@ -74,12 +69,7 @@ public interface CuratedDataService {
 			throws TypeMismatchException;
 
 	/**
-	 * returns a 2D Datatable with Sources as columns, and periods as rows.
-	 * Something like 
-	 * Year 	WB 	UN 	ACLED 
-	 * 2011 
-	 * 2012 
-	 * 2013
+	 * returns a 2D Datatable with Sources as columns, and periods as rows. Something like Year WB UN ACLED 2011 2012 2013
 	 * 
 	 * @throws TypeMismatchException
 	 *             If some data doest not match the expect type of the column
@@ -88,8 +78,7 @@ public interface CuratedDataService {
 			throws TypeMismatchException;
 
 	/**
-	 * returns a 1D Datatable with entities as rows Country indicatorType Name
-	 * Germany Russia France
+	 * returns a 1D Datatable with entities as rows Country indicatorType Name Germany Russia France
 	 * 
 	 * @throws TypeMismatchException
 	 *             If some data doest not match the expect type of the column

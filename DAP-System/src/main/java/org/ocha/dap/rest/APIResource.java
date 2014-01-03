@@ -258,7 +258,8 @@ public class APIResource {
 	@Path("/yearly/year/{year}/source1/{sourceCode1}/indicatortype1/{indicatorTypeCode1}/source2/{sourceCode2}/indicatortype2/{indicatorTypeCode2}/source3/{sourceCode3}/indicatortype3/{indicatorTypeCode3}/csv")
 	public String getDataForYearAndSourceAnd3IndicatorTypesAsCSV(@PathParam("year") final int year, @PathParam("sourceCode1") final String sourceCode1,
 			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("sourceCode2") final String sourceCode2, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2,
-			@PathParam("sourceCode3") final String sourceCode3, @PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @QueryParam("c") final List<String> countryCodes) throws TypeMismatchException {
+			@PathParam("sourceCode3") final String sourceCode3, @PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @QueryParam("c") final List<String> countryCodes)
+			throws TypeMismatchException {
 
 		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourcesAndIndicatorTypes(year, sourceCode1, indicatorTypeCode1, sourceCode2, indicatorTypeCode2, sourceCode3,
 				indicatorTypeCode3, countryCodes);
@@ -275,7 +276,8 @@ public class APIResource {
 	@Path("/yearly/year/{year}/source1/{sourceCode1}/indicatortype1/{indicatorTypeCode1}/source2/{sourceCode2}/indicatortype2/{indicatorTypeCode2}/source3/{sourceCode3}/indicatortype3/{indicatorTypeCode3}/json")
 	public String getDataForYearAndSourceAnd3IndicatorTypes(@PathParam("year") final int year, @PathParam("sourceCode1") final String sourceCode1,
 			@PathParam("indicatorTypeCode1") final String indicatorTypeCode1, @PathParam("sourceCode2") final String sourceCode2, @PathParam("indicatorTypeCode2") final String indicatorTypeCode2,
-			@PathParam("sourceCode3") final String sourceCode3, @PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @QueryParam("c") final List<String> countryCodes) throws TypeMismatchException {
+			@PathParam("sourceCode3") final String sourceCode3, @PathParam("indicatorTypeCode3") final String indicatorTypeCode3, @QueryParam("c") final List<String> countryCodes)
+			throws TypeMismatchException {
 
 		final DataTable dataTable = curatedDataService.listIndicatorsByYearAndSourcesAndIndicatorTypes(year, sourceCode1, indicatorTypeCode1, sourceCode2, indicatorTypeCode2, sourceCode3,
 				indicatorTypeCode3, countryCodes);

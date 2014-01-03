@@ -371,7 +371,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		final Entity entity = entityDAO.getEntityById(entityId);
 		regionDictionaryDAO.addRegionDictionary(unnormalizedName, importer, entity);
 	}
-	
+
 	@Override
 	public void deleteRegionDictionary(final RegionDictionary regionDictionary) {
 		regionDictionaryDAO.deleteRegionDictionary(regionDictionary);

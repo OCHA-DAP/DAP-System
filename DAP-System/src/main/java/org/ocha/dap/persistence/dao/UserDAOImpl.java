@@ -33,7 +33,7 @@ public class UserDAOImpl implements UserDAO {
 
 		em.persist(userToCreate);
 	}
-	
+
 	@Override
 	@Transactional
 	public void deleteUser(final String id) {
@@ -59,7 +59,7 @@ public class UserDAOImpl implements UserDAO {
 
 		if (apiKey == null)
 			throw new InsufficientCredentialsException();
-		
+
 		return apiKey;
 	}
 
