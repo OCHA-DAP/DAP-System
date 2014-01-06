@@ -373,6 +373,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
+	public void deleteRegionDictionary(final RegionDictionary regionDictionary) {
+		regionDictionaryDAO.deleteRegionDictionary(regionDictionary);
+	}
+
+	@Override
 	public void addSourceDictionary(final String unnormalizedName, final String importer, final long sourceId) {
 		final Source source = sourceDAO.getSourceById(sourceId);
 		sourceDictionaryDAO.addSourceDictionary(unnormalizedName, importer, source);

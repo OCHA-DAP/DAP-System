@@ -48,6 +48,10 @@ public class RegionDictionary {
 			this.unnormalizedName = unnormalizedName;
 		}
 
+		public void setImporter(String importer) {
+			this.importer = importer;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -107,6 +111,12 @@ public class RegionDictionary {
 		super();
 		this.entity = null;
 
+	}
+
+	public RegionDictionary(String unnormalizedName, String importer) {
+		super();
+		this.id.unnormalizedName = unnormalizedName;
+		this.id.importer = importer;
 	}
 
 	public org.ocha.dap.persistence.entity.curateddata.Entity getEntity() {
