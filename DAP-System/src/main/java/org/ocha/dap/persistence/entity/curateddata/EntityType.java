@@ -13,9 +13,8 @@ import javax.persistence.Table;
  * @author Samuel Eustachi
  * @author David Megginson
  * 
- *         a table listing the types of
- *         {@link org.ocha.dap.persistence.entity.curateddata.Entity} supported
- *         in the curated data repository (e.g. countries, crises, etc.).
+ *         a table listing the types of {@link org.ocha.dap.persistence.entity.curateddata.Entity} supported in the curated data repository
+ *         (e.g. countries, crises, etc.).
  * 
  */
 @Entity

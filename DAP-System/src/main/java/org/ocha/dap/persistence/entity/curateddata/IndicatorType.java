@@ -13,9 +13,8 @@ import javax.persistence.Table;
  * @author Samuel Eustachi
  * @author David Megginson
  * 
- *         a table listing the types of {@link Indicator} supported in the
- *         curated data repository (e.g. mortality rate), using the CHD codes as
- *         the primary keys.
+ *         a table listing the types of {@link Indicator} supported in the curated data repository (e.g. mortality rate), using the CHD
+ *         codes as the primary keys.
  * 
  */
 @Entity
@@ -33,8 +32,8 @@ public class IndicatorType {
 	private String name;
 
 	/**
-	 * this is a simple text field, just giving a hint about what the unit should be for this type of indicator
-	 * might be modelized more strictly later 
+	 * this is a simple text field, just giving a hint about what the unit should be for this type of indicator might be modelized more
+	 * strictly later
 	 */
 	@Column(name = "unit", nullable = true, updatable = true)
 	private String unit;

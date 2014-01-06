@@ -13,8 +13,7 @@ import javax.persistence.Table;
  * @author Samuel Eustachi
  * @author David Megginson
  * 
- *         a table of data sources on the responsibility level — that is,
- *         organisations like the World Bank, not specific web sites or URLs.
+ *         a table of data sources on the responsibility level — that is, organisations like the World Bank, not specific web sites or URLs.
  * 
  */
 @Entity

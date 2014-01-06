@@ -6,9 +6,7 @@ public class CKANPollingClientTest {
 
 	@Test
 	public void testGetDatasetDTOFromQuery() {
-		// 
+		//
 	}
-
-	
 
 }

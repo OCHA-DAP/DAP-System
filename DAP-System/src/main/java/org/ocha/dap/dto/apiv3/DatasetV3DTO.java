@@ -17,12 +17,12 @@ public class DatasetV3DTO {
 	private List<Tag> tags;
 	private List<Extra> extras;
 	private List<Resource> resources;
-	
+
 	private String maintainer;
 	private String maintainer_email;
 	private String author;
 	private String author_email;
-	
+
 	public String getMaintainer() {
 		return maintainer;
 	}
@@ -182,7 +182,6 @@ public class DatasetV3DTO {
 		private Date created;
 		private String state;
 		private String url;
-		
 
 		public String getId() {
 			return id;

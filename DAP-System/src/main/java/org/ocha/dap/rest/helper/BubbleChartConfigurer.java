@@ -10,7 +10,7 @@ import org.ocha.dap.persistence.entity.curateddata.Source;
  * A simple POJO to be able to access some data in the BubbleChart.jsp
  * 
  * @author Samuel Eustachi
- *
+ * 
  */
 public class BubbleChartConfigurer {
 

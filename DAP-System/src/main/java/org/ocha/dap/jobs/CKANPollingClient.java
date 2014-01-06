@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CKANPollingClient implements Runnable {
 
 	private static final Logger log = LoggerFactory.getLogger(CKANPollingClient.class);
-	
+
 	@Autowired
 	private DAPService dapService;
 
 	@Override
-//	@Scheduled(fixedDelay = 100000, initialDelay = 100000)
+	// @Scheduled(fixedDelay = 100000, initialDelay = 100000)
 	public void run() {
 		try {
 			// for now, just a simple get, no JSON POST
@@ -26,6 +26,5 @@ public class CKANPollingClient implements Runnable {
 			log.error(e.toString(), e);
 		}
 	}
-
 
 }

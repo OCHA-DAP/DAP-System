@@ -72,22 +72,23 @@ public class AdminResource {
 	@PermitAll
 	@POST
 	@Path("/login/")
-	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password, @Context final UriInfo uriInfo, @Context final SecurityContext sc) throws AuthenticationException, URISyntaxException {
+	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password, @Context final UriInfo uriInfo, @Context final SecurityContext sc)
+			throws AuthenticationException, URISyntaxException {
 		logger.debug(String.format("Entering login for user : %s", userId));
 		if (dapService != null && dapService.authenticate(userId, password)) {
 			final HttpSession session = request.getSession(true);
 			session.setAttribute(SESSION_PARAM_UID, userId);
 			// 1800 seconds = 30 minutes
 			session.setMaxInactiveInterval(1800);
-			
+
 			if ("admin".equals(dapService.getUserById(userId).getRole())) {
 				final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 				return Response.seeOther(newURI).build();
-			}else{
+			} else {
 				final URI newURI = uriInfo.getBaseUriBuilder().path("api/yearly/source/acled/indicatortype/PVX040/BarChart/").build();
 				return Response.seeOther(newURI).build();
 			}
-			
+
 		}
 
 		throw new AuthenticationException();
@@ -99,7 +100,7 @@ public class AdminResource {
 	public Response loginForm() {
 		return Response.ok(new Viewable("/login", null)).build();
 	}
-	
+
 	@PermitAll
 	@GET
 	@Path("/logout/")
@@ -110,14 +111,14 @@ public class AdminResource {
 		return Response.seeOther(newURI).build();
 	}
 
-//	@GET
-//	@Path("/dataset/{datasetName}")
-//	public Response getDatasetContent(@PathParam("datasetName") final String datasetName) throws InsufficientCredentialsException {
-//		final HttpSession session = request.getSession(false);
-//		final String userId = session.getAttribute(SESSION_PARAM_UID).toString();
-//		final DatasetV3WrapperDTO result = dapService.getDatasetContentFromCKANV3(userId, datasetName);
-//		return Response.ok(new Viewable("/admin/dataset", result)).build();
-//	}
+	// @GET
+	// @Path("/dataset/{datasetName}")
+	// public Response getDatasetContent(@PathParam("datasetName") final String datasetName) throws InsufficientCredentialsException {
+	// final HttpSession session = request.getSession(false);
+	// final String userId = session.getAttribute(SESSION_PARAM_UID).toString();
+	// final DatasetV3WrapperDTO result = dapService.getDatasetContentFromCKANV3(userId, datasetName);
+	// return Response.ok(new Viewable("/admin/dataset", result)).build();
+	// }
 
 	@GET
 	@Path("/status/datasets/")
@@ -127,7 +128,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/status/datasets/")
-	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type, @Context final UriInfo uriInfo) throws URISyntaxException {
+	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type, @Context final UriInfo uriInfo)
+			throws URISyntaxException {
 		dapService.flagDatasetAsToBeCurated(datasetName, type);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
@@ -149,7 +151,8 @@ public class AdminResource {
 
 	@GET
 	@Path("/status/manuallyTriggerDownload/{id}/{revision_id}")
-	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException, IOException {
+	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException,
+			IOException {
 		dapService.downloadFileForCKANResource(id, revision_id);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
@@ -159,7 +162,8 @@ public class AdminResource {
 
 	@GET
 	@Path("/status/manuallyTriggerEvaluation/{id}/{revision_id}")
-	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException, IOException {
+	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException,
+			IOException {
 		dapService.evaluateFileForCKANResource(id, revision_id);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();

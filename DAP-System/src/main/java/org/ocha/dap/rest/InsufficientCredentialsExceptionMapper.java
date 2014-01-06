@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 /**
  * 
  * @author seustachi
- *
+ * 
  */
 @Provider
 @Component
-public class InsufficientCredentialsExceptionMapper implements ExceptionMapper<InsufficientCredentialsException>{
+public class InsufficientCredentialsExceptionMapper implements ExceptionMapper<InsufficientCredentialsException> {
 
-  @Override
-  public Response toResponse(final InsufficientCredentialsException exception) {
-    return Response.status(Status.FORBIDDEN).entity("INSUFFICIENT_CREDENTIALS").type(MediaType.TEXT_PLAIN).build();
-  }
+	@Override
+	public Response toResponse(final InsufficientCredentialsException exception) {
+		return Response.status(Status.FORBIDDEN).entity("INSUFFICIENT_CREDENTIALS").type(MediaType.TEXT_PLAIN).build();
+	}
 }

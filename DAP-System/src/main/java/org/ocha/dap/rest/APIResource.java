@@ -35,7 +35,7 @@ import com.google.visualization.datasource.render.CsvRenderer;
 import com.google.visualization.datasource.render.JsonRenderer;
 import com.ibm.icu.util.ULocale;
 
-@RolesAllowed({"admin", "api"})
+@RolesAllowed({ "admin", "api" })
 @Path("/api")
 @Component
 public class APIResource {

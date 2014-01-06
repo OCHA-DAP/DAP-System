@@ -10,8 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml",
-		"classpath:/ctx-persistence-test.xml" })
+@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
 public class WorkflowServiceImplTest {
 
 	@Autowired
@@ -60,7 +59,7 @@ public class WorkflowServiceImplTest {
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.TECH_EVALUATION_FAIL));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_SUCCESS));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_FAIL));
-		
+
 		revision.setWorkflowState(WorkflowState.TECH_EVALUATION_SUCCESS);
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DOWNLOADED));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.OUTDATED));
@@ -70,7 +69,7 @@ public class WorkflowServiceImplTest {
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.TECH_EVALUATION_FAIL));
 		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_SUCCESS));
 		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_FAIL));
-		
+
 		revision.setWorkflowState(WorkflowState.TECH_EVALUATION_FAIL);
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DOWNLOADED));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.OUTDATED));
@@ -80,7 +79,7 @@ public class WorkflowServiceImplTest {
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.TECH_EVALUATION_FAIL));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_SUCCESS));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_FAIL));
-		
+
 		revision.setWorkflowState(WorkflowState.IMPORT_SUCCESS);
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DOWNLOADED));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.OUTDATED));
@@ -90,7 +89,7 @@ public class WorkflowServiceImplTest {
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.TECH_EVALUATION_FAIL));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_SUCCESS));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_FAIL));
-		
+
 		revision.setWorkflowState(WorkflowState.IMPORT_FAIL);
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DOWNLOADED));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.OUTDATED));

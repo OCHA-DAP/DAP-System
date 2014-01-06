@@ -9,10 +9,10 @@ public class MyResourceConfig extends ResourceConfig {
 		super();
 		register(AuthenticationFilter.class);
 		register(RolesAllowedDynamicFeature.class);
-		
+
 		register(AdminResource.class);
 		register(APIResource.class);
-		
+
 		register(AuthenticationExceptionMapper.class);
 		register(InsufficientCredentialsExceptionMapper.class);
 	}

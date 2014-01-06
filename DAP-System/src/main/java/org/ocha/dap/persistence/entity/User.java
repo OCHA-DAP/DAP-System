@@ -8,19 +8,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "dap_user")
 public class User {
-	
+
 	@Id
 	private final String id;
-	
+
 	@Column(name = "password", updatable = true)
 	private final String password;
-	
+
 	@Column(name = "role", updatable = true)
 	private final String role;
-	
+
 	@Column(name = "ckanApiKey", updatable = true)
 	private final String ckanApiKey;
-	
+
 	public User(final String id, final String password, final String role, final String ckanApiKey) {
 		super();
 		this.id = id;
@@ -54,7 +54,5 @@ public class User {
 	public String getCkanApiKey() {
 		return ckanApiKey;
 	}
-	
-	
 
 }

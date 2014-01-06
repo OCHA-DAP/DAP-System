@@ -17,11 +17,9 @@ public interface DAPService {
 	public void checkForNewCKANDatasets();
 
 	/**
-	 * will try to get all the resources from CKAN instance first datasets and
-	 * then resources
+	 * will try to get all the resources from CKAN instance first datasets and then resources
 	 * 
-	 * Il some resources are new, will register a CKANResource in DAP db with
-	 * {@link WorkflowState#Detected}
+	 * Il some resources are new, will register a CKANResource in DAP db with {@link WorkflowState#Detected}
 	 */
 	public void checkForNewCKANResources();
 
@@ -35,8 +33,7 @@ public interface DAPService {
 
 	/**
 	 * 
-	 * downloads the file associated to the given id / revision and flags the
-	 * record as {@link WorkflowState#DOWNLOADED}
+	 * downloads the file associated to the given id / revision and flags the record as {@link WorkflowState#DOWNLOADED}
 	 * 
 	 * The record must be in a Workflow State allowing download
 	 */
@@ -44,8 +41,7 @@ public interface DAPService {
 
 	/**
 	 * 
-	 * evaluate the file associated to the given id / revision and flags the
-	 * record as {@link WorkflowState#TECH_EVALUTATION_SUCCESS} or
+	 * evaluate the file associated to the given id / revision and flags the record as {@link WorkflowState#TECH_EVALUTATION_SUCCESS} or
 	 * {@link WorkflowState#TECH_EVALUTATION_FAIL}
 	 * 
 	 * The record must be in a Workflow State allowing evaluation
@@ -54,8 +50,7 @@ public interface DAPService {
 
 	/**
 	 * 
-	 * Performs the required transformation and import data from the file
-	 * associated to the given id / revision and flags the record as
+	 * Performs the required transformation and import data from the file associated to the given id / revision and flags the record as
 	 * {@link WorkflowState#IMPORT_SUCCESS} or {@link WorkflowState#IMPORT_FAIL}
 	 * 
 	 * The record must be in a Workflow State allowing transformationAndImport
@@ -63,8 +58,7 @@ public interface DAPService {
 	public void transformAndImportDataFromFileForCKANResource(final String id, final String revision_id);
 
 	/**
-	 * return the list of the Datasets Performing the query on behalf of the
-	 * user
+	 * return the list of the Datasets Performing the query on behalf of the user
 	 * 
 	 * @param userId
 	 *            id of the user performing the query
@@ -72,8 +66,7 @@ public interface DAPService {
 	public List<String> getDatasetsListFromCKAN(final String userId) throws InsufficientCredentialsException;
 
 	/**
-	 * uses the CKAN api V3 fetchs the content of the given dataset Performing
-	 * the query on behalf of the user
+	 * uses the CKAN api V3 fetchs the content of the given dataset Performing the query on behalf of the user
 	 * 
 	 * @param userId
 	 *            id of the user performing the query
