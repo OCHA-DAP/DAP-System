@@ -27,6 +27,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.dap.rest.helper.DisplayEntities;
 import org.ocha.dap.rest.helper.DisplayIndicators;
 import org.ocha.dap.rest.helper.DisplayRegionDictionaries;
@@ -65,9 +66,9 @@ public class AdminResource {
 	 *            the token
 	 * @return response with session
 	 * @throws AuthenticationException
-	 *             if authentication exception occur
+	 *             if authentication exception occurs
 	 * @throws URISyntaxException
-	 *             the URI syntax exception occur
+	 *             the URI syntax exception occurs
 	 */
 	@PermitAll
 	@POST
@@ -323,6 +324,22 @@ public class AdminResource {
 	public Response addSourceDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("source") final long source) {
 		curatedDataService.addSourceDictionary(unnormalizedName, importer, source);
 		return displaySourceDictionariesList();
+	}
+
+	@POST
+	@Path("/dictionaries/regions/submitdelete")
+	public Response deleteRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer) throws URISyntaxException {
+
+		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
+
+		curatedDataService.deleteRegionDictionary(regionDictionary);
+
+		URI newURI = null;
+
+		newURI = new URI("/admin/dictionaries/regions/");
+
+		return Response.seeOther(newURI).build();
+
 	}
 
 }
