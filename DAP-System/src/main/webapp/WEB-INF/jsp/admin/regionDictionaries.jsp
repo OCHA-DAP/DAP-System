@@ -16,7 +16,7 @@
 	<form method="POST" action="">
 		<label for="entity">For Entity</label> <select name="entity" id="entity">
 			<c:forEach var="entity" items="${it.entities}">
-				<option value="${entity.id}">${entity.type.name}/ ${entity.name}</option>
+				<option value="${entity.id}">${entity.type.name}/${entity.name}</option>
 			</c:forEach>
 		</select> <label for="unnormalizedName">Unnormalized Name</label> <input type="text" name="unnormalizedName" id="unnormalizedName" /> <label
 			for="importer">Importer</label> <input type="text" name="importer" id="importer" /> <input type="submit" value="submit" />

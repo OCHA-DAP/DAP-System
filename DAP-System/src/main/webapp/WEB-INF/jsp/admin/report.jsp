@@ -15,7 +15,7 @@
 	Validator : ${it.validationReport.validator} Status : ${it.validationReport.status}
 	<ul>
 		<c:forEach var="entry" items="${it.validationReport.entries}">
-			<li class="${entry.status}">${entry.status}: ${entry.message}</li>
+			<li class="${entry.status}">${entry.status}:${entry.message}</li>
 		</c:forEach>
 	</ul>
 </body>
