@@ -112,14 +112,24 @@ public class AdminResource {
 		return Response.seeOther(newURI).build();
 	}
 
-	// @GET
-	// @Path("/dataset/{datasetName}")
-	// public Response getDatasetContent(@PathParam("datasetName") final String datasetName) throws InsufficientCredentialsException {
-	// final HttpSession session = request.getSession(false);
-	// final String userId = session.getAttribute(SESSION_PARAM_UID).toString();
-	// final DatasetV3WrapperDTO result = dapService.getDatasetContentFromCKANV3(userId, datasetName);
-	// return Response.ok(new Viewable("/admin/dataset", result)).build();
-	// }
+	@GET
+	@Path("/users/")
+	public Response displayUsersList() {
+		return Response.ok(new Viewable("/admin/users", dapService.listUsers())).build();
+	}
+
+	@POST
+	@Path("/users/")
+	public Response createUser(@FormParam("id") final String id, @FormParam("password") final String password, @FormParam("password2") final String password2,
+			@FormParam("ckanApiKey") final String ckanApiKey, @FormParam("role") final String role) throws Exception {
+		if (!password.equals(password2)) {
+			// FIXME add an error message
+			return displayUsersList();
+		}
+		dapService.createUser(id, password, role, ckanApiKey);
+
+		return displayUsersList();
+	}
 
 	@GET
 	@Path("/status/datasets/")

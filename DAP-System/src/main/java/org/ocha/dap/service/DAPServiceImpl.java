@@ -362,4 +362,15 @@ public class DAPServiceImpl implements DAPService {
 		return resourceDAO.getCKANResource(id, revision_id);
 	}
 
+	@Override
+	public List<User> listUsers() {
+		return userDao.listUsers();
+	}
+
+	@Override
+	public void createUser(final String id, final String password, final String role, final String apiKey) throws Exception {
+		userDao.createUser(id, password, role, apiKey);
+
+	}
+
 }
