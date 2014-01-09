@@ -16,6 +16,7 @@ import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
 import org.ocha.dap.persistence.dao.currateddata.IndicatorDAO;
 import org.ocha.dap.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.dap.persistence.dao.currateddata.SourceDAO;
+import org.ocha.dap.persistence.dao.dictionary.IndicatorTypeDictionaryDAO;
 import org.ocha.dap.persistence.dao.dictionary.RegionDictionaryDAO;
 import org.ocha.dap.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
@@ -25,6 +26,7 @@ import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.Source;
+import org.ocha.dap.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.dap.persistence.entity.dictionary.SourceDictionary;
 import org.slf4j.Logger;
@@ -66,6 +68,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private SourceDictionaryDAO sourceDictionaryDAO;
+
+	@Autowired
+	private IndicatorTypeDictionaryDAO indicatorTypeDictionaryDAO;
 
 	@Override
 	public List<EntityType> listEntityTypes() {
@@ -367,6 +372,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
+	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries() {
+		return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries();
+	}
+
+	@Override
 	public void addRegionDictionary(final String unnormalizedName, final String importer, final long entityId) {
 		final Entity entity = entityDAO.getEntityById(entityId);
 		regionDictionaryDAO.addRegionDictionary(unnormalizedName, importer, entity);
@@ -384,4 +394,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	}
 
+	@Override
+	public void addIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorTypeId) {
+		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeById(indicatorTypeId);
+		indicatorTypeDictionaryDAO.addIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
+	}
 }

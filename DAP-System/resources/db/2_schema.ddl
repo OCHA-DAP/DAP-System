@@ -14,6 +14,9 @@
     alter table entity 
         drop constraint fk_entity_to_type;
 
+    alter table indicator_type_dictionary 
+        drop constraint fk_indicator_type_dictionary_to_indicator_type;
+
     alter table region_dictionary 
         drop constraint fk_region_dictionary_to_entity;
 
@@ -35,6 +38,8 @@
     drop table import_from_ckan;
 
     drop table indicator_type;
+
+    drop table indicator_type_dictionary;
 
     drop table region_dictionary;
 
@@ -142,6 +147,13 @@
         primary key (id)
     );
 
+    create table indicator_type_dictionary (
+        importer varchar(255) not null,
+        unnormalized_name varchar(255) not null,
+        indicator_type_id int8 not null,
+        primary key (importer, unnormalized_name)
+    );
+
     create table region_dictionary (
         importer varchar(255) not null,
         unnormalized_name varchar(255) not null,
@@ -187,6 +199,11 @@
         add constraint fk_entity_to_type 
         foreign key (entity_type_id) 
         references entity_type;
+
+    alter table indicator_type_dictionary 
+        add constraint fk_indicator_type_dictionary_to_indicator_type 
+        foreign key (indicator_type_id) 
+        references indicator_type;
 
     alter table region_dictionary 
         add constraint fk_region_dictionary_to_entity 

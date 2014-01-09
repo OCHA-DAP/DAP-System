@@ -12,6 +12,8 @@ public interface IndicatorTypeDAO {
 
 	public IndicatorType getIndicatorTypeByCode(String code);
 
+	public IndicatorType getIndicatorTypeById(long id);
+
 	public void deleteIndicatorTypeByCode(String code);
 
 }

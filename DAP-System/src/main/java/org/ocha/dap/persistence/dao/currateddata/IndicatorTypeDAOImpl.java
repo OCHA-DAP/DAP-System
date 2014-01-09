@@ -38,6 +38,11 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 	}
 
 	@Override
+	public IndicatorType getIndicatorTypeById(final long id) {
+		return em.find(IndicatorType.class, id);
+	}
+
+	@Override
 	@Transactional
 	public void deleteIndicatorTypeByCode(final String code) {
 		em.remove(getIndicatorTypeByCode(code));

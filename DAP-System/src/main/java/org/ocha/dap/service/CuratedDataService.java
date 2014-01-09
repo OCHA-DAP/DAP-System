@@ -11,6 +11,7 @@ import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.Source;
+import org.ocha.dap.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.dap.persistence.entity.dictionary.SourceDictionary;
 
@@ -96,9 +97,13 @@ public interface CuratedDataService {
 
 	public List<SourceDictionary> listSourceDictionaries();
 
+	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries();
+
 	public void addRegionDictionary(final String unnormalizedName, final String importer, final long entityId);
 
 	public void addSourceDictionary(final String unnormalizedName, final String importer, final long sourceId);
+
+	public void addIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorType);
 
 	public void deleteRegionDictionary(RegionDictionary regionDictionary);
 
