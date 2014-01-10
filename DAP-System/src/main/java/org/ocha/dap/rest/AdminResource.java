@@ -41,19 +41,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-<<<<<<< HEAD
-/**
-	 * Create a session from the token
-	 * 
-	 * @param token
-	 *            the token
-	 * @return response with session
-	 * @throws AuthenticationException
-	 *             if authentication exception occurs
-	 * @throws URISyntaxException
-	 *             the URI syntax exception occurs
-	 */
-=======
 
 /**
  * Create a session from the token
@@ -66,7 +53,7 @@ import org.springframework.stereotype.Component;
  * @throws URISyntaxException
  *             the URI syntax exception occurs
  */
->>>>>>> test
+
 // 1800 seconds = 30 minutes
 // FIXME add an error message
 @RolesAllowed("admin")
