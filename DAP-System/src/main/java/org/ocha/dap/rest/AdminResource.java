@@ -345,7 +345,6 @@ public class AdminResource {
 		curatedDataService.deleteRegionDictionary(regionDictionary);
 
 		URI newURI = null;
-
 		newURI = new URI("/admin/dictionaries/regions/");
 
 		return Response.seeOther(newURI).build();
