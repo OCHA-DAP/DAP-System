@@ -107,4 +107,6 @@ public interface CuratedDataService {
 
 	public void deleteRegionDictionary(RegionDictionary regionDictionary);
 
+	public void deleteIndicatorTypeDictionary(IndicatorTypeDictionary indicatorTypeDictionary);
+
 }

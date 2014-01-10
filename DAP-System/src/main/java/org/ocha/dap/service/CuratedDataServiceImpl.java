@@ -399,4 +399,10 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeById(indicatorTypeId);
 		indicatorTypeDictionaryDAO.addIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
 	}
+
+	@Override
+	public void deleteIndicatorTypeDictionary(final IndicatorTypeDictionary indicatorTypeDictionary) {
+		indicatorTypeDictionaryDAO.deleteIndicatorTypeDictionary(indicatorTypeDictionary);
+
+	}
 }

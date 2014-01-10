@@ -11,7 +11,7 @@
 </head>
 <body>
 	<jsp:include page="admin-header.jsp" />
-	<h2>Add a new SOurce Dictionary</h2>
+	<h2>Add a new Source Dictionary</h2>
 
 	<form method="POST" action="">
 		<label for="entity">For Entity</label> <select name="source" id="source">

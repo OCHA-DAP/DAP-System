@@ -27,8 +27,10 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.dap.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.dap.rest.helper.DisplayEntities;
+import org.ocha.dap.rest.helper.DisplayIndicatorTypeDictionaries;
 import org.ocha.dap.rest.helper.DisplayIndicators;
 import org.ocha.dap.rest.helper.DisplayRegionDictionaries;
 import org.ocha.dap.rest.helper.DisplaySourceDictionaries;
@@ -338,15 +340,46 @@ public class AdminResource {
 
 	@POST
 	@Path("/dictionaries/regions/submitdelete")
-	public Response deleteRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer) throws URISyntaxException {
+	public Response deleteRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
+			throws URISyntaxException {
 
 		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
 
 		curatedDataService.deleteRegionDictionary(regionDictionary);
 
-		URI newURI = null;
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/regions/").build();
 
-		newURI = new URI("/admin/dictionaries/regions/");
+		return Response.seeOther(newURI).build();
+
+	}
+
+	@GET
+	@Path("/dictionaries/indicatorTypes")
+	public Response displayIndicatorTypeDictionariesList() {
+		final DisplayIndicatorTypeDictionaries displayIndicatorTypeDictionaries = new DisplayIndicatorTypeDictionaries();
+		displayIndicatorTypeDictionaries.setIndicatorTypes(curatedDataService.listIndicatorTypes());
+		displayIndicatorTypeDictionaries.setIndicatorTypeDictionaries(curatedDataService.listIndicatorTypeDictionaries());
+		return Response.ok(new Viewable("/admin/indicatorTypeDictionaries", displayIndicatorTypeDictionaries)).build();
+	}
+
+	@POST
+	@Path("/dictionaries/indicatorTypes")
+	public Response addIndicatorTypeDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer,
+			@FormParam("indicatorType") final long indicatorType) {
+		curatedDataService.addIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
+		return displayIndicatorTypeDictionariesList();
+	}
+
+	@POST
+	@Path("/dictionaries/indicatorTypes/submitdelete")
+	public Response deleteIndicatorTypeDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
+			throws URISyntaxException {
+
+		final IndicatorTypeDictionary indicatorTypeDictionary = new IndicatorTypeDictionary(unnormalizedName, importer);
+
+		curatedDataService.deleteIndicatorTypeDictionary(indicatorTypeDictionary);
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/indicatorTypes/").build();
 
 		return Response.seeOther(newURI).build();
 
