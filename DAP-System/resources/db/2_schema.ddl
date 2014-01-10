@@ -104,7 +104,7 @@
         source_id int8 not null,
         type_id int8 not null,
         primary key (id),
-        unique (source_id, entity_id, type_id, start_time)
+        unique (source_id, entity_id, type_id, start_time, periodicity)
     );
 
     create table dap_user (

@@ -39,7 +39,7 @@ import org.ocha.dap.persistence.entity.ImportFromCKAN;
  * 
  */
 @Entity
-@Table(name = "dap_indicator", uniqueConstraints = @UniqueConstraint(columnNames = { "source_id", "entity_id", "type_id", "start_time" }))
+@Table(name = "dap_indicator", uniqueConstraints = @UniqueConstraint(columnNames = { "source_id", "entity_id", "type_id", "start_time", "periodicity" }))
 @SequenceGenerator(name = "indicator_seq", sequenceName = "indicator_seq")
 public class Indicator {
 
