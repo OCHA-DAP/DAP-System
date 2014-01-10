@@ -33,6 +33,7 @@
 			<th>Indicator Type name</th>
 			<th>Importer</th>
 			<th>Unnormalized Name</th>
+			<th>Action</th>
 		</tr>
 
 		<c:forEach var="indicatorTypeDictionary" items="${it.indicatorTypeDictionaries}">
@@ -40,6 +41,12 @@
 				<td>${indicatorTypeDictionary.indicatorType.name}</td>
 				<td>${indicatorTypeDictionary.id.importer}</td>
 				<td>${indicatorTypeDictionary.id.unnormalizedName}</td>
+				<td>
+					<form method="POST" action="submitdelete">
+						<input type="hidden" name="unnormalizedName" value="${indicatorTypeDictionary.id.unnormalizedName}" /> <input type="hidden" name="importer"
+							value="${indicatorTypeDictionary.id.importer}" /> <input type="submit" value="Delete" />
+					</form>
+				</td>
 			</tr>
 		</c:forEach>
 
