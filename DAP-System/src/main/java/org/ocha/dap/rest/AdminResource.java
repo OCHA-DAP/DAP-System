@@ -355,13 +355,9 @@ public class AdminResource {
 	@Path("/dictionaries/regions/submitdelete")
 	public Response deleteRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
-
 		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
-
 		curatedDataService.deleteRegionDictionary(regionDictionary);
-
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/regions/").build();
-
 		return Response.seeOther(newURI).build();
 
 	}
@@ -387,13 +383,9 @@ public class AdminResource {
 	@Path("/dictionaries/indicatorTypes/submitdelete")
 	public Response deleteIndicatorTypeDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
-
 		final IndicatorTypeDictionary indicatorTypeDictionary = new IndicatorTypeDictionary(unnormalizedName, importer);
-
 		curatedDataService.deleteIndicatorTypeDictionary(indicatorTypeDictionary);
-
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/indicatorTypes/").build();
-
 		return Response.seeOther(newURI).build();
 
 	}
