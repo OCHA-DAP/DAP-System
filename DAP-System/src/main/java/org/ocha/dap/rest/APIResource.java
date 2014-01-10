@@ -183,7 +183,6 @@ public class APIResource {
 			model.put("vAxisTitle", indicatorType.getName());
 			model.put("hAxisTitle", "year");
 		}
-
 		return Response.ok(new Viewable("/analytical/charts", model)).build();
 	}
 
