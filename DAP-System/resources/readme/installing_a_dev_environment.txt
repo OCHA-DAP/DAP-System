@@ -1,3 +1,6 @@
+Note: Additional information about getting set up can be found on the project wiki: 
+https://github.com/OCHA-DAP/ProjectWiki/wiki/Development-Environment-and-Workflow
+
 ### 1. Getting the sources, installing the required software ###
 	Sign up to GitHub (and ask to be added to the appropriate projects)
 
@@ -12,17 +15,13 @@
 		With other editions, it might be useful to install these plugins
 		Create an Eclipse workspace
 		
-	Set up Git (or install the GitHub Client, or install eGit for Eclipse, whatever you are comfortable with): 
-	https://help.github.com/articles/set-up-git
+	Set up Git.  Alternatively, you could install the Github Windows Client, which has a nice git powershell command line tool.
+	However, we don't recommend using the the Github GUI client or EGit (for Eclipse) for any change-inducing git commands 
+	since we have had some problems with those tools.
+    Don't clone your repo into the same folder as the Eclipse workspace: http://wiki.eclipse.org/EGit/User_Guide#Considerations_for_Git_Repositories_to_be_used_in_Eclipse
 	
-
-	Configure GitHub client to store the clones in the Eclipse workspace (not recommended if using eGit, 
-	better to keep the repo and workspace in separate folders).
-	
-	Import the Project in Eclipse ("from existing projects in the workspace" works fine if 
-	you aren't using eGit and have already cloned the repo to your local drive).  Alternatively 
-	you can install eGit for Eclipse and use the "Projects from Git" import wizard to clone the
-	repo directly from Github.
+	After cloning, import the Project in Eclipse ("from existing projects in the workspace" works fine if 
+	you aren't using eGit and have already cloned the repo to your local drive).  Be careful NOT to use the "copy projects to workspace" option.
 
 	Setup the env variable
 		"DAP_FOLDER" this is the path of the folder where DAP can use the file system
