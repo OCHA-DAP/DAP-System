@@ -167,6 +167,13 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
+	@Transactional
+	public void deleteIndicator(long indicatorId) {
+		indicatorDAO.deleteIndicator(indicatorId);
+
+	}
+
+	@Override
 	public List<Indicator> listLastIndicators(final int limit) {
 		return indicatorDAO.listLastIndicators(limit);
 	}
@@ -231,7 +238,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	public DataTable listIndicatorsByPeriodicityAndEntityAndIndicatorType(final Periodicity periodicity, final String entityType, final String entityCode, final String indicatorTypeCode)
 			throws TypeMismatchException {
 
-		// FIXME probably has a problem if some data are missing in the Table, see how it is fixed for
+		// FIXME probably has a problem if some data are missing in the Table,
+		// see how it is fixed for
 		// listIndicatorsByPeriodicityAndSourceAndIndicatorType
 
 		// must be sorted by start, source

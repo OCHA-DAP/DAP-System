@@ -61,7 +61,6 @@ import org.springframework.stereotype.Component;
 @Produces(MediaType.TEXT_HTML)
 @Component
 public class AdminResource {
-
 	private static Logger logger = LoggerFactory.getLogger(AdminResource.class);
 
 	private static String SESSION_PARAM_UID = "SESSION_PARAM_UID";
@@ -297,7 +296,7 @@ public class AdminResource {
 	}
 
 	@GET
-	@Path("/curated/indicators")
+	@Path("/curated/indicators/")
 	public Response displayIndicatorsList() {
 		final DisplayIndicators displayIndicators = new DisplayIndicators();
 		displayIndicators.setIndicators(curatedDataService.listLastIndicators(100));
@@ -317,6 +316,13 @@ public class AdminResource {
 		final Date startDate = fmt.parseDateTime(start).toDate();
 		final Date endDate = fmt.parseDateTime(end).toDate();
 		curatedDataService.addIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, numeric, value, initialValue);
+		return displayIndicatorsList();
+	}
+
+	@POST
+	@Path("/curated/indicators/submitdelete")
+	public Response deleteIndicator(@FormParam("indicatorId") final long indicatorId) {
+		curatedDataService.deleteIndicator(indicatorId);
 		return displayIndicatorsList();
 	}
 

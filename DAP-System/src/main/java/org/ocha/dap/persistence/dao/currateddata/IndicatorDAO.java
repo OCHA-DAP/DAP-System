@@ -50,6 +50,8 @@ public interface IndicatorDAO {
 	public void deleteAllIndicators();
 
 	public void deleteAllIndicatorsFromImport(long importId);
+	
+	public void deleteIndicator(final long indicatorId);
 
 	/**
 	 * Based on the existing indicators

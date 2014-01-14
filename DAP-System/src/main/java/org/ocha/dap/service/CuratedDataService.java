@@ -53,6 +53,8 @@ public interface CuratedDataService {
 	 */
 	public void addIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
 			final String value, final String initialValue);
+	
+	public void deleteIndicator(final long indicatorId);
 
 	public void addIndicator(final PreparedIndicator preparedIndicator, ImportFromCKAN importFromCKAN);
 

@@ -44,7 +44,6 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		indicator.setInitialValue(initialValue);
 		indicator.setImportFromCKAN(importFromCKAN);
 		em.persist(indicator);
-
 	}
 
 	@Override
@@ -116,6 +115,13 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Transactional
 	public void deleteAllIndicatorsFromImport(final long importId) {
 		em.createQuery("DELETE FROM Indicator i WHERE i.importFromCKAN.id = :importId").setParameter("importId", importId).executeUpdate();
+
+	}
+
+	@Override
+	@Transactional
+	public void deleteIndicator(long indicatorId) {
+		em.createQuery("DELETE FROM Indicator i WHERE i.id = :indicatorId").setParameter("indicatorId", indicatorId).executeUpdate();
 
 	}
 
