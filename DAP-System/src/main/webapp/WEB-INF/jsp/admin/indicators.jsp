@@ -31,7 +31,8 @@
 			<c:forEach var="indicatorType" items="${it.indicatorTypes}">
 				<option value="${indicatorType.code}">${indicatorType.name}</option>
 			</c:forEach>
-		</select> <br />
+		</select>
+		<br />
 		<label for="start">Start date (yyyy-mm-dd)</label>
 		<input type="text" name="start" id="start" />
 		<label for="end">End date (yyyy-mm-dd)</label>
@@ -76,8 +77,12 @@
 				<td>${indicator.source.name}</td>
 				<td>${indicator.entity.name}</td>
 				<td>${indicator.type.name}</td>
-				<td><fmt:formatDate value="${indicator.start}" pattern="yyyy-MM-dd" /></td>
-				<td><fmt:formatDate value="${indicator.end}" pattern="yyyy-MM-dd" /></td>
+				<td>
+					<fmt:formatDate value="${indicator.start}" pattern="yyyy-MM-dd" />
+				</td>
+				<td>
+					<fmt:formatDate value="${indicator.end}" pattern="yyyy-MM-dd" />
+				</td>
 				<td>${indicator.periodicity}</td>
 				<td>${indicator.numeric}</td>
 				<td>${indicator.value}</td>

@@ -14,12 +14,17 @@
 	<h2>Add a new entity</h2>
 
 	<form method="POST" action="">
-		<label for="code">Code</label> <input type="text" name="code" id="code" /> <label for="name">Name</label> <input type="text" name="name"
-			id="name" /> <label for="entityTypeCode">Type</label> <select name="entityTypeCode" id="entityTypeCode">
+		<label for="code">Code</label>
+		<input type="text" name="code" id="code" />
+		<label for="name">Name</label>
+		<input type="text" name="name" id="name" />
+		<label for="entityTypeCode">Type</label>
+		<select name="entityTypeCode" id="entityTypeCode">
 			<c:forEach var="entityType" items="${it.entityTypes}">
 				<option value="${entityType.code}">${entityType.name}</option>
 			</c:forEach>
-		</select> <input type="submit" value="submit" />
+		</select>
+		<input type="submit" value="submit" />
 
 	</form>
 

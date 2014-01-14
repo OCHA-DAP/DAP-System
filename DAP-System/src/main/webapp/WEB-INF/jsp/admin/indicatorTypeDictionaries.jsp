@@ -23,7 +23,8 @@
 		<label for="unnormalizedName">Unnormalized Name</label>
 		<input type="text" name="unnormalizedName" id="unnormalizedName" />
 		<label for="importer">Importer</label>
-		<input type="text" name="importer" id="importer" /> <input type="submit" value="submit" />
+		<input type="text" name="importer" id="importer" />
+		<input type="submit" value="submit" />
 
 	</form>
 
@@ -43,8 +44,9 @@
 				<td>${indicatorTypeDictionary.id.unnormalizedName}</td>
 				<td>
 					<form method="POST" action="submitdelete">
-						<input type="hidden" name="unnormalizedName" value="${indicatorTypeDictionary.id.unnormalizedName}" /> <input type="hidden" name="importer"
-							value="${indicatorTypeDictionary.id.importer}" /> <input type="submit" value="Delete" />
+						<input type="hidden" name="unnormalizedName" value="${indicatorTypeDictionary.id.unnormalizedName}" />
+						<input type="hidden" name="importer" value="${indicatorTypeDictionary.id.importer}" />
+						<input type="submit" value="Delete" />
 					</form>
 				</td>
 			</tr>

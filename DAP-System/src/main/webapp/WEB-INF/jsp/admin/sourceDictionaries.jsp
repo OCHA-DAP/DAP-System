@@ -14,12 +14,17 @@
 	<h2>Add a new Source Dictionary</h2>
 
 	<form method="POST" action="">
-		<label for="entity">For Entity</label> <select name="source" id="source">
+		<label for="entity">For Entity</label>
+		<select name="source" id="source">
 			<c:forEach var="source" items="${it.sources}">
 				<option value="${source.id}">${source.name}</option>
 			</c:forEach>
-		</select> <label for="unnormalizedName">Unnormalized Name</label> <input type="text" name="unnormalizedName" id="unnormalizedName" /> <label
-			for="importer">Importer</label> <input type="text" name="importer" id="importer" /> <input type="submit" value="submit" />
+		</select>
+		<label for="unnormalizedName">Unnormalized Name</label>
+		<input type="text" name="unnormalizedName" id="unnormalizedName" />
+		<label for="importer">Importer</label>
+		<input type="text" name="importer" id="importer" />
+		<input type="submit" value="submit" />
 
 	</form>
 
