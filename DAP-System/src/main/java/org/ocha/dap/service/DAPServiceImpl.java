@@ -129,7 +129,11 @@ public class DAPServiceImpl implements DAPService {
 	@Override
 	public void flagDatasetAsToBeCurated(final String datasetName, final Type type) {
 		datasetDAO.flagDatasetAsToBeCurated(datasetName, type);
-
+	}
+	
+	@Override
+	public void flagDatasetAsIgnored(String datasetName) {
+		datasetDAO.flagDatasetAsIgnored(datasetName);
 	}
 
 	@Override

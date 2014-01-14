@@ -40,9 +40,10 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 
 	@Override
 	@Transactional
-	public void flagDatasetAsIgnored(final String datasetId) {
-		final CKANDataset dataset = em.find(CKANDataset.class, datasetId);
+	public void flagDatasetAsIgnored(final String datasetName) {
+		final CKANDataset dataset = em.find(CKANDataset.class, datasetName);
 		dataset.setStatus(CKANDataset.Status.IGNORED);
+		dataset.setType(null);
 	}
 
 	@Override

@@ -153,13 +153,21 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/status/datasets/")
+	@Path("/status/datasets/flagDatasetAsToBeCurated")
 	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
 		dapService.flagDatasetAsToBeCurated(datasetName, type);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
+		return Response.seeOther(newURI).build();
+	}
 
+	@POST
+	@Path("/status/datasets/flagDatasetAsIgnored")
+	public Response flagDatasetAsIgnored(@FormParam("datasetName") final String datasetName, @Context final UriInfo uriInfo) throws URISyntaxException {
+		dapService.flagDatasetAsIgnored(datasetName);
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 		return Response.seeOther(newURI).build();
 	}
 
@@ -321,9 +329,11 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/indicators/submitdelete")
-	public Response deleteIndicator(@FormParam("indicatorId") final long indicatorId) {
+	public Response deleteIndicator(@FormParam("indicatorId") final long indicatorId, @Context final UriInfo uriInfo) {
 		curatedDataService.deleteIndicator(indicatorId);
-		return displayIndicatorsList();
+		
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/indicators/").build();
+		return Response.seeOther(newURI).build();
 	}
 
 	@GET

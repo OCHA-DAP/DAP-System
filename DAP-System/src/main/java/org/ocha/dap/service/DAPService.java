@@ -30,6 +30,8 @@ public interface DAPService {
 	public CKANResource getCKANResource(final String id, final String revision_id);
 
 	public void flagDatasetAsToBeCurated(final String datasetName, final Type type);
+	
+	public void flagDatasetAsIgnored(final String datasetName);
 
 	/**
 	 * 

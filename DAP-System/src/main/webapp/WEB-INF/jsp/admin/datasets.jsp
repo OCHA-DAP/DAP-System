@@ -17,6 +17,7 @@
 			<th>status</th>
 			<th>type</th>
 			<th>Choose a type and flag as to be curated</th>
+			<th>Ignore a dataset</th>
 		</tr>
 
 		<c:forEach var="dataset" items="${it}">
@@ -25,11 +26,19 @@
 				<td>${dataset.status}</td>
 				<td>${dataset.type}</td>
 				<td>
-					<form method="POST" action="">
-						<input type="hidden" name="datasetName" value="${dataset.name}" /> <select name="type">
+					<form method="POST" action="flagDatasetAsToBeCurated">
+						<input type="hidden" name="datasetName" value="${dataset.name}" />
+						<select name="type">
 							<option value="SCRAPER">SCRAPER</option>
 							<option value="DUMMY">DUMMY</option>
-						</select> <input type="submit" value="flag for curation" />
+						</select>
+						<input type="submit" value="flag for curation" />
+					</form>
+				</td>
+				<td>
+					<form method="POST" action="flagDatasetAsIgnored">
+						<input type="hidden" name="datasetName" value="${dataset.name}" />
+						<input type="submit" <c:if test="${dataset.status eq 'IGNORED'}">disabled="disabled"</c:if> value="Ignore Dataset" />
 					</form>
 				</td>
 			</tr>

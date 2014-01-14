@@ -17,7 +17,7 @@ public interface CKANDatasetDAO {
 
 	public void flagDatasetAsToBeCurated(String datasetName, CKANDataset.Type type);
 
-	public void flagDatasetAsIgnored(String datasetId);
+	public void flagDatasetAsIgnored(String datasetName);
 
 	public List<CKANDataset> listCKANDatasets();
 
