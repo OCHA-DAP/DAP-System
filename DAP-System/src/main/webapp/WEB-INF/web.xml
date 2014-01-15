@@ -70,17 +70,22 @@
 
 	<filter-mapping>
 		<filter-name>jersey-spring</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/login/</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>jersey-spring</filter-name>
+		<url-pattern>/logout/</url-pattern>
 	</filter-mapping>
 
 
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>jersey-spring</filter-name> -->
-<!-- 		<url-pattern>/admin/*</url-pattern> -->
-<!-- 	</filter-mapping> -->
+	<filter-mapping>
+		<filter-name>jersey-spring</filter-name>
+		<url-pattern>/admin/*</url-pattern>
+	</filter-mapping>
 
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>jersey-spring</filter-name> -->
-<!-- 		<url-pattern>/api/*</url-pattern> -->
-<!-- 	</filter-mapping> -->
+	<filter-mapping>
+		<filter-name>jersey-spring</filter-name>
+		<url-pattern>/api/*</url-pattern>
+	</filter-mapping>
 </web-app>
