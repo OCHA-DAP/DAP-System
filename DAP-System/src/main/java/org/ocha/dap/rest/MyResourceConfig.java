@@ -11,6 +11,7 @@ public class MyResourceConfig extends ResourceConfig {
 		register(RolesAllowedDynamicFeature.class);
 
 		register(AdminResource.class);
+		register(LoginResource.class);
 		register(APIResource.class);
 
 		register(AuthenticationExceptionMapper.class);

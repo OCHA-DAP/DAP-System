@@ -34,7 +34,7 @@
 					BubbleChart (3D data)</a></li>
 			<li><a href="${ctx}/api/yearly/source/acled/indicatortype/PVX040/LineChart/">countries Line Chart (2D data)</a></li>
 
-			<li class="right"><a href="${ctx}/admin/logout/">Log out</a></li>
+			<li class="right"><a href="${ctx}/logout/">Log out</a></li>
 			<li class="right">Logged as ${SESSION_PARAM_UID}</li>
 		</ul>
 	</div>

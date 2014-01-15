@@ -5,10 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,7 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 import org.glassfish.jersey.server.mvc.Viewable;
@@ -34,11 +30,8 @@ import org.ocha.dap.rest.helper.DisplayIndicatorTypeDictionaries;
 import org.ocha.dap.rest.helper.DisplayIndicators;
 import org.ocha.dap.rest.helper.DisplayRegionDictionaries;
 import org.ocha.dap.rest.helper.DisplaySourceDictionaries;
-import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.service.CuratedDataService;
 import org.ocha.dap.service.DAPService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,7 +41,6 @@ import org.springframework.stereotype.Component;
  * @param token
  *            the token
  * @return response with session
- * @throws AuthenticationException
  *             if authentication exception occurs
  * @throws URISyntaxException
  *             the URI syntax exception occurs
@@ -61,76 +53,12 @@ import org.springframework.stereotype.Component;
 @Produces(MediaType.TEXT_HTML)
 @Component
 public class AdminResource {
-	private static Logger logger = LoggerFactory.getLogger(AdminResource.class);
-
-	private static String SESSION_PARAM_UID = "SESSION_PARAM_UID";
-
-	@Context
-	private HttpServletRequest request;
 
 	@Autowired
 	private DAPService dapService;
 
 	@Autowired
 	private CuratedDataService curatedDataService;
-
-	/*
-	 * Login
-	 * TODO Move to another class (LoginResource)
-	 */
-	
-	/**
-	 * Create a session from the token
-	 * 
-	 * @param token
-	 *            the token
-	 * @return response with session
-	 * @throws AuthenticationException
-	 *             if authentication exception occurs
-	 * @throws URISyntaxException
-	 *             the URI syntax exception occurs
-	 */
-	@PermitAll
-	@POST
-	@Path("/login/")
-	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password, @Context final UriInfo uriInfo, @Context final SecurityContext sc)
-			throws AuthenticationException, URISyntaxException {
-		logger.debug(String.format("Entering login for user : %s", userId));
-		if ((dapService != null) && dapService.authenticate(userId, password)) {
-			final HttpSession session = request.getSession(true);
-			session.setAttribute(SESSION_PARAM_UID, userId);
-			// 1800 seconds = 30 minutes
-			session.setMaxInactiveInterval(1800);
-
-			if ("admin".equals(dapService.getUserById(userId).getRole())) {
-				final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
-				return Response.seeOther(newURI).build();
-			} else {
-				final URI newURI = uriInfo.getBaseUriBuilder().path("api/yearly/source/acled/indicatortype/PVX040/BarChart/").build();
-				return Response.seeOther(newURI).build();
-			}
-
-		}
-
-		throw new AuthenticationException();
-	}
-
-	@PermitAll
-	@GET
-	@Path("/login/")
-	public Response loginForm() {
-		return Response.ok(new Viewable("/login", null)).build();
-	}
-
-	@PermitAll
-	@GET
-	@Path("/logout/")
-	public Response logout(@Context final UriInfo uriInfo) {
-		final HttpSession session = request.getSession(false);
-		session.invalidate();
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/login/").build();
-		return Response.seeOther(newURI).build();
-	}
 
 	/*
 	 * Users management
@@ -291,7 +219,7 @@ public class AdminResource {
 	@Path("/curated/entities/submitdelete")
 	public Response deleteEntity(@FormParam("entityId") final long entityId, @Context final UriInfo uriInfo) {
 		curatedDataService.deleteEntity(entityId);
-		
+
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/entities/").build();
 		return Response.seeOther(newURI).build();
 	}
@@ -375,7 +303,7 @@ public class AdminResource {
 	@Path("/curated/indicators/submitdelete")
 	public Response deleteIndicator(@FormParam("indicatorId") final long indicatorId, @Context final UriInfo uriInfo) {
 		curatedDataService.deleteIndicator(indicatorId);
-		
+
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/indicators/").build();
 		return Response.seeOther(newURI).build();
 	}

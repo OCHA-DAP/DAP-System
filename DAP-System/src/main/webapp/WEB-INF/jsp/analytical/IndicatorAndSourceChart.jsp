@@ -31,7 +31,11 @@
 		var data = new google.visualization.DataTable(jsonData);
 
 		// Instantiate and draw our chart, passing in some options.
-		 var chart = new google.visualization.${it.model.chartType}(document.getElementById('chart_div'));
+		var chart = new google.visualization.$
+		{
+			it.model.chartType
+		}
+		(document.getElementById('chart_div'));
 		chart.draw(data, {
 			title : "${it.model.title}",
 			width : 1200,
@@ -48,11 +52,11 @@
 	function redirectWithFormParams() {
 		var source = configForm.elements["source"].value;
 		var indicatorType = configForm.elements["indicatorType"].value;
-		var url = '${ctx}/api/yearly/source/'+ source +'/indicatortype/'+ indicatorType +'/${it.model.chartType}/?${pageContext.request.queryString}';
+		var url = '${ctx}/api/yearly/source/' + source + '/indicatortype/'
+				+ indicatorType
+				+ '/${it.model.chartType}/?${pageContext.request.queryString}';
 		window.location = url;
 	}
-	
-	
 </script>
 </head>
 
@@ -62,11 +66,14 @@
 	<div>
 		<form id="configForm">
 
-			<label for="indicatorType">Indicator Type</label> <select name="indicatorType" id="indicatorType">
+			<label for="indicatorType">Indicator Type</label>
+			<select name="indicatorType" id="indicatorType">
 				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
 					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType}">selected</c:if>>${indicatorType.name}</option>
 				</c:forEach>
-			</select> <label for="source">Source</label> <select name="source" id="source">
+			</select>
+			<label for="source">Source</label>
+			<select name="source" id="source">
 				<c:forEach var="source" items="${it.sources}">
 					<option value="${source.code}" <c:if test="${source.code eq it.source}">selected</c:if>>${source.name}</option>
 				</c:forEach>
@@ -79,21 +86,30 @@
 
 
 		<script type="text/javascript">
-		$("select#indicatorType").change(function(){
+			$("select#indicatorType")
+					.change(
+							function() {
 
-			var indicatorType = configForm.elements["indicatorType"].value;
-			var url = '${ctx}/api/sources/indicatorTypeCode/'+ indicatorType +'/';
-			$.get(url, function(data) {
+								var indicatorType = configForm.elements["indicatorType"].value;
+								var url = '${ctx}/api/sources/indicatorTypeCode/'
+										+ indicatorType + '/';
+								$
+										.get(
+												url,
+												function(data) {
 
-				$("select#source").html("");
-				var options = '';
-			    for (var i = 0; i < data.length; i++) {
-			        options += '<option value="' + data[i].code + '">' + data[i].name + '</option>';
-			      }
-			      $("select#source").html(options);
+													$("select#source").html("");
+													var options = '';
+													for (var i = 0; i < data.length; i++) {
+														options += '<option value="' + data[i].code + '">'
+																+ data[i].name
+																+ '</option>';
+													}
+													$("select#source").html(
+															options);
 
-			});
-		});
+												});
+							});
 		</script>
 </body>
 </html>

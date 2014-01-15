@@ -45,12 +45,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 			final String uid = session.getAttribute(SESSION_PARAM_UID).toString();
 			log.debug(String.format("Setting SecurityContext for uid : %s", uid));
 			containerRequest.setSecurityContext(new AuthorizationSecurityContext(dapService.getUserById(uid)));
-		} else if (path.endsWith("/admin/login/")) {
+		} else if (path.endsWith("/login/")) {
 			log.debug("Doing nothing, login page");
 		} else {
 			log.debug("No session, about to redirect to login page");
 
-			final URI newURI = containerRequest.getUriInfo().getBaseUriBuilder().path("/admin/login/").build();
+			final URI newURI = containerRequest.getUriInfo().getBaseUriBuilder().path("/login/").build();
 			final Response response = Response.seeOther(newURI).build();
 
 			throw new WebApplicationException(response);

@@ -14,8 +14,11 @@
 	<h2>Add a new source</h2>
 
 	<form method="POST" action="">
-		<label for="code">Code</label> <input type="text" name="code" id="code" /> <label for="name">Name</label> <input type="text" name="name"
-			id="name" /> <input type="submit" value="submit" />
+		<label for="code">Code</label>
+		<input type="text" name="code" id="code" />
+		<label for="name">Name</label>
+		<input type="text" name="name" id="name" />
+		<input type="submit" value="submit" />
 
 	</form>
 
