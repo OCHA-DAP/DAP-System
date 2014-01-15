@@ -17,4 +17,6 @@ public interface EntityDAO {
 
 	public void deleteEntityByCodeAndType(String code, String type);
 
+	public void deleteEntity(long entityId);
+
 }

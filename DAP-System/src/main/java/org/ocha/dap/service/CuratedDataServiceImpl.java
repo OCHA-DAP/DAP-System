@@ -72,6 +72,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Autowired
 	private IndicatorTypeDictionaryDAO indicatorTypeDictionaryDAO;
 
+	/*
+	 * Entity types
+	 */
 	@Override
 	public List<EntityType> listEntityTypes() {
 		return entityTypeDAO.listEntityTypes();
@@ -82,6 +85,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		entityTypeDAO.addEntityType(code, name);
 	}
 
+	/*
+	 * Entities
+	 */
 	@Override
 	public List<Entity> listEntities() {
 		return entityDAO.listEntities();
@@ -100,6 +106,14 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
+	public void deleteEntity(final long entityId) {
+		entityDAO.deleteEntity(entityId);
+	}
+
+	/*
+	 * Indicator types
+	 */
+	@Override
 	public List<IndicatorType> listIndicatorTypes() {
 		return indicatorTypeDAO.listIndicatorTypes();
 	}
@@ -114,6 +128,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return indicatorTypeDAO.getIndicatorTypeByCode(code);
 	}
 
+	/*
+	 * Sources
+	 */
 	@Override
 	public List<Source> listSources() {
 		return sourceDAO.listSources();
@@ -129,6 +146,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return sourceDAO.getSourceByCode(code);
 	}
 
+	/*
+	 * Imports from CKAN
+	 */
 	@Override
 	public List<ImportFromCKAN> listImportsFromCKAN() {
 		return importFromCKANDAO.listImportsFromCKAN();
@@ -141,6 +161,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		importFromCKANDAO.deleteImportFromCKAN(id);
 	}
 
+	/*
+	 * Indicators
+	 */
 	@Override
 	@Transactional
 	public void addIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
@@ -168,7 +191,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void deleteIndicator(long indicatorId) {
+	public void deleteIndicator(final long indicatorId) {
 		indicatorDAO.deleteIndicator(indicatorId);
 
 	}
@@ -253,8 +276,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		final List<TableRow> rows = new ArrayList<>();
 		for (final Indicator indicator : indicators) {
 			final String code = indicator.getSource().getCode();
-			if (!dataTable.containsColumn(code))
+			if (!dataTable.containsColumn(code)) {
 				dataTable.addColumn(new ColumnDescription(indicator.getSource().getCode(), ValueType.NUMBER, indicator.getSource().getName()));
+			}
 
 		}
 		for (final Indicator indicator : indicators) {
@@ -369,19 +393,12 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return sources;
 	}
 
+	/*
+	 * Region dictionaries
+	 */
 	@Override
 	public List<RegionDictionary> listRegionDictionaries() {
 		return regionDictionaryDAO.listRegionDictionaries();
-	}
-
-	@Override
-	public List<SourceDictionary> listSourceDictionaries() {
-		return sourceDictionaryDAO.listSourceDictionaries();
-	}
-
-	@Override
-	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries() {
-		return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries();
 	}
 
 	@Override
@@ -395,11 +412,27 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		regionDictionaryDAO.deleteRegionDictionary(regionDictionary);
 	}
 
+	/*
+	 * Source dictionaries
+	 */
+	@Override
+	public List<SourceDictionary> listSourceDictionaries() {
+		return sourceDictionaryDAO.listSourceDictionaries();
+	}
+
 	@Override
 	public void addSourceDictionary(final String unnormalizedName, final String importer, final long sourceId) {
 		final Source source = sourceDAO.getSourceById(sourceId);
 		sourceDictionaryDAO.addSourceDictionary(unnormalizedName, importer, source);
 
+	}
+
+	/*
+	 * Indicator type dictionaries
+	 */
+	@Override
+	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries() {
+		return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries();
 	}
 
 	@Override

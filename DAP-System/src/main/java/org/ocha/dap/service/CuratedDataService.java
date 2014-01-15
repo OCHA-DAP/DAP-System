@@ -20,32 +20,53 @@ import com.google.visualization.datasource.datatable.DataTable;
 
 public interface CuratedDataService {
 
+	/* 
+	 * Entity types
+	 */
 	public List<EntityType> listEntityTypes();
 
 	public void addEntityType(String code, String name);
 
+	/* 
+	 * Entities
+	 */
 	public List<Entity> listEntities();
 
 	public void addEntity(final String code, final String name, final String entityTypeCode);
 
 	public Entity getEntityByCodeAndType(final String code, final String type);
 
+	public void deleteEntity(final long entityId);
+
+	/* 
+	 * Indicator types
+	 */
 	public List<IndicatorType> listIndicatorTypes();
 
 	public void addIndicatorType(String code, String name, String unit);
 
 	public IndicatorType getIndicatorTypeByCode(final String code);
 
+	/* 
+	 * Sources
+	 */
 	public List<Source> listSources();
 
 	public void addSource(String code, String name);
 
 	public Source getSourceByCode(final String code);
 
+	/* 
+	 * Imports from CKAN
+	 */
 	public List<ImportFromCKAN> listImportsFromCKAN();
 
 	public void deleteImportFromCKAN(long id);
 
+	/* 
+	 * Indicators
+	 */
+	
 	/**
 	 * Add an indicator for the provided parameters
 	 * 
@@ -95,20 +116,32 @@ public interface CuratedDataService {
 
 	public List<Source> getExistingSourcesForIndicatorType(final String indicatorTypeCode);
 
+	/* 
+	 * Region dictionaries
+	 */
 	public List<RegionDictionary> listRegionDictionaries();
 
-	public List<SourceDictionary> listSourceDictionaries();
-
-	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries();
-
 	public void addRegionDictionary(final String unnormalizedName, final String importer, final long entityId);
-
-	public void addSourceDictionary(final String unnormalizedName, final String importer, final long sourceId);
-
-	public void addIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorType);
-
+	
 	public void deleteRegionDictionary(RegionDictionary regionDictionary);
 
+
+
+	/* 
+	 * Source dictionaries
+	 */
+	public List<SourceDictionary> listSourceDictionaries();
+	
+	public void addSourceDictionary(final String unnormalizedName, final String importer, final long sourceId);
+
+
+	/* 
+	 * Indicator type dictionaries
+	 */
+	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries();
+	
+	public void addIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorType);
+	
 	public void deleteIndicatorTypeDictionary(IndicatorTypeDictionary indicatorTypeDictionary);
 
 }

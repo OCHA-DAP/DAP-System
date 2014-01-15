@@ -74,6 +74,11 @@ public class AdminResource {
 	@Autowired
 	private CuratedDataService curatedDataService;
 
+	/*
+	 * Login
+	 * TODO Move to another class (LoginResource)
+	 */
+	
 	/**
 	 * Create a session from the token
 	 * 
@@ -91,7 +96,7 @@ public class AdminResource {
 	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password, @Context final UriInfo uriInfo, @Context final SecurityContext sc)
 			throws AuthenticationException, URISyntaxException {
 		logger.debug(String.format("Entering login for user : %s", userId));
-		if (dapService != null && dapService.authenticate(userId, password)) {
+		if ((dapService != null) && dapService.authenticate(userId, password)) {
 			final HttpSession session = request.getSession(true);
 			session.setAttribute(SESSION_PARAM_UID, userId);
 			// 1800 seconds = 30 minutes
@@ -127,6 +132,9 @@ public class AdminResource {
 		return Response.seeOther(newURI).build();
 	}
 
+	/*
+	 * Users management
+	 */
 	@GET
 	@Path("/users/")
 	public Response displayUsersList() {
@@ -146,6 +154,9 @@ public class AdminResource {
 		return displayUsersList();
 	}
 
+	/*
+	 * Status / datasets management
+	 */
 	@GET
 	@Path("/status/datasets/")
 	public Response getCKANDatasetsStatus() {
@@ -171,6 +182,9 @@ public class AdminResource {
 		return Response.seeOther(newURI).build();
 	}
 
+	/*
+	 * Status / resources management
+	 */
 	@GET
 	@Path("/status/resources/")
 	public Response getCKANResourcesStatus() {
@@ -183,6 +197,9 @@ public class AdminResource {
 		return Response.ok(new Viewable("/admin/report", dapService.getCKANResource(id, revision_id))).build();
 	}
 
+	/*
+	 * Status / manual triggers management
+	 */
 	@GET
 	@Path("/status/manuallyTriggerDownload/{id}/{revision_id}")
 	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException,
@@ -235,6 +252,9 @@ public class AdminResource {
 		return Response.seeOther(newURI).build();
 	}
 
+	/*
+	 * Curated / entity types management
+	 */
 	@GET
 	@Path("/curated/entitytypes")
 	public Response displayEntityTypesList() {
@@ -248,6 +268,9 @@ public class AdminResource {
 		return displayEntityTypesList();
 	}
 
+	/*
+	 * Curated / entities management
+	 */
 	@GET
 	@Path("/curated/entities")
 	public Response displayEntitiesList() {
@@ -264,6 +287,18 @@ public class AdminResource {
 		return displayEntitiesList();
 	}
 
+	@POST
+	@Path("/curated/entities/submitdelete")
+	public Response deleteEntity(@FormParam("entityId") final long entityId, @Context final UriInfo uriInfo) {
+		curatedDataService.deleteEntity(entityId);
+		
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/entities/").build();
+		return Response.seeOther(newURI).build();
+	}
+
+	/*
+	 * Curated / indicator types management
+	 */
 	@GET
 	@Path("/curated/indicatortypes")
 	public Response displayIndicatorTypesList() {
@@ -277,6 +312,9 @@ public class AdminResource {
 		return displayIndicatorTypesList();
 	}
 
+	/*
+	 * Curated / sources management
+	 */
 	@GET
 	@Path("/curated/sources")
 	public Response displaySourcesList() {
@@ -290,6 +328,9 @@ public class AdminResource {
 		return displaySourcesList();
 	}
 
+	/*
+	 * Curated / imports from CKAN management
+	 */
 	@GET
 	@Path("/curated/importsfromckan")
 	public Response displayImportFromCKANList() {
@@ -303,6 +344,9 @@ public class AdminResource {
 		return displayImportFromCKANList();
 	}
 
+	/*
+	 * Curated / indicators management
+	 */
 	@GET
 	@Path("/curated/indicators/")
 	public Response displayIndicatorsList() {
@@ -336,6 +380,9 @@ public class AdminResource {
 		return Response.seeOther(newURI).build();
 	}
 
+	/*
+	 * Dictionaries / regions management
+	 */
 	@GET
 	@Path("/dictionaries/regions")
 	public Response displayRegionDictionariesList() {
@@ -352,6 +399,20 @@ public class AdminResource {
 		return displayRegionDictionariesList();
 	}
 
+	@POST
+	@Path("/dictionaries/regions/submitdelete")
+	public Response deleteRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
+			throws URISyntaxException {
+		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
+		curatedDataService.deleteRegionDictionary(regionDictionary);
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/regions/").build();
+		return Response.seeOther(newURI).build();
+
+	}
+
+	/*
+	 * Dictionaries / sources management
+	 */
 	@GET
 	@Path("/dictionaries/sources")
 	public Response displaySourceDictionariesList() {
@@ -368,17 +429,9 @@ public class AdminResource {
 		return displaySourceDictionariesList();
 	}
 
-	@POST
-	@Path("/dictionaries/regions/submitdelete")
-	public Response deleteRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
-			throws URISyntaxException {
-		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
-		curatedDataService.deleteRegionDictionary(regionDictionary);
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/regions/").build();
-		return Response.seeOther(newURI).build();
-
-	}
-
+	/*
+	 * Dictionaries / indicator types management
+	 */
 	@GET
 	@Path("/dictionaries/indicatorTypes")
 	public Response displayIndicatorTypeDictionariesList() {

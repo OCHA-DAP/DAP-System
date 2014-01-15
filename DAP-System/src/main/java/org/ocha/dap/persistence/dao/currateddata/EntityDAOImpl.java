@@ -11,6 +11,9 @@ import org.ocha.dap.persistence.entity.curateddata.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+/*
+ * Entities DAO Implementation
+ */
 public class EntityDAOImpl implements EntityDAO {
 
 	@Autowired
@@ -50,6 +53,12 @@ public class EntityDAOImpl implements EntityDAO {
 	@Transactional
 	public void deleteEntityByCodeAndType(final String code, final String type) {
 		em.remove(getEntityByCodeAndType(code, type));
+	}
+
+	@Override
+	@Transactional
+	public void deleteEntity(final long entityId) {
+		em.createQuery("DELETE FROM Entity i WHERE i.id = :entityId").setParameter("entityId", entityId).executeUpdate();
 	}
 
 }
