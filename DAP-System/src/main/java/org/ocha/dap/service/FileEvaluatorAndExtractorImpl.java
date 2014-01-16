@@ -70,7 +70,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			final ScraperImporter scraperImporter = new ScraperImporter(sourceDictionaryDAO.getSourceDictionariesByImporter("scraper"));
 			for (final Entry<String, String> entry : scraperImporter.getCountryList(file).entrySet()) {
 				try {
-					entityDAO.addEntity(entry.getKey(), entry.getValue(), entityTypeDAO.getEntityTypeByCode("country"));
+					curatedDataService.addEntity(entry.getKey(), entry.getValue(), "country");
 				} catch (final Exception e) {
 					logger.debug(String.format("Not creating country : %s already exist", entry.getKey()));
 				}

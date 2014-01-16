@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
+import org.ocha.dap.persistence.entity.i18n.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,7 @@ public class EntityDAOImpl implements EntityDAO {
 
 	@Override
 	@Transactional
-	public void addEntity(final String code, final String name, final EntityType entityType) {
+	public void addEntity(final String code, final Text name, final EntityType entityType) {
 		final Entity entity = new Entity();
 		entity.setCode(code);
 		entity.setName(name);

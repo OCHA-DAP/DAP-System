@@ -32,7 +32,7 @@ public interface CuratedDataService {
 	 */
 	public List<Entity> listEntities();
 
-	public void addEntity(final String code, final String name, final String entityTypeCode);
+	public void addEntity(final String code, final String defaultName, final String entityTypeCode);
 
 	public Entity getEntityByCodeAndType(final String code, final String type);
 

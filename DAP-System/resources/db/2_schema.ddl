@@ -14,6 +14,9 @@
     alter table entity 
         drop constraint fk_entity_to_type;
 
+    alter table entity 
+        drop constraint fk_entity_to_name_text;
+
     alter table indicator_type_dictionary 
         drop constraint fk_indicator_type_dictionary_to_indicator_type;
 
@@ -41,11 +44,15 @@
 
     drop table indicator_type_dictionary;
 
+    drop table language;
+
     drop table region_dictionary;
 
     drop table source;
 
     drop table source_dictionary;
+
+    drop table text;
 
     drop sequence entity_seq;
 
@@ -58,6 +65,8 @@
     drop sequence indicator_type_seq;
 
     drop sequence source_seq;
+
+    drop sequence text_seq;
 
     create table ckan_dataset (
         name varchar(255) not null,
@@ -118,7 +127,7 @@
     create table entity (
         id int8 not null,
         code varchar(255) not null,
-        name varchar(255) not null,
+        text_id int8,
         entity_type_id int8,
         primary key (id),
         unique (code, entity_type_id)
@@ -154,6 +163,12 @@
         primary key (importer, unnormalized_name)
     );
 
+    create table language (
+        code varchar(255) not null,
+        native_name varchar(255) not null,
+        primary key (code)
+    );
+
     create table region_dictionary (
         importer varchar(255) not null,
         unnormalized_name varchar(255) not null,
@@ -173,6 +188,12 @@
         unnormalized_name varchar(255) not null,
         source_id int8 not null,
         primary key (importer, unnormalized_name)
+    );
+
+    create table text (
+        id int8 not null,
+        default_value varchar(255) not null,
+        primary key (id)
     );
 
     alter table dap_indicator 
@@ -200,6 +221,11 @@
         foreign key (entity_type_id) 
         references entity_type;
 
+    alter table entity 
+        add constraint fk_entity_to_name_text 
+        foreign key (text_id) 
+        references text;
+
     alter table indicator_type_dictionary 
         add constraint fk_indicator_type_dictionary_to_indicator_type 
         foreign key (indicator_type_id) 
@@ -226,3 +252,5 @@
     create sequence indicator_type_seq;
 
     create sequence source_seq;
+
+    create sequence text_seq;

@@ -5,8 +5,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ocha.dap.persistence.dao.i18n.TextDAO;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
+import org.ocha.dap.persistence.entity.i18n.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,6 +22,9 @@ public class EntityDAOImplTest {
 
 	@Autowired
 	private EntityTypeDAO entityTypeDAO;
+
+	@Autowired
+	private TextDAO textDAO;
 
 	@Before
 	public void setUp() {
@@ -36,7 +41,7 @@ public class EntityDAOImplTest {
 		Assert.assertEquals(0, entityDAO.listEntities().size());
 
 		try {
-			entityDAO.addEntity("RU", "Russia", new EntityType());
+			entityDAO.addEntity("RU", new Text("Russia"), new EntityType());
 			Assert.fail("Should have raised an Exception, cannot create an entity with an invalid type");
 		} catch (final Exception e) {
 			// expected
@@ -44,18 +49,19 @@ public class EntityDAOImplTest {
 
 		final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
 
-		entityDAO.addEntity("RU", "Russia", country);
+		final Text russia = textDAO.addText("Russia");
+		entityDAO.addEntity("RU", russia, country);
+
 		final Entity entityForCode = entityDAO.getEntityByCodeAndType("RU", "country");
-		Assert.assertEquals("Russia", entityForCode.getName());
+		Assert.assertEquals("Russia", entityForCode.getName().getDefaultValue());
 		Assert.assertEquals(1, entityDAO.listEntities().size());
 
 		final Entity entityById = entityDAO.getEntityById(entityForCode.getId());
-		Assert.assertEquals("Russia", entityById.getName());
+		Assert.assertEquals("Russia", entityById.getName().getDefaultValue());
 
 		entityDAO.deleteEntityByCodeAndType("RU", "country");
 
 		Assert.assertEquals(0, entityDAO.listEntities().size());
 
 	}
-
 }

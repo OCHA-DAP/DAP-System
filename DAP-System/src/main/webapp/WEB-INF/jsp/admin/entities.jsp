@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
 <link href="${ctx}/css/xeditable.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
 <script src="${ctx}/js/xeditable.js"></script>
@@ -38,7 +38,7 @@
 		<tr>
 			<th>Id</th>
 			<th>Code</th>
-			<th>Name</th>
+			<th>Default display Name</th>
 			<th>Type</th>
 		</tr>
 
@@ -46,7 +46,7 @@
 			<tr>
 				<td>${entity.id}</td>
 				<td>${entity.code}</td>
-				<td>${entity.name}</td>
+				<td>${entity.name.defaultValue}</td>
 				<td>${entity.type.name}</td>
 				<td>
 					<form method="POST" action="submitdelete">

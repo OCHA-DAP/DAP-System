@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
+import org.ocha.dap.persistence.entity.i18n.Text;
 
 /**
  * 
@@ -37,8 +38,11 @@ public class Entity implements Comparable<Entity> {
 
 	@Column(name = "code", nullable = false, updatable = false)
 	private String code;
-	@Column(name = "name", nullable = false, updatable = false)
-	private String name;
+	
+	@ManyToOne
+	@JoinColumn(name = "text_id")
+	@ForeignKey(name = "fk_entity_to_name_text")
+	private Text name;
 
 	public long getId() {
 		return id;
@@ -64,11 +68,11 @@ public class Entity implements Comparable<Entity> {
 		this.code = code;
 	}
 
-	public String getName() {
+	public Text getName() {
 		return name;
 	}
 
-	public void setName(final String name) {
+	public void setName(final Text name) {
 		this.name = name;
 	}
 
