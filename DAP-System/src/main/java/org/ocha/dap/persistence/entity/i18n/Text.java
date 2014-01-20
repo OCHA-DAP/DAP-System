@@ -1,10 +1,14 @@
 package org.ocha.dap.persistence.entity.i18n;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -30,6 +34,9 @@ public class Text {
 	@Column(name = "default_value", nullable = false, updatable = true)
 	private String defaultValue;
 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id.text")
+	private List<Translation> translations;
+
 	public long getId() {
 		return id;
 	}
@@ -44,6 +51,14 @@ public class Text {
 
 	public void setDefaultValue(final String defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+
+	public List<Translation> getTranslations() {
+		return translations;
+	}
+
+	public void setTranslations(final List<Translation> translations) {
+		this.translations = translations;
 	}
 
 	@Override

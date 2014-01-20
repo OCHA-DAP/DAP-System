@@ -6,10 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ForeignKey;
+
 @Entity
-@Table(name = "translation")
+@Table(name = "dap_translation")
 public class Translation {
 
 	@Embeddable
@@ -17,10 +21,14 @@ public class Translation {
 
 		private static final long serialVersionUID = -5077835132873268056L;
 
-		@Column(name = "text", nullable = false, updatable = false)
+		@ManyToOne
+		@ForeignKey(name = "fk_translation_to_text")
+		@JoinColumn(name = "text", nullable = false)
 		private Text text;
 
-		@Column(name = "language", nullable = false, updatable = false)
+		@ManyToOne
+		@ForeignKey(name = "fk_translation_to_language")
+		@JoinColumn(name = "language", nullable = false)
 		private Language language;
 
 		public Id() {
@@ -85,7 +93,7 @@ public class Translation {
 	@EmbeddedId
 	private final Id id = new Id();
 
-	@Column(name = "language", nullable = false, updatable = true)
+	@Column(name = "value", nullable = false, updatable = true)
 	private String value;
 
 	public String getValue() {

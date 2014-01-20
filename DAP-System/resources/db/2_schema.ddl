@@ -11,6 +11,12 @@
     alter table dap_indicator 
         drop constraint fk_indicator_to_type;
 
+    alter table dap_translation 
+        drop constraint fk_translation_to_text;
+
+    alter table dap_translation 
+        drop constraint fk_translation_to_language;
+
     alter table entity 
         drop constraint fk_entity_to_type;
 
@@ -31,6 +37,8 @@
     drop table ckan_resource;
 
     drop table dap_indicator;
+
+    drop table dap_translation;
 
     drop table dap_user;
 
@@ -114,6 +122,13 @@
         type_id int8 not null,
         primary key (id),
         unique (source_id, entity_id, type_id, start_time, periodicity)
+    );
+
+    create table dap_translation (
+        value varchar(255) not null,
+        language varchar(255) not null,
+        text int8 not null,
+        primary key (language, text)
     );
 
     create table dap_user (
@@ -215,6 +230,16 @@
         add constraint fk_indicator_to_type 
         foreign key (type_id) 
         references indicator_type;
+
+    alter table dap_translation 
+        add constraint fk_translation_to_text 
+        foreign key (text) 
+        references text;
+
+    alter table dap_translation 
+        add constraint fk_translation_to_language 
+        foreign key (language) 
+        references language;
 
     alter table entity 
         add constraint fk_entity_to_type 

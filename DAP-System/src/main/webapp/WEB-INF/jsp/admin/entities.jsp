@@ -38,7 +38,7 @@
 		<tr>
 			<th>Id</th>
 			<th>Code</th>
-			<th>Default display Name</th>
+			<th>Display Names</th>
 			<th>Type</th>
 		</tr>
 
@@ -46,7 +46,11 @@
 			<tr>
 				<td>${entity.id}</td>
 				<td>${entity.code}</td>
-				<td>${entity.name.defaultValue}</td>
+				<td>
+					<c:forEach var="translation" items="${entity.name.translations}">
+					${translation.id.language.code} : ${translation.value} <br/> 
+					</c:forEach>
+				</td>
 				<td>${entity.type.name}</td>
 				<td>
 					<form method="POST" action="submitdelete">
