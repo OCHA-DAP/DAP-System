@@ -62,12 +62,14 @@ public class EntityDAOImplTest {
 		Assert.assertEquals("Russia", entityById.getName().getDefaultValue());
 
 
+
 		System.out.println("Testing delete entity...");
 		entityDAO.deleteEntityByCodeAndType("RU", "country");
 
 		Assert.assertEquals(0, entityDAO.listEntities().size());
 
 	}
+
 
 	@Test
 	public void testUpdateEntity() {

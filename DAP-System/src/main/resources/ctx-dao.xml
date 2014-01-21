@@ -14,6 +14,8 @@
 
 	<bean id="importFromCKANDAO" class="org.ocha.dap.persistence.dao.ImportFromCKANDAOImpl" />
 
+	<bean id="textDAO" class="org.ocha.dap.persistence.dao.i18n.TextDAOImpl" />
+	
 	<bean id="entityTypeDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityTypeDAOImpl" />
 	<bean id="entityDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityDAOImpl" />
 	<bean id="indicatorTypeDAO" class="org.ocha.dap.persistence.dao.currateddata.IndicatorTypeDAOImpl" />

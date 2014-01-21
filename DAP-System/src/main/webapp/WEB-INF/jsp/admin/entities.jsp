@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="${ctx}/css/bootstrap.min.css">
 <link rel="stylesheet" href="${ctx}/css/xeditable.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
-
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
 <script src="${ctx}/js/xeditable.js"></script>
 <script src="${ctx}/js/entities.js"></script>
