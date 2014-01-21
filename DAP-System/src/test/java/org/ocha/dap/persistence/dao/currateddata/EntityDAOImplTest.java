@@ -61,15 +61,12 @@ public class EntityDAOImplTest {
 		final Entity entityById = entityDAO.getEntityById(entityForCode.getId());
 		Assert.assertEquals("Russia", entityById.getName().getDefaultValue());
 
-
-
 		System.out.println("Testing delete entity...");
 		entityDAO.deleteEntityByCodeAndType("RU", "country");
 
 		Assert.assertEquals(0, entityDAO.listEntities().size());
 
 	}
-
 
 	@Test
 	public void testUpdateEntity() {
@@ -84,7 +81,7 @@ public class EntityDAOImplTest {
 		entityDAO.updateEntity(entity.getId(), "NewName");
 		final Entity updatedEntity = entityDAO.getEntityById(entity.getId());
 
-		Assert.assertEquals("NewName", updatedEntity.getName());
+		Assert.assertEquals("NewName", updatedEntity.getName().getDefaultValue());
 		Assert.assertEquals(entity.getCode(), updatedEntity.getCode());
 		Assert.assertEquals(entity.getId(), updatedEntity.getId());
 		Assert.assertEquals(entity.getType().getId(), updatedEntity.getType().getId());

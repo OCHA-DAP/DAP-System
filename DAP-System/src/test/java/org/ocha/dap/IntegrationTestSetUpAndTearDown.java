@@ -43,7 +43,6 @@ public class IntegrationTestSetUpAndTearDown {
 	public void setUp() {
 		entityTypeDAO.addEntityType("country", "Country");
 
-		final EntityType entityTypeForCode = entityTypeDAO.getEntityTypeByCode("country");
 		curatedDataService.addEntity("LUX", "Luxembourg", "country");
 		curatedDataService.addEntity("RUS", "Russia", "country");
 		curatedDataService.addEntity("RWA", "Rwanda", "country");

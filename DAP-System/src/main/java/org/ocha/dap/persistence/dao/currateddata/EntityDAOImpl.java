@@ -65,7 +65,8 @@ public class EntityDAOImpl implements EntityDAO {
 	@Override
 	@Transactional
 	public void updateEntity(final long entityId, final String newName) {
-		em.createQuery("Update Entity i set i.name = :newName WHERE i.id = :entityId").setParameter("entityId", entityId).setParameter("newName", newName).executeUpdate();
+		final Entity entity = em.find(Entity.class, entityId);
+		entity.getName().setDefaultValue(newName);
 	}
 
 }

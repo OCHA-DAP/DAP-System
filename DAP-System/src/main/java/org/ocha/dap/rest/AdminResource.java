@@ -413,12 +413,9 @@ public class AdminResource {
 	public String getEntityTypes() throws TypeMismatchException {
 
 		/*
-		final DataTable dataTable = curatedDataService.listEntityTypesAsDataTable();
-		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
-		logger.debug("about to return from listEntityTypesAsDataTable");
-		logger.debug(result);
-		return result;
-		*/
+		 * final DataTable dataTable = curatedDataService.listEntityTypesAsDataTable(); final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
+		 * logger.debug("about to return from listEntityTypesAsDataTable"); logger.debug(result); return result;
+		 */
 
 		final List<EntityType> listEntityTypes = curatedDataService.listEntityTypes();
 		final JsonArray jsonArray = new JsonArray();
@@ -445,7 +442,8 @@ public class AdminResource {
 			element.addProperty("id", entity.getId());
 			element.addProperty("type", entity.getType().getId());
 			element.addProperty("code", entity.getCode());
-			element.addProperty("name", entity.getName());
+			// FIXME get a language instead of the default value
+			element.addProperty("name", entity.getName().getDefaultValue());
 			jsonArray.add(element);
 		}
 		return jsonArray.toString();
