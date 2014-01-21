@@ -15,7 +15,6 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
       }
     });
   }
-  ;
 
   // /////////////////
   // Types management
@@ -25,7 +24,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
   // Load types
   $scope.loadTypes = function() {
-    return $http.get('/dap/admin/reference/entitytypes/json').success(function(data) {
+    return $http.get(dapContextRoot + '/admin/curated/entitytypes/json').success(function(data) {
       $scope.types = data;
       $scope.resetNewEntity();
     });
@@ -55,7 +54,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
   // Load entities
   $scope.loadEntities = function() {
-    return $http.get('/dap/admin/reference/entities/json').success(function(data) {
+    return $http.get(dapContextRoot + '/admin/curated/entities/json').success(function(data) {
       $scope.entities = data;
     });
   };
@@ -66,7 +65,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
   // Save (update) an entity
   $scope.saveEntity = function(data, id) {
-    return $http.post('/dap/admin/curated/entities/submitupdate', "entityId=" + id + "&newName=" + data.name, {
+    return $http.post(dapContextRoot + '/admin/curated/entities/submitupdate', "entityId=" + id + "&newName=" + data.name, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
@@ -75,7 +74,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
   // Remove an entity
   $scope.removeEntity = function(id) {
-    $http.post('/dap/admin/curated/entities/submitdelete', "entityId=" + id, {
+    $http.post(dapContextRoot + '/admin/curated/entities/submitdelete', "entityId=" + id, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
@@ -93,10 +92,10 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   };
 
   // add entity
-  //    - the new entity
+  // - the new entity
   $scope.newentity;
-  
-  //    - reset it
+
+  // - reset it
   $scope.resetNewEntity = function() {
     if (!$scope.newentity) {
       $scope.newentity = {};
@@ -107,17 +106,17 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
   };
 
-  //    - reset its form
+  // - reset its form
   $scope.resetAddEntityForm = function() {
     $scope.addEntityForm.$setPristine();
   };
 
-  //    - add it
+  // - add it
   $scope.addEntity = function(data) {
     var valid = $scope.checkForm(data);
     if ("OK" == valid) {
       // alert("Add entity : " + data);
-      return $http.post('/dap/admin/curated/entities/submitadd',
+      return $http.post(dapContextRoot + '/admin/curated/entities/submitadd',
           "entityTypeCode=" + data.type.code + "&code=" + data.code + "&name=" + data.name, {
             headers : {
               'Content-Type' : 'application/x-www-form-urlencoded'
@@ -140,7 +139,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
     }
   };
 
-  //    - check that the new entity is complete
+  // - check that the new entity is complete
   $scope.checkForm = function(data) {
     var code = data.code;
     if ('' == code || null == code) {
