@@ -388,4 +388,10 @@ public class DAPServiceImpl implements DAPService {
 
 	}
 
+	@Override
+	public void deleteUser(final String id) throws Exception {
+		userDao.deleteUser(id);
+
+	}
+
 }

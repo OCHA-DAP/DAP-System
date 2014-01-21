@@ -74,6 +74,9 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
   // Remove an entity
   $scope.removeEntity = function(id) {
+    if(!confirm("Do you really want to delete this entity ?")) {
+      return;
+    };
     $http.post(dapContextRoot + '/admin/curated/entities/submitdelete', "entityId=" + id, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
@@ -81,7 +84,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
     }).success(function(data, status, headers, config) {
       // this callback will be called asynchronously
       // when the response is available
-      alert("Entity  deleted !");
+      // alert("Entity  deleted !");
       $scope.loadEntities();
     }).error(function(data, status, headers, config) {
       // called asynchronously if an error occurs
@@ -124,7 +127,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
           }).success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
-        alert("Entity added !");
+        // alert("Entity added !");
         $scope.resetNewEntity();
         $scope.resetAddEntityForm();
         $scope.loadEntities();
@@ -135,7 +138,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
         alert("Entity addition threw an error. Maybe this entity already exists. No entity has been created.");
       });
     } else {
-      alert("Form not valid ! Message : " + valid);
+      alert("Form not valid ! \r\n" + valid);
     }
   };
 

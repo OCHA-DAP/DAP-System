@@ -64,7 +64,7 @@
 				<td style="white-space: nowrap">
 					<!-- form -->
 					<form editable-form name="rowform" onbeforesave="saveEntity($data, entity.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == entity">
-						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">save</button>
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">Save</button>
 						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">Cancel</button>
 					</form>
 					<div class="buttons" ng-show="!rowform.$visible">

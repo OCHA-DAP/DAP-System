@@ -69,4 +69,17 @@ public class UserDAOImplTest {
 
 		userDAO.deleteUser("fakeId");
 	}
+
+	@Test
+	public void testDeleteUser() throws Exception {
+		System.out.println("Testing delete user...");
+
+		userDAO.createUser("fakeId", "fakePassword", "fakeRole", "fakeAPIKey");
+		final User user = userDAO.getUserById("fakeId");
+
+		userDAO.deleteUser(user.getId());
+		final User deletedUser = userDAO.getUserById(user.getId());
+
+		Assert.assertNull(deletedUser);
+	}
 }

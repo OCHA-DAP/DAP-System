@@ -4,34 +4,96 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set value="${pageContext.request.contextPath}" var="ctx" scope="request" />
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="${ctx}/css/bootstrap.min.css">
+<link rel="stylesheet" href="${ctx}/css/xeditable.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
+<script type="text/javascript">
+  var dapContextRoot = "${ctx}";
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+<script src="${ctx}/js/xeditable.js"></script>
+<script src="${ctx}/js/users.js"></script>
+
 </head>
-<body>
+<body ng-controller="UsersCtrl">
 	<jsp:include page="admin-header.jsp" />
+	<div>
+		<h3>Add user</h3>
+		<form novalidate name="addUserForm" class="css-form">
+			<table class="table table-bordered table-hover table-condensed" style="width: 80%">
+				<tr style="font-weight: bold">
+					<td style="width: 15%">Id</td>
+					<td style="width: 15%">Role</td>
+					<td style="width: 15%">Password</td>
+					<td style="width: 15%">Password confirmation</td>
+					<td style="width: 15%">CKAN API key</td>
+					<td style="width: 25%">Action</td>
+				</tr>
+				<tr>
+					<td><input type="text" ng-model="newuser.id" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
+					<td><input type="text" ng-model="newuser.role" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
+					<td><input type="password" ng-model="newuser.password" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
+					<td><input type="password" ng-model="newuser.password2" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
+					<td><input type="text" ng-model="newuser.ckanApiKey" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
+					<td style="white-space: nowrap">
+						<button class="btn btn-primary" ng-click="addUser(newuser)">Add</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<h3>Users</h3>
+	<div>
+		<table class="table table-bordered table-hover table-condensed" style="width: 80%">
+			<tr style="font-weight: bold">
+				<td style="width: 15%">Id</td>
+				<td style="width: 15%">Role</td>
+				<td style="width: 15%">Password</td>
+				<td style="width: 15%">Password confirmation</td>
+				<td style="width: 15%">CKAN API key</td>
+				<td style="width: 25%">Action</td>
+			</tr>
+			<tr ng-repeat="user in users">
+				<td>
+					<!-- non editable id --> <span e-name="id" e-form="rowform"> {{ user.id }} </span>
+				</td>
+				<td>
+					<!-- editable role --> <span editable-text="user.role" e-name="role" e-form="rowform" onbeforesave="checkRole($data, user.id)" e-required> {{ user.role }} </span>
+				</td>
+				<td><input type="password" ng-model="newuser.password" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
+				<td><input type="password" ng-model="newuser.password2" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
+				<td><input type="text" ng-model="newuser.ckanApiKey" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
+				<td style="white-space: nowrap">
+					<!-- form -->
+					<form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">Save</button>
+						<button type="button" ng-disabled="rowform.$waiting" ng-click="user.setEditing(false);rowform.$cancel()" class="btn btn-default">Cancel</button>
+					</form>
+					<div class="buttons" ng-show="!rowform.$visible">
+						<button class="btn btn-primary" ng-click="user.setEditing(true);rowform.$show()">Edit</button>
+						<button class="btn btn-danger" ng-click="removeUser(user.id)">Delete</button>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<h3>Test zone</h3>
+	<pre>
+		<p>Types : {{ types | json }}</p>
+		<p>Users : {{ users | json }}</p>
+	</pre>
 	<h2>Add a new User</h2>
 
 	<form method="POST" action="">
-		<label for="id">Id</label>
-		<input type="text" name="id" id="id" />
-
-		<label for="password">Password</label>
-		<input type="password" name="password" id="password" />
-		
-		<label for="password2">Confirm password</label>
-		<input type="password" name="password2" id="password2" />
-
-		<label for="ckanApiKey">CKAN Api Key</label>
-		<input type="text" name="ckanApiKey" id="ckanApiKey" />
-
-		<label for="role">Role</label>
+		<label for="id">Id</label> <input type="text" name="id" id="id" /> <label for="password">Password</label> <input type="password" name="password" id="password" /> <label for="password2">Confirm
+			password</label> <input type="password" name="password2" id="password2" /> <label for="ckanApiKey">CKAN Api Key</label> <input type="text" name="ckanApiKey" id="ckanApiKey" /> <label for="role">Role</label>
 		<select name="role" id="role">
-				<option value="admin">admin</option>
-				<option value="api">api</option>
-		</select>
-		<input type="submit" value="submit" />
+			<option value="admin">admin</option>
+			<option value="api">api</option>
+		</select> <input type="submit" value="submit" onclick="alert('test'); return true;"/>
 
 	</form>
 
