@@ -25,6 +25,8 @@ public interface CuratedDataService {
 	 */
 	public List<EntityType> listEntityTypes();
 
+	public DataTable listEntityTypesAsDataTable() throws TypeMismatchException;
+
 	public void addEntityType(String code, String name);
 
 	/* 
@@ -32,11 +34,13 @@ public interface CuratedDataService {
 	 */
 	public List<Entity> listEntities();
 
-	public void addEntity(final String code, final String name, final String entityTypeCode);
+	public void addEntity(final String code, final String defaultName, final String entityTypeCode);
 
 	public Entity getEntityByCodeAndType(final String code, final String type);
 
 	public void deleteEntity(final long entityId);
+
+	public void updateEntity(final long entityId, String newName);
 
 	/* 
 	 * Indicator types

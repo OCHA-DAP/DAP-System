@@ -87,4 +87,6 @@ public interface DAPService {
 
 	public void createUser(final String id, final String password, final String role, final String apiKey) throws Exception;
 
+	public void updateUser(final String id, final String password, final String role, final String apiKey) throws Exception;
+
 }

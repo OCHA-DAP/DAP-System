@@ -56,8 +56,8 @@ public class DAPServiceImpl implements DAPService {
 		}
 		this.stagingDirectory = stagingDirectory;
 
-		this.urlBaseForDatasetsList = String.format(DATASET_LIST_V3_API_PATTERN, host);
-		this.urlBaseForDatasetContentV3 = String.format(DATASET_V3_API_PATTERN, host);
+		urlBaseForDatasetsList = String.format(DATASET_LIST_V3_API_PATTERN, host);
+		urlBaseForDatasetContentV3 = String.format(DATASET_V3_API_PATTERN, host);
 		this.technicalAPIKey = technicalAPIKey;
 	}
 
@@ -132,7 +132,7 @@ public class DAPServiceImpl implements DAPService {
 	}
 	
 	@Override
-	public void flagDatasetAsIgnored(String datasetName) {
+	public void flagDatasetAsIgnored(final String datasetName) {
 		datasetDAO.flagDatasetAsIgnored(datasetName);
 	}
 
@@ -142,13 +142,15 @@ public class DAPServiceImpl implements DAPService {
 		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
 		final URL url = getResourceURLFromAPI(id, revision_id);
 
-		if (!workflowService.flagCKANResourceAsDownloaded(id, revision_id))
+		if (!workflowService.flagCKANResourceAsDownloaded(id, revision_id)) {
 			return;
+		}
 
 		// if we can't download the file, the flag will be rolled back
 		final boolean success = performDownload(url, destinationFile);
-		if (!success)
+		if (!success) {
 			throw new RuntimeException("Failed downloading the given resource");
+		}
 	}
 
 	@Override
@@ -188,8 +190,9 @@ public class DAPServiceImpl implements DAPService {
 	 */
 	private boolean performDownload(final URL url, final File destinationFile) throws IOException {
 		// if the resource does not exist anymore in CKAN
-		if (url == null)
+		if (url == null) {
 			return false;
+		}
 
 		final URLConnection uCon = url.openConnection();
 
@@ -211,8 +214,9 @@ public class DAPServiceImpl implements DAPService {
 			log.error(e.toString(), e);
 			return false;
 		} finally {
-			if (fos != null)
+			if (fos != null) {
 				fos.close();
+			}
 		}
 	}
 
@@ -238,8 +242,9 @@ public class DAPServiceImpl implements DAPService {
 			final DatasetV3WrapperDTO dataset = getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
 			final List<Resource> resources = dataset.getResult().getResources();
 			for (final Resource resource : resources) {
-				if (resource.getId().equals(id) && resource.getRevision_id().equals(revision_id))
+				if (resource.getId().equals(id) && resource.getRevision_id().equals(revision_id)) {
 					return new URL(resource.getUrl());
+				}
 			}
 		}
 		return null;
@@ -374,6 +379,12 @@ public class DAPServiceImpl implements DAPService {
 	@Override
 	public void createUser(final String id, final String password, final String role, final String apiKey) throws Exception {
 		userDao.createUser(id, password, role, apiKey);
+
+	}
+
+	@Override
+	public void updateUser(final String id, final String password, final String role, final String apiKey) throws Exception {
+		userDao.updateUser(id, password, role, apiKey);
 
 	}
 

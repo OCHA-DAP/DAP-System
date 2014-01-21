@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.FormParam;
@@ -21,6 +22,8 @@ import org.glassfish.jersey.server.mvc.Viewable;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
+import org.ocha.dap.persistence.entity.curateddata.Entity;
+import org.ocha.dap.persistence.entity.curateddata.EntityType;
 import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.dictionary.IndicatorTypeDictionary;
@@ -35,13 +38,16 @@ import org.ocha.dap.service.DAPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.visualization.datasource.base.TypeMismatchException;
+
 /**
  * Create a session from the token
  * 
  * @param token
  *            the token
- * @return response with session
- *             if authentication exception occurs
+ * @return response with session if authentication exception occurs
  * @throws URISyntaxException
  *             the URI syntax exception occurs
  */
@@ -209,16 +215,26 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/curated/entities")
-	public Response addEntity(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("entityTypeCode") final String entityTypeCode) {
+	@Path("/curated/entities/submitadd")
+	public Response addEntity(@FormParam("entityTypeCode") final String entityTypeCode, @FormParam("code") final String code, @FormParam("name") final String name, @Context final UriInfo uriInfo) {
 		curatedDataService.addEntity(code, name, entityTypeCode);
-		return displayEntitiesList();
+
+		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/curated/entities/submitdelete")
 	public Response deleteEntity(@FormParam("entityId") final long entityId, @Context final UriInfo uriInfo) {
 		curatedDataService.deleteEntity(entityId);
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/entities/").build();
+		return Response.seeOther(newURI).build();
+	}
+
+	@POST
+	@Path("/curated/entities/submitupdate")
+	public Response updateEntity(@FormParam("entityId") final long entityId, @FormParam("newName") final String newName, @Context final UriInfo uriInfo) {
+		curatedDataService.updateEntity(entityId, newName);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/entities/").build();
 		return Response.seeOther(newURI).build();
@@ -388,4 +404,50 @@ public class AdminResource {
 
 	}
 
+	/*
+	 * Reference
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("reference/entitytypes/json")
+	public String getEntityTypes() throws TypeMismatchException {
+
+		/*
+		final DataTable dataTable = curatedDataService.listEntityTypesAsDataTable();
+		final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
+		logger.debug("about to return from listEntityTypesAsDataTable");
+		logger.debug(result);
+		return result;
+		*/
+
+		final List<EntityType> listEntityTypes = curatedDataService.listEntityTypes();
+		final JsonArray jsonArray = new JsonArray();
+
+		for (final EntityType entityType : listEntityTypes) {
+
+			final JsonObject element = new JsonObject();
+			element.addProperty("id", entityType.getId());
+			element.addProperty("code", entityType.getCode());
+			element.addProperty("name", entityType.getName());
+			jsonArray.add(element);
+		}
+		return jsonArray.toString();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("reference/entities/json")
+	public String getEntities() throws TypeMismatchException {
+		final List<Entity> listEntities = curatedDataService.listEntities();
+		final JsonArray jsonArray = new JsonArray();
+		for (final Entity entity : listEntities) {
+			final JsonObject element = new JsonObject();
+			element.addProperty("id", entity.getId());
+			element.addProperty("type", entity.getType().getId());
+			element.addProperty("code", entity.getCode());
+			element.addProperty("name", entity.getName());
+			jsonArray.add(element);
+		}
+		return jsonArray.toString();
+	}
 }

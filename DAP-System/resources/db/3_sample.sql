@@ -5,13 +5,26 @@ INSERT INTO entity_type(id, code, name) VALUES (1, 'country', 'Country');
 INSERT INTO entity_type(id, code, name) VALUES (2, 'crisis', 'Crisis');
 
 ALTER SEQUENCE entity_type_seq RESTART WITH 3;
- 
-INSERT INTO entity(id, code, name, entity_type_id) VALUES (1, 'RUS', 'Russia', 1);
-INSERT INTO entity(id, code, name, entity_type_id) VALUES (2, 'RWA', 'Rwanda', 1);
-INSERT INTO entity(id, code, name, entity_type_id) VALUES (3, 'CMR', 'Cameroon', 1);
-INSERT INTO entity(id, code, name, entity_type_id) VALUES (4, 'LUX', 'Luxembourg', 1);
 
+INSERT INTO text(id, default_value) VALUES (1, 'Russia');
+INSERT INTO entity(id, code, text_id, entity_type_id) VALUES (1, 'RUS', 1, 1);
+INSERT INTO text(id, default_value) VALUES (2, 'Rwanda');
+INSERT INTO entity(id, code, text_id, entity_type_id) VALUES (2, 'RWA', 2, 1);
+INSERT INTO text(id, default_value) VALUES (3, 'Cameroon');
+INSERT INTO entity(id, code, text_id, entity_type_id) VALUES (3, 'CMR', 3, 1);
+INSERT INTO text(id, default_value) VALUES (4, 'Luxembourg');
+INSERT INTO entity(id, code, text_id, entity_type_id) VALUES (4, 'LUX', 4, 1);
+
+ALTER SEQUENCE text_seq RESTART WITH 5;
 ALTER SEQUENCE entity_seq RESTART WITH 5;
+
+INSERT INTO language(code, native_name) VALUES ('FR', 'Français');
+INSERT INTO language(code, native_name) VALUES ('EN', 'English');
+
+INSERT INTO dap_translation(id, text, language, value) VALUES (1, 1, 'FR', 'Russie');
+INSERT INTO dap_translation(text, language, value) VALUES (1, 'EN', 'Russia');
+INSERT INTO dap_translation(text, language, value) VALUES (4, 'FR', 'Luxembourg');
+INSERT INTO dap_translation(text, language, value) VALUES (4, 'EN', 'Luxemburg');
 
  
 INSERT INTO indicator_type(id, code, name, unit) VALUES (1, 'PVX040', 'Incidence of conflict', 'Count');

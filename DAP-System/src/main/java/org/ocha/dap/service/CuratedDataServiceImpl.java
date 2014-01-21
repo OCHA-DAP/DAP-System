@@ -19,6 +19,7 @@ import org.ocha.dap.persistence.dao.currateddata.SourceDAO;
 import org.ocha.dap.persistence.dao.dictionary.IndicatorTypeDictionaryDAO;
 import org.ocha.dap.persistence.dao.dictionary.RegionDictionaryDAO;
 import org.ocha.dap.persistence.dao.dictionary.SourceDictionaryDAO;
+import org.ocha.dap.persistence.dao.i18n.TextDAO;
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
@@ -29,6 +30,7 @@ import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.ocha.dap.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.dap.persistence.entity.dictionary.SourceDictionary;
+import org.ocha.dap.persistence.entity.i18n.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,9 @@ import com.google.visualization.datasource.datatable.value.ValueType;
 public class CuratedDataServiceImpl implements CuratedDataService {
 
 	private static Logger logger = LoggerFactory.getLogger(CuratedDataServiceImpl.class);
+
+	@Autowired
+	private TextDAO textDAO;
 
 	@Autowired
 	private EntityTypeDAO entityTypeDAO;
@@ -81,6 +86,27 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
+	public DataTable listEntityTypesAsDataTable() throws TypeMismatchException {
+		final List<EntityType> listEntityTypes = entityTypeDAO.listEntityTypes();
+		final DataTable dataTable = new DataTable();
+
+		dataTable.addColumn(new ColumnDescription("id", ValueType.NUMBER, "id"));
+		dataTable.addColumn(new ColumnDescription("code", ValueType.TEXT, "code"));
+		dataTable.addColumn(new ColumnDescription("name", ValueType.TEXT, "name"));
+
+		for (final EntityType entityType : listEntityTypes) {
+			
+			final TableRow aRow = new TableRow();
+			aRow.addCell(entityType.getId());
+			aRow.addCell(entityType.getCode());
+			aRow.addCell(entityType.getName());
+
+			dataTable.addRow(aRow);
+		}
+		return dataTable;
+	}
+
+	@Override
 	public void addEntityType(final String code, final String name) {
 		entityTypeDAO.addEntityType(code, name);
 	}
@@ -100,14 +126,21 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void addEntity(final String code, final String name, final String entityTypeCode) {
+	public void addEntity(final String code, final String defaultName, final String entityTypeCode) {
 		final EntityType entityType = entityTypeDAO.getEntityTypeByCode(entityTypeCode);
-		entityDAO.addEntity(code, name, entityType);
+
+		final Text text = textDAO.addText(defaultName);
+		entityDAO.createEntity(code, text, entityType);
 	}
 
 	@Override
 	public void deleteEntity(final long entityId) {
 		entityDAO.deleteEntity(entityId);
+	}
+
+	@Override
+	public void updateEntity(final long entityId, final String newName) {
+		entityDAO.updateEntity(entityId, newName);
 	}
 
 	/*
@@ -238,7 +271,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		Collections.sort(entities);
 		for (final Entity entity : entities) {
-			dataTable.addColumn(new ColumnDescription(entity.getCode(), ValueType.NUMBER, entity.getName()));
+			// FIXME we might want to set here a translation instead of the default value
+			dataTable.addColumn(new ColumnDescription(entity.getCode(), ValueType.NUMBER, entity.getName().getDefaultValue()));
 			for (final String year : years) {
 				final Indicator cellIndicator = tableContent.get(new CellDescriptor(year, entity.getCode()));
 				if (cellIndicator == null) {
@@ -309,7 +343,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		dataTable.addColumn(new ColumnDescription(indicatorTypeCode, ValueType.NUMBER, indicatorTypeCode));
 		for (final Indicator indicator : indicators) {
 			final TableRow aRow = new TableRow();
-			aRow.addCell(indicator.getEntity().getName());
+			// FIXME we might want to set here a translation instead of the default value
+			aRow.addCell(indicator.getEntity().getName().getDefaultValue());
 			aRow.addCell(Double.parseDouble(indicator.getValue()));
 			dataTable.addRow(aRow);
 		}
@@ -356,7 +391,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 				rows.get(indicator.getEntity().getCode()).addCell(Double.parseDouble(indicator.getValue()));
 			} else {
 				final TableRow aRow = new TableRow();
-				aRow.addCell(indicator.getEntity().getName());
+				// FIXME we might want to set here a translation instead of the default value
+				aRow.addCell(indicator.getEntity().getName().getDefaultValue());
 				aRow.addCell(Double.parseDouble(indicator.getValue()));
 				rows.put(indicator.getEntity().getCode(), aRow);
 			}
