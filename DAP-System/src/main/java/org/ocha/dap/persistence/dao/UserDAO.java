@@ -10,6 +10,8 @@ public interface UserDAO {
 
 	public void createUser(final String id, final String password, final String role, final String apiKey) throws Exception;
 
+	public void updateUser(final String id, final String password, final String role, final String apiKey) throws Exception;
+
 	public void deleteUser(final String id);
 
 	public User getUserById(String userId);
@@ -19,5 +21,7 @@ public interface UserDAO {
 	public String getUserApiKey(final String id) throws InsufficientCredentialsException;
 
 	public boolean authenticate(final String id, final String password) throws AuthenticationException;
+
+	public String sha1Encrypt(final String plaintext);
 
 }

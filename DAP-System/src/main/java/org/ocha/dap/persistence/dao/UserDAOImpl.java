@@ -36,6 +36,13 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	@Transactional
+	public void updateUser(final String id, final String password, final String role, final String ckanApiKey) throws Exception {
+		final User userToUpdate = new User(id, sha1Encrypt(password), role, aesCipher.encrypt(ckanApiKey));
+		em.merge(userToUpdate);
+	}
+
+	@Override
+	@Transactional
 	public void deleteUser(final String id) {
 		final User user = em.find(User.class, id);
 		em.remove(user);
@@ -57,8 +64,9 @@ public class UserDAOImpl implements UserDAO {
 			throw new InsufficientCredentialsException();
 		}
 
-		if (apiKey == null)
+		if (apiKey == null) {
 			throw new InsufficientCredentialsException();
+		}
 
 		return apiKey;
 	}
@@ -66,22 +74,25 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public boolean authenticate(final String id, final String password) throws AuthenticationException {
 		logger.debug(String.format("about to authenticate user : %s", id));
-		if (id == null || password == null) {
+		if ((id == null) || (password == null)) {
 			throw new AuthenticationException();
 		}
 		final User user = em.find(User.class, id);
 
-		if (user == null)
+		if (user == null) {
 			throw new AuthenticationException();
+		}
 
-		if (!sha1Encrypt(password).equals(user.getPassword()))
+		if (!sha1Encrypt(password).equals(user.getPassword())) {
 			throw new AuthenticationException();
+		}
 
 		return true;
 	}
 
 	// encryption method
-	private String sha1Encrypt(final String plaintext) {
+	@Override
+	public String sha1Encrypt(final String plaintext) {
 		MessageDigestPasswordEncoder md = null;
 		md = new MessageDigestPasswordEncoder("SHA-1");
 		md.setEncodeHashAsBase64(true);
