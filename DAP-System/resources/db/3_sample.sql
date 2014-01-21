@@ -21,7 +21,7 @@ ALTER SEQUENCE entity_seq RESTART WITH 5;
 INSERT INTO language(code, native_name) VALUES ('FR', 'Français');
 INSERT INTO language(code, native_name) VALUES ('EN', 'English');
 
-INSERT INTO dap_translation(id, text, language, value) VALUES (1, 1, 'FR', 'Russie');
+INSERT INTO dap_translation(text, language, value) VALUES (1, 'FR', 'Russie');
 INSERT INTO dap_translation(text, language, value) VALUES (1, 'EN', 'Russia');
 INSERT INTO dap_translation(text, language, value) VALUES (4, 'FR', 'Luxembourg');
 INSERT INTO dap_translation(text, language, value) VALUES (4, 'EN', 'Luxemburg');
