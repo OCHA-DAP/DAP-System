@@ -195,6 +195,30 @@ public class AdminResource {
 		return Response.ok(new Viewable("/admin/entityTypes", curatedDataService.listEntityTypes())).build();
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/curated/entitytypes/json")
+	public String getEntityTypes() throws TypeMismatchException {
+
+		/*
+		 * final DataTable dataTable = curatedDataService.listEntityTypesAsDataTable(); final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
+		 * logger.debug("about to return from listEntityTypesAsDataTable"); logger.debug(result); return result;
+		 */
+
+		final List<EntityType> listEntityTypes = curatedDataService.listEntityTypes();
+		final JsonArray jsonArray = new JsonArray();
+
+		for (final EntityType entityType : listEntityTypes) {
+
+			final JsonObject element = new JsonObject();
+			element.addProperty("id", entityType.getId());
+			element.addProperty("code", entityType.getCode());
+			element.addProperty("name", entityType.getName());
+			jsonArray.add(element);
+		}
+		return jsonArray.toString();
+	}
+
 	@POST
 	@Path("/curated/entitytypes")
 	public Response addEntityType(@FormParam("code") final String code, @FormParam("name") final String name) {
@@ -206,12 +230,30 @@ public class AdminResource {
 	 * Curated / entities management
 	 */
 	@GET
-	@Path("/curated/entities")
+	@Path("/curated/entities/")
 	public Response displayEntitiesList() {
 		final DisplayEntities displayEntities = new DisplayEntities();
 		displayEntities.setEntities(curatedDataService.listEntities());
 		displayEntities.setEntityTypes(curatedDataService.listEntityTypes());
 		return Response.ok(new Viewable("/admin/entities", displayEntities)).build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("curated/entities/json")
+	public String getEntities() throws TypeMismatchException {
+		final List<Entity> listEntities = curatedDataService.listEntities();
+		final JsonArray jsonArray = new JsonArray();
+		for (final Entity entity : listEntities) {
+			final JsonObject element = new JsonObject();
+			element.addProperty("id", entity.getId());
+			element.addProperty("type", entity.getType().getId());
+			element.addProperty("code", entity.getCode());
+			// FIXME get a language instead of the default value
+			element.addProperty("name", entity.getName().getDefaultValue());
+			jsonArray.add(element);
+		}
+		return jsonArray.toString();
 	}
 
 	@POST
@@ -404,48 +446,4 @@ public class AdminResource {
 
 	}
 
-	/*
-	 * Reference
-	 */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("reference/entitytypes/json")
-	public String getEntityTypes() throws TypeMismatchException {
-
-		/*
-		 * final DataTable dataTable = curatedDataService.listEntityTypesAsDataTable(); final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
-		 * logger.debug("about to return from listEntityTypesAsDataTable"); logger.debug(result); return result;
-		 */
-
-		final List<EntityType> listEntityTypes = curatedDataService.listEntityTypes();
-		final JsonArray jsonArray = new JsonArray();
-
-		for (final EntityType entityType : listEntityTypes) {
-
-			final JsonObject element = new JsonObject();
-			element.addProperty("id", entityType.getId());
-			element.addProperty("code", entityType.getCode());
-			element.addProperty("name", entityType.getName());
-			jsonArray.add(element);
-		}
-		return jsonArray.toString();
-	}
-
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("reference/entities/json")
-	public String getEntities() throws TypeMismatchException {
-		final List<Entity> listEntities = curatedDataService.listEntities();
-		final JsonArray jsonArray = new JsonArray();
-		for (final Entity entity : listEntities) {
-			final JsonObject element = new JsonObject();
-			element.addProperty("id", entity.getId());
-			element.addProperty("type", entity.getType().getId());
-			element.addProperty("code", entity.getCode());
-			// FIXME get a language instead of the default value
-			element.addProperty("name", entity.getName().getDefaultValue());
-			jsonArray.add(element);
-		}
-		return jsonArray.toString();
-	}
 }
