@@ -1,11 +1,9 @@
 package org.ocha.dap.persistence.dao.dictionary;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import java.util.Iterator;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,14 +13,14 @@ import org.ocha.dap.persistence.dao.currateddata.EntityDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
-import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
+import org.ocha.dap.service.CuratedDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-persistence-test.xml" })
+@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
 public class RegionDictionaryDAOImplTest {
 
 	@Autowired
@@ -34,6 +32,9 @@ public class RegionDictionaryDAOImplTest {
 	@Autowired
 	private EntityDAO entityDAO;
 
+	@Autowired
+	private CuratedDataService curatedDataService;
+
 	private EntityType country;
 	private EntityType crisis;
 
@@ -43,25 +44,25 @@ public class RegionDictionaryDAOImplTest {
 		entityTypeDAO.addEntityType("country", "Country");
 		entityTypeDAO.addEntityType("crisis", "Crisis");
 		country = entityTypeDAO.getEntityTypeByCode("country"); // TODO could we (should we) make the addEntityType method return the
-																// created entity?
+		// created entity?
 		crisis = entityTypeDAO.getEntityTypeByCode("crisis");
 
 		// set up the Entities
-		entityDAO.addEntity("FOO", "Foolandia", country);
-		entityDAO.addEntity("BAR", "Barlandia", country);
-		entityDAO.addEntity("Crisis1", "First Test Crisis", crisis);
-		entityDAO.addEntity("Crisis2", "Second Test Crisis", crisis);
+		curatedDataService.addEntity("FOO", "Foolandia", "country");
+		curatedDataService.addEntity("BAR", "Barlandia", "country");
+		curatedDataService.addEntity("Crisis1", "First Test Crisis", "crisis");
+		curatedDataService.addEntity("Crisis2", "Second Test Crisis", "crisis");
 
 	}
 
 	@After
 	public void tearDown() {
 
-		for (RegionDictionary rd : regionDictionaryDAO.listRegionDictionaries()) {
+		for (final RegionDictionary rd : regionDictionaryDAO.listRegionDictionaries()) {
 			regionDictionaryDAO.deleteRegionDictionary(rd);
 		}
 
-		for (Entity entity : entityDAO.listEntities()) {
+		for (final Entity entity : entityDAO.listEntities()) {
 			entityDAO.deleteEntityByCodeAndType(entity.getCode(), entity.getType().getCode());
 		}
 
@@ -107,7 +108,7 @@ public class RegionDictionaryDAOImplTest {
 		assertEquals("region_dictionary table should now have 5 entries", 5, regionDictionaryList.size());
 
 		// delete a RegionDictionary by object
-		RegionDictionary regionDictionaryToDelete = regionDictionaryList.get(0);
+		final RegionDictionary regionDictionaryToDelete = regionDictionaryList.get(0);
 		regionDictionaryDAO.deleteRegionDictionary(regionDictionaryToDelete);
 		regionDictionaryList = regionDictionaryDAO.listRegionDictionaries();
 		assertEquals("After deletion, there should be 4 RegionDictionaries in the table.", 4, regionDictionaryList.size());

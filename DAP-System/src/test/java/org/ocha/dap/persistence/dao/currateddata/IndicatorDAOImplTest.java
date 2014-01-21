@@ -13,10 +13,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ocha.dap.IntegrationTestSetUpAndTearDown;
 import org.ocha.dap.persistence.dao.ImportFromCKANDAO;
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
-import org.ocha.dap.persistence.entity.curateddata.EntityType;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.Source;
@@ -25,8 +25,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-persistence-test.xml" })
+@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-integration-test.xml",
+		"classpath:/ctx-persistence-test.xml" })
 public class IndicatorDAOImplTest {
+
+	@Autowired
+	private IntegrationTestSetUpAndTearDown integrationTestSetUpAndTearDown;
 
 	@Autowired
 	private ImportFromCKANDAO importFromCKANDAO;
@@ -48,39 +52,17 @@ public class IndicatorDAOImplTest {
 
 	@Before
 	public void setUp() {
-		entityTypeDAO.addEntityType("country", "Country");
-
-		final EntityType entityTypeForCode = entityTypeDAO.getEntityTypeByCode("country");
-		entityDAO.addEntity("LUX", "Luxembourg", entityTypeForCode);
-		entityDAO.addEntity("RUS", "Russia", entityTypeForCode);
-		entityDAO.addEntity("RWA", "Rwanda", entityTypeForCode);
-
-		indicatorTypeDAO.addIndicatorType("per-capita-gdp", "Per capita gdp", "dollar");
-		indicatorTypeDAO.addIndicatorType("PVX040", "Incidence of conflict", "Count");
-
-		sourceDAO.addSource("WB", "World Bank");
-		sourceDAO.addSource("acled", "Armed Conflict Location and Event Dataset");
+		integrationTestSetUpAndTearDown.setUp();
 	}
 
 	@After
 	public void tearDown() {
-		indicatorDAO.deleteAllIndicators();
-		entityDAO.deleteEntityByCodeAndType("LUX", "country");
-		entityDAO.deleteEntityByCodeAndType("RUS", "country");
-		entityDAO.deleteEntityByCodeAndType("RWA", "country");
-
-		entityTypeDAO.deleteEntityTypeByCode("country");
-
-		indicatorTypeDAO.deleteIndicatorTypeByCode("per-capita-gdp");
-		indicatorTypeDAO.deleteIndicatorTypeByCode("PVX040");
-
-		sourceDAO.deleteSourceByCode("WB");
-		sourceDAO.deleteSourceByCode("acled");
+		integrationTestSetUpAndTearDown.tearDown();
 	}
 
 	@Test
 	public void testListLastIndicators() {
-		Assert.assertEquals(0, indicatorDAO.listLastIndicators(100).size());
+		Assert.assertEquals(1, indicatorDAO.listLastIndicators(100).size());
 
 		final Entity russia = entityDAO.getEntityByCodeAndType("RUS", "country");
 		final Entity luxembourg = entityDAO.getEntityByCodeAndType("LUX", "country");
@@ -103,9 +85,6 @@ public class IndicatorDAOImplTest {
 		final Date date2013 = dateTime2012.plusYears(1).toDate();
 		final Date date2013Feb = dateTime2012.plusYears(1).plusMonths(1).toDate();
 		final Date date2014 = dateTime2012.plusYears(2).toDate();
-
-		indicatorDAO.addIndicator(sourceWB, russia, perCapitaGdp, date2013, date2014, Periodicity.YEAR, true, "10000", "10000$", importFromCKAN);
-		Assert.assertEquals(1, indicatorDAO.listLastIndicators(100).size());
 
 		try {
 			indicatorDAO.addIndicator(sourceWB, russia, perCapitaGdp, date2013, date2014, Periodicity.YEAR, true, "10000", "10000$", importFromCKAN);
@@ -184,7 +163,7 @@ public class IndicatorDAOImplTest {
 
 		indicatorDAO.deleteAllIndicatorsFromImport(importFromCKAN.getId());
 
-		Assert.assertEquals(4, indicatorDAO.listLastIndicators(100).size());
+		Assert.assertEquals(5, indicatorDAO.listLastIndicators(100).size());
 
 	}
 }

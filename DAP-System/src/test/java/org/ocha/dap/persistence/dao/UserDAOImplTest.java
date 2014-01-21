@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.dap.persistence.entity.User;
 import org.ocha.dap.security.exception.AuthenticationException;
+import org.ocha.dap.security.tools.AESCipher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,6 +18,9 @@ public class UserDAOImplTest {
 
 	@Autowired
 	private UserDAO userDAO;
+
+	@Autowired
+	private AESCipher aesCipher;
 
 	@Test
 	public void testCreateUser() throws Exception {
@@ -47,4 +51,22 @@ public class UserDAOImplTest {
 		userDAO.deleteUser("seustachi");
 	}
 
+
+	@Test
+	public void testUpdateUser() throws Exception {
+		System.out.println("Testing update user...");
+
+		userDAO.createUser("fakeId", "fakePassword", "fakeRole", "fakeAPIKey");
+		final User user = userDAO.getUserById("fakeId");
+
+		userDAO.updateUser(user.getId(), "newPassword", "newRole", "newAPIKey");
+		final User updatedUser = userDAO.getUserById(user.getId());
+
+		Assert.assertEquals(user.getId(), updatedUser.getId());
+		Assert.assertEquals(userDAO.sha1Encrypt("newPassword"), updatedUser.getPassword());
+		Assert.assertEquals("newRole", updatedUser.getRole());
+		Assert.assertEquals(aesCipher.encrypt("newAPIKey"), updatedUser.getCkanApiKey());
+
+		userDAO.deleteUser("fakeId");
+	}
 }
