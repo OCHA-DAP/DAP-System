@@ -93,9 +93,9 @@ public class APIResource {
 		model.put("title", indicatorType.getDisplayableTitle() + " according to " + curatedDataService.getSourceByCode(sourceCode).getName());
 		if ("BarChart".equals(chartType)) {
 			model.put("vAxisTitle", "year");
-			model.put("hAxisTitle", indicatorType.getName());
+			model.put("hAxisTitle", indicatorType.getName().getDefaultValue());
 		} else if ("ColumnChart".equals(chartType) || "AreaChart".equals(chartType)) {
-			model.put("vAxisTitle", indicatorType.getName());
+			model.put("vAxisTitle", indicatorType.getName().getDefaultValue());
 			model.put("hAxisTitle", "year");
 		}
 
@@ -178,9 +178,9 @@ public class APIResource {
 		model.put("title", indicatorType.getDisplayableTitle() + " for " + entity.getName());
 		if ("BarChart".equals(chartType)) {
 			model.put("vAxisTitle", "year");
-			model.put("hAxisTitle", indicatorType.getName());
+			model.put("hAxisTitle", indicatorType.getName().getDefaultValue());
 		} else if ("ColumnChart".equals(chartType) || "AreaChart".equals(chartType)) {
-			model.put("vAxisTitle", indicatorType.getName());
+			model.put("vAxisTitle", indicatorType.getName().getDefaultValue());
 			model.put("hAxisTitle", "year");
 		}
 		return Response.ok(new Viewable("/analytical/charts", model)).build();
