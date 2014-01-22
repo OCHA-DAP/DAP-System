@@ -95,7 +95,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		dataTable.addColumn(new ColumnDescription("name", ValueType.TEXT, "name"));
 
 		for (final EntityType entityType : listEntityTypes) {
-			
+
 			final TableRow aRow = new TableRow();
 			aRow.addCell(entityType.getId());
 			aRow.addCell(entityType.getCode());
@@ -152,8 +152,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void addIndicatorType(final String code, final String name, final String unit) {
-		indicatorTypeDAO.addIndicatorType(code, name, unit);
+	public void addIndicatorType(final String code, final String defaultName, final String unit) {
+		final Text text = textDAO.addText(defaultName);
+		indicatorTypeDAO.addIndicatorType(code, text, unit);
 	}
 
 	@Override
@@ -356,11 +357,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			final String indicatorTypeCode2, final String sourceCode3, final String indicatorTypeCode3, final List<String> countryCodes) throws TypeMismatchException {
 		final DataTable dataTable = new DataTable();
 		dataTable.addColumn(new ColumnDescription("Entity", ValueType.TEXT, "Entity"));
-		dataTable.addColumn(new ColumnDescription(indicatorTypeCode1, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode1).getName()));
-		dataTable.addColumn(new ColumnDescription(indicatorTypeCode2, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode2).getName()));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode1, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode1).getName().getDefaultValue()));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode2, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode2).getName().getDefaultValue()));
 		// This is a Hack to have the third indicator moved to the 4th
 		dataTable.addColumn(new ColumnDescription("d", ValueType.NUMBER, "d"));
-		dataTable.addColumn(new ColumnDescription(indicatorTypeCode3, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode3).getName()));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode3, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode3).getName().getDefaultValue()));
 
 		final Map<String, TableRow> rows = new HashMap<String, TableRow>();
 		addColumnData(year, rows, sourceCode1, indicatorTypeCode1, countryCodes);
