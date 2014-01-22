@@ -26,6 +26,7 @@ import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
 import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.dap.persistence.entity.dictionary.IndicatorTypeDictionary;
@@ -334,6 +335,7 @@ public class AdminResource {
 		displayIndicators.setEntities(curatedDataService.listEntities());
 		displayIndicators.setIndicatorTypes(curatedDataService.listIndicatorTypes());
 		displayIndicators.setPeriodicities(Indicator.Periodicity.values());
+		displayIndicators.setValueTypes(IndicatorType.ValueType.values());
 		return Response.ok(new Viewable("/admin/indicators", displayIndicators)).build();
 	}
 

@@ -23,7 +23,7 @@
 		<label for="entityId">Entity</label>
 		<select name="entityId" id="entityId">
 			<c:forEach var="entity" items="${it.entities}">
-				<option value="${entity.id}">${entity.name}(${entity.type.name})</option>
+				<option value="${entity.id}">${entity.name.defaultValue}(${entity.type.name})</option>
 			</c:forEach>
 		</select>
 		<label for="indicatorTypeCode">Indicator type</label>
@@ -43,8 +43,12 @@
 				<option value="${periodicity}">${periodicity}</option>
 			</c:forEach>
 		</select>
-		<label for="numeric">Is numeric</label>
-		<input type="checkbox" name="numeric" value="true">
+		<label for="valueType">Value Type </label>
+		<select name="valueType" id="valueType">
+			<c:forEach var="valueType" items="${it.valueTypes}">
+				<option value="${valueType}">${valueType}</option>
+			</c:forEach>
+		</select>
 		<br />
 		<label for="value">Value</label>
 		<input type="text" name="value" id="value" />
@@ -64,7 +68,6 @@
 			<th>Start</th>
 			<th>End</th>
 			<th>Periodicity</th>
-			<th>Is numeric</th>
 			<th>Value</th>
 			<th>Initial value</th>
 			<th>Import from CKAN</th>
@@ -77,14 +80,9 @@
 				<td>${indicator.source.name}</td>
 				<td>${indicator.entity.name}</td>
 				<td>${indicator.type.name}</td>
-				<td>
-					<fmt:formatDate value="${indicator.start}" pattern="yyyy-MM-dd" />
-				</td>
-				<td>
-					<fmt:formatDate value="${indicator.end}" pattern="yyyy-MM-dd" />
-				</td>
+				<td><fmt:formatDate value="${indicator.start}" pattern="yyyy-MM-dd" /></td>
+				<td><fmt:formatDate value="${indicator.end}" pattern="yyyy-MM-dd" /></td>
 				<td>${indicator.periodicity}</td>
-				<td>${indicator.numeric}</td>
 				<td>${indicator.value}</td>
 				<td>${indicator.initialValue}</td>
 				<td>${indicator.importFromCKAN.id}</td>

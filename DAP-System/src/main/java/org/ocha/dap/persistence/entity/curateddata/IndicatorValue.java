@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.ForeignKey;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.dap.persistence.entity.i18n.Text;
 
@@ -112,4 +114,20 @@ public class IndicatorValue {
 		return datetimeValue;
 	}
 
+	@Override
+	public String toString() {
+		if (textValue != null) {
+			return textValue.getDefaultValue();
+		} else if (stringValue != null) {
+			return stringValue;
+		} else if (numberValue != null) {
+			return numberValue.toString();
+		} else if (dateValue != null) {
+			final DateTimeFormatter fmt = ISODateTimeFormat.date();
+			return fmt.print(dateValue.getTime());
+		} else {
+			final DateTimeFormatter fmt = ISODateTimeFormat.date();
+			return fmt.print(datetimeValue.getTime());
+		}
+	}
 }

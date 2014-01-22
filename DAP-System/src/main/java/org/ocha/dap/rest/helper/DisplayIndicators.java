@@ -16,6 +16,7 @@ public class DisplayIndicators {
 	private List<IndicatorType> indicatorTypes;
 
 	private Indicator.Periodicity[] periodicities;
+	private IndicatorType.ValueType[] valueTypes;
 
 	public List<Indicator> getIndicators() {
 		return indicators;
@@ -55,6 +56,14 @@ public class DisplayIndicators {
 
 	public void setPeriodicities(final Indicator.Periodicity[] periodicities) {
 		this.periodicities = periodicities;
+	}
+
+	public IndicatorType.ValueType[] getValueTypes() {
+		return valueTypes;
+	}
+
+	public void setValueTypes(final IndicatorType.ValueType[] valueTypes) {
+		this.valueTypes = valueTypes;
 	}
 
 }
