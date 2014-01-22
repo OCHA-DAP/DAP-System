@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
+import org.ocha.dap.persistence.entity.i18n.Text;
 import org.springframework.transaction.annotation.Transactional;
 
 public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
@@ -22,7 +23,7 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 
 	@Override
 	@Transactional
-	public void addIndicatorType(final String code, final String name, final String unit) {
+	public void addIndicatorType(final String code, final Text name, final String unit) {
 		final IndicatorType indicatorType = new IndicatorType();
 		indicatorType.setCode(code);
 		indicatorType.setName(name);
