@@ -26,6 +26,7 @@ import org.ocha.dap.persistence.entity.curateddata.EntityType;
 import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
+import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.ocha.dap.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
@@ -95,7 +96,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		dataTable.addColumn(new ColumnDescription("name", ValueType.TEXT, "name"));
 
 		for (final EntityType entityType : listEntityTypes) {
-			
+
 			final TableRow aRow = new TableRow();
 			aRow.addCell(entityType.getId());
 			aRow.addCell(entityType.getCode());
@@ -199,14 +200,14 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	@Transactional
-	public void addIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
-			final String value, final String initialValue) {
+	public void addIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
+			final String initialValue) {
 		final Source source = sourceDAO.getSourceByCode(sourceCode);
 		final Entity entity = entityDAO.getEntityById(entityId);
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.getDummyImport();
-		indicatorDAO.addIndicator(source, entity, indicatorType, start, end, periodicity, numeric, value, initialValue, importFromCKAN);
+		indicatorDAO.addIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, importFromCKAN);
 
 	}
 
@@ -217,8 +218,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		final Entity entity = entityDAO.getEntityByCodeAndType(preparedIndicator.getEntityCode(), preparedIndicator.getEntityTypeCode());
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(preparedIndicator.getIndicatorTypeCode());
 
-		indicatorDAO.addIndicator(source, entity, indicatorType, preparedIndicator.getStart(), preparedIndicator.getEnd(), preparedIndicator.getPeriodicity(), preparedIndicator.isNumeric(),
-				preparedIndicator.getValue(), preparedIndicator.getInitialValue(), importFromCKAN);
+		indicatorDAO.addIndicator(source, entity, indicatorType, preparedIndicator.getStart(), preparedIndicator.getEnd(), preparedIndicator.getPeriodicity(), preparedIndicator.getValue(),
+				preparedIndicator.getInitialValue(), importFromCKAN);
 
 	}
 
@@ -278,7 +279,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 				if (cellIndicator == null) {
 					rows.get(year).addCell(NumberValue.getNullValue());
 				} else {
-					rows.get(year).addCell(Double.parseDouble(cellIndicator.getValue()));
+					rows.get(year).addCell(cellIndicator.getValue().getNumberValue());
 				}
 			}
 		}
@@ -318,12 +319,14 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		for (final Indicator indicator : indicators) {
 			final TimeRange timeRange = new TimeRange(indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity());
 			if (timeRange.equals(previousTR)) {
-				currentRow.addCell(Double.parseDouble(indicator.getValue()));
+				// assuming we always deal with a numeric indicator type for this kind of output
+				currentRow.addCell(indicator.getValue().getNumberValue());
 			} else {
 				final TableRow aRow = new TableRow();
 				aRow.addCell(timeRange.getTimeRangeAsSimpleString());
 				currentRow = aRow;
-				aRow.addCell(Double.parseDouble(indicator.getValue()));
+				// assuming we always deal with a numeric indicator type for this kind of output
+				aRow.addCell(indicator.getValue().getNumberValue());
 				rows.add(aRow);
 				previousTR = timeRange;
 			}
@@ -345,7 +348,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			final TableRow aRow = new TableRow();
 			// FIXME we might want to set here a translation instead of the default value
 			aRow.addCell(indicator.getEntity().getName().getDefaultValue());
-			aRow.addCell(Double.parseDouble(indicator.getValue()));
+			// assuming we always deal with a numeric indicator type for this kind of output
+			aRow.addCell(indicator.getValue().getNumberValue());
 			dataTable.addRow(aRow);
 		}
 		return dataTable;
@@ -388,12 +392,14 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		for (final Indicator indicator : indicators) {
 			if (rows.containsKey(indicator.getEntity().getCode())) {
-				rows.get(indicator.getEntity().getCode()).addCell(Double.parseDouble(indicator.getValue()));
+				// assuming we always deal with a numeric indicator type for this kind of output
+				rows.get(indicator.getEntity().getCode()).addCell(indicator.getValue().getNumberValue());
 			} else {
 				final TableRow aRow = new TableRow();
 				// FIXME we might want to set here a translation instead of the default value
 				aRow.addCell(indicator.getEntity().getName().getDefaultValue());
-				aRow.addCell(Double.parseDouble(indicator.getValue()));
+				// assuming we always deal with a numeric indicator type for this kind of output
+				aRow.addCell(indicator.getValue().getNumberValue());
 				rows.put(indicator.getEntity().getCode(), aRow);
 			}
 		}

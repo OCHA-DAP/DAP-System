@@ -26,8 +26,11 @@ import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
 import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType;
+import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.dap.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
+import org.ocha.dap.persistence.entity.i18n.Text;
 import org.ocha.dap.rest.helper.DisplayEntities;
 import org.ocha.dap.rest.helper.DisplayIndicatorTypeDictionaries;
 import org.ocha.dap.rest.helper.DisplayIndicators;
@@ -42,18 +45,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.visualization.datasource.base.TypeMismatchException;
 
-/**
- * Create a session from the token
- * 
- * @param token
- *            the token
- * @return response with session if authentication exception occurs
- * @throws URISyntaxException
- *             the URI syntax exception occurs
- */
-
-// 1800 seconds = 30 minutes
-// FIXME add an error message
 @RolesAllowed("admin")
 @Path("/admin")
 @Produces(MediaType.TEXT_HTML)
@@ -201,7 +192,8 @@ public class AdminResource {
 	public String getEntityTypes() throws TypeMismatchException {
 
 		/*
-		 * final DataTable dataTable = curatedDataService.listEntityTypesAsDataTable(); final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
+		 * final DataTable dataTable = curatedDataService.listEntityTypesAsDataTable(); final String result =
+		 * JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
 		 * logger.debug("about to return from listEntityTypesAsDataTable"); logger.debug(result); return result;
 		 */
 
@@ -348,12 +340,31 @@ public class AdminResource {
 	@POST
 	@Path("/curated/indicators")
 	public Response addIndicator(@FormParam("sourceCode") final String sourceCode, @FormParam("entityId") final long entityId, @FormParam("indicatorTypeCode") final String indicatorTypeCode,
-			@FormParam("start") final String start, @FormParam("end") final String end, @FormParam("periodicity") final Periodicity periodicity, @FormParam("numeric") final boolean numeric,
-			@FormParam("value") final String value, @FormParam("initialValue") final String initialValue) {
+			@FormParam("start") final String start, @FormParam("end") final String end, @FormParam("periodicity") final Periodicity periodicity, @FormParam("valueType") final ValueType valueType,
+			@FormParam("value") final String valueAsString, @FormParam("initialValue") final String initialValue) {
 		final DateTimeFormatter fmt = ISODateTimeFormat.date();
 		final Date startDate = fmt.parseDateTime(start).toDate();
 		final Date endDate = fmt.parseDateTime(end).toDate();
-		curatedDataService.addIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, numeric, value, initialValue);
+		final IndicatorValue value;
+		switch (valueType) {
+		case STRING:
+			value = new IndicatorValue(valueAsString);
+			break;
+		case DATE:
+		case DATETIME:
+			value = new IndicatorValue(fmt.parseDateTime(valueAsString).toDate(), valueType);
+			break;
+		case NUMBER:
+			value = new IndicatorValue(Double.parseDouble(valueAsString));
+			break;
+		case TEXT:
+			value = new IndicatorValue(new Text(valueAsString));
+			break;
+		default:
+			value = new IndicatorValue(valueAsString);
+			break;
+		}
+		curatedDataService.addIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, value, initialValue);
 		return displayIndicatorsList();
 	}
 

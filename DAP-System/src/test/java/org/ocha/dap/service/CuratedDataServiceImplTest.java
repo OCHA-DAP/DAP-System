@@ -21,6 +21,7 @@ import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
+import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -102,7 +103,7 @@ public class CuratedDataServiceImplTest {
 		final Date date2013 = dateTime2013.toDate();
 		final Date date2014 = dateTime2013.plusYears(1).toDate();
 
-		indicatorDAO.addIndicator(sourceAcled, russia, indicatorType, date2013, date2014, Periodicity.YEAR, true, "9000", "9000$", importFromCKAN);
+		indicatorDAO.addIndicator(sourceAcled, russia, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(9000.0), "9000$", importFromCKAN);
 
 		{
 			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null);
@@ -118,7 +119,7 @@ public class CuratedDataServiceImplTest {
 			Assert.assertEquals(1, dataTable.getNumberOfRows());
 		}
 
-		indicatorDAO.addIndicator(sourceAcled, luxembourg, indicatorType, date2013, date2014, Periodicity.YEAR, true, "100000", "100000$", importFromCKAN);
+		indicatorDAO.addIndicator(sourceAcled, luxembourg, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(100000.0), "100000$", importFromCKAN);
 
 		{
 			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null);

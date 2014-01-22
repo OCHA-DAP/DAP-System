@@ -9,6 +9,9 @@
         drop constraint fk_import_from_ckan;
 
     alter table dap_indicator 
+        drop constraint fk_indicator_value_to_text;
+
+    alter table dap_indicator 
         drop constraint fk_indicator_to_type;
 
     alter table dap_translation 
@@ -112,14 +115,17 @@
         id int8 not null,
         end_time timestamp,
         initial_value varchar(255) not null,
-        is_numeric bool not null,
         periodicity varchar(255) not null,
         start_time timestamp not null,
-        value varchar(255) not null,
+        date_value timestamp,
+        datetime_value timestamp,
+        number_value float8,
+        string_value varchar(255),
         entity_id int8 not null,
         import_from_ckan_id int8,
         source_id int8 not null,
         type_id int8 not null,
+        text_id int8,
         primary key (id),
         unique (source_id, entity_id, type_id, start_time, periodicity)
     );
@@ -168,6 +174,7 @@
         code varchar(255) not null,
         name varchar(255) not null,
         unit varchar(255),
+        value_type varchar(255),
         primary key (id)
     );
 
@@ -225,6 +232,11 @@
         add constraint fk_import_from_ckan 
         foreign key (import_from_ckan_id) 
         references import_from_ckan;
+
+    alter table dap_indicator 
+        add constraint fk_indicator_value_to_text 
+        foreign key (text_id) 
+        references text;
 
     alter table dap_indicator 
         add constraint fk_indicator_to_type 

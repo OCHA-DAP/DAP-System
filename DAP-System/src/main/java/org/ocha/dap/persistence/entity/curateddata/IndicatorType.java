@@ -2,6 +2,8 @@ package org.ocha.dap.persistence.entity.curateddata;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +24,10 @@ import javax.persistence.Table;
 @SequenceGenerator(name = "indicator_type_seq", sequenceName = "indicator_type_seq")
 public class IndicatorType {
 
+	public enum ValueType {
+		TEXT, STRING, NUMBER, DATE, DATETIME;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "indicator_type_seq")
 	@Column(name = "id", nullable = false)
@@ -37,6 +43,10 @@ public class IndicatorType {
 	 */
 	@Column(name = "unit", nullable = true, updatable = true)
 	private String unit;
+
+	@Column(name = "value_type", nullable = true, updatable = true)
+	@Enumerated(EnumType.STRING)
+	private ValueType valueType;
 
 	public long getId() {
 		return id;
@@ -73,6 +83,14 @@ public class IndicatorType {
 	public String getDisplayableTitle() {
 		return name + " in " + unit;
 
+	}
+
+	public ValueType getValueType() {
+		return valueType;
+	}
+
+	public void setValueType(final ValueType valueType) {
+		this.valueType = valueType;
 	}
 
 }

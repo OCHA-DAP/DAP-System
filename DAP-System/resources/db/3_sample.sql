@@ -28,13 +28,13 @@ INSERT INTO dap_translation(text, language, value) VALUES (4, 'FR', 'Luxembourg'
 INSERT INTO dap_translation(text, language, value) VALUES (4, 'EN', 'Luxemburg');
 
  
-INSERT INTO indicator_type(id, code, name, unit) VALUES (1, 'PVX040', 'Incidence of conflict', 'Count');
-INSERT INTO indicator_type(id, code, name, unit) VALUES (2, 'PSP080', 'Population Density', 'persons per square km');
-INSERT INTO indicator_type(id, code, name, unit) VALUES (3, 'PSP010', 'Population (Total M+F)', 'persons');
-INSERT INTO indicator_type(id, code, name, unit) VALUES (4, 'PSE030', 'GDP per capita, PPP', 'current international $');
-INSERT INTO indicator_type(id, code, name, unit) VALUES (5, '_emdat:total_affected', 'Total affected', 'persons');
-INSERT INTO indicator_type(id, code, name, unit) VALUES (6, 'PCX051', 'Mobile cellular subscriptions', 'per 100 inhabitants');
-INSERT INTO indicator_type(id, code, name, unit) VALUES (7, 'PVF020', 'Per capita food supply', 'kcal/capita/day');
+INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (1, 'PVX040', 'Incidence of conflict', 'Count', 'NUMBER');
+INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (2, 'PSP080', 'Population Density', 'persons per square km', 'NUMBER');
+INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (3, 'PSP010', 'Population (Total M+F)', 'persons', 'NUMBER');
+INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (4, 'PSE030', 'GDP per capita, PPP', 'current international $', 'NUMBER');
+INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (5, '_emdat:total_affected', 'Total affected', 'persons', 'NUMBER');
+INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (6, 'PCX051', 'Mobile cellular subscriptions', 'per 100 inhabitants', 'NUMBER');
+INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (7, 'PVF020', 'Per capita food supply', 'kcal/capita/day', 'NUMBER');
 
 ALTER SEQUENCE indicator_type_seq RESTART WITH 8;
 

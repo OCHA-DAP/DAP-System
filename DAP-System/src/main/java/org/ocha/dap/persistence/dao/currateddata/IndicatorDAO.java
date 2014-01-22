@@ -8,14 +8,15 @@ import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
+import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.dap.persistence.entity.curateddata.Source;
 
 public interface IndicatorDAO {
 
 	public List<Indicator> listLastIndicators(final int limit);
 
-	public void addIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
-			final String value, final String initialValue, final ImportFromCKAN importFromCKAN);
+	public void addIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
+			final String initialValue, final ImportFromCKAN importFromCKAN);
 
 	/**
 	 * 
@@ -50,7 +51,7 @@ public interface IndicatorDAO {
 	public void deleteAllIndicators();
 
 	public void deleteAllIndicatorsFromImport(long importId);
-	
+
 	public void deleteIndicator(final long indicatorId);
 
 	/**

@@ -3,6 +3,7 @@ package org.ocha.dap.persistence.entity.curateddata;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -77,12 +78,6 @@ public class Indicator {
 	@Enumerated(EnumType.STRING)
 	private Periodicity periodicity;
 
-	@Column(name = "is_numeric", nullable = false, updatable = false)
-	private boolean numeric;
-
-	@Column(name = "value", nullable = false, updatable = false)
-	private String value;
-
 	/**
 	 * Storing the initial value as represented in the resource before import. For troubleshooting
 	 */
@@ -99,6 +94,10 @@ public class Indicator {
 
 	// will be used for soft delete
 	// private int version;
+
+	@Embedded
+	private IndicatorValue value;
+
 	public long getId() {
 		return id;
 	}
@@ -155,22 +154,6 @@ public class Indicator {
 		this.periodicity = periodicity;
 	}
 
-	public boolean isNumeric() {
-		return numeric;
-	}
-
-	public void setNumeric(final boolean numeric) {
-		this.numeric = numeric;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(final String value) {
-		this.value = value;
-	}
-
 	public String getInitialValue() {
 		return initialValue;
 	}
@@ -185,6 +168,14 @@ public class Indicator {
 
 	public void setImportFromCKAN(final ImportFromCKAN importFromCKAN) {
 		this.importFromCKAN = importFromCKAN;
+	}
+
+	public IndicatorValue getValue() {
+		return value;
+	}
+
+	public void setValue(final IndicatorValue value) {
+		this.value = value;
 	}
 
 }

@@ -3,6 +3,7 @@ package org.ocha.dap.importer;
 import java.util.Date;
 
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
 
 public class PreparedIndicator {
 
@@ -13,8 +14,7 @@ public class PreparedIndicator {
 	private Date start;
 	private Date end;
 	private Periodicity periodicity;
-	private boolean numeric;
-	private String value;
+	private IndicatorValue value;
 	private String initialValue;
 
 	public String getSourceCode() {
@@ -73,19 +73,11 @@ public class PreparedIndicator {
 		this.periodicity = periodicity;
 	}
 
-	public boolean isNumeric() {
-		return numeric;
-	}
-
-	public void setNumeric(final boolean numeric) {
-		this.numeric = numeric;
-	}
-
-	public String getValue() {
+	public IndicatorValue getValue() {
 		return value;
 	}
 
-	public void setValue(final String value) {
+	public void setValue(final IndicatorValue value) {
 		this.value = value;
 	}
 
@@ -100,6 +92,6 @@ public class PreparedIndicator {
 	@Override
 	public String toString() {
 		return "PreparedIndicator [sourceCode=" + sourceCode + ", entityCode=" + entityCode + ", entityTypeCode=" + entityTypeCode + ", indicatorTypeCode=" + indicatorTypeCode + ", start=" + start
-				+ ", end=" + end + ", periodicity=" + periodicity + ", numeric=" + numeric + ", value=" + value + ", initialValue=" + initialValue + "]";
+				+ ", end=" + end + ", periodicity=" + periodicity + ", value=" + value + ", initialValue=" + initialValue + "]";
 	}
 }

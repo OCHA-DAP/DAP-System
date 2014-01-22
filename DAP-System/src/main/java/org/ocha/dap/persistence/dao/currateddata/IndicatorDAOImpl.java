@@ -13,6 +13,7 @@ import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.Indicator;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
+import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +30,8 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Override
 	@Transactional
-	public void addIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
-			final String value, final String initialValue, final ImportFromCKAN importFromCKAN) {
+	public void addIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
+			final String initialValue, final ImportFromCKAN importFromCKAN) {
 
 		final Indicator indicator = new Indicator();
 		indicator.setSource(source);
@@ -39,7 +40,6 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		indicator.setStart(start);
 		indicator.setEnd(end);
 		indicator.setPeriodicity(periodicity);
-		indicator.setNumeric(numeric);
 		indicator.setValue(value);
 		indicator.setInitialValue(initialValue);
 		indicator.setImportFromCKAN(importFromCKAN);
@@ -120,7 +120,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Override
 	@Transactional
-	public void deleteIndicator(long indicatorId) {
+	public void deleteIndicator(final long indicatorId) {
 		em.createQuery("DELETE FROM Indicator i WHERE i.id = :indicatorId").setParameter("indicatorId", indicatorId).executeUpdate();
 
 	}

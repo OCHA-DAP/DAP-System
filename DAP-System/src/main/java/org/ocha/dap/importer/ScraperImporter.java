@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.dap.persistence.entity.dictionary.SourceDictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,15 +92,14 @@ public class ScraperImporter implements DAPImporter {
 					preparedIndicator.setStart(timeRange.getStart());
 					preparedIndicator.setEnd(timeRange.getEnd());
 					preparedIndicator.setPeriodicity(timeRange.getPeriodicity());
-					preparedIndicator.setNumeric("1".equals((values[5])));
 
+					final Double valueAsDouble = Double.parseDouble(values[4]);
 					// FIXME we should deal about units later, here for
 					// population we must X1000
 					if ("PSP010".equals(values[2])) {
-						final Double population = Double.parseDouble(values[4]) * 1000;
-						preparedIndicator.setValue(population.toString());
+						preparedIndicator.setValue(new IndicatorValue(valueAsDouble * 1000));
 					} else {
-						preparedIndicator.setValue(values[4]);
+						preparedIndicator.setValue(new IndicatorValue(valueAsDouble));
 					}
 
 					preparedIndicator.setInitialValue(values[4]);

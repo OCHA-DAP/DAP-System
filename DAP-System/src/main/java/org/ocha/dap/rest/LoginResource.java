@@ -80,7 +80,7 @@ public class LoginResource {
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/login/").build();
 		return Response.seeOther(newURI).build();
 	}
-	
+
 	@GET
 	@Path("login/")
 	public Response loginForm() {
