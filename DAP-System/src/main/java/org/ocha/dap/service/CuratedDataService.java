@@ -20,7 +20,7 @@ import com.google.visualization.datasource.datatable.DataTable;
 
 public interface CuratedDataService {
 
-	/* 
+	/*
 	 * Entity types
 	 */
 	public List<EntityType> listEntityTypes();
@@ -29,7 +29,7 @@ public interface CuratedDataService {
 
 	public void addEntityType(String code, String name);
 
-	/* 
+	/*
 	 * Entities
 	 */
 	public List<Entity> listEntities();
@@ -42,16 +42,16 @@ public interface CuratedDataService {
 
 	public void updateEntity(final long entityId, String newName);
 
-	/* 
+	/*
 	 * Indicator types
 	 */
 	public List<IndicatorType> listIndicatorTypes();
 
-	public void addIndicatorType(String code, String name, String unit);
+	public void addIndicatorType(String code, String defaultName, String unit);
 
 	public IndicatorType getIndicatorTypeByCode(final String code);
 
-	/* 
+	/*
 	 * Sources
 	 */
 	public List<Source> listSources();
@@ -60,17 +60,17 @@ public interface CuratedDataService {
 
 	public Source getSourceByCode(final String code);
 
-	/* 
+	/*
 	 * Imports from CKAN
 	 */
 	public List<ImportFromCKAN> listImportsFromCKAN();
 
 	public void deleteImportFromCKAN(long id);
 
-	/* 
+	/*
 	 * Indicators
 	 */
-	
+
 	/**
 	 * Add an indicator for the provided parameters
 	 * 
@@ -78,7 +78,7 @@ public interface CuratedDataService {
 	 */
 	public void addIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final boolean numeric,
 			final String value, final String initialValue);
-	
+
 	public void deleteIndicator(final long indicatorId);
 
 	public void addIndicator(final PreparedIndicator preparedIndicator, ImportFromCKAN importFromCKAN);
@@ -120,32 +120,29 @@ public interface CuratedDataService {
 
 	public List<Source> getExistingSourcesForIndicatorType(final String indicatorTypeCode);
 
-	/* 
+	/*
 	 * Region dictionaries
 	 */
 	public List<RegionDictionary> listRegionDictionaries();
 
 	public void addRegionDictionary(final String unnormalizedName, final String importer, final long entityId);
-	
+
 	public void deleteRegionDictionary(RegionDictionary regionDictionary);
 
-
-
-	/* 
+	/*
 	 * Source dictionaries
 	 */
 	public List<SourceDictionary> listSourceDictionaries();
-	
+
 	public void addSourceDictionary(final String unnormalizedName, final String importer, final long sourceId);
 
-
-	/* 
+	/*
 	 * Indicator type dictionaries
 	 */
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries();
-	
+
 	public void addIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorType);
-	
+
 	public void deleteIndicatorTypeDictionary(IndicatorTypeDictionary indicatorTypeDictionary);
 
 }
