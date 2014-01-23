@@ -18,6 +18,8 @@ public interface UserDAO {
 
 	public List<User> listUsers();
 
+	public List<String> listRoles();
+
 	public String getUserApiKey(final String id) throws InsufficientCredentialsException;
 
 	public boolean authenticate(final String id, final String password) throws AuthenticationException;

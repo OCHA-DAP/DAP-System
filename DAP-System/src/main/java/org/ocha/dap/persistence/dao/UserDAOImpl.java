@@ -55,6 +55,12 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
+	public List<String> listRoles() {
+		final TypedQuery<String> query = em.createQuery("SELECT distinct u.role FROM User u", String.class);
+		return query.getResultList();
+	}
+
+	@Override
 	public String getUserApiKey(final String id) throws InsufficientCredentialsException {
 		final String apiKey;
 		try {

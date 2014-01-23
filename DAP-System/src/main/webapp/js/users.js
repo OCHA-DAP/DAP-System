@@ -6,29 +6,33 @@ app.run(function(editableOptions) {
 
 app.controller('UsersCtrl', function($scope, $filter, $http) {
 
-  // Remove from the array <array> the property <property> which has the value <value>
-  function remove(array, property, value) {
-    angular.forEach(array, function(result, index) {
-      var res = result[property];
-      if (res == value) {
-        array.splice(index, 1);
-      }
-    });
-  }
-
+  // Sort management
+  $scope.predicate = 'id';
+  
   // ////////////////////
   // Users management
   // ////////////////////
 
   $scope.users = [];
-
+  
+  // Allow to find a user according to its id
+  $scope.findUser = function(user_id) {
+    return $filter('filter')($scope.users, {
+      id : user_id
+    }, true);
+  }
+  
   // Load users
   $scope.loadUsers = function() {
     return $http.get(dapContextRoot + '/admin/users/json').success(function(data) {
       $scope.users = data;
-      angular.forEach($scope.users, function(value, key){
+      angular.forEach($scope.users, function(value, key) {
         console.log(key + ': ' + value);
-      });      
+        // Value is a user
+        value.setEditing = function(state) {
+          this.isEditing = state;
+        }
+      });
     });
   };
 
@@ -36,20 +40,74 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
     $scope.loadUsers();
   }
 
-  // Save (update) a user
-  $scope.saveUser = function(data, id) {
-    return $http.post(dapContextRoot + '/admin/users/submitupdate', "userId=" + id + "&newPassword=" + data.password + "&newPassword2=" + data.password2 + "&newCkanApiKey=" + data.ckanApiKey + "&newRole=" + data.role, {
-      headers : {
-        'Content-Type' : 'application/x-www-form-urlencoded'
-      }
+  ///////////////////
+  // Roles management
+  ///////////////////
+  
+  $scope.roles = [];
+
+  // Load roles
+  $scope.loadRoles = function() {
+    return $http.get(dapContextRoot + '/admin/users/roles/json').success(function(data) {
+      $scope.roles = data;
+      $scope.resetNewUser();
     });
+  };
+
+  if (!$scope.roles.length) {
+    $scope.loadRoles();
+  }
+
+  // Show a user's role
+  $scope.showRole = function(user) {
+    var selected = $filter('filter')($scope.roles, {
+      value : user.role
+    });
+    return (user.role && selected.length) ? selected[0].text : 'Not set';
+  };
+  
+  // Save (update) a user
+  $scope.saveUser = function(datas, id) {
+    var valid = $scope.checkUpdateForm(datas);
+    if ("OK" == valid) {
+      $http.post(
+          dapContextRoot + '/admin/users/submitupdate',
+          "userId=" + id + "&newPassword=" + datas.password + "&newPassword2=" + datas.password2 + "&newCkanApiKey=" + datas.ckanApiKey
+              + "&newRole=" + datas.role, {
+            headers : {
+              'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+          }).success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        $scope.findUser(id)[0].setEditing(false);
+        $scope.loadUsers();
+      }).error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        alert("User update threw an error. No user has been updated.");
+      });
+    } else {
+      alert("Form not valid ! \r\n" + valid);
+    }
+  };
+  
+  // - check that the updated user is valid
+  $scope.checkUpdateForm = function(data) {
+    var password = data.password;
+    var password2 = data.password2;
+    if (password != password2) {
+      return "Password and confirmation must match.";
+    }
+    return "OK";
   };
 
   // Remove a user
   $scope.removeUser = function(id) {
-    if(!confirm("Do you really want to delete this user ?")) {
+    if (!confirm("Do you really want to delete this user ?")) {
       return;
-    };
+    }
+
     $http.post(dapContextRoot + '/admin/users/submitdelete', "userId=" + id, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
@@ -57,7 +115,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
     }).success(function(data, status, headers, config) {
       // this callback will be called asynchronously
       // when the response is available
-      // alert("User  deleted !");
+      // alert("User deleted !");
       $scope.loadUsers();
     }).error(function(data, status, headers, config) {
       // called asynchronously if an error occurs
@@ -80,7 +138,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
     $scope.newuser.password = "";
     $scope.newuser.password2 = "";
     $scope.newuser.ckanApiKey = "";
-    $scope.newuser.role = "";
+    $scope.newuser.role = $scope.roles[0].value;
   };
 
   // - reset its form
@@ -93,8 +151,10 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
     var valid = $scope.checkForm(data);
     if ("OK" == valid) {
       // alert("Add user : " + data);
-      return $http.post(dapContextRoot + '/admin/users/submitadd',
-          "userId=" + id + "&newPassword=" + data.password + "&newPassword2=" + data.password2 + "&newCkanApiKey=" + data.ckanApiKey + "&newRole=" + data.role, {
+      return $http.post(
+          dapContextRoot + '/admin/users/submitadd',
+          "userId=" + data.id + "&newPassword=" + data.password + "&newPassword2=" + data.password2 + "&newCkanApiKey=" + data.ckanApiKey
+              + "&newRole=" + data.role, {
             headers : {
               'Content-Type' : 'application/x-www-form-urlencoded'
             }
@@ -118,6 +178,9 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
 
   // - check that the new user is complete
   $scope.checkForm = function(data) {
+    if (!data) {
+      return "At least some info should be provided.";
+    }
     var id = data.id;
     if ('' == id || null == id) {
       return "Id cannot be empty.";

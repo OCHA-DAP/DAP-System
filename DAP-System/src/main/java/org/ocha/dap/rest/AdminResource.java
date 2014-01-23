@@ -107,13 +107,32 @@ public class AdminResource {
 		return jsonArray.toString();
 	}
 
-	@POST
-	@Path("/users/submitdelete")
-	public Response deleteUser(@FormParam("userId") final String userId, @Context final UriInfo uriInfo) throws Exception {
-		dapService.deleteUser(userId);
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/users/roles/json")
+	public String getUserRoles() throws TypeMismatchException {
 
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/users/").build();
-		return Response.seeOther(newURI).build();
+		final List<String> roles = dapService.listRoles();
+		final JsonArray jsonArray = new JsonArray();
+
+		for (final String role : roles) {
+
+			final JsonObject element = new JsonObject();
+			element.addProperty("value", role);
+			element.addProperty("text", role);
+			jsonArray.add(element);
+		}
+		return jsonArray.toString();
+	}
+
+	@POST
+	@Path("/users/submitadd")
+	public Response addUserupdateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newPassword2") final String newPassword2,
+			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole, @Context final UriInfo uriInfo) throws Exception {
+		// TODO Perform validation
+		
+		dapService.createUser(userId, newPassword, newRole, newCkanApiKey);
+		return Response.ok().build();
 	}
 
 	@POST
@@ -122,7 +141,16 @@ public class AdminResource {
 			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole, @Context final UriInfo uriInfo) throws Exception {
 		dapService.updateUser(userId, newPassword, newRole, newCkanApiKey);
 
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/user/").build();
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/users/").build();
+		return Response.seeOther(newURI).build();
+	}
+
+	@POST
+	@Path("/users/submitdelete")
+	public Response deleteUser(@FormParam("userId") final String userId, @Context final UriInfo uriInfo) throws Exception {
+		dapService.deleteUser(userId);
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/users/").build();
 		return Response.seeOther(newURI).build();
 	}
 

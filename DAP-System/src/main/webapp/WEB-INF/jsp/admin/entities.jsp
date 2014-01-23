@@ -46,12 +46,12 @@
 	<div>
 		<table class="table table-bordered table-hover table-condensed" style="width: 80%">
 			<tr style="font-weight: bold">
-				<td style="width: 15%">Type</td>
-				<td style="width: 15%">Code</td>
-				<td style="width: 50%">Name</td>
+				<td style="width: 15%"><a href="" ng-click="predicate='type'; reverse=!reverse">Type</a></td>
+				<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
+				<td style="width: 50%"><a href="" ng-click="predicate='name'; reverse=!reverse">Name</a></td>
 				<td style="width: 20%">Action</td>
 			</tr>
-			<tr ng-repeat="entity in entities">
+			<tr ng-repeat="entity in entities | orderBy:predicate:reverse">
 				<td>
 					<!-- non editable type (from select box) --> <span> {{ showType(entity) }} </span>
 				</td>
@@ -75,7 +75,7 @@
 			</tr>
 		</table>
 	</div>
-	<h3>Test zone</h3>
+	<!-- >h3>Test zone</h3>
 	<pre>
 		<p>Types : {{ types | json }}</p>
 		<p>Entities : {{ entities | json }}</p>
@@ -110,7 +110,7 @@
 			</tr>
 		</c:forEach>
 
-	</table>
+	</table -->
 	
 	
 	

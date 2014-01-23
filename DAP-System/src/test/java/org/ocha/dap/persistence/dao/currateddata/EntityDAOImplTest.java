@@ -9,6 +9,8 @@ import org.ocha.dap.persistence.dao.i18n.TextDAO;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
 import org.ocha.dap.persistence.entity.i18n.Text;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,6 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-persistence-test.xml" })
 public class EntityDAOImplTest {
+
+	private static Logger logger = LoggerFactory.getLogger(EntityDAOImplTest.class);
 
 	@Autowired
 	private EntityDAO entityDAO;
@@ -38,11 +42,11 @@ public class EntityDAOImplTest {
 
 	@Test
 	public void testListEntities() {
-		System.out.println("Testing list entities...");
+		logger.info("Testing list entities...");
 		Assert.assertEquals(0, entityDAO.listEntities().size());
 
 		try {
-			System.out.println("Testing add entity...");
+			logger.info("Testing add entity...");
 			entityDAO.createEntity("RU", new Text("Russia"), new EntityType());
 			Assert.fail("Should have raised an Exception, cannot create an entity with an invalid type");
 		} catch (final Exception e) {
@@ -61,7 +65,7 @@ public class EntityDAOImplTest {
 		final Entity entityById = entityDAO.getEntityById(entityForCode.getId());
 		Assert.assertEquals("Russia", entityById.getName().getDefaultValue());
 
-		System.out.println("Testing delete entity...");
+		logger.info("Testing delete entity...");
 		entityDAO.deleteEntityByCodeAndType("RU", "country");
 
 		Assert.assertEquals(0, entityDAO.listEntities().size());
@@ -70,7 +74,7 @@ public class EntityDAOImplTest {
 
 	@Test
 	public void testUpdateEntity() {
-		System.out.println("Testing update entity...");
+		logger.info("Testing update entity...");
 
 		final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
 

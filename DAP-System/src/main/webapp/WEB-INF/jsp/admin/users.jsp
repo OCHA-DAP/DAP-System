@@ -34,7 +34,8 @@
 				</tr>
 				<tr>
 					<td><input type="text" ng-model="newuser.id" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
-					<td><input type="text" ng-model="newuser.role" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
+					<td><select ng-model="newuser.role" ng-options="r.value as r.text for r in roles" ng-class="default" ng-class="{strike: deleted, bold: important, red: error}" required>
+					</select></td>
 					<td><input type="password" ng-model="newuser.password" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
 					<td><input type="password" ng-model="newuser.password2" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
 					<td><input type="text" ng-model="newuser.ckanApiKey" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
@@ -49,23 +50,23 @@
 	<div>
 		<table class="table table-bordered table-hover table-condensed" style="width: 80%">
 			<tr style="font-weight: bold">
-				<td style="width: 15%">Id</td>
-				<td style="width: 15%">Role</td>
+				<td style="width: 15%"><a href="" ng-click="predicate='id'; reverse=!reverse">Id</td>
+				<td style="width: 15%"><a href="" ng-click="predicate='role'; reverse=!reverse">Role</td>
 				<td style="width: 15%">Password</td>
 				<td style="width: 15%">Password confirmation</td>
 				<td style="width: 15%">CKAN API key</td>
 				<td style="width: 25%">Action</td>
 			</tr>
-			<tr ng-repeat="user in users">
+			<tr ng-repeat="user in users | orderBy:predicate:reverse">
 				<td>
 					<!-- non editable id --> <span e-name="id" e-form="rowform"> {{ user.id }} </span>
 				</td>
 				<td>
-					<!-- editable role --> <span editable-text="user.role" e-name="role" e-form="rowform" onbeforesave="checkRole($data, user.id)" e-required> {{ user.role }} </span>
+					<!-- editable role --> <span editable-select="user.role" e-name="role" e-form="rowform" e-ng-options="r.value as r.text for r in roles"> {{ showRole(user) }} 
 				</td>
-				<td><input type="password" ng-model="newuser.password" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
-				<td><input type="password" ng-model="newuser.password2" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
-				<td><input type="text" ng-model="newuser.ckanApiKey" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
+				<td><input type="password" ng-model="user.password" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
+				<td><input type="password" ng-model="user.password2" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
+				<td><input type="text" ng-model="user.ckanApiKey" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
 				<td style="white-space: nowrap">
 					<!-- form -->
 					<form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
@@ -80,9 +81,9 @@
 			</tr>
 		</table>
 	</div>
-	<h3>Test zone</h3>
+	<!-- h3>Test zone</h3>
 	<pre>
-		<p>Types : {{ types | json }}</p>
+		<p>Roles : {{ roles | json }}</p>
 		<p>Users : {{ users | json }}</p>
 	</pre>
 	<h2>Add a new User</h2>
@@ -93,7 +94,7 @@
 		<select name="role" id="role">
 			<option value="admin">admin</option>
 			<option value="api">api</option>
-		</select> <input type="submit" value="submit" onclick="alert('test'); return true;"/>
+		</select> <input type="submit" value="submit" onclick="alert('test'); return true;" />
 
 	</form>
 
@@ -111,7 +112,7 @@
 			</tr>
 		</c:forEach>
 
-	</table>
+	</table -->
 
 </body>
 </html>
