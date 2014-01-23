@@ -26,6 +26,9 @@
     alter table entity 
         drop constraint fk_entity_to_name_text;
 
+    alter table indicator_type 
+        drop constraint fk_indicator_type_to_name_text;
+
     alter table indicator_type_dictionary 
         drop constraint fk_indicator_type_dictionary_to_indicator_type;
 
@@ -172,9 +175,9 @@
     create table indicator_type (
         id int8 not null,
         code varchar(255) not null,
-        name varchar(255) not null,
         unit varchar(255),
         value_type varchar(255),
+        text_id int8,
         primary key (id)
     );
 
@@ -260,6 +263,11 @@
 
     alter table entity 
         add constraint fk_entity_to_name_text 
+        foreign key (text_id) 
+        references text;
+
+    alter table indicator_type 
+        add constraint fk_indicator_type_to_name_text 
         foreign key (text_id) 
         references text;
 

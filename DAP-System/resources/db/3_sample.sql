@@ -16,7 +16,6 @@ INSERT INTO entity(id, code, text_id, entity_type_id) VALUES (3, 'CMR', 3, 1);
 INSERT INTO text(id, default_value) VALUES (4, 'Luxembourg');
 INSERT INTO entity(id, code, text_id, entity_type_id) VALUES (4, 'LUX', 4, 1);
 
-ALTER SEQUENCE text_seq RESTART WITH 5;
 ALTER SEQUENCE entity_seq RESTART WITH 5;
 
 INSERT INTO language(code, native_name) VALUES ('FR', 'Français');
@@ -27,15 +26,23 @@ INSERT INTO dap_translation(text, language, value) VALUES (1, 'EN', 'Russia');
 INSERT INTO dap_translation(text, language, value) VALUES (4, 'FR', 'Luxembourg');
 INSERT INTO dap_translation(text, language, value) VALUES (4, 'EN', 'Luxemburg');
 
- 
-INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (1, 'PVX040', 'Incidence of conflict', 'Count', 'NUMBER');
-INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (2, 'PSP080', 'Population Density', 'persons per square km', 'NUMBER');
-INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (3, 'PSP010', 'Population (Total M+F)', 'persons', 'NUMBER');
-INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (4, 'PSE030', 'GDP per capita, PPP', 'current international $', 'NUMBER');
-INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (5, '_emdat:total_affected', 'Total affected', 'persons', 'NUMBER');
-INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (6, 'PCX051', 'Mobile cellular subscriptions', 'per 100 inhabitants', 'NUMBER');
-INSERT INTO indicator_type(id, code, name, unit, value_type) VALUES (7, 'PVF020', 'Per capita food supply', 'kcal/capita/day', 'NUMBER');
 
+INSERT INTO text(id, default_value) VALUES (5, 'Incidence of conflict');
+INSERT INTO indicator_type(id, code, text_id, unit, value_type) VALUES (1, 'PVX040', 5, 'Count', 'NUMBER');
+INSERT INTO text(id, default_value) VALUES (6, 'Population Density');
+INSERT INTO indicator_type(id, code, text_id, unit, value_type) VALUES (2, 'PSP080', 6, 'persons per square km', 'NUMBER');
+INSERT INTO text(id, default_value) VALUES (7, 'Population (Total M+F)');
+INSERT INTO indicator_type(id, code, text_id, unit, value_type) VALUES (3, 'PSP010', 7, 'persons', 'NUMBER');
+INSERT INTO text(id, default_value) VALUES (8, 'GDP per capita, PPP');
+INSERT INTO indicator_type(id, code, text_id, unit, value_type) VALUES (4, 'PSE030', 8, 'current international $', 'NUMBER');
+INSERT INTO text(id, default_value) VALUES (9, 'Total affected');
+INSERT INTO indicator_type(id, code, text_id, unit, value_type) VALUES (5, '_emdat:total_affected', 9, 'persons', 'NUMBER');
+INSERT INTO text(id, default_value) VALUES (10, 'Mobile cellular subscriptions');
+INSERT INTO indicator_type(id, code, text_id, unit, value_type) VALUES (6, 'PCX051', 10, 'per 100 inhabitants', 'NUMBER');
+INSERT INTO text(id, default_value) VALUES (11, 'Per capita food supply');
+INSERT INTO indicator_type(id, code, text_id, unit, value_type) VALUES (7, 'PVF020', 11, 'kcal/capita/day', 'NUMBER');
+
+ALTER SEQUENCE text_seq RESTART WITH 12;
 ALTER SEQUENCE indicator_type_seq RESTART WITH 8;
 
 INSERT INTO source(id, code, name) VALUES (1, 'WB', 'World Bank');

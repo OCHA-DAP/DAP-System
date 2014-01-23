@@ -29,7 +29,7 @@
 		<label for="indicatorTypeCode">Indicator type</label>
 		<select name="indicatorTypeCode" id="indicatorTypeCode">
 			<c:forEach var="indicatorType" items="${it.indicatorTypes}">
-				<option value="${indicatorType.code}">${indicatorType.name}</option>
+				<option value="${indicatorType.code}">${indicatorType.name.defaultValue}</option>
 			</c:forEach>
 		</select>
 		<br />
@@ -78,8 +78,8 @@
 			<tr>
 				<td>${indicator.id}</td>
 				<td>${indicator.source.name}</td>
-				<td>${indicator.entity.name}</td>
-				<td>${indicator.type.name}</td>
+				<td>${indicator.entity.name.defaultValue}</td>
+				<td>${indicator.type.name.defaultValue}</td>
 				<td><fmt:formatDate value="${indicator.start}" pattern="yyyy-MM-dd" /></td>
 				<td><fmt:formatDate value="${indicator.end}" pattern="yyyy-MM-dd" /></td>
 				<td>${indicator.periodicity}</td>

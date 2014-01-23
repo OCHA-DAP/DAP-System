@@ -37,7 +37,7 @@
 			<tr>
 				<td>${indicatorType.id}</td>
 				<td>${indicatorType.code}</td>
-				<td>${indicatorType.name}</td>
+				<td>${indicatorType.name.defaultValue}</td>
 				<td>${indicatorType.unit}</td>
 			</tr>
 		</c:forEach>

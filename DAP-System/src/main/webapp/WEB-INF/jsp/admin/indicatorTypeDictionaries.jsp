@@ -17,7 +17,7 @@
 		<label for="entity">For Indicator Type</label>
 		<select name="indicatorType" id="indicatorType">
 			<c:forEach var="indicatorType" items="${it.indicatorTypes}">
-				<option value="${indicatorType.id}">${indicatorType.name}</option>
+				<option value="${indicatorType.id}">${indicatorType.name.defaultValue}</option>
 			</c:forEach>
 		</select>
 		<label for="unnormalizedName">Unnormalized Name</label>
@@ -39,7 +39,7 @@
 
 		<c:forEach var="indicatorTypeDictionary" items="${it.indicatorTypeDictionaries}">
 			<tr>
-				<td>${indicatorTypeDictionary.indicatorType.name}</td>
+				<td>${indicatorTypeDictionary.indicatorType.name.defaultValue}</td>
 				<td>${indicatorTypeDictionary.id.importer}</td>
 				<td>${indicatorTypeDictionary.id.unnormalizedName}</td>
 				<td>
