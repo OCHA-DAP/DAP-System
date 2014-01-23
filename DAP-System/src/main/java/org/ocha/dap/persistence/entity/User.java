@@ -13,30 +13,30 @@ public class User {
 	private final String id;
 
 	@Column(name = "password", updatable = true)
-	private final String password;
+	private String password;
 
 	@Column(name = "role", updatable = true)
-	private final String role;
+	private String role;
 
 	@Column(name = "ckanApiKey", updatable = true)
-	private final String ckanApiKey;
+	private String ckanApiKey;
 
 	public User(final String id, final String password, final String role, final String ckanApiKey) {
 		super();
 		this.id = id;
-		this.role = role;
-		this.password = password;
-		this.ckanApiKey = ckanApiKey;
+		setRole(role);
+		setPassword(password);
+		setCkanApiKey(ckanApiKey);
 	}
 
 	// this constructor is here for hibernate (used via reflection)
 	@SuppressWarnings("unused")
 	private User() {
 		super();
-		this.id = null;
-		this.role = null;
-		this.password = null;
-		this.ckanApiKey = null;
+		id = null;
+		setRole(null);
+		setPassword(null);
+		setCkanApiKey(null);
 	}
 
 	public String getId() {
@@ -53,6 +53,18 @@ public class User {
 
 	public String getCkanApiKey() {
 		return ckanApiKey;
+	}
+
+	public void setCkanApiKey(final String ckanApiKey) {
+		this.ckanApiKey = ckanApiKey;
+	}
+
+	public void setRole(final String role) {
+		this.role = role;
+	}
+
+	public void setPassword(final String password) {
+		this.password = password;
 	}
 
 }

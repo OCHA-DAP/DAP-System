@@ -6,16 +6,9 @@ app.run(function(editableOptions) {
 
 app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
-  // Remove from the array <array> the property <property> which has the value <value>
-  function remove(array, property, value) {
-    angular.forEach(array, function(result, index) {
-      var res = result[property];
-      if (res == value) {
-        array.splice(index, 1);
-      }
-    });
-  }
-
+  // Sort management
+  $scope.predicate = 'type';
+  
   // /////////////////
   // Types management
   // /////////////////
@@ -65,15 +58,26 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
   // Save (update) an entity
   $scope.saveEntity = function(data, id) {
-    return $http.post(dapContextRoot + '/admin/curated/entities/submitupdate', "entityId=" + id + "&newName=" + data.name, {
+    $http.post(dapContextRoot + '/admin/curated/entities/submitupdate', "entityId=" + id + "&newName=" + data.name, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
+    }).success(function(data, status, headers, config) {
+      // this callback will be called asynchronously
+      // when the response is available
+      $scope.loadEntities();
+    }).error(function(data, status, headers, config) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      alert("Entity update threw an error. No entity has been updated.");
     });
   };
 
   // Remove an entity
   $scope.removeEntity = function(id) {
+    if(!confirm("Do you really want to delete this entity ?")) {
+      return;
+    }
     $http.post(dapContextRoot + '/admin/curated/entities/submitdelete', "entityId=" + id, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
@@ -81,12 +85,10 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
     }).success(function(data, status, headers, config) {
       // this callback will be called asynchronously
       // when the response is available
-      alert("Entity  deleted !");
       $scope.loadEntities();
     }).error(function(data, status, headers, config) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
-      // alert("Entity " + id + " deletion threw error : \r\n" + data);
       alert("Entity deletion threw an error. Maybe this entity is used by some indicator. No entity has been deleted.");
     });
   };
@@ -124,7 +126,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
           }).success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
-        alert("Entity added !");
+        // alert("Entity added !");
         $scope.resetNewEntity();
         $scope.resetAddEntityForm();
         $scope.loadEntities();
@@ -135,7 +137,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
         alert("Entity addition threw an error. Maybe this entity already exists. No entity has been created.");
       });
     } else {
-      alert("Form not valid ! Message : " + valid);
+      alert("Form not valid ! \r\n" + valid);
     }
   };
 

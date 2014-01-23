@@ -377,6 +377,11 @@ public class DAPServiceImpl implements DAPService {
 	}
 
 	@Override
+	public List<String> listRoles() {
+		return userDao.listRoles();
+	}
+
+	@Override
 	public void createUser(final String id, final String password, final String role, final String apiKey) throws Exception {
 		userDao.createUser(id, password, role, apiKey);
 
@@ -385,6 +390,12 @@ public class DAPServiceImpl implements DAPService {
 	@Override
 	public void updateUser(final String id, final String password, final String role, final String apiKey) throws Exception {
 		userDao.updateUser(id, password, role, apiKey);
+
+	}
+
+	@Override
+	public void deleteUser(final String id) throws Exception {
+		userDao.deleteUser(id);
 
 	}
 

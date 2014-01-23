@@ -85,8 +85,12 @@ public interface DAPService {
 
 	public List<User> listUsers();
 
+	public List<String> listRoles();
+
 	public void createUser(final String id, final String password, final String role, final String apiKey) throws Exception;
 
 	public void updateUser(final String id, final String password, final String role, final String apiKey) throws Exception;
+
+	public void deleteUser(final String id) throws Exception;
 
 }

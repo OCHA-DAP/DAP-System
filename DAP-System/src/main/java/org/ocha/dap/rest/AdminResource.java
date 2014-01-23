@@ -21,6 +21,7 @@ import javax.ws.rs.core.UriInfo;
 import org.glassfish.jersey.server.mvc.Viewable;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.ocha.dap.persistence.entity.User;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
@@ -78,6 +79,71 @@ public class AdminResource {
 		dapService.createUser(id, password, role, ckanApiKey);
 
 		return displayUsersList();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/users/json")
+	public String getUsers() throws TypeMismatchException {
+
+		final List<User> listUsers = dapService.listUsers();
+		final JsonArray jsonArray = new JsonArray();
+
+		for (final User user : listUsers) {
+
+			final JsonObject element = new JsonObject();
+			element.addProperty("id", user.getId());
+			element.addProperty("role", user.getRole());
+			jsonArray.add(element);
+		}
+		return jsonArray.toString();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/users/roles/json")
+	public String getUserRoles() throws TypeMismatchException {
+
+		final List<String> roles = dapService.listRoles();
+		final JsonArray jsonArray = new JsonArray();
+
+		for (final String role : roles) {
+
+			final JsonObject element = new JsonObject();
+			element.addProperty("value", role);
+			element.addProperty("text", role);
+			jsonArray.add(element);
+		}
+		return jsonArray.toString();
+	}
+
+	@POST
+	@Path("/users/submitadd")
+	public Response addUserupdateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newPassword2") final String newPassword2,
+			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole, @Context final UriInfo uriInfo) throws Exception {
+		// TODO Perform validation
+		
+		dapService.createUser(userId, newPassword, newRole, newCkanApiKey);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/users/submitupdate")
+	public Response updateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newPassword2") final String newPassword2,
+			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole, @Context final UriInfo uriInfo) throws Exception {
+		dapService.updateUser(userId, newPassword, newRole, newCkanApiKey);
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/users/").build();
+		return Response.seeOther(newURI).build();
+	}
+
+	@POST
+	@Path("/users/submitdelete")
+	public Response deleteUser(@FormParam("userId") final String userId, @Context final UriInfo uriInfo) throws Exception {
+		dapService.deleteUser(userId);
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/users/").build();
+		return Response.seeOther(newURI).build();
 	}
 
 	/*

@@ -37,8 +37,17 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	@Transactional
 	public void updateUser(final String id, final String password, final String role, final String ckanApiKey) throws Exception {
-		final User userToUpdate = new User(id, sha1Encrypt(password), role, aesCipher.encrypt(ckanApiKey));
+		final User userToUpdate = em.find(User.class, id);
 		em.merge(userToUpdate);
+		if((null != password) && !"".equals(password)) {
+			userToUpdate.setPassword(sha1Encrypt(password));
+		}
+		if((null != role) && !"".equals(role)) {
+			userToUpdate.setRole(role);
+		}
+		if((null != ckanApiKey) && !"".equals(ckanApiKey)) {
+			userToUpdate.setCkanApiKey(aesCipher.encrypt(ckanApiKey));
+		}
 	}
 
 	@Override
@@ -51,6 +60,12 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<User> listUsers() {
 		final TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<String> listRoles() {
+		final TypedQuery<String> query = em.createQuery("SELECT distinct u.role FROM User u", String.class);
 		return query.getResultList();
 	}
 
