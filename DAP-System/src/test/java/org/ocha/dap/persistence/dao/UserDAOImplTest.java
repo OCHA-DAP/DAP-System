@@ -112,13 +112,70 @@ public class UserDAOImplTest {
 		userDAO.createUser("fakeId", "fakePassword", "fakeRole", "fakeAPIKey");
 		final User user = userDAO.getUserById("fakeId");
 
+		User updatedUser;
+		
+		// Update all datas
 		userDAO.updateUser(user.getId(), "newPassword", "newRole", "newAPIKey");
-		final User updatedUser = userDAO.getUserById(user.getId());
+		updatedUser = userDAO.getUserById(user.getId());
 
 		Assert.assertEquals(user.getId(), updatedUser.getId());
 		Assert.assertEquals(userDAO.sha1Encrypt("newPassword"), updatedUser.getPassword());
 		Assert.assertEquals("newRole", updatedUser.getRole());
 		Assert.assertEquals(aesCipher.encrypt("newAPIKey"), updatedUser.getCkanApiKey());
+
+		// Update only password (other params are "")
+		userDAO.updateUser(user.getId(), "newPassword2", "", "");
+		updatedUser = userDAO.getUserById(user.getId());
+
+		Assert.assertEquals(user.getId(), updatedUser.getId());
+		Assert.assertEquals(userDAO.sha1Encrypt("newPassword2"), updatedUser.getPassword());
+		Assert.assertEquals("newRole", updatedUser.getRole());
+		Assert.assertEquals(aesCipher.encrypt("newAPIKey"), updatedUser.getCkanApiKey());
+
+		// Update only role (other params are "")
+		userDAO.updateUser(user.getId(), "", "newRole2", "");
+		updatedUser = userDAO.getUserById(user.getId());
+
+		Assert.assertEquals(user.getId(), updatedUser.getId());
+		Assert.assertEquals(userDAO.sha1Encrypt("newPassword2"), updatedUser.getPassword());
+		Assert.assertEquals("newRole2", updatedUser.getRole());
+		Assert.assertEquals(aesCipher.encrypt("newAPIKey"), updatedUser.getCkanApiKey());
+
+		// Update only api key (other params are "")
+		userDAO.updateUser(user.getId(), "", "", "newAPIKey2");
+		updatedUser = userDAO.getUserById(user.getId());
+
+		Assert.assertEquals(user.getId(), updatedUser.getId());
+		Assert.assertEquals(userDAO.sha1Encrypt("newPassword2"), updatedUser.getPassword());
+		Assert.assertEquals("newRole2", updatedUser.getRole());
+		Assert.assertEquals(aesCipher.encrypt("newAPIKey2"), updatedUser.getCkanApiKey());
+
+		// Update only password (other params are null)
+		userDAO.updateUser(user.getId(), "newPassword3", null, null);
+		updatedUser = userDAO.getUserById(user.getId());
+
+		Assert.assertEquals(user.getId(), updatedUser.getId());
+		Assert.assertEquals(userDAO.sha1Encrypt("newPassword3"), updatedUser.getPassword());
+		Assert.assertEquals("newRole2", updatedUser.getRole());
+		Assert.assertEquals(aesCipher.encrypt("newAPIKey2"), updatedUser.getCkanApiKey());
+
+		// Update only role (other params are null)
+		userDAO.updateUser(user.getId(), null, "newRole3", null);
+		updatedUser = userDAO.getUserById(user.getId());
+
+		Assert.assertEquals(user.getId(), updatedUser.getId());
+		Assert.assertEquals(userDAO.sha1Encrypt("newPassword3"), updatedUser.getPassword());
+		Assert.assertEquals("newRole3", updatedUser.getRole());
+		Assert.assertEquals(aesCipher.encrypt("newAPIKey2"), updatedUser.getCkanApiKey());
+
+		// Update only api key (other params are null)
+		userDAO.updateUser(user.getId(), null, null, "newAPIKey3");
+		updatedUser = userDAO.getUserById(user.getId());
+
+		Assert.assertEquals(user.getId(), updatedUser.getId());
+		Assert.assertEquals(userDAO.sha1Encrypt("newPassword3"), updatedUser.getPassword());
+		Assert.assertEquals("newRole3", updatedUser.getRole());
+		Assert.assertEquals(aesCipher.encrypt("newAPIKey3"), updatedUser.getCkanApiKey());
 
 		userDAO.deleteUser("fakeId");
 	}

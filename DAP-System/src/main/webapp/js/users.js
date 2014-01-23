@@ -27,6 +27,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
     return $http.get(dapContextRoot + '/admin/users/json').success(function(data) {
       $scope.users = data;
       angular.forEach($scope.users, function(value, key) {
+        angular.extend(value, {password:'', password2:''});
         console.log(key + ': ' + value);
         // Value is a user
         value.setEditing = function(state) {
@@ -72,7 +73,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
     if ("OK" == valid) {
       $http.post(
           dapContextRoot + '/admin/users/submitupdate',
-          "userId=" + id + "&newPassword=" + datas.password + "&newPassword2=" + datas.password2 + "&newCkanApiKey=" + datas.ckanApiKey
+          "userId=" + id + (datas.password ? "&newPassword=" + datas.password : "") + (datas.password2 ? "&newPassword2=" + datas.password2 : "") + (datas.ckanApiKey ? "&newCkanApiKey=" + datas.ckanApiKey : "")
               + "&newRole=" + datas.role, {
             headers : {
               'Content-Type' : 'application/x-www-form-urlencoded'

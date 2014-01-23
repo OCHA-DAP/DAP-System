@@ -64,9 +64,9 @@
 				<td>
 					<!-- editable role --> <span editable-select="user.role" e-name="role" e-form="rowform" e-ng-options="r.value as r.text for r in roles"> {{ showRole(user) }} 
 				</td>
-				<td><input type="password" ng-model="user.password" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
-				<td><input type="password" ng-model="user.password2" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
-				<td><input type="text" ng-model="user.ckanApiKey" ng-class="{strike: deleted, bold: important, red: error}" required ng-show="user.isEditing" /></td>
+				<td><!-- FIXME This should be changed to a real password field when available in xeditable --><span editable-text="user.password" e-name="password" e-form="rowform"> {{ user.password }} </span></td>
+				<td><!-- FIXME This should be changed to a real password field when available in xeditable --><span editable-text="user.password2" e-name="password2" e-form="rowform"> {{ user.password2 }} </span></td>
+				<td><span editable-text="user.ckanApiKey" e-name="ckanApiKey" e-form="rowform"> {{ user.ckanApiKey }} </span></td>
 				<td style="white-space: nowrap">
 					<!-- form -->
 					<form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
