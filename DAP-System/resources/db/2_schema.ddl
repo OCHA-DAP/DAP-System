@@ -35,6 +35,9 @@
     alter table region_dictionary 
         drop constraint fk_region_dictionary_to_entity;
 
+    alter table source 
+        drop constraint fk_source_to_name_text;
+
     alter table source_dictionary 
         drop constraint fk_source_dictionary_to_source;
 
@@ -204,7 +207,7 @@
     create table source (
         id int8 not null,
         code varchar(255) not null,
-        name varchar(255) not null,
+        text_id int8,
         primary key (id)
     );
 
@@ -280,6 +283,11 @@
         add constraint fk_region_dictionary_to_entity 
         foreign key (entity_id) 
         references entity;
+
+    alter table source 
+        add constraint fk_source_to_name_text 
+        foreign key (text_id) 
+        references text;
 
     alter table source_dictionary 
         add constraint fk_source_dictionary_to_source 
