@@ -53,8 +53,8 @@ public class IntegrationTestSetUpAndTearDown {
 		curatedDataService.addEntity("RUS", "Russia", "country");
 		curatedDataService.addEntity("RWA", "Rwanda", "country");
 
-		final Text gdp = textDAO.addText("Per capita gdp");
-		final Text conflict = textDAO.addText("Incidence of conflict");
+		final Text gdp = textDAO.createText("Per capita gdp");
+		final Text conflict = textDAO.createText("Incidence of conflict");
 		indicatorTypeDAO.addIndicatorType("per-capita-gdp", gdp, "dollar");
 		indicatorTypeDAO.addIndicatorType("PVX040", conflict, "Count");
 

@@ -70,6 +70,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
       alert("Entity update threw an error. No entity has been updated.");
+      $scope.loadEntities();
     });
   };
 

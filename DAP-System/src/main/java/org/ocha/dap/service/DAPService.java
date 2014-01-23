@@ -9,6 +9,7 @@ import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
 import org.ocha.dap.persistence.entity.ckan.CKANResource.WorkflowState;
+import org.ocha.dap.persistence.entity.i18n.Language;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
 
@@ -79,6 +80,11 @@ public interface DAPService {
 
 	public DatasetV3WrapperDTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey);
 
+	
+	/*
+	 * Users management.
+	 */
+	
 	public boolean authenticate(final String id, final String password) throws AuthenticationException;
 
 	public User getUserById(String userId);
@@ -92,5 +98,18 @@ public interface DAPService {
 	public void updateUser(final String id, final String password, final String role, final String apiKey) throws Exception;
 
 	public void deleteUser(final String id) throws Exception;
+
+	/*
+	 * Languages management.
+	 */
+	public List<Language> listLanguages();
+
+	public void createLanguage(String code, String nativeName) throws Exception;
+
+	public void updateLanguage(String code, String nativeName) throws Exception;
+
+	public void deleteLanguage(String code) throws Exception;
+
+
 
 }

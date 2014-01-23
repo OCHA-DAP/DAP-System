@@ -13,10 +13,15 @@ public class TextDAOImpl implements TextDAO {
 
 	@Override
 	@Transactional
-	public Text addText(final String defaultValue) {
+	public Text createText(final String defaultValue) {
 		final Text text = new Text(defaultValue);
 		em.persist(text);
 		return text;
+	}
+
+	@Override
+	public Text getTextById(final long id) {
+		return em.find(Text.class, id);
 	}
 
 	@Override

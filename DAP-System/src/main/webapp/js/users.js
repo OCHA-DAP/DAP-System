@@ -87,6 +87,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
         alert("User update threw an error. No user has been updated.");
+        $scope.loadUsers();
       });
     } else {
       alert("Form not valid ! \r\n" + valid);

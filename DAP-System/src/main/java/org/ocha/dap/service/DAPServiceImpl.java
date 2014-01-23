@@ -24,10 +24,12 @@ import org.ocha.dap.model.validation.ValidationReport;
 import org.ocha.dap.persistence.dao.UserDAO;
 import org.ocha.dap.persistence.dao.ckan.CKANDatasetDAO;
 import org.ocha.dap.persistence.dao.ckan.CKANResourceDAO;
+import org.ocha.dap.persistence.dao.i18n.LanguageDAO;
 import org.ocha.dap.persistence.entity.User;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
+import org.ocha.dap.persistence.entity.i18n.Language;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
 import org.ocha.dap.tools.GSONBuilderWrapper;
@@ -63,6 +65,9 @@ public class DAPServiceImpl implements DAPService {
 
 	@Autowired
 	private UserDAO userDao;
+
+	@Autowired
+	private LanguageDAO languageDao;
 
 	@Autowired
 	private CKANResourceDAO resourceDAO;
@@ -130,7 +135,7 @@ public class DAPServiceImpl implements DAPService {
 	public void flagDatasetAsToBeCurated(final String datasetName, final Type type) {
 		datasetDAO.flagDatasetAsToBeCurated(datasetName, type);
 	}
-	
+
 	@Override
 	public void flagDatasetAsIgnored(final String datasetName) {
 		datasetDAO.flagDatasetAsIgnored(datasetName);
@@ -397,6 +402,30 @@ public class DAPServiceImpl implements DAPService {
 	public void deleteUser(final String id) throws Exception {
 		userDao.deleteUser(id);
 
+	}
+
+	/*
+	 * Languages management
+	 */
+
+	@Override
+	public List<Language> listLanguages() {
+		return languageDao.listLanguages();
+	}
+
+	@Override
+	public void createLanguage(final String code, final String nativeName) throws Exception {
+		languageDao.createLanguage(code, nativeName);
+	}
+
+	@Override
+	public void updateLanguage(final String code, final String nativeName) throws Exception {
+		languageDao.updateLanguage(code, nativeName);
+	}
+
+	@Override
+	public void deleteLanguage(final String code) throws Exception {
+		languageDao.deleteLanguage(code);
 	}
 
 }

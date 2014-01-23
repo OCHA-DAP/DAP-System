@@ -130,7 +130,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	public void addEntity(final String code, final String defaultName, final String entityTypeCode) {
 		final EntityType entityType = entityTypeDAO.getEntityTypeByCode(entityTypeCode);
 
-		final Text text = textDAO.addText(defaultName);
+		final Text text = textDAO.createText(defaultName);
 		entityDAO.createEntity(code, text, entityType);
 	}
 
@@ -154,7 +154,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public void addIndicatorType(final String code, final String defaultName, final String unit) {
-		final Text text = textDAO.addText(defaultName);
+		final Text text = textDAO.createText(defaultName);
 		indicatorTypeDAO.addIndicatorType(code, text, unit);
 	}
 
