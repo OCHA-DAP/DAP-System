@@ -6,4 +6,6 @@ public interface TextDAO {
 
 	public Text addText(final String defaultValue);
 
+	public void deleteText(Text text);
+
 }

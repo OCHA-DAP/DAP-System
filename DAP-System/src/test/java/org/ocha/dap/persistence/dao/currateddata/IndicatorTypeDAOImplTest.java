@@ -41,6 +41,10 @@ public class IndicatorTypeDAOImplTest {
 		indicatorTypeDAO.deleteIndicatorTypeByCode("per-capita-gdp");
 		Assert.assertEquals(0, indicatorTypeDAO.listIndicatorTypes().size());
 
+		final Text textToDelete = indicatorTypeForCode.getName();
+		System.out.println(textToDelete.getDefaultValue());
+		textDAO.deleteText(textToDelete);
+
 	}
 
 }
