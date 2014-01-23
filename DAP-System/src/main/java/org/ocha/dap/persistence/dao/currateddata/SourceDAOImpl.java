@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.ocha.dap.persistence.entity.curateddata.Source;
+import org.ocha.dap.persistence.entity.i18n.Text;
 import org.springframework.transaction.annotation.Transactional;
 
 public class SourceDAOImpl implements SourceDAO {
@@ -22,7 +23,7 @@ public class SourceDAOImpl implements SourceDAO {
 
 	@Override
 	@Transactional
-	public void addSource(final String code, final String name) {
+	public void addSource(final String code, final Text name) {
 		final Source source = new Source();
 		source.setCode(code);
 		source.setName(name);

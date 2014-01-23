@@ -7,7 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.dap.persistence.dao.currateddata.SourceDAO;
+import org.ocha.dap.persistence.dao.i18n.TextDAO;
 import org.ocha.dap.persistence.entity.curateddata.Source;
+import org.ocha.dap.persistence.entity.i18n.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,12 +22,17 @@ public class SourceDictionaryDAOImplTest {
 	private SourceDictionaryDAO sourceDictionaryDAO;
 
 	@Autowired
+	private TextDAO textDAO;
+
+	@Autowired
 	private SourceDAO sourceDAO;
 
 	@Before
 	public void setUp() {
-		sourceDAO.addSource("WB", "World Bank");
-		sourceDAO.addSource("acled", "Armed Conflict Location and Event Dataset");
+		final Text wb = textDAO.addText("World Bank");
+		final Text acled = textDAO.addText("Armed Conflict Location and Event Dataset");
+		sourceDAO.addSource("WB", wb);
+		sourceDAO.addSource("acled", acled);
 	}
 
 	@After

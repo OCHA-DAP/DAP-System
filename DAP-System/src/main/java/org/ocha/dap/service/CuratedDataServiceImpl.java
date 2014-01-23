@@ -172,7 +172,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void addSource(final String code, final String name) {
+	public void addSource(final String code, final String defaultValue) {
+		final Text name = textDAO.addText(defaultValue);
 		sourceDAO.addSource(code, name);
 	}
 
@@ -313,7 +314,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		for (final Indicator indicator : indicators) {
 			final String code = indicator.getSource().getCode();
 			if (!dataTable.containsColumn(code)) {
-				dataTable.addColumn(new ColumnDescription(indicator.getSource().getCode(), ValueType.NUMBER, indicator.getSource().getName()));
+				dataTable.addColumn(new ColumnDescription(indicator.getSource().getCode(), ValueType.NUMBER, indicator.getSource().getName().getDefaultValue()));
 			}
 
 		}
