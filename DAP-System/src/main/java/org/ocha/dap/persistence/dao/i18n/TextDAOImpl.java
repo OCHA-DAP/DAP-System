@@ -19,4 +19,10 @@ public class TextDAOImpl implements TextDAO {
 		return text;
 	}
 
+	@Override
+	@Transactional
+	public void deleteText(final Text text) {
+		em.remove(em.contains(text) ? text : em.merge(text));
+	}
+
 }

@@ -9,12 +9,14 @@ import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
 import org.ocha.dap.persistence.dao.currateddata.IndicatorDAO;
 import org.ocha.dap.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.dap.persistence.dao.currateddata.SourceDAO;
+import org.ocha.dap.persistence.dao.i18n.TextDAO;
 import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.dap.persistence.entity.curateddata.Source;
+import org.ocha.dap.persistence.entity.i18n.Text;
 import org.ocha.dap.service.CuratedDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,6 +43,9 @@ public class IntegrationTestSetUpAndTearDown {
 	@Autowired
 	private CuratedDataService curatedDataService;
 
+	@Autowired
+	TextDAO textDAO;
+
 	public void setUp() {
 		entityTypeDAO.addEntityType("country", "Country");
 
@@ -48,8 +53,10 @@ public class IntegrationTestSetUpAndTearDown {
 		curatedDataService.addEntity("RUS", "Russia", "country");
 		curatedDataService.addEntity("RWA", "Rwanda", "country");
 
-		indicatorTypeDAO.addIndicatorType("per-capita-gdp", "Per capita gdp", "dollar");
-		indicatorTypeDAO.addIndicatorType("PVX040", "Incidence of conflict", "Count");
+		final Text gdp = textDAO.addText("Per capita gdp");
+		final Text conflict = textDAO.addText("Incidence of conflict");
+		indicatorTypeDAO.addIndicatorType("per-capita-gdp", gdp, "dollar");
+		indicatorTypeDAO.addIndicatorType("PVX040", conflict, "Count");
 
 		sourceDAO.addSource("WB", "World Bank");
 		sourceDAO.addSource("acled", "Armed Conflict Location and Event Dataset");

@@ -7,8 +7,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ForeignKey;
+import org.ocha.dap.persistence.entity.i18n.Text;
 
 /**
  * 
@@ -34,11 +39,14 @@ public class IndicatorType {
 	private long id;
 	@Column(name = "code", nullable = false, updatable = false)
 	private String code;
-	@Column(name = "name", nullable = false, updatable = false)
-	private String name;
+
+	@ManyToOne
+	@JoinColumn(name = "text_id")
+	@ForeignKey(name = "fk_indicator_type_to_name_text")
+	private Text name;
 
 	/**
-	 * this is a simple text field, just giving a hint about what the unit should be for this type of indicator might be modelized more
+	 * this is a simple text field, just giving a hint about what the unit should be for this type of indicator will be modelled more
 	 * strictly later
 	 */
 	@Column(name = "unit", nullable = true, updatable = true)
@@ -64,11 +72,11 @@ public class IndicatorType {
 		this.code = code;
 	}
 
-	public String getName() {
+	public Text getName() {
 		return name;
 	}
 
-	public void setName(final String name) {
+	public void setName(final Text name) {
 		this.name = name;
 	}
 
