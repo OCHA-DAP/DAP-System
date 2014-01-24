@@ -34,7 +34,7 @@
 			<tr>
 				<td>${source.id}</td>
 				<td>${source.code}</td>
-				<td>${source.name}</td>
+				<td>${source.name.defaultValue}</td>
 			</tr>
 		</c:forEach>
 

@@ -17,7 +17,7 @@
 		<label for="entity">For Entity</label>
 		<select name="source" id="source">
 			<c:forEach var="source" items="${it.sources}">
-				<option value="${source.id}">${source.name}</option>
+				<option value="${source.id}">${source.name.defaultValue}</option>
 			</c:forEach>
 		</select>
 		<label for="unnormalizedName">Unnormalized Name</label>
@@ -38,7 +38,7 @@
 
 		<c:forEach var="sourceDictionary" items="${it.sourceDictionaries}">
 			<tr>
-				<td>${sourceDictionary.source.name}</td>
+				<td>${sourceDictionary.source.name.defaultValue}</td>
 				<td>${sourceDictionary.id.importer}</td>
 				<td>${sourceDictionary.id.unnormalizedName}</td>
 			</tr>

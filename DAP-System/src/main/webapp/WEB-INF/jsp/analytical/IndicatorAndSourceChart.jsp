@@ -75,7 +75,7 @@
 			<label for="source">Source</label>
 			<select name="source" id="source">
 				<c:forEach var="source" items="${it.sources}">
-					<option value="${source.code}" <c:if test="${source.code eq it.source}">selected</c:if>>${source.name}</option>
+					<option value="${source.code}" <c:if test="${source.code eq it.source}">selected</c:if>>${source.name.defaultValue}</option>
 				</c:forEach>
 			</select>
 
