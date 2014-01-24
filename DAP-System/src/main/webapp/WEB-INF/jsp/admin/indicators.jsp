@@ -17,7 +17,7 @@
 		<label for="sourceCode">Source</label>
 		<select name="sourceCode" id="sourceCode">
 			<c:forEach var="source" items="${it.sources}">
-				<option value="${source.code}">${source.name}</option>
+				<option value="${source.code}">${source.name.defaultValue}</option>
 			</c:forEach>
 		</select>
 		<label for="entityId">Entity</label>
@@ -77,7 +77,7 @@
 		<c:forEach var="indicator" items="${it.indicators}">
 			<tr>
 				<td>${indicator.id}</td>
-				<td>${indicator.source.name}</td>
+				<td>${indicator.source.name.defaultValue}</td>
 				<td>${indicator.entity.name.defaultValue}</td>
 				<td>${indicator.type.name.defaultValue}</td>
 				<td><fmt:formatDate value="${indicator.start}" pattern="yyyy-MM-dd" /></td>

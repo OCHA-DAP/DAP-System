@@ -69,13 +69,13 @@
 			<label for="indicatorType">Indicator Type</label>
 			<select name="indicatorType" id="indicatorType">
 				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
-					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType}">selected</c:if>>${indicatorType.name}</option>
+					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType}">selected</c:if>>${indicatorType.name.defaultValue}</option>
 				</c:forEach>
 			</select>
 			<label for="source">Source</label>
 			<select name="source" id="source">
 				<c:forEach var="source" items="${it.sources}">
-					<option value="${source.code}" <c:if test="${source.code eq it.source}">selected</c:if>>${source.name}</option>
+					<option value="${source.code}" <c:if test="${source.code eq it.source}">selected</c:if>>${source.name.defaultValue}</option>
 				</c:forEach>
 			</select>
 
