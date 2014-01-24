@@ -37,7 +37,7 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
   $scope.saveLanguage = function(datas, code) {
     var valid = $scope.checkUpdateForm(datas);
     if ("OK" == valid) {
-      $http.post(dapContextRoot + '/admin/languages/submitupdate', "languageCode=" + code + "&newNativeName=" + datas.native_name, {
+      return $http.post(dapContextRoot + '/admin/languages/submitupdate', "code=" + code + "&newNativeName=" + datas.native_name, {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
@@ -53,6 +53,7 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
       });
     } else {
       alert("Form not valid ! \r\n" + valid);
+      return "";
     }
   };
 
@@ -71,7 +72,7 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
       return;
     }
 
-    $http.post(dapContextRoot + '/admin/languages/submitdelete', "languageCode=" + code, {
+    $http.post(dapContextRoot + '/admin/languages/submitdelete', "code=" + code, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
@@ -110,7 +111,7 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
   $scope.addLanguage = function(data) {
     var valid = $scope.checkForm(data);
     if ("OK" == valid) {
-      return $http.post(dapContextRoot + '/admin/languages/submitadd', "languageCode=" + data.code + "&newNativeName=" + data.native_name,
+      return $http.post(dapContextRoot + '/admin/languages/submitadd', "code=" + data.code + "&newNativeName=" + data.native_name,
           {
             headers : {
               'Content-Type' : 'application/x-www-form-urlencoded'
@@ -136,14 +137,18 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
   // - check that the new language is complete
   $scope.checkForm = function(data) {
     if (!data) {
+      // angular.element( document.querySelector('#newlanguage_code')).focus();
+      document.getElementById('newlanguage_code').focus();
       return "At least some info should be provided.";
     }
     var code = data.code;
     if ('' == code || null == code) {
+      document.getElementById('newlanguage_code').focus();
       return "Code cannot be empty.";
     }
     var nativeName = data.native_name;
     if ('' == nativeName || null == nativeName) {
+      document.getElementById('newlanguage_native_name').focus();
       return "Native name cannot be empty.";
     }
     return "OK";

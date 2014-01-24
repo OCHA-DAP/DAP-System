@@ -8,7 +8,8 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
   // Sort management
   $scope.predicate = 'type';
-  
+  $scope.t_predicate = 'language';
+
   // /////////////////
   // Types management
   // /////////////////
@@ -58,25 +59,41 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
   // Save (update) an entity
   $scope.saveEntity = function(data, id) {
-    $http.post(dapContextRoot + '/admin/curated/entities/submitupdate', "entityId=" + id + "&newName=" + data.name, {
-      headers : {
-        'Content-Type' : 'application/x-www-form-urlencoded'
-      }
-    }).success(function(data, status, headers, config) {
-      // this callback will be called asynchronously
-      // when the response is available
-      $scope.loadEntities();
-    }).error(function(data, status, headers, config) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      alert("Entity update threw an error. No entity has been updated.");
-      $scope.loadEntities();
-    });
+    var valid = $scope.checkUpdateForm(data);
+    if ("OK" == valid) {
+
+      return $http.post(dapContextRoot + '/admin/curated/entities/submitupdate', "entityId=" + id + "&newName=" + data.name, {
+        headers : {
+          'Content-Type' : 'application/x-www-form-urlencoded'
+        }
+      }).success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        $scope.loadEntities();
+      }).error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        alert("Entity update threw an error. No entity has been updated.");
+        $scope.loadEntities();
+      });
+    } else {
+      alert("Form not valid ! \r\n" + valid);
+      return "";
+    }
+  };
+  
+  // - check that the updated entity is valid
+  $scope.checkUpdateForm = function(data) {
+    var name = data.name;
+    if ('' == name || null == name) {
+      return "Name cannot be empty.";
+    }
+    return "OK";
   };
 
   // Remove an entity
   $scope.removeEntity = function(id) {
-    if(!confirm("Do you really want to delete this entity ?")) {
+    if (!confirm("Do you really want to delete this entity ?")) {
       return;
     }
     $http.post(dapContextRoot + '/admin/curated/entities/submitdelete', "entityId=" + id, {
@@ -157,5 +174,21 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
       return "Type cannot be empty.";
     }
     return "OK";
+  };
+  
+  //////////////////////////
+  // Translations management
+  //////////////////////////
+
+  // Save (update) a translation
+  $scope.saveTranslation = function(data, id) {
+    alert(data + ", " + id)
+  };
+
+  // Remove a translation
+  $scope.removeTranslation = function(id) {
+    if (!confirm("Do you really want to delete this translation ?")) {
+      return;
+    }
   };
 });

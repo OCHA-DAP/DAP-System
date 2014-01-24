@@ -179,10 +179,28 @@ public class AdminResource {
 
 	@POST
 	@Path("/languages/submitadd")
-	public Response addLanguage(@FormParam("languageCode") final String languageCode, @FormParam("newNativeName") final String newNativeName, @Context final UriInfo uriInfo) throws Exception {
+	public Response addLanguage(@FormParam("code") final String languageCode, @FormParam("newNativeName") final String newNativeName, @Context final UriInfo uriInfo) throws Exception {
 		// TODO Perform validation
 		dapService.createLanguage(languageCode, newNativeName);
 		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/languages/submitupdate")
+	public Response updateLanguage(@FormParam("code") final String code, @FormParam("newNativeName") final String newNativeName, @Context final UriInfo uriInfo) throws Exception {
+		dapService.updateLanguage(code, newNativeName);
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/languages/").build();
+		return Response.seeOther(newURI).build();
+	}
+
+	@POST
+	@Path("/languages/submitdelete")
+	public Response deleteLanguage(@FormParam("code") final String code, @Context final UriInfo uriInfo) throws Exception {
+		dapService.deleteLanguage(code);
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/languages/").build();
+		return Response.seeOther(newURI).build();
 	}
 
 	/*

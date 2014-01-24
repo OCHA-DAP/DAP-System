@@ -23,14 +23,14 @@
 	<div>
 		<h3>Add user</h3>
 		<form novalidate name="addUserForm" class="css-form">
-			<table class="table table-bordered table-hover table-condensed" style="width: 80%">
+			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
-					<td style="width: 15%">Id</td>
-					<td style="width: 15%">Role</td>
-					<td style="width: 15%">Password</td>
-					<td style="width: 15%">Password confirmation</td>
-					<td style="width: 15%">CKAN API key</td>
-					<td style="width: 25%">Action</td>
+					<td style="width: 16%">Id</td>
+					<td style="width: 16%">Role</td>
+					<td style="width: 16%">Password</td>
+					<td style="width: 16%">Password confirmation</td>
+					<td style="width: 16%">CKAN API key</td>
+					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
 					<td><input type="text" ng-model="newuser.id" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
@@ -48,14 +48,14 @@
 	</div>
 	<h3>Users</h3>
 	<div>
-		<table class="table table-bordered table-hover table-condensed" style="width: 80%">
+		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">
-				<td style="width: 15%"><a href="" ng-click="predicate='id'; reverse=!reverse">Id</td>
-				<td style="width: 15%"><a href="" ng-click="predicate='role'; reverse=!reverse">Role</td>
-				<td style="width: 15%">Password</td>
-				<td style="width: 15%">Password confirmation</td>
-				<td style="width: 15%">CKAN API key</td>
-				<td style="width: 25%">Action</td>
+				<td style="width: 16%"><a href="" ng-click="predicate='id'; reverse=!reverse">Id</td>
+				<td style="width: 16%"><a href="" ng-click="predicate='role'; reverse=!reverse">Role</td>
+				<td style="width: 16%">Password</td>
+				<td style="width: 16%">Password confirmation</td>
+				<td style="width: 16%">CKAN API key</td>
+				<td style="width: 20%">Action</td>
 			</tr>
 			<tr ng-repeat="user in users | orderBy:predicate:reverse">
 				<td>
@@ -64,8 +64,8 @@
 				<td>
 					<!-- editable role --> <span editable-select="user.role" e-name="role" e-form="rowform" e-ng-options="r.value as r.text for r in roles"> {{ showRole(user) }} 
 				</td>
-				<td><!-- FIXME This should be changed to a real password field when available in xeditable --><span editable-text="user.password" e-name="password" e-form="rowform"> {{ user.password }} </span></td>
-				<td><!-- FIXME This should be changed to a real password field when available in xeditable --><span editable-text="user.password2" e-name="password2" e-form="rowform"> {{ user.password2 }} </span></td>
+				<td><!-- FIXME This should be changed to a real password field when available in xeditable --><span editable-text="user.password" e-name="password" e-id="password_field" e-form="rowform" onshow="customize('password_field')"> {{ user.password }} </span></td>
+				<td><!-- FIXME This should be changed to a real password field when available in xeditable --><span editable-text="user.password2" e-name="password2" e-id="password2_field" e-form="rowform" onshow="customize('password2_field')"> {{ user.password2 }} </span></td>
 				<td><span editable-text="user.ckanApiKey" e-name="ckanApiKey" e-form="rowform"> {{ user.ckanApiKey }} </span></td>
 				<td style="white-space: nowrap">
 					<!-- form -->

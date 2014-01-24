@@ -8,26 +8,29 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
 
   // Sort management
   $scope.predicate = 'id';
-  
+
   // ////////////////////
   // Users management
   // ////////////////////
 
   $scope.users = [];
-  
+
   // Allow to find a user according to its id
   $scope.findUser = function(user_id) {
     return $filter('filter')($scope.users, {
       id : user_id
     }, true);
   }
-  
+
   // Load users
   $scope.loadUsers = function() {
     return $http.get(dapContextRoot + '/admin/users/json').success(function(data) {
       $scope.users = data;
       angular.forEach($scope.users, function(value, key) {
-        angular.extend(value, {password:'', password2:''});
+        angular.extend(value, {
+          password : '',
+          password2 : ''
+        });
         console.log(key + ': ' + value);
         // Value is a user
         value.setEditing = function(state) {
@@ -41,10 +44,10 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
     $scope.loadUsers();
   }
 
-  ///////////////////
+  // /////////////////
   // Roles management
-  ///////////////////
-  
+  // /////////////////
+
   $scope.roles = [];
 
   // Load roles
@@ -66,15 +69,16 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
     });
     return (user.role && selected.length) ? selected[0].text : 'Not set';
   };
-  
+
   // Save (update) a user
   $scope.saveUser = function(datas, id) {
     var valid = $scope.checkUpdateForm(datas);
     if ("OK" == valid) {
-      $http.post(
+      return $http.post(
           dapContextRoot + '/admin/users/submitupdate',
-          "userId=" + id + (datas.password ? "&newPassword=" + datas.password : "") + (datas.password2 ? "&newPassword2=" + datas.password2 : "") + (datas.ckanApiKey ? "&newCkanApiKey=" + datas.ckanApiKey : "")
-              + "&newRole=" + datas.role, {
+          "userId=" + id + (datas.password ? "&newPassword=" + datas.password : "")
+              + (datas.password2 ? "&newPassword2=" + datas.password2 : "")
+              + (datas.ckanApiKey ? "&newCkanApiKey=" + datas.ckanApiKey : "") + "&newRole=" + datas.role, {
             headers : {
               'Content-Type' : 'application/x-www-form-urlencoded'
             }
@@ -91,9 +95,27 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
       });
     } else {
       alert("Form not valid ! \r\n" + valid);
+      return "";
     }
   };
-  
+
+  // Hide password
+  $scope.customize = function(fieldId) {
+    var aField = document.getElementById(fieldId);
+    aField.type = 'password';
+    /*
+    aField.onkeyup = function(e) {
+      var m = this;
+      var value = m.value;
+      var pos = m.selectionStart;
+      value = value.replace(/./, "*");
+      m.value = value;
+      m.selectionStart = pos;
+      m.selectionEnd = pos;
+    };
+    */
+  }
+
   // - check that the updated user is valid
   $scope.checkUpdateForm = function(data) {
     var password = data.password;

@@ -23,15 +23,15 @@
 	<div>
 		<h3>Add language</h3>
 		<form novalidate name="addLanguageForm" class="css-form">
-			<table class="table table-bordered table-hover table-condensed" style="width: 80%">
+			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
 					<td style="width: 40%">Code</td>
 					<td style="width: 40%">Native name</td>
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
-					<td><input type="text" ng-model="newlanguage.code" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
-					<td><input type="text" ng-model="newlanguage.native_name" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
+					<td><input type="text" id="newlanguage_code" ng-model="newlanguage.code" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
+					<td><input type="text" id="newlanguage_native_name" ng-model="newlanguage.native_name" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary" ng-click="addLanguage(newlanguage)">Add</button>
 					</td>
@@ -41,7 +41,7 @@
 	</div>
 	<h3>Languages</h3>
 	<div>
-		<table class="table table-bordered table-hover table-condensed" style="width: 80%">
+		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">
 				<td style="width: 40%"><a href="" ng-click="predicate='code'; reverse=!reverse">Id</td>
 				<td style="width: 40%"><a href="" ng-click="predicate='native_name'; reverse=!reverse">Role</td>
@@ -51,7 +51,7 @@
 				<td>
 					<!-- non editable code --> <span e-name="code" e-form="rowform"> {{ language.code }} </span>
 				</td>
-				<td><!-- editable native name --> <span editable-text="language.native_name" e-name="native_name" e-form="rowform"> {{ language.native_name }} </span></td>
+				<td><!-- editable native name --> <span editable-text="language.native_name" e-name="native_name" e-form="rowform" e-required> {{ language.native_name }} </span></td>
 				<td style="white-space: nowrap">
 					<!-- form -->
 					<form editable-form name="rowform" onbeforesave="saveLanguage($data, language.code)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == language">
@@ -66,9 +66,9 @@
 			</tr>
 		</table>
 	</div>
-	<h3>Test zone</h3>
+	<!-- h3>Test zone</h3>
 	<pre>
 		<p>Languages : {{ languages | json }}</p>
-	</pre>
+	</pre -->
 </body>
 </html>
