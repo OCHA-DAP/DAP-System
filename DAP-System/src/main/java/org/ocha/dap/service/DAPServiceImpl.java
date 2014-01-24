@@ -25,6 +25,7 @@ import org.ocha.dap.persistence.dao.UserDAO;
 import org.ocha.dap.persistence.dao.ckan.CKANDatasetDAO;
 import org.ocha.dap.persistence.dao.ckan.CKANResourceDAO;
 import org.ocha.dap.persistence.dao.i18n.LanguageDAO;
+import org.ocha.dap.persistence.dao.i18n.TextDAO;
 import org.ocha.dap.persistence.entity.User;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
@@ -68,6 +69,9 @@ public class DAPServiceImpl implements DAPService {
 
 	@Autowired
 	private LanguageDAO languageDao;
+
+	@Autowired
+	private TextDAO textDao;
 
 	@Autowired
 	private CKANResourceDAO resourceDAO;
@@ -426,6 +430,15 @@ public class DAPServiceImpl implements DAPService {
 	@Override
 	public void deleteLanguage(final String code) throws Exception {
 		languageDao.deleteLanguage(code);
+	}
+	
+	/*
+	 * Translations management
+	 */
+
+	@Override
+	public void addTranslation(final long textId, final String languageCode, final String translationValue) {
+		textDao.createTranslationForText(textId, languageCode, translationValue);
 	}
 
 }

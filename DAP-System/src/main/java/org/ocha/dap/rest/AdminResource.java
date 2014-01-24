@@ -202,6 +202,17 @@ public class AdminResource {
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/languages/").build();
 		return Response.seeOther(newURI).build();
 	}
+	
+	/*
+	 * Translations management
+	 */
+	
+	@POST
+	@Path("/translations/submitadd")
+	public Response addTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue, @Context final UriInfo uriInfo) {
+		dapService.addTranslation(Long.valueOf(textId), languageCode, translationValue);
+		return Response.ok().build();
+	}
 
 	/*
 	 * Status / datasets management
@@ -366,6 +377,7 @@ public class AdminResource {
 			jsonEntity.addProperty("type", entity.getType().getId());
 			jsonEntity.addProperty("code", entity.getCode());
 			jsonEntity.addProperty("name", entity.getName().getDefaultValue());
+			jsonEntity.addProperty("text_id", entity.getName().getId());
 			final List<Translation> translations = entity.getName().getTranslations();
 			final JsonArray jsonTranslations = new JsonArray();
 			for (final Translation translation : translations) {

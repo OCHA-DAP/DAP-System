@@ -110,6 +110,11 @@ public interface DAPService {
 
 	public void deleteLanguage(String code) throws Exception;
 
+	/*
+	 * Translations management
+	 */
+	public void addTranslation(long textId, String languageCode, String translationValue);
+
 
 
 }
