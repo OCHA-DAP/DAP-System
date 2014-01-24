@@ -68,7 +68,7 @@
 
 			<label for="indicatorType1">Indicator Type 1</label> <select name="indicatorType1" id="indicatorType1">
 				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
-					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType1}">selected</c:if>>${indicatorType.name}</option>
+					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType1}">selected</c:if>>${indicatorType.name.defaultValue}</option>
 				</c:forEach>
 			</select> <label for="source1">Source 1</label> <select name="source1" id="source1">
 				<c:forEach var="source" items="${it.sources}">
@@ -76,7 +76,7 @@
 				</c:forEach>
 			</select> <br /> <br /> <label for="indicatorType2">Indicator Type 2</label> <select name="indicatorType2" id="indicatorType2">
 				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
-					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType2}">selected</c:if>>${indicatorType.name}</option>
+					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType2}">selected</c:if>>${indicatorType.name.defaultValue}</option>
 				</c:forEach>
 			</select> <label for="source2">Source 2</label> <select name="source2" id="source2">
 				<c:forEach var="source" items="${it.sources}">
@@ -84,7 +84,7 @@
 				</c:forEach>
 			</select> <br /> <br /> <label for="indicatorType3">Indicator Type 3</label> <select name="indicatorType3" id="indicatorType3">
 				<c:forEach var="indicatorType" items="${it.indicatorTypes}">
-					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType3}">selected</c:if>>${indicatorType.name}</option>
+					<option value="${indicatorType.code}" <c:if test="${indicatorType.code eq it.indicatorType3}">selected</c:if>>${indicatorType.name.defaultValue}</option>
 				</c:forEach>
 			</select> <label for="source3">Source 3</label> <select name="source3" id="source3">
 				<c:forEach var="source" items="${it.sources}">
