@@ -33,8 +33,8 @@
 				<tr>
 					<td><select ng-model="newentity.type" ng-options="type.name for type in types" ng-class="default">
 					</select></td>
-					<td><input type="text" ng-model="newentity.code" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
-					<td><input type="text" ng-model="newentity.name" ng-class="{strike: deleted, bold: important, red: error}" onbeforesave="checkName($data)" required /></td>
+					<td><input type="text" ng-model="newentity.code" required /></td>
+					<td><input type="text" ng-model="newentity.name" required /></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary" ng-click="addEntity(newentity)">Add</button>
 					</td>
@@ -60,7 +60,7 @@
 					<!-- non editable code --> <span e-name="code" e-form="rowform"> {{ entity.code }} </span>
 				</td>
 				<td>
-					<!-- editable name --> <span editable-text="entity.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, entity.id)" e-required> {{ entity.name }} </span>
+					<!-- editable name --> <span editable-text="entity.name" e-name="name" e-form="rowform" e-required> {{ entity.name }} </span>
 				</td>
 				<td>
 					<table class="table table-bordered table-hover table-condensed">
@@ -91,7 +91,7 @@
 						<tr ng-show="showAddTranslation(entity.id)">
 							<td><select ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(entity.id)" ng-class="default">
 							</select></td>
-							<td><input type="text" ng-model="newtranslation[$index].value" ng-class="{strike: deleted, bold: important, red: error}" onbeforesave="checkTranslation($data)" required /></input></td>
+							<td><input type="text" ng-model="newtranslation[$index].value"/></input></td>
 							<td><button class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="addTranslation(entity.id, entity.text_id, $index)">Add</button></td>
 						</tr>
 					</table>

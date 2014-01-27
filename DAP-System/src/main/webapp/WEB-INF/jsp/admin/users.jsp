@@ -33,12 +33,12 @@
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
-					<td><input type="text" ng-model="newuser.id" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
-					<td><select ng-model="newuser.role" ng-options="r.value as r.text for r in roles" ng-class="default" ng-class="{strike: deleted, bold: important, red: error}" required>
+					<td><input type="text" ng-model="newuser.id" required /></td>
+					<td><select ng-model="newuser.role" ng-options="r.value as r.text for r in roles" ng-class="default" required>
 					</select></td>
-					<td><input type="password" ng-model="newuser.password" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
-					<td><input type="password" ng-model="newuser.password2" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
-					<td><input type="text" ng-model="newuser.ckanApiKey" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
+					<td><input type="password" ng-model="newuser.password" required /></td>
+					<td><input type="password" ng-model="newuser.password2" required /></td>
+					<td><input type="text" ng-model="newuser.ckanApiKey" required /></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary" ng-click="addUser(newuser)">Add</button>
 					</td>

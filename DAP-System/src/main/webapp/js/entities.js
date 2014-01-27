@@ -250,9 +250,9 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
     }
     for (i = 0; i < $scope.entities.length; i++) {
       $scope.newtranslation[i] = {};
-      //$scope.newtranslation[i].language = $scope.languages[0];
       $scope.newtranslation[i].value = "";
     }
+    $scope.resetAddTranslationForms();
   };
 
   // - reset its form

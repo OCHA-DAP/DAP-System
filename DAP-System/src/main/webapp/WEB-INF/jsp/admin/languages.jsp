@@ -30,8 +30,8 @@
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
-					<td><input type="text" id="newlanguage_code" ng-model="newlanguage.code" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
-					<td><input type="text" id="newlanguage_native_name" ng-model="newlanguage.native_name" ng-class="{strike: deleted, bold: important, red: error}" required /></td>
+					<td><input type="text" id="newlanguage_code" ng-model="newlanguage.code" required /></td>
+					<td><input type="text" id="newlanguage_native_name" ng-model="newlanguage.native_name" required /></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary" ng-click="addLanguage(newlanguage)">Add</button>
 					</td>
