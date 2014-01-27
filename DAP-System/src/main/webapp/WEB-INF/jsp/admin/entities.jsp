@@ -78,20 +78,21 @@
 							</td>
 							<td style="white-space: nowrap">
 								<!-- t form -->
-								<form editable-form name="t_rowform" onbeforesave="saveTranslation($data, entity.id)" ng-show="t_rowform.$visible" class="form-buttons form-inline" shown="inserted == translation">
+								<form editable-form name="t_rowform" onbeforesave="saveTranslation($data, entity.text_id, translation.code)" ng-show="t_rowform.$visible" class="form-buttons form-inline" shown="inserted == translation">
 									<button type="submit" ng-disabled="t_rowform.$waiting" class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;">Save</button>
 									<button type="button" ng-disabled="t_rowform.$waiting" ng-click="t_rowform.$cancel()" class="btn btn-default" style="padding: 0px 5px 0px 5px; margin: 0px;">Cancel</button>
 								</form>
 								<div class="buttons" ng-show="!t_rowform.$visible">
-									<button class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="t_rowform.$show()">Edit</button>
-									<button class="btn btn-danger" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="removeTranslation(entity.id)">Delete</button>
+									<button class="btn btn-primary" id="save_entity_button" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="t_rowform.$show()">Edit</button>
+									<button class="btn btn-danger" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="removeTranslation(entity.text_id, translation.code)">Delete</button>
 								</div>
 							</td>
 						</tr>
-						<tr>
-							<td><select><option>FR</option><option>EN</option></select></td>
-							<td><input type="text"></input></td>
-							<td><button class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="addEntity(newentity)">Add</button></td>
+						<tr ng-show="showAddTranslation(entity.id)">
+							<td><select ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(entity.id)" ng-class="default">
+							</select></td>
+							<td><input type="text" ng-model="newtranslation[$index].value" ng-class="{strike: deleted, bold: important, red: error}" onbeforesave="checkTranslation($data)" required /></input></td>
+							<td><button class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="addTranslation(entity.id, entity.text_id, $index)">Add</button></td>
 						</tr>
 					</table>
 				</td>
@@ -109,11 +110,13 @@
 			</tr>
 		</table>
 	</div>
-	<h3>Test zone</h3>
+	<!-- h3>Test zone</h3>
 	<pre>
+		<p>Entities : {{ entities | json }}</p>
 		<p>Types : {{ types | json }}</p>
 		<p>Entities : {{ entities | json }}</p>
-	</pre>
+		<p>Languages : {{ languages | json }}</p>
+	</pre -->
 
 
 	<!-- h2>List of entity</h2>

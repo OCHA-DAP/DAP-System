@@ -69,16 +69,32 @@ public class TextDAOImplTest {
 		textDAO.createTranslationForText(text.getId(), language.getCode(), "Fake translation value");
 
 		// Read
-		final List<Translation> translations = textDAO.getTranslationsForText(text.getId());
+		List<Translation> translations = textDAO.getTranslationsForText(text.getId());
 		
 		Assert.assertEquals(1, translations.size());
-		final Translation translation = translations.get(0);
-		final Id id = translation.getId();
+		Translation translation = translations.get(0);
+		Id id = translation.getId();
 		
 		Assert.assertEquals("FL", id.getLanguage().getCode());
 		Assert.assertEquals(text.getId(), id.getText().getId());
 		Assert.assertEquals("Fake translation value", translation.getValue());
 		
+		// TODO Update
+		// Update
+		textDAO.updateTranslation(text.getId(), translation.getId().getLanguage().getCode(), "Fake translation value 2");
+		translations = textDAO.getTranslationsForText(text.getId());
 		
+		Assert.assertEquals(1, translations.size());
+		translation = translations.get(0);
+		id = translation.getId();
+		
+		Assert.assertEquals("FL", id.getLanguage().getCode());
+		Assert.assertEquals(text.getId(), id.getText().getId());
+		Assert.assertEquals("Fake translation value 2", translation.getValue());
+		
+		// Delete
+		textDAO.deleteTranslation(text.getId(), translation.getId().getLanguage().getCode());
+		translations = textDAO.getTranslationsForText(text.getId());
+		Assert.assertEquals(0, translations.size());
 	}	
 }

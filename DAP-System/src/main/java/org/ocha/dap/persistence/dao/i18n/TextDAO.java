@@ -26,4 +26,8 @@ public interface TextDAO {
 
 	public List<Translation> getTranslationsForText(final long textId);
 
+	public void deleteTranslation(long textId, String languageCode);
+
+	public void updateTranslation(long textId, String languageCode, String translationValue);
+
 }

@@ -441,4 +441,13 @@ public class DAPServiceImpl implements DAPService {
 		textDao.createTranslationForText(textId, languageCode, translationValue);
 	}
 
+	@Override
+	public void deleteTranslation(final long textId, final String languageCode) throws Exception {
+		textDao.deleteTranslation(textId, languageCode);
+	}
+	
+	@Override
+	public void updateTranslation(final long textId, final String languageCode, final String translationValue) throws Exception {
+		textDao.updateTranslation(textId, languageCode, translationValue);
+	}
 }

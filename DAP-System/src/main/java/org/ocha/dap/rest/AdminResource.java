@@ -209,11 +209,25 @@ public class AdminResource {
 	
 	@POST
 	@Path("/translations/submitadd")
-	public Response addTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue, @Context final UriInfo uriInfo) {
+	public Response addTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue) throws Exception, Exception {
 		dapService.addTranslation(Long.valueOf(textId), languageCode, translationValue);
 		return Response.ok().build();
 	}
 
+	@POST
+	@Path("/translations/submitupdate")
+	public Response updateTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue) throws Exception {
+		dapService.updateTranslation(Long.valueOf(textId), languageCode, translationValue);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/translations/submitdelete")
+	public Response deleteTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode) throws Exception {
+		dapService.deleteTranslation(Long.valueOf(textId), languageCode);
+		return Response.ok().build();
+	}
+	
 	/*
 	 * Status / datasets management
 	 */

@@ -64,4 +64,15 @@ public class TextDAOImpl implements TextDAO {
 		return query.getResultList();
 	}
 
+	@Override
+	@Transactional
+	public void updateTranslation(final long textId, final String languageCode, final String newTranslationValue) {
+		em.createQuery("UPDATE Translation t set t.value = :newTranslationValue WHERE t.id.text.id = :textId AND t.id.language.code = :languageCode").setParameter("textId", textId).setParameter("languageCode", languageCode).setParameter("newTranslationValue", newTranslationValue).executeUpdate();
+	}
+
+	@Override
+	@Transactional
+	public void deleteTranslation(final long textId, final String languageCode) {
+		em.createQuery("DELETE FROM Translation t WHERE t.id.text.id = :textId AND t.id.language.code = :languageCode").setParameter("textId", textId).setParameter("languageCode", languageCode).executeUpdate();
+	}
 }

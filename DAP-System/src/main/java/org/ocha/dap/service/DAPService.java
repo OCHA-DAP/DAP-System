@@ -113,8 +113,10 @@ public interface DAPService {
 	/*
 	 * Translations management
 	 */
-	public void addTranslation(long textId, String languageCode, String translationValue);
+	public void addTranslation(long textId, String languageCode, String translationValue) throws Exception;
 
+	public void deleteTranslation(long textId, String languageCode) throws Exception;
 
+	public void updateTranslation(long valueOf, String languageCode, String translationValue) throws Exception;
 
 }
