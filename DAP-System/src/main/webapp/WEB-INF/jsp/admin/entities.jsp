@@ -89,7 +89,7 @@
 							</td>
 						</tr>
 						<tr ng-show="showAddTranslation(entity.id)">
-							<td><select ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(entity.id)" ng-class="default">
+							<td><select ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(entity.id, $index)" ng-class="default">
 							</select></td>
 							<td><input type="text" ng-model="newtranslation[$index].value"/></input></td>
 							<td><button class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="addTranslation(entity.id, entity.text_id, $index)">Add</button></td>
