@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="${ctx}/css/xeditable.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
 <script type="text/javascript">
-	var dapContextRoot = "${ctx}"; 
+  var dapContextRoot = "${ctx}";
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
 <script src="${ctx}/js/xeditable.js"></script>
@@ -23,11 +23,11 @@
 	<div>
 		<h3>Add entity</h3>
 		<form novalidate name="addEntityForm" class="css-form">
-			<table class="table table-bordered table-hover table-condensed" style="width: 80%">
+			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
-					<td style="width: 15%">Type</td>
-					<td style="width: 15%">Code</td>
-					<td style="width: 50%">Name</td>
+					<td style="width: 10%">Type</td>
+					<td style="width: 10%">Code</td>
+					<td style="width: 60%">Default name</td>
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
@@ -44,11 +44,12 @@
 	</div>
 	<h3>Entities</h3>
 	<div>
-		<table class="table table-bordered table-hover table-condensed" style="width: 80%">
+		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">
-				<td style="width: 15%"><a href="" ng-click="predicate='type'; reverse=!reverse">Type</a></td>
-				<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
-				<td style="width: 50%"><a href="" ng-click="predicate='name'; reverse=!reverse">Name</a></td>
+				<td style="width: 10%"><a href="" ng-click="predicate='type'; reverse=!reverse">Type</a></td>
+				<td style="width: 10%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
+				<td style="width: 20%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a></td>
+				<td style="width: 40%">Translations</td>
 				<td style="width: 20%">Action</td>
 			</tr>
 			<tr ng-repeat="entity in entities | orderBy:predicate:reverse">
@@ -60,6 +61,40 @@
 				</td>
 				<td>
 					<!-- editable name --> <span editable-text="entity.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, entity.id)" e-required> {{ entity.name }} </span>
+				</td>
+				<td>
+					<table class="table table-bordered table-hover table-condensed">
+						<tr style="font-weight: bold">
+							<td style="width: 20%"><a href="" ng-click="t_predicate='code'; t_reverse=!t_reverse">Language</a></td>
+							<td style="width: 60%"><a href="" ng-click="t_predicate='value'; t_reverse=!t_reverse">Translation</a></td>
+							<td style="width: 20%">Action</td>
+						</tr>
+						<tr ng-repeat="translation in entity.translations | orderBy:t_predicate:t_reverse">
+							<td>
+								<!-- non editable language --> <span e-name="language" e-form="t_rowform"> {{ translation.code }} </span>
+							</td>
+							<td>
+								<!-- editable value --> <span editable-text="translation.value" e-name="value" e-form="t_rowform"> {{ translation.value }} </span>
+							</td>
+							<td style="white-space: nowrap">
+								<!-- t form -->
+								<form editable-form name="t_rowform" onbeforesave="saveTranslation($data, entity.text_id, translation.code)" ng-show="t_rowform.$visible" class="form-buttons form-inline" shown="inserted == translation">
+									<button type="submit" ng-disabled="t_rowform.$waiting" class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;">Save</button>
+									<button type="button" ng-disabled="t_rowform.$waiting" ng-click="t_rowform.$cancel()" class="btn btn-default" style="padding: 0px 5px 0px 5px; margin: 0px;">Cancel</button>
+								</form>
+								<div class="buttons" ng-show="!t_rowform.$visible">
+									<button class="btn btn-primary" id="save_entity_button" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="t_rowform.$show()">Edit</button>
+									<button class="btn btn-danger" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="removeTranslation(entity.text_id, translation.code)">Delete</button>
+								</div>
+							</td>
+						</tr>
+						<tr ng-show="showAddTranslation(entity.id)">
+							<td><select ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(entity.id)" ng-class="default">
+							</select></td>
+							<td><input type="text" ng-model="newtranslation[$index].value" ng-class="{strike: deleted, bold: important, red: error}" onbeforesave="checkTranslation($data)" required /></input></td>
+							<td><button class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="addTranslation(entity.id, entity.text_id, $index)">Add</button></td>
+						</tr>
+					</table>
 				</td>
 				<td style="white-space: nowrap">
 					<!-- form -->
@@ -75,14 +110,16 @@
 			</tr>
 		</table>
 	</div>
-	<!-- >h3>Test zone</h3>
+	<!-- h3>Test zone</h3>
 	<pre>
+		<p>Entities : {{ entities | json }}</p>
 		<p>Types : {{ types | json }}</p>
 		<p>Entities : {{ entities | json }}</p>
-	</pre>
-	
+		<p>Languages : {{ languages | json }}</p>
+	</pre -->
 
-	<h2>List of entity</h2>
+
+	<!-- h2>List of entity</h2>
 	<table>
 		<tr>
 			<th>Id</th>
@@ -111,8 +148,8 @@
 		</c:forEach>
 
 	</table -->
-	
-	
-	
+
+
+
 </body>
 </html>

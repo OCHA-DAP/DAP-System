@@ -55,7 +55,7 @@ public class EntityDAOImplTest {
 
 		final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
 
-		final Text russia = textDAO.addText("Russia");
+		final Text russia = textDAO.createText("Russia");
 		entityDAO.createEntity("RU", russia, country);
 
 		final Entity entityForCode = entityDAO.getEntityByCodeAndType("RU", "country");
@@ -78,7 +78,7 @@ public class EntityDAOImplTest {
 
 		final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
 
-		final Text russia = textDAO.addText("Russia");
+		final Text russia = textDAO.createText("Russia");
 		entityDAO.createEntity("RU", russia, country);
 		final Entity entity = entityDAO.getEntityByCodeAndType("RU", "country");
 

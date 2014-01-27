@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="
+  xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
       ">
-	<context:annotation-config />
+  <context:annotation-config />
 
-	<bean id="userDAO" class="org.ocha.dap.persistence.dao.UserDAOImpl" />
-	<bean id="ckanResourceDAO" class="org.ocha.dap.persistence.dao.ckan.CKANResourceDAOImpl" />
-	<bean id="ckanDatasetDAO" class="org.ocha.dap.persistence.dao.ckan.CKANDatasetDAOImpl" />
+  <bean id="userDAO" class="org.ocha.dap.persistence.dao.UserDAOImpl" />
+  <bean id="ckanResourceDAO" class="org.ocha.dap.persistence.dao.ckan.CKANResourceDAOImpl" />
+  <bean id="ckanDatasetDAO" class="org.ocha.dap.persistence.dao.ckan.CKANDatasetDAOImpl" />
 
-	<bean id="importFromCKANDAO" class="org.ocha.dap.persistence.dao.ImportFromCKANDAOImpl" />
+  <bean id="importFromCKANDAO" class="org.ocha.dap.persistence.dao.ImportFromCKANDAOImpl" />
 
-	<bean id="textDAO" class="org.ocha.dap.persistence.dao.i18n.TextDAOImpl" />
-	
-	<bean id="entityTypeDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityTypeDAOImpl" />
-	<bean id="entityDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityDAOImpl" />
-	<bean id="indicatorTypeDAO" class="org.ocha.dap.persistence.dao.currateddata.IndicatorTypeDAOImpl" />
-	<bean id="sourceDAO" class="org.ocha.dap.persistence.dao.currateddata.SourceDAOImpl" />
-	<bean id="indicatorDAO" class="org.ocha.dap.persistence.dao.currateddata.IndicatorDAOImpl" />
-	<bean id="regionDictionary" class="org.ocha.dap.persistence.dao.dictionary.RegionDictionaryDAOImpl" />
-	<bean id="sourceDictionary" class="org.ocha.dap.persistence.dao.dictionary.SourceDictionaryDAOImpl" />
-	<bean id="indicatorTypeDictionaryDAO" class="org.ocha.dap.persistence.dao.dictionary.IndicatorTypeDictionaryDAOImpl" />
+  <bean id="textDAO" class="org.ocha.dap.persistence.dao.i18n.TextDAOImpl" />
+  <bean id="languageDAO" class="org.ocha.dap.persistence.dao.i18n.LanguageDAOImpl" />
+
+  <bean id="entityTypeDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityTypeDAOImpl" />
+  <bean id="entityDAO" class="org.ocha.dap.persistence.dao.currateddata.EntityDAOImpl" />
+  <bean id="indicatorTypeDAO" class="org.ocha.dap.persistence.dao.currateddata.IndicatorTypeDAOImpl" />
+  <bean id="sourceDAO" class="org.ocha.dap.persistence.dao.currateddata.SourceDAOImpl" />
+  <bean id="indicatorDAO" class="org.ocha.dap.persistence.dao.currateddata.IndicatorDAOImpl" />
+  <bean id="regionDictionary" class="org.ocha.dap.persistence.dao.dictionary.RegionDictionaryDAOImpl" />
+  <bean id="sourceDictionary" class="org.ocha.dap.persistence.dao.dictionary.SourceDictionaryDAOImpl" />
+  <bean id="indicatorTypeDictionaryDAO" class="org.ocha.dap.persistence.dao.dictionary.IndicatorTypeDictionaryDAOImpl" />
 
 </beans>

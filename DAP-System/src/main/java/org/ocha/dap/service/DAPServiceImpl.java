@@ -24,10 +24,13 @@ import org.ocha.dap.model.validation.ValidationReport;
 import org.ocha.dap.persistence.dao.UserDAO;
 import org.ocha.dap.persistence.dao.ckan.CKANDatasetDAO;
 import org.ocha.dap.persistence.dao.ckan.CKANResourceDAO;
+import org.ocha.dap.persistence.dao.i18n.LanguageDAO;
+import org.ocha.dap.persistence.dao.i18n.TextDAO;
 import org.ocha.dap.persistence.entity.User;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset;
 import org.ocha.dap.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.dap.persistence.entity.ckan.CKANResource;
+import org.ocha.dap.persistence.entity.i18n.Language;
 import org.ocha.dap.security.exception.AuthenticationException;
 import org.ocha.dap.security.exception.InsufficientCredentialsException;
 import org.ocha.dap.tools.GSONBuilderWrapper;
@@ -63,6 +66,12 @@ public class DAPServiceImpl implements DAPService {
 
 	@Autowired
 	private UserDAO userDao;
+
+	@Autowired
+	private LanguageDAO languageDao;
+
+	@Autowired
+	private TextDAO textDao;
 
 	@Autowired
 	private CKANResourceDAO resourceDAO;
@@ -130,7 +139,7 @@ public class DAPServiceImpl implements DAPService {
 	public void flagDatasetAsToBeCurated(final String datasetName, final Type type) {
 		datasetDAO.flagDatasetAsToBeCurated(datasetName, type);
 	}
-	
+
 	@Override
 	public void flagDatasetAsIgnored(final String datasetName) {
 		datasetDAO.flagDatasetAsIgnored(datasetName);
@@ -399,4 +408,46 @@ public class DAPServiceImpl implements DAPService {
 
 	}
 
+	/*
+	 * Languages management
+	 */
+
+	@Override
+	public List<Language> listLanguages() {
+		return languageDao.listLanguages();
+	}
+
+	@Override
+	public void createLanguage(final String code, final String nativeName) throws Exception {
+		languageDao.createLanguage(code, nativeName);
+	}
+
+	@Override
+	public void updateLanguage(final String code, final String nativeName) throws Exception {
+		languageDao.updateLanguage(code, nativeName);
+	}
+
+	@Override
+	public void deleteLanguage(final String code) throws Exception {
+		languageDao.deleteLanguage(code);
+	}
+	
+	/*
+	 * Translations management
+	 */
+
+	@Override
+	public void addTranslation(final long textId, final String languageCode, final String translationValue) {
+		textDao.createTranslationForText(textId, languageCode, translationValue);
+	}
+
+	@Override
+	public void deleteTranslation(final long textId, final String languageCode) throws Exception {
+		textDao.deleteTranslation(textId, languageCode);
+	}
+	
+	@Override
+	public void updateTranslation(final long textId, final String languageCode, final String translationValue) throws Exception {
+		textDao.updateTranslation(textId, languageCode, translationValue);
+	}
 }

@@ -61,37 +61,44 @@ public class Translation {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((language == null) ? 0 : language.hashCode());
-			result = prime * result + ((text == null) ? 0 : text.hashCode());
+			result = (prime * result) + ((language == null) ? 0 : language.hashCode());
+			result = (prime * result) + ((text == null) ? 0 : text.hashCode());
 			return result;
 		}
 
 		@Override
 		public boolean equals(final Object obj) {
-			if (this == obj)
+			if (this == obj) {
 				return true;
-			if (obj == null)
+			}
+			if (obj == null) {
 				return false;
-			if (getClass() != obj.getClass())
+			}
+			if (getClass() != obj.getClass()) {
 				return false;
+			}
 			final Id other = (Id) obj;
 			if (language == null) {
-				if (other.language != null)
+				if (other.language != null) {
 					return false;
-			} else if (!language.equals(other.language))
+				}
+			} else if (!language.equals(other.language)) {
 				return false;
+			}
 			if (text == null) {
-				if (other.text != null)
+				if (other.text != null) {
 					return false;
-			} else if (!text.equals(other.text))
+				}
+			} else if (!text.equals(other.text)) {
 				return false;
+			}
 			return true;
 		}
 
 	}
 
 	@EmbeddedId
-	private final Id id = new Id();
+	private Id id = new Id();
 
 	@Column(name = "value", nullable = false, updatable = true)
 	private String value;
@@ -106,6 +113,10 @@ public class Translation {
 
 	public Id getId() {
 		return id;
+	}
+
+	public void setId(final Id id) {
+		this.id = id;
 	}
 
 }

@@ -8,7 +8,8 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
   // Sort management
   $scope.predicate = 'type';
-  
+  $scope.t_predicate = 'code';
+
   // /////////////////
   // Types management
   // /////////////////
@@ -49,6 +50,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   $scope.loadEntities = function() {
     return $http.get(dapContextRoot + '/admin/curated/entities/json').success(function(data) {
       $scope.entities = data;
+      $scope.resetNewTranslations();
     });
   };
 
@@ -58,24 +60,41 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
 
   // Save (update) an entity
   $scope.saveEntity = function(data, id) {
-    $http.post(dapContextRoot + '/admin/curated/entities/submitupdate', "entityId=" + id + "&newName=" + data.name, {
-      headers : {
-        'Content-Type' : 'application/x-www-form-urlencoded'
-      }
-    }).success(function(data, status, headers, config) {
-      // this callback will be called asynchronously
-      // when the response is available
-      $scope.loadEntities();
-    }).error(function(data, status, headers, config) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      alert("Entity update threw an error. No entity has been updated.");
-    });
+    var valid = $scope.checkUpdateForm(data);
+    if ("OK" == valid) {
+
+      return $http.post(dapContextRoot + '/admin/curated/entities/submitupdate', "entityId=" + id + "&newName=" + data.name, {
+        headers : {
+          'Content-Type' : 'application/x-www-form-urlencoded'
+        }
+      }).success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        $scope.loadEntities();
+      }).error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        alert("Entity update threw an error. No entity has been updated.");
+        $scope.loadEntities();
+      });
+    } else {
+      alert("Form not valid ! \r\n" + valid);
+      return "";
+    }
+  };
+
+  // - check that the updated entity is valid
+  $scope.checkUpdateForm = function(data) {
+    var name = data.name;
+    if ('' == name || null == name) {
+      return "Name cannot be empty.";
+    }
+    return "OK";
   };
 
   // Remove an entity
   $scope.removeEntity = function(id) {
-    if(!confirm("Do you really want to delete this entity ?")) {
+    if (!confirm("Do you really want to delete this entity ?")) {
       return;
     }
     $http.post(dapContextRoot + '/admin/curated/entities/submitdelete', "entityId=" + id, {
@@ -156,5 +175,194 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
       return "Type cannot be empty.";
     }
     return "OK";
+  };
+
+  // Get an entity by its id
+  $scope.getEntityById = function(entityId) {
+    var filteredEntities = $filter('filter')($scope.entities, {
+      id : entityId
+    });
+    var theEntity = filteredEntities && 0 < filteredEntities.length ? filteredEntities[0] : null;
+    return theEntity;
+  }
+
+  // ////////////////////////
+  // Translations management
+  // ////////////////////////
+
+  $scope.languages = [];
+
+  // Load languages
+  $scope.loadLanguages = function() {
+    return $http.get(dapContextRoot + '/admin/languages/json').success(function(data) {
+      $scope.languages = data;
+      $scope.resetNewTranslations();
+    });
+  };
+
+  if (!$scope.checkLanguages) {
+    $scope.loadLanguages();
+  }
+
+  // Are the languages there ?
+  $scope.checkLanguages = function() {
+    return !$scope.languages || 0 == $scope.languages.length;
+  }
+  
+  // Get a translation value for an entity and a language code
+  $scope.getTranslationForEntityAndLanguageCode = function(entity, languageCode) {
+    var filteredTranslations = $filter('filter')(entity.translations, {
+      code : languageCode
+    });
+    var theTranslation = filteredTranslations && 0 < filteredTranslations.length ? filteredTranslations[0] : null;
+    return theTranslation ? theTranslation.value : null;
+  }
+  
+  // Do we have to show the "Add translation" form ? Only if there are some translations missing
+  $scope.showAddTranslation = function(entityId) {
+
+    // Are there some languages ?
+    if (!$scope.checkLanguages) {
+      return false;
+    }
+
+    // Get the entity
+    var theEntity = $scope.getEntityById(entityId);
+    return theEntity && theEntity.translations && theEntity.translations.length < $scope.languages.length;
+  };
+
+  // Show only the languages for which some translations are missing
+  $scope.languagesByAvailableTranslations = function(entityId) {
+    return function(language) {
+      var translation = $scope.getTranslationForEntityAndLanguageCode($scope.getEntityById(entityId), language.code);
+      return null == translation;
+    }
+  };
+
+  // add translation
+  // - the new translation
+  $scope.newtranslation;
+
+  // - reset it
+  $scope.resetNewTranslations = function() {
+    if (!$scope.newtranslation) {
+      $scope.newtranslation = [];
+    }
+    for (i = 0; i < $scope.entities.length; i++) {
+      $scope.newtranslation[i] = {};
+      //$scope.newtranslation[i].language = $scope.languages[0];
+      $scope.newtranslation[i].value = "";
+    }
+  };
+
+  // - reset its form
+  $scope.resetAddTranslationForms = function() {
+    for ( var theForm in $scope.t_rowform) {
+      theForm.$setPristine();
+    }
+  };
+
+  // - add it
+  $scope.addTranslation = function(entity_id, text_id, index) {
+    var data = $scope.newtranslation[index];
+    var valid = $scope.checkTranslation(data);
+    if ("OK" == valid) {
+      return $http.post(dapContextRoot + '/admin/translations/submitadd',
+          "textId=" + text_id + "&languageCode=" + data.language.code + "&translationValue=" + data.value, {
+            headers : {
+              'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+          }).success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        // alert("Translation added !");
+        $scope.resetNewTranslations();
+        $scope.resetAddTranslationForms();
+
+        // TODO We could improve this with : $scope.loadTranslations(entity_id);
+        $scope.loadEntities();
+
+      }).error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        // alert("Entity addition threw error : \r\n" + data);
+        alert("Translation addition threw an error. Maybe this translation already exists. No translation has been created.");
+      });
+    } else {
+      alert("Form not valid ! \r\n" + valid);
+    }
+  };
+
+  // - check that the new translation is complete
+  $scope.checkTranslation = function(data) {
+    var value = data.value;
+    if ('' == value || null == value) {
+      return "Translation cannot be empty.";
+    }
+    return "OK";
+  };
+
+  // Save (update) a translation
+  $scope.saveTranslation = function(data, text_id, language_code) {
+    // alert(data + ", " + id)
+    var valid = $scope.checkUpdateTranslation(data);
+    if ("OK" == valid) {
+
+      return $http.post(dapContextRoot + '/admin/translations/submitupdate',
+          "textId=" + text_id + "&languageCode=" + language_code + "&translationValue=" + data.value, {
+            headers : {
+              'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+          }).success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+
+        // TODO We could improve this with : $scope.loadTranslations(entity_id);
+        $scope.loadEntities();
+      }).error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        alert("Translation update threw an error. No translation has been updated.");
+
+        // TODO We could improve this with : $scope.loadTranslations(entity_id);
+        $scope.loadEntities();
+      });
+    } else {
+      alert("Form not valid ! \r\n" + valid);
+      return "";
+    }
+  };
+
+  // - check that the new translation is complete
+  $scope.checkUpdateTranslation = function(data) {
+    var value = data.value;
+    if ('' == value || null == value) {
+      return "Translation cannot be empty.";
+    }
+    return "OK";
+  };
+  // Remove a translation
+  $scope.removeTranslation = function(text_id, language_code) {
+    if (!confirm("Do you really want to delete this translation ?")) {
+      return;
+    }
+
+    $http.post(dapContextRoot + '/admin/translations/submitdelete', "textId=" + text_id + "&languageCode=" + language_code, {
+      headers : {
+        'Content-Type' : 'application/x-www-form-urlencoded'
+      }
+    }).success(function(data, status, headers, config) {
+      // this callback will be called asynchronously
+      // when the response is available
+      // alert("Language deleted !");
+
+      // TODO We could improve this with : $scope.loadTranslations(entity_id);
+      $scope.loadEntities();
+    }).error(function(data, status, headers, config) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      // alert("Language " + id + " deletion threw error : \r\n" + data);
+      alert("Translation deletion threw an error. No translation has been deleted.");
+    });
   };
 });

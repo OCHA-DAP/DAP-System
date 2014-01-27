@@ -32,7 +32,10 @@ import org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.dap.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
+import org.ocha.dap.persistence.entity.i18n.Language;
 import org.ocha.dap.persistence.entity.i18n.Text;
+import org.ocha.dap.persistence.entity.i18n.Translation;
+import org.ocha.dap.persistence.entity.i18n.Translation.Id;
 import org.ocha.dap.rest.helper.DisplayEntities;
 import org.ocha.dap.rest.helper.DisplayIndicatorTypeDictionaries;
 import org.ocha.dap.rest.helper.DisplayIndicators;
@@ -119,7 +122,7 @@ public class AdminResource {
 
 	@POST
 	@Path("/users/submitadd")
-	public Response addUserupdateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newPassword2") final String newPassword2,
+	public Response addUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newPassword2") final String newPassword2,
 			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole, @Context final UriInfo uriInfo) throws Exception {
 		// TODO Perform validation
 		
@@ -146,6 +149,85 @@ public class AdminResource {
 		return Response.seeOther(newURI).build();
 	}
 
+	/*
+	 * Languages management
+	 */
+	@GET
+	@Path("/languages/")
+	@SuppressWarnings("static-method")
+	public Response displayLanguagesList() {
+		return Response.ok(new Viewable("/admin/languages")).build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/languages/json")
+	public String getLanguages() throws TypeMismatchException {
+
+		final List<Language> listLanguages = dapService.listLanguages();
+		final JsonArray jsonArray = new JsonArray();
+
+		for (final Language language : listLanguages) {
+
+			final JsonObject element = new JsonObject();
+			element.addProperty("code", language.getCode());
+			element.addProperty("native_name", language.getNativeName());
+			jsonArray.add(element);
+		}
+		return jsonArray.toString();
+	}
+
+	@POST
+	@Path("/languages/submitadd")
+	public Response addLanguage(@FormParam("code") final String languageCode, @FormParam("newNativeName") final String newNativeName, @Context final UriInfo uriInfo) throws Exception {
+		// TODO Perform validation
+		dapService.createLanguage(languageCode, newNativeName);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/languages/submitupdate")
+	public Response updateLanguage(@FormParam("code") final String code, @FormParam("newNativeName") final String newNativeName, @Context final UriInfo uriInfo) throws Exception {
+		dapService.updateLanguage(code, newNativeName);
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/languages/").build();
+		return Response.seeOther(newURI).build();
+	}
+
+	@POST
+	@Path("/languages/submitdelete")
+	public Response deleteLanguage(@FormParam("code") final String code, @Context final UriInfo uriInfo) throws Exception {
+		dapService.deleteLanguage(code);
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/languages/").build();
+		return Response.seeOther(newURI).build();
+	}
+	
+	/*
+	 * Translations management
+	 */
+	
+	@POST
+	@Path("/translations/submitadd")
+	public Response addTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue) throws Exception, Exception {
+		dapService.addTranslation(Long.valueOf(textId), languageCode, translationValue);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/translations/submitupdate")
+	public Response updateTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue) throws Exception {
+		dapService.updateTranslation(Long.valueOf(textId), languageCode, translationValue);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/translations/submitdelete")
+	public Response deleteTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode) throws Exception {
+		dapService.deleteTranslation(Long.valueOf(textId), languageCode);
+		return Response.ok().build();
+	}
+	
 	/*
 	 * Status / datasets management
 	 */
@@ -302,17 +384,32 @@ public class AdminResource {
 	@Path("curated/entities/json")
 	public String getEntities() throws TypeMismatchException {
 		final List<Entity> listEntities = curatedDataService.listEntities();
-		final JsonArray jsonArray = new JsonArray();
+		final JsonArray jsonEntities = new JsonArray();
 		for (final Entity entity : listEntities) {
-			final JsonObject element = new JsonObject();
-			element.addProperty("id", entity.getId());
-			element.addProperty("type", entity.getType().getId());
-			element.addProperty("code", entity.getCode());
-			// FIXME get a language instead of the default value
-			element.addProperty("name", entity.getName().getDefaultValue());
-			jsonArray.add(element);
+			final JsonObject jsonEntity = new JsonObject();
+			jsonEntity.addProperty("id", entity.getId());
+			jsonEntity.addProperty("type", entity.getType().getId());
+			jsonEntity.addProperty("code", entity.getCode());
+			jsonEntity.addProperty("name", entity.getName().getDefaultValue());
+			jsonEntity.addProperty("text_id", entity.getName().getId());
+			final List<Translation> translations = entity.getName().getTranslations();
+			final JsonArray jsonTranslations = new JsonArray();
+			for (final Translation translation : translations) {
+				final Id translationId = translation.getId();
+				final Language language = translationId.getLanguage();
+				final String code = language.getCode();
+				final String value = translation.getValue();
+				final JsonObject jsonTranslation = new JsonObject();
+				jsonTranslation.addProperty("code", code);
+				jsonTranslation.addProperty("value", value);
+
+				jsonTranslations.add(jsonTranslation);
+			}
+			jsonEntity.add("translations", jsonTranslations);
+			
+			jsonEntities.add(jsonEntity);
 		}
-		return jsonArray.toString();
+		return jsonEntities.toString();
 	}
 
 	@POST
