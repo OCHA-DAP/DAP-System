@@ -61,6 +61,10 @@ public interface CuratedDataService {
 
 	public Source getSourceByCode(final String code);
 
+	public void deleteSource(final long sourceId);
+
+	public void updateSource(final long sourceId, String newName);
+	
 	/*
 	 * Imports from CKAN
 	 */

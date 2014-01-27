@@ -23,7 +23,7 @@ public class SourceDAOImpl implements SourceDAO {
 
 	@Override
 	@Transactional
-	public void addSource(final String code, final Text name) {
+	public void createSource(final String code, final Text name) {
 		final Source source = new Source();
 		source.setCode(code);
 		source.setName(name);
@@ -45,6 +45,19 @@ public class SourceDAOImpl implements SourceDAO {
 	@Override
 	public Source getSourceById(final long id) {
 		return em.find(Source.class, id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteSource(final long sourceId) {
+		em.createQuery("DELETE FROM Source s WHERE s.id = :sourceId").setParameter("sourceId", sourceId).executeUpdate();
+	}
+
+	@Override
+	@Transactional
+	public void updateSource(final long sourceId, final String newName) {
+		final Source source = em.find(Source.class, sourceId);
+		source.getName().setDefaultValue(newName);
 	}
 
 }

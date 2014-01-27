@@ -31,8 +31,8 @@ public class SourceDictionaryDAOImplTest {
 	public void setUp() {
 		final Text wb = textDAO.createText("World Bank");
 		final Text acled = textDAO.createText("Armed Conflict Location and Event Dataset");
-		sourceDAO.addSource("WB", wb);
-		sourceDAO.addSource("acled", acled);
+		sourceDAO.createSource("WB", wb);
+		sourceDAO.createSource("acled", acled);
 	}
 
 	@After

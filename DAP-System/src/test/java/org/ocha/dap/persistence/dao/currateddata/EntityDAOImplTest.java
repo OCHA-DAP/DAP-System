@@ -73,6 +73,34 @@ public class EntityDAOImplTest {
 	}
 
 	@Test
+	public void testCreateEntity() {
+		logger.info("Testing create entity...");
+
+		try {
+			entityDAO.createEntity("RU", new Text("Russia"), new EntityType());
+			Assert.fail("Should have raised an Exception, cannot create an entity with an invalid type");
+		} catch (final Exception e) {
+			// expected
+		}
+
+		final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
+
+		final Text russia = textDAO.createText("Russia");
+		entityDAO.createEntity("RU", russia, country);
+
+		final Entity entityForCode = entityDAO.getEntityByCodeAndType("RU", "country");
+		Assert.assertEquals("Russia", entityForCode.getName().getDefaultValue());
+		Assert.assertEquals(1, entityDAO.listEntities().size());
+
+		final Entity entityById = entityDAO.getEntityById(entityForCode.getId());
+		Assert.assertEquals("Russia", entityById.getName().getDefaultValue());
+
+		logger.info("Testing delete entity...");
+		entityDAO.deleteEntityByCodeAndType("RU", "country");
+
+		Assert.assertEquals(0, entityDAO.listEntities().size());
+	}
+	@Test
 	public void testUpdateEntity() {
 		logger.info("Testing update entity...");
 
@@ -93,5 +121,21 @@ public class EntityDAOImplTest {
 		Assert.assertEquals(entity.getType().getName(), updatedEntity.getType().getName());
 
 		entityDAO.deleteEntityByCodeAndType("RU", "country");
+	}
+
+	@Test
+	public void testDeleteEntity() {
+		logger.info("Testing delete entity...");
+
+		final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
+		final Text russia = textDAO.createText("Russia");
+		entityDAO.createEntity("RU", russia, country);
+
+		final Entity entityForCode = entityDAO.getEntityByCodeAndType("RU", "country");
+		final long id = entityForCode.getId();
+
+		entityDAO.deleteEntity(id);
+		
+		Assert.assertNull(entityDAO.getEntityById(id));
 	}
 }

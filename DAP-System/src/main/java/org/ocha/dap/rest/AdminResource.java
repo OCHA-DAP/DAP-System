@@ -30,6 +30,7 @@ import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
+import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.ocha.dap.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.dap.persistence.entity.i18n.Language;
@@ -463,11 +464,57 @@ public class AdminResource {
 		return Response.ok(new Viewable("/admin/sources", curatedDataService.listSources())).build();
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("curated/sources/json")
+	public String getSources() throws TypeMismatchException {
+		final List<Source> listSources = curatedDataService.listSources();
+		final JsonArray jsonSources = new JsonArray();
+		for (final Source source : listSources) {
+			final JsonObject jsonSource = new JsonObject();
+			jsonSource.addProperty("id", source.getId());
+			jsonSource.addProperty("code", source.getCode());
+			jsonSource.addProperty("name", source.getName().getDefaultValue());
+			jsonSource.addProperty("text_id", source.getName().getId());
+			final List<Translation> translations = source.getName().getTranslations();
+			final JsonArray jsonTranslations = new JsonArray();
+			for (final Translation translation : translations) {
+				final Id translationId = translation.getId();
+				final Language language = translationId.getLanguage();
+				final String code = language.getCode();
+				final String value = translation.getValue();
+				final JsonObject jsonTranslation = new JsonObject();
+				jsonTranslation.addProperty("code", code);
+				jsonTranslation.addProperty("value", value);
+
+				jsonTranslations.add(jsonTranslation);
+			}
+			jsonSource.add("translations", jsonTranslations);
+			
+			jsonSources.add(jsonSource);
+		}
+		return jsonSources.toString();
+	}
+
 	@POST
-	@Path("/curated/sources")
+	@Path("/curated/sources/submitadd")
 	public Response addSource(@FormParam("code") final String code, @FormParam("name") final String name) {
 		curatedDataService.addSource(code, name);
-		return displaySourcesList();
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/curated/sources/submitdelete")
+	public Response deleteSource(@FormParam("sourceId") final long sourceId) {
+		curatedDataService.deleteSource(sourceId);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/curated/sources/submitupdate")
+	public Response updateSource(@FormParam("sourceId") final long sourceId, @FormParam("newName") final String newName) {
+		curatedDataService.updateSource(sourceId, newName);
+		return Response.ok().build();
 	}
 
 	/*
