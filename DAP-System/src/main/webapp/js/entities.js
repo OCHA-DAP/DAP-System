@@ -209,6 +209,15 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
     return !$scope.languages || 0 == $scope.languages.length;
   }
   
+  // Get a language by its code
+  $scope.getLanguageByCode = function(languageCode) {
+    var filteredLanguages = $filter('filter')($scope.languages, {
+      code : languageCode
+    });
+    var theLanguage = filteredLanguages && 0 < filteredLanguages.length ? filteredLanguages[0] : null;
+    return theLanguage;
+  }
+
   // Get a translation value for an entity and a language code
   $scope.getTranslationForEntityAndLanguageCode = function(entity, languageCode) {
     var filteredTranslations = $filter('filter')(entity.translations, {
@@ -232,9 +241,20 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   };
 
   // Show only the languages for which some translations are missing
-  $scope.languagesByAvailableTranslations = function(entityId) {
+  $scope.languagesByAvailableTranslations = function(entityId, index) {
     return function(language) {
       var translation = $scope.getTranslationForEntityAndLanguageCode($scope.getEntityById(entityId), language.code);
+      
+      // At the same time, select by default the first missing language
+      if (!translation) {
+        if (!$scope.newtranslation[index]) {
+          $scope.newtranslation[index] = {};
+          $scope.newtranslation[index].value = "";
+        }
+        if (!$scope.newtranslation[index].language || (!$scope.newtranslation[index].language.code)) {
+          $scope.newtranslation[index].language = language;
+        }
+      }
       return null == translation;
     }
   };
