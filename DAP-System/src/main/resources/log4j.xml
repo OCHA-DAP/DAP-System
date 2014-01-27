@@ -32,7 +32,8 @@
   </logger>
   <!-- Hibernate generated SQL -->
   <logger name="org.hibernate.SQL" additivity="false">
-    <level value="info" />
+    <level value="debug" />
+    <appender-ref ref="dap-console" />
   </logger>
   <!-- Hibernate abstract syntax trees for parsing predefined JPQL queries -->
   <logger name="org.hibernate.hql.ast">
