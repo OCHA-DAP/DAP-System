@@ -58,8 +58,8 @@ public class IntegrationTestSetUpAndTearDown {
 		indicatorTypeDAO.addIndicatorType("per-capita-gdp", gdp, "dollar");
 		indicatorTypeDAO.addIndicatorType("PVX040", conflict, "Count");
 
-		final Text wb = textDAO.addText("World Bank");
-		final Text acled = textDAO.addText("Armed Conflict Location and Event Dataset");
+		final Text wb = textDAO.createText("World Bank");
+		final Text acled = textDAO.createText("Armed Conflict Location and Event Dataset");
 		sourceDAO.addSource("WB", wb);
 		sourceDAO.addSource("acled", acled);
 

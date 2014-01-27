@@ -33,7 +33,7 @@ public class SourceDAOImplTest {
 
 		Assert.assertEquals(0, sourceDAO.listSources().size());
 
-		final Text text = textDAO.addText("World Bank");
+		final Text text = textDAO.createText("World Bank");
 		sourceDAO.addSource("WB", text);
 		final Source source = sourceDAO.getSourceByCode("WB");
 		Assert.assertEquals("World Bank", source.getName().getDefaultValue());

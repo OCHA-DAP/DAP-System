@@ -173,7 +173,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public void addSource(final String code, final String defaultValue) {
-		final Text name = textDAO.addText(defaultValue);
+		final Text name = textDAO.createText(defaultValue);
 		sourceDAO.addSource(code, name);
 	}
 
