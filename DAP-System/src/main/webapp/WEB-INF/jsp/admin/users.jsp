@@ -40,7 +40,7 @@
 					<td><input type="password" ng-model="newuser.password2" required /></td>
 					<td><input type="text" ng-model="newuser.ckanApiKey" required /></td>
 					<td style="white-space: nowrap">
-						<button class="btn btn-primary" ng-click="addUser(newuser)">Add</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="addUser(newuser)">Add</button>
 					</td>
 				</tr>
 			</table>
@@ -62,20 +62,20 @@
 					<!-- non editable id --> <span e-name="id" e-form="rowform"> {{ user.id }} </span>
 				</td>
 				<td>
-					<!-- editable role --> <span editable-select="user.role" e-name="role" e-form="rowform" e-ng-options="r.value as r.text for r in roles"> {{ showRole(user) }} 
+					<!-- editable role --> <span editable-select="user.role" e-name="role" e-form="rowform" e-ng-options="r.value as r.text for r in roles"> {{ showRole(user) }} </span> 
 				</td>
-				<td><!-- FIXME This should be changed to a real password field when available in xeditable --><span editable-text="user.password" e-name="password" e-id="password_field" e-form="rowform" onshow="customize('password_field')"> {{ user.password }} </span></td>
-				<td><!-- FIXME This should be changed to a real password field when available in xeditable --><span editable-text="user.password2" e-name="password2" e-id="password2_field" e-form="rowform" onshow="customize('password2_field')"> {{ user.password2 }} </span></td>
+				<td><span editable-text="user.password" e-name="password" e-id="password_field" e-form="rowform" onshow="customize('password_field')"> {{ user.password }} </span></td>
+				<td><span editable-text="user.password2" e-name="password2" e-id="password2_field" e-form="rowform" onshow="customize('password2_field')"> {{ user.password2 }} </span></td>
 				<td><span editable-text="user.ckanApiKey" e-name="ckanApiKey" e-form="rowform"> {{ user.ckanApiKey }} </span></td>
 				<td style="white-space: nowrap">
 					<!-- form -->
 					<form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
-						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">Save</button>
-						<button type="button" ng-disabled="rowform.$waiting" ng-click="user.setEditing(false);rowform.$cancel()" class="btn btn-default">Cancel</button>
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
+						<button type="button" ng-disabled="rowform.$waiting" ng-click="user.setEditing(false);rowform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 					</form>
 					<div class="buttons" ng-show="!rowform.$visible">
-						<button class="btn btn-primary" ng-click="user.setEditing(true);rowform.$show()">Edit</button>
-						<button class="btn btn-danger" ng-click="removeUser(user.id)">Delete</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="user.setEditing(true);rowform.$show()">Edit</button>
+						<button class="btn btn-danger btn-custom-danger" ng-click="removeUser(user.id)">Delete</button>
 					</div>
 				</td>
 			</tr>

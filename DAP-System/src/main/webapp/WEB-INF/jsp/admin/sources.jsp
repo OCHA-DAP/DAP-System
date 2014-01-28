@@ -33,7 +33,7 @@
 					<td><input type="text" ng-model="newsource.code" required /></td>
 					<td><input type="text" ng-model="newsource.name" required /></td>
 					<td style="white-space: nowrap">
-						<button class="btn btn-primary" ng-click="addSource(newsource)">Add</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="addSource(newsource)">Add</button>
 					</td>
 				</tr>
 			</table>
@@ -59,8 +59,8 @@
 					<table class="table table-bordered table-hover table-condensed">
 						<tr style="font-weight: bold">
 							<td style="width: 20%"><a href="" ng-click="t_predicate='code'; t_reverse=!t_reverse">Language</a></td>
-							<td style="width: 60%"><a href="" ng-click="t_predicate='value'; t_reverse=!t_reverse">Translation</a></td>
-							<td style="width: 20%">Action</td>
+							<td style="width: 55%"><a href="" ng-click="t_predicate='value'; t_reverse=!t_reverse">Translation</a></td>
+							<td style="width: 25%">Action</td>
 						</tr>
 						<tr ng-repeat="translation in source.translations | orderBy:t_predicate:t_reverse">
 							<td>
@@ -72,12 +72,12 @@
 							<td style="white-space: nowrap">
 								<!-- t form -->
 								<form editable-form name="t_rowform" onbeforesave="saveTranslation($data, source.text_id, translation.code)" ng-show="t_rowform.$visible" class="form-buttons form-inline" shown="inserted == translation">
-									<button type="submit" ng-disabled="t_rowform.$waiting" class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;">Save</button>
-									<button type="button" ng-disabled="t_rowform.$waiting" ng-click="t_rowform.$cancel()" class="btn btn-default" style="padding: 0px 5px 0px 5px; margin: 0px;">Cancel</button>
+									<button type="submit" ng-disabled="t_rowform.$waiting" class="btn btn-primary btn-xs btn-custom-default" >Save</button>
+									<button type="button" ng-disabled="t_rowform.$waiting" ng-click="t_rowform.$cancel()" class="btn btn-default btn-xs btn-custom-cancel" >Cancel</button>
 								</form>
 								<div class="buttons" ng-show="!t_rowform.$visible">
-									<button class="btn btn-primary" id="save_source_button" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="t_rowform.$show()">Edit</button>
-									<button class="btn btn-danger" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="removeTranslation(source.text_id, translation.code)">Delete</button>
+									<button class="btn btn-primary btn-xs btn-custom-default" ng-click="t_rowform.$show()">Edit</button>
+									<button class="btn btn-danger btn-xs btn-custom-danger" ng-click="removeTranslation(source.text_id, translation.code)">Delete</button>
 								</div>
 							</td>
 						</tr>
@@ -85,19 +85,22 @@
 							<td><select ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(source.id, $index)" ng-class="default">
 							</select></td>
 							<td><input type="text" ng-model="newtranslation[$index].value"/></input></td>
-							<td><button class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="addTranslation(source.id, source.text_id, $index)">Add</button></td>
+							<td><button class="btn btn-primary btn-xs btn-custom-default" ng-click="addTranslation(source.id, source.text_id, $index)">Add</button></td>
 						</tr>
 					</table>
+					<div ng-show="!showAddTranslation(source.id)" class="translations_complete">
+						<span>All translations complete. Do you wish to <a href="${ctx}/admin/languages/">add another language</a> ?</span>
+					</div>
 				</td>
 				<td style="white-space: nowrap">
 					<!-- form -->
 					<form editable-form name="rowform" onbeforesave="saveSource($data, source.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == source">
-						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">Save</button>
-						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">Cancel</button>
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
+						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 					</form>
 					<div class="buttons" ng-show="!rowform.$visible">
-						<button class="btn btn-primary" ng-click="rowform.$show()">Edit</button>
-						<button class="btn btn-danger" ng-click="removeSource(source.id)">Delete</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="rowform.$show()">Edit</button>
+						<button class="btn btn-danger btn-custom-danger" ng-click="removeSource(source.id)">Delete</button>
 					</div>
 				</td>
 			</tr>

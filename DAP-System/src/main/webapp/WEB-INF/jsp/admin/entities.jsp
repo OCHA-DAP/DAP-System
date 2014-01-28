@@ -25,9 +25,9 @@
 		<form novalidate name="addEntityForm" class="css-form">
 			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
-					<td style="width: 10%">Type</td>
-					<td style="width: 10%">Code</td>
-					<td style="width: 60%">Default name</td>
+					<td style="width: 15%">Type</td>
+					<td style="width: 15%">Code</td>
+					<td style="width: 50%">Default name</td>
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
@@ -36,7 +36,7 @@
 					<td><input type="text" ng-model="newentity.code" required /></td>
 					<td><input type="text" ng-model="newentity.name" required /></td>
 					<td style="white-space: nowrap">
-						<button class="btn btn-primary" ng-click="addEntity(newentity)">Add</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="addEntity(newentity)">Add</button>
 					</td>
 				</tr>
 			</table>
@@ -46,10 +46,10 @@
 	<div>
 		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">
-				<td style="width: 10%"><a href="" ng-click="predicate='type'; reverse=!reverse">Type</a></td>
-				<td style="width: 10%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
-				<td style="width: 20%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a></td>
-				<td style="width: 40%">Translations</td>
+				<td style="width: 15%"><a href="" ng-click="predicate='type'; reverse=!reverse">Type</a></td>
+				<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
+				<td style="width: 15%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a></td>
+				<td style="width: 35%">Translations</td>
 				<td style="width: 20%">Action</td>
 			</tr>
 			<tr ng-repeat="entity in entities | orderBy:predicate:reverse">
@@ -66,8 +66,8 @@
 					<table class="table table-bordered table-hover table-condensed">
 						<tr style="font-weight: bold">
 							<td style="width: 20%"><a href="" ng-click="t_predicate='code'; t_reverse=!t_reverse">Language</a></td>
-							<td style="width: 60%"><a href="" ng-click="t_predicate='value'; t_reverse=!t_reverse">Translation</a></td>
-							<td style="width: 20%">Action</td>
+							<td style="width: 55%"><a href="" ng-click="t_predicate='value'; t_reverse=!t_reverse">Translation</a></td>
+							<td style="width: 25%">Action</td>
 						</tr>
 						<tr ng-repeat="translation in entity.translations | orderBy:t_predicate:t_reverse">
 							<td>
@@ -79,12 +79,12 @@
 							<td style="white-space: nowrap">
 								<!-- t form -->
 								<form editable-form name="t_rowform" onbeforesave="saveTranslation($data, entity.text_id, translation.code)" ng-show="t_rowform.$visible" class="form-buttons form-inline" shown="inserted == translation">
-									<button type="submit" ng-disabled="t_rowform.$waiting" class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;">Save</button>
-									<button type="button" ng-disabled="t_rowform.$waiting" ng-click="t_rowform.$cancel()" class="btn btn-default" style="padding: 0px 5px 0px 5px; margin: 0px;">Cancel</button>
+									<button type="submit" ng-disabled="t_rowform.$waiting" class="btn btn-primary btn-xs btn-custom-default" >Save</button>
+									<button type="button" ng-disabled="t_rowform.$waiting" ng-click="t_rowform.$cancel()" class="btn btn-default btn-xs btn-custom-cancel" >Cancel</button>
 								</form>
 								<div class="buttons" ng-show="!t_rowform.$visible">
-									<button class="btn btn-primary" id="save_entity_button" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="t_rowform.$show()">Edit</button>
-									<button class="btn btn-danger" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="removeTranslation(entity.text_id, translation.code)">Delete</button>
+									<button class="btn btn-primary btn-xs btn-custom-default" ng-click="t_rowform.$show()">Edit</button>
+									<button class="btn btn-danger  btn-xs btn-custom-danger" ng-click="removeTranslation(entity.text_id, translation.code)">Delete</button>
 								</div>
 							</td>
 						</tr>
@@ -92,19 +92,22 @@
 							<td><select ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(entity.id, $index)" ng-class="default">
 							</select></td>
 							<td><input type="text" ng-model="newtranslation[$index].value"/></input></td>
-							<td><button class="btn btn-primary" style="padding: 0px 5px 0px 5px; margin: 0px;" ng-click="addTranslation(entity.id, entity.text_id, $index)">Add</button></td>
+							<td><button class="btn btn-primary btn-xs btn-custom-default" ng-click="addTranslation(entity.id, entity.text_id, $index)">Add</button></td>
 						</tr>
 					</table>
+					<div ng-show="!showAddTranslation(entity.id)" class="translations_complete">
+						<span>All translations complete. Do you wish to <a href="${ctx}/admin/languages/">add another language</a> ?</span>
+					</div>
 				</td>
 				<td style="white-space: nowrap">
 					<!-- form -->
 					<form editable-form name="rowform" onbeforesave="saveEntity($data, entity.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == entity">
-						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">Save</button>
-						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">Cancel</button>
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
+						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 					</form>
 					<div class="buttons" ng-show="!rowform.$visible">
-						<button class="btn btn-primary" ng-click="rowform.$show()">Edit</button>
-						<button class="btn btn-danger" ng-click="removeEntity(entity.id)">Delete</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="rowform.$show()">Edit</button>
+						<button class="btn btn-danger btn-custom-danger" ng-click="removeEntity(entity.id)">Delete</button>
 					</div>
 				</td>
 			</tr>

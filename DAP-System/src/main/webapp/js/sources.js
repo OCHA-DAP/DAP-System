@@ -164,13 +164,13 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
     });
   };
 
-  if (!$scope.checkLanguages) {
-    $scope.loadLanguages();
-  }
-
   // Are the languages there ?
   $scope.checkLanguages = function() {
-    return !$scope.languages || 0 == $scope.languages.length;
+    return $scope.languages && 0 < $scope.languages.length;
+  }
+
+  if (!$scope.checkLanguages()) {
+    $scope.loadLanguages();
   }
 
   // Get a language by its code
@@ -195,7 +195,7 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
   $scope.showAddTranslation = function(sourceId) {
 
     // Are there some languages ?
-    if (!$scope.checkLanguages) {
+    if (!$scope.checkLanguages()) {
       return false;
     }
 

@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
+import org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.dap.persistence.entity.i18n.Text;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +24,12 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 
 	@Override
 	@Transactional
-	public void addIndicatorType(final String code, final Text name, final String unit) {
+	public void createIndicatorType(final String code, final Text name, final String unit, final ValueType valueType) {
 		final IndicatorType indicatorType = new IndicatorType();
 		indicatorType.setCode(code);
 		indicatorType.setName(name);
 		indicatorType.setUnit(unit);
+		indicatorType.setValueType(valueType);
 		em.persist(indicatorType);
 
 	}
@@ -49,4 +51,18 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 		em.remove(getIndicatorTypeByCode(code));
 	}
 
+	@Override
+	@Transactional
+	public void deleteIndicatorType(final long indicatorTypeId) {
+		em.createQuery("DELETE FROM IndicatorType i WHERE i.id = :indicatorTypeId").setParameter("indicatorTypeId", indicatorTypeId).executeUpdate();
+	}
+
+	@Override
+	@Transactional
+	public void updateIndicatorType(final long indicatorTypeId, final String newName, final String newUnit, final ValueType valueType) {
+		final IndicatorType indicatorType = em.find(IndicatorType.class, indicatorTypeId);
+		indicatorType.getName().setDefaultValue(newName);
+		indicatorType.setUnit(newUnit);
+		indicatorType.setValueType(valueType);
+	}
 }

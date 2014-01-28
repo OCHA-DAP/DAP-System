@@ -48,9 +48,13 @@ public interface CuratedDataService {
 	 */
 	public List<IndicatorType> listIndicatorTypes();
 
-	public void addIndicatorType(String code, String defaultName, String unit);
+	public void addIndicatorType(String code, String defaultName, String unit, String valueType);
 
 	public IndicatorType getIndicatorTypeByCode(final String code);
+
+	public void deleteIndicatorType(long indicatorTypeId);
+
+	public void updateIndicatorType(long indicatorTypeId, String newName, String newUnit, String newValueType);
 
 	/*
 	 * Sources

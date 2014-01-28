@@ -153,14 +153,26 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void addIndicatorType(final String code, final String defaultName, final String unit) {
+	public void addIndicatorType(final String code, final String defaultName, final String unit, final String valueType) {
 		final Text text = textDAO.createText(defaultName);
-		indicatorTypeDAO.addIndicatorType(code, text, unit);
+		indicatorTypeDAO.createIndicatorType(code, text, unit, org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(valueType));
 	}
 
 	@Override
 	public IndicatorType getIndicatorTypeByCode(final String code) {
 		return indicatorTypeDAO.getIndicatorTypeByCode(code);
+	}
+
+	@Override
+	public void deleteIndicatorType(final long indicatorTypeId) {
+		indicatorTypeDAO.deleteIndicatorType(indicatorTypeId);
+
+	}
+
+	@Override
+	public void updateIndicatorType(final long indicatorTypeId, final String newName, final String newUnit, final String newValueType) {
+		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newName, newUnit, org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
+
 	}
 
 	/*
@@ -182,7 +194,6 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return sourceDAO.getSourceByCode(code);
 	}
 
-
 	@Override
 	public void deleteSource(final long sourceId) {
 		sourceDAO.deleteSource(sourceId);
@@ -192,6 +203,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	public void updateSource(final long sourceId, final String newName) {
 		sourceDAO.updateSource(sourceId, newName);
 	}
+
 	/*
 	 * Imports from CKAN
 	 */

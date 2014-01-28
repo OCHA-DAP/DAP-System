@@ -14,6 +14,7 @@ import org.ocha.dap.persistence.entity.ImportFromCKAN;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorType;
+import org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.dap.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.dap.persistence.entity.curateddata.Source;
 import org.ocha.dap.persistence.entity.i18n.Text;
@@ -55,8 +56,8 @@ public class IntegrationTestSetUpAndTearDown {
 
 		final Text gdp = textDAO.createText("Per capita gdp");
 		final Text conflict = textDAO.createText("Incidence of conflict");
-		indicatorTypeDAO.addIndicatorType("per-capita-gdp", gdp, "dollar");
-		indicatorTypeDAO.addIndicatorType("PVX040", conflict, "Count");
+		indicatorTypeDAO.createIndicatorType("per-capita-gdp", gdp, "dollar", ValueType.NUMBER);
+		indicatorTypeDAO.createIndicatorType("PVX040", conflict, "Count", ValueType.NUMBER);
 
 		final Text wb = textDAO.createText("World Bank");
 		final Text acled = textDAO.createText("Armed Conflict Location and Event Dataset");

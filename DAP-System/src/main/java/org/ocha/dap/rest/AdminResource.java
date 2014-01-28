@@ -126,7 +126,7 @@ public class AdminResource {
 	public Response addUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newPassword2") final String newPassword2,
 			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole, @Context final UriInfo uriInfo) throws Exception {
 		// TODO Perform validation
-		
+
 		dapService.createUser(userId, newPassword, newRole, newCkanApiKey);
 		return Response.ok().build();
 	}
@@ -180,7 +180,7 @@ public class AdminResource {
 
 	@POST
 	@Path("/languages/submitadd")
-	public Response addLanguage(@FormParam("code") final String languageCode, @FormParam("newNativeName") final String newNativeName, @Context final UriInfo uriInfo) throws Exception {
+	public Response addLanguage(@FormParam("code") final String languageCode, @FormParam("newNativeName") final String newNativeName) throws Exception {
 		// TODO Perform validation
 		dapService.createLanguage(languageCode, newNativeName);
 		return Response.ok().build();
@@ -203,21 +203,23 @@ public class AdminResource {
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/languages/").build();
 		return Response.seeOther(newURI).build();
 	}
-	
+
 	/*
 	 * Translations management
 	 */
-	
+
 	@POST
 	@Path("/translations/submitadd")
-	public Response addTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue) throws Exception, Exception {
+	public Response addTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue)
+			throws Exception, Exception {
 		dapService.addTranslation(Long.valueOf(textId), languageCode, translationValue);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/translations/submitupdate")
-	public Response updateTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue) throws Exception {
+	public Response updateTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue)
+			throws Exception {
 		dapService.updateTranslation(Long.valueOf(textId), languageCode, translationValue);
 		return Response.ok().build();
 	}
@@ -228,7 +230,7 @@ public class AdminResource {
 		dapService.deleteTranslation(Long.valueOf(textId), languageCode);
 		return Response.ok().build();
 	}
-	
+
 	/*
 	 * Status / datasets management
 	 */
@@ -407,7 +409,7 @@ public class AdminResource {
 				jsonTranslations.add(jsonTranslation);
 			}
 			jsonEntity.add("translations", jsonTranslations);
-			
+
 			jsonEntities.add(jsonEntity);
 		}
 		return jsonEntities.toString();
@@ -415,9 +417,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/entities/submitadd")
-	public Response addEntity(@FormParam("entityTypeCode") final String entityTypeCode, @FormParam("code") final String code, @FormParam("name") final String name, @Context final UriInfo uriInfo) {
+	public Response addEntity(@FormParam("entityTypeCode") final String entityTypeCode, @FormParam("code") final String code, @FormParam("name") final String name) {
 		curatedDataService.addEntity(code, name, entityTypeCode);
-
 		return Response.ok().build();
 	}
 
@@ -448,11 +449,75 @@ public class AdminResource {
 		return Response.ok(new Viewable("/admin/indicatorTypes", curatedDataService.listIndicatorTypes())).build();
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/curated/indicatortypes/json")
+	public String getIndicatorTypes() throws TypeMismatchException {
+		final List<IndicatorType> listIndicatorTypes = curatedDataService.listIndicatorTypes();
+		final JsonArray jsonIndicatorTypes = new JsonArray();
+		for (final IndicatorType indicatorType : listIndicatorTypes) {
+			final JsonObject jsonIndicatorType = new JsonObject();
+			jsonIndicatorType.addProperty("id", indicatorType.getId());
+			jsonIndicatorType.addProperty("code", indicatorType.getCode());
+			jsonIndicatorType.addProperty("name", indicatorType.getName().getDefaultValue());
+			jsonIndicatorType.addProperty("unit", indicatorType.getUnit());
+			jsonIndicatorType.addProperty("valueType", indicatorType.getValueType().toString());
+			jsonIndicatorType.addProperty("text_id", indicatorType.getName().getId());
+			final List<Translation> translations = indicatorType.getName().getTranslations();
+			final JsonArray jsonTranslations = new JsonArray();
+			for (final Translation translation : translations) {
+				final Id translationId = translation.getId();
+				final Language language = translationId.getLanguage();
+				final String code = language.getCode();
+				final String value = translation.getValue();
+				final JsonObject jsonTranslation = new JsonObject();
+				jsonTranslation.addProperty("code", code);
+				jsonTranslation.addProperty("value", value);
+
+				jsonTranslations.add(jsonTranslation);
+			}
+			jsonIndicatorType.add("translations", jsonTranslations);
+
+			jsonIndicatorTypes.add(jsonIndicatorType);
+		}
+		return jsonIndicatorTypes.toString();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/curated/indicatortypes/valuetypes/json")
+	@SuppressWarnings("static-method")
+	public String getIndicatorTypeValueTypes() throws TypeMismatchException {
+		final JsonArray jsonValueTypes = new JsonArray();
+		for (final ValueType valueType : ValueType.values()) {
+			final JsonObject jsonValueType = new JsonObject();
+			jsonValueType.addProperty("value", valueType.toString());
+			jsonValueType.addProperty("text", valueType.toString());
+			jsonValueTypes.add(jsonValueType);
+		}
+		return jsonValueTypes.toString();
+	}
+
 	@POST
-	@Path("/curated/indicatortypes")
-	public Response addIndicatorType(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("unit") final String unit) {
-		curatedDataService.addIndicatorType(code, name, unit);
-		return displayIndicatorTypesList();
+	@Path("/curated/indicatortypes/submitadd")
+	public Response addIndicatorType(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("unit") final String unit, @FormParam("valueType") final String valueType) {
+		curatedDataService.addIndicatorType(code, name, unit, valueType);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/curated/indicatortypes/submitdelete")
+	public Response deleteIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId) {
+		curatedDataService.deleteIndicatorType(indicatorTypeId);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/curated/indicatortypes/submitupdate")
+	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newName") final String newName, @FormParam("newUnit") final String newUnit,
+			@FormParam("newValueType") final String newValueType) {
+		curatedDataService.updateIndicatorType(indicatorTypeId, newName, newUnit, newValueType);
+		return Response.ok().build();
 	}
 
 	/*
@@ -490,7 +555,7 @@ public class AdminResource {
 				jsonTranslations.add(jsonTranslation);
 			}
 			jsonSource.add("translations", jsonTranslations);
-			
+
 			jsonSources.add(jsonSource);
 		}
 		return jsonSources.toString();
@@ -668,5 +733,4 @@ public class AdminResource {
 		return Response.seeOther(newURI).build();
 
 	}
-
 }

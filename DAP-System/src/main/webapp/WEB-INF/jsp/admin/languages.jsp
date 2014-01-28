@@ -33,7 +33,7 @@
 					<td><input type="text" id="newlanguage_code" ng-model="newlanguage.code" required /></td>
 					<td><input type="text" id="newlanguage_native_name" ng-model="newlanguage.native_name" required /></td>
 					<td style="white-space: nowrap">
-						<button class="btn btn-primary" ng-click="addLanguage(newlanguage)">Add</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="addLanguage(newlanguage)">Add</button>
 					</td>
 				</tr>
 			</table>
@@ -55,12 +55,12 @@
 				<td style="white-space: nowrap">
 					<!-- form -->
 					<form editable-form name="rowform" onbeforesave="saveLanguage($data, language.code)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == language">
-						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">Save</button>
-						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">Cancel</button>
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
+						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 					</form>
 					<div class="buttons" ng-show="!rowform.$visible">
-						<button class="btn btn-primary" ng-click="rowform.$show()">Edit</button>
-						<button class="btn btn-danger" ng-click="removeLanguage(language.code)">Delete</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="rowform.$show()">Edit</button>
+						<button class="btn btn-danger btn-custom-danger" ng-click="removeLanguage(language.code)">Delete</button>
 					</div>
 				</td>
 			</tr>

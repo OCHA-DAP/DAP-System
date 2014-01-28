@@ -60,3 +60,77 @@ td {
 .css-form input.ng-valid.ng-dirty {
 	background-color: #78FA89;
 }
+
+.translations_complete {
+	margin: -15px 0 0px 0;
+	font-family: verdana, arial, sans-serif;
+	font-size: 11px;
+	font-style: italic;
+	color: #999999;
+	text-align: left;
+}
+
+/*
+Bootstrap buttons customization
+*/
+.btn-custom-default {
+	background-color: hsl(70, 11%, 69%) !important;
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e9eae5",
+		endColorstr="#b5b8a7");
+	background-image: -khtml-gradient(linear, left top, left bottom, from(#e9eae5),
+		to(#b5b8a7));
+	background-image: -moz-linear-gradient(top, #e9eae5, #b5b8a7);
+	background-image: -ms-linear-gradient(top, #e9eae5, #b5b8a7);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e9eae5),
+		color-stop(100%, #b5b8a7));
+	background-image: -webkit-linear-gradient(top, #e9eae5, #b5b8a7);
+	background-image: -o-linear-gradient(top, #e9eae5, #b5b8a7);
+	background-image: linear-gradient(#e9eae5, #b5b8a7);
+	border-color: #b5b8a7 #b5b8a7 hsl(70, 11%, 63.5%);
+	color: #333 !important;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.36);
+	-webkit-font-smoothing: antialiased;
+}
+
+.btn-custom-danger {
+	background-color: hsl(0, 69%, 80%) !important;
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",
+		endColorstr="#efa8a8");
+	background-image: -khtml-gradient(linear, left top, left bottom, from(#ffffff),
+		to(#efa8a8));
+	background-image: -moz-linear-gradient(top, #ffffff, #efa8a8);
+	background-image: -ms-linear-gradient(top, #ffffff, #efa8a8);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff),
+		color-stop(100%, #efa8a8));
+	background-image: -webkit-linear-gradient(top, #ffffff, #efa8a8);
+	background-image: -o-linear-gradient(top, #ffffff, #efa8a8);
+	background-image: linear-gradient(#ffffff, #efa8a8);
+	border-color: #efa8a8 #efa8a8 hsl(0, 69%, 75%);
+	color: #333 !important;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.33);
+	-webkit-font-smoothing: antialiased;
+}
+
+.btn-custom-cancel {
+	background-color: hsl(0, 0%, 79%);
+	background-repeat: repeat-x;
+	background-image: -khtml-gradient(linear, left top, left bottom, from(hsl(0, 0%, 121%)),
+		to(hsl(0, 0%, 79%)));
+	background-image: -moz-linear-gradient(top, hsl(0, 0%, 121%),
+		hsl(0, 0%, 79%));
+	background-image: -ms-linear-gradient(top, hsl(0, 0%, 121%),
+		hsl(0, 0%, 79%));
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, hsl(0, 0%
+		, 121%)), color-stop(100%, hsl(0, 0%, 79%)));
+	background-image: -webkit-linear-gradient(top, hsl(0, 0%, 121%),
+		hsl(0, 0%, 79%));
+	background-image: -o-linear-gradient(top, hsl(0, 0%, 121%),
+		hsl(0, 0%, 79%));
+	background-image: linear-gradient(hsl(0, 0%, 121%), hsl(0, 0%, 79%));
+	border-color: hsl(0, 0%, 79%) hsl(0, 0%, 79%) hsl(0, 0%, 68.5%);
+	color: #333;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.69);
+	-webkit-font-smoothing: antialiased;
+}
