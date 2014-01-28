@@ -208,7 +208,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   if (!$scope.checkLanguages()) {
     $scope.loadLanguages();
   }
-  
+
   // Get a language by its code
   $scope.getLanguageByCode = function(languageCode) {
     var filteredLanguages = $filter('filter')($scope.languages, {
@@ -244,7 +244,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   $scope.languagesByAvailableTranslations = function(entityId, index) {
     return function(language) {
       var translation = $scope.getTranslationForEntityAndLanguageCode($scope.getEntityById(entityId), language.code);
-      
+
       // At the same time, select by default the first missing language
       if (!translation) {
         if (!$scope.newtranslation[index]) {
