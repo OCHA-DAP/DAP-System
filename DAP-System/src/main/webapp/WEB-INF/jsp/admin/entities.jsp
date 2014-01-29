@@ -7,19 +7,14 @@
 <html ng-app="app">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="${ctx}/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/css/xeditable.css">
-<link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
-<script type="text/javascript">
-  var dapContextRoot = "${ctx}";
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
-<script src="${ctx}/js/xeditable.js"></script>
-<script src="${ctx}/js/entities.js"></script>
+<jsp:include page="css-includes.jsp" />
+<jsp:include page="js-includes.jsp">
+	<jsp:param name="which" value="entities" />
+</jsp:include>
 
 </head>
 <body ng-controller="EntitiesCtrl">
-	<jsp:include page="admin-header.jsp" />
+	<jsp:include page="admin-menu.jsp" />
 	<div>
 		<h3>Add entity</h3>
 		<form novalidate name="addEntityForm" class="css-form">
@@ -96,7 +91,7 @@
 						</tr>
 					</table>
 					<div ng-show="!showAddTranslation(entity.id)" class="translations_complete">
-						<span>All translations complete. Do you wish to <a href="${ctx}/admin/languages/">add another language</a> ?</span>
+						<span>All translations complete. Do you wish to <a href="${ctx}/admin/misc/languages/">add another language</a> ?</span>
 					</div>
 				</td>
 				<td style="white-space: nowrap">

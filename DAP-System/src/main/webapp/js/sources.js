@@ -158,7 +158,7 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
 
   // Load languages
   $scope.loadLanguages = function() {
-    return $http.get(dapContextRoot + '/admin/languages/json').success(function(data) {
+    return $http.get(dapContextRoot + '/admin/misc/languages/json').success(function(data) {
       $scope.languages = data;
       $scope.resetNewTranslations();
     });

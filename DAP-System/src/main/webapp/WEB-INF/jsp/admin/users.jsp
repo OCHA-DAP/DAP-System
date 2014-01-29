@@ -7,19 +7,14 @@
 <html ng-app="app">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="${ctx}/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/css/xeditable.css">
-<link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
-<script type="text/javascript">
-  var dapContextRoot = "${ctx}";
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
-<script src="${ctx}/js/xeditable.js"></script>
-<script src="${ctx}/js/users.js"></script>
+<jsp:include page="css-includes.jsp" />
+<jsp:include page="js-includes.jsp">
+	<jsp:param name="which" value="users" />
+</jsp:include>
 
 </head>
 <body ng-controller="UsersCtrl">
-	<jsp:include page="admin-header.jsp" />
+	<jsp:include page="admin-menu.jsp" />
 	<div>
 		<h3>Add user</h3>
 		<form novalidate name="addUserForm" class="css-form">

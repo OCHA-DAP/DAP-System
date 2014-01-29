@@ -67,27 +67,15 @@ public class AdminResource {
 	 * Users management
 	 */
 	@GET
-	@Path("/users/")
+	@Path("/misc/users/")
+	@SuppressWarnings("static-method")
 	public Response displayUsersList() {
-		return Response.ok(new Viewable("/admin/users", dapService.listUsers())).build();
-	}
-
-	@POST
-	@Path("/users/")
-	public Response createUser(@FormParam("id") final String id, @FormParam("password") final String password, @FormParam("password2") final String password2,
-			@FormParam("ckanApiKey") final String ckanApiKey, @FormParam("role") final String role) throws Exception {
-		if (!password.equals(password2)) {
-			// FIXME add an error message
-			return displayUsersList();
-		}
-		dapService.createUser(id, password, role, ckanApiKey);
-
-		return displayUsersList();
+		return Response.ok(new Viewable("/admin/users")).build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/users/json")
+	@Path("/misc/users/json")
 	public String getUsers() throws TypeMismatchException {
 
 		final List<User> listUsers = dapService.listUsers();
@@ -105,7 +93,7 @@ public class AdminResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/users/roles/json")
+	@Path("/misc/users/roles/json")
 	public String getUserRoles() throws TypeMismatchException {
 
 		final List<String> roles = dapService.listRoles();
@@ -122,7 +110,7 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/users/submitadd")
+	@Path("/misc/users/submitadd")
 	public Response addUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newPassword2") final String newPassword2,
 			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole, @Context final UriInfo uriInfo) throws Exception {
 		// TODO Perform validation
@@ -132,29 +120,25 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/users/submitupdate")
-	public Response updateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newPassword2") final String newPassword2,
-			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole, @Context final UriInfo uriInfo) throws Exception {
+	@Path("/misc/users/submitupdate")
+	public Response updateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, 
+			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole) throws Exception {
 		dapService.updateUser(userId, newPassword, newRole, newCkanApiKey);
-
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/users/").build();
-		return Response.seeOther(newURI).build();
+		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/users/submitdelete")
-	public Response deleteUser(@FormParam("userId") final String userId, @Context final UriInfo uriInfo) throws Exception {
+	@Path("/misc/users/submitdelete")
+	public Response deleteUser(@FormParam("userId") final String userId) throws Exception {
 		dapService.deleteUser(userId);
-
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/users/").build();
-		return Response.seeOther(newURI).build();
+		return Response.ok().build();
 	}
 
 	/*
 	 * Languages management
 	 */
 	@GET
-	@Path("/languages/")
+	@Path("/misc/languages/")
 	@SuppressWarnings("static-method")
 	public Response displayLanguagesList() {
 		return Response.ok(new Viewable("/admin/languages")).build();
@@ -162,7 +146,7 @@ public class AdminResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/languages/json")
+	@Path("/misc/languages/json")
 	public String getLanguages() throws TypeMismatchException {
 
 		final List<Language> listLanguages = dapService.listLanguages();
@@ -179,7 +163,7 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/languages/submitadd")
+	@Path("/misc/languages/submitadd")
 	public Response addLanguage(@FormParam("code") final String languageCode, @FormParam("newNativeName") final String newNativeName) throws Exception {
 		// TODO Perform validation
 		dapService.createLanguage(languageCode, newNativeName);
@@ -187,21 +171,17 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/languages/submitupdate")
-	public Response updateLanguage(@FormParam("code") final String code, @FormParam("newNativeName") final String newNativeName, @Context final UriInfo uriInfo) throws Exception {
+	@Path("/misc/languages/submitupdate")
+	public Response updateLanguage(@FormParam("code") final String code, @FormParam("newNativeName") final String newNativeName) throws Exception {
 		dapService.updateLanguage(code, newNativeName);
-
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/languages/").build();
-		return Response.seeOther(newURI).build();
+		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/languages/submitdelete")
-	public Response deleteLanguage(@FormParam("code") final String code, @Context final UriInfo uriInfo) throws Exception {
+	@Path("/misc/languages/submitdelete")
+	public Response deleteLanguage(@FormParam("code") final String code) throws Exception {
 		dapService.deleteLanguage(code);
-
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/languages/").build();
-		return Response.seeOther(newURI).build();
+		return Response.ok().build();
 	}
 
 	/*

@@ -6,8 +6,8 @@
 			<li><a href="${ctx}/admin/status/manuallyTriggerDatasetsDetection">Manually Trigger Datasets Detection</a></li>
 			<li><a href="${ctx}/admin/status/manuallyTriggerResourcesDetection">Manually Trigger Resources Detection</a></li>
 			<li class="right"><a href="${ctx}/logout/">Log out</a></li>
-			<li class="right"><a href="${ctx}/admin/users/">Manage users</a></li>
-			<li class="right"><a href="${ctx}/admin/languages/">Manage languages</a></li>
+			<li class="right"><a href="${ctx}/admin/misc/users/">Manage users</a></li>
+			<li class="right"><a href="${ctx}/admin/misc/languages/">Manage languages</a></li>
 			<li class="right">Logged as ${SESSION_PARAM_UID}</li>
 		</ul>
 	</div>

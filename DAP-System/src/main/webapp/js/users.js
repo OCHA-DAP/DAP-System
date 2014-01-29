@@ -24,7 +24,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
 
   // Load users
   $scope.loadUsers = function() {
-    return $http.get(dapContextRoot + '/admin/users/json').success(function(data) {
+    return $http.get(dapContextRoot + '/admin/misc/users/json').success(function(data) {
       $scope.users = data;
       angular.forEach($scope.users, function(value, key) {
         angular.extend(value, {
@@ -52,7 +52,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
 
   // Load roles
   $scope.loadRoles = function() {
-    return $http.get(dapContextRoot + '/admin/users/roles/json').success(function(data) {
+    return $http.get(dapContextRoot + '/admin/misc/users/roles/json').success(function(data) {
       $scope.roles = data;
       $scope.resetNewUser();
     });
@@ -75,7 +75,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
     var valid = $scope.checkUpdateForm(datas);
     if ("OK" == valid) {
       return $http.post(
-          dapContextRoot + '/admin/users/submitupdate',
+          dapContextRoot + '/admin/misc/users/submitupdate',
           "userId=" + id + (datas.password ? "&newPassword=" + datas.password : "")
               + (datas.password2 ? "&newPassword2=" + datas.password2 : "")
               + (datas.ckanApiKey ? "&newCkanApiKey=" + datas.ckanApiKey : "") + "&newRole=" + datas.role, {
@@ -132,7 +132,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
       return;
     }
 
-    $http.post(dapContextRoot + '/admin/users/submitdelete', "userId=" + id, {
+    $http.post(dapContextRoot + '/admin/misc/users/submitdelete', "userId=" + id, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
@@ -176,7 +176,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
     if ("OK" == valid) {
       // alert("Add user : " + data);
       return $http.post(
-          dapContextRoot + '/admin/users/submitadd',
+          dapContextRoot + '/admin/misc/users/submitadd',
           "userId=" + data.id + "&newPassword=" + data.password + "&newPassword2=" + data.password2 + "&newCkanApiKey=" + data.ckanApiKey
               + "&newRole=" + data.role, {
             headers : {

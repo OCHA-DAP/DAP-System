@@ -7,19 +7,14 @@
 <html ng-app="app">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="${ctx}/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/css/xeditable.css">
-<link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
-<script type="text/javascript">
-  var dapContextRoot = "${ctx}";
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
-<script src="${ctx}/js/xeditable.js"></script>
-<script src="${ctx}/js/languages.js"></script>
+<jsp:include page="css-includes.jsp" />
+<jsp:include page="js-includes.jsp">
+	<jsp:param name="which" value="languages" />
+</jsp:include>
 
 </head>
 <body ng-controller="LanguagesCtrl">
-	<jsp:include page="admin-header.jsp" />
+	<jsp:include page="admin-menu.jsp" />
 	<div>
 		<h3>Add language</h3>
 		<form novalidate name="addLanguageForm" class="css-form">
@@ -51,7 +46,9 @@
 				<td>
 					<!-- non editable code --> <span e-name="code" e-form="rowform"> {{ language.code }} </span>
 				</td>
-				<td><!-- editable native name --> <span editable-text="language.native_name" e-name="native_name" e-form="rowform" e-required> {{ language.native_name }} </span></td>
+				<td>
+					<!-- editable native name --> <span editable-text="language.native_name" e-name="native_name" e-form="rowform" e-required> {{ language.native_name }} </span>
+				</td>
 				<td style="white-space: nowrap">
 					<!-- form -->
 					<form editable-form name="rowform" onbeforesave="saveLanguage($data, language.code)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == language">
