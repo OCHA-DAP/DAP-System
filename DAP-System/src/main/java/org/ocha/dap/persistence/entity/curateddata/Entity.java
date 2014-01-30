@@ -36,9 +36,9 @@ public class Entity implements Comparable<Entity> {
 	@ForeignKey(name = "fk_entity_to_type")
 	private EntityType type;
 
-	@Column(name = "code", nullable = false, updatable = false)
+	@Column(name = "code", unique = true, nullable = false, updatable = false)
 	private String code;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "text_id")
 	@ForeignKey(name = "fk_entity_to_name_text")
