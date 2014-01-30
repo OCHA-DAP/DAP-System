@@ -57,7 +57,6 @@ public class EntityTypeDAOImpl implements EntityTypeDAO {
 	@Override
 	@Transactional
 	public void deleteEntityType(final long entityTypeId) {
-		em.createQuery("DELETE FROM EntityType i WHERE i.id = :entityTypeId").setParameter("entityTypeId", entityTypeId).executeUpdate();
+		em.remove(getEntityTypeById(entityTypeId));
 	}
-
 }

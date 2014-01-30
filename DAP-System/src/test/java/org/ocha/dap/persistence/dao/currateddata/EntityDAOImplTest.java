@@ -167,7 +167,7 @@ public class EntityDAOImplTest {
 
 		entityTypeDAO.deleteEntityTypeByCode("country");
 		Assert.assertEquals(2, entityDAO.listEntities().size());
-		entityTypeDAO.deleteEntityTypeByCode("crisis");
+		entityTypeDAO.deleteEntityType(crisis.getId());
 		Assert.assertEquals(0, entityDAO.listEntities().size());
 
 	}
