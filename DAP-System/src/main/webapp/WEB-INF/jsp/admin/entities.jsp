@@ -26,10 +26,10 @@
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
-					<td><select ng-model="newentity.type" ng-options="type.name for type in types" ng-class="default">
+					<td><select class="form-control" ng-model="newentity.type" ng-options="type.name for type in types" ng-class="default">
 					</select></td>
-					<td><input type="text" ng-model="newentity.code" required /></td>
-					<td><input type="text" ng-model="newentity.name" required /></td>
+					<td><input type="text" class="form-control" placeholder="Code" ng-model="newentity.code" required /></td>
+					<td><input type="text" class="form-control" placeholder="Name" ng-model="newentity.name" required /></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary btn-custom-default" ng-click="addEntity(newentity)">Add</button>
 					</td>
@@ -55,7 +55,7 @@
 					<!-- non editable code --> <span e-name="code" e-form="rowform"> {{ entity.code }} </span>
 				</td>
 				<td>
-					<!-- editable name --> <span editable-text="entity.name" e-name="name" e-form="rowform" e-required> {{ entity.name }} </span>
+					<!-- editable name --> <span editable-text="entity.name" e-class="form-control" e-name="name" e-form="rowform" required> {{ entity.name }} </span>
 				</td>
 				<td>
 					<table class="table table-bordered table-hover table-condensed">
@@ -66,10 +66,10 @@
 						</tr>
 						<tr ng-repeat="translation in entity.translations | orderBy:t_predicate:t_reverse">
 							<td>
-								<!-- non editable language --> <span e-name="language" e-form="t_rowform"> {{ translation.code }} </span>
+								<!-- non editable language --> <span e-class="form-control" e-name="language" e-form="t_rowform"> {{ translation.code }} </span>
 							</td>
 							<td>
-								<!-- editable value --> <span editable-text="translation.value" e-name="value" e-form="t_rowform"> {{ translation.value }} </span>
+								<!-- editable value --> <span editable-text="translation.value" e-class="form-control" e-name="value" e-form="t_rowform"> {{ translation.value }} </span>
 							</td>
 							<td style="white-space: nowrap">
 								<!-- t form -->
@@ -84,9 +84,9 @@
 							</td>
 						</tr>
 						<tr ng-show="showAddTranslation(entity.id)">
-							<td><select ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(entity.id, $index)" ng-class="default">
+							<td><select class="form-control" ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(entity.id, $index)" ng-class="default">
 							</select></td>
-							<td><input type="text" ng-model="newtranslation[$index].value"/></input></td>
+							<td><input type="text" class="form-control" placeholder="Translation" ng-model="newtranslation[$index].value"/></input></td>
 							<td><button class="btn btn-primary btn-xs btn-custom-default" ng-click="addTranslation(entity.id, entity.text_id, $index)">Add</button></td>
 						</tr>
 					</table>
