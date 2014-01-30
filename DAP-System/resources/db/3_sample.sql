@@ -2,8 +2,11 @@ INSERT INTO dap_user(id, ckanapikey, password, role) VALUES ('seustachi', 'G++lx
 INSERT INTO dap_user(id, ckanapikey, password, role) VALUES ('cjhendrix', 'G++lx4RQM5AqO3wlMiUhjZXU6ZtA3KKIq/cjjUznbTjgljHdUtJEnKm49sxcg3l1', '{SHA}zzsrXdRof78GkYbWwsfVZ2UbQmw=', 'api');
 INSERT INTO dap_user(id, ckanapikey, password, role) VALUES ('bmi', 'KHPUpxraF+oA1wkmG+s0hQ==', '{SHA}JuQIzlXAzjNi9ovRIG1IfdWw9k0=', 'admin');
 
-INSERT INTO entity_type(id, code, name) VALUES (1, 'country', 'Country');
-INSERT INTO entity_type(id, code, name) VALUES (2, 'crisis', 'Crisis');
+INSERT INTO text(id, default_value) VALUES (18, 'Country');
+INSERT INTO entity_type(id, code, text_id) VALUES (1, 'country', 18);
+
+INSERT INTO text(id, default_value) VALUES (19, 'Crisis');
+INSERT INTO entity_type(id, code, text_id) VALUES (2, 'crisis', 19);
 
 ALTER SEQUENCE entity_type_seq RESTART WITH 3;
 
@@ -58,4 +61,4 @@ INSERT INTO text(id, default_value) VALUES (17, 'faostat3');
 INSERT INTO source(id, code, text_id) VALUES (6, 'faostat3', 17);
 
 ALTER SEQUENCE source_seq RESTART WITH 7;
-ALTER SEQUENCE text_seq RESTART WITH 18;
+ALTER SEQUENCE text_seq RESTART WITH 20;

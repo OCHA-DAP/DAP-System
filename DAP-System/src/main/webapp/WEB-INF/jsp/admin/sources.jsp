@@ -101,14 +101,14 @@
 			</tr>
 		</table>
 	</div>
-	<h3>Test zone</h3>
+	<!-- h3>Test zone</h3>
 	<pre>
 		<p>Sources : {{ sources | json }}</p>
 		<p>Languages : {{ languages | json }}</p>
 	</pre>
 
 
-	<!-- h2>List of sources</h2>
+	<h2>List of sources</h2>
 	<table>
 		<tr>
 			<th>Id</th>

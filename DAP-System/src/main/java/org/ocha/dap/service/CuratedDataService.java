@@ -26,9 +26,11 @@ public interface CuratedDataService {
 	 */
 	public List<EntityType> listEntityTypes();
 
-	public DataTable listEntityTypesAsDataTable() throws TypeMismatchException;
-
 	public void addEntityType(String code, String name);
+
+	public void deleteEntityType(long entityTypeId);
+
+	public void updateEntityType(long entityTypeId, String newName);
 
 	/*
 	 * Entities

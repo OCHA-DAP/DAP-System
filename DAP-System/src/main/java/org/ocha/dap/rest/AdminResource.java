@@ -323,31 +323,54 @@ public class AdminResource {
 	@Path("/curated/entitytypes/json")
 	public String getEntityTypes() throws TypeMismatchException {
 
-		/*
-		 * final DataTable dataTable = curatedDataService.listEntityTypesAsDataTable(); final String result =
-		 * JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
-		 * logger.debug("about to return from listEntityTypesAsDataTable"); logger.debug(result); return result;
-		 */
-
 		final List<EntityType> listEntityTypes = curatedDataService.listEntityTypes();
 		final JsonArray jsonArray = new JsonArray();
 
 		for (final EntityType entityType : listEntityTypes) {
 
-			final JsonObject element = new JsonObject();
-			element.addProperty("id", entityType.getId());
-			element.addProperty("code", entityType.getCode());
-			element.addProperty("name", entityType.getName());
-			jsonArray.add(element);
+			final JsonObject jsonEntityType = new JsonObject();
+			jsonEntityType.addProperty("id", entityType.getId());
+			jsonEntityType.addProperty("code", entityType.getCode());
+			jsonEntityType.addProperty("name", entityType.getName().getDefaultValue());
+			jsonEntityType.addProperty("text_id", entityType.getName().getId());
+			final List<Translation> translations = entityType.getName().getTranslations();
+			final JsonArray jsonTranslations = new JsonArray();
+			for (final Translation translation : translations) {
+				final Id translationId = translation.getId();
+				final Language language = translationId.getLanguage();
+				final String code = language.getCode();
+				final String value = translation.getValue();
+				final JsonObject jsonTranslation = new JsonObject();
+				jsonTranslation.addProperty("code", code);
+				jsonTranslation.addProperty("value", value);
+
+				jsonTranslations.add(jsonTranslation);
+			}
+			jsonEntityType.add("translations", jsonTranslations);
+			jsonArray.add(jsonEntityType);
 		}
 		return jsonArray.toString();
 	}
 
 	@POST
-	@Path("/curated/entitytypes")
+	@Path("/curated/entitytypes/submitadd")
 	public Response addEntityType(@FormParam("code") final String code, @FormParam("name") final String name) {
 		curatedDataService.addEntityType(code, name);
-		return displayEntityTypesList();
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/curated/entitytypes/submitdelete")
+	public Response deleteEntityType(@FormParam("entityTypeId") final long entityTypeId) {
+		curatedDataService.deleteEntityType(entityTypeId);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/curated/entitytypes/submitupdate")
+	public Response updateEntityType(@FormParam("entityTypeId") final long entityTypeId, @FormParam("newName") final String newName) {
+		curatedDataService.updateEntityType(entityTypeId, newName);
+		return Response.ok().build();
 	}
 
 	/*

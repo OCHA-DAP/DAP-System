@@ -11,9 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.dap.persistence.dao.currateddata.EntityDAO;
 import org.ocha.dap.persistence.dao.currateddata.EntityTypeDAO;
+import org.ocha.dap.persistence.dao.i18n.TextDAO;
 import org.ocha.dap.persistence.entity.curateddata.Entity;
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
 import org.ocha.dap.persistence.entity.dictionary.RegionDictionary;
+import org.ocha.dap.persistence.entity.i18n.Text;
 import org.ocha.dap.service.CuratedDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -33,6 +35,9 @@ public class RegionDictionaryDAOImplTest {
 	private EntityDAO entityDAO;
 
 	@Autowired
+	private TextDAO textDAO;
+
+	@Autowired
 	private CuratedDataService curatedDataService;
 
 	private EntityType country;
@@ -41,8 +46,10 @@ public class RegionDictionaryDAOImplTest {
 	@Before
 	public void setUp() {
 		// set up the EntityTypes
-		entityTypeDAO.addEntityType("country", "Country");
-		entityTypeDAO.addEntityType("crisis", "Crisis");
+		final Text countryText = textDAO.createText("Country");
+		final Text crisisText = textDAO.createText("Crisis");
+		entityTypeDAO.createEntityType("country", countryText);
+		entityTypeDAO.createEntityType("crisis", crisisText);
 		country = entityTypeDAO.getEntityTypeByCode("country"); // TODO could we (should we) make the addEntityType method return the
 		// created entity?
 		crisis = entityTypeDAO.getEntityTypeByCode("crisis");

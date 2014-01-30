@@ -32,7 +32,8 @@ public class EntityDAOImplTest {
 
 	@Before
 	public void setUp() {
-		entityTypeDAO.addEntityType("country", "Country");
+		final Text text = textDAO.createText("Country");
+		entityTypeDAO.createEntityType("country", text);
 	}
 
 	@After
