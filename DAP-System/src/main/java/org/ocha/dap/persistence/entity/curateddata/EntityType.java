@@ -1,12 +1,17 @@
 package org.ocha.dap.persistence.entity.curateddata;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -18,8 +23,7 @@ import org.ocha.dap.persistence.entity.i18n.Text;
  * @author Samuel Eustachi
  * @author David Megginson
  * 
- *         a table listing the types of {@link org.ocha.dap.persistence.entity.curateddata.Entity} supported in the curated data repository
- *         (e.g. countries, crises, etc.).
+ *         a table listing the types of {@link org.ocha.dap.persistence.entity.curateddata.Entity} supported in the curated data repository (e.g. countries, crises, etc.).
  * 
  */
 @Entity
@@ -33,11 +37,14 @@ public class EntityType {
 	private long id;
 	@Column(name = "code", nullable = false, updatable = false, unique = true)
 	private String code;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "text_id")
 	@ForeignKey(name = "fk_entity_type_to_name_text")
 	private Text name;
+
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "type")
+	private List<org.ocha.dap.persistence.entity.curateddata.Entity> entities;
 
 	public long getId() {
 		return id;
