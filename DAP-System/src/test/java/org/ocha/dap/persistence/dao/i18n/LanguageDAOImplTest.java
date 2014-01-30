@@ -37,7 +37,7 @@ public class LanguageDAOImplTest {
 
 		List<Language> languages = languageDAO.listLanguages();
 		Assert.assertEquals(0, languages.size());
-		
+
 		final Language l1 = languageDAO.createLanguage("fakeCode1", "fakeNativeName");
 		final Language l2 = languageDAO.createLanguage("fakeCode2", "fakeNativeName");
 		final Language l3 = languageDAO.createLanguage("fakeCode3", "fakeNativeName");
@@ -46,15 +46,15 @@ public class LanguageDAOImplTest {
 
 		languages = languageDAO.listLanguages();
 		Assert.assertEquals(5, languages.size());
-		
-		languageDAO.deleteLanguage(l3);
+
+		languageDAO.deleteLanguage(l3.getCode());
 		languages = languageDAO.listLanguages();
 		Assert.assertEquals(4, languages.size());
-		
-		languageDAO.deleteLanguage(l1);
-		languageDAO.deleteLanguage(l2);
-		languageDAO.deleteLanguage(l4);
-		languageDAO.deleteLanguage(l5);
+
+		languageDAO.deleteLanguage(l1.getCode());
+		languageDAO.deleteLanguage(l2.getCode());
+		languageDAO.deleteLanguage(l4.getCode());
+		languageDAO.deleteLanguage(l5.getCode());
 		languages = languageDAO.listLanguages();
 		Assert.assertEquals(0, languages.size());
 	}
@@ -78,7 +78,7 @@ public class LanguageDAOImplTest {
 		Assert.assertEquals("fakeNativeName2", languageByCode.getNativeName());
 
 		// Delete 1
-		languageDAO.deleteLanguage(language1);
+		languageDAO.deleteLanguage(language1.getCode());
 		languageByCode = languageDAO.getLanguageByCode(language1.getCode());
 		Assert.assertNull(languageByCode);
 

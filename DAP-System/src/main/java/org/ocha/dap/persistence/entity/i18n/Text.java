@@ -2,6 +2,7 @@ package org.ocha.dap.persistence.entity.i18n;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,7 +35,7 @@ public class Text {
 	@Column(name = "default_value", nullable = false, updatable = true)
 	private String defaultValue;
 
-	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "id.text")
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "id.text")
 	private List<Translation> translations;
 
 	public long getId() {

@@ -71,6 +71,6 @@ public class IndicatorTypeDAOImplTest {
 		Assert.assertEquals(0, indicatorTypeDAO.listIndicatorTypes().size());
 
 		final Text textToDelete = indicatorTypeForCode.getName();
-		textDAO.deleteText(textToDelete);
+		textDAO.deleteText(textToDelete.getId());
 	}
 }

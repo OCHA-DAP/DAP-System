@@ -1,8 +1,13 @@
 package org.ocha.dap.persistence.entity.i18n;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,6 +19,9 @@ public class Language {
 
 	@Column(name = "native_name", nullable = false, updatable = false)
 	private String nativeName;
+
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "id.language")
+	private List<Translation> translations;
 
 	public String getCode() {
 		return code;

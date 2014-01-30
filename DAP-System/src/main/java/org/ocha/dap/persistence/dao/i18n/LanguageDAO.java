@@ -12,8 +12,6 @@ public interface LanguageDAO {
 
 	public Language getLanguageByCode(String code);
 
-	public void deleteLanguage(Language Language);
-
 	public void updateLanguage(String code, String nativeName);
 
 	public void deleteLanguage(String code);
