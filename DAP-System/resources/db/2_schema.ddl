@@ -122,6 +122,7 @@
         end_time timestamp,
         initial_value varchar(255) not null,
         periodicity varchar(255) not null,
+        source_link varchar(255),
         start_time timestamp not null,
         date_value timestamp,
         datetime_value timestamp,
@@ -153,7 +154,7 @@
 
     create table entity (
         id int8 not null,
-        code varchar(255) not null,
+        code varchar(255) not null unique,
         text_id int8,
         entity_type_id int8,
         primary key (id),
@@ -177,7 +178,7 @@
 
     create table indicator_type (
         id int8 not null,
-        code varchar(255) not null,
+        code varchar(255) not null unique,
         unit varchar(255),
         value_type varchar(255),
         text_id int8,
@@ -206,7 +207,8 @@
 
     create table source (
         id int8 not null,
-        code varchar(255) not null,
+        code varchar(255) not null unique,
+        org_link varchar(255),
         text_id int8,
         primary key (id)
     );

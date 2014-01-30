@@ -30,13 +30,16 @@ public class Source {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "source_seq")
 	@Column(name = "id", nullable = false)
 	private long id;
-	@Column(name = "code", nullable = false, updatable = false)
+	@Column(name = "code", unique = true, nullable = false, updatable = false)
 	private String code;
 
 	@ManyToOne
 	@JoinColumn(name = "text_id")
 	@ForeignKey(name = "fk_source_to_name_text")
 	private Text name;
+
+	@Column(name = "org_link", nullable = true, updatable = true)
+	private String orgLink;
 
 	public long getId() {
 		return id;
@@ -60,6 +63,14 @@ public class Source {
 
 	public void setName(final Text name) {
 		this.name = name;
+	}
+
+	public String getOrgLink() {
+		return orgLink;
+	}
+
+	public void setOrgLink(final String orgLink) {
+		this.orgLink = orgLink;
 	}
 
 }

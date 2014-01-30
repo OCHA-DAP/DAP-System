@@ -34,7 +34,7 @@ public class Text {
 	@Column(name = "default_value", nullable = false, updatable = true)
 	private String defaultValue;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id.text")
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "id.text")
 	private List<Translation> translations;
 
 	public long getId() {

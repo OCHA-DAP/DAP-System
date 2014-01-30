@@ -85,6 +85,13 @@ public class Indicator {
 	private String initialValue;
 
 	/**
+	 * Must not be confused with {@link Indicator#source} This is a metadata, a link to a resource where some additional info can be found
+	 * (or for verification)
+	 */
+	@Column(name = "source_link", nullable = true, updatable = true)
+	private String sourceLink;
+
+	/**
 	 * stores a reference to the technical import. Might be useful to trace and rollback an import if something went wrong
 	 */
 	@ManyToOne
@@ -176,6 +183,14 @@ public class Indicator {
 
 	public void setValue(final IndicatorValue value) {
 		this.value = value;
+	}
+
+	public String getSourceLink() {
+		return sourceLink;
+	}
+
+	public void setSourceLink(final String sourceLink) {
+		this.sourceLink = sourceLink;
 	}
 
 }

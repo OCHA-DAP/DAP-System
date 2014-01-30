@@ -37,8 +37,8 @@ public class IndicatorType {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "indicator_type_seq")
 	@Column(name = "id", nullable = false)
 	private long id;
-	
-	@Column(name = "code", nullable = false, updatable = false)
+
+	@Column(name = "code", unique = true, nullable = false, updatable = false)
 	private String code;
 
 	@ManyToOne
