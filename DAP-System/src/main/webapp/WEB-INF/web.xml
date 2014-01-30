@@ -47,11 +47,6 @@
 	<filter>
 		<filter-name>jersey-spring</filter-name>
 		<filter-class>org.glassfish.jersey.servlet.ServletContainer</filter-class>
-		<!-- <init-param> -->
-		<!-- <description>package(s) to scan for REST root resource classes</description> -->
-		<!-- <param-name>jersey.config.server.provider.packages</param-name> -->
-		<!-- <param-value>org.ocha.dap.rest</param-value> -->
-		<!-- </init-param> -->
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
 			<param-value>org.ocha.dap.rest.MyResourceConfig</param-value>
