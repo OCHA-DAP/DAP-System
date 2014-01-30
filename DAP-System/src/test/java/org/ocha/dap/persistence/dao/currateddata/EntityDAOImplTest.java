@@ -33,11 +33,16 @@ public class EntityDAOImplTest {
 	@Before
 	public void setUp() {
 		entityTypeDAO.addEntityType("country", "Country");
+		entityTypeDAO.addEntityType("crisis", "Crisis");
 	}
 
 	@After
 	public void tearDown() {
-		entityTypeDAO.deleteEntityTypeByCode("country");
+		try {
+			entityTypeDAO.deleteEntityTypeByCode("country");
+			entityTypeDAO.deleteEntityTypeByCode("crisis");
+		} catch (final Exception e) {
+		}
 	}
 
 	@Test
@@ -100,6 +105,7 @@ public class EntityDAOImplTest {
 
 		Assert.assertEquals(0, entityDAO.listEntities().size());
 	}
+
 	@Test
 	public void testUpdateEntity() {
 		logger.info("Testing update entity...");
@@ -135,7 +141,32 @@ public class EntityDAOImplTest {
 		final long id = entityForCode.getId();
 
 		entityDAO.deleteEntity(id);
-		
+
 		Assert.assertNull(entityDAO.getEntityById(id));
+	}
+
+	@Test
+	public void testCascadeFromEntityType() {
+		final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
+		final Text russia = textDAO.createText("Russia");
+		final Text luxembourg = textDAO.createText("Luxembourg");
+		entityDAO.createEntity("RU", russia, country);
+		entityDAO.createEntity("LU", luxembourg, country);
+
+		Assert.assertEquals(2, entityDAO.listEntities().size());
+
+		final EntityType crisis = entityTypeDAO.getEntityTypeByCode("crisis");
+		final Text crisis1 = textDAO.createText("crisis1");
+		final Text crisis2 = textDAO.createText("crisis2");
+		entityDAO.createEntity("C1", crisis1, crisis);
+		entityDAO.createEntity("C2", crisis2, crisis);
+
+		Assert.assertEquals(4, entityDAO.listEntities().size());
+
+		entityTypeDAO.deleteEntityTypeByCode("country");
+		Assert.assertEquals(2, entityDAO.listEntities().size());
+		entityTypeDAO.deleteEntityTypeByCode("crisis");
+		Assert.assertEquals(0, entityDAO.listEntities().size());
+
 	}
 }

@@ -1,10 +1,15 @@
 package org.ocha.dap.persistence.entity.curateddata;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -30,6 +35,9 @@ public class EntityType {
 	private String code;
 	@Column(name = "name", nullable = false, updatable = false)
 	private String name;
+
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "type")
+	private List<org.ocha.dap.persistence.entity.curateddata.Entity> entities;
 
 	public long getId() {
 		return id;
