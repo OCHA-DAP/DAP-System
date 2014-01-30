@@ -48,7 +48,8 @@ public class IntegrationTestSetUpAndTearDown {
 	TextDAO textDAO;
 
 	public void setUp() {
-		entityTypeDAO.addEntityType("country", "Country");
+		final Text text = textDAO.createText("Country");
+		entityTypeDAO.createEntityType("country", text);
 
 		curatedDataService.addEntity("LUX", "Luxembourg", "country");
 		curatedDataService.addEntity("RUS", "Russia", "country");

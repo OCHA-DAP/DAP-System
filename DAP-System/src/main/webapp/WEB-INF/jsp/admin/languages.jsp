@@ -25,8 +25,8 @@
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
-					<td><input type="text" id="newlanguage_code" ng-model="newlanguage.code" required /></td>
-					<td><input type="text" id="newlanguage_native_name" ng-model="newlanguage.native_name" required /></td>
+					<td><input type="text" class="form-control" placeholder="Code" id="newlanguage_code" ng-model="newlanguage.code" required /></td>
+					<td><input type="text" class="form-control" placeholder="Native name" id="newlanguage_native_name" ng-model="newlanguage.native_name" required /></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary btn-custom-default" ng-click="addLanguage(newlanguage)">Add</button>
 					</td>
@@ -47,7 +47,7 @@
 					<!-- non editable code --> <span e-name="code" e-form="rowform"> {{ language.code }} </span>
 				</td>
 				<td>
-					<!-- editable native name --> <span editable-text="language.native_name" e-name="native_name" e-form="rowform" e-required> {{ language.native_name }} </span>
+					<!-- editable native name --> <span editable-text="language.native_name" e-class="form-control" e-name="native_name" e-form="rowform" e-required> {{ language.native_name }} </span>
 				</td>
 				<td style="white-space: nowrap">
 					<!-- form -->

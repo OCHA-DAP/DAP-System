@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.ocha.dap.persistence.entity.curateddata.EntityType;
+import org.ocha.dap.persistence.entity.i18n.Text;
 import org.springframework.transaction.annotation.Transactional;
 
 public class EntityTypeDAOImpl implements EntityTypeDAO {
@@ -22,11 +23,16 @@ public class EntityTypeDAOImpl implements EntityTypeDAO {
 
 	@Override
 	@Transactional
-	public void addEntityType(final String code, final String name) {
+	public void createEntityType(final String code, final Text name) {
 		final EntityType entityType = new EntityType();
 		entityType.setCode(code);
 		entityType.setName(name);
 		em.persist(entityType);
+	}
+
+	@Override
+	public EntityType getEntityTypeById(final long id) {
+		return em.find(EntityType.class, id);
 	}
 
 	@Override
@@ -39,6 +45,19 @@ public class EntityTypeDAOImpl implements EntityTypeDAO {
 	@Transactional
 	public void deleteEntityTypeByCode(final String code) {
 		em.remove(getEntityTypeByCode(code));
+	}
+
+	@Override
+	@Transactional
+	public void updateEntityType(final long entityTypeId, final String newName) {
+		final EntityType entityType = em.find(EntityType.class, entityTypeId);
+		entityType.getName().setDefaultValue(newName);
+	}
+
+	@Override
+	@Transactional
+	public void deleteEntityType(final long entityTypeId) {
+		em.createQuery("DELETE FROM EntityType i WHERE i.id = :entityTypeId").setParameter("entityTypeId", entityTypeId).executeUpdate();
 	}
 
 }

@@ -28,12 +28,12 @@
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
-					<td><input type="text" ng-model="newuser.id" required /></td>
-					<td><select ng-model="newuser.role" ng-options="r.value as r.text for r in roles" ng-class="default" required>
+					<td><input type="text" class="form-control" placeholder="Id" ng-model="newuser.id" required /></td>
+					<td><select class="form-control" ng-model="newuser.role" ng-options="r.value as r.text for r in roles" ng-class="default" required>
 					</select></td>
-					<td><input type="password" ng-model="newuser.password" required /></td>
-					<td><input type="password" ng-model="newuser.password2" required /></td>
-					<td><input type="text" ng-model="newuser.ckanApiKey" required /></td>
+					<td><input type="password" class="form-control" ng-model="newuser.password" required /></td>
+					<td><input type="password" class="form-control" ng-model="newuser.password2" required /></td>
+					<td><input type="text" class="form-control" placeholder="CKAN API key" ng-model="newuser.ckanApiKey" required /></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary btn-custom-default" ng-click="addUser(newuser)">Add</button>
 					</td>
@@ -57,11 +57,11 @@
 					<!-- non editable id --> <span e-name="id" e-form="rowform"> {{ user.id }} </span>
 				</td>
 				<td>
-					<!-- editable role --> <span editable-select="user.role" e-name="role" e-form="rowform" e-ng-options="r.value as r.text for r in roles"> {{ showRole(user) }} </span> 
+					<!-- editable role --> <span editable-select="user.role" e-class="form-control" e-name="role" e-form="rowform" e-ng-options="r.value as r.text for r in roles"> {{ showRole(user) }} </span> 
 				</td>
-				<td><span editable-text="user.password" e-name="password" e-id="password_field" e-form="rowform" onshow="customize('password_field')"> {{ user.password }} </span></td>
-				<td><span editable-text="user.password2" e-name="password2" e-id="password2_field" e-form="rowform" onshow="customize('password2_field')"> {{ user.password2 }} </span></td>
-				<td><span editable-text="user.ckanApiKey" e-name="ckanApiKey" e-form="rowform"> {{ user.ckanApiKey }} </span></td>
+				<td><span editable-text="user.password" e-class="form-control" e-name="password" e-id="password_field" e-form="rowform" onshow="customize('password_field')"> {{ user.password }} </span></td>
+				<td><span editable-text="user.password2" e-class="form-control" e-name="password2" e-id="password2_field" e-form="rowform" onshow="customize('password2_field')"> {{ user.password2 }} </span></td>
+				<td><span editable-text="user.ckanApiKey" e-class="form-control" e-name="ckanApiKey" e-form="rowform"> {{ user.ckanApiKey }} </span></td>
 				<td style="white-space: nowrap">
 					<!-- form -->
 					<form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">

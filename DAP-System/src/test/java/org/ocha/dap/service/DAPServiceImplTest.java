@@ -152,8 +152,9 @@ public class DAPServiceImplTest {
 		dapService.checkForNewCKANDatasets();
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
-			if (!ckandDataset.getName().equals("nope"))
+			if (!ckandDataset.getName().equals("nope")) {
 				dapService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.DUMMY);
+			}
 		}
 
 		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());

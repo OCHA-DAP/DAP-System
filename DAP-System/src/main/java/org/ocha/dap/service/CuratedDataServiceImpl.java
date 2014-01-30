@@ -87,31 +87,20 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public DataTable listEntityTypesAsDataTable() throws TypeMismatchException {
-		final List<EntityType> listEntityTypes = entityTypeDAO.listEntityTypes();
-		final DataTable dataTable = new DataTable();
-
-		dataTable.addColumn(new ColumnDescription("id", ValueType.NUMBER, "id"));
-		dataTable.addColumn(new ColumnDescription("code", ValueType.TEXT, "code"));
-		dataTable.addColumn(new ColumnDescription("name", ValueType.TEXT, "name"));
-
-		for (final EntityType entityType : listEntityTypes) {
-
-			final TableRow aRow = new TableRow();
-			aRow.addCell(entityType.getId());
-			aRow.addCell(entityType.getCode());
-			aRow.addCell(entityType.getName());
-
-			dataTable.addRow(aRow);
-		}
-		return dataTable;
+	public void addEntityType(final String code, final String name) {
+		final Text text = textDAO.createText(name);
+		entityTypeDAO.createEntityType(code, text);
 	}
 
 	@Override
-	public void addEntityType(final String code, final String name) {
-		entityTypeDAO.addEntityType(code, name);
+	public void updateEntityType(final long entityTypeId, final String newName) {
+		entityTypeDAO.updateEntityType(entityTypeId, newName);
 	}
 
+	@Override
+	public void deleteEntityType(final long entityTypeId) {
+		entityTypeDAO.deleteEntityType(entityTypeId);
+	}
 	/*
 	 * Entities
 	 */
@@ -512,4 +501,5 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		indicatorTypeDictionaryDAO.deleteIndicatorTypeDictionary(indicatorTypeDictionary);
 
 	}
+
 }

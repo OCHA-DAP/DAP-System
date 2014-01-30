@@ -27,10 +27,10 @@
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
-					<td><input type="text" ng-model="newindicatorType.code" required /></td>
-					<td><input type="text" ng-model="newindicatorType.name" required /></td>
-					<td><input type="text" ng-model="newindicatorType.unit" required /></td>
-					<td><select ng-model="newindicatorType.valueType" ng-options="v.value as v.text for v in valueTypes" ng-class="default" required>
+					<td><input type="text" class="form-control" placeholder="Code" ng-model="newindicatorType.code" required /></td>
+					<td><input type="text" class="form-control" placeholder="Name" ng-model="newindicatorType.name" required /></td>
+					<td><input type="text" class="form-control" placeholder="Unit" ng-model="newindicatorType.unit" required /></td>
+					<td><select class="form-control" ng-model="newindicatorType.valueType" ng-options="v.value as v.text for v in valueTypes" ng-class="default" required>
 					</select></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary btn-custom-default" ng-click="addIndicatorType(newindicatorType)">Add</button>
@@ -55,13 +55,13 @@
 					<!-- non editable code --> <span e-name="code" e-form="rowform"> {{ indicatorType.code }} </span>
 				</td>
 				<td>
-					<!-- editable name --> <span editable-text="indicatorType.name" e-name="name" e-form="rowform" e-required> {{ indicatorType.name }} </span>
+					<!-- editable name --> <span editable-text="indicatorType.name" e-class="form-control" e-name="name" e-form="rowform" e-required> {{ indicatorType.name }} </span>
 				</td>
 				<td>
-					<!-- editable unit --> <span editable-text="indicatorType.unit" e-name="unit" e-form="rowform" e-required> {{ indicatorType.unit }} </span>
+					<!-- editable unit --> <span editable-text="indicatorType.unit" e-class="form-control" e-name="unit" e-form="rowform" e-required> {{ indicatorType.unit }} </span>
 				</td>
 				<td>
-					<!-- editable value type --> <span editable-select="indicatorType.valueType" e-name="valueType" e-form="rowform" e-ng-options="v.value as v.text for v in valueTypes"> {{ showValueType(indicatorType) }} </span>
+					<!-- editable value type --> <span editable-select="indicatorType.valueType" e-class="form-control" e-name="valueType" e-form="rowform" e-ng-options="v.value as v.text for v in valueTypes"> {{ showValueType(indicatorType) }} </span>
 				</td>
 				<td>
 					<table class="table table-bordered table-hover table-condensed">
@@ -75,7 +75,7 @@
 								<!-- non editable language --> <span e-name="language" e-form="t_rowform"> {{ translation.code }} </span>
 							</td>
 							<td>
-								<!-- editable value --> <span editable-text="translation.value" e-name="value" e-form="t_rowform"> {{ translation.value }} </span>
+								<!-- editable value --> <span editable-text="translation.value" e-class="form-control" e-name="value" e-form="t_rowform"> {{ translation.value }} </span>
 							</td>
 							<td style="white-space: nowrap">
 								<!-- t form -->
@@ -90,9 +90,9 @@
 							</td>
 						</tr>
 						<tr ng-show="showAddTranslation(indicatorType.id)">
-							<td><select ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(indicatorType.id, $index)" ng-class="default">
+							<td><select class="form-control" ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(indicatorType.id, $index)" ng-class="default">
 							</select></td>
-							<td><input type="text" ng-model="newtranslation[$index].value"/></input></td>
+							<td><input type="text" class="form-control" placeholder="Translation" ng-model="newtranslation[$index].value"/></input></td>
 							<td><button class="btn btn-primary btn-xs btn-custom-default" ng-click="addTranslation(indicatorType.id, indicatorType.text_id, $index)">Add</button></td>
 						</tr>
 					</table>

@@ -25,8 +25,8 @@
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
-					<td><input type="text" ng-model="newsource.code" required /></td>
-					<td><input type="text" ng-model="newsource.name" required /></td>
+					<td><input type="text" class="form-control" placeholder="Code" ng-model="newsource.code" required /></td>
+					<td><input type="text" class="form-control" placeholder="Name" ng-model="newsource.name" required /></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary btn-custom-default" ng-click="addSource(newsource)">Add</button>
 					</td>
@@ -48,7 +48,7 @@
 					<!-- non editable code --> <span e-name="code" e-form="rowform"> {{ source.code }} </span>
 				</td>
 				<td>
-					<!-- editable name --> <span editable-text="source.name" e-name="name" e-form="rowform" e-required> {{ source.name }} </span>
+					<!-- editable name --> <span editable-text="source.name" e-class="form-control" e-name="name" e-form="rowform" e-required> {{ source.name }} </span>
 				</td>
 				<td>
 					<table class="table table-bordered table-hover table-condensed">
@@ -62,7 +62,7 @@
 								<!-- non editable language --> <span e-name="language" e-form="t_rowform"> {{ translation.code }} </span>
 							</td>
 							<td>
-								<!-- editable value --> <span editable-text="translation.value" e-name="value" e-form="t_rowform"> {{ translation.value }} </span>
+								<!-- editable value --> <span editable-text="translation.value" e-class="form-control" e-name="value" e-form="t_rowform"> {{ translation.value }} </span>
 							</td>
 							<td style="white-space: nowrap">
 								<!-- t form -->
@@ -77,9 +77,9 @@
 							</td>
 						</tr>
 						<tr ng-show="showAddTranslation(source.id)">
-							<td><select ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(source.id, $index)" ng-class="default">
+							<td><select class="form-control" ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(source.id, $index)" ng-class="default">
 							</select></td>
-							<td><input type="text" ng-model="newtranslation[$index].value"/></input></td>
+							<td><input type="text" class="form-control" placeholder="Translation" ng-model="newtranslation[$index].value" required /></input></td>
 							<td><button class="btn btn-primary btn-xs btn-custom-default" ng-click="addTranslation(source.id, source.text_id, $index)">Add</button></td>
 						</tr>
 					</table>
@@ -101,14 +101,14 @@
 			</tr>
 		</table>
 	</div>
-	<h3>Test zone</h3>
+	<!-- h3>Test zone</h3>
 	<pre>
 		<p>Sources : {{ sources | json }}</p>
 		<p>Languages : {{ languages | json }}</p>
 	</pre>
 
 
-	<!-- h2>List of sources</h2>
+	<h2>List of sources</h2>
 	<table>
 		<tr>
 			<th>Id</th>
