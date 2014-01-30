@@ -154,7 +154,7 @@
 
     create table entity (
         id int8 not null,
-        code varchar(255) not null unique,
+        code varchar(255) not null,
         text_id int8,
         entity_type_id int8,
         primary key (id),
