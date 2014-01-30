@@ -4,48 +4,70 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs2'; // Theme : can be 'bs3, 'bs2' or 'default'
 });
 
-app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
+app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
 
   // Sort management
   $scope.predicate = 'code';
   $scope.t_predicate = 'code';
 
   // ////////////////////
-  // EntityTypes management
+  // IndicatorTypes management
   // ////////////////////
 
-  $scope.entityTypes = [];
+  $scope.indicatorTypes = [];
 
-  // Load entityTypes
-  $scope.loadEntityTypes = function() {
-    return $http.get(dapContextRoot + '/admin/curated/entitytypes/json').success(function(data) {
-      $scope.entityTypes = data;
+  // Load indicatorTypes
+  $scope.loadIndicatorTypes = function() {
+    return $http.get(dapContextRoot + '/admin/curated/indicatortypes/json').success(function(data) {
+      $scope.indicatorTypes = data;
       $scope.resetNewTranslations();
     });
   };
 
-  if (!$scope.entityTypes.length) {
-    $scope.loadEntityTypes();
+  if (!$scope.indicatorTypes.length) {
+    $scope.loadIndicatorTypes();
   }
 
-  // Save (update) an entityType
-  $scope.saveEntityType = function(data, id) {
-    var valid = $scope.checkUpdateForm(data);
-    if ("OK" == valid) {
+  $scope.valueTypes = [];
 
-      return $http.post(dapContextRoot + '/admin/curated/entitytypes/submitupdate', "entityTypeId=" + id + "&newName=" + data.name, {
+  // Load value types
+  $scope.loadValueTypes = function() {
+    return $http.get(dapContextRoot + '/admin/curated/indicatortypes/valuetypes/json').success(function(data) {
+      $scope.valueTypes = data;
+      $scope.resetNewIndicatorType();
+    });
+  };
+
+  if (!$scope.valueTypes.length) {
+    $scope.loadValueTypes();
+  }
+
+  // Show an indicator type's value type
+  $scope.showValueType = function(indicatorType) {
+    var selected = $filter('filter')($scope.valueTypes, {
+      value : indicatorType.valueType
+    });
+    return (indicatorType.valueType && selected.length) ? selected[0].text : 'Not set';
+  };
+
+  // Save (update) an indicatorType
+  $scope.saveIndicatorType = function(data, id) {
+    var valid = $scope.checkUpdateForm(data);
+    if ("OK" === valid) {
+
+      return $http.post(dapContextRoot + '/admin/curated/indicatortypes/submitupdate', "indicatorTypeId=" + id + "&newName=" + data.name + "&newUnit=" + data.unit + "&newValueType=" + data.valueType, {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
       }).success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
-        $scope.loadEntityTypes();
+        $scope.loadIndicatorTypes();
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        alert("Entity type update threw an error. No entity type has been updated.");
-        $scope.loadEntityTypes();
+        alert("Indicator type update threw an error. No indicator type has been updated.");
+        $scope.loadIndicatorTypes();
       });
     } else {
       alert("Form not valid ! \r\n" + valid);
@@ -53,101 +75,119 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
     }
   };
 
-  // - check that the updated entity type is valid
+  // - check that the updated indicator type is valid
   $scope.checkUpdateForm = function(data) {
     var name = data.name;
-    if ('' == name || null == name) {
+    if ('' === name || null === name) {
       return "Name cannot be empty.";
+    }
+    var unit = data.unit;
+    if ('' === unit || null === unit) {
+      return "Unit cannot be empty.";
+    }
+    var valueType = data.valueType;
+    if ('' === valueType || null === valueType) {
+      return "Value type cannot be empty.";
     }
     return "OK";
   };
 
-  // Remove an entity type
-  $scope.removeEntityType = function(id) {
-    if (!confirm("Do you really want to delete this entity type ?")) {
+  // Remove an indicator type
+  $scope.removeIndicatorType = function(id) {
+    if (!confirm("Do you really want to delete this indicator type ?")) {
       return;
     }
-    $http.post(dapContextRoot + '/admin/curated/entitytypes/submitdelete', "entityTypeId=" + id, {
+    $http.post(dapContextRoot + '/admin/curated/indicatortypes/submitdelete', "indicatorTypeId=" + id, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
     }).success(function(data, status, headers, config) {
       // this callback will be called asynchronously
       // when the response is available
-      $scope.loadEntityTypes();
+      $scope.loadIndicatorTypes();
     }).error(function(data, status, headers, config) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
-      alert("Entity type deletion threw an error. Maybe this entity type is used by some entity. No entity type has been deleted.");
+      alert("Indicator type deletion threw an error. Maybe this indicator type is used by some indicator. No indicator type has been deleted.");
     });
   };
 
-  // add entityType
-  // - the new entityType
-  $scope.newentityType;
+  // add indicatorType
+  // - the new indicatorType
+  $scope.newindicatorType;
 
   // - reset it
-  $scope.resetNewEntityType = function() {
-    if (!$scope.newentityType) {
-      $scope.newentityType = {};
+  $scope.resetNewIndicatorType = function() {
+    if (!$scope.newindicatorType) {
+      $scope.newindicatorType = {};
     }
-    $scope.newentityType.code = "";
-    $scope.newentityType.name = "";
+    $scope.newindicatorType.code = "";
+    $scope.newindicatorType.name = "";
+    $scope.newindicatorType.unit = "";
+    $scope.newindicatorType.valueType = $scope.valueTypes ? $scope.valueTypes[0].value : "";
 
   };
 
   // - reset its form
-  $scope.resetAddEntityTypeForm = function() {
-    $scope.addEntityTypeForm.$setPristine();
+  $scope.resetAddIndicatorTypeForm = function() {
+    $scope.addIndicatorTypeForm.$setPristine();
   };
 
   // - add it
-  $scope.addEntityType = function(data) {
+  $scope.addIndicatorType = function(data) {
     var valid = $scope.checkForm(data);
-    if ("OK" == valid) {
-      // alert("Add entityType : " + data);
-      return $http.post(dapContextRoot + '/admin/curated/entitytypes/submitadd', "code=" + data.code + "&name=" + data.name, {
+    if ("OK" === valid) {
+      // alert("Add indicatorType : " + data);
+      return $http.post(dapContextRoot + '/admin/curated/indicatortypes/submitadd', "code=" + data.code + "&name=" + data.name + "&unit=" + data.unit + "&valueType=" + data.valueType, {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
       }).success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
-        // alert("EntityType added !");
-        $scope.resetNewEntityType();
-        $scope.resetAddEntityTypeForm();
-        $scope.loadEntityTypes();
+        // alert("IndicatorType added !");
+        $scope.resetNewIndicatorType();
+        $scope.resetAddIndicatorTypeForm();
+        $scope.loadIndicatorTypes();
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        // alert("EntityType addition threw error : \r\n" + data);
-        alert("Entity type addition threw an error. Maybe this entity type already exists. No entity type has been created.");
+        // alert("IndicatorType addition threw error : \r\n" + data);
+        alert("Indicator type addition threw an error. Maybe this indicator type already exists. No indicator type has been created.");
       });
     } else {
       alert("Form not valid ! \r\n" + valid);
     }
   };
 
-  // - check that the new entityType is complete
+  // - check that the new indicatorType is complete
   $scope.checkForm = function(data) {
     var code = data.code;
-    if ('' == code || null == code) {
+    if ('' === code || null === code) {
       return "Code cannot be empty.";
     }
     var name = data.name;
-    if ('' == name || null == name) {
+    if ('' === name || null === name) {
       return "Name cannot be empty.";
+    }
+    var unit = data.unit;
+    if ('' === unit || null === unit) {
+      return "Unit cannot be empty.";
+    }
+    var valueType = data.valueType;
+    if ('' === valueType || null === valueType) {
+      return "Value type cannot be empty.";
     }
     return "OK";
   };
 
-  // Get an entity type by its id
-  $scope.getEntityTypeById = function(entityTypeId) {
-    var filteredEntityTypes = $filter('filter')($scope.entityTypes, {
-      id : entityTypeId
+  // Get an indicator type by its id
+  $scope.getIndicatorTypeById = function(indicatorTypeId) {
+    var filteredIndicatorTypes = $filter('filter')($scope.indicatorTypes, {
+      id : indicatorTypeId
     });
-    var theEntityType = filteredEntityTypes && 0 < filteredEntityTypes.length ? filteredEntityTypes[0] : null;
-    return theEntityType;
+    var theIndicatorType = filteredIndicatorTypes && 0 < filteredIndicatorTypes.length ? filteredIndicatorTypes[0] : null;
+    return theIndicatorType;
   }
 
   // ////////////////////////
@@ -182,9 +222,9 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
     return theLanguage;
   }
 
-  // Get a translation value for an entity type and a language code
-  $scope.getTranslationForEntityTypeAndLanguageCode = function(entityType, languageCode) {
-    var filteredTranslations = $filter('filter')(entityType.translations, {
+  // Get a translation value for an indicator type and a language code
+  $scope.getTranslationForIndicatorTypeAndLanguageCode = function(indicatorType, languageCode) {
+    var filteredTranslations = $filter('filter')(indicatorType.translations, {
       code : languageCode
     });
     var theTranslation = filteredTranslations && 0 < filteredTranslations.length ? filteredTranslations[0] : null;
@@ -192,22 +232,22 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
   }
 
   // Do we have to show the "Add translation" form ? Only if there are some translations missing
-  $scope.showAddTranslation = function(entityTypeId) {
+  $scope.showAddTranslation = function(indicatorTypeId) {
 
     // Are there some languages ?
     if (!$scope.checkLanguages()) {
       return false;
     }
 
-    // Get the entityType
-    var theEntityType = $scope.getEntityTypeById(entityTypeId);
-    return theEntityType && theEntityType.translations && theEntityType.translations.length < $scope.languages.length;
+    // Get the indicatorType
+    var theIndicatorType = $scope.getIndicatorTypeById(indicatorTypeId);
+    return theIndicatorType && theIndicatorType.translations && theIndicatorType.translations.length < $scope.languages.length;
   };
 
   // Show only the languages for which some translations are missing
-  $scope.languagesByAvailableTranslations = function(entityTypeId, index) {
+  $scope.languagesByAvailableTranslations = function(indicatorTypeId, index) {
     return function(language) {
-      var translation = $scope.getTranslationForEntityTypeAndLanguageCode($scope.getEntityTypeById(entityTypeId), language.code);
+      var translation = $scope.getTranslationForIndicatorTypeAndLanguageCode($scope.getIndicatorTypeById(indicatorTypeId), language.code);
 
       // At the same time, select by default the first missing language
       if (!translation) {
@@ -219,7 +259,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
           $scope.newtranslation[index].language = language;
         }
       }
-      return null == translation;
+      return null === translation;
     }
   };
 
@@ -232,7 +272,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
     if (!$scope.newtranslation) {
       $scope.newtranslation = [];
     }
-    for (i = 0; i < $scope.entityTypes.length; i++) {
+    for (i = 0; i < $scope.indicatorTypes.length; i++) {
       $scope.newtranslation[i] = {};
       $scope.newtranslation[i].value = "";
     }
@@ -247,10 +287,10 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
   };
 
   // - add it
-  $scope.addTranslation = function(entityType_id, text_id, index) {
+  $scope.addTranslation = function(indicatorType_id, text_id, index) {
     var data = $scope.newtranslation[index];
     var valid = $scope.checkTranslation(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
       return $http.post(dapContextRoot + '/admin/translations/submitadd',
           "textId=" + text_id + "&languageCode=" + data.language.code + "&translationValue=" + data.value, {
             headers : {
@@ -263,13 +303,13 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
         $scope.resetNewTranslations();
         $scope.resetAddTranslationForms();
 
-        // TODO We could improve this with : $scope.loadTranslations(entityType_id);
-        $scope.loadEntityTypes();
+        // TODO We could improve this with : $scope.loadTranslations(indicatorType_id);
+        $scope.loadIndicatorTypes();
 
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        // alert("EntityType addition threw error : \r\n" + data);
+        // alert("IndicatorType addition threw error : \r\n" + data);
         alert("Translation addition threw an error. Maybe this translation already exists. No translation has been created.");
       });
     } else {
@@ -280,7 +320,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
   // - check that the new translation is complete
   $scope.checkTranslation = function(data) {
     var value = data.value;
-    if ('' == value || null == value) {
+    if ('' === value || null === value) {
       return "Translation cannot be empty.";
     }
     return "OK";
@@ -290,7 +330,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
   $scope.saveTranslation = function(data, text_id, language_code) {
     // alert(data + ", " + id)
     var valid = $scope.checkUpdateTranslation(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
 
       return $http.post(dapContextRoot + '/admin/translations/submitupdate',
           "textId=" + text_id + "&languageCode=" + language_code + "&translationValue=" + data.value, {
@@ -301,15 +341,15 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
         // this callback will be called asynchronously
         // when the response is available
 
-        // TODO We could improve this with : $scope.loadTranslations(entityType_id);
-        $scope.loadEntityTypes();
+        // TODO We could improve this with : $scope.loadTranslations(indicatorType_id);
+        $scope.loadIndicatorTypes();
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
         alert("Translation update threw an error. No translation has been updated.");
 
-        // TODO We could improve this with : $scope.loadTranslations(entityType_id);
-        $scope.loadEntityTypes();
+        // TODO We could improve this with : $scope.loadTranslations(indicatorType_id);
+        $scope.loadIndicatorTypes();
       });
     } else {
       alert("Form not valid ! \r\n" + valid);
@@ -320,7 +360,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
   // - check that the new translation is complete
   $scope.checkUpdateTranslation = function(data) {
     var value = data.value;
-    if ('' == value || null == value) {
+    if ('' === value || null === value) {
       return "Translation cannot be empty.";
     }
     return "OK";
@@ -341,8 +381,8 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
       // when the response is available
       // alert("Language deleted !");
 
-      // TODO We could improve this with : $scope.loadTranslations(entityType_id);
-      $scope.loadEntityTypes();
+      // TODO We could improve this with : $scope.loadTranslations(indicatorType_id);
+      $scope.loadIndicatorTypes();
     }).error(function(data, status, headers, config) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.

@@ -9,7 +9,7 @@ public interface SourceDAO {
 
 	public List<Source> listSources();
 
-	public void createSource(String code, Text name);
+	public void createSource(String code, Text name, String link);
 
 	public Source getSourceByCode(String code);
 
@@ -19,5 +19,5 @@ public interface SourceDAO {
 
 	public void deleteSource(long sourceId);
 
-	public void updateSource(long sourceId, String newName);
+	public void updateSource(long sourceId, String newName, String link);
 }

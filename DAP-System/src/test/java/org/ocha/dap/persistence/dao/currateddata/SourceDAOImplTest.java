@@ -38,9 +38,10 @@ public class SourceDAOImplTest {
 		Assert.assertEquals(0, sourceDAO.listSources().size());
 
 		final Text text = textDAO.createText("World Bank");
-		sourceDAO.createSource("WB", text);
+		sourceDAO.createSource("WB", text, "www.test.com");
 		final Source source = sourceDAO.getSourceByCode("WB");
 		Assert.assertEquals("World Bank", source.getName().getDefaultValue());
+		Assert.assertEquals("www.test.com", source.getOrgLink());
 		Assert.assertEquals(1, sourceDAO.listSources().size());
 
 		sourceDAO.deleteSourceByCode("WB");
@@ -55,7 +56,7 @@ public class SourceDAOImplTest {
 		logger.info("Testing create source...");
 
 		final Text s1 = textDAO.createText("Source 1");
-		sourceDAO.createSource("S1", s1);
+		sourceDAO.createSource("S1", s1, "www.test.com");
 
 		final Source sourceForCode = sourceDAO.getSourceByCode("S1");
 		Assert.assertEquals("Source 1", sourceForCode.getName().getDefaultValue());
@@ -75,13 +76,14 @@ public class SourceDAOImplTest {
 		logger.info("Testing update source...");
 
 		final Text s1 = textDAO.createText("S1");
-		sourceDAO.createSource("S1", s1);
+		sourceDAO.createSource("S1", s1, "www.test.com");
 		final Source source = sourceDAO.getSourceByCode("S1");
 
-		sourceDAO.updateSource(source.getId(), "NewName");
+		sourceDAO.updateSource(source.getId(), "NewName", "NewLink");
 		final Source updatedSource = sourceDAO.getSourceById(source.getId());
 
 		Assert.assertEquals("NewName", updatedSource.getName().getDefaultValue());
+		Assert.assertEquals("NewLink", updatedSource.getOrgLink());
 		Assert.assertEquals(source.getCode(), updatedSource.getCode());
 		Assert.assertEquals(source.getId(), updatedSource.getId());
 
@@ -93,7 +95,7 @@ public class SourceDAOImplTest {
 		logger.info("Testing delete source...");
 
 		final Text s1 = textDAO.createText("S1");
-		sourceDAO.createSource("S1", s1);
+		sourceDAO.createSource("S1", s1, "www.test.com");
 
 		final Source sourceForCode = sourceDAO.getSourceByCode("S1");
 		final long id = sourceForCode.getId();

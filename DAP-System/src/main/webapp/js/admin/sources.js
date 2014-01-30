@@ -4,70 +4,48 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs2'; // Theme : can be 'bs3, 'bs2' or 'default'
 });
 
-app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
+app.controller('SourcesCtrl', function($scope, $filter, $http) {
 
   // Sort management
   $scope.predicate = 'code';
   $scope.t_predicate = 'code';
 
   // ////////////////////
-  // IndicatorTypes management
+  // Sources management
   // ////////////////////
 
-  $scope.indicatorTypes = [];
+  $scope.sources = [];
 
-  // Load indicatorTypes
-  $scope.loadIndicatorTypes = function() {
-    return $http.get(dapContextRoot + '/admin/curated/indicatortypes/json').success(function(data) {
-      $scope.indicatorTypes = data;
+  // Load sources
+  $scope.loadSources = function() {
+    return $http.get(dapContextRoot + '/admin/curated/sources/json').success(function(data) {
+      $scope.sources = data;
       $scope.resetNewTranslations();
     });
   };
 
-  if (!$scope.indicatorTypes.length) {
-    $scope.loadIndicatorTypes();
+  if (!$scope.sources.length) {
+    $scope.loadSources();
   }
 
-  $scope.valueTypes = [];
-
-  // Load value types
-  $scope.loadValueTypes = function() {
-    return $http.get(dapContextRoot + '/admin/curated/indicatortypes/valuetypes/json').success(function(data) {
-      $scope.valueTypes = data;
-      $scope.resetNewIndicatorType();
-    });
-  };
-
-  if (!$scope.valueTypes.length) {
-    $scope.loadValueTypes();
-  }
-
-  // Show an indicator type's value type
-  $scope.showValueType = function(indicatorType) {
-    var selected = $filter('filter')($scope.valueTypes, {
-      value : indicatorType.valueType
-    });
-    return (indicatorType.valueType && selected.length) ? selected[0].text : 'Not set';
-  };
-
-  // Save (update) an indicatorType
-  $scope.saveIndicatorType = function(data, id) {
+  // Save (update) a source
+  $scope.saveSource = function(data, id) {
     var valid = $scope.checkUpdateForm(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
 
-      return $http.post(dapContextRoot + '/admin/curated/indicatortypes/submitupdate', "indicatorTypeId=" + id + "&newName=" + data.name + "&newUnit=" + data.unit + "&newValueType=" + data.valueType, {
+      return $http.post(dapContextRoot + '/admin/curated/sources/submitupdate', "sourceId=" + id + "&newName=" + data.name + (null === data.link || '' === data.link ? "" : "&newLink=" + data.link), {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
       }).success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
-        $scope.loadIndicatorTypes();
+        $scope.loadSources();
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        alert("Indicator type update threw an error. No indicator type has been updated.");
-        $scope.loadIndicatorTypes();
+        alert("Source update threw an error. No source has been updated.");
+        $scope.loadSources();
       });
     } else {
       alert("Form not valid ! \r\n" + valid);
@@ -75,119 +53,117 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
     }
   };
 
-  // - check that the updated indicator type is valid
+  // - check that the updated source is valid
   $scope.checkUpdateForm = function(data) {
     var name = data.name;
-    if ('' == name || null == name) {
+    if ('' === name || null === name) {
       return "Name cannot be empty.";
     }
-    var unit = data.unit;
-    if ('' == unit || null == unit) {
-      return "Unit cannot be empty.";
+    var link = data.link;
+    if (!link || null === link || 'http://' === link) {
+      data.link = "";
     }
-    var valueType = data.valueType;
-    if ('' == valueType || null == valueType) {
-      return "Value type cannot be empty.";
+    else if(link.lastIndexOf("http://", 0) === 0) {
+      data.link = "http://" + link;
     }
     return "OK";
   };
 
-  // Remove an indicator type
-  $scope.removeIndicatorType = function(id) {
-    if (!confirm("Do you really want to delete this indicator type ?")) {
+  // Remove a source
+  $scope.removeSource = function(id) {
+    if (!confirm("Do you really want to delete this source ?")) {
       return;
     }
-    $http.post(dapContextRoot + '/admin/curated/indicatortypes/submitdelete', "indicatorTypeId=" + id, {
+    $http.post(dapContextRoot + '/admin/curated/sources/submitdelete', "sourceId=" + id, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
     }).success(function(data, status, headers, config) {
       // this callback will be called asynchronously
       // when the response is available
-      $scope.loadIndicatorTypes();
+      $scope.loadSources();
     }).error(function(data, status, headers, config) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
-      alert("Indicator type deletion threw an error. Maybe this indicator type is used by some indicator. No indicator type has been deleted.");
+      alert("Source deletion threw an error. Maybe this source is used by some indicator. No source has been deleted.");
     });
   };
 
-  // add indicatorType
-  // - the new indicatorType
-  $scope.newindicatorType;
-
+  // add source
+  // - the new source
+  $scope.newsource;
+  
   // - reset it
-  $scope.resetNewIndicatorType = function() {
-    if (!$scope.newindicatorType) {
-      $scope.newindicatorType = {};
+  $scope.resetNewSource = function() {
+    if (!$scope.newsource) {
+      $scope.newsource = {};
     }
-    $scope.newindicatorType.code = "";
-    $scope.newindicatorType.name = "";
-    $scope.newindicatorType.unit = "";
-    $scope.newindicatorType.valueType = $scope.valueTypes ? $scope.valueTypes[0].value : "";
+    $scope.newsource.code = "";
+    $scope.newsource.name = "";
+    $scope.newsource.link = "http://";
 
   };
+  $scope.resetNewSource();
 
   // - reset its form
-  $scope.resetAddIndicatorTypeForm = function() {
-    $scope.addIndicatorTypeForm.$setPristine();
+  $scope.resetAddSourceForm = function() {
+    $scope.addSourceForm.$setPristine();
   };
 
   // - add it
-  $scope.addIndicatorType = function(data) {
+  $scope.addSource = function(data) {
     var valid = $scope.checkForm(data);
-    if ("OK" == valid) {
-      // alert("Add indicatorType : " + data);
-      return $http.post(dapContextRoot + '/admin/curated/indicatortypes/submitadd', "code=" + data.code + "&name=" + data.name + "&unit=" + data.unit + "&valueType=" + data.valueType, {
+    if ("OK" === valid) {
+      // alert("Add source : " + data);
+      return $http.post(dapContextRoot + '/admin/curated/sources/submitadd', "code=" + data.code + "&name=" + data.name + (null === data.link || '' === data.link ? "" : "&link=" + data.link), {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
       }).success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
-        // alert("IndicatorType added !");
-        $scope.resetNewIndicatorType();
-        $scope.resetAddIndicatorTypeForm();
-        $scope.loadIndicatorTypes();
+        // alert("Source added !");
+        $scope.resetNewSource();
+        $scope.resetAddSourceForm();
+        $scope.loadSources();
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        // alert("IndicatorType addition threw error : \r\n" + data);
-        alert("Indicator type addition threw an error. Maybe this indicator type already exists. No indicator type has been created.");
+        // alert("Source addition threw error : \r\n" + data);
+        alert("Source addition threw an error. Maybe this source already exists. No source has been created.");
       });
     } else {
       alert("Form not valid ! \r\n" + valid);
     }
   };
 
-  // - check that the new indicatorType is complete
+  // - check that the new source is complete
   $scope.checkForm = function(data) {
     var code = data.code;
-    if ('' == code || null == code) {
+    if ('' === code || null === code) {
       return "Code cannot be empty.";
     }
     var name = data.name;
-    if ('' == name || null == name) {
+    if ('' === name || null === name) {
       return "Name cannot be empty.";
     }
-    var unit = data.unit;
-    if ('' == unit || null == unit) {
-      return "Unit cannot be empty.";
+    var link = data.link;
+    if ('http://' === link) {
+      data.link = "";
     }
-    var valueType = data.valueType;
-    if ('' == valueType || null == valueType) {
-      return "Value type cannot be empty.";
+    else if(link.lastIndexOf("http://", 0) === 0) {
+      data.link = "http://" + link;
     }
     return "OK";
   };
 
-  // Get an indicator type by its id
-  $scope.getIndicatorTypeById = function(indicatorTypeId) {
-    var filteredIndicatorTypes = $filter('filter')($scope.indicatorTypes, {
-      id : indicatorTypeId
+  // Get a source by its id
+  $scope.getSourceById = function(sourceId) {
+    var filteredSources = $filter('filter')($scope.sources, {
+      id : sourceId
     });
-    var theIndicatorType = filteredIndicatorTypes && 0 < filteredIndicatorTypes.length ? filteredIndicatorTypes[0] : null;
-    return theIndicatorType;
+    var theSource = filteredSources && 0 < filteredSources.length ? filteredSources[0] : null;
+    return theSource;
   }
 
   // ////////////////////////
@@ -222,9 +198,9 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
     return theLanguage;
   }
 
-  // Get a translation value for an indicator type and a language code
-  $scope.getTranslationForIndicatorTypeAndLanguageCode = function(indicatorType, languageCode) {
-    var filteredTranslations = $filter('filter')(indicatorType.translations, {
+  // Get a translation value for a source and a language code
+  $scope.getTranslationForSourceAndLanguageCode = function(source, languageCode) {
+    var filteredTranslations = $filter('filter')(source.translations, {
       code : languageCode
     });
     var theTranslation = filteredTranslations && 0 < filteredTranslations.length ? filteredTranslations[0] : null;
@@ -232,22 +208,22 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
   }
 
   // Do we have to show the "Add translation" form ? Only if there are some translations missing
-  $scope.showAddTranslation = function(indicatorTypeId) {
+  $scope.showAddTranslation = function(sourceId) {
 
     // Are there some languages ?
     if (!$scope.checkLanguages()) {
       return false;
     }
 
-    // Get the indicatorType
-    var theIndicatorType = $scope.getIndicatorTypeById(indicatorTypeId);
-    return theIndicatorType && theIndicatorType.translations && theIndicatorType.translations.length < $scope.languages.length;
+    // Get the source
+    var theSource = $scope.getSourceById(sourceId);
+    return theSource && theSource.translations && theSource.translations.length < $scope.languages.length;
   };
 
   // Show only the languages for which some translations are missing
-  $scope.languagesByAvailableTranslations = function(indicatorTypeId, index) {
+  $scope.languagesByAvailableTranslations = function(sourceId, index) {
     return function(language) {
-      var translation = $scope.getTranslationForIndicatorTypeAndLanguageCode($scope.getIndicatorTypeById(indicatorTypeId), language.code);
+      var translation = $scope.getTranslationForSourceAndLanguageCode($scope.getSourceById(sourceId), language.code);
 
       // At the same time, select by default the first missing language
       if (!translation) {
@@ -259,7 +235,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
           $scope.newtranslation[index].language = language;
         }
       }
-      return null == translation;
+      return null === translation;
     }
   };
 
@@ -272,7 +248,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
     if (!$scope.newtranslation) {
       $scope.newtranslation = [];
     }
-    for (i = 0; i < $scope.indicatorTypes.length; i++) {
+    for (i = 0; i < $scope.sources.length; i++) {
       $scope.newtranslation[i] = {};
       $scope.newtranslation[i].value = "";
     }
@@ -287,10 +263,10 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
   };
 
   // - add it
-  $scope.addTranslation = function(indicatorType_id, text_id, index) {
+  $scope.addTranslation = function(source_id, text_id, index) {
     var data = $scope.newtranslation[index];
     var valid = $scope.checkTranslation(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
       return $http.post(dapContextRoot + '/admin/translations/submitadd',
           "textId=" + text_id + "&languageCode=" + data.language.code + "&translationValue=" + data.value, {
             headers : {
@@ -303,13 +279,13 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
         $scope.resetNewTranslations();
         $scope.resetAddTranslationForms();
 
-        // TODO We could improve this with : $scope.loadTranslations(indicatorType_id);
-        $scope.loadIndicatorTypes();
+        // TODO We could improve this with : $scope.loadTranslations(source_id);
+        $scope.loadSources();
 
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        // alert("IndicatorType addition threw error : \r\n" + data);
+        // alert("Source addition threw error : \r\n" + data);
         alert("Translation addition threw an error. Maybe this translation already exists. No translation has been created.");
       });
     } else {
@@ -320,7 +296,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
   // - check that the new translation is complete
   $scope.checkTranslation = function(data) {
     var value = data.value;
-    if ('' == value || null == value) {
+    if ('' === value || null === value) {
       return "Translation cannot be empty.";
     }
     return "OK";
@@ -330,7 +306,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
   $scope.saveTranslation = function(data, text_id, language_code) {
     // alert(data + ", " + id)
     var valid = $scope.checkUpdateTranslation(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
 
       return $http.post(dapContextRoot + '/admin/translations/submitupdate',
           "textId=" + text_id + "&languageCode=" + language_code + "&translationValue=" + data.value, {
@@ -341,15 +317,15 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
         // this callback will be called asynchronously
         // when the response is available
 
-        // TODO We could improve this with : $scope.loadTranslations(indicatorType_id);
-        $scope.loadIndicatorTypes();
+        // TODO We could improve this with : $scope.loadTranslations(source_id);
+        $scope.loadSources();
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
         alert("Translation update threw an error. No translation has been updated.");
 
-        // TODO We could improve this with : $scope.loadTranslations(indicatorType_id);
-        $scope.loadIndicatorTypes();
+        // TODO We could improve this with : $scope.loadTranslations(source_id);
+        $scope.loadSources();
       });
     } else {
       alert("Form not valid ! \r\n" + valid);
@@ -360,12 +336,11 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
   // - check that the new translation is complete
   $scope.checkUpdateTranslation = function(data) {
     var value = data.value;
-    if ('' == value || null == value) {
+    if ('' === value || null === value) {
       return "Translation cannot be empty.";
     }
     return "OK";
   };
-  
   // Remove a translation
   $scope.removeTranslation = function(text_id, language_code) {
     if (!confirm("Do you really want to delete this translation ?")) {
@@ -381,8 +356,8 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
       // when the response is available
       // alert("Language deleted !");
 
-      // TODO We could improve this with : $scope.loadTranslations(indicatorType_id);
-      $scope.loadIndicatorTypes();
+      // TODO We could improve this with : $scope.loadTranslations(source_id);
+      $scope.loadSources();
     }).error(function(data, status, headers, config) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.

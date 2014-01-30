@@ -173,9 +173,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void addSource(final String code, final String defaultValue) {
+	public void addSource(final String code, final String defaultValue, final String link) {
 		final Text name = textDAO.createText(defaultValue);
-		sourceDAO.createSource(code, name);
+		sourceDAO.createSource(code, name, link);
 	}
 
 	@Override
@@ -189,8 +189,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void updateSource(final long sourceId, final String newName) {
-		sourceDAO.updateSource(sourceId, newName);
+	public void updateSource(final long sourceId, final String newName, final String newLink) {
+		sourceDAO.updateSource(sourceId, newName, newLink);
 	}
 
 	/*

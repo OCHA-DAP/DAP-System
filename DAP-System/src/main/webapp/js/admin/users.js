@@ -73,7 +73,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
   // Save (update) a user
   $scope.saveUser = function(datas, id) {
     var valid = $scope.checkUpdateForm(datas);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
       return $http.post(
           dapContextRoot + '/admin/misc/users/submitupdate',
           "userId=" + id + (datas.password ? "&newPassword=" + datas.password : "")
@@ -173,7 +173,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
   // - add it
   $scope.addUser = function(data) {
     var valid = $scope.checkForm(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
       // alert("Add user : " + data);
       return $http.post(
           dapContextRoot + '/admin/misc/users/submitadd',
@@ -206,15 +206,15 @@ app.controller('UsersCtrl', function($scope, $filter, $http) {
       return "At least some info should be provided.";
     }
     var id = data.id;
-    if ('' == id || null == id) {
+    if ('' === id || null === id) {
       return "Id cannot be empty.";
     }
     var password = data.password;
-    if ('' == password || null == password) {
+    if ('' === password || null === password) {
       return "Password cannot be empty.";
     }
     var password2 = data.password2;
-    if ('' == password2 || null == password2) {
+    if ('' === password2 || null === password2) {
       return "Password confirmation cannot be empty.";
     }
     if (password != password2) {

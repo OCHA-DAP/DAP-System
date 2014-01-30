@@ -26,11 +26,11 @@ public interface CuratedDataService {
 	 */
 	public List<EntityType> listEntityTypes();
 
-	public void addEntityType(String code, String name);
+	public void addEntityType(final String code, final String name);
 
-	public void deleteEntityType(long entityTypeId);
+	public void deleteEntityType(final long entityTypeId);
 
-	public void updateEntityType(long entityTypeId, String newName);
+	public void updateEntityType(final long entityTypeId, final String newName);
 
 	/*
 	 * Entities
@@ -50,33 +50,33 @@ public interface CuratedDataService {
 	 */
 	public List<IndicatorType> listIndicatorTypes();
 
-	public void addIndicatorType(String code, String defaultName, String unit, String valueType);
+	public void addIndicatorType(final String code, final String defaultName, final String unit, final String valueType);
 
 	public IndicatorType getIndicatorTypeByCode(final String code);
 
-	public void deleteIndicatorType(long indicatorTypeId);
+	public void deleteIndicatorType(final long indicatorTypeId);
 
-	public void updateIndicatorType(long indicatorTypeId, String newName, String newUnit, String newValueType);
+	public void updateIndicatorType(final long indicatorTypeId, final String newName, final String newUnit, final String newValueType);
 
 	/*
 	 * Sources
 	 */
 	public List<Source> listSources();
 
-	public void addSource(String code, String name);
+	public void addSource(final String code, final String name, final String link);
 
 	public Source getSourceByCode(final String code);
 
 	public void deleteSource(final long sourceId);
 
-	public void updateSource(final long sourceId, String newName);
+	public void updateSource(final long sourceId, final String newName, final String newLink);
 	
 	/*
 	 * Imports from CKAN
 	 */
 	public List<ImportFromCKAN> listImportsFromCKAN();
 
-	public void deleteImportFromCKAN(long id);
+	public void deleteImportFromCKAN(final long id);
 
 	/*
 	 * Indicators
