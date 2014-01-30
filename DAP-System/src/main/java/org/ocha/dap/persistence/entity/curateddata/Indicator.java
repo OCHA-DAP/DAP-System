@@ -85,8 +85,8 @@ public class Indicator {
 	private String initialValue;
 
 	/**
-	 * Must not be confused with {@link Indicator#source} This is a metadata, a link to a resource where some additional info can be found
-	 * (or for verification)
+	 * Must not be confused with {@link Indicator#source} This is a metadata, a link to a resource from which the data originated. Initially
+	 * used for source links from ScraperWiki data.
 	 */
 	@Column(name = "source_link", nullable = true, updatable = true)
 	private String sourceLink;

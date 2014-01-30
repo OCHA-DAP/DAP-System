@@ -16,6 +16,7 @@ public class PreparedIndicator {
 	private Periodicity periodicity;
 	private IndicatorValue value;
 	private String initialValue;
+	private String sourceLink;
 
 	public String getSourceCode() {
 		return sourceCode;
@@ -87,6 +88,14 @@ public class PreparedIndicator {
 
 	public void setInitialValue(final String initialValue) {
 		this.initialValue = initialValue;
+	}
+
+	public String getSourceLink() {
+		return sourceLink;
+	}
+
+	public void setSourceLink(final String sourceLink) {
+		this.sourceLink = sourceLink;
 	}
 
 	@Override
