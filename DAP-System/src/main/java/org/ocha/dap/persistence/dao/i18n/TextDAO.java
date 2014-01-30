@@ -10,18 +10,17 @@ public interface TextDAO {
 	/*
 	 * Text management
 	 */
-	
+
 	public Text createText(final String defaultValue);
 
 	public Text getTextById(long id);
-	
-	public void deleteText(Text text);
 
-	
+	public void deleteText(long id);
+
 	/*
 	 * Translation management
 	 */
-	
+
 	public Translation createTranslationForText(final long textId, final String languageCode, final String translationValue);
 
 	public List<Translation> getTranslationsForText(final long textId);

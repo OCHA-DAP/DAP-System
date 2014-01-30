@@ -34,8 +34,8 @@ public class TextDAOImpl implements TextDAO {
 
 	@Override
 	@Transactional
-	public void deleteText(final Text text) {
-		em.remove(em.contains(text) ? text : em.merge(text));
+	public void deleteText(final long id) {
+		em.remove(getTextById(id));
 	}
 
 	/*
@@ -49,10 +49,10 @@ public class TextDAOImpl implements TextDAO {
 		final Language language = em.find(Language.class, languageCode);
 
 		final Translation.Id id = new Translation.Id(text, language);
-		
+
 		translation.setId(id);
 		translation.setValue(translationValue);
-		
+
 		em.persist(translation);
 
 		return translation;
@@ -67,12 +67,14 @@ public class TextDAOImpl implements TextDAO {
 	@Override
 	@Transactional
 	public void updateTranslation(final long textId, final String languageCode, final String newTranslationValue) {
-		em.createQuery("UPDATE Translation t set t.value = :newTranslationValue WHERE t.id.text.id = :textId AND t.id.language.code = :languageCode").setParameter("textId", textId).setParameter("languageCode", languageCode).setParameter("newTranslationValue", newTranslationValue).executeUpdate();
+		em.createQuery("UPDATE Translation t set t.value = :newTranslationValue WHERE t.id.text.id = :textId AND t.id.language.code = :languageCode").setParameter("textId", textId)
+				.setParameter("languageCode", languageCode).setParameter("newTranslationValue", newTranslationValue).executeUpdate();
 	}
 
 	@Override
 	@Transactional
 	public void deleteTranslation(final long textId, final String languageCode) {
-		em.createQuery("DELETE FROM Translation t WHERE t.id.text.id = :textId AND t.id.language.code = :languageCode").setParameter("textId", textId).setParameter("languageCode", languageCode).executeUpdate();
+		em.createQuery("DELETE FROM Translation t WHERE t.id.text.id = :textId AND t.id.language.code = :languageCode").setParameter("textId", textId).setParameter("languageCode", languageCode)
+				.executeUpdate();
 	}
 }

@@ -43,13 +43,7 @@ public class LanguageDAOImpl implements LanguageDAO {
 
 	@Override
 	@Transactional
-	public void deleteLanguage(final Language language) {
-		em.remove(em.contains(language) ? language : em.merge(language));
-	}
-
-	@Override
-	@Transactional
 	public void deleteLanguage(final String code) {
-		em.createQuery("DELETE FROM Language i WHERE i.code = :code").setParameter("code", code).executeUpdate();
+		em.remove(getLanguageByCode(code));
 	}
 }

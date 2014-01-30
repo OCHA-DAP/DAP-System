@@ -47,7 +47,7 @@ public class SourceDAOImplTest {
 		Assert.assertEquals(0, sourceDAO.listSources().size());
 
 		final Text textToDelete = source.getName();
-		textDAO.deleteText(textToDelete);
+		textDAO.deleteText(textToDelete.getId());
 	}
 
 	@Test
@@ -69,6 +69,7 @@ public class SourceDAOImplTest {
 
 		Assert.assertEquals(0, sourceDAO.listSources().size());
 	}
+
 	@Test
 	public void testUpdateSource() {
 		logger.info("Testing update source...");
@@ -98,7 +99,7 @@ public class SourceDAOImplTest {
 		final long id = sourceForCode.getId();
 
 		sourceDAO.deleteSource(id);
-		
+
 		Assert.assertNull(sourceDAO.getSourceById(id));
 	}
 }
