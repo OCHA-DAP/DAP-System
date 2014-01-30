@@ -4,48 +4,48 @@ app.run(function(editableOptions) {
   editableOptions.theme = 'bs2'; // Theme : can be 'bs3, 'bs2' or 'default'
 });
 
-app.controller('SourcesCtrl', function($scope, $filter, $http) {
+app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
 
   // Sort management
   $scope.predicate = 'code';
   $scope.t_predicate = 'code';
 
   // ////////////////////
-  // Sources management
+  // EntityTypes management
   // ////////////////////
 
-  $scope.sources = [];
+  $scope.entityTypes = [];
 
-  // Load sources
-  $scope.loadSources = function() {
-    return $http.get(dapContextRoot + '/admin/curated/sources/json').success(function(data) {
-      $scope.sources = data;
+  // Load entityTypes
+  $scope.loadEntityTypes = function() {
+    return $http.get(dapContextRoot + '/admin/curated/entitytypes/json').success(function(data) {
+      $scope.entityTypes = data;
       $scope.resetNewTranslations();
     });
   };
 
-  if (!$scope.sources.length) {
-    $scope.loadSources();
+  if (!$scope.entityTypes.length) {
+    $scope.loadEntityTypes();
   }
 
-  // Save (update) a source
-  $scope.saveSource = function(data, id) {
+  // Save (update) an entityType
+  $scope.saveEntityType = function(data, id) {
     var valid = $scope.checkUpdateForm(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
 
-      return $http.post(dapContextRoot + '/admin/curated/sources/submitupdate', "sourceId=" + id + "&newName=" + data.name, {
+      return $http.post(dapContextRoot + '/admin/curated/entitytypes/submitupdate', "entityTypeId=" + id + "&newName=" + data.name, {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
       }).success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
-        $scope.loadSources();
+        $scope.loadEntityTypes();
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        alert("Source update threw an error. No source has been updated.");
-        $scope.loadSources();
+        alert("Entity type update threw an error. No entity type has been updated.");
+        $scope.loadEntityTypes();
       });
     } else {
       alert("Form not valid ! \r\n" + valid);
@@ -53,101 +53,101 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
     }
   };
 
-  // - check that the updated source is valid
+  // - check that the updated entity type is valid
   $scope.checkUpdateForm = function(data) {
     var name = data.name;
-    if ('' == name || null == name) {
+    if ('' === name || null === name) {
       return "Name cannot be empty.";
     }
     return "OK";
   };
 
-  // Remove a source
-  $scope.removeSource = function(id) {
-    if (!confirm("Do you really want to delete this source ?")) {
+  // Remove an entity type
+  $scope.removeEntityType = function(id) {
+    if (!confirm("Do you really want to delete this entity type ?")) {
       return;
     }
-    $http.post(dapContextRoot + '/admin/curated/sources/submitdelete', "sourceId=" + id, {
+    $http.post(dapContextRoot + '/admin/curated/entitytypes/submitdelete', "entityTypeId=" + id, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
     }).success(function(data, status, headers, config) {
       // this callback will be called asynchronously
       // when the response is available
-      $scope.loadSources();
+      $scope.loadEntityTypes();
     }).error(function(data, status, headers, config) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
-      alert("Source deletion threw an error. Maybe this source is used by some indicator. No source has been deleted.");
+      alert("Entity type deletion threw an error. Maybe this entity type is used by some entity. No entity type has been deleted.");
     });
   };
 
-  // add source
-  // - the new source
-  $scope.newsource;
+  // add entityType
+  // - the new entityType
+  $scope.newentityType;
 
   // - reset it
-  $scope.resetNewSource = function() {
-    if (!$scope.newsource) {
-      $scope.newsource = {};
+  $scope.resetNewEntityType = function() {
+    if (!$scope.newentityType) {
+      $scope.newentityType = {};
     }
-    $scope.newsource.code = "";
-    $scope.newsource.name = "";
+    $scope.newentityType.code = "";
+    $scope.newentityType.name = "";
 
   };
 
   // - reset its form
-  $scope.resetAddSourceForm = function() {
-    $scope.addSourceForm.$setPristine();
+  $scope.resetAddEntityTypeForm = function() {
+    $scope.addEntityTypeForm.$setPristine();
   };
 
   // - add it
-  $scope.addSource = function(data) {
+  $scope.addEntityType = function(data) {
     var valid = $scope.checkForm(data);
-    if ("OK" == valid) {
-      // alert("Add source : " + data);
-      return $http.post(dapContextRoot + '/admin/curated/sources/submitadd', "code=" + data.code + "&name=" + data.name, {
+    if ("OK" === valid) {
+      // alert("Add entityType : " + data);
+      return $http.post(dapContextRoot + '/admin/curated/entitytypes/submitadd', "code=" + data.code + "&name=" + data.name, {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
       }).success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
-        // alert("Source added !");
-        $scope.resetNewSource();
-        $scope.resetAddSourceForm();
-        $scope.loadSources();
+        // alert("EntityType added !");
+        $scope.resetNewEntityType();
+        $scope.resetAddEntityTypeForm();
+        $scope.loadEntityTypes();
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        // alert("Source addition threw error : \r\n" + data);
-        alert("Source addition threw an error. Maybe this source already exists. No source has been created.");
+        // alert("EntityType addition threw error : \r\n" + data);
+        alert("Entity type addition threw an error. Maybe this entity type already exists. No entity type has been created.");
       });
     } else {
       alert("Form not valid ! \r\n" + valid);
     }
   };
 
-  // - check that the new source is complete
+  // - check that the new entityType is complete
   $scope.checkForm = function(data) {
     var code = data.code;
-    if ('' == code || null == code) {
+    if ('' === code || null === code) {
       return "Code cannot be empty.";
     }
     var name = data.name;
-    if ('' == name || null == name) {
+    if ('' === name || null === name) {
       return "Name cannot be empty.";
     }
     return "OK";
   };
 
-  // Get a source by its id
-  $scope.getSourceById = function(sourceId) {
-    var filteredSources = $filter('filter')($scope.sources, {
-      id : sourceId
+  // Get an entity type by its id
+  $scope.getEntityTypeById = function(entityTypeId) {
+    var filteredEntityTypes = $filter('filter')($scope.entityTypes, {
+      id : entityTypeId
     });
-    var theSource = filteredSources && 0 < filteredSources.length ? filteredSources[0] : null;
-    return theSource;
+    var theEntityType = filteredEntityTypes && 0 < filteredEntityTypes.length ? filteredEntityTypes[0] : null;
+    return theEntityType;
   }
 
   // ////////////////////////
@@ -182,9 +182,9 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
     return theLanguage;
   }
 
-  // Get a translation value for a source and a language code
-  $scope.getTranslationForSourceAndLanguageCode = function(source, languageCode) {
-    var filteredTranslations = $filter('filter')(source.translations, {
+  // Get a translation value for an entity type and a language code
+  $scope.getTranslationForEntityTypeAndLanguageCode = function(entityType, languageCode) {
+    var filteredTranslations = $filter('filter')(entityType.translations, {
       code : languageCode
     });
     var theTranslation = filteredTranslations && 0 < filteredTranslations.length ? filteredTranslations[0] : null;
@@ -192,22 +192,22 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
   }
 
   // Do we have to show the "Add translation" form ? Only if there are some translations missing
-  $scope.showAddTranslation = function(sourceId) {
+  $scope.showAddTranslation = function(entityTypeId) {
 
     // Are there some languages ?
     if (!$scope.checkLanguages()) {
       return false;
     }
 
-    // Get the source
-    var theSource = $scope.getSourceById(sourceId);
-    return theSource && theSource.translations && theSource.translations.length < $scope.languages.length;
+    // Get the entityType
+    var theEntityType = $scope.getEntityTypeById(entityTypeId);
+    return theEntityType && theEntityType.translations && theEntityType.translations.length < $scope.languages.length;
   };
 
   // Show only the languages for which some translations are missing
-  $scope.languagesByAvailableTranslations = function(sourceId, index) {
+  $scope.languagesByAvailableTranslations = function(entityTypeId, index) {
     return function(language) {
-      var translation = $scope.getTranslationForSourceAndLanguageCode($scope.getSourceById(sourceId), language.code);
+      var translation = $scope.getTranslationForEntityTypeAndLanguageCode($scope.getEntityTypeById(entityTypeId), language.code);
 
       // At the same time, select by default the first missing language
       if (!translation) {
@@ -219,7 +219,7 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
           $scope.newtranslation[index].language = language;
         }
       }
-      return null == translation;
+      return null === translation;
     }
   };
 
@@ -232,7 +232,7 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
     if (!$scope.newtranslation) {
       $scope.newtranslation = [];
     }
-    for (i = 0; i < $scope.sources.length; i++) {
+    for (i = 0; i < $scope.entityTypes.length; i++) {
       $scope.newtranslation[i] = {};
       $scope.newtranslation[i].value = "";
     }
@@ -247,10 +247,10 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
   };
 
   // - add it
-  $scope.addTranslation = function(source_id, text_id, index) {
+  $scope.addTranslation = function(entityType_id, text_id, index) {
     var data = $scope.newtranslation[index];
     var valid = $scope.checkTranslation(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
       return $http.post(dapContextRoot + '/admin/translations/submitadd',
           "textId=" + text_id + "&languageCode=" + data.language.code + "&translationValue=" + data.value, {
             headers : {
@@ -263,13 +263,13 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
         $scope.resetNewTranslations();
         $scope.resetAddTranslationForms();
 
-        // TODO We could improve this with : $scope.loadTranslations(source_id);
-        $scope.loadSources();
+        // TODO We could improve this with : $scope.loadTranslations(entityType_id);
+        $scope.loadEntityTypes();
 
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        // alert("Source addition threw error : \r\n" + data);
+        // alert("EntityType addition threw error : \r\n" + data);
         alert("Translation addition threw an error. Maybe this translation already exists. No translation has been created.");
       });
     } else {
@@ -280,7 +280,7 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
   // - check that the new translation is complete
   $scope.checkTranslation = function(data) {
     var value = data.value;
-    if ('' == value || null == value) {
+    if ('' === value || null === value) {
       return "Translation cannot be empty.";
     }
     return "OK";
@@ -290,7 +290,7 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
   $scope.saveTranslation = function(data, text_id, language_code) {
     // alert(data + ", " + id)
     var valid = $scope.checkUpdateTranslation(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
 
       return $http.post(dapContextRoot + '/admin/translations/submitupdate',
           "textId=" + text_id + "&languageCode=" + language_code + "&translationValue=" + data.value, {
@@ -301,15 +301,15 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
         // this callback will be called asynchronously
         // when the response is available
 
-        // TODO We could improve this with : $scope.loadTranslations(source_id);
-        $scope.loadSources();
+        // TODO We could improve this with : $scope.loadTranslations(entityType_id);
+        $scope.loadEntityTypes();
       }).error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
         alert("Translation update threw an error. No translation has been updated.");
 
-        // TODO We could improve this with : $scope.loadTranslations(source_id);
-        $scope.loadSources();
+        // TODO We could improve this with : $scope.loadTranslations(entityType_id);
+        $scope.loadEntityTypes();
       });
     } else {
       alert("Form not valid ! \r\n" + valid);
@@ -320,11 +320,12 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
   // - check that the new translation is complete
   $scope.checkUpdateTranslation = function(data) {
     var value = data.value;
-    if ('' == value || null == value) {
+    if ('' === value || null === value) {
       return "Translation cannot be empty.";
     }
     return "OK";
   };
+  
   // Remove a translation
   $scope.removeTranslation = function(text_id, language_code) {
     if (!confirm("Do you really want to delete this translation ?")) {
@@ -340,8 +341,8 @@ app.controller('SourcesCtrl', function($scope, $filter, $http) {
       // when the response is available
       // alert("Language deleted !");
 
-      // TODO We could improve this with : $scope.loadTranslations(source_id);
-      $scope.loadSources();
+      // TODO We could improve this with : $scope.loadTranslations(entityType_id);
+      $scope.loadEntityTypes();
     }).error(function(data, status, headers, config) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.

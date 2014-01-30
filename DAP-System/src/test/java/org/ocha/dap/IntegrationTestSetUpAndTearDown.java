@@ -62,8 +62,8 @@ public class IntegrationTestSetUpAndTearDown {
 
 		final Text wb = textDAO.createText("World Bank");
 		final Text acled = textDAO.createText("Armed Conflict Location and Event Dataset");
-		sourceDAO.createSource("WB", wb);
-		sourceDAO.createSource("acled", acled);
+		sourceDAO.createSource("WB", wb, "www.test.com");
+		sourceDAO.createSource("acled", acled, "www.test.com");
 
 		final Source sourceWB = sourceDAO.getSourceByCode("WB");
 		final Entity russia = entityDAO.getEntityByCodeAndType("RUS", "country");

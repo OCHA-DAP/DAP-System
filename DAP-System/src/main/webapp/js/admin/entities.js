@@ -61,7 +61,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   // Save (update) an entity
   $scope.saveEntity = function(data, id) {
     var valid = $scope.checkUpdateForm(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
 
       return $http.post(dapContextRoot + '/admin/curated/entities/submitupdate', "entityId=" + id + "&newName=" + data.name, {
         headers : {
@@ -86,7 +86,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   // - check that the updated entity is valid
   $scope.checkUpdateForm = function(data) {
     var name = data.name;
-    if ('' == name || null == name) {
+    if ('' === name || null === name) {
       return "Name cannot be empty.";
     }
     return "OK";
@@ -135,7 +135,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   // - add it
   $scope.addEntity = function(data) {
     var valid = $scope.checkForm(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
       // alert("Add entity : " + data);
       return $http.post(dapContextRoot + '/admin/curated/entities/submitadd',
           "entityTypeCode=" + data.type.code + "&code=" + data.code + "&name=" + data.name, {
@@ -163,15 +163,15 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   // - check that the new entity is complete
   $scope.checkForm = function(data) {
     var code = data.code;
-    if ('' == code || null == code) {
+    if ('' === code || null === code) {
       return "Code cannot be empty.";
     }
     var name = data.name;
-    if ('' == name || null == name) {
+    if ('' === name || null === name) {
       return "Name cannot be empty.";
     }
     var type = data.type;
-    if (null == type) {
+    if (null === type) {
       return "Type cannot be empty.";
     }
     return "OK";
@@ -255,7 +255,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
           $scope.newtranslation[index].language = language;
         }
       }
-      return null == translation;
+      return null === translation;
     }
   };
 
@@ -286,7 +286,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   $scope.addTranslation = function(entity_id, text_id, index) {
     var data = $scope.newtranslation[index];
     var valid = $scope.checkTranslation(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
       return $http.post(dapContextRoot + '/admin/translations/submitadd',
           "textId=" + text_id + "&languageCode=" + data.language.code + "&translationValue=" + data.value, {
             headers : {
@@ -316,7 +316,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   // - check that the new translation is complete
   $scope.checkTranslation = function(data) {
     var value = data.value;
-    if ('' == value || null == value) {
+    if ('' === value || null === value) {
       return "Translation cannot be empty.";
     }
     return "OK";
@@ -326,7 +326,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   $scope.saveTranslation = function(data, text_id, language_code) {
     // alert(data + ", " + id)
     var valid = $scope.checkUpdateTranslation(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
 
       return $http.post(dapContextRoot + '/admin/translations/submitupdate',
           "textId=" + text_id + "&languageCode=" + language_code + "&translationValue=" + data.value, {
@@ -356,7 +356,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, $http) {
   // - check that the new translation is complete
   $scope.checkUpdateTranslation = function(data) {
     var value = data.value;
-    if ('' == value || null == value) {
+    if ('' === value || null === value) {
       return "Translation cannot be empty.";
     }
     return "OK";

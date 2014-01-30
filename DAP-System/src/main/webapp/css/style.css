@@ -1,13 +1,14 @@
+/*
+Global CSS settings
+*/
 body {
 	padding: 10px;
 	margin: 10px 0 10px 0;
-	font-family: verdana, arial, sans-serif;
-	font-size: 12px;
-	color: #444444; /* DEFAULT FONT COLOR */
-	background: #FFFFFF;
-	text-align: left;
 }
-
+/*
+Old settings
+(should be removed when all app is bootstrapped)
+*/
 td {
 	padding: 10px;
 	border-width: 1px;
@@ -45,29 +46,15 @@ td {
 	text-decoration: underline;
 }
 
-.ERROR {
-	color: #DD0000;
-}
 
-.SUCCESS {
-	color: #00DD00;
-}
-
-.css-form input.ng-invalid.ng-dirty {
-	background-color: #FA787E;
-}
-
-.css-form input.ng-valid.ng-dirty {
-	background-color: #78FA89;
-}
-
+/*
+Translations CSS settings
+*/
 .translations_complete {
 	margin: -15px 0 0px 0;
-	font-family: verdana, arial, sans-serif;
 	font-size: 11px;
 	font-style: italic;
 	color: #999999;
-	text-align: left;
 }
 
 /*

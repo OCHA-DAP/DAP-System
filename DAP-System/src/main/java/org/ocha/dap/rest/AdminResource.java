@@ -543,6 +543,7 @@ public class AdminResource {
 			jsonSource.addProperty("id", source.getId());
 			jsonSource.addProperty("code", source.getCode());
 			jsonSource.addProperty("name", source.getName().getDefaultValue());
+			jsonSource.addProperty("link", source.getOrgLink());
 			jsonSource.addProperty("text_id", source.getName().getId());
 			final List<Translation> translations = source.getName().getTranslations();
 			final JsonArray jsonTranslations = new JsonArray();
@@ -566,8 +567,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/sources/submitadd")
-	public Response addSource(@FormParam("code") final String code, @FormParam("name") final String name) {
-		curatedDataService.addSource(code, name);
+	public Response addSource(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("link") final String link) {
+		curatedDataService.addSource(code, name, link);
 		return Response.ok().build();
 	}
 
@@ -580,8 +581,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/sources/submitupdate")
-	public Response updateSource(@FormParam("sourceId") final long sourceId, @FormParam("newName") final String newName) {
-		curatedDataService.updateSource(sourceId, newName);
+	public Response updateSource(@FormParam("sourceId") final long sourceId, @FormParam("newName") final String newName, @FormParam("newLink") final String newLink) {
+		curatedDataService.updateSource(sourceId, newName, newLink);
 		return Response.ok().build();
 	}
 

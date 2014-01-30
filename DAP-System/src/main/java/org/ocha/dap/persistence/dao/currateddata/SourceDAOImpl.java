@@ -23,10 +23,11 @@ public class SourceDAOImpl implements SourceDAO {
 
 	@Override
 	@Transactional
-	public void createSource(final String code, final Text name) {
+	public void createSource(final String code, final Text name, final String link) {
 		final Source source = new Source();
 		source.setCode(code);
 		source.setName(name);
+		source.setOrgLink(link);
 		em.persist(source);
 	}
 
@@ -55,9 +56,10 @@ public class SourceDAOImpl implements SourceDAO {
 
 	@Override
 	@Transactional
-	public void updateSource(final long sourceId, final String newName) {
+	public void updateSource(final long sourceId, final String newName, final String newLink) {
 		final Source source = em.find(Source.class, sourceId);
 		source.getName().setDefaultValue(newName);
+		source.setOrgLink(newLink);
 	}
 
 }

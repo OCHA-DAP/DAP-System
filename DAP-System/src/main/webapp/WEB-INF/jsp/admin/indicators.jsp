@@ -23,7 +23,7 @@
 		<label for="entityId">Entity</label>
 		<select name="entityId" id="entityId">
 			<c:forEach var="entity" items="${it.entities}">
-				<option value="${entity.id}">${entity.name.defaultValue}(${entity.type.name})</option>
+				<option value="${entity.id}">${entity.name.defaultValue} (${entity.type.name.defaultValue})</option>
 			</c:forEach>
 		</select>
 		<label for="indicatorTypeCode">Indicator type</label>

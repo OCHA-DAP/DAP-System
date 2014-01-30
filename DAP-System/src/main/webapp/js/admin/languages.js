@@ -36,7 +36,7 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
   // Save (update) a language
   $scope.saveLanguage = function(datas, code) {
     var valid = $scope.checkUpdateForm(datas);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
       return $http.post(dapContextRoot + '/admin/misc/languages/submitupdate', "code=" + code + "&newNativeName=" + datas.native_name, {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
@@ -60,7 +60,7 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
   // - check that the updated language is valid
   $scope.checkUpdateForm = function(data) {
     var nativeName = data.native_name;
-    if ('' == nativeName || null == nativeName) {
+    if ('' === nativeName || null === nativeName) {
       return "Native name cannot be empty.";
     }
     return "OK";
@@ -110,7 +110,7 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
   // - add it
   $scope.addLanguage = function(data) {
     var valid = $scope.checkForm(data);
-    if ("OK" == valid) {
+    if ("OK" === valid) {
       return $http.post(dapContextRoot + '/admin/misc/languages/submitadd', "code=" + data.code + "&newNativeName=" + data.native_name,
           {
             headers : {
@@ -142,12 +142,12 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
       return "At least some info should be provided.";
     }
     var code = data.code;
-    if ('' == code || null == code) {
+    if ('' === code || null === code) {
       document.getElementById('newlanguage_code').focus();
       return "Code cannot be empty.";
     }
     var nativeName = data.native_name;
-    if ('' == nativeName || null == nativeName) {
+    if ('' === nativeName || null === nativeName) {
       document.getElementById('newlanguage_native_name').focus();
       return "Native name cannot be empty.";
     }

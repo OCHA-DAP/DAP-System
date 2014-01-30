@@ -20,13 +20,15 @@
 		<form novalidate name="addSourceForm" class="css-form">
 			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
-					<td style="width: 10%">Code</td>
-					<td style="width: 70%">Default name</td>
+					<td style="width: 15%">Code</td>
+					<td style="width: 15%">Default name</td>
+					<td style="width: 50%">Link</td>
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
 					<td><input type="text" class="form-control" placeholder="Code" ng-model="newsource.code" required /></td>
 					<td><input type="text" class="form-control" placeholder="Name" ng-model="newsource.name" required /></td>
+					<td><input type="text" class="form-control" ng-model="newsource.link" /></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary btn-custom-default" ng-click="addSource(newsource)">Add</button>
 					</td>
@@ -38,9 +40,10 @@
 	<div>
 		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">
-				<td style="width: 10%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
-				<td style="width: 20%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a></td>
-				<td style="width: 50%">Translations</td>
+				<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
+				<td style="width: 15%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a></td>
+				<td style="width: 15%"><a href="" ng-click="predicate='link'; reverse=!reverse">Link</a></td>
+				<td style="width: 35%">Translations</td>
 				<td style="width: 20%">Action</td>
 			</tr>
 			<tr ng-repeat="source in sources | orderBy:predicate:reverse">
@@ -49,6 +52,9 @@
 				</td>
 				<td>
 					<!-- editable name --> <span editable-text="source.name" e-class="form-control" e-name="name" e-form="rowform" e-required> {{ source.name }} </span>
+				</td>
+				<td>
+					<!-- editable link --> <span editable-text="source.link" e-class="form-control" e-name="link" e-form="rowform" e-required><a href="{{ source.link }}" target="_blank"> {{ source.link }} </a></span>
 				</td>
 				<td>
 					<table class="table table-bordered table-hover table-condensed">
@@ -101,14 +107,14 @@
 			</tr>
 		</table>
 	</div>
-	<!-- h3>Test zone</h3>
+	<h3>Test zone</h3>
 	<pre>
 		<p>Sources : {{ sources | json }}</p>
 		<p>Languages : {{ languages | json }}</p>
 	</pre>
 
 
-	<h2>List of sources</h2>
+	<!-- h2>List of sources</h2>
 	<table>
 		<tr>
 			<th>Id</th>
