@@ -103,7 +103,7 @@ public class CuratedDataServiceImplTest {
 		final Date date2013 = dateTime2013.toDate();
 		final Date date2014 = dateTime2013.plusYears(1).toDate();
 
-		indicatorDAO.addIndicator(sourceAcled, russia, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(9000.0), "9000$", importFromCKAN);
+		indicatorDAO.addIndicator(sourceAcled, russia, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(9000.0), "9000$", "http://www.example.com", importFromCKAN);
 
 		{
 			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null);
@@ -119,7 +119,7 @@ public class CuratedDataServiceImplTest {
 			Assert.assertEquals(1, dataTable.getNumberOfRows());
 		}
 
-		indicatorDAO.addIndicator(sourceAcled, luxembourg, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(100000.0), "100000$", importFromCKAN);
+		indicatorDAO.addIndicator(sourceAcled, luxembourg, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(100000.0), "100000$", "http://www.example.com", importFromCKAN);
 
 		{
 			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null);
