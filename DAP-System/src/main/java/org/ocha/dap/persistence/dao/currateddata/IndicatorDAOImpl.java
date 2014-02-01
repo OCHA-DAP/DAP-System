@@ -42,6 +42,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		indicator.setPeriodicity(periodicity);
 		indicator.setValue(value);
 		indicator.setInitialValue(initialValue);
+		indicator.setSourceLink(sourceLink);
 		indicator.setImportFromCKAN(importFromCKAN);
 		em.persist(indicator);
 	}
