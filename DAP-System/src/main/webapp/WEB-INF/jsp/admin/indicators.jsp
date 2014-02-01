@@ -54,6 +54,8 @@
 		<input type="text" name="value" id="value" />
 		<label for="initialValue">Initial value</label>
 		<input type="text" name="initialValue" id="initialValue" />
+		<label for="sourceLink">Source Link</label>
+		<input type="text" name="sourceLink" id="sourceLink" />
 		<input type="submit" value="submit" />
 
 	</form>
@@ -70,6 +72,7 @@
 			<th>Periodicity</th>
 			<th>Value</th>
 			<th>Initial value</th>
+			<th>Source Link</th>
 			<th>Import from CKAN</th>
 			<th>Action</th>
 		</tr>
@@ -85,6 +88,7 @@
 				<td>${indicator.periodicity}</td>
 				<td>${indicator.value}</td>
 				<td>${indicator.initialValue}</td>
+				<td>${indicator.sourceLink}</td>
 				<td>${indicator.importFromCKAN.id}</td>
 				<td>
 					<form method="POST" action="submitdelete">

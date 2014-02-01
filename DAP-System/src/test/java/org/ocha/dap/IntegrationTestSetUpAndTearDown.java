@@ -74,7 +74,7 @@ public class IntegrationTestSetUpAndTearDown {
 		final Date date2014 = dateTime2013.plusYears(1).toDate();
 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord("anyResourceId", "anyRevisionId", new Date());
-		indicatorDAO.addIndicator(sourceWB, russia, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(10000.0), "10000$", importFromCKAN);
+		indicatorDAO.addIndicator(sourceWB, russia, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(10000.0), "10000$", "http:www.example.com", importFromCKAN);
 	}
 
 	public void tearDown() {

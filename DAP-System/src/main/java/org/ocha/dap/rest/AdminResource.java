@@ -121,8 +121,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/misc/users/submitupdate")
-	public Response updateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, 
-			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole) throws Exception {
+	public Response updateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newCkanApiKey") final String newCkanApiKey,
+			@FormParam("newRole") final String newRole) throws Exception {
 		dapService.updateUser(userId, newPassword, newRole, newCkanApiKey);
 		return Response.ok().build();
 	}
@@ -622,7 +622,7 @@ public class AdminResource {
 	@Path("/curated/indicators")
 	public Response addIndicator(@FormParam("sourceCode") final String sourceCode, @FormParam("entityId") final long entityId, @FormParam("indicatorTypeCode") final String indicatorTypeCode,
 			@FormParam("start") final String start, @FormParam("end") final String end, @FormParam("periodicity") final Periodicity periodicity, @FormParam("valueType") final ValueType valueType,
-			@FormParam("value") final String valueAsString, @FormParam("initialValue") final String initialValue) {
+			@FormParam("value") final String valueAsString, @FormParam("initialValue") final String initialValue, @FormParam("sourceLink") final String sourceLink) {
 		final DateTimeFormatter fmt = ISODateTimeFormat.date();
 		final Date startDate = fmt.parseDateTime(start).toDate();
 		final Date endDate = fmt.parseDateTime(end).toDate();
@@ -645,7 +645,7 @@ public class AdminResource {
 			value = new IndicatorValue(valueAsString);
 			break;
 		}
-		curatedDataService.addIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, value, initialValue);
+		curatedDataService.addIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, value, initialValue, sourceLink);
 		return displayIndicatorsList();
 	}
 
