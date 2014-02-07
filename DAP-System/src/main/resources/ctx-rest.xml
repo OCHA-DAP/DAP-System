@@ -8,6 +8,6 @@
 	<context:annotation-config />
 
 	<!-- Scans classes in this package, used for Jersey REST Resource classes -->
-	<context:component-scan base-package="org.ocha.dap.rest" />
+	<context:component-scan base-package="org.ocha.hdx.rest" />
 
 </beans>

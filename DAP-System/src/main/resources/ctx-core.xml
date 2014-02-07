@@ -7,7 +7,7 @@
       ">
 	<context:annotation-config />
 
-	<bean id="aesCipher" class="org.ocha.dap.security.tools.AESCipher">
+	<bean id="aesCipher" class="org.ocha.hdx.security.tools.AESCipher">
 		<constructor-arg name="secret" value="${secret}" />
 	</bean>
 

@@ -8,7 +8,7 @@
       ">
 	<context:annotation-config />
 
-	<bean id="dapService" class="org.ocha.dap.service.DAPServiceImpl">
+	<bean id="dapService" class="org.ocha.hdx.service.DAPServiceImpl">
 		<constructor-arg name="host" value="${ckan.host}" />
 		<constructor-arg name="technicalAPIKey" value="${ckan.technical.api.key}" />
 		<constructor-arg name="stagingDirectory">
@@ -18,9 +18,9 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="fileEvaluatorAndExtractor" class="org.ocha.dap.service.FileEvaluatorAndExtractorImpl" />
+	<bean id="fileEvaluatorAndExtractor" class="org.ocha.hdx.service.FileEvaluatorAndExtractorImpl" />
 
-	<bean id="workflowService" class="org.ocha.dap.service.WorkflowServiceImpl">
+	<bean id="workflowService" class="org.ocha.hdx.service.WorkflowServiceImpl">
 		<constructor-arg>
 			<map key-type="java.lang.String" value-type="java.lang.String">
 				<entry key="DETECTED_NEW" value-ref="listForDetected" />
@@ -47,11 +47,11 @@
 		<value>IMPORT_FAIL</value>
 	</util:list>
 
-	<bean id="mailService" class="org.ocha.dap.service.MailServiceImpl">
+	<bean id="mailService" class="org.ocha.hdx.service.MailServiceImpl">
 		<constructor-arg name="smtpHost" value="${smtp.host}" />
 		<constructor-arg name="smtpPort" value="${smtp.port}" />
 		<constructor-arg name="from" value="${mail.from}" />
 	</bean>
 
-	<bean id="curatedDataService" class="org.ocha.dap.service.CuratedDataServiceImpl" />
+	<bean id="curatedDataService" class="org.ocha.hdx.service.CuratedDataServiceImpl" />
 </beans>

@@ -7,6 +7,6 @@
       ">
 	<context:annotation-config />
 
-	<bean id="integrationTestSetUpAndTearDown" class="org.ocha.dap.IntegrationTestSetUpAndTearDown" />
+	<bean id="integrationTestSetUpAndTearDown" class="org.ocha.hdx.IntegrationTestSetUpAndTearDown" />
 
 </beans>

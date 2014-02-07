@@ -11,5 +11,5 @@
 	<!-- allows the threads to have a meaningful prefix -->
 	<task:scheduler id="dap-JobsScheduler" />
 
-	<bean id="preCacheRunner" class="org.ocha.dap.jobs.CKANPollingClient" />
+	<bean id="preCacheRunner" class="org.ocha.hdx.jobs.CKANPollingClient" />
 </beans>
