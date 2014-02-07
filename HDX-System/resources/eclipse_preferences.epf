@@ -156,7 +156,7 @@
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.wrap_before_binary_operator=true
 /instance/org.eclipse.wst.jsdt.ui/proposalOrderMigrated=true
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.source=1.7
-/instance/org.eclipse.egit.ui/BranchProjectTracker__D\:\\__workspaces\\OCHA\\DAP-System\\.git_c618a61936897379f3161070789ca3e61233ec7f=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<projects branch\="c618a61936897379f3161070789ca3e61233ec7f">\r\n<project>\\DAP-System</project>\r\n</projects>
+/instance/org.eclipse.egit.ui/BranchProjectTracker__D\:\\__workspaces\\OCHA\\HDX-System\\.git_c618a61936897379f3161070789ca3e61233ec7f=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<projects branch\="c618a61936897379f3161070789ca3e61233ec7f">\r\n<project>\\HDX-System</project>\r\n</projects>
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.blank_lines_before_imports=1
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.alignment_for_selector_in_method_invocation=16
 /instance/org.eclipse.jdt.ui/content_assist_number_of_computers=21
@@ -228,7 +228,7 @@
 /instance/org.eclipse.jdt.ui/sp_cleanup.make_parameters_final=true
 /instance/org.eclipse.egit.ui/resourcehistory_rev_split=700,300
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_after_opening_angle_bracket_in_type_arguments=do not insert
-/instance/org.eclipse.egit.core/GitRepositoriesView.GitDirectories=D\:\\__workspaces\\OCHA\\DAP-System\\.git;
+/instance/org.eclipse.egit.core/GitRepositoriesView.GitDirectories=D\:\\__workspaces\\OCHA\\HDX-System\\.git;
 /instance/org.eclipse.ui.workbench/PLUGINS_NOT_ACTIVATED_ON_STARTUP=org.eclipse.m2e.discovery;
 /instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_VM_XML=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<vmSettings defaultVM\="57,org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType13,1385978616692" defaultVMConnector\="">\r\n<vmType id\="org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType">\r\n<vm id\="1385978616692" name\="jre7" path\="D\:\\dev\\java\\jre7"/>\r\n</vmType>\r\n</vmSettings>\r\n
 /instance/org.eclipse.rse.core/activeuserprofiles=HI-W8-3562YW1;Team
@@ -345,7 +345,7 @@
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_new_line_before_catch_in_try_statement=do not insert
 /instance/org.eclipse.jdt.ui/sp_cleanup.sort_members_all=false
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_before_closing_bracket_in_array_reference=do not insert
-/instance/org.eclipse.egit.ui/BranchProjectTracker__D\:\\__workspaces\\OCHA\\DAP-System\\.git_aa18e2862c85a0fe8dc726178677c04162717371=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<projects branch\="aa18e2862c85a0fe8dc726178677c04162717371">\r\n<project>\\DAP-System</project>\r\n</projects>
+/instance/org.eclipse.egit.ui/BranchProjectTracker__D\:\\__workspaces\\OCHA\\HDX-System\\.git_aa18e2862c85a0fe8dc726178677c04162717371=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<projects branch\="aa18e2862c85a0fe8dc726178677c04162717371">\r\n<project>\\HDX-System</project>\r\n</projects>
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_try=do not insert
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_anonymous_type_declaration=insert
 /instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.text.templates_migrated=true
@@ -488,7 +488,7 @@ file_export_version=3.0
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.format_line_comment_starting_on_first_column=true
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.comment.indent_root_tags=true
 /instance/org.tigris.subversion.subclipse.tools.usage/ask_user_for_usage_report_preference=false
-/instance/org.eclipse.egit.ui/BranchProjectTracker__D\:\\__workspaces\\OCHA\\DAP-System\\.git_master=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<projects branch\="master">\r\n<project>\\DAP-System</project>\r\n</projects>
+/instance/org.eclipse.egit.ui/BranchProjectTracker__D\:\\__workspaces\\OCHA\\HDX-System\\.git_master=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<projects branch\="master">\r\n<project>\\HDX-System</project>\r\n</projects>
 /instance/org.eclipse.jdt.ui/sp_cleanup.add_missing_override_annotations_interface_methods=true
 /instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.javadoclocations.migrated=true
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_method_declaration=insert
