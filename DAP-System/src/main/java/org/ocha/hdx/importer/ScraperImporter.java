@@ -14,7 +14,7 @@ import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ScraperImporter implements DAPImporter {
+public class ScraperImporter implements HDXImporter {
 
 	private static Logger logger = LoggerFactory.getLogger(ScraperImporter.class);
 

@@ -19,7 +19,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.glassfish.jersey.server.mvc.Viewable;
 import org.ocha.hdx.security.exception.AuthenticationException;
-import org.ocha.hdx.service.DAPService;
+import org.ocha.hdx.service.HDXService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class LoginResource {
 	private HttpServletRequest request;
 
 	@Autowired
-	private DAPService dapService;
+	private HDXService hdxService;
 
 	/**
 	 * Create a session from the token
@@ -56,13 +56,13 @@ public class LoginResource {
 	public Response login(@FormParam("userId") final String userId, @FormParam("password") final String password, @Context final UriInfo uriInfo, @Context final SecurityContext sc)
 			throws AuthenticationException, URISyntaxException {
 		logger.debug(String.format("Entering login for user : %s", userId));
-		if ((dapService != null) && dapService.authenticate(userId, password)) {
+		if ((hdxService != null) && hdxService.authenticate(userId, password)) {
 			final HttpSession session = request.getSession(true);
 			session.setAttribute(SESSION_PARAM_UID, userId);
 			// 1800 seconds = 30 minutes
 			session.setMaxInactiveInterval(1800);
 
-			if ("admin".equals(dapService.getUserById(userId).getRole())) {
+			if ("admin".equals(hdxService.getUserById(userId).getRole())) {
 				final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 				return Response.seeOther(newURI).build();
 			} else {

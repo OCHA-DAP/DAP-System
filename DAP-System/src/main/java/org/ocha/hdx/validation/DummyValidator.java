@@ -18,7 +18,7 @@ import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
  * for this example, we assume we got some percentage for some categories, per country all countries sum should be 100.
  * 
  */
-public class DummyValidator implements DAPValidator {
+public class DummyValidator implements HDXValidator {
 
 	/**
 	 * @return SUCCESS if all countries have a sum of 100, false otherwise

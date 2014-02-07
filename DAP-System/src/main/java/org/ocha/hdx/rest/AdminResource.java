@@ -43,7 +43,7 @@ import org.ocha.hdx.rest.helper.DisplayIndicators;
 import org.ocha.hdx.rest.helper.DisplayRegionDictionaries;
 import org.ocha.hdx.rest.helper.DisplaySourceDictionaries;
 import org.ocha.hdx.service.CuratedDataService;
-import org.ocha.hdx.service.DAPService;
+import org.ocha.hdx.service.HDXService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -58,7 +58,7 @@ import com.google.visualization.datasource.base.TypeMismatchException;
 public class AdminResource {
 
 	@Autowired
-	private DAPService dapService;
+	private HDXService hdxService;
 
 	@Autowired
 	private CuratedDataService curatedDataService;
@@ -78,7 +78,7 @@ public class AdminResource {
 	@Path("/misc/users/json")
 	public String getUsers() throws TypeMismatchException {
 
-		final List<User> listUsers = dapService.listUsers();
+		final List<User> listUsers = hdxService.listUsers();
 		final JsonArray jsonArray = new JsonArray();
 
 		for (final User user : listUsers) {
@@ -96,7 +96,7 @@ public class AdminResource {
 	@Path("/misc/users/roles/json")
 	public String getUserRoles() throws TypeMismatchException {
 
-		final List<String> roles = dapService.listRoles();
+		final List<String> roles = hdxService.listRoles();
 		final JsonArray jsonArray = new JsonArray();
 
 		for (final String role : roles) {
@@ -115,7 +115,7 @@ public class AdminResource {
 			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole, @Context final UriInfo uriInfo) throws Exception {
 		// TODO Perform validation
 
-		dapService.createUser(userId, newPassword, newRole, newCkanApiKey);
+		hdxService.createUser(userId, newPassword, newRole, newCkanApiKey);
 		return Response.ok().build();
 	}
 
@@ -123,14 +123,14 @@ public class AdminResource {
 	@Path("/misc/users/submitupdate")
 	public Response updateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, 
 			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole) throws Exception {
-		dapService.updateUser(userId, newPassword, newRole, newCkanApiKey);
+		hdxService.updateUser(userId, newPassword, newRole, newCkanApiKey);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/misc/users/submitdelete")
 	public Response deleteUser(@FormParam("userId") final String userId) throws Exception {
-		dapService.deleteUser(userId);
+		hdxService.deleteUser(userId);
 		return Response.ok().build();
 	}
 
@@ -149,7 +149,7 @@ public class AdminResource {
 	@Path("/misc/languages/json")
 	public String getLanguages() throws TypeMismatchException {
 
-		final List<Language> listLanguages = dapService.listLanguages();
+		final List<Language> listLanguages = hdxService.listLanguages();
 		final JsonArray jsonArray = new JsonArray();
 
 		for (final Language language : listLanguages) {
@@ -166,21 +166,21 @@ public class AdminResource {
 	@Path("/misc/languages/submitadd")
 	public Response addLanguage(@FormParam("code") final String languageCode, @FormParam("newNativeName") final String newNativeName) throws Exception {
 		// TODO Perform validation
-		dapService.createLanguage(languageCode, newNativeName);
+		hdxService.createLanguage(languageCode, newNativeName);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/misc/languages/submitupdate")
 	public Response updateLanguage(@FormParam("code") final String code, @FormParam("newNativeName") final String newNativeName) throws Exception {
-		dapService.updateLanguage(code, newNativeName);
+		hdxService.updateLanguage(code, newNativeName);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/misc/languages/submitdelete")
 	public Response deleteLanguage(@FormParam("code") final String code) throws Exception {
-		dapService.deleteLanguage(code);
+		hdxService.deleteLanguage(code);
 		return Response.ok().build();
 	}
 
@@ -192,7 +192,7 @@ public class AdminResource {
 	@Path("/translations/submitadd")
 	public Response addTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue)
 			throws Exception, Exception {
-		dapService.addTranslation(Long.valueOf(textId), languageCode, translationValue);
+		hdxService.addTranslation(Long.valueOf(textId), languageCode, translationValue);
 		return Response.ok().build();
 	}
 
@@ -200,14 +200,14 @@ public class AdminResource {
 	@Path("/translations/submitupdate")
 	public Response updateTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue)
 			throws Exception {
-		dapService.updateTranslation(Long.valueOf(textId), languageCode, translationValue);
+		hdxService.updateTranslation(Long.valueOf(textId), languageCode, translationValue);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/translations/submitdelete")
 	public Response deleteTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode) throws Exception {
-		dapService.deleteTranslation(Long.valueOf(textId), languageCode);
+		hdxService.deleteTranslation(Long.valueOf(textId), languageCode);
 		return Response.ok().build();
 	}
 
@@ -217,14 +217,14 @@ public class AdminResource {
 	@GET
 	@Path("/status/datasets/")
 	public Response getCKANDatasetsStatus() {
-		return Response.ok(new Viewable("/admin/datasets", dapService.listCKANDatasets())).build();
+		return Response.ok(new Viewable("/admin/datasets", hdxService.listCKANDatasets())).build();
 	}
 
 	@POST
 	@Path("/status/datasets/flagDatasetAsToBeCurated")
 	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
-		dapService.flagDatasetAsToBeCurated(datasetName, type);
+		hdxService.flagDatasetAsToBeCurated(datasetName, type);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 		return Response.seeOther(newURI).build();
@@ -233,7 +233,7 @@ public class AdminResource {
 	@POST
 	@Path("/status/datasets/flagDatasetAsIgnored")
 	public Response flagDatasetAsIgnored(@FormParam("datasetName") final String datasetName, @Context final UriInfo uriInfo) throws URISyntaxException {
-		dapService.flagDatasetAsIgnored(datasetName);
+		hdxService.flagDatasetAsIgnored(datasetName);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 		return Response.seeOther(newURI).build();
@@ -245,13 +245,13 @@ public class AdminResource {
 	@GET
 	@Path("/status/resources/")
 	public Response getCKANResourcesStatus() {
-		return Response.ok(new Viewable("/admin/resources", dapService.listCKANResources())).build();
+		return Response.ok(new Viewable("/admin/resources", hdxService.listCKANResources())).build();
 	}
 
 	@GET
 	@Path("/status/resources/{id}/{revision_id}/report")
 	public Response getCKANResourceReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
-		return Response.ok(new Viewable("/admin/report", dapService.getCKANResource(id, revision_id))).build();
+		return Response.ok(new Viewable("/admin/report", hdxService.getCKANResource(id, revision_id))).build();
 	}
 
 	/*
@@ -261,7 +261,7 @@ public class AdminResource {
 	@Path("/status/manuallyTriggerDownload/{id}/{revision_id}")
 	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException,
 			IOException {
-		dapService.downloadFileForCKANResource(id, revision_id);
+		hdxService.downloadFileForCKANResource(id, revision_id);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 
@@ -272,7 +272,7 @@ public class AdminResource {
 	@Path("/status/manuallyTriggerEvaluation/{id}/{revision_id}")
 	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException,
 			IOException {
-		dapService.evaluateFileForCKANResource(id, revision_id);
+		hdxService.evaluateFileForCKANResource(id, revision_id);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 
@@ -282,7 +282,7 @@ public class AdminResource {
 	@GET
 	@Path("/status/manuallyTriggerImport/{id}/{revision_id}")
 	public Response manuallyTriggerImport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException, IOException {
-		dapService.transformAndImportDataFromFileForCKANResource(id, revision_id);
+		hdxService.transformAndImportDataFromFileForCKANResource(id, revision_id);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 
@@ -292,7 +292,7 @@ public class AdminResource {
 	@GET
 	@Path("/status/manuallyTriggerDatasetsDetection")
 	public Response manuallyTriggerDatasetsDetection(@Context final UriInfo uriInfo) throws URISyntaxException {
-		dapService.checkForNewCKANDatasets();
+		hdxService.checkForNewCKANDatasets();
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 
@@ -302,7 +302,7 @@ public class AdminResource {
 	@GET
 	@Path("/status/manuallyTriggerResourcesDetection")
 	public Response manuallyTriggerResourcesDetection(@Context final UriInfo uriInfo) throws URISyntaxException {
-		dapService.checkForNewCKANResources();
+		hdxService.checkForNewCKANResources();
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 

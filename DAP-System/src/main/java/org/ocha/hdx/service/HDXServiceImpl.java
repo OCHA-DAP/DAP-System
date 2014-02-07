@@ -39,9 +39,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-public class DAPServiceImpl implements DAPService {
+public class HDXServiceImpl implements HDXService {
 
-	private static final Logger log = LoggerFactory.getLogger(DAPServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(HDXServiceImpl.class);
 
 	private static String DATASET_LIST_V3_API_PATTERN = "http://%s/api/3/action/package_list";
 	private static String DATASET_V3_API_PATTERN = "http://%s/api/3/action/package_show?id=";
@@ -52,7 +52,7 @@ public class DAPServiceImpl implements DAPService {
 
 	private final File stagingDirectory;
 
-	public DAPServiceImpl(final String host, final String technicalAPIKey, final File stagingDirectory) {
+	public HDXServiceImpl(final String host, final String technicalAPIKey, final File stagingDirectory) {
 		super();
 		if (!stagingDirectory.isDirectory()) {
 			throw new IllegalArgumentException("staging  directory doesn't exist: " + stagingDirectory.getAbsolutePath());

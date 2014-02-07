@@ -25,7 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //FIXME reactivate these integration tests when the dedicated ckan instance is ready
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
-public class DAPServiceImplTest {
+public class HDXServiceImplTest {
 
 	@Before
 	public void setUp() throws Exception {
@@ -40,7 +40,7 @@ public class DAPServiceImplTest {
 	}
 
 	@Autowired
-	private DAPService dapService;
+	private HDXService hdxService;
 
 	@Autowired
 	private UserDAO userDAO;
@@ -53,10 +53,10 @@ public class DAPServiceImplTest {
 
 	@Test
 	public void testGetDatasetsListFromCKAN() throws InsufficientCredentialsException {
-		Assert.assertTrue(dapService.getDatasetsListFromCKAN("seustachi").size() > 0);
+		Assert.assertTrue(hdxService.getDatasetsListFromCKAN("seustachi").size() > 0);
 
 		try {
-			dapService.getDatasetsListFromCKAN("otherUser");
+			hdxService.getDatasetsListFromCKAN("otherUser");
 			Assert.fail("Should have raised an InsufficientCredentialsException");
 		} catch (final InsufficientCredentialsException e) {
 		}
@@ -65,12 +65,12 @@ public class DAPServiceImplTest {
 	@Test
 	public void testGetDatasetContentFromCKANV3() throws Exception {
 		{
-			final DatasetV3WrapperDTO dto = dapService.getDatasetContentFromCKANV3("seustachi", "testforauth");
+			final DatasetV3WrapperDTO dto = hdxService.getDatasetContentFromCKANV3("seustachi", "testforauth");
 			Assert.assertTrue(dto.isSuccess());
 		}
 
 		try {
-			dapService.getDatasetContentFromCKANV3("otherUser", "testforauth");
+			hdxService.getDatasetContentFromCKANV3("otherUser", "testforauth");
 			Assert.fail("Should have raised an InsufficientCredentialsException");
 		} catch (final InsufficientCredentialsException e) {
 		}
@@ -80,12 +80,12 @@ public class DAPServiceImplTest {
 	@Test
 	public void testGetDatasetDTOFromQueryV3() {
 		{
-			final DatasetV3WrapperDTO dto = dapService.getDatasetDTOFromQueryV3("mali-hp-data-test", null);
+			final DatasetV3WrapperDTO dto = hdxService.getDatasetDTOFromQueryV3("mali-hp-data-test", null);
 			Assert.assertTrue(dto.isSuccess());
 		}
 
 		{
-			final DatasetV3WrapperDTO wrapper = dapService.getDatasetDTOFromQueryV3("test1", null);
+			final DatasetV3WrapperDTO wrapper = hdxService.getDatasetDTOFromQueryV3("test1", null);
 			final DatasetV3DTO dto = wrapper.getResult();
 			Assert.assertEquals("test1", dto.getName());
 			Assert.assertEquals(1381841484380L, dto.getRevision_timestamp().getTime());
@@ -104,13 +104,13 @@ public class DAPServiceImplTest {
 	@Test
 	public void testGetPrivateDatasetDTOFromQueryV3() {
 		{
-			final DatasetV3WrapperDTO dto = dapService.getDatasetDTOFromQueryV3("testforauth", null);
+			final DatasetV3WrapperDTO dto = hdxService.getDatasetDTOFromQueryV3("testforauth", null);
 			// Cannot access private dataset without API key
 			Assert.assertNull(dto);
 		}
 
 		{
-			final DatasetV3WrapperDTO dto = dapService.getDatasetDTOFromQueryV3("testforauth", "079f6194-45e1-4534-8ca7-1bd4130ef897");
+			final DatasetV3WrapperDTO dto = hdxService.getDatasetDTOFromQueryV3("testforauth", "079f6194-45e1-4534-8ca7-1bd4130ef897");
 			Assert.assertTrue(dto.isSuccess());
 		}
 	}
@@ -118,11 +118,11 @@ public class DAPServiceImplTest {
 	@Test
 	public void testCheckForNewCKANDatasets() {
 		Assert.assertEquals(0, ckanDatasetDAO.listCKANDatasets().size());
-		dapService.checkForNewCKANDatasets();
+		hdxService.checkForNewCKANDatasets();
 		Assert.assertTrue(ckanDatasetDAO.listCKANDatasets().size() > 0);
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
-			dapService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER);
+			hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER);
 		}
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.TO_BE_CURATED, ckandDataset.getStatus());
@@ -133,14 +133,14 @@ public class DAPServiceImplTest {
 	public void testCheckForNewCKANResources() {
 		// we need to initialize datasets as to be curated to get some data to
 		// work on
-		dapService.checkForNewCKANDatasets();
+		hdxService.checkForNewCKANDatasets();
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
-			dapService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER);
+			hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER);
 		}
 
 		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
-		dapService.checkForNewCKANResources();
+		hdxService.checkForNewCKANResources();
 		Assert.assertTrue(ckanResourceDAO.listCKANResources().size() > 0);
 	}
 
@@ -149,16 +149,16 @@ public class DAPServiceImplTest {
 	public void testStandardWorkflow() throws IOException {
 		// we need to initialize datasets as to be curated to get some data to
 		// work on
-		dapService.checkForNewCKANDatasets();
+		hdxService.checkForNewCKANDatasets();
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
 			if (!ckandDataset.getName().equals("nope")) {
-				dapService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.DUMMY);
+				hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.DUMMY);
 			}
 		}
 
 		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
-		dapService.checkForNewCKANResources();
+		hdxService.checkForNewCKANResources();
 
 		final List<CKANResource> resources = ckanResourceDAO.listCKANResources();
 		Assert.assertTrue(resources.size() > 0);
@@ -167,17 +167,17 @@ public class DAPServiceImplTest {
 			final CKANResource firstResource = resources.get(0);
 			Assert.assertEquals(WorkflowState.DETECTED_NEW, firstResource.getWorkflowState());
 
-			dapService.downloadFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+			hdxService.downloadFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 
 			final CKANResource firstResourceAfterDownload = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.DOWNLOADED, firstResourceAfterDownload.getWorkflowState());
 
-			dapService.evaluateFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+			hdxService.evaluateFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 
 			final CKANResource firstResourceAfterEvaluation = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.TECH_EVALUATION_SUCCESS, firstResourceAfterEvaluation.getWorkflowState());
 
-			dapService.transformAndImportDataFromFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
+			hdxService.transformAndImportDataFromFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 
 			final CKANResource firstResourceAfterImport = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.IMPORT_FAIL, firstResourceAfterImport.getWorkflowState());
@@ -187,17 +187,17 @@ public class DAPServiceImplTest {
 			final CKANResource secondResource = resources.get(1);
 			Assert.assertEquals(WorkflowState.DETECTED_NEW, secondResource.getWorkflowState());
 
-			dapService.downloadFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
+			hdxService.downloadFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 
 			final CKANResource secondResourceAfterDownload = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.DOWNLOADED, secondResourceAfterDownload.getWorkflowState());
 
-			dapService.evaluateFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
+			hdxService.evaluateFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 
 			final CKANResource secondResourceAfterEvaluation = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 			Assert.assertEquals(WorkflowState.TECH_EVALUATION_FAIL, secondResourceAfterEvaluation.getWorkflowState());
 
-			dapService.transformAndImportDataFromFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
+			hdxService.transformAndImportDataFromFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 
 			// we should still be in TECH_EVALUATION_FAIL, as the workflow
 			// cannot go from TECH_EVALUATION_FAIL to IMPORT_XXX

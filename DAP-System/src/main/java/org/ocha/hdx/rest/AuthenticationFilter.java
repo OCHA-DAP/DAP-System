@@ -13,7 +13,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
-import org.ocha.hdx.service.DAPService;
+import org.ocha.hdx.service.HDXService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	private HttpServletRequest request;
 
 	@Autowired
-	private DAPService dapService;
+	private HDXService hdxService;
 
 	private static String SESSION_PARAM_UID = "SESSION_PARAM_UID";
 
@@ -44,7 +44,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 		if (session != null && session.getAttribute(SESSION_PARAM_UID) != null) {
 			final String uid = session.getAttribute(SESSION_PARAM_UID).toString();
 			log.debug(String.format("Setting SecurityContext for uid : %s", uid));
-			containerRequest.setSecurityContext(new AuthorizationSecurityContext(dapService.getUserById(uid)));
+			containerRequest.setSecurityContext(new AuthorizationSecurityContext(hdxService.getUserById(uid)));
 		} else if (path.endsWith("/login/")) {
 			log.debug("Doing nothing, login page");
 		} else {

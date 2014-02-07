@@ -13,7 +13,7 @@ import org.ocha.hdx.persistence.entity.i18n.Language;
 import org.ocha.hdx.security.exception.AuthenticationException;
 import org.ocha.hdx.security.exception.InsufficientCredentialsException;
 
-public interface DAPService {
+public interface HDXService {
 
 	public void checkForNewCKANDatasets();
 

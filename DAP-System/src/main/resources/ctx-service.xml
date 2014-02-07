@@ -8,7 +8,7 @@
       ">
 	<context:annotation-config />
 
-	<bean id="dapService" class="org.ocha.hdx.service.DAPServiceImpl">
+	<bean id="dapService" class="org.ocha.hdx.service.HDXServiceImpl">
 		<constructor-arg name="host" value="${ckan.host}" />
 		<constructor-arg name="technicalAPIKey" value="${ckan.technical.api.key}" />
 		<constructor-arg name="stagingDirectory">

@@ -2,7 +2,7 @@ package org.ocha.hdx.importer;
 
 import java.io.File;
 
-public class DummyImporter implements DAPImporter {
+public class DummyImporter implements HDXImporter {
 
 	@Override
 	public PreparedData prepareDataForImport(File file) {

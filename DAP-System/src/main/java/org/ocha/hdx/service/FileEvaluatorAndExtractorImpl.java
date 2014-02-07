@@ -43,7 +43,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 
 	@Override
 	public ValidationReport evaluateResource(final File file, final Type type) {
-		// FIXME we probably want something else here, map of DAPValidator, or
+		// FIXME we probably want something else here, map of HDXValidator, or
 		// Factory....
 		switch (type) {
 		case DUMMY:
@@ -59,7 +59,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 
 	@Override
 	public boolean transformAndImportDataFromResource(final File file, final Type type, final String resourceId, final String revisionId) {
-		// FIXME we probably want something else here, map of DAPImporter, or
+		// FIXME we probably want something else here, map of HDXImporter, or
 		// Factory....
 		final PreparedData preparedData;
 		switch (type) {

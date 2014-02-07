@@ -21,7 +21,7 @@ import org.ocha.hdx.tools.IOTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ScraperValidator implements DAPValidator {
+public class ScraperValidator implements HDXValidator {
 
 	private static final Logger log = LoggerFactory.getLogger(ScraperValidator.class);
 
