@@ -24,8 +24,8 @@ https://github.com/OCHA-DAP/ProjectWiki/wiki/Development-Environment-and-Workflo
 	you aren't using eGit and have already cloned the repo to your local drive).  Be careful NOT to use the "copy projects to workspace" option.
 
 	Setup the env variable
-		"DAP_FOLDER" this is the path of the folder where DAP can use the file system
-			example :  export DAP_FOLDER=/opt/ocha/dap
+		"HDX_FOLDER" this is the path of the folder where DAP can use the file system
+			example :  export HDX_FOLDER=/opt/ocha/dap
 		it must contain 3 folders
 			config : where we place the configuration files of the DAP app
 			logs : where DAP will write the logs
@@ -60,10 +60,10 @@ https://github.com/OCHA-DAP/ProjectWiki/wiki/Development-Environment-and-Workflo
 		3 - sample.sql (optional, setting up some users)
 		****NOTE: The tables and relations must be owned by user "dap-user".  This can be done by editing each one after creation, or by switching to dap-user before running schema.sql.****
 
-		It is recommended (required for a production deployment!) to change the default password for dap-user and enter this password in %DAP_FOLDER%/config/dap-config.
+		It is recommended (required for a production deployment!) to change the default password for dap-user and enter this password in %HDX_FOLDER%/config/dap-config.
 		
 	If not already done, setup the environment variable
-		"DAP_FOLDER" must be defined, like on the dev machine (see step 1) (and the 3 folders config, logs and staging created)
+		"HDX_FOLDER" must be defined, like on the dev machine (see step 1) (and the 3 folders config, logs and staging created)
 		
 ### 5. optional, setup of a VPN access to emergency.lu hosting for DAP ###
 	in a web browser, go to https://sslvpn.emergency.lu to download the Cisco anyConnect VPN Client

@@ -10,8 +10,8 @@
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>file:${DAP_FOLDER}/config/dap-secret</value>
-				<value>file:${DAP_FOLDER}/config/dap-config</value>
+				<value>file:${HDX_FOLDER}/config/dap-secret</value>
+				<value>file:${HDX_FOLDER}/config/dap-config</value>
 				<value>/WEB-INF/db.properties</value>
 			</list>
 		</property>
@@ -22,7 +22,7 @@
 	<!-- <bean id="encryptedPropertyPlaceholderConfigurer" class="org.ocha.hdx.security.tools.EncryptedPropertyPlaceholderConfigurer"> -->
 	<!-- <property name="locations"> -->
 	<!-- <list> -->
-	<!-- <value>file:${DAP_FOLDER}/config/dap-config</value> -->
+	<!-- <value>file:${HDX_FOLDER}/config/dap-config</value> -->
 	<!-- <value>/WEB-INF/db.properties</value> -->
 	<!-- </list> -->
 	<!-- </property> -->
