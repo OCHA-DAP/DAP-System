@@ -1,9 +1,0 @@
-ckan.host = ckan.megginson.com
-ckan.technical.api.key = 079f6194-45e1-4534-8ca7-1bd4130ef897
-
-db.username=dap-user
-db.password=changeThis
-
-smtp.host=smtp.service.emergency.lu
-smtp.port=25
-mail.from=no-reply@emergency.lu
