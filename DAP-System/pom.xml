@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ocha</groupId>
-	<artifactId>dap</artifactId>
+	<artifactId>hdx</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0</version>
-	<name>OCHA DAP webapp</name>
+	<name>OCHA HDX webapp</name>
 
 
 	<properties>
@@ -20,7 +20,7 @@
 		<c3p0.version>0.9.2</c3p0.version>
 		<derby.version>10.10.1.1</derby.version>
 		<jstl.impl.version>1.2</jstl.impl.version>
-		<DAP_ROOT>${HDX_FOLDER}</DAP_ROOT>
+		<HDX_ROOT>${HDX_FOLDER}</HDX_ROOT>
 	</properties>
 
 	<dependencies>
@@ -223,7 +223,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>dap</finalName>
+		<finalName>hdx</finalName>
 		<resources>
 			<resource>
 				<directory>${project.basedir}/src/main/resources</directory>
@@ -331,7 +331,7 @@
 								</component>
 							</components>
 							<componentProperties>
-								<persistenceunit>dap</persistenceunit>
+								<persistenceunit>hdx</persistenceunit>
 								<outputfilename>schema.ddl</outputfilename>
 								<drop>true</drop>
 								<create>true</create>

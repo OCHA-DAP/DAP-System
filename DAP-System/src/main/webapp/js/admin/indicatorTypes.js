@@ -18,7 +18,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
 
   // Load indicatorTypes
   $scope.loadIndicatorTypes = function() {
-    return $http.get(dapContextRoot + '/admin/curated/indicatortypes/json').success(function(data) {
+    return $http.get(hdxContextRoot + '/admin/curated/indicatortypes/json').success(function(data) {
       $scope.indicatorTypes = data;
       $scope.resetNewTranslations();
     });
@@ -32,7 +32,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
 
   // Load value types
   $scope.loadValueTypes = function() {
-    return $http.get(dapContextRoot + '/admin/curated/indicatortypes/valuetypes/json').success(function(data) {
+    return $http.get(hdxContextRoot + '/admin/curated/indicatortypes/valuetypes/json').success(function(data) {
       $scope.valueTypes = data;
       $scope.resetNewIndicatorType();
     });
@@ -55,7 +55,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
     var valid = $scope.checkUpdateForm(data);
     if ("OK" === valid) {
 
-      return $http.post(dapContextRoot + '/admin/curated/indicatortypes/submitupdate', "indicatorTypeId=" + id + "&newName=" + data.name + "&newUnit=" + data.unit + "&newValueType=" + data.valueType, {
+      return $http.post(hdxContextRoot + '/admin/curated/indicatortypes/submitupdate', "indicatorTypeId=" + id + "&newName=" + data.name + "&newUnit=" + data.unit + "&newValueType=" + data.valueType, {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
@@ -97,7 +97,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
     if (!confirm("Do you really want to delete this indicator type ?")) {
       return;
     }
-    $http.post(dapContextRoot + '/admin/curated/indicatortypes/submitdelete', "indicatorTypeId=" + id, {
+    $http.post(hdxContextRoot + '/admin/curated/indicatortypes/submitdelete', "indicatorTypeId=" + id, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
@@ -138,7 +138,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
     var valid = $scope.checkForm(data);
     if ("OK" === valid) {
       // alert("Add indicatorType : " + data);
-      return $http.post(dapContextRoot + '/admin/curated/indicatortypes/submitadd', "code=" + data.code + "&name=" + data.name + "&unit=" + data.unit + "&valueType=" + data.valueType, {
+      return $http.post(hdxContextRoot + '/admin/curated/indicatortypes/submitadd', "code=" + data.code + "&name=" + data.name + "&unit=" + data.unit + "&valueType=" + data.valueType, {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
@@ -198,7 +198,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
 
   // Load languages
   $scope.loadLanguages = function() {
-    return $http.get(dapContextRoot + '/admin/misc/languages/json').success(function(data) {
+    return $http.get(hdxContextRoot + '/admin/misc/languages/json').success(function(data) {
       $scope.languages = data;
       $scope.resetNewTranslations();
     });
@@ -291,7 +291,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
     var data = $scope.newtranslation[index];
     var valid = $scope.checkTranslation(data);
     if ("OK" === valid) {
-      return $http.post(dapContextRoot + '/admin/translations/submitadd',
+      return $http.post(hdxContextRoot + '/admin/translations/submitadd',
           "textId=" + text_id + "&languageCode=" + data.language.code + "&translationValue=" + data.value, {
             headers : {
               'Content-Type' : 'application/x-www-form-urlencoded'
@@ -332,7 +332,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
     var valid = $scope.checkUpdateTranslation(data);
     if ("OK" === valid) {
 
-      return $http.post(dapContextRoot + '/admin/translations/submitupdate',
+      return $http.post(hdxContextRoot + '/admin/translations/submitupdate',
           "textId=" + text_id + "&languageCode=" + language_code + "&translationValue=" + data.value, {
             headers : {
               'Content-Type' : 'application/x-www-form-urlencoded'
@@ -372,7 +372,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, $http) {
       return;
     }
 
-    $http.post(dapContextRoot + '/admin/translations/submitdelete', "textId=" + text_id + "&languageCode=" + language_code, {
+    $http.post(hdxContextRoot + '/admin/translations/submitdelete', "textId=" + text_id + "&languageCode=" + language_code, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }

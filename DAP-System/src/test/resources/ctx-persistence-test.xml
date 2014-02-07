@@ -13,7 +13,7 @@
 	<!-- JDBC Data Source Definition. destroy-method="close" is crucial to release connections on shutdown -->
 	<bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="org.apache.derby.jdbc.EmbeddedDriver" />
-		<property name="jdbcUrl" value="jdbc:derby:memory:dap;create=true" />
+		<property name="jdbcUrl" value="jdbc:derby:memory:hdx;create=true" />
 		<property name="initialPoolSize" value="1" />
 		<property name="minPoolSize" value="1" />
 		<property name="maxPoolSize" value="8" />
@@ -28,7 +28,7 @@
 	<!-- JPA Entity Manager Factory definition (supplied by Hibernate) -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="datasource" />
-		<property name="persistenceUnitName" value="dap" />
+		<property name="persistenceUnitName" value="hdx" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="showSql" value="false" />

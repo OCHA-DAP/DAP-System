@@ -3,5 +3,5 @@
    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
     http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
    version="1.0">
-   <persistence-unit name="dap" />
+   <persistence-unit name="hdx" />
 </persistence>

@@ -24,7 +24,7 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
 
   // Load languages
   $scope.loadLanguages = function() {
-    return $http.get(dapContextRoot + '/admin/misc/languages/json').success(function(data) {
+    return $http.get(hdxContextRoot + '/admin/misc/languages/json').success(function(data) {
       $scope.languages = data;
     });
   };
@@ -37,7 +37,7 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
   $scope.saveLanguage = function(datas, code) {
     var valid = $scope.checkUpdateForm(datas);
     if ("OK" === valid) {
-      return $http.post(dapContextRoot + '/admin/misc/languages/submitupdate', "code=" + code + "&newNativeName=" + datas.native_name, {
+      return $http.post(hdxContextRoot + '/admin/misc/languages/submitupdate', "code=" + code + "&newNativeName=" + datas.native_name, {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
@@ -72,7 +72,7 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
       return;
     }
 
-    $http.post(dapContextRoot + '/admin/misc/languages/submitdelete', "code=" + code, {
+    $http.post(hdxContextRoot + '/admin/misc/languages/submitdelete', "code=" + code, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
@@ -111,7 +111,7 @@ app.controller('LanguagesCtrl', function($scope, $filter, $http) {
   $scope.addLanguage = function(data) {
     var valid = $scope.checkForm(data);
     if ("OK" === valid) {
-      return $http.post(dapContextRoot + '/admin/misc/languages/submitadd', "code=" + data.code + "&newNativeName=" + data.native_name,
+      return $http.post(hdxContextRoot + '/admin/misc/languages/submitadd', "code=" + data.code + "&newNativeName=" + data.native_name,
           {
             headers : {
               'Content-Type' : 'application/x-www-form-urlencoded'

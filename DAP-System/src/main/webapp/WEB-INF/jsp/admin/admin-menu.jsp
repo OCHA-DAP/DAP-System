@@ -12,7 +12,7 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<span class="navbar-brand">DAP / admin</span>
+		<span class="navbar-brand">HDX / admin</span>
 	</div>
 
 	<!-- Collect the nav links, forms, and other content for toggling -->

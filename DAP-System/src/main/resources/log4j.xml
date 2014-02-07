@@ -5,9 +5,9 @@
 
   <!-- =================================== === APPENDERS =================================== -->
 
-  <appender name="dap-file-core" class="org.apache.log4j.RollingFileAppender">
-    <!-- <param name="file" value="D:\\DAP\\logs\\dap.log" /> -->
-    <param name="file" value="${HDX_FOLDER}/logs/dap.log" />
+  <appender name="hdx-file-core" class="org.apache.log4j.RollingFileAppender">
+    <!-- <param name="file" value="D:\\HDX\\logs\\hdx.log" /> -->
+    <param name="file" value="${HDX_FOLDER}/logs/hdx.log" />
     <param name="MaxFileSize" value="500KB" />
     <param name="MaxBackupIndex" value="20" />
     <layout class="org.apache.log4j.PatternLayout">
@@ -15,7 +15,7 @@
     </layout>
   </appender>
 
-  <appender name="dap-console" class="org.apache.log4j.ConsoleAppender">
+  <appender name="hdx-console" class="org.apache.log4j.ConsoleAppender">
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%-5p %d{yy-MM-dd HH:mm:ss}: %m (%F:%L) [%t]%n" />
     </layout>
@@ -33,7 +33,7 @@
   <!-- Hibernate generated SQL -->
   <logger name="org.hibernate.SQL" additivity="false">
     <level value="debug" />
-    <appender-ref ref="dap-console" />
+    <appender-ref ref="hdx-console" />
   </logger>
   <!-- Hibernate abstract syntax trees for parsing predefined JPQL queries -->
   <logger name="org.hibernate.hql.ast">
@@ -57,19 +57,19 @@
   </logger>
 
 
-  <!-- ======== DAP -->
+  <!-- ======== HDX -->
 
   <logger name="org.ocha" additivity="false">
     <level value="debug" />
-    <appender-ref ref="dap-file-core" />
-    <appender-ref ref="dap-console" />
+    <appender-ref ref="hdx-file-core" />
+    <appender-ref ref="hdx-console" />
   </logger>
 
   <!-- =================================== === ROOT Logger settings =================================== -->
 
   <root>
     <priority value="debug"></priority>
-    <appender-ref ref="dap-file-core" />
+    <appender-ref ref="hdx-file-core" />
   </root>
 
 </log4j:configuration>

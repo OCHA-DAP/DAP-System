@@ -20,7 +20,7 @@ public interface HDXService {
 	/**
 	 * will try to get all the resources from CKAN instance first datasets and then resources
 	 * 
-	 * Il some resources are new, will register a CKANResource in DAP db with {@link WorkflowState#Detected}
+	 * Il some resources are new, will register a CKANResource in HDX db with {@link WorkflowState#Detected}
 	 */
 	public void checkForNewCKANResources();
 

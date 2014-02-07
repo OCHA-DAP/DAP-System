@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.ForeignKey;
 
 @Entity
-@Table(name = "dap_translation")
+@Table(name = "hdx_translation")
 public class Translation {
 
 	@Embeddable

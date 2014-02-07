@@ -10,7 +10,7 @@
 </head>
 <body>
 	<jsp:include page="admin-header.jsp" />
-	<h2>List of datasets in DAP</h2>
+	<h2>List of datasets in HDX</h2>
 	<table>
 		<tr>
 			<th>Title (name)</th>

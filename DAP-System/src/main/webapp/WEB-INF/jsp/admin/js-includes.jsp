@@ -1,5 +1,5 @@
 <script type="text/javascript">
-  var dapContextRoot = "${ctx}";
+  var hdxContextRoot = "${ctx}";
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>

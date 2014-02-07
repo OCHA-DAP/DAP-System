@@ -94,7 +94,7 @@ public class HDXServiceImplTest {
 			Assert.assertEquals("Junk", dto.getTags().get(0).getName());
 			Assert.assertEquals("toBeCurated", dto.getTags().get(1).getName());
 			Assert.assertEquals(1, dto.getExtras().size());
-			Assert.assertEquals("dap_status", dto.getExtras().get(0).getKey());
+			Assert.assertEquals("hdx_status", dto.getExtras().get(0).getKey());
 			Assert.assertEquals(1, dto.getResources().size());
 
 			Assert.assertEquals("active", dto.getResources().get(0).getState());

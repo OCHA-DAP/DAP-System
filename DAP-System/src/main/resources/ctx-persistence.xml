@@ -26,7 +26,7 @@
 	<!-- JPA Entity Manager Factory definition (supplied by Hibernate) -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="datasource" />
-		<property name="persistenceUnitName" value="dap" />
+		<property name="persistenceUnitName" value="hdx" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="showSql" value="false" />

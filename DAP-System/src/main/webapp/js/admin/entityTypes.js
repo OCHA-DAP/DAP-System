@@ -18,7 +18,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
 
   // Load entityTypes
   $scope.loadEntityTypes = function() {
-    return $http.get(dapContextRoot + '/admin/curated/entitytypes/json').success(function(data) {
+    return $http.get(hdxContextRoot + '/admin/curated/entitytypes/json').success(function(data) {
       $scope.entityTypes = data;
       $scope.resetNewTranslations();
     });
@@ -33,7 +33,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
     var valid = $scope.checkUpdateForm(data);
     if ("OK" === valid) {
 
-      return $http.post(dapContextRoot + '/admin/curated/entitytypes/submitupdate', "entityTypeId=" + id + "&newName=" + data.name, {
+      return $http.post(hdxContextRoot + '/admin/curated/entitytypes/submitupdate', "entityTypeId=" + id + "&newName=" + data.name, {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
@@ -67,7 +67,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
     if (!confirm("Do you really want to delete this entity type ?")) {
       return;
     }
-    $http.post(dapContextRoot + '/admin/curated/entitytypes/submitdelete', "entityTypeId=" + id, {
+    $http.post(hdxContextRoot + '/admin/curated/entitytypes/submitdelete', "entityTypeId=" + id, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
@@ -106,7 +106,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
     var valid = $scope.checkForm(data);
     if ("OK" === valid) {
       // alert("Add entityType : " + data);
-      return $http.post(dapContextRoot + '/admin/curated/entitytypes/submitadd', "code=" + data.code + "&name=" + data.name, {
+      return $http.post(hdxContextRoot + '/admin/curated/entitytypes/submitadd', "code=" + data.code + "&name=" + data.name, {
         headers : {
           'Content-Type' : 'application/x-www-form-urlencoded'
         }
@@ -158,7 +158,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
 
   // Load languages
   $scope.loadLanguages = function() {
-    return $http.get(dapContextRoot + '/admin/misc/languages/json').success(function(data) {
+    return $http.get(hdxContextRoot + '/admin/misc/languages/json').success(function(data) {
       $scope.languages = data;
       $scope.resetNewTranslations();
     });
@@ -251,7 +251,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
     var data = $scope.newtranslation[index];
     var valid = $scope.checkTranslation(data);
     if ("OK" === valid) {
-      return $http.post(dapContextRoot + '/admin/translations/submitadd',
+      return $http.post(hdxContextRoot + '/admin/translations/submitadd',
           "textId=" + text_id + "&languageCode=" + data.language.code + "&translationValue=" + data.value, {
             headers : {
               'Content-Type' : 'application/x-www-form-urlencoded'
@@ -292,7 +292,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
     var valid = $scope.checkUpdateTranslation(data);
     if ("OK" === valid) {
 
-      return $http.post(dapContextRoot + '/admin/translations/submitupdate',
+      return $http.post(hdxContextRoot + '/admin/translations/submitupdate',
           "textId=" + text_id + "&languageCode=" + language_code + "&translationValue=" + data.value, {
             headers : {
               'Content-Type' : 'application/x-www-form-urlencoded'
@@ -332,7 +332,7 @@ app.controller('EntityTypesCtrl', function($scope, $filter, $http) {
       return;
     }
 
-    $http.post(dapContextRoot + '/admin/translations/submitdelete', "textId=" + text_id + "&languageCode=" + language_code, {
+    $http.post(hdxContextRoot + '/admin/translations/submitdelete', "textId=" + text_id + "&languageCode=" + language_code, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }

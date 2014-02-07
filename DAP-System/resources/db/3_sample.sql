@@ -1,6 +1,6 @@
-INSERT INTO dap_user(id, ckanapikey, password, role) VALUES ('seustachi', 'G++lx4RQM5AqO3wlMiUhjZXU6ZtA3KKIq/cjjUznbTjgljHdUtJEnKm49sxcg3l1', '{SHA}zzsrXdRof78GkYbWwsfVZ2UbQmw=', 'admin');
-INSERT INTO dap_user(id, ckanapikey, password, role) VALUES ('cjhendrix', 'G++lx4RQM5AqO3wlMiUhjZXU6ZtA3KKIq/cjjUznbTjgljHdUtJEnKm49sxcg3l1', '{SHA}zzsrXdRof78GkYbWwsfVZ2UbQmw=', 'api');
-INSERT INTO dap_user(id, ckanapikey, password, role) VALUES ('bmi', 'KHPUpxraF+oA1wkmG+s0hQ==', '{SHA}JuQIzlXAzjNi9ovRIG1IfdWw9k0=', 'admin');
+INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('seustachi', 'G++lx4RQM5AqO3wlMiUhjZXU6ZtA3KKIq/cjjUznbTjgljHdUtJEnKm49sxcg3l1', '{SHA}zzsrXdRof78GkYbWwsfVZ2UbQmw=', 'admin');
+INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('cjhendrix', 'G++lx4RQM5AqO3wlMiUhjZXU6ZtA3KKIq/cjjUznbTjgljHdUtJEnKm49sxcg3l1', '{SHA}zzsrXdRof78GkYbWwsfVZ2UbQmw=', 'api');
+INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('bmi', 'KHPUpxraF+oA1wkmG+s0hQ==', '{SHA}JuQIzlXAzjNi9ovRIG1IfdWw9k0=', 'admin');
 
 INSERT INTO text(id, default_value) VALUES (18, 'Country');
 INSERT INTO entity_type(id, code, text_id) VALUES (1, 'country', 18);
@@ -24,10 +24,10 @@ ALTER SEQUENCE entity_seq RESTART WITH 5;
 INSERT INTO language(code, native_name) VALUES ('FR', 'Français');
 INSERT INTO language(code, native_name) VALUES ('EN', 'English');
 
-INSERT INTO dap_translation(text, language, value) VALUES (1, 'FR', 'Russie');
-INSERT INTO dap_translation(text, language, value) VALUES (1, 'EN', 'Russia');
-INSERT INTO dap_translation(text, language, value) VALUES (4, 'FR', 'Luxembourg');
-INSERT INTO dap_translation(text, language, value) VALUES (4, 'EN', 'Luxemburg');
+INSERT INTO hdx_translation(text, language, value) VALUES (1, 'FR', 'Russie');
+INSERT INTO hdx_translation(text, language, value) VALUES (1, 'EN', 'Russia');
+INSERT INTO hdx_translation(text, language, value) VALUES (4, 'FR', 'Luxembourg');
+INSERT INTO hdx_translation(text, language, value) VALUES (4, 'EN', 'Luxemburg');
 
 
 INSERT INTO text(id, default_value) VALUES (5, 'Incidence of conflict');

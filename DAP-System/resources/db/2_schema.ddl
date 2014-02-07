@@ -1,23 +1,23 @@
 
-    alter table dap_indicator 
+    alter table hdx_indicator
         drop constraint fk_indicator_to_source;
 
-    alter table dap_indicator 
+    alter table hdx_indicator
         drop constraint fk_indicator_to_entity;
 
-    alter table dap_indicator 
+    alter table hdx_indicator
         drop constraint fk_import_from_ckan;
 
-    alter table dap_indicator 
+    alter table hdx_indicator
         drop constraint fk_indicator_value_to_text;
 
-    alter table dap_indicator 
+    alter table hdx_indicator
         drop constraint fk_indicator_to_type;
 
-    alter table dap_translation 
+    alter table hdx_translation
         drop constraint fk_translation_to_text;
 
-    alter table dap_translation 
+    alter table hdx_translation
         drop constraint fk_translation_to_language;
 
     alter table entity 
@@ -48,11 +48,11 @@
 
     drop table ckan_resource;
 
-    drop table dap_indicator;
+    drop table hdx_indicator;
 
-    drop table dap_translation;
+    drop table hdx_translation;
 
-    drop table dap_user;
+    drop table hdx_user;
 
     drop table entity;
 
@@ -120,7 +120,7 @@
         primary key (id, revision_id)
     );
 
-    create table dap_indicator (
+    create table hdx_indicator (
         id int8 not null,
         end_time timestamp,
         initial_value varchar(255) not null,
@@ -140,14 +140,14 @@
         unique (source_id, entity_id, type_id, start_time, periodicity)
     );
 
-    create table dap_translation (
+    create table hdx_translation (
         value varchar(255) not null,
         language varchar(255) not null,
         text int8 not null,
         primary key (language, text)
     );
 
-    create table dap_user (
+    create table hdx_user (
         id varchar(255) not null,
         ckanApiKey varchar(255),
         password varchar(255),
@@ -229,37 +229,37 @@
         primary key (id)
     );
 
-    alter table dap_indicator 
+    alter table hdx_indicator
         add constraint fk_indicator_to_source 
         foreign key (source_id) 
         references source;
 
-    alter table dap_indicator 
+    alter table hdx_indicator
         add constraint fk_indicator_to_entity 
         foreign key (entity_id) 
         references entity;
 
-    alter table dap_indicator 
+    alter table hdx_indicator
         add constraint fk_import_from_ckan 
         foreign key (import_from_ckan_id) 
         references import_from_ckan;
 
-    alter table dap_indicator 
+    alter table hdx_indicator
         add constraint fk_indicator_value_to_text 
         foreign key (text_id) 
         references text;
 
-    alter table dap_indicator 
+    alter table hdx_indicator
         add constraint fk_indicator_to_type 
         foreign key (type_id) 
         references indicator_type;
 
-    alter table dap_translation 
+    alter table hdx_translation
         add constraint fk_translation_to_text 
         foreign key (text) 
         references text;
 
-    alter table dap_translation 
+    alter table hdx_translation
         add constraint fk_translation_to_language 
         foreign key (language) 
         references language;

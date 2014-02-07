@@ -8,7 +8,7 @@ import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 public interface CKANDatasetDAO {
 
 	/**
-	 * Will add in the DAP db the detected dataset that are not already present in {@link CKANDataset.Status#PENDING} with no
+	 * Will add in the HDX db the detected dataset that are not already present in {@link CKANDataset.Status#PENDING} with no
 	 * {@link CKANDataset.Type}
 	 * 
 	 * @param datasets
