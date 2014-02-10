@@ -49,8 +49,8 @@ public class SourceDictionaryDAOImplTest {
 
 		final Source sourceWB = sourceDAO.getSourceByCode("WB");
 
-		sourceDictionaryDAO.addSourceDictionary("World Bank", "scraper", sourceWB);
-		sourceDictionaryDAO.addSourceDictionary("World B.", "another", sourceWB);
+		sourceDictionaryDAO.createSourceDictionary("World Bank", "scraper", sourceWB);
+		sourceDictionaryDAO.createSourceDictionary("World B.", "another", sourceWB);
 
 		Assert.assertEquals(2, sourceDictionaryDAO.listSourceDictionaries().size());
 		Assert.assertEquals(1, sourceDictionaryDAO.getSourceDictionariesByImporter("scraper").size());

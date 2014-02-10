@@ -1,14 +1,24 @@
-app.controller('MenuCtrl', function($scope) {
+if (typeof app != 'undefined') {
+  app.controller('MenuCtrl', function($scope, $rootScope) {
 
-  $scope.isActive = function(viewLocation) {
-    var s = false;
-    // var thePath = $location.path(); <-- does not work ???
-    var thePath = window.location.href;
-    // console.log("The path : [" + thePath + "]");
-    if (thePath.indexOf(viewLocation) != -1) {
-      s = true;
+    // Show or hide the test zone
+    $rootScope.showTestZone = false;
+
+    $rootScope.toggleTestZone = function() {
+      $rootScope.showTestZone = !$rootScope.showTestZone;
     }
-    return s;
-  };
 
-});
+    // Highlight the active menu item
+    $scope.isActive = function(viewLocation) {
+      var s = false;
+      // var thePath = $location.path(); <-- does not work ???
+      var thePath = window.location.href;
+      // console.log("The path : [" + thePath + "]");
+      if (thePath.indexOf(viewLocation) != -1) {
+        s = true;
+      }
+      return s;
+    };
+
+  });
+}

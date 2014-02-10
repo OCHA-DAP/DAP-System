@@ -30,7 +30,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Override
 	@Transactional
-	public void addIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
+	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
 			final String initialValue, final ImportFromCKAN importFromCKAN) {
 
 		final Indicator indicator = new Indicator();
@@ -50,14 +50,14 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	public List<Indicator> listIndicatorsByPeriodicityAndSourceAndIndicatorType(final Periodicity periodicity, final String sourceCode, final String indicatorTypeCode, final List<String> countryCodes) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("SELECT i FROM Indicator i WHERE i.periodicity = :periodicity AND i.source.code = :source AND i.type.code = :indicatorType ");
-		if (countryCodes != null && !countryCodes.isEmpty()) {
+		if ((countryCodes != null) && !countryCodes.isEmpty()) {
 			sb.append(" AND i.entity.type.code = 'country' AND i.entity.code IN :countryCodes ");
 		}
 		sb.append(" ORDER BY i.start, i.entity.type.code, i.entity.code");
 		final TypedQuery<Indicator> query = em.createQuery(sb.toString(), Indicator.class).setParameter("periodicity", periodicity).setParameter("source", sourceCode)
 				.setParameter("indicatorType", indicatorTypeCode);
 
-		if (countryCodes != null && !countryCodes.isEmpty()) {
+		if ((countryCodes != null) && !countryCodes.isEmpty()) {
 			query.setParameter("countryCodes", countryCodes);
 		}
 
@@ -80,14 +80,14 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		final TimeRange timeRange = new TimeRange(year);
 		final StringBuilder sb = new StringBuilder();
 		sb.append("SELECT i FROM Indicator i WHERE i.periodicity = :periodicity AND i.source.code = :source AND i.type.code = :indicatorType AND i.start = :start ");
-		if (countryCodes != null && !countryCodes.isEmpty()) {
+		if ((countryCodes != null) && !countryCodes.isEmpty()) {
 			sb.append(" AND i.entity.type.code = 'country' AND i.entity.code IN :countryCodes ");
 		}
 		sb.append(" ORDER BY i.entity.type.code, i.entity.code ");
 		final TypedQuery<Indicator> query = em.createQuery(sb.toString(), Indicator.class).setParameter("periodicity", Periodicity.YEAR).setParameter("start", timeRange.getStart())
 				.setParameter("source", sourceCode).setParameter("indicatorType", indicatorTypeCode);
 
-		if (countryCodes != null && !countryCodes.isEmpty()) {
+		if ((countryCodes != null) && !countryCodes.isEmpty()) {
 			query.setParameter("countryCodes", countryCodes);
 		}
 		return query.getResultList();

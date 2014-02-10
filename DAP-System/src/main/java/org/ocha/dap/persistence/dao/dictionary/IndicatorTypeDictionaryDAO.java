@@ -9,7 +9,7 @@ public interface IndicatorTypeDictionaryDAO {
 
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries();
 
-	public void addIndicatorTypeDictionary(final String unnormalizedName, final String importer, final IndicatorType indicatorType);
+	public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final IndicatorType indicatorType);
 
 	public void deleteIndicatorTypeDictionary(final IndicatorTypeDictionary indicatorTypeDictionary);
 

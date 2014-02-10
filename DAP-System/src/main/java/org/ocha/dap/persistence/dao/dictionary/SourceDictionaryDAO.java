@@ -9,7 +9,7 @@ public interface SourceDictionaryDAO {
 
 	public List<SourceDictionary> listSourceDictionaries();
 
-	public void addSourceDictionary(final String unnormalizedName, final String importer, final Source source);
+	public void createSourceDictionary(final String unnormalizedName, final String importer, final Source source);
 
 	public List<SourceDictionary> getSourceDictionariesByImporter(final String importer);
 

@@ -55,10 +55,10 @@ public class RegionDictionaryDAOImplTest {
 		crisis = entityTypeDAO.getEntityTypeByCode("crisis");
 
 		// set up the Entities
-		curatedDataService.addEntity("FOO", "Foolandia", "country");
-		curatedDataService.addEntity("BAR", "Barlandia", "country");
-		curatedDataService.addEntity("Crisis1", "First Test Crisis", "crisis");
-		curatedDataService.addEntity("Crisis2", "Second Test Crisis", "crisis");
+		curatedDataService.createEntity("FOO", "Foolandia", "country");
+		curatedDataService.createEntity("BAR", "Barlandia", "country");
+		curatedDataService.createEntity("Crisis1", "First Test Crisis", "crisis");
+		curatedDataService.createEntity("Crisis2", "Second Test Crisis", "crisis");
 
 	}
 
@@ -87,11 +87,11 @@ public class RegionDictionaryDAOImplTest {
 		final Entity crisis2 = entityDAO.getEntityByCodeAndType("Crisis2", crisis.getCode()); // The entity codes are case sensitive
 
 		// Add some RegionDictionaries
-		regionDictionaryDAO.addRegionDictionary("Fooléndia", "Importer1", foolandia);
-		regionDictionaryDAO.addRegionDictionary("Fooléndia", "Importer2", barlandia); // in a different importer, the same string could mean
+		regionDictionaryDAO.createRegionDictionary("Fooléndia", "Importer1", foolandia);
+		regionDictionaryDAO.createRegionDictionary("Fooléndia", "Importer2", barlandia); // in a different importer, the same string could mean
 																						// something different
-		regionDictionaryDAO.addRegionDictionary("Cr1", "Importer1", crisis1);
-		regionDictionaryDAO.addRegionDictionary("Cr2", "Importer1", crisis2);
+		regionDictionaryDAO.createRegionDictionary("Cr1", "Importer1", crisis1);
+		regionDictionaryDAO.createRegionDictionary("Cr2", "Importer1", crisis2);
 
 		// TODO Try adding the same RegionDictionary again (currently fails with org.springframework.dao.DataIntegrityViolationException)
 		// regionDictionaryDAO.addRegionDictionary("Fooléndia", "Test", foolandia);
@@ -110,7 +110,7 @@ public class RegionDictionaryDAOImplTest {
 		assertEquals("Entity's code should be Crisis1", "Crisis1", noEntityRD.getEntity().getCode());
 
 		// add another entity from the ones constructed above
-		regionDictionaryDAO.addRegionDictionary(noEntityRD.getId().getUnnormalizedName(), noEntityRD.getId().getImporter(), noEntityRD.getEntity());
+		regionDictionaryDAO.createRegionDictionary(noEntityRD.getId().getUnnormalizedName(), noEntityRD.getId().getImporter(), noEntityRD.getEntity());
 		regionDictionaryList = regionDictionaryDAO.listRegionDictionaries();
 		assertEquals("region_dictionary table should now have 5 entries", 5, regionDictionaryList.size());
 
@@ -120,7 +120,7 @@ public class RegionDictionaryDAOImplTest {
 		regionDictionaryList = regionDictionaryDAO.listRegionDictionaries();
 		assertEquals("After deletion, there should be 4 RegionDictionaries in the table.", 4, regionDictionaryList.size());
 		// add this back to avoid breaking the next test
-		regionDictionaryDAO.addRegionDictionary(regionDictionaryToDelete.getId().getUnnormalizedName(), regionDictionaryToDelete.getId().getImporter(), regionDictionaryToDelete.getEntity());
+		regionDictionaryDAO.createRegionDictionary(regionDictionaryToDelete.getId().getUnnormalizedName(), regionDictionaryToDelete.getId().getImporter(), regionDictionaryToDelete.getEntity());
 		regionDictionaryList = regionDictionaryDAO.listRegionDictionaries();
 		assertEquals("region_dictionary table should now have 5 entries", 5, regionDictionaryList.size());
 

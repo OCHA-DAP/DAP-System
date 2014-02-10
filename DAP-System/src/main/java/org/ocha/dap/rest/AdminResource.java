@@ -13,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -47,6 +48,8 @@ import org.ocha.dap.service.DAPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.visualization.datasource.base.TypeMismatchException;
@@ -110,8 +113,8 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/misc/users/submitadd")
-	public Response addUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newPassword2") final String newPassword2,
+	@Path("/misc/users/submitCreate")
+	public Response createUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newPassword2") final String newPassword2,
 			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole, @Context final UriInfo uriInfo) throws Exception {
 		// TODO Perform validation
 
@@ -120,15 +123,15 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/misc/users/submitupdate")
-	public Response updateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, 
-			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole) throws Exception {
+	@Path("/misc/users/submitUpdate")
+	public Response updateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newCkanApiKey") final String newCkanApiKey,
+			@FormParam("newRole") final String newRole) throws Exception {
 		dapService.updateUser(userId, newPassword, newRole, newCkanApiKey);
 		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/misc/users/submitdelete")
+	@Path("/misc/users/submitDelete")
 	public Response deleteUser(@FormParam("userId") final String userId) throws Exception {
 		dapService.deleteUser(userId);
 		return Response.ok().build();
@@ -163,22 +166,22 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/misc/languages/submitadd")
-	public Response addLanguage(@FormParam("code") final String languageCode, @FormParam("newNativeName") final String newNativeName) throws Exception {
+	@Path("/misc/languages/submitCreate")
+	public Response createLanguage(@FormParam("code") final String languageCode, @FormParam("newNativeName") final String newNativeName) throws Exception {
 		// TODO Perform validation
 		dapService.createLanguage(languageCode, newNativeName);
 		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/misc/languages/submitupdate")
+	@Path("/misc/languages/submitUpdate")
 	public Response updateLanguage(@FormParam("code") final String code, @FormParam("newNativeName") final String newNativeName) throws Exception {
 		dapService.updateLanguage(code, newNativeName);
 		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/misc/languages/submitdelete")
+	@Path("/misc/languages/submitDelete")
 	public Response deleteLanguage(@FormParam("code") final String code) throws Exception {
 		dapService.deleteLanguage(code);
 		return Response.ok().build();
@@ -189,15 +192,15 @@ public class AdminResource {
 	 */
 
 	@POST
-	@Path("/translations/submitadd")
-	public Response addTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue)
+	@Path("/translations/submitCreate")
+	public Response createTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue)
 			throws Exception, Exception {
-		dapService.addTranslation(Long.valueOf(textId), languageCode, translationValue);
+		dapService.createTranslation(Long.valueOf(textId), languageCode, translationValue);
 		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/translations/submitupdate")
+	@Path("/translations/submitUpdate")
 	public Response updateTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue)
 			throws Exception {
 		dapService.updateTranslation(Long.valueOf(textId), languageCode, translationValue);
@@ -205,10 +208,67 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/translations/submitdelete")
+	@Path("/translations/submitDelete")
 	public Response deleteTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode) throws Exception {
 		dapService.deleteTranslation(Long.valueOf(textId), languageCode);
 		return Response.ok().build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/translations/getFor/json")
+	public String getTranslationsFor(@QueryParam("resource") final String resource, @QueryParam("identifier") final String identifier) throws TypeMismatchException {
+		List<Translation> translations = null;
+
+		// Could do with Class.forName and annotations to know how to use identifier, or interface also...
+		switch (resource) {
+		case "source": {
+			final Source theResource = curatedDataService.getSource(Long.valueOf(identifier));
+			translations = theResource.getName().getTranslations();
+		}
+			break;
+		case "entity": {
+			final Entity theResource = curatedDataService.getEntity(Long.valueOf(identifier));
+			translations = theResource.getName().getTranslations();
+		}
+			break;
+		case "entityType": {
+			final EntityType theResource = curatedDataService.getEntityType(Long.valueOf(identifier));
+			translations = theResource.getName().getTranslations();
+		}
+			break;
+		/*
+		case "indicator": {
+			final Indicator theResource = curatedDataService.getIndicator(Long.valueOf(identifier));
+			translations = theResource.getName().getTranslations();
+		}
+			break;
+		*/
+		case "indicatorType": {
+			final IndicatorType theResource = curatedDataService.getIndicatorType(Long.valueOf(identifier));
+			translations = theResource.getName().getTranslations();
+		}
+			break;
+
+		default:
+			break;
+		}
+
+		final JsonArray jsonTranslations = new JsonArray();
+		if (null != translations) {
+			for (final Translation translation : translations) {
+				final Id translationId = translation.getId();
+				final Language language = translationId.getLanguage();
+				final String code = language.getCode();
+				final String value = translation.getValue();
+				final JsonObject jsonTranslation = new JsonObject();
+				jsonTranslation.addProperty("code", code);
+				jsonTranslation.addProperty("value", value);
+
+				jsonTranslations.add(jsonTranslation);
+			}
+		}
+		return jsonTranslations.toString();
 	}
 
 	/*
@@ -313,14 +373,14 @@ public class AdminResource {
 	 * Curated / entity types management
 	 */
 	@GET
-	@Path("/curated/entitytypes")
+	@Path("/curated/entityTypes")
 	public Response displayEntityTypesList() {
 		return Response.ok(new Viewable("/admin/entityTypes", curatedDataService.listEntityTypes())).build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/curated/entitytypes/json")
+	@Path("/curated/entityTypes/json")
 	public String getEntityTypes() throws TypeMismatchException {
 
 		final List<EntityType> listEntityTypes = curatedDataService.listEntityTypes();
@@ -353,21 +413,21 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/curated/entitytypes/submitadd")
-	public Response addEntityType(@FormParam("code") final String code, @FormParam("name") final String name) {
-		curatedDataService.addEntityType(code, name);
+	@Path("/curated/entityTypes/submitCreate")
+	public Response createEntityType(@FormParam("code") final String code, @FormParam("name") final String name) {
+		curatedDataService.createEntityType(code, name);
 		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/curated/entitytypes/submitdelete")
+	@Path("/curated/entityTypes/submitDelete")
 	public Response deleteEntityType(@FormParam("entityTypeId") final long entityTypeId) {
 		curatedDataService.deleteEntityType(entityTypeId);
 		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/curated/entitytypes/submitupdate")
+	@Path("/curated/entityTypes/submitUpdate")
 	public Response updateEntityType(@FormParam("entityTypeId") final long entityTypeId, @FormParam("newName") final String newName) {
 		curatedDataService.updateEntityType(entityTypeId, newName);
 		return Response.ok().build();
@@ -419,14 +479,14 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/curated/entities/submitadd")
-	public Response addEntity(@FormParam("entityTypeCode") final String entityTypeCode, @FormParam("code") final String code, @FormParam("name") final String name) {
-		curatedDataService.addEntity(code, name, entityTypeCode);
+	@Path("/curated/entities/submitCreate")
+	public Response createEntity(@FormParam("entityTypeCode") final String entityTypeCode, @FormParam("code") final String code, @FormParam("name") final String name) {
+		curatedDataService.createEntity(code, name, entityTypeCode);
 		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/curated/entities/submitdelete")
+	@Path("/curated/entities/submitDelete")
 	public Response deleteEntity(@FormParam("entityId") final long entityId, @Context final UriInfo uriInfo) {
 		curatedDataService.deleteEntity(entityId);
 
@@ -435,7 +495,7 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/curated/entities/submitupdate")
+	@Path("/curated/entities/submitUpdate")
 	public Response updateEntity(@FormParam("entityId") final long entityId, @FormParam("newName") final String newName, @Context final UriInfo uriInfo) {
 		curatedDataService.updateEntity(entityId, newName);
 
@@ -447,48 +507,54 @@ public class AdminResource {
 	 * Curated / indicator types management
 	 */
 	@GET
-	@Path("/curated/indicatortypes")
+	@Path("/curated/indicatorTypes")
 	public Response displayIndicatorTypesList() {
 		return Response.ok(new Viewable("/admin/indicatorTypes", curatedDataService.listIndicatorTypes())).build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/curated/indicatortypes/json")
+	@Path("/curated/indicatorTypes/json")
 	public String getIndicatorTypes() throws TypeMismatchException {
 		final List<IndicatorType> listIndicatorTypes = curatedDataService.listIndicatorTypes();
 		final JsonArray jsonIndicatorTypes = new JsonArray();
 		for (final IndicatorType indicatorType : listIndicatorTypes) {
-			final JsonObject jsonIndicatorType = new JsonObject();
-			jsonIndicatorType.addProperty("id", indicatorType.getId());
-			jsonIndicatorType.addProperty("code", indicatorType.getCode());
-			jsonIndicatorType.addProperty("name", indicatorType.getName().getDefaultValue());
-			jsonIndicatorType.addProperty("unit", indicatorType.getUnit());
-			jsonIndicatorType.addProperty("valueType", indicatorType.getValueType().toString());
-			jsonIndicatorType.addProperty("text_id", indicatorType.getName().getId());
-			final List<Translation> translations = indicatorType.getName().getTranslations();
-			final JsonArray jsonTranslations = new JsonArray();
-			for (final Translation translation : translations) {
-				final Id translationId = translation.getId();
-				final Language language = translationId.getLanguage();
-				final String code = language.getCode();
-				final String value = translation.getValue();
-				final JsonObject jsonTranslation = new JsonObject();
-				jsonTranslation.addProperty("code", code);
-				jsonTranslation.addProperty("value", value);
-
-				jsonTranslations.add(jsonTranslation);
-			}
-			jsonIndicatorType.add("translations", jsonTranslations);
+			final JsonObject jsonIndicatorType = indicatorTypeToJson(indicatorType);
 
 			jsonIndicatorTypes.add(jsonIndicatorType);
 		}
 		return jsonIndicatorTypes.toString();
 	}
 
+	@SuppressWarnings("static-method")
+	private JsonObject indicatorTypeToJson(final IndicatorType indicatorType) {
+		final JsonObject jsonIndicatorType = new JsonObject();
+		jsonIndicatorType.addProperty("id", indicatorType.getId());
+		jsonIndicatorType.addProperty("code", indicatorType.getCode());
+		jsonIndicatorType.addProperty("name", indicatorType.getName().getDefaultValue());
+		jsonIndicatorType.addProperty("unit", indicatorType.getUnit());
+		jsonIndicatorType.addProperty("valueType", indicatorType.getValueType().toString());
+		jsonIndicatorType.addProperty("text_id", indicatorType.getName().getId());
+		final List<Translation> translations = indicatorType.getName().getTranslations();
+		final JsonArray jsonTranslations = new JsonArray();
+		for (final Translation translation : translations) {
+			final Id translationId = translation.getId();
+			final Language language = translationId.getLanguage();
+			final String code = language.getCode();
+			final String value = translation.getValue();
+			final JsonObject jsonTranslation = new JsonObject();
+			jsonTranslation.addProperty("code", code);
+			jsonTranslation.addProperty("value", value);
+
+			jsonTranslations.add(jsonTranslation);
+		}
+		jsonIndicatorType.add("translations", jsonTranslations);
+		return jsonIndicatorType;
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/curated/indicatortypes/valuetypes/json")
+	@Path("/curated/indicatorTypes/valueTypes/json")
 	@SuppressWarnings("static-method")
 	public String getIndicatorTypeValueTypes() throws TypeMismatchException {
 		final JsonArray jsonValueTypes = new JsonArray();
@@ -502,21 +568,21 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/curated/indicatortypes/submitadd")
-	public Response addIndicatorType(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("unit") final String unit, @FormParam("valueType") final String valueType) {
-		curatedDataService.addIndicatorType(code, name, unit, valueType);
+	@Path("/curated/indicatorTypes/submitCreate")
+	public Response createIndicatorType(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("unit") final String unit, @FormParam("valueType") final String valueType) {
+		curatedDataService.createIndicatorType(code, name, unit, valueType);
 		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/curated/indicatortypes/submitdelete")
+	@Path("/curated/indicatorTypes/submitDelete")
 	public Response deleteIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId) {
 		curatedDataService.deleteIndicatorType(indicatorTypeId);
 		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/curated/indicatortypes/submitupdate")
+	@Path("/curated/indicatorTypes/submitUpdate")
 	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newName") final String newName, @FormParam("newUnit") final String newUnit,
 			@FormParam("newValueType") final String newValueType) {
 		curatedDataService.updateIndicatorType(indicatorTypeId, newName, newUnit, newValueType);
@@ -539,48 +605,54 @@ public class AdminResource {
 		final List<Source> listSources = curatedDataService.listSources();
 		final JsonArray jsonSources = new JsonArray();
 		for (final Source source : listSources) {
-			final JsonObject jsonSource = new JsonObject();
-			jsonSource.addProperty("id", source.getId());
-			jsonSource.addProperty("code", source.getCode());
-			jsonSource.addProperty("name", source.getName().getDefaultValue());
-			jsonSource.addProperty("link", source.getOrgLink());
-			jsonSource.addProperty("text_id", source.getName().getId());
-			final List<Translation> translations = source.getName().getTranslations();
-			final JsonArray jsonTranslations = new JsonArray();
-			for (final Translation translation : translations) {
-				final Id translationId = translation.getId();
-				final Language language = translationId.getLanguage();
-				final String code = language.getCode();
-				final String value = translation.getValue();
-				final JsonObject jsonTranslation = new JsonObject();
-				jsonTranslation.addProperty("code", code);
-				jsonTranslation.addProperty("value", value);
-
-				jsonTranslations.add(jsonTranslation);
-			}
-			jsonSource.add("translations", jsonTranslations);
+			final JsonObject jsonSource = sourceToJson(source);
 
 			jsonSources.add(jsonSource);
 		}
 		return jsonSources.toString();
 	}
 
+	@SuppressWarnings("static-method")
+	private JsonObject sourceToJson(final Source source) {
+		final JsonObject jsonSource = new JsonObject();
+		jsonSource.addProperty("id", source.getId());
+		jsonSource.addProperty("code", source.getCode());
+		jsonSource.addProperty("name", source.getName().getDefaultValue());
+		jsonSource.addProperty("link", source.getOrgLink());
+		jsonSource.addProperty("text_id", source.getName().getId());
+		final List<Translation> translations = source.getName().getTranslations();
+		final JsonArray jsonTranslations = new JsonArray();
+		for (final Translation translation : translations) {
+			final Id translationId = translation.getId();
+			final Language language = translationId.getLanguage();
+			final String code = language.getCode();
+			final String value = translation.getValue();
+			final JsonObject jsonTranslation = new JsonObject();
+			jsonTranslation.addProperty("code", code);
+			jsonTranslation.addProperty("value", value);
+
+			jsonTranslations.add(jsonTranslation);
+		}
+		jsonSource.add("translations", jsonTranslations);
+		return jsonSource;
+	}
+
 	@POST
-	@Path("/curated/sources/submitadd")
-	public Response addSource(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("link") final String link) {
-		curatedDataService.addSource(code, name, link);
+	@Path("/curated/sources/submitCreate")
+	public Response createSource(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("link") final String link) {
+		curatedDataService.createSource(code, name, link);
 		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/curated/sources/submitdelete")
+	@Path("/curated/sources/submitDelete")
 	public Response deleteSource(@FormParam("sourceId") final long sourceId) {
 		curatedDataService.deleteSource(sourceId);
 		return Response.ok().build();
 	}
 
 	@POST
-	@Path("/curated/sources/submitupdate")
+	@Path("/curated/sources/submitUpdate")
 	public Response updateSource(@FormParam("sourceId") final long sourceId, @FormParam("newName") final String newName, @FormParam("newLink") final String newLink) {
 		curatedDataService.updateSource(sourceId, newName, newLink);
 		return Response.ok().build();
@@ -606,6 +678,44 @@ public class AdminResource {
 	 * Curated / indicators management
 	 */
 	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("curated/indicators/json")
+	public String getIndicators() throws TypeMismatchException {
+		final List<Indicator> listIndicators = curatedDataService.listLastIndicators(100);
+		final JsonArray jsonIndicators = new JsonArray();
+		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+		for (final Indicator indicator : listIndicators) {
+			final JsonObject jsonIndicator = new JsonObject();
+			jsonIndicator.addProperty("id", indicator.getId());
+			jsonIndicator.add("source", sourceToJson(indicator.getSource()));
+			jsonIndicator.add("indicatorType", indicatorTypeToJson(indicator.getType()));
+			jsonIndicator.addProperty("startDate", gson.toJson(indicator.getStart()));
+			jsonIndicator.addProperty("endDate", gson.toJson(indicator.getEnd()));
+			jsonIndicator.addProperty("periodicity", gson.toJson(indicator.getPeriodicity()));
+			// jsonIndicator.addProperty("value", gson.toJson(indicator.getValue()));
+			jsonIndicator.addProperty("initialValue", indicator.getInitialValue());
+			jsonIndicator.addProperty("value", gson.toJson(indicator.getImportFromCKAN()));
+			jsonIndicators.add(jsonIndicator);
+		}
+		return jsonIndicators.toString();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/curated/indicators/periodicities/json")
+	@SuppressWarnings("static-method")
+	public String getIndicatorPeriodicities() throws TypeMismatchException {
+		final JsonArray jsonPeriodicities = new JsonArray();
+		for (final Periodicity periodicity : Periodicity.values()) {
+			final JsonObject jsonPeriodicity = new JsonObject();
+			jsonPeriodicity.addProperty("value", periodicity.toString());
+			jsonPeriodicity.addProperty("text", periodicity.toString());
+			jsonPeriodicities.add(jsonPeriodicity);
+		}
+		return jsonPeriodicities.toString();
+	}
+
+	@GET
 	@Path("/curated/indicators/")
 	public Response displayIndicatorsList() {
 		final DisplayIndicators displayIndicators = new DisplayIndicators();
@@ -620,7 +730,7 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/indicators")
-	public Response addIndicator(@FormParam("sourceCode") final String sourceCode, @FormParam("entityId") final long entityId, @FormParam("indicatorTypeCode") final String indicatorTypeCode,
+	public Response createIndicator(@FormParam("sourceCode") final String sourceCode, @FormParam("entityId") final long entityId, @FormParam("indicatorTypeCode") final String indicatorTypeCode,
 			@FormParam("start") final String start, @FormParam("end") final String end, @FormParam("periodicity") final Periodicity periodicity, @FormParam("valueType") final ValueType valueType,
 			@FormParam("value") final String valueAsString, @FormParam("initialValue") final String initialValue) {
 		final DateTimeFormatter fmt = ISODateTimeFormat.date();
@@ -645,12 +755,12 @@ public class AdminResource {
 			value = new IndicatorValue(valueAsString);
 			break;
 		}
-		curatedDataService.addIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, value, initialValue);
+		curatedDataService.createIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, value, initialValue);
 		return displayIndicatorsList();
 	}
 
 	@POST
-	@Path("/curated/indicators/submitdelete")
+	@Path("/curated/indicators/submitDelete")
 	public Response deleteIndicator(@FormParam("indicatorId") final long indicatorId, @Context final UriInfo uriInfo) {
 		curatedDataService.deleteIndicator(indicatorId);
 
@@ -672,13 +782,13 @@ public class AdminResource {
 
 	@POST
 	@Path("/dictionaries/regions")
-	public Response addRegionDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entity") final long entity) {
-		curatedDataService.addRegionDictionary(unnormalizedName, importer, entity);
+	public Response createRegionDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entity") final long entity) {
+		curatedDataService.createRegionDictionary(unnormalizedName, importer, entity);
 		return displayRegionDictionariesList();
 	}
 
 	@POST
-	@Path("/dictionaries/regions/submitdelete")
+	@Path("/dictionaries/regions/submitDelete")
 	public Response deleteRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
 		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
@@ -702,8 +812,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/dictionaries/sources")
-	public Response addSourceDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("source") final long source) {
-		curatedDataService.addSourceDictionary(unnormalizedName, importer, source);
+	public Response createSourceDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("source") final long source) {
+		curatedDataService.createSourceDictionary(unnormalizedName, importer, source);
 		return displaySourceDictionariesList();
 	}
 
@@ -721,14 +831,14 @@ public class AdminResource {
 
 	@POST
 	@Path("/dictionaries/indicatorTypes")
-	public Response addIndicatorTypeDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer,
+	public Response createIndicatorTypeDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer,
 			@FormParam("indicatorType") final long indicatorType) {
-		curatedDataService.addIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
+		curatedDataService.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
 		return displayIndicatorTypeDictionariesList();
 	}
 
 	@POST
-	@Path("/dictionaries/indicatorTypes/submitdelete")
+	@Path("/dictionaries/indicatorTypes/submitDelete")
 	public Response deleteIndicatorTypeDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
 		final IndicatorTypeDictionary indicatorTypeDictionary = new IndicatorTypeDictionary(unnormalizedName, importer);
@@ -737,4 +847,15 @@ public class AdminResource {
 		return Response.seeOther(newURI).build();
 
 	}
+
+	/*
+	 * Testing
+	 */
+	@GET
+	@Path("/misc/test/")
+	@SuppressWarnings("static-method")
+	public Response test() {
+		return Response.ok(new Viewable("/admin/admin-test")).build();
+	}
+
 }

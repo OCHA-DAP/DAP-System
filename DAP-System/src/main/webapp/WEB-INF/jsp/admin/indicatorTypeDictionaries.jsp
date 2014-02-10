@@ -43,7 +43,7 @@
 				<td>${indicatorTypeDictionary.id.importer}</td>
 				<td>${indicatorTypeDictionary.id.unnormalizedName}</td>
 				<td>
-					<form method="POST" action="submitdelete">
+					<form method="POST" action="submitDelete">
 						<input type="hidden" name="unnormalizedName" value="${indicatorTypeDictionary.id.unnormalizedName}" />
 						<input type="hidden" name="importer" value="${indicatorTypeDictionary.id.importer}" />
 						<input type="submit" value="Delete" />

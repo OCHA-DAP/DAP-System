@@ -10,14 +10,14 @@
 <jsp:include page="css-includes.jsp" />
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="sources" />
+	<jsp:param name="i18n" value="true" />
 </jsp:include>
-
 </head>
 <body ng-controller="SourcesCtrl">
 	<jsp:include page="admin-menu.jsp" />
 	<div>
 		<h3>Add source</h3>
-		<form novalidate name="addSourceForm" class="css-form">
+		<form novalidate name="createResourceForm" class="css-form">
 			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
 					<td style="width: 15%">Code</td>
@@ -26,18 +26,23 @@
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
-					<td><input type="text" class="form-control" placeholder="Code" ng-model="newsource.code" required /></td>
-					<td><input type="text" class="form-control" placeholder="Name" ng-model="newsource.name" required /></td>
-					<td><input type="text" class="form-control" ng-model="newsource.link" /></td>
+					<td><input type="text" class="form-control" placeholder="Code" id="newResource_code" ng-model="newResource.code" required /></td>
+					<td><input type="text" class="form-control" placeholder="Name" id="newResource_name" ng-model="newResource.name" required /></td>
+					<td>
+						<div class="input-group">
+							<span class="input-group-addon">http://</span>
+							<input type="text" class="form-control" id="newResource_link" ng-model="newResource.link" />
+						</div>
+					</td>
 					<td style="white-space: nowrap">
-						<button class="btn btn-primary btn-custom-default" ng-click="addSource(newsource)">Add</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="createSource(newResource)">Add</button>
 					</td>
 				</tr>
 			</table>
 		</form>
 	</div>
 	<h3>Sources</h3>
-	<div>
+	<div ng-controller="I18nCtrl">
 		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">
 				<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
@@ -54,83 +59,73 @@
 					<!-- editable name --> <span editable-text="source.name" e-class="form-control" e-name="name" e-form="rowform" e-required> {{ source.name }} </span>
 				</td>
 				<td>
-					<!-- editable link --> <span editable-text="source.link" e-class="form-control" e-name="link" e-form="rowform" e-required><a href="{{ source.link }}" target="_blank"> {{ source.link }} </a></span>
+					<!-- editable link --> <span editable-text="source.link" e-class="form-control" e-name="link" e-id="link" e-form="rowform" e-required>
+						<a href="{{ source.link }}" target="_blank"> {{ source.link }} </a>
+					</span>
 				</td>
 				<td>
-					<table class="table table-bordered table-hover table-condensed">
-						<tr style="font-weight: bold">
-							<td style="width: 20%"><a href="" ng-click="t_predicate='code'; t_reverse=!t_reverse">Language</a></td>
-							<td style="width: 55%"><a href="" ng-click="t_predicate='value'; t_reverse=!t_reverse">Translation</a></td>
-							<td style="width: 25%">Action</td>
-						</tr>
-						<tr ng-repeat="translation in source.translations | orderBy:t_predicate:t_reverse">
-							<td>
-								<!-- non editable language --> <span e-name="language" e-form="t_rowform"> {{ translation.code }} </span>
-							</td>
-							<td>
-								<!-- editable value --> <span editable-text="translation.value" e-class="form-control" e-name="value" e-form="t_rowform"> {{ translation.value }} </span>
-							</td>
-							<td style="white-space: nowrap">
-								<!-- t form -->
-								<form editable-form name="t_rowform" onbeforesave="saveTranslation($data, source.text_id, translation.code)" ng-show="t_rowform.$visible" class="form-buttons form-inline" shown="inserted == translation">
-									<button type="submit" ng-disabled="t_rowform.$waiting" class="btn btn-primary btn-xs btn-custom-default" >Save</button>
-									<button type="button" ng-disabled="t_rowform.$waiting" ng-click="t_rowform.$cancel()" class="btn btn-default btn-xs btn-custom-cancel" >Cancel</button>
-								</form>
-								<div class="buttons" ng-show="!t_rowform.$visible">
-									<button class="btn btn-primary btn-xs btn-custom-default" ng-click="t_rowform.$show()">Edit</button>
-									<button class="btn btn-danger btn-xs btn-custom-danger" ng-click="removeTranslation(source.text_id, translation.code)">Delete</button>
-								</div>
-							</td>
-						</tr>
-						<tr ng-show="showAddTranslation(source.id)">
-							<td><select class="form-control" ng-model="newtranslation[$index].language" ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(source.id, $index)" ng-class="default">
-							</select></td>
-							<td><input type="text" class="form-control" placeholder="Translation" ng-model="newtranslation[$index].value" required /></input></td>
-							<td><button class="btn btn-primary btn-xs btn-custom-default" ng-click="addTranslation(source.id, source.text_id, $index)">Add</button></td>
-						</tr>
-					</table>
-					<div ng-show="!showAddTranslation(source.id)" class="translations_complete">
-						<span>All translations complete. Do you wish to <a href="${ctx}/admin/misc/languages/">add another language</a> ?</span>
+					<div ng-controller="TranslationsCtrl">
+						<table class="table table-bordered table-hover table-condensed">
+							<tr style="font-weight: bold">
+								<td style="width: 20%"><a href="" ng-click="t_predicate='code'; t_reverse=!t_reverse">Language</a></td>
+								<td style="width: 55%"><a href="" ng-click="t_predicate='value'; t_reverse=!t_reverse">Translation</a></td>
+								<td style="width: 25%">Action</td>
+							</tr>
+							<tr ng-repeat="translation in source.translations | orderBy:t_predicate:t_reverse">
+								<td>
+									<!-- non editable language --> <span e-name="language" e-form="t_rowform"> {{ translation.code }} </span>
+								</td>
+								<td>
+									<!-- editable value --> <span editable-text="translation.value" e-class="form-control" e-name="value" e-form="t_rowform"> {{ translation.value }} </span>
+								</td>
+								<td style="white-space: nowrap">
+									<!-- t form -->
+									<form editable-form name="t_rowform" onbeforesave="updateTranslation($data, source.text_id, translation.code, source, 'source', source.id)" ng-show="t_rowform.$visible"
+										class="form-buttons form-inline" shown="inserted == translation">
+										<button type="submit" ng-disabled="t_rowform.$waiting" class="btn btn-primary btn-xs btn-custom-default">Save</button>
+										<button type="button" ng-disabled="t_rowform.$waiting" ng-click="t_rowform.$cancel()" class="btn btn-default btn-xs btn-custom-cancel">Cancel</button>
+									</form>
+									<div class="buttons" ng-show="!t_rowform.$visible">
+										<button class="btn btn-primary btn-xs btn-custom-default" ng-click="t_rowform.$show()">Edit</button>
+										<button class="btn btn-danger btn-xs btn-custom-danger" ng-click="deleteTranslation(source.text_id, translation.code, source, 'source', source.id)">Delete</button>
+									</div>
+								</td>
+							</tr>
+							<tr ng-show="showAddTranslation(sources, 'id', source.id)">
+								<td><select class="form-control" ng-model="newTranslation.language"
+									ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(sources, 'id', source.id)" ng-class="default">
+								</select></td>
+								<td><input type="text" class="form-control" placeholder="Translation" id="newTranslation_value" ng-model="newTranslation.value" required /></input></td>
+								<td><button class="btn btn-primary btn-xs btn-custom-default" ng-click="createTranslation(source.text_id, source, 'source', source.id)">Add</button></td>
+							</tr>
+						</table>
+						<div ng-show="addLanguage" class="translations_complete">
+							<span>
+								All translations complete. Do you wish to <a href="${ctx}/admin/misc/languages/">add another language</a> ?
+							</span>
+						</div>
 					</div>
 				</td>
 				<td style="white-space: nowrap">
 					<!-- form -->
-					<form editable-form name="rowform" onbeforesave="saveSource($data, source.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == source">
+					<form editable-form name="rowform" onbeforesave="updateSource($data, source.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == source">
 						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 					</form>
 					<div class="buttons" ng-show="!rowform.$visible">
 						<button class="btn btn-primary btn-custom-default" ng-click="rowform.$show()">Edit</button>
-						<button class="btn btn-danger btn-custom-danger" ng-click="removeSource(source.id)">Delete</button>
+						<button class="btn btn-danger btn-custom-danger" ng-click="deleteSource(source.id)">Delete</button>
 					</div>
 				</td>
 			</tr>
 		</table>
 	</div>
-	<h3>Test zone</h3>
-	<pre>
-		<p>Sources : {{ sources | json }}</p>
-		<p>Languages : {{ languages | json }}</p>
-	</pre>
-
-
-	<!-- h2>List of sources</h2>
-	<table>
-		<tr>
-			<th>Id</th>
-			<th>Code</th>
-			<th>Name</th>
-		</tr>
-
-		<c:forEach var="source" items="${it}">
-			<tr>
-				<td>${source.id}</td>
-				<td>${source.code}</td>
-				<td>${source.name.defaultValue}</td>
-			</tr>
-		</c:forEach>
-
-	</table -->
-
+	<div ng-show="showTestZone">
+		<h3>Test zone</h3>
+		<pre>
+			<p>Sources : {{ sources | json }}</p>
+			<p>Languages : {{ languages | json }}</p>
+		</pre>
+	</div>
 </body>
 </html>
