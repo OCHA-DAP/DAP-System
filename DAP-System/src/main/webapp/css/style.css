@@ -10,10 +10,12 @@ Old settings
 (should be removed when all app is bootstrapped)
 */
 td {
+	/*
 	padding: 10px;
 	border-width: 1px;
 	border-style: dotted;
 	border-color: black;
+	*/
 }
 
 .menu ul {
@@ -120,4 +122,25 @@ Bootstrap buttons customization
 	color: #333;
 	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.69);
 	-webkit-font-smoothing: antialiased;
+}
+
+/*
+Test fieldsets
+*/
+fieldset.test {
+	border: 1px solid #ddd !important;
+	padding: 0 1.4em 1.4em 1.4em !important;
+	margin: 0 0 1.5em 0 !important;
+	display: inline;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	vertical-align: top;
+}
+
+legend.test {
+	text-align: left !important;
+	width: inherit; /* Or auto */
+	padding: 0 10px; /* To give a bit of padding on the left and right */
+	border-bottom: none;
 }

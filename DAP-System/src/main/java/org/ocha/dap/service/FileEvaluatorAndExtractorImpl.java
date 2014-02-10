@@ -70,7 +70,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			final ScraperImporter scraperImporter = new ScraperImporter(sourceDictionaryDAO.getSourceDictionariesByImporter("scraper"));
 			for (final Entry<String, String> entry : scraperImporter.getCountryList(file).entrySet()) {
 				try {
-					curatedDataService.addEntity(entry.getKey(), entry.getValue(), "country");
+					curatedDataService.createEntity(entry.getKey(), entry.getValue(), "country");
 				} catch (final Exception e) {
 					logger.debug(String.format("Not creating country : %s already exist", entry.getKey()));
 				}
@@ -93,7 +93,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
 		for (final PreparedIndicator preparedIndicator : preparedData.getIndicatorsToImport()) {
 			try {
-				curatedDataService.addIndicator(preparedIndicator, importFromCKAN);
+				curatedDataService.createIndicator(preparedIndicator, importFromCKAN);
 			} catch (final Exception e) {
 				logger.debug(String.format("Error trying to create preparedIndicator : %s", preparedIndicator.toString()));
 			}

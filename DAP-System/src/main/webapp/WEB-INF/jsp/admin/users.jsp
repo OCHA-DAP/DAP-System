@@ -17,7 +17,7 @@
 	<jsp:include page="admin-menu.jsp" />
 	<div>
 		<h3>Add user</h3>
-		<form novalidate name="addUserForm" class="css-form">
+		<form novalidate name="createResourceForm" class="css-form">
 			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
 					<td style="width: 16%">Id</td>
@@ -28,14 +28,14 @@
 					<td style="width: 20%">Action</td>
 				</tr>
 				<tr>
-					<td><input type="text" class="form-control" placeholder="Id" ng-model="newuser.id" required /></td>
-					<td><select class="form-control" ng-model="newuser.role" ng-options="r.value as r.text for r in roles" ng-class="default" required>
+					<td><input type="text" class="form-control" placeholder="Id" id="newResource_id" ng-model="newResource.id" required /></td>
+					<td><select class="form-control" id="newResource_role" ng-model="newResource.role" ng-options="r.value as r.text for r in roles" ng-class="default" required>
 					</select></td>
-					<td><input type="password" class="form-control" ng-model="newuser.password" required /></td>
-					<td><input type="password" class="form-control" ng-model="newuser.password2" required /></td>
-					<td><input type="text" class="form-control" placeholder="CKAN API key" ng-model="newuser.ckanApiKey" required /></td>
+					<td><input type="password" class="form-control" id="newResource_password" ng-model="newResource.password" required /></td>
+					<td><input type="password" class="form-control" id="newResource_password2" ng-model="newResource.password2" required /></td>
+					<td><input type="text" class="form-control" placeholder="CKAN API key" id="newResource_ckanApiKey" ng-model="newResource.ckanApiKey" required /></td>
 					<td style="white-space: nowrap">
-						<button class="btn btn-primary btn-custom-default" ng-click="addUser(newuser)">Add</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="createUser(newResource)">Add</button>
 					</td>
 				</tr>
 			</table>
@@ -64,50 +64,23 @@
 				<td><span editable-text="user.ckanApiKey" e-class="form-control" e-name="ckanApiKey" e-form="rowform"> {{ user.ckanApiKey }} </span></td>
 				<td style="white-space: nowrap">
 					<!-- form -->
-					<form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+					<form editable-form name="rowform" onbeforesave="updateUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
 						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 						<button type="button" ng-disabled="rowform.$waiting" ng-click="user.setEditing(false);rowform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 					</form>
 					<div class="buttons" ng-show="!rowform.$visible">
 						<button class="btn btn-primary btn-custom-default" ng-click="user.setEditing(true);rowform.$show()">Edit</button>
-						<button class="btn btn-danger btn-custom-danger" ng-click="removeUser(user.id)">Delete</button>
+						<button class="btn btn-danger btn-custom-danger" ng-click="deleteUser(user.id)">Delete</button>
 					</div>
 				</td>
 			</tr>
 		</table>
 	</div>
-	<!-- h3>Test zone</h3>
-	<pre>
-		<p>Roles : {{ roles | json }}</p>
-		<p>Users : {{ users | json }}</p>
-	</pre>
-	<h2>Add a new User</h2>
-
-	<form method="POST" action="">
-		<label for="id">Id</label> <input type="text" name="id" id="id" /> <label for="password">Password</label> <input type="password" name="password" id="password" /> <label for="password2">Confirm
-			password</label> <input type="password" name="password2" id="password2" /> <label for="ckanApiKey">CKAN Api Key</label> <input type="text" name="ckanApiKey" id="ckanApiKey" /> <label for="role">Role</label>
-		<select name="role" id="role">
-			<option value="admin">admin</option>
-			<option value="api">api</option>
-		</select> <input type="submit" value="submit" onclick="alert('test'); return true;" />
-
-	</form>
-
-	<h2>List of user</h2>
-	<table>
-		<tr>
-			<th>Name</th>
-			<th>Role</th>
-		</tr>
-
-		<c:forEach var="user" items="${it}">
-			<tr>
-				<td>${user.id}</td>
-				<td>${user.role}</td>
-			</tr>
-		</c:forEach>
-
-	</table -->
-
+	<div ng-show="showTestZone">
+		<pre>
+			<p>Roles : {{ roles | json }}</p>
+			<p>Users : {{ users | json }}</p>
+		</pre>
+	</div>
 </body>
 </html>

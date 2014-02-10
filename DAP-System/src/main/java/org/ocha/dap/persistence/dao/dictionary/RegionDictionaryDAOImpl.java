@@ -23,7 +23,7 @@ public class RegionDictionaryDAOImpl implements RegionDictionaryDAO {
 
 	@Override
 	@Transactional
-	public void addRegionDictionary(final String unnormalizedName, final String importer, final Entity entity) {
+	public void createRegionDictionary(final String unnormalizedName, final String importer, final Entity entity) {
 		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer, entity);
 		em.persist(regionDictionary);
 	}

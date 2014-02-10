@@ -1,156 +1,118 @@
-var app = angular.module("app", [ "xeditable" ]);
-
-app.run(function(editableOptions) {
-  editableOptions.theme = 'bs2'; // Theme : can be 'bs3, 'bs2' or 'default'
-});
-
-app.controller('LanguagesCtrl', function($scope, $filter, $http) {
-
-  // Sort management
-  $scope.predicate = 'code';
-
+app.controller('LanguagesCtrl', function($scope, $filter, $http, $rootScope, utilities) {
+  
   // ////////////////////
   // Languages management
   // ////////////////////
 
-  $scope.languages = [];
-
-  // Allow to find a language according to its code
-  $scope.findLanguage = function(language_code) {
-    return $filter('filter')($scope.languages, {
-      code : language_code
-    }, true);
-  }
+  // Sort management
+  $scope.predicate = 'code';
 
   // Load languages
+  // ==============
   $scope.loadLanguages = function() {
-    return $http.get(dapContextRoot + '/admin/misc/languages/json').success(function(data) {
-      $scope.languages = data;
-    });
-  };
+    return utilities.loadResource($scope, 'languages', '/admin/misc/languages/json');
+  }
+  $scope.loadLanguages();
 
-  if (!$scope.languages.length) {
-    $scope.loadLanguages();
+  // Create a language
+  // =================
+  $scope.createLanguage = function(data) {
+    var code = data ? data.code : "";
+    var nativeName = data ? data.native_name : "";
+    return utilities.createResource({
+      validate : $scope.checkCreateForm,
+      data : data,
+      params : {
+        "code" : code,
+        "newNativeName" : nativeName
+      },
+      url : '/admin/misc/languages/submitCreate',
+      successCallback : function() {
+        $scope.resetNewLanguage();
+        $scope.resetCreateResourceForm();
+        $scope.loadLanguages();
+      },
+      errorCallback : function() {
+        alert("Language creation threw an error. Maybe this language already exists. No language has been created.");
+      }
+    });
   }
 
-  // Save (update) a language
-  $scope.saveLanguage = function(datas, code) {
-    var valid = $scope.checkUpdateForm(datas);
-    if ("OK" === valid) {
-      return $http.post(dapContextRoot + '/admin/misc/languages/submitupdate', "code=" + code + "&newNativeName=" + datas.native_name, {
-        headers : {
-          'Content-Type' : 'application/x-www-form-urlencoded'
-        }
-      }).success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        $scope.loadLanguages();
-      }).error(function(data, status, headers, config) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        alert("Language update threw an error. No language has been updated.");
-        $scope.loadLanguages();
-      });
-    } else {
-      alert("Form not valid ! \r\n" + valid);
-      return "";
-    }
-  };
-
-  // - check that the updated language is valid
-  $scope.checkUpdateForm = function(data) {
-    var nativeName = data.native_name;
-    if ('' === nativeName || null === nativeName) {
-      return "Native name cannot be empty.";
-    }
-    return "OK";
-  };
-
-  // Remove a language
-  $scope.removeLanguage = function(code) {
-    if (!confirm("Do you really want to delete this language ?")) {
-      return;
-    }
-
-    $http.post(dapContextRoot + '/admin/misc/languages/submitdelete', "code=" + code, {
-      headers : {
-        'Content-Type' : 'application/x-www-form-urlencoded'
-      }
-    }).success(function(data, status, headers, config) {
-      // this callback will be called asynchronously
-      // when the response is available
-      // alert("Language deleted !");
-      $scope.loadLanguages();
-    }).error(function(data, status, headers, config) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      // alert("Language " + id + " deletion threw error : \r\n" + data);
-      alert("Language deletion threw an error. Maybe this language is used in some translation. No language has been deleted.");
-    });
-  };
-
-  // add language
-  // - the new language
-  $scope.newlanguage;
-
-  // - reset it
-  $scope.resetNewLanguage = function() {
-    if (!$scope.newlanguage) {
-      $scope.newlanguage = {};
-    }
-    $scope.newlanguage.code = "";
-    $scope.newlanguage.native_name = "";
-  };
-
-  // - reset its form
-  $scope.resetAddLanguageForm = function() {
-    $scope.addLanguageForm.$setPristine();
-  };
-
-  // - add it
-  $scope.addLanguage = function(data) {
-    var valid = $scope.checkForm(data);
-    if ("OK" === valid) {
-      return $http.post(dapContextRoot + '/admin/misc/languages/submitadd', "code=" + data.code + "&newNativeName=" + data.native_name,
-          {
-            headers : {
-              'Content-Type' : 'application/x-www-form-urlencoded'
-            }
-          }).success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        // alert("Language added !");
-        $scope.resetNewLanguage();
-        $scope.resetAddLanguageForm();
-        $scope.loadLanguages();
-      }).error(function(data, status, headers, config) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        // alert("Language addition threw error : \r\n" + data);
-        alert("Language addition threw an error. Maybe this language already exists. No language has been created.");
-      });
-    } else {
-      alert("Form not valid ! \r\n" + valid);
-    }
-  };
-
-  // - check that the new language is complete
-  $scope.checkForm = function(data) {
+  // Check that the new language is complete
+  $scope.checkCreateForm = function(data) {
     if (!data) {
-      // angular.element( document.querySelector('#newlanguage_code')).focus();
-      document.getElementById('newlanguage_code').focus();
+      utilities.setFocus('newResource_code');
       return "At least some info should be provided.";
     }
     var code = data.code;
-    if ('' === code || null === code) {
-      document.getElementById('newlanguage_code').focus();
+    if (!code || null === code || '' === code) {
+      utilities.setFocus('newResource_code');
       return "Code cannot be empty.";
     }
     var nativeName = data.native_name;
-    if ('' === nativeName || null === nativeName) {
-      document.getElementById('newlanguage_native_name').focus();
+    if (!nativeName || null === nativeName || '' === nativeName) {
+      utilities.setFocus('newResource_native_name');
       return "Native name cannot be empty.";
     }
     return "OK";
+  };
+
+  // Reset the new language
+  $scope.resetNewLanguage = function() {
+    if (!$scope.newResource) {
+      $scope.newResource = {};
+    }
+    $scope.newResource.code = "";
+    $scope.newResource.native_name = "";
+  };
+
+  // Reset the create resource form
+  $scope.resetCreateResourceForm = function() {
+    $scope.createResourceForm.$setPristine();
+  };
+
+  // Update a language
+  // =================
+  $scope.updateLanguage = function(data, code) {
+    return utilities.updateResource({
+      validate : $scope.checkUpdateForm,
+      data : data,
+      params : {
+        "code" : code,
+        "newNativeName" : data.native_name
+      },
+      url : '/admin/misc/languages/submitUpdate',
+      successCallback : function() {
+        $scope.loadLanguages();
+      },
+      errorCallback : function() {
+        alert("Language update threw an error. No language has been updated.");
+        $scope.loadLanguages();
+      }
+    });
+  };
+
+  // Check that the updated language is valid
+  $scope.checkUpdateForm = function(data) {
+    var nativeName = data.native_name;
+    if (!nativeName || null === nativeName || '' === nativeName) {
+      return "Native name cannot be empty.";
+    }
+    return "OK";
+  };
+
+  // Delete a language
+  // =================
+  $scope.deleteLanguage = function(code) {
+    return utilities.deleteResource({
+      params : {
+        "code" : code
+      },
+      url : '/admin/misc/languages/submitDelete',
+      successCallback : $scope.loadLanguages,
+      errorCallback : function() {
+        alert("Language deletion threw an error. Maybe this language is used in some translation. No language has been deleted.");
+      }
+    });
   };
 });

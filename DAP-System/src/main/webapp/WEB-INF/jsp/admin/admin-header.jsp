@@ -13,9 +13,9 @@
 	</div>
 	<div class="menu" id="menu2">
 		<ul>
-			<li><a href="${ctx}/admin/curated/entitytypes/">Entity types</a></li>
+			<li><a href="${ctx}/admin/curated/entityTypes/">Entity types</a></li>
 			<li><a href="${ctx}/admin/curated/entities/">Entities</a></li>
-			<li><a href="${ctx}/admin/curated/indicatortypes/">Indicator types</a></li>
+			<li><a href="${ctx}/admin/curated/indicatorTypes/">Indicator types</a></li>
 			<li><a href="${ctx}/admin/curated/sources/">Sources</a></li>
 			<li><a href="${ctx}/admin/curated/importsfromckan/">Imports From CKAN</a></li>
 			<li><a href="${ctx}/admin/curated/indicators/">Indicators</a></li>

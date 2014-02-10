@@ -48,7 +48,7 @@
 				<td>${regionDictionary.id.importer}</td>
 				<td>${regionDictionary.id.unnormalizedName}</td>
 				<td>
-					<form method="POST" action="submitdelete">
+					<form method="POST" action="submitDelete">
 						<input type="hidden" name="unnormalizedName" value="${regionDictionary.id.unnormalizedName}" />
 						<input type="hidden" name="importer" value="${regionDictionary.id.importer}" />
 						<input type="submit" value="Delete" />

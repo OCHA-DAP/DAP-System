@@ -23,7 +23,7 @@ public class IndicatorTypeDictionaryDAOImpl implements IndicatorTypeDictionaryDA
 
 	@Override
 	@Transactional
-	public void addIndicatorTypeDictionary(final String unnormalizedName, final String importer, final IndicatorType indicatorType) {
+	public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final IndicatorType indicatorType) {
 		final IndicatorTypeDictionary indicatorTypeDictionary = new IndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
 		em.persist(indicatorTypeDictionary);
 	}

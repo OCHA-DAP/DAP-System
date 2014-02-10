@@ -87,17 +87,25 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void addEntityType(final String code, final String name) {
+	@Transactional
+	public void createEntityType(final String code, final String name) {
 		final Text text = textDAO.createText(name);
 		entityTypeDAO.createEntityType(code, text);
 	}
 
 	@Override
+	public EntityType getEntityType(final long id) {
+		return entityTypeDAO.getEntityTypeById(id);
+	}
+
+	@Override
+	@Transactional
 	public void updateEntityType(final long entityTypeId, final String newName) {
 		entityTypeDAO.updateEntityType(entityTypeId, newName);
 	}
 
 	@Override
+	@Transactional
 	public void deleteEntityType(final long entityTypeId) {
 		entityTypeDAO.deleteEntityType(entityTypeId);
 	}
@@ -110,13 +118,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public Entity getEntityByCodeAndType(final String code, final String type) {
-		return entityDAO.getEntityByCodeAndType(code, type);
-	}
-
-	@Override
 	@Transactional
-	public void addEntity(final String code, final String defaultName, final String entityTypeCode) {
+	public void createEntity(final String code, final String defaultName, final String entityTypeCode) {
 		final EntityType entityType = entityTypeDAO.getEntityTypeByCode(entityTypeCode);
 
 		final Text text = textDAO.createText(defaultName);
@@ -124,13 +127,25 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void deleteEntity(final long entityId) {
-		entityDAO.deleteEntity(entityId);
+	public Entity getEntity(final long id) {
+		return entityDAO.getEntityById(id);
 	}
 
 	@Override
+	public Entity getEntityByCodeAndType(final String code, final String type) {
+		return entityDAO.getEntityByCodeAndType(code, type);
+	}
+
+	@Override
+	@Transactional
 	public void updateEntity(final long entityId, final String newName) {
 		entityDAO.updateEntity(entityId, newName);
+	}
+
+	@Override
+	@Transactional
+	public void deleteEntity(final long entityId) {
+		entityDAO.deleteEntity(entityId);
 	}
 
 	/*
@@ -142,9 +157,15 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void addIndicatorType(final String code, final String defaultName, final String unit, final String valueType) {
+	@Transactional
+	public void createIndicatorType(final String code, final String defaultName, final String unit, final String valueType) {
 		final Text text = textDAO.createText(defaultName);
 		indicatorTypeDAO.createIndicatorType(code, text, unit, org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(valueType));
+	}
+
+	@Override
+	public IndicatorType getIndicatorType(final long id) {
+		return indicatorTypeDAO.getIndicatorTypeById(id);
 	}
 
 	@Override
@@ -153,14 +174,15 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void deleteIndicatorType(final long indicatorTypeId) {
-		indicatorTypeDAO.deleteIndicatorType(indicatorTypeId);
-
+	@Transactional
+	public void updateIndicatorType(final long indicatorTypeId, final String newName, final String newUnit, final String newValueType) {
+		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newName, newUnit, org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
 	}
 
 	@Override
-	public void updateIndicatorType(final long indicatorTypeId, final String newName, final String newUnit, final String newValueType) {
-		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newName, newUnit, org.ocha.dap.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
+	@Transactional
+	public void deleteIndicatorType(final long indicatorTypeId) {
+		indicatorTypeDAO.deleteIndicatorType(indicatorTypeId);
 
 	}
 
@@ -173,9 +195,15 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void addSource(final String code, final String defaultValue, final String link) {
+	@Transactional
+	public void createSource(final String code, final String defaultValue, final String link) {
 		final Text name = textDAO.createText(defaultValue);
 		sourceDAO.createSource(code, name, link);
+	}
+
+	@Override
+	public Source getSource(final Long id) {
+		return sourceDAO.getSourceById(id);
 	}
 
 	@Override
@@ -184,13 +212,15 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void deleteSource(final long sourceId) {
-		sourceDAO.deleteSource(sourceId);
+	@Transactional
+	public void updateSource(final long sourceId, final String newName, final String newLink) {
+		sourceDAO.updateSource(sourceId, newName, newLink);
 	}
 
 	@Override
-	public void updateSource(final long sourceId, final String newName, final String newLink) {
-		sourceDAO.updateSource(sourceId, newName, newLink);
+	@Transactional
+	public void deleteSource(final long sourceId) {
+		sourceDAO.deleteSource(sourceId);
 	}
 
 	/*
@@ -213,25 +243,25 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	@Transactional
-	public void addIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
+	public void createIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
 			final String initialValue) {
 		final Source source = sourceDAO.getSourceByCode(sourceCode);
 		final Entity entity = entityDAO.getEntityById(entityId);
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.getDummyImport();
-		indicatorDAO.addIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, importFromCKAN);
+		indicatorDAO.createIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, importFromCKAN);
 
 	}
 
 	@Override
 	@Transactional
-	public void addIndicator(final PreparedIndicator preparedIndicator, final ImportFromCKAN importFromCKAN) {
+	public void createIndicator(final PreparedIndicator preparedIndicator, final ImportFromCKAN importFromCKAN) {
 		final Source source = sourceDAO.getSourceByCode(preparedIndicator.getSourceCode());
 		final Entity entity = entityDAO.getEntityByCodeAndType(preparedIndicator.getEntityCode(), preparedIndicator.getEntityTypeCode());
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(preparedIndicator.getIndicatorTypeCode());
 
-		indicatorDAO.addIndicator(source, entity, indicatorType, preparedIndicator.getStart(), preparedIndicator.getEnd(), preparedIndicator.getPeriodicity(), preparedIndicator.getValue(),
+		indicatorDAO.createIndicator(source, entity, indicatorType, preparedIndicator.getStart(), preparedIndicator.getEnd(), preparedIndicator.getPeriodicity(), preparedIndicator.getValue(),
 				preparedIndicator.getInitialValue(), importFromCKAN);
 
 	}
@@ -457,9 +487,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void addRegionDictionary(final String unnormalizedName, final String importer, final long entityId) {
+	public void createRegionDictionary(final String unnormalizedName, final String importer, final long entityId) {
 		final Entity entity = entityDAO.getEntityById(entityId);
-		regionDictionaryDAO.addRegionDictionary(unnormalizedName, importer, entity);
+		regionDictionaryDAO.createRegionDictionary(unnormalizedName, importer, entity);
 	}
 
 	@Override
@@ -476,9 +506,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void addSourceDictionary(final String unnormalizedName, final String importer, final long sourceId) {
+	public void createSourceDictionary(final String unnormalizedName, final String importer, final long sourceId) {
 		final Source source = sourceDAO.getSourceById(sourceId);
-		sourceDictionaryDAO.addSourceDictionary(unnormalizedName, importer, source);
+		sourceDictionaryDAO.createSourceDictionary(unnormalizedName, importer, source);
 
 	}
 
@@ -491,9 +521,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void addIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorTypeId) {
+	public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorTypeId) {
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeById(indicatorTypeId);
-		indicatorTypeDictionaryDAO.addIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
+		indicatorTypeDictionaryDAO.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
 	}
 
 	@Override

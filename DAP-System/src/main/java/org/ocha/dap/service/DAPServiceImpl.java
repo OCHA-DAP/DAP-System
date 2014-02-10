@@ -437,7 +437,7 @@ public class DAPServiceImpl implements DAPService {
 	 */
 
 	@Override
-	public void addTranslation(final long textId, final String languageCode, final String translationValue) {
+	public void createTranslation(final long textId, final String languageCode, final String translationValue) {
 		textDao.createTranslationForText(textId, languageCode, translationValue);
 	}
 

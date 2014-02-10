@@ -23,7 +23,7 @@ public class SourceDictionaryDAOImpl implements SourceDictionaryDAO {
 
 	@Override
 	@Transactional
-	public void addSourceDictionary(final String unnormalizedName, final String importer, final Source source) {
+	public void createSourceDictionary(final String unnormalizedName, final String importer, final Source source) {
 		final SourceDictionary sourceDictionary = new SourceDictionary(unnormalizedName, importer, source);
 		em.persist(sourceDictionary);
 	}

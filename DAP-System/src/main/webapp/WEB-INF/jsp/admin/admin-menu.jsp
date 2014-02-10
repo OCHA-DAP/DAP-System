@@ -23,8 +23,10 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 					<li ng-class="{ active: isActive('${ctx}/admin/status/datasets') }"><a href="${ctx}/admin/status/datasets/">Detected CKAN datasets</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/status/resources') }"><a href="${ctx}/admin/status/resources/">Detected CKAN resources</a></li>
 					<li class="divider"></li>
-					<li ng-class="{ active: isActive('${ctx}/admin/status/manuallyTriggerDatasetsDetection') }"><a href="${ctx}/admin/status/manuallyTriggerDatasetsDetection">Manually trigger datasets detection</a></li>
-					<li ng-class="{ active: isActive('${ctx}/admin/status/manuallyTriggerResourcesDetection') }"><a href="${ctx}/admin/status/manuallyTriggerResourcesDetection">Manually trigger resources detection</a></li>
+					<li ng-class="{ active: isActive('${ctx}/admin/status/manuallyTriggerDatasetsDetection') }"><a href="${ctx}/admin/status/manuallyTriggerDatasetsDetection">Manually trigger datasets
+							detection</a></li>
+					<li ng-class="{ active: isActive('${ctx}/admin/status/manuallyTriggerResourcesDetection') }"><a href="${ctx}/admin/status/manuallyTriggerResourcesDetection">Manually trigger resources
+							detection</a></li>
 				</ul></li>
 		</ul>
 		<ul class="nav navbar-nav">
@@ -33,9 +35,9 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/importsfromckan') }"><a href="${ctx}/admin/curated/importsfromckan/">Imports From CKAN</a></li>
 					<li class="divider"></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/sources') }"><a href="${ctx}/admin/curated/sources/">Sources</a></li>
-					<li ng-class="{ active: isActive('${ctx}/admin/curated/entitytypes') }"><a href="${ctx}/admin/curated/entitytypes/">Entity types</a></li>
+					<li ng-class="{ active: isActive('${ctx}/admin/curated/entityTypes') }"><a href="${ctx}/admin/curated/entityTypes/">Entity types</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/entities') }"><a href="${ctx}/admin/curated/entities/">Entities</a></li>
-					<li ng-class="{ active: isActive('${ctx}/admin/curated/indicatortypes') }"><a href="${ctx}/admin/curated/indicatortypes/">Indicator types</a></li>
+					<li ng-class="{ active: isActive('${ctx}/admin/curated/indicatorTypes') }"><a href="${ctx}/admin/curated/indicatorTypes/">Indicator types</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/indicators') }"><a href="${ctx}/admin/curated/indicators/">Indicators</a></li>
 				</ul></li>
 		</ul>
@@ -60,6 +62,14 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 				<ul class="dropdown-menu">
 					<li ng-class="{ active: isActive('${ctx}/admin/misc/users') }"><a href="${ctx}/admin/misc/users/">Manage users</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/misc/languages') }"><a href="${ctx}/admin/misc/languages/">Manage languages</a></li>
+					<li ng-class="{ active: isActive('${ctx}/admin/misc/test') }"><a href="${ctx}/admin/misc/test/">Test</a></li>
+					<li class="divider"></li>
+					<li ng-class="{ active: showTestZone }">
+						<div class="checkbox" style="margin-left: 20px;">
+							<label> <input type="checkbox" ng-click="toggleTestZone()"> Show test zone
+							</label>
+						</div>
+					</li>
 				</ul></li>
 		</ul>
 	</div>

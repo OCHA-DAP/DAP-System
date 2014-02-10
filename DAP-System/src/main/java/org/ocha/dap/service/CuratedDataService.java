@@ -26,7 +26,9 @@ public interface CuratedDataService {
 	 */
 	public List<EntityType> listEntityTypes();
 
-	public void addEntityType(final String code, final String name);
+	public void createEntityType(final String code, final String name);
+
+	public EntityType getEntityType(final long id);
 
 	public void deleteEntityType(final long entityTypeId);
 
@@ -37,7 +39,9 @@ public interface CuratedDataService {
 	 */
 	public List<Entity> listEntities();
 
-	public void addEntity(final String code, final String defaultName, final String entityTypeCode);
+	public void createEntity(final String code, final String defaultName, final String entityTypeCode);
+
+	public Entity getEntity(final long id);
 
 	public Entity getEntityByCodeAndType(final String code, final String type);
 
@@ -50,7 +54,9 @@ public interface CuratedDataService {
 	 */
 	public List<IndicatorType> listIndicatorTypes();
 
-	public void addIndicatorType(final String code, final String defaultName, final String unit, final String valueType);
+	public void createIndicatorType(final String code, final String defaultName, final String unit, final String valueType);
+
+	public IndicatorType getIndicatorType(final long id);
 
 	public IndicatorType getIndicatorTypeByCode(final String code);
 
@@ -63,7 +69,9 @@ public interface CuratedDataService {
 	 */
 	public List<Source> listSources();
 
-	public void addSource(final String code, final String name, final String link);
+	public void createSource(final String code, final String name, final String link);
+
+	public Source getSource(final Long id);
 
 	public Source getSourceByCode(final String code);
 
@@ -87,12 +95,12 @@ public interface CuratedDataService {
 	 * 
 	 * The importFromCKAN param is not provided. This will be added to the default "dummy" import
 	 */
-	public void addIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
+	public void createIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
 			final String initialValue);
 
 	public void deleteIndicator(final long indicatorId);
 
-	public void addIndicator(final PreparedIndicator preparedIndicator, ImportFromCKAN importFromCKAN);
+	public void createIndicator(final PreparedIndicator preparedIndicator, ImportFromCKAN importFromCKAN);
 
 	public List<Indicator> listLastIndicators(final int limit);
 
@@ -136,7 +144,7 @@ public interface CuratedDataService {
 	 */
 	public List<RegionDictionary> listRegionDictionaries();
 
-	public void addRegionDictionary(final String unnormalizedName, final String importer, final long entityId);
+	public void createRegionDictionary(final String unnormalizedName, final String importer, final long entityId);
 
 	public void deleteRegionDictionary(RegionDictionary regionDictionary);
 
@@ -145,14 +153,14 @@ public interface CuratedDataService {
 	 */
 	public List<SourceDictionary> listSourceDictionaries();
 
-	public void addSourceDictionary(final String unnormalizedName, final String importer, final long sourceId);
+	public void createSourceDictionary(final String unnormalizedName, final String importer, final long sourceId);
 
 	/*
 	 * Indicator type dictionaries
 	 */
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries();
 
-	public void addIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorType);
+	public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorType);
 
 	public void deleteIndicatorTypeDictionary(IndicatorTypeDictionary indicatorTypeDictionary);
 
