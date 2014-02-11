@@ -238,12 +238,8 @@ public class AdminResource {
 		}
 			break;
 		/*
-		case "indicator": {
-			final Indicator theResource = curatedDataService.getIndicator(Long.valueOf(identifier));
-			translations = theResource.getName().getTranslations();
-		}
-			break;
-		*/
+		 * case "indicator": { final Indicator theResource = curatedDataService.getIndicator(Long.valueOf(identifier)); translations = theResource.getName().getTranslations(); } break;
+		 */
 		case "indicatorType": {
 			final IndicatorType theResource = curatedDataService.getIndicatorType(Long.valueOf(identifier));
 			translations = theResource.getName().getTranslations();
@@ -732,7 +728,7 @@ public class AdminResource {
 	@Path("/curated/indicators")
 	public Response createIndicator(@FormParam("sourceCode") final String sourceCode, @FormParam("entityId") final long entityId, @FormParam("indicatorTypeCode") final String indicatorTypeCode,
 			@FormParam("start") final String start, @FormParam("end") final String end, @FormParam("periodicity") final Periodicity periodicity, @FormParam("valueType") final ValueType valueType,
-			@FormParam("value") final String valueAsString, @FormParam("initialValue") final String initialValue) {
+			@FormParam("value") final String valueAsString, @FormParam("initialValue") final String initialValue, @FormParam("sourceLink") final String sourceLink) {
 		final DateTimeFormatter fmt = ISODateTimeFormat.date();
 		final Date startDate = fmt.parseDateTime(start).toDate();
 		final Date endDate = fmt.parseDateTime(end).toDate();
@@ -755,7 +751,7 @@ public class AdminResource {
 			value = new IndicatorValue(valueAsString);
 			break;
 		}
-		curatedDataService.createIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, value, initialValue);
+		curatedDataService.createIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, value, initialValue, sourceLink);
 		return displayIndicatorsList();
 	}
 

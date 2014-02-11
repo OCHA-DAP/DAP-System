@@ -16,7 +16,7 @@ public interface IndicatorDAO {
 	public List<Indicator> listLastIndicators(final int limit);
 
 	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
-			final String initialValue, final ImportFromCKAN importFromCKAN);
+			final String initialValue, final String sourceLink, final ImportFromCKAN importFromCKAN);
 
 	/**
 	 * 

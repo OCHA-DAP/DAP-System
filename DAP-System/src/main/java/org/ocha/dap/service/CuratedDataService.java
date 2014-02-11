@@ -78,7 +78,7 @@ public interface CuratedDataService {
 	public void deleteSource(final long sourceId);
 
 	public void updateSource(final long sourceId, final String newName, final String newLink);
-	
+
 	/*
 	 * Imports from CKAN
 	 */
@@ -95,8 +95,8 @@ public interface CuratedDataService {
 	 * 
 	 * The importFromCKAN param is not provided. This will be added to the default "dummy" import
 	 */
-	public void createIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
-			final String initialValue);
+	public void createIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity,
+			final IndicatorValue value, final String initialValue, final String sourceLink);
 
 	public void deleteIndicator(final long indicatorId);
 

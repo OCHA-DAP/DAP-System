@@ -31,7 +31,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	@Transactional
 	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
-			final String initialValue, final ImportFromCKAN importFromCKAN) {
+			final String initialValue, final String sourceLink, final ImportFromCKAN importFromCKAN) {
 
 		final Indicator indicator = new Indicator();
 		indicator.setSource(source);
@@ -42,6 +42,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		indicator.setPeriodicity(periodicity);
 		indicator.setValue(value);
 		indicator.setInitialValue(initialValue);
+		indicator.setSourceLink(sourceLink);
 		indicator.setImportFromCKAN(importFromCKAN);
 		em.persist(indicator);
 	}

@@ -109,6 +109,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	public void deleteEntityType(final long entityTypeId) {
 		entityTypeDAO.deleteEntityType(entityTypeId);
 	}
+
 	/*
 	 * Entities
 	 */
@@ -243,14 +244,15 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	@Transactional
-	public void createIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
-			final String initialValue) {
+	public void createIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity,
+			final IndicatorValue value, final String initialValue, final String sourceLink) {
 		final Source source = sourceDAO.getSourceByCode(sourceCode);
 		final Entity entity = entityDAO.getEntityById(entityId);
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.getDummyImport();
-		indicatorDAO.createIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, importFromCKAN);
+
+		indicatorDAO.createIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, sourceLink, importFromCKAN);
 
 	}
 
@@ -262,7 +264,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(preparedIndicator.getIndicatorTypeCode());
 
 		indicatorDAO.createIndicator(source, entity, indicatorType, preparedIndicator.getStart(), preparedIndicator.getEnd(), preparedIndicator.getPeriodicity(), preparedIndicator.getValue(),
-				preparedIndicator.getInitialValue(), importFromCKAN);
+				preparedIndicator.getInitialValue(), preparedIndicator.getSourceLink(), importFromCKAN);
 
 	}
 
