@@ -188,14 +188,14 @@
 						e-ng-options="v.id as v.name for v in indicatorTypes"> {{ showIndicatorType(indicator) }} </span>
 				</td>
 				<td>
-					<!-- editable start date --> <span editable-text="indicator.startDate" e-class="form-control datepicker" e-name="startDate" e-form="rowform" required> {{ showDate(indicator.startDate) }} </span>
+					<!-- editable start date --> <span editable-text="indicator.startDate" e-class="form-control datepicker" e-name="startDate" e-form="rowform" required> {{ indicator.parsedStartDate }} </span>
 				</td>
 				<td>
-					<!-- editable end date --> <span editable-text="indicator.endDate" e-class="form-control datepicker" e-name="endDate" e-form="rowform" required> {{ showDate(indicator.endDate) }} </span>
+					<!-- editable end date --> <span editable-text="indicator.endDate" e-class="form-control datepicker" e-name="endDate" e-form="rowform" required> {{ indicator.parsedEndDate }} </span>
 				</td>
 				<td>
 					<!-- editable periodicity --> <span editable-select="indicator.periodicity" e-class="form-control" e-name="periodicity" e-id="periodicity" e-form="rowform"
-						e-ng-options="v.value as v.text for v in periodicities"> {{ showPeriodicity(indicator) }} </span>
+						e-ng-options="v.value as v.text for v in periodicities"> {{ indicator.processedPeriodicity }} </span>
 				</td>
 				<td>
 					<!-- editable value type --> <span editable-select="indicator.valueType" e-class="form-control" e-name="valueType" e-id="valueType" e-form="rowform"

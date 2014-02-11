@@ -18,7 +18,7 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
     console.log("Date from json [" + stripped + "]");
     var date = new Date(Date.parse(stripped));
     console.log("Date parsed [" + date + "]");
-    var day = 10 > date.getDate() ? "0" + date.getDate() : "" + date.getDate(); 
+    var day = 10 > date.getDate() ? "0" + date.getDate() : "" + date.getDate();
     var month = 10 > (1 + date.getMonth()) ? "0" + (1 + date.getMonth()) : "" + (1 + date.getMonth());
     var year = date.getFullYear();
     return day + "." + month + "." + year;
@@ -48,7 +48,7 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
       return indicator.source || 'Not set';
     }
   };
-  
+
   // ///////////////////////
   // Entity types management
   // ///////////////////////
@@ -133,9 +133,34 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
   // ==================
   $scope.loadIndicators = function() {
     return utilities.loadResource($scope, 'indicators', '/admin/curated/indicators/json', function() {
+      $scope.processIndicators();
     });
   };
   $scope.loadIndicators();
+
+  // Process the received indicators
+  $scope.processIndicators = function() {
+    var data = $scope.indicators;
+    if (data) {
+      for (var i = 0; i < data.length; i++) {
+        var indicator = data[i];
+        var parsedStartDate = data[i].startDate ? $scope.showDate(data[i].startDate) : "";
+        var parsedEndDate = data[i].endDate ? $scope.showDate(data[i].endDate) : "";
+        var startsWithQuote = data[i].periodicity ? (data[i].periodicity.lastIndexOf('"', 0) === 0) : false;
+        var endsWithQuote = data[i].periodicity ? (data[i].periodicity.lastIndexOf('"', 0) === data[i].periodicity.length - 1) : false;
+        var processedPeriodicity = data[i].periodicity ? ((startsWithQuote && endsWithQuote) ? data[i].periodicity.substring(1, data[i].periodicity.length - 1) : "") : "";
+        angular.extend(data[i], {
+          "parsedStartDate" : parsedStartDate
+        });
+        angular.extend(data[i], {
+          "parsedEndDate" : parsedEndDate
+        });
+        angular.extend(data[i], {
+          "processedPeriodicity" : processedPeriodicity
+        });
+      }
+    }
+  };
 
   // Load periodicities
   // ==================
@@ -358,7 +383,6 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
   $scope.resetAddIndicatorForm = function() {
     $scope.addIndicatorForm.$setPristine();
   };
-
 
   // Get an indicator by its id
   $scope.getIndicatorById = function(indicatorId) {
