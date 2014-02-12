@@ -11,6 +11,7 @@
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="indicatorTypes" />
 	<jsp:param name="i18n" value="true" />
+	<jsp:param name="needs" value="valueTypes" />
 </jsp:include>
 </head>
 <body ng-controller="IndicatorTypesCtrl">
@@ -30,7 +31,7 @@
 					<td><input type="text" class="form-control" placeholder="Code" id="newResource_code" ng-model="newResource.code" required /></td>
 					<td><input type="text" class="form-control" placeholder="Name" id="newResource_name" ng-model="newResource.name" required /></td>
 					<td><input type="text" class="form-control" placeholder="Unit" id="newResource_unit" ng-model="newResource.unit" required /></td>
-					<td><select class="form-control" id="newResource_unit" ng-model="newResource.valueType" ng-options="v.value as v.text for v in valueTypes" ng-class="default" required>
+					<td><select class="form-control" id="newResource_valueType" ng-model="newResource.valueType" ng-options="v.value as v.text for v in valueTypes" ng-class="default" required>
 					</select></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary btn-custom-default" ng-click="createIndicatorType(newResource)">Add</button>
@@ -92,7 +93,7 @@
 									</div>
 								</td>
 							</tr>
-							<tr ng-show="showAddTranslation(indicatorTypes, 'id', indicator	Type.id)">
+							<tr ng-show="showAddTranslation(indicatorTypes, 'id', indicatorType.id)">
 								<td><select class="form-control" ng-model="newTranslation.language"
 									ng-options="language.code for language in languages | filter:languagesByAvailableTranslations(indicatorTypes, 'id', indicatorType.id)" ng-class="default">
 								</select></td>

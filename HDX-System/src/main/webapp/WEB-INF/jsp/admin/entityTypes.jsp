@@ -11,6 +11,7 @@
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="entityTypes" />
 	<jsp:param name="i18n" value="true" />
+	<jsp:param name="needs" value="entityTypes" />
 </jsp:include>
 </head>
 <body ng-controller="EntityTypesCtrl">

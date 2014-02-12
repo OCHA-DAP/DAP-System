@@ -1,5 +1,16 @@
 app.controller('IndicatorTypesCtrl', function($scope, $filter, utilities) {
 
+  // /////////
+  // Resources
+  // /////////
+  $scope.resources = function() {
+    $scope.valueTypes = appData['valueTypes'];
+  }
+  $scope.resources();
+
+  // The new indicator
+  $scope.newResource;
+
   // //////////////////////////
   // Indicator types management
   // //////////////////////////
@@ -18,13 +29,15 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, utilities) {
 
   // Load value types
   // ================
+  /*
   $scope.loadValueTypes = function() {
     return utilities.loadResource($scope, 'valueTypes', '/admin/curated/indicatorTypes/valueTypes/json', function() {
       $scope.resetNewIndicatorType();
     });
   }
   $scope.loadValueTypes();
-
+  */
+  
   // Show an indicator type's value type
   $scope.showValueType = function(indicatorType) {
     var selected = $filter('filter')($scope.valueTypes, {

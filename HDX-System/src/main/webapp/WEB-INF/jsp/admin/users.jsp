@@ -10,6 +10,7 @@
 <jsp:include page="css-includes.jsp" />
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="users" />
+	<jsp:param name="needs" value="roles" />
 </jsp:include>
 
 </head>

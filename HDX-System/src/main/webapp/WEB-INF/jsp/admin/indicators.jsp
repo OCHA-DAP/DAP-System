@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="${ctx}/css/datepicker.css">
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="indicators" />
+	<jsp:param name="needs" value="periodicities,sources,entityTypes,entities,indicatorTypes,valueTypes" />
 </jsp:include>
 <script src="${ctx}/js/bootstrap-datepicker.js"></script>
 </head>
@@ -133,15 +134,15 @@
 							<label for="newResource_endDate">End date</label> <input type="text" class="form-control datepicker" placeholder="End date" id="newResource_endDate" ng-model="newResource.endDate" />
 						</div>
 						<div class="form-group">
-							<label for="newResource_periodicity">Periodicity</label> <select class="form-control" id="newResource_periodicity" ng-model="newResource.periodicity" ng-options="v.value as v.text for v in periodicities"
-								ng-class="default" required>
+							<label for="newResource_periodicity">Periodicity</label> <select class="form-control" id="newResource_periodicity" ng-model="newResource.periodicity"
+								ng-options="v.value as v.text for v in periodicities" ng-class="default" required>
 							</select>
 						</div>
 					</td>
 					<td>
 						<div class="form-group">
-							<label for="newResource_valueType">Value type</label> <select id="newResource_valueType" class="form-control" id="newResource_valueType" ng-model="newResource.valueType"
-								ng-options="valueType.name as valueType.text for valueType in valueTypes" ng-class="default" required>
+							<label for="newResource_valueType">Value type</label> <select class="form-control" id="newResource_valueType" ng-model="newResource.valueType" ng-options="v.value as v.text for v in valueTypes"
+								ng-class="default" required>
 							</select>
 						</div>
 						<div class="form-group">
@@ -194,21 +195,22 @@
 					<!-- editable end date --> <span editable-text="indicator.endDate" e-class="form-control datepicker" e-name="endDate" e-form="rowform" required> {{ indicator.parsedEndDate }} </span>
 				</td>
 				<td>
-					<!-- editable periodicity --> <span editable-select="indicator.periodicity" e-class="form-control" e-name="periodicity" e-id="periodicity" e-form="rowform"
-						e-ng-options="v.value as v.text for v in periodicities"> {{ indicator.processedPeriodicity }} </span>
+					<!-- editable periodicity --> <!-- span editable-select="indicator.periodicity" e-class="form-control" e-name="periodicity" e-id="periodicity" e-form="rowform"
+						e-ng-options="v.value as v.text for v in periodicities"> {{ indicator.processedPeriodicity }} </span -->
+						<span editable-text="indicator.processedPeriodicity" e-class="form-control" e-name="processedPeriodicity" e-form="rowform" required> {{ indicator.processedPeriodicity }} </span>
 				</td>
 				<td>
 					<!-- editable value type --> <span editable-select="indicator.valueType" e-class="form-control" e-name="valueType" e-id="valueType" e-form="rowform"
 						e-ng-options="v.value as v.text for v in valueTypes"> {{ showValueType(indicator) }} </span>
 				</td>
 				<td>
-					<!-- editable value --> <span editable-text="indicator.value" e-class="form-control" e-name="value" e-form="rowform" required> {{ indicator.value }} </span>
+					<!-- editable value --> <span editable-text="indicator.processedValue" e-class="form-control" e-name="processedValue" e-form="rowform" required> {{ indicator.processedValue }} </span>
 				</td>
 				<td>
 					<!-- editable initial value --> <span editable-text="indicator.initialValue" e-class="form-control" e-name="initialValue" e-form="rowform" required> {{ indicator.initialValue }} </span>
 				</td>
 				<td>
-					<!-- editable import from CKAN --> <span editable-text="indicator.importFromCkan" e-class="form-control" e-name="importFromCkan" e-form="rowform" required> {{ indicator.importFromCkan }} </span>
+					<!-- editable import from CKAN --> <span editable-text="indicator.processedImportFromCkan" e-class="form-control" e-name="processedImportFromCkan" e-form="rowform" required> {{ indicator.processedImportFromCkan}} </span>
 				</td>
 				<td style="white-space: nowrap">
 					<!-- form -->
@@ -217,7 +219,7 @@
 						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 					</form>
 					<div class="buttons" ng-show="!rowform.$visible">
-						<button class="btn btn-primary btn-custom-default" ng-click="rowform.$show()">Edit</button>
+						<!-- button class="btn btn-primary btn-custom-default" ng-click="rowform.$show()">Edit</button -->
 						<button class="btn btn-danger btn-custom-danger" ng-click="deleteIndicator(indicator.id)">Delete</button>
 					</div>
 				</td>

@@ -1,11 +1,22 @@
 app.controller('UsersCtrl', function($scope, $filter, $http, $rootScope, utilities) {
 
-  // Sort management
-  $scope.predicate = 'id';
+  // /////////
+  // Resources
+  // /////////
+  $scope.resources = function() {
+    $scope.roles = appData['roles'];
+  }
+  $scope.resources();
+
+  // The new indicator
+  $scope.newResource;
 
   // ////////////////////
   // Users management
   // ////////////////////
+
+  // Sort management
+  $scope.predicate = 'id';
 
   // Load users
   // ==========
@@ -200,12 +211,15 @@ app.controller('UsersCtrl', function($scope, $filter, $http, $rootScope, utiliti
   // Roles management
   // /////////////////
 
+/*
   // Load roles
   $scope.loadRoles = function() {
     return utilities.loadResource($scope, 'roles', '/admin/misc/users/roles/json', function() {
       $scope.resetNewUser();
     });
   };
+  $scope.loadRoles();
+*/
   /*
   $scope.loadRoles = function() {
     return $http.get(dapContextRoot + '/admin/misc/users/roles/json').success(function(data, status, headers, config) {
@@ -215,7 +229,6 @@ app.controller('UsersCtrl', function($scope, $filter, $http, $rootScope, utiliti
     });
   };
   */
-  $scope.loadRoles();
 
   // Show a user's role
   $scope.showRole = function(user) {

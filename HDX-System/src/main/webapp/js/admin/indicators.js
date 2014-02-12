@@ -1,27 +1,94 @@
 app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
 
+  // /////////
+  // Resources
+  // /////////
+  $scope.resources = function() {
+    $scope.sources = appData['sources'];
+    $scope.entityTypes = appData['entityTypes'];
+    $scope.entities = appData['entities'];
+    $scope.indicatorTypes = appData['indicatorTypes'];
+    $scope.periodicities = appData['periodicities'];
+    $scope.valueTypes = appData['valueTypes'];
+  }
+  $scope.resources();
+
+  // The new indicator
+  $scope.newResource;
+
+  $scope.filteredEntities = [];
+  $scope.entitiesByEntityType = function(entityType) {
+    var theFilteredEntities = $filter('filter')($scope.entities, {
+      type : entityType.id
+    });
+    return theFilteredEntities;
+  }
+
+  $scope.refreshEntities = function() {
+    if ($scope.newResource && $scope.newResource.entityType) {
+      $scope.filteredEntities = $scope.entitiesByEntityType($scope.newResource.entityType);
+      $scope.newResource.entity = $scope.filteredEntities ? $scope.filteredEntities[0] : null;
+    }
+  };
+
+  // Reset the new indicator
+  $scope.resetNewIndicator = function(fromWhere) {
+    console.log("Reset new indicator after [" + fromWhere + "]");
+    if (!$scope.newResource) {
+      $scope.newResource = {};
+    }
+    $scope.newResource.source = $scope.sources ? $scope.sources[0] : null;
+    $scope.newResource.entityType = $scope.entityTypes ? $scope.entityTypes[0] : null;
+    $scope.refreshEntities();
+    $scope.newResource.entity = $scope.filteredEntities ? $scope.filteredEntities[0] : null;
+    $scope.newResource.indicatorType = $scope.indicatorTypes ? $scope.indicatorTypes[0] : null;
+    $scope.newResource.startDate = null;
+    $scope.newResource.endDate = null;
+    $scope.newResource.periodicity = $scope.periodicities ? $scope.periodicities[0].value : null;
+    $scope.newResource.valueType = $scope.valueTypes ? $scope.valueTypes[1].value : null;
+    $scope.newResource.value = null;
+    $scope.newResource.initialValue = null;
+
+  };
+
+  // Reset the create resource form
+  $scope.resetCreateResourceForm = function() {
+    $scope.createResourceForm.$setPristine();
+  };
+
+  $scope.resetNewIndicator("resources");
+
   // /////////////
   // Date pickers
   // /////////////
   $scope.datePickerOptions = {
-    format : "dd.mm.yyyy",
+    /* format : "dd.mm.yyyy", */
+    format : "yyyy-mm-dd",
     weekStart : 1,
     autoclose : true
   };
 
   $('.datepicker').datepicker($scope.datePickerOptions).on('changeDate', function(ev) {
-    $(this).datepicker('hide');
+    var $this = $(this);
+    // TODO Improve (f.i. with a custom directive)
+    if ($this.context.id === "newResource_startDate") {
+      $scope.newResource.startDate = $this.val();
+    } else if ($this.context.id === "newResource_endDate") {
+      $scope.newResource.endDate = $this.val();
+    }
+    $this.datepicker('hide');
   });
 
   $scope.showDate = function(jsonDate) {
     var stripped = jsonDate.substring(1, jsonDate.length - 1);
-    console.log("Date from json [" + stripped + "]");
+    // console.log("Date from json [" + stripped + "]");
     var date = new Date(Date.parse(stripped));
-    console.log("Date parsed [" + date + "]");
+    // console.log("Date parsed [" + date + "]");
     var day = 10 > date.getDate() ? "0" + date.getDate() : "" + date.getDate();
     var month = 10 > (1 + date.getMonth()) ? "0" + (1 + date.getMonth()) : "" + (1 + date.getMonth());
     var year = date.getFullYear();
-    return day + "." + month + "." + year;
+    // return day + "." + month + "." + year;
+    return year + "-" + month + "-" + day;
   }
 
   // ////////////////////
@@ -30,12 +97,14 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
 
   // Load sources
   // ============
+  /*
   $scope.loadSources = function() {
     return utilities.loadResource($scope, 'sources', '/admin/curated/sources/json', function() {
-      // $scope.resetNewTranslations();
+      $scope.resetNewIndicator("loadSources");
     });
   }
   $scope.loadSources();
+  */
 
   // Show a source for a given indicator
   $scope.showSource = function(indicator) {
@@ -52,40 +121,27 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
   // ///////////////////////
   // Entity types management
   // ///////////////////////
-
+  /*
   $scope.loadEntityTypes = function() {
     return utilities.loadResource($scope, 'entityTypes', '/admin/curated/entityTypes/json', function() {
-      // $scope.resetNewTranslations();
+      $scope.resetNewIndicator("loadEntityTypes");
     });
   }
   $scope.loadEntityTypes();
+  */
 
   // ///////////////////
   // Entities management
   // ///////////////////
-
-  $scope.filteredEntities = [];
-
+  /*
   // Load entities
   $scope.loadEntities = function() {
     return utilities.loadResource($scope, 'entities', '/admin/curated/entities/json', function() {
+      $scope.resetNewIndicator("loadEntities");
     });
   };
   $scope.loadEntities();
-
-  $scope.refreshEntities = function() {
-    if ($scope.newResource && $scope.newResource.entityType) {
-      $scope.filteredEntities = $scope.entitiesByEntityType($scope.newResource.entityType);
-      $scope.newResource.entity = null;
-    }
-  };
-
-  $scope.entitiesByEntityType = function(entityType) {
-    var theFilteredEntities = $filter('filter')($scope.entities, {
-      type : entityType.id
-    });
-    return theFilteredEntities;
-  }
+  */
 
   $scope.showEntities = function() {
     // alert("show !");
@@ -96,19 +152,14 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
   // //////////////////////////
   // Indicator types management
   // //////////////////////////
-
-  $scope.indicatorTypes = [];
-
-  // Load indicatorTypes
+  /*
   $scope.loadIndicatorTypes = function() {
-    return $http.get(dapContextRoot + '/admin/curated/indicatorTypes/json').success(function(data) {
-      $scope.indicatorTypes = data;
+    return utilities.loadResource($scope, 'indicatorTypes', '/admin/curated/indicatorTypes/json', function() {
+      $scope.resetNewIndicator("loadIndicatorTypes");
     });
   };
-
-  if (!$scope.indicatorTypes.length) {
-    $scope.loadIndicatorTypes();
-  }
+  $scope.loadIndicatorTypes();
+  */
 
   // Show a type for a given indicator
   $scope.showIndicatorType = function(indicator) {
@@ -120,6 +171,51 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
     } else {
       return indicator.indicatorType || 'Not set';
     }
+  };
+
+  // ////////////////////////
+  // Periodicities management
+  // ////////////////////////
+
+  // Load periodicities
+  // ==================
+  /*
+  $scope.loadPeriodicities = function() {
+    return utilities.loadResource($scope, 'periodicities', '/admin/curated/indicators/periodicities/json', function() {
+      $scope.resetNewIndicator("loadPeriodicities");
+    });
+  }
+  $scope.loadPeriodicities();
+  */
+
+  // //////////////////////
+  // Value types management
+  // //////////////////////
+  // Load value types
+  // ================
+  /*
+  $scope.loadValueTypes = function() {
+    return utilities.loadResource($scope, 'valueTypes', '/admin/curated/indicatorTypes/valueTypes/json', function() {
+      $scope.resetNewIndicator("loadValueTypes");
+    });
+  }
+  $scope.loadValueTypes();
+  */
+
+  // Show an indicator type's value type
+  $scope.showValueType = function(indicator) {
+    var selected = $filter('filter')($scope.valueTypes, {
+      value : indicator.valueType
+    });
+    return (indicator.valueType && selected.length) ? selected[0].text : 'Not set';
+  };
+
+  // Show an indicator's periodicity
+  $scope.showPeriodicity = function(indicator) {
+    var selected = $filter('filter')($scope.periodicities, {
+      value : indicator.periodicity.substring(1, indicator.periodicity.length - 1)
+    });
+    return (indicator.periodicity && selected.length) ? selected[0].text : 'Not set';
   };
 
   // ////////////////////
@@ -139,16 +235,24 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
   $scope.loadIndicators();
 
   // Process the received indicators
+  // ===============================
   $scope.processIndicators = function() {
     var data = $scope.indicators;
     if (data) {
       for (var i = 0; i < data.length; i++) {
         var indicator = data[i];
+        
         var parsedStartDate = data[i].startDate ? $scope.showDate(data[i].startDate) : "";
         var parsedEndDate = data[i].endDate ? $scope.showDate(data[i].endDate) : "";
-        var startsWithQuote = data[i].periodicity ? (data[i].periodicity.lastIndexOf('"', 0) === 0) : false;
-        var endsWithQuote = data[i].periodicity ? (data[i].periodicity.lastIndexOf('"', 0) === data[i].periodicity.length - 1) : false;
-        var processedPeriodicity = data[i].periodicity ? ((startsWithQuote && endsWithQuote) ? data[i].periodicity.substring(1, data[i].periodicity.length - 1) : "") : "";
+
+        var periodicityStartsWithQuote = data[i].periodicity ? (data[i].periodicity.lastIndexOf('"', 0) === 0) : false;
+        var periodicityEndsWithQuote = data[i].periodicity ? (data[i].periodicity.lastIndexOf('"', data[i].periodicity.length - 1) === data[i].periodicity.length - 1) : false;
+        var processedPeriodicity = data[i].periodicity ? ((periodicityStartsWithQuote && periodicityEndsWithQuote) ? data[i].periodicity.substring(1, data[i].periodicity.length - 1) : "") : "";
+        
+        var valueStartsWithQuote = data[i].value ? (data[i].value.lastIndexOf('"', 0) === 0) : false;
+        var valueEndsWithQuote = data[i].value ? (data[i].value.lastIndexOf('"', data[i].value.length - 1) === data[i].value.length - 1) : false;
+        var processedValue = data[i].value ? ((valueStartsWithQuote && valueEndsWithQuote) ? data[i].value.substring(1, data[i].value.length - 1) : "") : "";
+        
         angular.extend(data[i], {
           "parsedStartDate" : parsedStartDate
         });
@@ -158,61 +262,48 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
         angular.extend(data[i], {
           "processedPeriodicity" : processedPeriodicity
         });
+        angular.extend(data[i], {
+          "processedValue" : processedValue
+        });
+        angular.extend(data[i], {
+          "processedImportFromCkan" : "TODO"
+        });
       }
     }
   };
 
-  // Load periodicities
-  // ==================
-  $scope.loadPeriodicities = function() {
-    return utilities.loadResource($scope, 'periodicities', '/admin/curated/indicators/periodicities/json', function() {
-      $scope.resetNewIndicator();
-    });
-  }
-  $scope.loadPeriodicities();
-
-  // Load value types
-  // ================
-  $scope.loadValueTypes = function() {
-    return utilities.loadResource($scope, 'valueTypes', '/admin/curated/indicatorTypes/valueTypes/json', function() {
-      $scope.resetNewIndicator();
-    });
-  }
-  $scope.loadValueTypes();
-
-  // Show an indicator type's value type
-  $scope.showValueType = function(indicator) {
-    var selected = $filter('filter')($scope.valueTypes, {
-      value : indicator.valueType
-    });
-    return (indicator.valueType && selected.length) ? selected[0].text : 'Not set';
-  };
-
-  // Show an indicator's periodicity
-  $scope.showPeriodicity = function(indicator) {
-    var selected = $filter('filter')($scope.periodicities, {
-      value : indicator.periodicity.substring(1, indicator.periodicity.length - 1)
-    });
-    return (indicator.periodicity && selected.length) ? selected[0].text : 'Not set';
-  };
-
-  // Create an indicator type
-  // ========================
-  $scope.createIndicatorType = function(data) {
+  // Create an indicator
+  // ===================
+  $scope.createIndicator = function(data) {
     var params = {};
-    if (data && data.code) {
+    if (data && data.source) {
       angular.extend(params, {
-        "code" : data.code
+        "sourceCode" : data.source.code
       });
     }
-    if (data && data.name) {
+    if (data && data.entity) {
       angular.extend(params, {
-        "name" : data.name
+        "entityId" : data.entity.id
       });
     }
-    if (data && data.unit) {
+    if (data && data.indicatorType) {
       angular.extend(params, {
-        "unit" : data.unit
+        "indicatorTypeCode" : data.indicatorType.code
+      });
+    }
+    if (data && data.startDate) {
+      angular.extend(params, {
+        "start" : data.startDate
+      });
+    }
+    if (data && data.endDate) {
+      angular.extend(params, {
+        "end" : data.endDate
+      });
+    }
+    if (data && data.periodicity) {
+      angular.extend(params, {
+        "periodicity" : data.periodicity
       });
     }
     if (data && data.valueType) {
@@ -220,18 +311,28 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
         "valueType" : data.valueType
       });
     }
+    if (data && data.value) {
+      angular.extend(params, {
+        "value" : data.value
+      });
+    }
+    if (data && data.initialValue) {
+      angular.extend(params, {
+        "initialValue" : data.initialValue
+      });
+    }
     return utilities.createResource({
       validate : $scope.checkCreateForm,
       data : data,
       params : params,
-      url : '/admin/curated/indicatorTypes/submitCreate',
+      url : '/admin/curated/indicators/submitCreate',
       successCallback : function() {
-        $scope.resetNewIndicatorType();
+        $scope.resetNewIndicator("createResource");
         $scope.resetCreateResourceForm();
-        $scope.loadIndicatorTypes();
+        $scope.loadIndicators();
       },
       errorCallback : function() {
-        alert("Indicator type creation threw an error. Maybe this indicator type already exists. No indicator type has been created.");
+        alert("Indicator creation threw an error. Maybe this indicator already exists. No indicator has been created.");
       }
     });
   };
@@ -239,150 +340,56 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
   // Check that the new indicatorType is complete
   $scope.checkCreateForm = function(data) {
     if (!data) {
-      utilities.setFocus('newResource_code');
+      utilities.setFocus('newResource_source');
       return "At least some info should be provided.";
     }
-    var code = data.code;
-    if (!code || null === code || '' === code) {
-      utilities.setFocus('newResource_code');
-      return "Code cannot be empty.";
+    var source = data.source;
+    if (!source || null === source || '' === source) {
+      utilities.setFocus('newResource_source');
+      return "Source cannot be empty.";
     }
-    var name = data.name;
-    if (!name || null === name || '' === name) {
-      utilities.setFocus('newResource_name');
-      return "Name cannot be empty.";
+    var entity = data.entity;
+    if (!entity || null === entity || '' === entity) {
+      utilities.setFocus('newResource_entity');
+      return "Entity cannot be empty.";
     }
-    var unit = data.unit;
-    if ('' === unit || null === unit) {
-      utilities.setFocus('newResource_unit');
-      return "Unit cannot be empty.";
+    var startDate = data.startDate;
+    if (!startDate || null === startDate || '' === startDate) {
+      utilities.setFocus('newResource_startDate');
+      return "Start date cannot be empty.";
+    }
+    var periodicity = data.periodicity;
+    if (!periodicity || null === periodicity || '' === periodicity) {
+      utilities.setFocus('newResource_periodicity');
+      return "Periodicity cannot be empty.";
     }
     var valueType = data.valueType;
-    if ('' === valueType || null === valueType) {
+    if (!valueType || null === valueType || '' === valueType) {
       utilities.setFocus('newResource_valueType');
       return "Value type cannot be empty.";
     }
-    return "OK";
-  };
-
-  // - add it
-  $scope.addIndicator = function(data) {
-    var valid = $scope.checkForm(data);
-    if ("OK" === valid) {
-      // alert("Add indicator : " + data);
-      return $http.post(dapContextRoot + '/admin/curated/indicators/submitCreate', "indicatorTypeCode=" + data.type.code + "&code=" + data.code + "&name=" + data.name, {
-        headers : {
-          'Content-Type' : 'application/x-www-form-urlencoded'
-        }
-      }).success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        // alert("Indicator added !");
-        $scope.resetNewIndicator();
-        $scope.resetAddIndicatorForm();
-        $scope.loadIndicators();
-      }).error(function(data, status, headers, config) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        alert("Indicator creation threw an error. Maybe this indicator already exists. No indicator has been created.");
-      });
-    } else {
-      alert("Form not valid ! \r\n" + valid);
-    }
-  };
-
-  // - check that the new indicator is complete
-  $scope.checkForm = function(data) {
-    var code = data.code;
-    if ('' === code || null === code) {
-      return "Code cannot be empty.";
-    }
-    var name = data.name;
-    if ('' === name || null === name) {
-      return "Name cannot be empty.";
-    }
-    var type = data.type;
-    if (null === type) {
-      return "Type cannot be empty.";
+    var initialValue = data.initialValue;
+    if (!initialValue || null === initialValue || '' === initialValue) {
+      utilities.setFocus('newResource_initialValue');
+      return "Initial value cannot be empty.";
     }
     return "OK";
   };
 
-  // Save (update) an indicator
-  $scope.saveIndicator = function(data, id) {
-    var valid = $scope.checkUpdateForm(data);
-    if ("OK" === valid) {
-
-      return $http.post(dapContextRoot + '/admin/curated/indicators/submitUpdate', "indicatorId=" + id + "&newName=" + data.name, {
-        headers : {
-          'Content-Type' : 'application/x-www-form-urlencoded'
-        }
-      }).success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        $scope.loadIndicators();
-      }).error(function(data, status, headers, config) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        alert("Indicator update threw an error. No indicator has been updated.");
-        $scope.loadIndicators();
-      });
-    } else {
-      alert("Form not valid ! \r\n" + valid);
-      return "";
-    }
-  };
-
-  // - check that the updated indicator is valid
-  $scope.checkUpdateForm = function(data) {
-    var name = data.name;
-    if ('' === name || null === name) {
-      return "Name cannot be empty.";
-    }
-    return "OK";
-  };
-
-  // Remove an indicator
-  $scope.removeIndicator = function(id) {
-    if (!confirm("Do you really want to delete this indicator ?")) {
-      return;
-    }
-    $http.post(dapContextRoot + '/admin/curated/indicators/submitDelete', "indicatorId=" + id, {
-      headers : {
-        'Content-Type' : 'application/x-www-form-urlencoded'
+  // Delete an indicator
+  // ===================
+  $scope.deleteIndicator = function(id) {
+    return utilities.deleteResource({
+      params : {
+        "indicatorId" : id
+      },
+      url : '/admin/curated/indicators/submitDelete',
+      successCallback : $scope.loadIndicators,
+      errorCallback : function() {
+        alert("Indicator deletion threw an error. No indicator has been deleted.");
       }
-    }).success(function(data, status, headers, config) {
-      // this callback will be called asynchronously
-      // when the response is available
-      $scope.loadIndicators();
-    }).error(function(data, status, headers, config) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      alert("Indicator deletion threw an error. Maybe this indicator is used by some indicator. No indicator has been deleted.");
     });
-  };
-
-  // add indicator
-  // - the new indicator
-  $scope.newResource;
-
-  // - reset it
-  $scope.resetNewIndicator = function() {
-    if (!$scope.newResource) {
-      $scope.newResource = {};
-    }
-    $scope.newResource.valueType = $scope.valueTypes[0];
-    /* TODO
-    $scope.newResource.code = "";
-    $scope.newResource.name = "";
-    */
-
-  };
-
-  // - reset its form
-  $scope.resetAddIndicatorForm = function() {
-    $scope.addIndicatorForm.$setPristine();
-  };
+  }
 
   // Get an indicator by its id
   $scope.getIndicatorById = function(indicatorId) {

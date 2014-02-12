@@ -114,8 +114,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/misc/users/submitCreate")
-	public Response createUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newPassword2") final String newPassword2,
-			@FormParam("newCkanApiKey") final String newCkanApiKey, @FormParam("newRole") final String newRole, @Context final UriInfo uriInfo) throws Exception {
+	public Response createUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newCkanApiKey") final String newCkanApiKey,
+			@FormParam("newRole") final String newRole) throws Exception {
 		// TODO Perform validation
 
 		hdxService.createUser(userId, newPassword, newRole, newCkanApiKey);
@@ -238,8 +238,12 @@ public class AdminResource {
 		}
 			break;
 		/*
-		 * case "indicator": { final Indicator theResource = curatedDataService.getIndicator(Long.valueOf(identifier)); translations = theResource.getName().getTranslations(); } break;
-		 */
+		case "indicator": {
+			final Indicator theResource = curatedDataService.getIndicator(Long.valueOf(identifier));
+			translations = theResource.getName().getTranslations();
+		}
+			break;
+		*/
 		case "indicatorType": {
 			final IndicatorType theResource = curatedDataService.getIndicatorType(Long.valueOf(identifier));
 			translations = theResource.getName().getTranslations();
@@ -450,7 +454,7 @@ public class AdminResource {
 		for (final Entity entity : listEntities) {
 			final JsonObject jsonEntity = new JsonObject();
 			jsonEntity.addProperty("id", entity.getId());
-			jsonEntity.addProperty("type", entity.getType().getId());
+			jsonEntity.addProperty("entityType", entity.getType().getId());
 			jsonEntity.addProperty("code", entity.getCode());
 			jsonEntity.addProperty("name", entity.getName().getDefaultValue());
 			jsonEntity.addProperty("text_id", entity.getName().getId());
@@ -685,12 +689,13 @@ public class AdminResource {
 			jsonIndicator.addProperty("id", indicator.getId());
 			jsonIndicator.add("source", sourceToJson(indicator.getSource()));
 			jsonIndicator.add("indicatorType", indicatorTypeToJson(indicator.getType()));
+			jsonIndicator.addProperty("valueType", gson.toJson(indicator.getType().getValueType()));
 			jsonIndicator.addProperty("startDate", gson.toJson(indicator.getStart()));
 			jsonIndicator.addProperty("endDate", gson.toJson(indicator.getEnd()));
 			jsonIndicator.addProperty("periodicity", gson.toJson(indicator.getPeriodicity()));
-			// jsonIndicator.addProperty("value", gson.toJson(indicator.getValue()));
+			jsonIndicator.addProperty("value", gson.toJson(indicator.getValue().toString()));
 			jsonIndicator.addProperty("initialValue", indicator.getInitialValue());
-			jsonIndicator.addProperty("value", gson.toJson(indicator.getImportFromCKAN()));
+			jsonIndicator.addProperty("importFromCkan", gson.toJson(indicator.getImportFromCKAN()));
 			jsonIndicators.add(jsonIndicator);
 		}
 		return jsonIndicators.toString();
@@ -725,7 +730,7 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/curated/indicators")
+	@Path("/curated/indicators/submitCreate")
 	public Response createIndicator(@FormParam("sourceCode") final String sourceCode, @FormParam("entityId") final long entityId, @FormParam("indicatorTypeCode") final String indicatorTypeCode,
 			@FormParam("start") final String start, @FormParam("end") final String end, @FormParam("periodicity") final Periodicity periodicity, @FormParam("valueType") final ValueType valueType,
 			@FormParam("value") final String valueAsString, @FormParam("initialValue") final String initialValue, @FormParam("sourceLink") final String sourceLink) {

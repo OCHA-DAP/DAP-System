@@ -1,29 +1,42 @@
 app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
 
-  // /////////////////
-  // Types management
-  // /////////////////
+  // /////////
+  // Resources
+  // /////////
+  $scope.resources = function() {
+    $scope.entityTypes = appData['entityTypes'];
+  }
+  $scope.resources();
+
+  // The new indicator
+  $scope.newResource;
+
+  // ///////////////////////
+  // Entity types management
+  // ///////////////////////
 
   // Sort management
-  $scope.predicate = 'type';
+  $scope.predicate = 'entityType';
 
-  // Load types
-  $scope.loadTypes = function() {
-    return utilities.loadResource($scope, 'types', '/admin/curated/entityTypes/json', function() {
+  /*
+  // Load entity types
+  $scope.loadEntityTypes = function() {
+    return utilities.loadResource($scope, 'entityTypes', '/admin/curated/entityTypes/json', function() {
       // $scope.resetNewTranslations();
     });
   };
-  $scope.loadTypes();
-
-  // Show a type for a given entity
-  $scope.showType = function(entity) {
-    if (entity.type) {
-      var selected = $filter('filter')($scope.types, {
-        id : entity.type
+  $scope.loadEntityTypes();
+  */
+  
+  // Show an entity type for a given entity
+  $scope.showEntityType = function(entity) {
+    if (entity.entityType) {
+      var selected = $filter('filter')($scope.entityTypes, {
+        id : entity.entityType
       });
       return selected.length ? selected[0].name : 'Not set';
     } else {
-      return entity.type || 'Not set';
+      return entity.entityType || 'Not set';
     }
   };
 
@@ -36,15 +49,15 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
     return utilities.loadResource($scope, 'entities', '/admin/curated/entities/json', function() {
     });
   };
-	$scope.loadEntities();
+  $scope.loadEntities();
 
   // Create an entity
   // ================
   $scope.createEntity = function(data) {
     var params = {};
-    if (data && data.type && data.type.code) {
+    if (data && data.entityType && data.entityType.code) {
       angular.extend(params, {
-        "entityTypeCode" : data.type.code
+        "entityTypeCode" : data.entityType.code
       });
     }
     if (data && data.code) {
@@ -76,8 +89,13 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
   // Check that the new entity is complete
   $scope.checkCreateForm = function(data) {
     if (!data) {
-      utilities.setFocus('newResource_type');
+      utilities.setFocus('newResource_entityType');
       return "At least some info should be provided.";
+    }
+    var entityType = data.entityType;
+    if (null === type) {
+      utilities.setFocus('newResource_entityType');
+      return "Entity type cannot be empty.";
     }
     var code = data.code;
     if (!code || null === code || '' === code) {
@@ -89,10 +107,6 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
       utilities.setFocus('newResource_name');
       return "Name cannot be empty.";
     }
-    var type = data.type;
-    if (null === type) {
-      return "Type cannot be empty.";
-    }
     return "OK";
   };
 
@@ -101,7 +115,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
     if (!$scope.newResource) {
       $scope.newResource = {};
     }
-    $scope.newResource.type = null;
+    $scope.newResource.entityType = null;
     $scope.newResource.code = "";
     $scope.newResource.name = "";
   };
@@ -146,8 +160,8 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
     return "OK";
   };
 
-  // Delete a entity
-  // ===============
+  // Delete an entity
+  // ================
   $scope.deleteEntity = function(id) {
     return utilities.deleteResource({
       params : {
@@ -161,8 +175,8 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
     });
   }
   
-  // Get a entity by its id
-  // ======================
+  // Get an entity by its id
+  // =======================
   $scope.getEntityById = function(entityId) {
     var filteredEntities = $filter('filter')($scope.entities, {
       id : entityId

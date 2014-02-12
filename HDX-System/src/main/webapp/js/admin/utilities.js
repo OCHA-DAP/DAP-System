@@ -48,7 +48,7 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
   // - some params
   // - a callback for success
   // - a callback for error
-  function post (options) {
+  function post(options) {
     return $http.post(dapContextRoot + options.url, encodeParams(options.params), {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
@@ -66,7 +66,8 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
         options.errorCallback();
       }
     });
-  };
+  }
+  ;
 
   // ////////////////////
   // Resources management
@@ -76,7 +77,7 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
   // - theScope : the variable into which the result will be put
   // - name : the name under which the result will be put into the scope (then available as <theScope>.<name>)
   // - url : the JSON service
-  function loadResource (theScope, name, url, successCallback, errorCallback) {
+  function loadResource(theScope, name, url, successCallback, errorCallback) {
     return $http.get(dapContextRoot + url).success(function(data, status, headers, config) {
       theScope.resource = data;
       // eval("theScope." + name + " = data;");
@@ -89,19 +90,20 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
         errorCallback();
       }
     });
-  };
+  }
+  ;
 
   // Create a resource
   // =================
 
   // Create
-  function createResource (options) {
+  function createResource(options) {
     return updateResource(options);
   }
 
   // Update a resource
   // =================
-  function updateResource (options) {
+  function updateResource(options) {
     var valid = options.validate(options.data);
     if ("OK" === valid) {
       return post(options);
@@ -113,11 +115,12 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
 
   // Delete a resource
   // =================
-  function deleteResource (options) {
+  function deleteResource(options) {
     if (!confirm("Do you really want to delete this item ?")) {
       return;
     }
     return post(options);
-  };
-  
+  }
+  ;
+
 } ]);

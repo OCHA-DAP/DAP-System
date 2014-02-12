@@ -3,21 +3,31 @@
 // ******************* //
 app.controller('I18nCtrl', function($scope, $filter, $http, utilities, $rootScope) {
 
+  // /////////
+  // Resources
+  // /////////
+  $scope.resources = function() {
+    $scope.languages = appData['languages'];
+  }
+  $scope.resources();
+
   $rootScope.filterCount = 0;
   
   // ////////////////////
   // Languages management
   // ////////////////////
 
+  /*
   // Load the languages
   utilities.loadResource($scope, 'languages', '/admin/misc/languages/json', function() {
     console.log("Languages loaded for scope [" + $scope + "]");
   });
-
+  */
+  
   // Check the languages are there
   $scope.checkLanguages = function() {
     var result = ($scope.languages && 0 < $scope.languages.length);
-    console.log("Check languages [" + result + "]");
+    // console.log("Check languages [" + result + "]");
     return result;
   }
 
@@ -116,7 +126,7 @@ app.controller('TranslationsCtrl', function($scope, $filter, utilities, $rootSco
   // Only if there are some translations missing for a given resource
   $scope.addLanguage = false;
   $scope.showAddTranslation = function(resource, identifier, id) {
-    console.log("showAddTranslation : resource [" + resource + "], identifier [" + identifier + "], id [" + id + "]");
+    // console.log("showAddTranslation : resource [" + resource + "], identifier [" + identifier + "], id [" + id + "]");
 
     // Are there some languages ?
     if (!$scope.checkLanguages()) {
