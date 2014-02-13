@@ -38,7 +38,6 @@ import org.ocha.hdx.persistence.entity.i18n.Language;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.i18n.Translation;
 import org.ocha.hdx.persistence.entity.i18n.Translation.Id;
-import org.ocha.hdx.rest.helper.DisplayEntities;
 import org.ocha.hdx.rest.helper.DisplayIndicatorTypeDictionaries;
 import org.ocha.hdx.rest.helper.DisplayIndicators;
 import org.ocha.hdx.rest.helper.DisplayRegionDictionaries;
@@ -437,12 +436,20 @@ public class AdminResource {
 	 * Curated / entities management
 	 */
 	@GET
+	@SuppressWarnings("static-method")
 	@Path("/curated/entities/")
-	public Response displayEntitiesList() {
-		final DisplayEntities displayEntities = new DisplayEntities();
-		displayEntities.setEntities(curatedDataService.listEntities());
-		displayEntities.setEntityTypes(curatedDataService.listEntityTypes());
-		return Response.ok(new Viewable("/admin/entities", displayEntities)).build();
+	public Response displayEntitiesList(/*@QueryParam("howMuch") final String howMuch*/) {
+		/*
+		String _howMuch = null;
+		if((null == howMuch) || "".equals(howMuch)) {
+			_howMuch = "10";
+		}
+		else {
+			_howMuch = howMuch;
+		}
+		return Response.ok(new Viewable("/admin/entities?howMuch=" + _howMuch)).build();
+		*/
+		return Response.ok(new Viewable("/admin/entities")).build();
 	}
 
 	@GET
@@ -476,6 +483,88 @@ public class AdminResource {
 			jsonEntities.add(jsonEntity);
 		}
 		return jsonEntities.toString();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("curated/entities/paginated/json")
+	// From is zero-based
+	public String getPaginatedEntities(@QueryParam("fromIndex") final int fromIndex, @QueryParam("howMuch") final int howMuch) throws TypeMismatchException {
+		final List<Entity> allEntities = curatedDataService.listEntities();
+
+		final int _totalNumber = allEntities.size();
+		int _fromIndex = fromIndex;
+		int _toIndex = fromIndex + howMuch;
+		int _previousIndex = _fromIndex - howMuch;
+		int _nextIndex = _toIndex;
+		final int _firstIndex = 0;
+		final int _lastIndex = _totalNumber - ((0 != howMuch) && (0 == (_totalNumber % howMuch)) ? howMuch : _totalNumber % howMuch);
+
+		// Checks
+		if (fromIndex >= _totalNumber) {
+			// Setting to totalNumber to return an empty list
+			_fromIndex = _totalNumber;
+			_previousIndex = _totalNumber - howMuch;
+			_nextIndex = -1;
+		}
+		if ((fromIndex + howMuch) >= _totalNumber) {
+			// Setting to totalNumber to return an empty list
+			_toIndex = _totalNumber;
+			_previousIndex = _totalNumber - howMuch - (_totalNumber % howMuch);
+			_nextIndex = -1;
+		}
+
+		final int _nbPages = (_totalNumber / howMuch) + (0 == (_totalNumber % howMuch) ? 0 : 1);
+		final int _currentPage = ((_fromIndex + 1) / howMuch) + 1;
+		final List<Entity> paginatedEntities = allEntities.subList(_fromIndex, _toIndex);
+		final JsonObject jsonEntities = new JsonObject();
+		final JsonArray jsonEntitiesArray = new JsonArray();
+		for (final Entity entity : paginatedEntities) {
+			final JsonObject jsonEntity = new JsonObject();
+			jsonEntity.addProperty("id", entity.getId());
+			jsonEntity.addProperty("entityType", entity.getType().getId());
+			jsonEntity.addProperty("code", entity.getCode());
+			jsonEntity.addProperty("name", entity.getName().getDefaultValue());
+			jsonEntity.addProperty("text_id", entity.getName().getId());
+			final List<Translation> translations = entity.getName().getTranslations();
+			final JsonArray jsonTranslations = new JsonArray();
+			for (final Translation translation : translations) {
+				final Id translationId = translation.getId();
+				final Language language = translationId.getLanguage();
+				final String code = language.getCode();
+				final String value = translation.getValue();
+				final JsonObject jsonTranslation = new JsonObject();
+				jsonTranslation.addProperty("code", code);
+				jsonTranslation.addProperty("value", value);
+
+				jsonTranslations.add(jsonTranslation);
+			}
+			jsonEntity.add("translations", jsonTranslations);
+
+			jsonEntitiesArray.add(jsonEntity);
+		}
+		jsonEntities.add("entities", jsonEntitiesArray);
+		addPagination(jsonEntities, _fromIndex, _toIndex, _nextIndex, _previousIndex, _totalNumber, _currentPage, _nbPages, _firstIndex, _lastIndex, howMuch);
+
+		return jsonEntities.toString();
+	}
+
+	private static void addPagination(final JsonObject jsonObject, final int _fromIndex, final int _toIndex, final int _nextIndex, final int _previousIndex, final int _totalNumber,
+			final int _currentPage, final int _nbPages, final int _firstIndex, final int _lastIndex, final int howMuch) {
+		final JsonObject pagination = new JsonObject();
+		pagination.addProperty("fromIndex", _fromIndex);
+		pagination.addProperty("toIndex", _toIndex);
+		pagination.addProperty("nextIndex", _nextIndex);
+		pagination.addProperty("previousIndex", _previousIndex);
+		pagination.addProperty("totalNumber", _totalNumber);
+		pagination.addProperty("currentPage", _currentPage);
+		pagination.addProperty("nbPages", _nbPages);
+		pagination.addProperty("firstIndex", _firstIndex);
+		pagination.addProperty("lastIndex", _lastIndex);
+		pagination.addProperty("howMuch", howMuch);
+		pagination.addProperty("maxSize", 5); // maximum number of pages displayed in the pagination widget
+
+		jsonObject.add("pagination", pagination);
 	}
 
 	@POST

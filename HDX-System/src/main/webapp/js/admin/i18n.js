@@ -58,7 +58,7 @@ app.controller('I18nCtrl', function($scope, $filter, $http, utilities, $rootScop
 
   // Load the translations for a resource and a resource identifier from the server
   $scope.loadTranslations = function(instance, resource, identifier) {
-    return $http.get(dapContextRoot + '/admin/translations/getFor/json', {
+    return $http.get(hdxContextRoot + '/admin/translations/getFor/json', {
       params : {
         resource : resource,
         identifier : identifier

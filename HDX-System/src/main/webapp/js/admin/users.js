@@ -37,7 +37,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http, $rootScope, utiliti
 
   /*
   $scope.loadUsers = function() {
-    return $http.get(dapContextRoot + '/admin/misc/users/json').success(function(data, status, headers, config) {
+    return $http.get(hdxContextRoot + '/admin/misc/users/json').success(function(data, status, headers, config) {
       $scope.resource = data;
       $scope.users = data;
       angular.forEach($scope.users, function(value, key) {
@@ -222,7 +222,7 @@ app.controller('UsersCtrl', function($scope, $filter, $http, $rootScope, utiliti
 */
   /*
   $scope.loadRoles = function() {
-    return $http.get(dapContextRoot + '/admin/misc/users/roles/json').success(function(data, status, headers, config) {
+    return $http.get(hdxContextRoot + '/admin/misc/users/roles/json').success(function(data, status, headers, config) {
       $scope.resource = data;
       $scope.roles = data;
     }).error(function(data, status, headers, config) {

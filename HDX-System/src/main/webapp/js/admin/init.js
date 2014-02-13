@@ -1,4 +1,4 @@
-var app = angular.module("app", [ "xeditable", "utilities" ]);
+var app = angular.module("app", [ "xeditable", "ui.bootstrap", "utilities" ]);
 
 app.constant("RESOURCE_TYPES", {
   language : {

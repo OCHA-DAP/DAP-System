@@ -5,9 +5,11 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
     showMessage : showMessage,
     findSomething : findSomething,
     encodeParams : encodeParams,
+    getURLParameter : getURLParameter,
     setFocus : setFocus,
     post : post,
     loadResource : loadResource,
+    loadPaginatedResource : loadPaginatedResource,
     createResource : createResource,
     updateResource : updateResource,
     deleteResource : deleteResource
@@ -34,6 +36,17 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
     return result.join("&");
   }
 
+  function getURLParameter(sParam) {
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) {
+      var sParameterName = sURLVariables[i].split('=');
+      if (sParameterName[0] == sParam) {
+        return sParameterName[1];
+      }
+    }
+  }
+
   // Set the focus on the given field
   function setFocus(fieldName) {
     var theField = document.getElementById(fieldName);
@@ -49,7 +62,7 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
   // - a callback for success
   // - a callback for error
   function post(options) {
-    return $http.post(dapContextRoot + options.url, encodeParams(options.params), {
+    return $http.post(hdxContextRoot + options.url, encodeParams(options.params), {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
@@ -78,10 +91,37 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
   // - name : the name under which the result will be put into the scope (then available as <theScope>.<name>)
   // - url : the JSON service
   function loadResource(theScope, name, url, successCallback, errorCallback) {
-    return $http.get(dapContextRoot + url).success(function(data, status, headers, config) {
+    return $http.get(hdxContextRoot + url).success(function(data, status, headers, config) {
       theScope.resource = data;
       // eval("theScope." + name + " = data;");
       theScope[name] = data;
+      if (successCallback) {
+        successCallback();
+      }
+    }).error(function(data, status, headers, config) {
+      if (errorCallback) {
+        errorCallback();
+      }
+    });
+  }
+  ;
+
+  // Load a paginated JSON resource from a given url into a given scope under a given name
+  // - theScope : the variable into which the result will be put
+  // - name : the name under which the result will be put into the scope (then available as <theScope>.<name>)
+  // - url : the JSON service
+  function loadPaginatedResource(theScope, name, url, fromIndex, howMuch, successCallback, errorCallback) {
+    return $http.get(hdxContextRoot + url, {
+      params : {
+        fromIndex : fromIndex,
+        howMuch : howMuch
+      }
+    }).success(function(data, status, headers, config) {
+      theScope.resource = data[name];
+      // eval("theScope." + name + " = data;");
+      theScope[name] = data[name];
+      // theScope.updatePagination(data.pagination);
+      theScope.pagination = data.pagination;
       if (successCallback) {
         successCallback();
       }

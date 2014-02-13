@@ -2,11 +2,12 @@
 <%@page import="java.util.Arrays"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script type="text/javascript">
-  var dapContextRoot = "${ctx}";
+  var hdxContextRoot = "${ctx}";
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
 <script src="${ctx}/js/xeditable.min.js"></script>
 <script src="${ctx}/js/admin/utilities.js"></script>
 <script src="${ctx}/js/admin/init.js"></script>

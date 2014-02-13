@@ -115,9 +115,21 @@
 			</tr>
 		</table>
 	</div>
+	<div class="pull-right">
+		<pagination total-items="pagination.totalNumber" items-per-page="pagination.howMuch" page="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true"
+			rotate="false" on-select-page="paginate(page)"></pagination>
+		<span>
+			<pre> Page : {{pagination.currentPage}} / {{pagination.nbPages}}<br />Items : {{pagination.fromIndex + 1}} - {{pagination.toIndex}} out of {{pagination.totalNumber}}</pre>
+		</span>
+		<select class="form-control" ng-model="howMuch" ng-change="loadEntities()"><option>5</option>
+			<option>10</option>
+			<option>25</option>
+			<option>50</option></select>
+	</div>
 	<div ng-show="showTestZone">
 		<h3>Test zone</h3>
 		<pre>
+		<p>Pagination : {{ pagination | json }}</p>
 		<p>Entity types : {{ entityTypes | json }}</p>
 		<p>Entities : {{ entities | json }}</p>
 		<p>Languages : {{ languages | json }}</p>

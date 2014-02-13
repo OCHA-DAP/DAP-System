@@ -27,7 +27,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
   };
   $scope.loadEntityTypes();
   */
-  
+
   // Show an entity type for a given entity
   $scope.showEntityType = function(entity) {
     if (entity.entityType) {
@@ -44,12 +44,34 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
   // Entities management
   // ////////////////////
 
+  $scope.fromIndex = 0;
+  $scope.howMuch = 10;
+  $scope.pagination;
+
   // Load entities
   $scope.loadEntities = function() {
-    return utilities.loadResource($scope, 'entities', '/admin/curated/entities/json', function() {
+    var fromIndex = $scope.fromIndex;
+    var howMuch = $scope.howMuch;
+    return utilities.loadPaginatedResource($scope, 'entities', '/admin/curated/entities/paginated/json', fromIndex, howMuch, function() {
     });
   };
   $scope.loadEntities();
+
+  // Pagination
+  $scope.paginate = function(numPage) {
+    // alert("Calling page " + numPage);
+    $scope.fromIndex = (numPage - 1) * $scope.howMuch;
+    $scope.loadEntities();
+  }
+  $scope.updatePagination = function(pagination) {
+    if (!$scope.pagination) {
+      $scope.pagination = {};
+    }
+    $scope.pagination.totalNumber = pagination.totalNumber;
+    $scope.pagination.currentPage = pagination.currentPage;
+    $scope.pagination.maxSize = pagination.maxSize;
+    $scope.pagination.nbPages = pagination.nbPages;
+  }
 
   // Create an entity
   // ================
@@ -174,7 +196,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
       }
     });
   }
-  
+
   // Get an entity by its id
   // =======================
   $scope.getEntityById = function(entityId) {
