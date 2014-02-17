@@ -11,7 +11,7 @@
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="indicatorTypes" />
 	<jsp:param name="i18n" value="true" />
-	<jsp:param name="needs" value="valueTypes" />
+	<jsp:param name="needs" value="valueTypes,search,columnsearch" />
 </jsp:include>
 </head>
 <body ng-controller="IndicatorTypesCtrl">
@@ -40,18 +40,18 @@
 			</table>
 		</form>
 	</div>
-	<h3>Indicator types</h3>
+	<search title="Indicator types"></search>
 	<div ng-controller="I18nCtrl">
 		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">
-				<td style="width: 12%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
-				<td style="width: 12%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a></td>
+				<td style="width: 12%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a><columnsearch param="search.code"></columnsearch></td>
+				<td style="width: 12%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a><columnsearch param="search.name"></columnsearch></td>
 				<td style="width: 12%"><a href="" ng-click="predicate='unit'; reverse=!reverse">Unit</a></td>
 				<td style="width: 12%"><a href="" ng-click="predicate='valueType'; reverse=!reverse">Value type</a></td>
 				<td style="width: 32%">Translations</td>
 				<td style="width: 20%">Action</td>
 			</tr>
-			<tr ng-repeat="indicatorType in indicatorTypes | orderBy:predicate:reverse">
+			<tr ng-repeat="indicatorType in indicatorTypes | filter:search | orderBy:predicate:reverse">
 				<td>
 					<!-- non editable code --> <span e-name="code" e-form="rowform"> {{ indicatorType.code }} </span>
 				</td>

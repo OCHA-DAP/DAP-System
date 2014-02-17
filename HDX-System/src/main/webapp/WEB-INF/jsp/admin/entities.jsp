@@ -11,7 +11,7 @@
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="entities" />
 	<jsp:param name="i18n" value="true" />
-	<jsp:param name="needs" value="entityTypes" />
+	<jsp:param name="needs" value="entityTypes,search,columnsearch" />
 </jsp:include>
 </head>
 <body ng-controller="EntitiesCtrl">
@@ -38,17 +38,17 @@
 			</table>
 		</form>
 	</div>
-	<h3>Entities</h3>
+	<search title="Entities"></search>
 	<div ng-controller="I18nCtrl">
 		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">
 				<td style="width: 15%"><a href="" ng-click="predicate='entityType'; reverse=!reverse">Entity type</a></td>
-				<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
-				<td style="width: 15%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a></td>
+				<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a><columnsearch param="search.code"></columnsearch></td>
+				<td style="width: 15%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a><columnsearch param="search.name"></columnsearch></td>
 				<td style="width: 35%">Translations</td>
 				<td style="width: 20%">Action</td>
 			</tr>
-			<tr ng-repeat="entity in entities | orderBy:predicate:reverse">
+			<tr ng-repeat="entity in entities | filter:search | orderBy:predicate:reverse">
 				<td>
 					<!-- non editable entity type (from select box) --> <span> {{ showEntityType(entity) }} </span>
 				</td>
@@ -115,16 +115,22 @@
 			</tr>
 		</table>
 	</div>
-	<div class="pull-right">
-		<pagination total-items="pagination.totalNumber" items-per-page="pagination.howMuch" page="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true"
-			rotate="false" on-select-page="paginate(page)"></pagination>
+	<div class="pull-left">
 		<span>
 			<pre> Page : {{pagination.currentPage}} / {{pagination.nbPages}}<br />Items : {{pagination.fromIndex + 1}} - {{pagination.toIndex}} out of {{pagination.totalNumber}}</pre>
 		</span>
-		<select class="form-control" ng-model="howMuch" ng-change="loadEntities()"><option>5</option>
-			<option>10</option>
-			<option>25</option>
-			<option>50</option></select>
+	</div>
+	<div class="pull-right">
+		<div class="pull-left">
+			<pagination total-items="pagination.totalNumber" items-per-page="pagination.howMuch" page="pagination.currentPage" max-size="pagination.maxSize" boundary-links="true" rotate="false"
+				on-select-page="paginate(page)" style="margin-top: 0px; margin-right: 10px;"></pagination>
+		</div>
+		<div class="pull-right">
+			<select class="form-control" ng-model="howMuch" ng-change="loadEntities()"><option>5</option>
+				<option>10</option>
+				<option>25</option>
+				<option>50</option></select>
+		</div>
 	</div>
 	<div ng-show="showTestZone">
 		<h3>Test zone</h3>

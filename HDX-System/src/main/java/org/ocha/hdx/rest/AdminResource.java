@@ -96,8 +96,10 @@ public class AdminResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/misc/users/roles/json")
-	public String getUserRoles() throws TypeMismatchException {
+	public String getUserRoles(@QueryParam("var") final String var) throws TypeMismatchException {
 
+		String result = ""; 
+		
 		final List<String> roles = hdxService.listRoles();
 		final JsonArray jsonArray = new JsonArray();
 
@@ -108,7 +110,10 @@ public class AdminResource {
 			element.addProperty("text", role);
 			jsonArray.add(element);
 		}
-		return jsonArray.toString();
+		if((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
 	}
 
 	@POST
@@ -149,7 +154,9 @@ public class AdminResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/misc/languages/json")
-	public String getLanguages() throws TypeMismatchException {
+	public String getLanguages(@QueryParam("var") final String var) throws TypeMismatchException {
+		
+		String result = "";
 
 		final List<Language> listLanguages = hdxService.listLanguages();
 		final JsonArray jsonArray = new JsonArray();
@@ -161,7 +168,10 @@ public class AdminResource {
 			element.addProperty("native_name", language.getNativeName());
 			jsonArray.add(element);
 		}
-		return jsonArray.toString();
+		if((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
 	}
 
 	@POST
@@ -380,8 +390,10 @@ public class AdminResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/curated/entityTypes/json")
-	public String getEntityTypes() throws TypeMismatchException {
+	public String getEntityTypes(@QueryParam("var") final String var) throws TypeMismatchException {
 
+		String result = "";
+		
 		final List<EntityType> listEntityTypes = curatedDataService.listEntityTypes();
 		final JsonArray jsonArray = new JsonArray();
 
@@ -408,7 +420,10 @@ public class AdminResource {
 			jsonEntityType.add("translations", jsonTranslations);
 			jsonArray.add(jsonEntityType);
 		}
-		return jsonArray.toString();
+		if((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
 	}
 
 	@POST
@@ -455,9 +470,12 @@ public class AdminResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("curated/entities/json")
-	public String getEntities() throws TypeMismatchException {
+	public String getEntities(@QueryParam("var") final String var) throws TypeMismatchException {
+		
+		String result = "";
+		
 		final List<Entity> listEntities = curatedDataService.listEntities();
-		final JsonArray jsonEntities = new JsonArray();
+		final JsonArray jsonArray = new JsonArray();
 		for (final Entity entity : listEntities) {
 			final JsonObject jsonEntity = new JsonObject();
 			jsonEntity.addProperty("id", entity.getId());
@@ -480,9 +498,12 @@ public class AdminResource {
 			}
 			jsonEntity.add("translations", jsonTranslations);
 
-			jsonEntities.add(jsonEntity);
+			jsonArray.add(jsonEntity);
 		}
-		return jsonEntities.toString();
+		if((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
 	}
 
 	@GET
@@ -604,15 +625,21 @@ public class AdminResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/curated/indicatorTypes/json")
-	public String getIndicatorTypes() throws TypeMismatchException {
+	public String getIndicatorTypes(@QueryParam("var") final String var) throws TypeMismatchException {
+		
+		String result = "";
+		
 		final List<IndicatorType> listIndicatorTypes = curatedDataService.listIndicatorTypes();
-		final JsonArray jsonIndicatorTypes = new JsonArray();
+		final JsonArray jsonArray = new JsonArray();
 		for (final IndicatorType indicatorType : listIndicatorTypes) {
 			final JsonObject jsonIndicatorType = indicatorTypeToJson(indicatorType);
 
-			jsonIndicatorTypes.add(jsonIndicatorType);
+			jsonArray.add(jsonIndicatorType);
 		}
-		return jsonIndicatorTypes.toString();
+		if((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
 	}
 
 	@SuppressWarnings("static-method")
@@ -645,15 +672,21 @@ public class AdminResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/curated/indicatorTypes/valueTypes/json")
 	@SuppressWarnings("static-method")
-	public String getIndicatorTypeValueTypes() throws TypeMismatchException {
-		final JsonArray jsonValueTypes = new JsonArray();
+	public String getIndicatorTypeValueTypes(@QueryParam("var") final String var) throws TypeMismatchException {
+		
+		String result = "";
+		
+		final JsonArray jsonArray = new JsonArray();
 		for (final ValueType valueType : ValueType.values()) {
 			final JsonObject jsonValueType = new JsonObject();
 			jsonValueType.addProperty("value", valueType.toString());
 			jsonValueType.addProperty("text", valueType.toString());
-			jsonValueTypes.add(jsonValueType);
+			jsonArray.add(jsonValueType);
 		}
-		return jsonValueTypes.toString();
+		if((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
 	}
 
 	@POST
@@ -690,15 +723,21 @@ public class AdminResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("curated/sources/json")
-	public String getSources() throws TypeMismatchException {
+	public String getSources(@QueryParam("var") final String var) throws TypeMismatchException {
+		
+		String result = "";
+		
 		final List<Source> listSources = curatedDataService.listSources();
-		final JsonArray jsonSources = new JsonArray();
+		final JsonArray jsonArray = new JsonArray();
 		for (final Source source : listSources) {
 			final JsonObject jsonSource = sourceToJson(source);
 
-			jsonSources.add(jsonSource);
+			jsonArray.add(jsonSource);
 		}
-		return jsonSources.toString();
+		if((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
 	}
 
 	@SuppressWarnings("static-method")
@@ -794,15 +833,21 @@ public class AdminResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/curated/indicators/periodicities/json")
 	@SuppressWarnings("static-method")
-	public String getIndicatorPeriodicities() throws TypeMismatchException {
-		final JsonArray jsonPeriodicities = new JsonArray();
+	public String getIndicatorPeriodicities(@QueryParam("var") final String var) throws TypeMismatchException {
+		
+		String result = "";
+		
+		final JsonArray jsonArray = new JsonArray();
 		for (final Periodicity periodicity : Periodicity.values()) {
 			final JsonObject jsonPeriodicity = new JsonObject();
 			jsonPeriodicity.addProperty("value", periodicity.toString());
 			jsonPeriodicity.addProperty("text", periodicity.toString());
-			jsonPeriodicities.add(jsonPeriodicity);
+			jsonArray.add(jsonPeriodicity);
 		}
-		return jsonPeriodicities.toString();
+		if((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
 	}
 
 	@GET
