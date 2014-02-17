@@ -1,25 +1,4 @@
 
-    alter table hdx_indicator
-        drop constraint fk_indicator_to_source;
-
-    alter table hdx_indicator
-        drop constraint fk_indicator_to_entity;
-
-    alter table hdx_indicator
-        drop constraint fk_import_from_ckan;
-
-    alter table hdx_indicator
-        drop constraint fk_indicator_value_to_text;
-
-    alter table hdx_indicator
-        drop constraint fk_indicator_to_type;
-
-    alter table hdx_translation
-        drop constraint fk_translation_to_text;
-
-    alter table hdx_translation
-        drop constraint fk_translation_to_language;
-
     alter table entity 
         drop constraint fk_entity_to_type;
 
@@ -29,17 +8,47 @@
     alter table entity_type 
         drop constraint fk_entity_type_to_name_text;
 
+    alter table hdx_indicator 
+        drop constraint fk_indicator_to_source;
+
+    alter table hdx_indicator 
+        drop constraint fk_indicator_to_entity;
+
+    alter table hdx_indicator 
+        drop constraint fk_import_from_ckan;
+
+    alter table hdx_indicator 
+        drop constraint fk_indicator_value_to_text;
+
+    alter table hdx_indicator 
+        drop constraint fk_indicator_to_type;
+
+    alter table hdx_translation 
+        drop constraint fk_translation_to_text;
+
+    alter table hdx_translation 
+        drop constraint fk_translation_to_language;
+
     alter table indicator_type 
         drop constraint fk_indicator_type_to_name_text;
 
     alter table indicator_type_dictionary 
         drop constraint fk_indicator_type_dictionary_to_indicator_type;
 
+    alter table organisation 
+        drop constraint fk_full_name_to_text;
+
+    alter table organisation 
+        drop constraint fk_short_name_to_text;
+
     alter table region_dictionary 
         drop constraint fk_region_dictionary_to_entity;
 
     alter table source 
         drop constraint fk_source_to_name_text;
+
+    alter table source 
+        drop constraint fk_source_to_organisation;
 
     alter table source_dictionary 
         drop constraint fk_source_dictionary_to_source;
@@ -48,15 +57,15 @@
 
     drop table ckan_resource;
 
+    drop table entity;
+
+    drop table entity_type;
+
     drop table hdx_indicator;
 
     drop table hdx_translation;
 
     drop table hdx_user;
-
-    drop table entity;
-
-    drop table entity_type;
 
     drop table import_from_ckan;
 
@@ -65,6 +74,8 @@
     drop table indicator_type_dictionary;
 
     drop table language;
+
+    drop table organisation;
 
     drop table region_dictionary;
 
@@ -83,6 +94,8 @@
     drop sequence indicator_seq;
 
     drop sequence indicator_type_seq;
+
+    drop sequence organisation_seq;
 
     drop sequence source_seq;
 
@@ -120,6 +133,22 @@
         primary key (id, revision_id)
     );
 
+    create table entity (
+        id int8 not null,
+        code varchar(255) not null,
+        text_id int8,
+        entity_type_id int8,
+        primary key (id),
+        unique (code, entity_type_id)
+    );
+
+    create table entity_type (
+        id int8 not null,
+        code varchar(255) not null unique,
+        text_id int8,
+        primary key (id)
+    );
+
     create table hdx_indicator (
         id int8 not null,
         end_time timestamp,
@@ -155,22 +184,6 @@
         primary key (id)
     );
 
-    create table entity (
-        id int8 not null,
-        code varchar(255) not null,
-        text_id int8,
-        entity_type_id int8,
-        primary key (id),
-        unique (code, entity_type_id)
-    );
-
-    create table entity_type (
-        id int8 not null,
-        code varchar(255) not null unique,
-        text_id int8,
-        primary key (id)
-    );
-
     create table import_from_ckan (
         id int8 not null,
         resource_id varchar(255) not null,
@@ -201,6 +214,14 @@
         primary key (code)
     );
 
+    create table organisation (
+        id int8 not null,
+        org_link varchar(255),
+        full_name_id int8 not null,
+        short_name_id int8 not null,
+        primary key (id)
+    );
+
     create table region_dictionary (
         importer varchar(255) not null,
         unnormalized_name varchar(255) not null,
@@ -212,7 +233,8 @@
         id int8 not null,
         code varchar(255) not null unique,
         org_link varchar(255),
-        text_id int8,
+        text_id int8 not null,
+        organisation_id int8,
         primary key (id)
     );
 
@@ -229,41 +251,6 @@
         primary key (id)
     );
 
-    alter table hdx_indicator
-        add constraint fk_indicator_to_source 
-        foreign key (source_id) 
-        references source;
-
-    alter table hdx_indicator
-        add constraint fk_indicator_to_entity 
-        foreign key (entity_id) 
-        references entity;
-
-    alter table hdx_indicator
-        add constraint fk_import_from_ckan 
-        foreign key (import_from_ckan_id) 
-        references import_from_ckan;
-
-    alter table hdx_indicator
-        add constraint fk_indicator_value_to_text 
-        foreign key (text_id) 
-        references text;
-
-    alter table hdx_indicator
-        add constraint fk_indicator_to_type 
-        foreign key (type_id) 
-        references indicator_type;
-
-    alter table hdx_translation
-        add constraint fk_translation_to_text 
-        foreign key (text) 
-        references text;
-
-    alter table hdx_translation
-        add constraint fk_translation_to_language 
-        foreign key (language) 
-        references language;
-
     alter table entity 
         add constraint fk_entity_to_type 
         foreign key (entity_type_id) 
@@ -279,6 +266,41 @@
         foreign key (text_id) 
         references text;
 
+    alter table hdx_indicator 
+        add constraint fk_indicator_to_source 
+        foreign key (source_id) 
+        references source;
+
+    alter table hdx_indicator 
+        add constraint fk_indicator_to_entity 
+        foreign key (entity_id) 
+        references entity;
+
+    alter table hdx_indicator 
+        add constraint fk_import_from_ckan 
+        foreign key (import_from_ckan_id) 
+        references import_from_ckan;
+
+    alter table hdx_indicator 
+        add constraint fk_indicator_value_to_text 
+        foreign key (text_id) 
+        references text;
+
+    alter table hdx_indicator 
+        add constraint fk_indicator_to_type 
+        foreign key (type_id) 
+        references indicator_type;
+
+    alter table hdx_translation 
+        add constraint fk_translation_to_text 
+        foreign key (text) 
+        references text;
+
+    alter table hdx_translation 
+        add constraint fk_translation_to_language 
+        foreign key (language) 
+        references language;
+
     alter table indicator_type 
         add constraint fk_indicator_type_to_name_text 
         foreign key (text_id) 
@@ -289,6 +311,16 @@
         foreign key (indicator_type_id) 
         references indicator_type;
 
+    alter table organisation 
+        add constraint fk_full_name_to_text 
+        foreign key (full_name_id) 
+        references text;
+
+    alter table organisation 
+        add constraint fk_short_name_to_text 
+        foreign key (short_name_id) 
+        references text;
+
     alter table region_dictionary 
         add constraint fk_region_dictionary_to_entity 
         foreign key (entity_id) 
@@ -298,6 +330,11 @@
         add constraint fk_source_to_name_text 
         foreign key (text_id) 
         references text;
+
+    alter table source 
+        add constraint fk_source_to_organisation 
+        foreign key (organisation_id) 
+        references organisation;
 
     alter table source_dictionary 
         add constraint fk_source_dictionary_to_source 
@@ -313,6 +350,8 @@
     create sequence indicator_seq;
 
     create sequence indicator_type_seq;
+
+    create sequence organisation_seq;
 
     create sequence source_seq;
 
