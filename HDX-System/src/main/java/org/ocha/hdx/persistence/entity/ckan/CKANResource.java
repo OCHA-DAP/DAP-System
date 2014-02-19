@@ -9,10 +9,15 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ForeignKey;
 import org.ocha.hdx.model.validation.ValidationReport;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 
 @Entity
 @Table(name = "ckan_resource")
@@ -152,6 +157,11 @@ public class CKANResource {
 	@Column(name = "importer", nullable = true, updatable = true)
 	@Enumerated(EnumType.STRING)
 	private CKANDataset.Type importer;
+	
+	@ManyToOne(optional=true,fetch=FetchType.LAZY)
+	@JoinColumn(name = "resource_configuration_id", nullable=true)
+	@ForeignKey(name = "fk_ckan_resource_to_resource_config")
+	private ResourceConfiguration resourceConfiguration;
 
 	public String getName() {
 		return name;
@@ -269,4 +279,13 @@ public class CKANResource {
 		this.importer = importer;
 	}
 
+	public ResourceConfiguration getResourceConfiguration() {
+		return resourceConfiguration;
+	}
+
+	public void setResourceConfiguration(ResourceConfiguration resourceConfiguration) {
+		this.resourceConfiguration = resourceConfiguration;
+	}
+
+	
 }
