@@ -25,5 +25,6 @@
   <bean id="regionDictionary" class="org.ocha.hdx.persistence.dao.dictionary.RegionDictionaryDAOImpl" />
   <bean id="sourceDictionary" class="org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAOImpl" />
   <bean id="indicatorTypeDictionaryDAO" class="org.ocha.hdx.persistence.dao.dictionary.IndicatorTypeDictionaryDAOImpl" />
+  <bean id="organisationDAO" class="org.ocha.hdx.persistence.dao.currateddata.OrganisationDAOImpl" />
 
 </beans>

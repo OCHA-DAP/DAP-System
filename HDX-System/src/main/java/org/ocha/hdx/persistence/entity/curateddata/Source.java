@@ -14,12 +14,12 @@ import org.hibernate.annotations.ForeignKey;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 
 /**
- * 
+ *
  * @author Samuel Eustachi
  * @author David Megginson
- * 
+ *
  *         a table of data sources on the responsibility level — that is, organisations like the World Bank, not specific web sites or URLs.
- * 
+ *
  */
 @Entity
 @Table(name = "source")
@@ -34,15 +34,20 @@ public class Source {
 	private String code;
 
 	@ManyToOne
-	@JoinColumn(name = "text_id")
+	@JoinColumn(name = "text_id", nullable=false)
 	@ForeignKey(name = "fk_source_to_name_text")
 	private Text name;
 
 	@Column(name = "org_link", nullable = true, updatable = true)
 	private String orgLink;
 
+	@ManyToOne
+	@JoinColumn(name = "organisation_id")
+	@ForeignKey(name = "fk_source_to_organisation")
+	private Organisation organisation;
+
 	public long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(final long id) {
@@ -50,7 +55,7 @@ public class Source {
 	}
 
 	public String getCode() {
-		return code;
+		return this.code;
 	}
 
 	public void setCode(final String code) {
@@ -58,7 +63,7 @@ public class Source {
 	}
 
 	public Text getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(final Text name) {
@@ -66,7 +71,7 @@ public class Source {
 	}
 
 	public String getOrgLink() {
-		return orgLink;
+		return this.orgLink;
 	}
 
 	public void setOrgLink(final String orgLink) {
