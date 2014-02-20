@@ -4,32 +4,43 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set value="${pageContext.request.contextPath}" var="ctx" scope="request" />
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
+<jsp:include page="css-includes.jsp" />
+<jsp:include page="js-includes.jsp">
+	<jsp:param name="which" value="indicatorTypeDictionaries" />
+</jsp:include>
 </head>
-<body>
-	<jsp:include page="admin-header.jsp" />
-	<h2>Add a new Indicator Type Dictionary</h2>
-
-	<form method="POST" action="">
+<body ng-controller="IndicatorTypeDictionariesCtrl">
+	<jsp:include page="admin-menu.jsp" />
+	<div>
+		<h3>Add a new Indicator Type Dictionary</h3>
+		<div>
+			<form method="POST" action="" class="css-form" role="form">
+				<div class="form-group" style="">
 		<label for="entity">For Indicator Type</label>
-		<select name="indicatorType" id="indicatorType">
+		<select class="form-control" name="indicatorType" id="indicatorType">
 			<c:forEach var="indicatorType" items="${it.indicatorTypes}">
 				<option value="${indicatorType.id}">${indicatorType.name.defaultValue}</option>
 			</c:forEach>
 		</select>
+				</div>
+				<div class="form-group" style="">
 		<label for="unnormalizedName">Unnormalized Name</label>
-		<input type="text" name="unnormalizedName" id="unnormalizedName" />
+		<input type="text" name="unnormalizedName" id="unnormalizedName" class="form-control" />
+				</div>
+				<div class="form-group" style="">
 		<label for="importer">Importer</label>
-		<input type="text" name="importer" id="importer" />
-		<input type="submit" value="submit" />
+		<input type="text" name="importer" id="importer" class="form-control" />
+				</div>
+				<button type="submit" class="btn btn-default">Submit</button>
 
 	</form>
+		</div>
 
-	<h2>List of Indicator Type dictionaries</h2>
-	<table>
+	<h3>List of Indicator Type dictionaries</h3>
+	<table class="table table-bordered table-hover table-condensed">
 		<tr>
 			<th>Indicator Type name</th>
 			<th>Importer</th>
@@ -53,6 +64,7 @@
 		</c:forEach>
 
 	</table>
+	</div>
 
 </body>
 </html>

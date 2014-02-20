@@ -11,7 +11,7 @@
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="entityTypes" />
 	<jsp:param name="i18n" value="true" />
-	<jsp:param name="needs" value="entityTypes" />
+	<jsp:param name="needs" value="entityTypes,search,columnsearch" />
 </jsp:include>
 </head>
 <body ng-controller="EntityTypesCtrl">
@@ -35,16 +35,16 @@
 			</table>
 		</form>
 	</div>
-	<h3>Entity types</h3>
+	<search title="Entity types"></search>
 	<div ng-controller="I18nCtrl">
 		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">
-				<td style="width: 20%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
-				<td style="width: 20%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a></td>
+				<td style="width: 20%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a><columnsearch param="search.code"></columnsearch></td>
+				<td style="width: 20%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a><columnsearch param="search.name"></columnsearch></td>
 				<td style="width: 40%">Translations</td>
 				<td style="width: 20%">Action</td>
 			</tr>
-			<tr ng-repeat="entityType in entityTypes | orderBy:predicate:reverse">
+			<tr ng-repeat="entityType in entityTypes | filter:search | orderBy:predicate:reverse">
 				<td>
 					<!-- non editable code --> <span e-name="code" e-form="rowform"> {{ entityType.code }} </span>
 				</td>

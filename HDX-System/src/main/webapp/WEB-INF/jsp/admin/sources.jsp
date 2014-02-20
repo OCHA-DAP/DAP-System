@@ -11,6 +11,7 @@
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="sources" />
 	<jsp:param name="i18n" value="true" />
+	<jsp:param name="needs" value="search,columnsearch" />
 </jsp:include>
 </head>
 <body ng-controller="SourcesCtrl">
@@ -41,17 +42,17 @@
 			</table>
 		</form>
 	</div>
-	<h3>Sources</h3>
+	<search title="Sources"></search>
 	<div ng-controller="I18nCtrl">
 		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">
-				<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a></td>
-				<td style="width: 15%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a></td>
-				<td style="width: 15%"><a href="" ng-click="predicate='link'; reverse=!reverse">Link</a></td>
+				<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a> <columnsearch param="search.code"></columnsearch></td>
+				<td style="width: 15%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a> <columnsearch param="search.name"></columnsearch></td>
+				<td style="width: 15%"><a href="" ng-click="predicate='link'; reverse=!reverse">Link</a> <columnsearch param="search.link"></columnsearch></td>
 				<td style="width: 35%">Translations</td>
 				<td style="width: 20%">Action</td>
 			</tr>
-			<tr ng-repeat="source in sources | orderBy:predicate:reverse">
+			<tr ng-repeat="source in sources | filter:search | orderBy:predicate:reverse">
 				<td>
 					<!-- non editable code --> <span e-name="code" e-form="rowform"> {{ source.code }} </span>
 				</td>
