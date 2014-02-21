@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.ForeignKey;
 import org.joda.time.format.DateTimeFormatter;
@@ -27,10 +29,12 @@ public class IndicatorValue {
 	@Column(name = "number_value", nullable = true, updatable = false)
 	private final Double numberValue;
 
-	@Column(name = "date_value", columnDefinition = "timestamp", nullable = true, updatable = false)
+	@Column(name = "date_value", nullable = true, updatable = false)
+	@Temporal(TemporalType.DATE)
 	private final Date dateValue;
 
-	@Column(name = "datetime_value", columnDefinition = "timestamp", nullable = true, updatable = false)
+	@Column(name = "datetime_value", nullable = true, updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
 	private final Date datetimeValue;
 
 	/**
