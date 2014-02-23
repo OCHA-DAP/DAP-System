@@ -80,14 +80,22 @@ if(needs.contains("periodicities")) {
 </script>
 <%
 	} // End if(needs.contains("entityTypes")) {
-		if(needs.contains("valueTypes")) {
+    if(needs.contains("valueTypes")) {
 %>
 <script src="${ctx}/admin/curated/indicatorTypes/valueTypes/json?var=data_valueTypes"></script>
 <script>
-  appData['valueTypes'] = data_valueTypes;
+    appData['valueTypes'] = data_valueTypes;
 </script>
 <%
-	} // End if(needs.contains("valueTypes")) {
+    } // End if(needs.contains("valueTypes")) {
+    if(needs.contains("units")) {
+%>
+<script src="${ctx}/admin/curated/indicatorTypes/units/json?var=data_units"></script>
+<script>
+    appData['units'] = data_units;
+</script>
+<%
+    } // End if(needs.contains("valueTypes")) {
 		if(needs.contains("indicatorTypes")) {
 %>
 <script src="${ctx}/admin/curated/indicatorTypes/json?var=data_indicatorTypes"></script>

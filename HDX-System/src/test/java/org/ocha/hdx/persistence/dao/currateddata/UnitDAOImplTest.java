@@ -75,13 +75,15 @@ public class UnitDAOImplTest {
 
         Assert.assertEquals(2, unitDAO.listUnits().size());
 
+        //test get unit by code method
         final Unit unit1Copy = unitDAO.getUnitByCode(unit1Code);
 
         Assert.assertEquals(unit1.getId(), unit1Copy.getId());
         Assert.assertEquals(unit1.getCode(), unit1Copy.getCode());
         Assert.assertEquals(unit1.getName().getDefaultValue(), unit1Copy.getName().getDefaultValue());
 
-        final Unit unit2Copy = unitDAO.getUnitByCode(unit2Code);
+        //test get unit by id method
+        final Unit unit2Copy = unitDAO.getUnitById(unit2.getId());
 
         Assert.assertEquals(unit2.getId(), unit2Copy.getId());
         Assert.assertEquals(unit2.getCode(), unit2Copy.getCode());

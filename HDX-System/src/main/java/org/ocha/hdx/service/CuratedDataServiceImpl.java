@@ -153,11 +153,10 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void createIndicatorType(final String code, final String defaultName, final String unitName, final String valueType) {
+	public void createIndicatorType(final String code, final String defaultName, final long unitId, final String valueType) {
 		final Text text = textDAO.createText(defaultName);
-        //TODO: fix before commit
-        //final Unit unit = unitDAO.createUnit(code, unitText);
-		//indicatorTypeDAO.createIndicatorType(code, text, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(valueType));
+        final Unit unit = unitDAO.getUnitById(unitId);
+		indicatorTypeDAO.createIndicatorType(code, text, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(valueType));
 	}
 
 	@Override
@@ -167,13 +166,14 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public IndicatorType getIndicatorTypeByCode(final String code) {
-		return indicatorTypeDAO.getIndicatorTypeByCode(code);
+        return indicatorTypeDAO.getIndicatorTypeByCode(code);
 	}
 
 	@Override
 	@Transactional
-	public void updateIndicatorType(final long indicatorTypeId, final String newName, final Unit newUnit, final String newValueType) {
-		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newName, newUnit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
+	public void updateIndicatorType(final long indicatorTypeId, final String newName, final long newUnit, final String newValueType) {
+        Unit unit = unitDAO.getUnitById(newUnit);
+		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newName, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
 	}
 
 	@Override
@@ -529,4 +529,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	}
 
+    /**
+     * Units
+     */
+    @Override
+    public List<Unit> listUnits() {
+        return unitDAO.listUnits();
+    }
 }

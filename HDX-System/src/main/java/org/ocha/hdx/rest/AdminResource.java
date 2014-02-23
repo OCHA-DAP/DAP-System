@@ -24,14 +24,9 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
-import org.ocha.hdx.persistence.entity.curateddata.Entity;
-import org.ocha.hdx.persistence.entity.curateddata.EntityType;
-import org.ocha.hdx.persistence.entity.curateddata.Indicator;
+import org.ocha.hdx.persistence.entity.curateddata.*;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
-import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
-import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
-import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.i18n.Language;
@@ -648,7 +643,7 @@ public class AdminResource {
 		jsonIndicatorType.addProperty("id", indicatorType.getId());
 		jsonIndicatorType.addProperty("code", indicatorType.getCode());
 		jsonIndicatorType.addProperty("name", indicatorType.getName().getDefaultValue());
-		jsonIndicatorType.addProperty("unit", indicatorType.getUnit().getName().getDefaultValue());
+		jsonIndicatorType.addProperty("unit", indicatorType.getUnit().getId());
 		jsonIndicatorType.addProperty("valueType", indicatorType.getValueType().toString());
 		jsonIndicatorType.addProperty("text_id", indicatorType.getName().getId());
 		final List<Translation> translations = indicatorType.getName().getTranslations();
@@ -667,6 +662,27 @@ public class AdminResource {
 		jsonIndicatorType.add("translations", jsonTranslations);
 		return jsonIndicatorType;
 	}
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/curated/indicatorTypes/units/json")
+    @SuppressWarnings("static-method")
+    public String getIndicatorTypeUnits(@QueryParam("var") final String var) throws TypeMismatchException {
+
+        String result = "";
+
+        final JsonArray jsonArray = new JsonArray();
+        for (final Unit unit : curatedDataService.listUnits()) {
+            final JsonObject jsonValueType = new JsonObject();
+            jsonValueType.addProperty("id", unit.getId());
+            jsonValueType.addProperty("name", unit.getName().getDefaultValue());
+            jsonArray.add(jsonValueType);
+        }
+        if((null != var) && !"".equals(var)) {
+            result = "var " + var + " = ";
+        }
+        return result + jsonArray.toString();
+    }
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -692,7 +708,7 @@ public class AdminResource {
 	@POST
 	@Path("/curated/indicatorTypes/submitCreate")
 	public Response createIndicatorType(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("unit") final String unit, @FormParam("valueType") final String valueType) {
-        curatedDataService.createIndicatorType(code, name, unit, valueType);
+        curatedDataService.createIndicatorType(code, name, Long.valueOf(unit), valueType);
 		return Response.ok().build();
 	}
 
@@ -705,11 +721,9 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/indicatorTypes/submitUpdate")
-	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newName") final String newName, @FormParam("newUnit") final String newUnit,
+	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newName") final String newName, @FormParam("newUnit") final long newUnit,
 			@FormParam("newValueType") final String newValueType) {
-        //TODO: FIX before commit
-		//curatedDataService.updateIndicatorType(indicatorTypeId, newName, newUnit, newValueType);
-
+		curatedDataService.updateIndicatorType(indicatorTypeId, newName, newUnit, newValueType);
         return Response.ok().build();
 	}
 

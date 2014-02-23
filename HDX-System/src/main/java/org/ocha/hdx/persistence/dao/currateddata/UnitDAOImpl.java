@@ -36,6 +36,11 @@ public class UnitDAOImpl implements UnitDAO {
     }
 
     @Override
+    public Unit getUnitById(long id) {
+        return em.find(Unit.class, id);
+    }
+
+    @Override
     public List<Unit> listUnits() {
         final TypedQuery<Unit> query = em.createQuery("SELECT u FROM Unit u ORDER BY u.code", Unit.class);
         return query.getResultList();

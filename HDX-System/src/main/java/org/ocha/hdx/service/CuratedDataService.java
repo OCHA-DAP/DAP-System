@@ -49,7 +49,7 @@ public interface CuratedDataService {
 	 */
 	public List<IndicatorType> listIndicatorTypes();
 
-	public void createIndicatorType(final String code, final String defaultName, final String unit, final String valueType);
+	public void createIndicatorType(final String code, final String defaultName, final long unitId, final String valueType);
 
 	public IndicatorType getIndicatorType(final long id);
 
@@ -57,7 +57,7 @@ public interface CuratedDataService {
 
 	public void deleteIndicatorType(final long indicatorTypeId);
 
-	public void updateIndicatorType(final long indicatorTypeId, final String newName, final Unit newUnit, final String newValueType);
+	public void updateIndicatorType(final long indicatorTypeId, final String newName, final long newUnit, final String newValueType);
 
 	/*
 	 * Sources
@@ -159,4 +159,9 @@ public interface CuratedDataService {
 
 	public void deleteIndicatorTypeDictionary(IndicatorTypeDictionary indicatorTypeDictionary);
 
+
+    /**
+     * Units
+     */
+    public List<Unit> listUnits();
 }

@@ -51,12 +51,6 @@ public class IndicatorType {
     @ForeignKey(name = "fk_indicator_type_to_unit")
     private Unit unit;
 
-	//@Column(name = "unit", nullable = true, updatable = true)
-	//private String unit;
-
-	//@Column(name = "unit", nullable = true, updatable = true)
-	//private String unit;
-
 	@Column(name = "value_type", nullable = true, updatable = true)
 	@Enumerated(EnumType.STRING)
 	private ValueType valueType;
@@ -95,7 +89,6 @@ public class IndicatorType {
 
 	public String getDisplayableTitle() {
 		return name + " in " + unit;
-
 	}
 
 	public ValueType getValueType() {
