@@ -11,23 +11,14 @@ import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.TimeRange;
 import org.ocha.hdx.model.api.CellDescriptor;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
-import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
-import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
-import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO;
-import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
-import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
+import org.ocha.hdx.persistence.dao.currateddata.*;
 import org.ocha.hdx.persistence.dao.dictionary.IndicatorTypeDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.RegionDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
-import org.ocha.hdx.persistence.entity.curateddata.Entity;
-import org.ocha.hdx.persistence.entity.curateddata.EntityType;
-import org.ocha.hdx.persistence.entity.curateddata.Indicator;
+import org.ocha.hdx.persistence.entity.curateddata.*;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
-import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
-import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
-import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
@@ -77,6 +68,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private IndicatorTypeDictionaryDAO indicatorTypeDictionaryDAO;
+
+    @Autowired
+    private UnitDAO unitDAO;
 
 	/*
 	 * Entity types
@@ -159,9 +153,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void createIndicatorType(final String code, final String defaultName, final String unit, final String valueType) {
+	public void createIndicatorType(final String code, final String defaultName, final String unitName, final String valueType) {
 		final Text text = textDAO.createText(defaultName);
-		indicatorTypeDAO.createIndicatorType(code, text, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(valueType));
+        //TODO: fix before commit
+        //final Unit unit = unitDAO.createUnit(code, unitText);
+		//indicatorTypeDAO.createIndicatorType(code, text, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(valueType));
 	}
 
 	@Override
@@ -176,7 +172,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void updateIndicatorType(final long indicatorTypeId, final String newName, final String newUnit, final String newValueType) {
+	public void updateIndicatorType(final long indicatorTypeId, final String newName, final Unit newUnit, final String newValueType) {
 		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newName, newUnit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
 	}
 

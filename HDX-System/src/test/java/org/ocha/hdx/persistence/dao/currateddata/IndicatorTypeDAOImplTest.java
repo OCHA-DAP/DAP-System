@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
+import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,9 @@ public class IndicatorTypeDAOImplTest {
 	@Autowired
 	private TextDAO textDAO;
 
+    @Autowired
+    private UnitDAO unitDAO;
+
 	@Test
 	public void testIndicatorTypesCRUD() {
 
@@ -40,8 +44,11 @@ public class IndicatorTypeDAOImplTest {
 		Assert.assertEquals(0, indicatorTypeDAO.listIndicatorTypes().size());
 		final Text textForTest = textDAO.createText("Per capita gdp");
 
-		logger.info("Testing create indicator type...");
-		indicatorTypeDAO.createIndicatorType("per-capita-gdp", textForTest, "dollar", ValueType.NUMBER);
+        final Text dollarText = textDAO.createText("dollar");
+        final Unit dollar = unitDAO.createUnit("dollar", dollarText);
+
+        logger.info("Testing create indicator type...");
+		indicatorTypeDAO.createIndicatorType("per-capita-gdp", textForTest, dollar, ValueType.NUMBER);
 
 		logger.info("Testing get indicator type by code...");
 		final IndicatorType indicatorTypeForCode = indicatorTypeDAO.getIndicatorTypeByCode("per-capita-gdp");
@@ -51,11 +58,14 @@ public class IndicatorTypeDAOImplTest {
 		final IndicatorType indicatorTypeForId = indicatorTypeDAO.getIndicatorTypeById(indicatorTypeForCode.getId());
 		Assert.assertEquals("Per capita gdp", indicatorTypeForId.getName().getDefaultValue());
 
-		logger.info("Testing update indicator type...");
-		indicatorTypeDAO.updateIndicatorType(indicatorTypeForId.getId(), "newName", "newUnit", ValueType.DATE);
+        final Text newUnitText = textDAO.createText("newUnit");
+        final Unit newUnit = unitDAO.createUnit("newUnit", newUnitText);
+
+        logger.info("Testing update indicator type...");
+		indicatorTypeDAO.updateIndicatorType(indicatorTypeForId.getId(), "newName", newUnit, ValueType.DATE);
 		final IndicatorType indicatorTypeUpdated = indicatorTypeDAO.getIndicatorTypeById(indicatorTypeForId.getId());
 		Assert.assertEquals("newName", indicatorTypeUpdated.getName().getDefaultValue());
-		Assert.assertEquals("newUnit", indicatorTypeUpdated.getUnit());
+		Assert.assertEquals("newUnit", indicatorTypeUpdated.getUnit().getName().getDefaultValue());
 		Assert.assertEquals(ValueType.DATE, indicatorTypeUpdated.getValueType());
 
 		logger.info("Testing list indicator types...");
@@ -66,11 +76,17 @@ public class IndicatorTypeDAOImplTest {
 		Assert.assertEquals(0, indicatorTypeDAO.listIndicatorTypes().size());
 
 		logger.info("Testing delete indicator type by code...");
-		indicatorTypeDAO.createIndicatorType("per-capita-gdp", textForTest, "dollar", ValueType.NUMBER);
+		indicatorTypeDAO.createIndicatorType("per-capita-gdp", textForTest, dollar, ValueType.NUMBER);
 		indicatorTypeDAO.deleteIndicatorTypeByCode("per-capita-gdp");
 		Assert.assertEquals(0, indicatorTypeDAO.listIndicatorTypes().size());
 
 		final Text textToDelete = indicatorTypeForCode.getName();
 		textDAO.deleteText(textToDelete.getId());
+
+        textDAO.deleteText(dollarText.getId());
+        textDAO.deleteText(newUnitText.getId());
+
+        unitDAO.deleteUnit(newUnit.getId());
+        unitDAO.deleteUnit(dollar.getId());
 	}
 }

@@ -46,12 +46,16 @@ public class IndicatorType {
 	@ForeignKey(name = "fk_indicator_type_to_name_text")
 	private Text name;
 
-	/**
-	 * this is a simple text field, just giving a hint about what the unit should be for this type of indicator will be modelled more
-	 * strictly later
-	 */
-	@Column(name = "unit", nullable = true, updatable = true)
-	private String unit;
+    @ManyToOne
+    @JoinColumn(name = "unit_id", nullable = true, updatable = true)
+    @ForeignKey(name = "fk_indicator_type_to_unit")
+    private Unit unit;
+
+	//@Column(name = "unit", nullable = true, updatable = true)
+	//private String unit;
+
+	//@Column(name = "unit", nullable = true, updatable = true)
+	//private String unit;
 
 	@Column(name = "value_type", nullable = true, updatable = true)
 	@Enumerated(EnumType.STRING)
@@ -81,11 +85,11 @@ public class IndicatorType {
 		this.name = name;
 	}
 
-	public String getUnit() {
+	public Unit getUnit() {
 		return unit;
 	}
 
-	public void setUnit(final String unit) {
+	public void setUnit(final Unit unit) {
 		this.unit = unit;
 	}
 

@@ -648,7 +648,7 @@ public class AdminResource {
 		jsonIndicatorType.addProperty("id", indicatorType.getId());
 		jsonIndicatorType.addProperty("code", indicatorType.getCode());
 		jsonIndicatorType.addProperty("name", indicatorType.getName().getDefaultValue());
-		jsonIndicatorType.addProperty("unit", indicatorType.getUnit());
+		jsonIndicatorType.addProperty("unit", indicatorType.getUnit().getName().getDefaultValue());
 		jsonIndicatorType.addProperty("valueType", indicatorType.getValueType().toString());
 		jsonIndicatorType.addProperty("text_id", indicatorType.getName().getId());
 		final List<Translation> translations = indicatorType.getName().getTranslations();
@@ -692,7 +692,7 @@ public class AdminResource {
 	@POST
 	@Path("/curated/indicatorTypes/submitCreate")
 	public Response createIndicatorType(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("unit") final String unit, @FormParam("valueType") final String valueType) {
-		curatedDataService.createIndicatorType(code, name, unit, valueType);
+        curatedDataService.createIndicatorType(code, name, unit, valueType);
 		return Response.ok().build();
 	}
 
@@ -707,8 +707,10 @@ public class AdminResource {
 	@Path("/curated/indicatorTypes/submitUpdate")
 	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newName") final String newName, @FormParam("newUnit") final String newUnit,
 			@FormParam("newValueType") final String newValueType) {
-		curatedDataService.updateIndicatorType(indicatorTypeId, newName, newUnit, newValueType);
-		return Response.ok().build();
+        //TODO: FIX before commit
+		//curatedDataService.updateIndicatorType(indicatorTypeId, newName, newUnit, newValueType);
+
+        return Response.ok().build();
 	}
 
 	/*
