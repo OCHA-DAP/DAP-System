@@ -47,6 +47,14 @@ public class UnitDAOImplTest {
         Assert.assertEquals(unit1Name, unit1Copy.getName().getDefaultValue());
         Assert.assertEquals(1, unitDAO.listUnits().size());
 
+        unitDAO.updateUnit(unit1.getId(), unit2Name);
+
+        final Unit unitUpdated = unitDAO.getUnitById(unit1.getId());
+        Assert.assertEquals(unit1.getId(), unitUpdated.getId());
+        Assert.assertEquals(unit1.getCode(), unitUpdated.getCode());
+        Assert.assertEquals(unit2Name, unitUpdated.getName().getDefaultValue());
+        Assert.assertFalse(unit1.getName().getDefaultValue().equals(unitUpdated.getName().getDefaultValue()));
+
         //cleanup
 
         unitDAO.deleteUnit(unit1Copy.getId());

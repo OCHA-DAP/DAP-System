@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import com.google.gson.*;
 import org.glassfish.jersey.server.mvc.Viewable;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -39,13 +40,10 @@ import org.ocha.hdx.rest.helper.DisplayRegionDictionaries;
 import org.ocha.hdx.rest.helper.DisplaySourceDictionaries;
 import org.ocha.hdx.service.CuratedDataService;
 import org.ocha.hdx.service.HDXService;
+import org.ocha.hdx.tools.GSONBuilderWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.visualization.datasource.base.TypeMismatchException;
 
 @RolesAllowed("admin")
@@ -225,53 +223,43 @@ public class AdminResource {
 		List<Translation> translations = null;
 
 		// Could do with Class.forName and annotations to know how to use identifier, or interface also...
-		switch (resource) {
+        final Long id = Long.valueOf(identifier);
+        switch (resource) {
 		case "source": {
-			final Source theResource = curatedDataService.getSource(Long.valueOf(identifier));
+			final Source theResource = curatedDataService.getSource(id);
 			translations = theResource.getName().getTranslations();
 		}
 			break;
 		case "entity": {
-			final Entity theResource = curatedDataService.getEntity(Long.valueOf(identifier));
+			final Entity theResource = curatedDataService.getEntity(id);
 			translations = theResource.getName().getTranslations();
 		}
 			break;
 		case "entityType": {
-			final EntityType theResource = curatedDataService.getEntityType(Long.valueOf(identifier));
+			final EntityType theResource = curatedDataService.getEntityType(id);
 			translations = theResource.getName().getTranslations();
 		}
 			break;
 		/*
 		case "indicator": {
-			final Indicator theResource = curatedDataService.getIndicator(Long.valueOf(identifier));
+			final Indicator theResource = curatedDataService.getIndicator(id);
 			translations = theResource.getName().getTranslations();
 		}
 			break;
 		*/
 		case "indicatorType": {
-			final IndicatorType theResource = curatedDataService.getIndicatorType(Long.valueOf(identifier));
+			final IndicatorType theResource = curatedDataService.getIndicatorType(id);
 			translations = theResource.getName().getTranslations();
 		}
 			break;
-
+        case "unit":
+            final Unit unit = curatedDataService.getUnit(id);
+            translations = unit.getName().getTranslations();
 		default:
 			break;
 		}
 
-		final JsonArray jsonTranslations = new JsonArray();
-		if (null != translations) {
-			for (final Translation translation : translations) {
-				final Id translationId = translation.getId();
-				final Language language = translationId.getLanguage();
-				final String code = language.getCode();
-				final String value = translation.getValue();
-				final JsonObject jsonTranslation = new JsonObject();
-				jsonTranslation.addProperty("code", code);
-				jsonTranslation.addProperty("value", value);
-
-				jsonTranslations.add(jsonTranslation);
-			}
-		}
+        JsonArray jsonTranslations = translationsToJson(translations);
 		return jsonTranslations.toString();
 	}
 
@@ -400,18 +388,7 @@ public class AdminResource {
 			jsonEntityType.addProperty("name", entityType.getName().getDefaultValue());
 			jsonEntityType.addProperty("text_id", entityType.getName().getId());
 			final List<Translation> translations = entityType.getName().getTranslations();
-			final JsonArray jsonTranslations = new JsonArray();
-			for (final Translation translation : translations) {
-				final Id translationId = translation.getId();
-				final Language language = translationId.getLanguage();
-				final String code = language.getCode();
-				final String value = translation.getValue();
-				final JsonObject jsonTranslation = new JsonObject();
-				jsonTranslation.addProperty("code", code);
-				jsonTranslation.addProperty("value", value);
-
-				jsonTranslations.add(jsonTranslation);
-			}
+            final JsonArray jsonTranslations = translationsToJson(translations);
 			jsonEntityType.add("translations", jsonTranslations);
 			jsonArray.add(jsonEntityType);
 		}
@@ -442,7 +419,70 @@ public class AdminResource {
 		return Response.ok().build();
 	}
 
-	/*
+    /*
+     * Curated / units management
+     */
+    @GET
+    @Path("/curated/units/")
+    public Response displayUnitsList() {
+        return Response.ok(new Viewable("/admin/units")).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/curated/units/json")
+    public String getUnits(@QueryParam("var") final String var) {
+        String result = "";
+        if((null != var) && !"".equals(var)) {
+            result = "var " + var + " = ";
+        }
+
+        List<Unit> list = curatedDataService.listUnits();
+        JsonArray jsonArray = new JsonArray();
+        for (Unit unit: list){
+            final JsonObject json = new JsonObject();
+            json.addProperty("id", unit.getId());
+            json.addProperty("code", unit.getCode());
+            json.addProperty("name", unit.getName().getDefaultValue());
+            json.addProperty("text_id", unit.getName().getId());
+            final List<Translation> translations = unit.getName().getTranslations();
+            final JsonArray jsonTranslations = translationsToJson(translations);
+            json.add("translations", jsonTranslations);
+            jsonArray.add(json);
+        }
+        result = result + jsonArray.toString();
+        return result;
+    }
+
+    @POST
+    @Path("/curated/units/submitCreate")
+    public Response createUnit(@FormParam("code") final String code, @FormParam("name") final String name) {
+        curatedDataService.createUnit(code, name);
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("/curated/units/submitDelete")
+    public Response deleteUnit(@FormParam("id") final long id, @Context final UriInfo uriInfo) {
+        curatedDataService.deleteUnit(id);
+
+        final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/units/").build();
+        return Response.seeOther(newURI).build();
+    }
+
+    @POST
+    @Path("/curated/units/submitUpdate")
+    public Response updateUnit(@FormParam("id") final long id, @FormParam("newName") final String newName, @Context final UriInfo uriInfo) {
+        curatedDataService.updateUnit(id, newName);
+
+        final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/units/").build();
+        return Response.seeOther(newURI).build();
+    }
+    /*
+     * =END= Curated / units management
+     */
+
+    /*
 	 * Curated / entities management
 	 */
 	@GET
@@ -479,18 +519,7 @@ public class AdminResource {
 			jsonEntity.addProperty("name", entity.getName().getDefaultValue());
 			jsonEntity.addProperty("text_id", entity.getName().getId());
 			final List<Translation> translations = entity.getName().getTranslations();
-			final JsonArray jsonTranslations = new JsonArray();
-			for (final Translation translation : translations) {
-				final Id translationId = translation.getId();
-				final Language language = translationId.getLanguage();
-				final String code = language.getCode();
-				final String value = translation.getValue();
-				final JsonObject jsonTranslation = new JsonObject();
-				jsonTranslation.addProperty("code", code);
-				jsonTranslation.addProperty("value", value);
-
-				jsonTranslations.add(jsonTranslation);
-			}
+            final JsonArray jsonTranslations = translationsToJson(translations);
 			jsonEntity.add("translations", jsonTranslations);
 
 			jsonArray.add(jsonEntity);
@@ -543,18 +572,7 @@ public class AdminResource {
 			jsonEntity.addProperty("name", entity.getName().getDefaultValue());
 			jsonEntity.addProperty("text_id", entity.getName().getId());
 			final List<Translation> translations = entity.getName().getTranslations();
-			final JsonArray jsonTranslations = new JsonArray();
-			for (final Translation translation : translations) {
-				final Id translationId = translation.getId();
-				final Language language = translationId.getLanguage();
-				final String code = language.getCode();
-				final String value = translation.getValue();
-				final JsonObject jsonTranslation = new JsonObject();
-				jsonTranslation.addProperty("code", code);
-				jsonTranslation.addProperty("value", value);
-
-				jsonTranslations.add(jsonTranslation);
-			}
+            final JsonArray jsonTranslations = translationsToJson(translations);
 			jsonEntity.add("translations", jsonTranslations);
 
 			jsonEntitiesArray.add(jsonEntity);
@@ -565,7 +583,23 @@ public class AdminResource {
 		return jsonEntities.toString();
 	}
 
-	private static void addPagination(final JsonObject jsonObject, final int _fromIndex, final int _toIndex, final int _nextIndex, final int _previousIndex, final int _totalNumber,
+    private JsonArray translationsToJson(List<Translation> translations) {
+        final JsonArray jsonTranslations = new JsonArray();
+        for (final Translation translation : translations) {
+            final Id translationId = translation.getId();
+            final Language language = translationId.getLanguage();
+            final String code = language.getCode();
+            final String value = translation.getValue();
+            final JsonObject jsonTranslation = new JsonObject();
+            jsonTranslation.addProperty("code", code);
+            jsonTranslation.addProperty("value", value);
+
+            jsonTranslations.add(jsonTranslation);
+        }
+        return jsonTranslations;
+    }
+
+    private static void addPagination(final JsonObject jsonObject, final int _fromIndex, final int _toIndex, final int _nextIndex, final int _previousIndex, final int _totalNumber,
 			final int _currentPage, final int _nbPages, final int _firstIndex, final int _lastIndex, final int howMuch) {
 		final JsonObject pagination = new JsonObject();
 		pagination.addProperty("fromIndex", _fromIndex);
@@ -647,18 +681,7 @@ public class AdminResource {
 		jsonIndicatorType.addProperty("valueType", indicatorType.getValueType().toString());
 		jsonIndicatorType.addProperty("text_id", indicatorType.getName().getId());
 		final List<Translation> translations = indicatorType.getName().getTranslations();
-		final JsonArray jsonTranslations = new JsonArray();
-		for (final Translation translation : translations) {
-			final Id translationId = translation.getId();
-			final Language language = translationId.getLanguage();
-			final String code = language.getCode();
-			final String value = translation.getValue();
-			final JsonObject jsonTranslation = new JsonObject();
-			jsonTranslation.addProperty("code", code);
-			jsonTranslation.addProperty("value", value);
-
-			jsonTranslations.add(jsonTranslation);
-		}
+        final JsonArray jsonTranslations = translationsToJson(translations);
 		jsonIndicatorType.add("translations", jsonTranslations);
 		return jsonIndicatorType;
 	}
@@ -765,18 +788,7 @@ public class AdminResource {
 		jsonSource.addProperty("link", source.getOrgLink());
 		jsonSource.addProperty("text_id", source.getName().getId());
 		final List<Translation> translations = source.getName().getTranslations();
-		final JsonArray jsonTranslations = new JsonArray();
-		for (final Translation translation : translations) {
-			final Id translationId = translation.getId();
-			final Language language = translationId.getLanguage();
-			final String code = language.getCode();
-			final String value = translation.getValue();
-			final JsonObject jsonTranslation = new JsonObject();
-			jsonTranslation.addProperty("code", code);
-			jsonTranslation.addProperty("value", value);
-
-			jsonTranslations.add(jsonTranslation);
-		}
+        final JsonArray jsonTranslations = translationsToJson(translations);
 		jsonSource.add("translations", jsonTranslations);
 		return jsonSource;
 	}

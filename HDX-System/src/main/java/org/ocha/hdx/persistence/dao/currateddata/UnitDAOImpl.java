@@ -1,5 +1,6 @@
 package org.ocha.hdx.persistence.dao.currateddata;
 
+import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
@@ -36,7 +37,7 @@ public class UnitDAOImpl implements UnitDAO {
     }
 
     @Override
-    public Unit getUnitById(long id) {
+    public Unit getUnitById(Long id) {
         return em.find(Unit.class, id);
     }
 
@@ -50,6 +51,13 @@ public class UnitDAOImpl implements UnitDAO {
     @Transactional
     public void deleteUnit(Long id) {
         em.createQuery("DELETE FROM Unit u WHERE u.id = :id").setParameter("id", id).executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    public void updateUnit(Long id, String name) {
+        final Unit unit = em.find(Unit.class, id);
+        unit.getName().setDefaultValue(name);
     }
 
 }

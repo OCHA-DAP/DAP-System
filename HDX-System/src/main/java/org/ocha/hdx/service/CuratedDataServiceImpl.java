@@ -536,4 +536,27 @@ public class CuratedDataServiceImpl implements CuratedDataService {
     public List<Unit> listUnits() {
         return unitDAO.listUnits();
     }
+
+    @Override
+    @Transactional
+    public void createUnit(String code, String name) {
+        Text nameText = textDAO.createText(name);
+        unitDAO.createUnit(code, nameText);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUnit(Long id) {
+        unitDAO.deleteUnit(id);
+    }
+
+    @Override
+    public void updateUnit(Long id, String name) {
+        unitDAO.updateUnit(id, name);
+    }
+
+    @Override
+    public Unit getUnit(Long id) {
+        return unitDAO.getUnitById(id);
+    }
 }

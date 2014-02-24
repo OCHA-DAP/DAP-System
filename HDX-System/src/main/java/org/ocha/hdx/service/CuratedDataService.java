@@ -164,4 +164,8 @@ public interface CuratedDataService {
      * Units
      */
     public List<Unit> listUnits();
+    public void createUnit(String code, String name);
+    public void deleteUnit(Long id);
+    public void updateUnit(Long id, String name);
+    public Unit getUnit(Long id);
 }

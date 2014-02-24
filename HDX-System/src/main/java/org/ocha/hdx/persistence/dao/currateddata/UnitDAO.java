@@ -14,8 +14,9 @@ public interface UnitDAO {
 
     public Unit createUnit(String code, Text name);
     public Unit getUnitByCode(String code);
-    public Unit getUnitById(long id);
+    public Unit getUnitById(Long id);
     public List<Unit> listUnits();
 
     public void deleteUnit(Long id);
+    public void updateUnit(Long id, String name);
 }
