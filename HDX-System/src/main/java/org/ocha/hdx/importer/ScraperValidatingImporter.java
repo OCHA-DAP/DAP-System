@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,14 @@ import org.ocha.hdx.validation.itemvalidator.IValidator;
 import org.ocha.hdx.validation.prevalidator.IPreValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ *
+ * Sample implementation of the {@link AbstractValidatingImporter} that has the same functionality as {@link ScraperImporter}
+ * plus the validation part
+ *
+ * @author alexandru-m-g
+ *
+ */
 public class ScraperValidatingImporter extends AbstractValidatingImporter {
 
 	private static Logger logger = LoggerFactory.getLogger(ScraperValidatingImporter.class);

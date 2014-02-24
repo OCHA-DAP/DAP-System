@@ -25,8 +25,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author alexandru-m-g
  *
+ * This class should be implemented by any importer class that needs to support the validation framework
+ *
+ * @author alexandru-m-g
  */
 public abstract class AbstractValidatingImporter implements HDXImporter {
 
@@ -59,7 +61,7 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 	 */
 	private Map<String, List<IValidator>> cachedIndicatorValidatorsMap;
 
-	private List<IPreValidator> preValidators;
+	private final List<IPreValidator> preValidators;
 
 	private final ValidationReport report;
 
@@ -69,10 +71,10 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 		this.report = report;
 		if (resourceConfiguration != null) {
 			if (resourceConfiguration.getGeneralConfigEntries() != null) {
-				generaterResourceEntriesMap(resourceConfiguration);
+				this.generaterResourceEntriesMap(resourceConfiguration);
 			}
 			if (resourceConfiguration.getIndicatorConfigEntries() != null) {
-				generateIndicatorEntriesMap(resourceConfiguration);
+				this.generateIndicatorEntriesMap(resourceConfiguration);
 			} else {
 				logger.warn("No indicator and source specific configuration found. No validation will be performed");
 
@@ -96,7 +98,7 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 				this.preValidatorsMap.put(preValidator.getPreValidatorName(), preValidator);
 			}
 		}
-		
+
 		this.preValidators	= this.findPreValidators();
 	}
 
@@ -144,11 +146,11 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 						}
 
 					}
-				} catch (RuntimeException re) {
+				} catch (final RuntimeException re) {
 					logger.warn(re.getMessage());
 				}
-				
-				
+
+
 			}
 
 			return new PreparedData(true, preparedIndicators);
@@ -168,7 +170,7 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 			for (final IValidator validator : validators) {
 				final Response response	=
 						validator.validate(preparedIndicator, this.resourceEntriesMap, this.indicatorEntriesMap.get(key));
-				if (! verifyResponse(response) ) {
+				if (! this.verifyResponse(response) ) {
 					ret	= false;
 				}
 			}
@@ -190,18 +192,20 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 				return true;
 		}
 	}
-	
+
 	protected List<IPreValidator> findPreValidators() {
-		List<IPreValidator> retList	= new ArrayList<IPreValidator>();
-		AbstractConfigEntry entry	= this.resourceEntriesMap.get(ConfigurationConstants.PREVALIDATORS);
+		final List<IPreValidator> retList	= new ArrayList<IPreValidator>();
+		final AbstractConfigEntry entry	= this.resourceEntriesMap.get(ConfigurationConstants.PREVALIDATORS);
 		if ( entry != null ) {
-			String [] preValidatorNames	= entry.getEntryValue().split(ConfigurationConstants.SEPARATOR);
-			if (preValidatorNames != null)
-				for (String name : preValidatorNames) {
-					IPreValidator preValidator	= this.preValidatorsMap.get(name);
-					if ( preValidator != null )
+			final String [] preValidatorNames	= entry.getEntryValue().split(ConfigurationConstants.SEPARATOR);
+			if (preValidatorNames != null) {
+				for (final String name : preValidatorNames) {
+					final IPreValidator preValidator	= this.preValidatorsMap.get(name);
+					if ( preValidator != null ) {
 						retList.add(preValidator);
+					}
 				}
+			}
 		}
 		return retList;
 	}
@@ -211,7 +215,7 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 		final boolean indicatorTypeCodeNotEmpty = preparedIndicator.getIndicatorTypeCode() != null && preparedIndicator.getIndicatorTypeCode().length() > 0;
 
 		if (sourceCodeNotEmpty && indicatorTypeCodeNotEmpty) {
-			return cachedFindValidators(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
+			return this.cachedFindValidators(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
 
 		}
 		return null;
@@ -266,7 +270,7 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 		boolean ret = true;
 		for (final IPreValidator preValidator : this.preValidators) {
 			final Response response = preValidator.validate(values, this.resourceEntriesMap);
-			if (! verifyResponse(response) ) {
+			if (! this.verifyResponse(response) ) {
 				ret	= false;
 			}
 		}

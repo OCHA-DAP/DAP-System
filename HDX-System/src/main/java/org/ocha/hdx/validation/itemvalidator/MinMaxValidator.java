@@ -17,7 +17,6 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.validation.Response;
 import org.ocha.hdx.validation.exception.WrongParametersForValidationException;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * @author alexandru-m-g
@@ -28,8 +27,8 @@ public class MinMaxValidator implements IValidator {
 
 	public static final String NAME = "Min/Max Validator";
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
-	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
+	public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
+	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
 
 	@Override
 	public String getValidatorName() {
@@ -82,7 +81,7 @@ public class MinMaxValidator implements IValidator {
 			final Double doubleValue = preparedIndicator.getValue().getNumberValue();
 			final Double min = Double.parseDouble(minValueEntry.getEntryValue());
 			final Double max = Double.parseDouble(maxValueEntry.getEntryValue());
-			if (min < doubleValue && doubleValue < max) {
+			if (min <= doubleValue && doubleValue <= max) {
 				response.setDescription("Success");
 				response.setStatus(ValidationStatus.SUCCESS);
 			} else {
@@ -99,7 +98,7 @@ public class MinMaxValidator implements IValidator {
 
 		final LocalDate minDate = LocalDate.parse(minValueEntry.getEntryValue(), DATE_FORMATTER);
 		final LocalDate maxDate = LocalDate.parse(maxValueEntry.getEntryValue(), DATE_FORMATTER);
-		if (minDate.isBefore(localDate) && maxDate.isAfter(localDate)) {
+		if ( minDate.compareTo(localDate)<=0  && maxDate.compareTo(localDate)>=0 ) {
 			response.setDescription("Success");
 			response.setStatus(ValidationStatus.SUCCESS);
 		}
@@ -114,7 +113,7 @@ public class MinMaxValidator implements IValidator {
 
 		final LocalDateTime minDateTime = LocalDateTime.parse(minValueEntry.getEntryValue(), DATE_TIME_FORMATTER);
 		final LocalDateTime maxDateTime = LocalDateTime.parse(maxValueEntry.getEntryValue(), DATE_TIME_FORMATTER);
-		if (minDateTime.isBefore(localDateTime) && maxDateTime.isAfter(localDateTime)) {
+		if ( minDateTime.compareTo(localDateTime)<=0  && maxDateTime.compareTo(localDateTime)>=0 ) {
 			response.setDescription("Success");
 			response.setStatus(ValidationStatus.SUCCESS);
 		} else {
