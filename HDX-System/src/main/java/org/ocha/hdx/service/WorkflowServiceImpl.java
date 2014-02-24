@@ -85,10 +85,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	@Override
-	public boolean flagCKANResourceAsImportSuccess(final String id, final String revision_id, final Type evaluator) {
+	public boolean flagCKANResourceAsImportSuccess(final String id, final String revision_id, final Type evaluator, final ValidationReport report) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.IMPORT_SUCCESS)) {
-			resourceDAO.flagCKANResourceAsImportSuccess(id, revision_id, evaluator);
+			resourceDAO.flagCKANResourceAsImportSuccess(id, revision_id, evaluator, report);
 			return true;
 		} else {
 			return false;
@@ -96,10 +96,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	@Override
-	public boolean flagCKANResourceAsImportFail(final String id, final String revision_id, final Type evaluator) {
+	public boolean flagCKANResourceAsImportFail(final String id, final String revision_id, final Type evaluator, final ValidationReport report) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.IMPORT_FAIL)) {
-			resourceDAO.flagCKANResourceAsImportFail(id, revision_id, evaluator);
+			resourceDAO.flagCKANResourceAsImportFail(id, revision_id, evaluator, report);
 			return true;
 		} else {
 			return false;
