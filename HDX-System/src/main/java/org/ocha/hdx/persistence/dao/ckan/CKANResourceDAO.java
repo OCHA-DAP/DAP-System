@@ -41,9 +41,9 @@ public interface CKANResourceDAO {
 	 * @param revision_id
 	 * @param evaluator
 	 */
-	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer);
+	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report);
 
-	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer);
+	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report);
 
 	/**
 	 * Flags the given record as Outdated

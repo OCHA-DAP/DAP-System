@@ -2,11 +2,16 @@ package org.ocha.hdx.service;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 import java.util.Map.Entry;
 
+import javax.annotation.Resource;
+
+import org.ocha.hdx.config.DummyConfigurationCreator;
 import org.ocha.hdx.importer.PreparedData;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.ScraperImporter;
+import org.ocha.hdx.importer.ScraperValidatingImporter;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
@@ -16,8 +21,11 @@ import org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.validation.DummyValidator;
 import org.ocha.hdx.validation.ScraperValidator;
+import org.ocha.hdx.validation.itemvalidator.IValidator;
+import org.ocha.hdx.validation.prevalidator.IPreValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +48,15 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 
 	@Autowired
 	private CuratedDataService curatedDataService;
+	
+	@Resource
+	private List<IValidator> validators;
+	
+	@Resource 
+	private List<IPreValidator> preValidators;
+	
+	@Autowired
+	private DummyConfigurationCreator dummyConfigurationCreator;
 
 	@Override
 	public ValidationReport evaluateResource(final File file, final Type type) {
@@ -48,6 +65,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		switch (type) {
 		case DUMMY:
 			return new DummyValidator().evaluateFile(file);
+		case SCRAPER_VALIDATING:
 
 		case SCRAPER:
 			return new ScraperValidator().evaluateFile(file);
@@ -58,7 +76,9 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	}
 
 	@Override
-	public boolean transformAndImportDataFromResource(final File file, final Type type, final String resourceId, final String revisionId) {
+	public boolean transformAndImportDataFromResource(final File file, final Type type, final String resourceId, final String revisionId, 
+			ResourceConfiguration config, ValidationReport report) {
+		
 		// FIXME we probably want something else here, map of HDXImporter, or
 		// Factory....
 		final PreparedData preparedData;
@@ -76,6 +96,18 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 				}
 			}
 			preparedData = scraperImporter.prepareDataForImport(file);
+			break;
+		case SCRAPER_VALIDATING:
+			final ScraperValidatingImporter importer = new ScraperValidatingImporter(sourceDictionaryDAO.getSourceDictionariesByImporter("scraper"), 
+					dummyConfigurationCreator.createConfiguration(), validators, preValidators, report);
+			for (final Entry<String, String> entry : importer.getCountryList(file).entrySet()) {
+				try {
+					curatedDataService.createEntity(entry.getKey(), entry.getValue(), "country");
+				} catch (final Exception e) {
+					logger.debug(String.format("Not creating country : %s already exist", entry.getKey()));
+				}
+			}
+			preparedData = importer.prepareDataForImport(file);
 			break;
 		default:
 			preparedData = defaultImportFail(file);

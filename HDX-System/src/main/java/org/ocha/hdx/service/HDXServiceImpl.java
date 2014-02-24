@@ -30,6 +30,7 @@ import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.i18n.Language;
 import org.ocha.hdx.security.exception.AuthenticationException;
 import org.ocha.hdx.security.exception.InsufficientCredentialsException;
@@ -183,12 +184,16 @@ public class HDXServiceImpl implements HDXService {
 		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
 
 		final CKANDataset.Type type = getTypeForFile(id, revision_id);
-		final boolean result = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type, id, revision_id);
+		
+		final ResourceConfiguration config	= getResourceConfigFromResourceIdAndRevisionId(id, revision_id);
+		final ValidationReport report		= getValidationReportFromResourceIdAndRevisionId(id, revision_id);
+		
+		final boolean result = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type, id, revision_id, config, report);
 
 		if (result) {
-			workflowService.flagCKANResourceAsImportSuccess(id, revision_id, type);
+			workflowService.flagCKANResourceAsImportSuccess(id, revision_id, type, report);
 		} else {
-			workflowService.flagCKANResourceAsImportFail(id, revision_id, type);
+			workflowService.flagCKANResourceAsImportFail(id, revision_id, type, report);
 			mailService.sendMailForResourceImportFailure(id, revision_id);
 		}
 	}
@@ -235,6 +240,22 @@ public class HDXServiceImpl implements HDXService {
 		final File reourceFolder = new File(stagingDirectory, id);
 		final File revisionFolder = new File(reourceFolder, revision_id);
 		return new File(revisionFolder, fileName);
+	}
+	
+	@Transactional
+	private ResourceConfiguration getResourceConfigFromResourceIdAndRevisionId(final String id, final String revision_id) {
+		final CKANResource resource = resourceDAO.getCKANResource(id, revision_id);
+		ResourceConfiguration config	= resource.getResourceConfiguration();
+		if ( config != null && 
+				(config.getGeneralConfigEntries() != null || config.getIndicatorConfigEntries() != null ) ) {
+			return config;
+		}
+		else
+			return null;
+	}
+	private ValidationReport getValidationReportFromResourceIdAndRevisionId(final String id, final String revision_id) {
+		final CKANResource resource = resourceDAO.getCKANResource(id, revision_id);
+		return resource.getValidationReport();
 	}
 
 	/**

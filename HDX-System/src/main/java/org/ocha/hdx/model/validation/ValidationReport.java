@@ -57,4 +57,14 @@ public class ValidationReport implements Serializable {
 		return entries;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ValidationReport [status=" + status + ", validator=" + validator + ", entries=" + entries + "]";
+	}
+	
+	
+
 }

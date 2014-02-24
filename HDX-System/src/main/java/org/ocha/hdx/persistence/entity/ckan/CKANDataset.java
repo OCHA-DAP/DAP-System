@@ -28,7 +28,7 @@ public class CKANDataset {
 	}
 
 	public enum Type {
-		SCRAPER, DUMMY;
+		SCRAPER_VALIDATING, SCRAPER, DUMMY;
 	}
 
 	@Id
