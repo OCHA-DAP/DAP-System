@@ -22,6 +22,7 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -55,6 +56,9 @@ public class IndicatorValueTypeTest {
 
 	@Autowired
 	TextDAO textDAO;
+
+	@Autowired
+	private UnitDAO unitDAO;
 
 	@Before
 	public void setUp() {
@@ -106,15 +110,28 @@ public class IndicatorValueTypeTest {
 		final Text txtType = this.textDAO.createText("txtType");
 		final Text dateType = this.textDAO.createText("dateType");
 		final Text dateTimeType = this.textDAO.createText("dateTimeType");
-		this.indicatorTypeDAO.createIndicatorType("txtType", txtType, "text", ValueType.TEXT);
-		this.indicatorTypeDAO.createIndicatorType("strType", strType, "string", ValueType.STRING);
-		this.indicatorTypeDAO.createIndicatorType("dateType", dateType, "dateType", ValueType.DATE);
-		this.indicatorTypeDAO.createIndicatorType("dateTimeType", dateTimeType, "string", ValueType.DATETIME);
+
+		final Text txtText = this.textDAO.createText("text");
+		final Unit txt = this.unitDAO.createUnit("text", txtText);
+
+		final Text strText = this.textDAO.createText("string");
+		final Unit str = this.unitDAO.createUnit("string", strText);
+
+		final Text dateText = this.textDAO.createText("date");
+		final Unit dDate = this.unitDAO.createUnit("date", dateText);
+
+		final Text datetimeText = this.textDAO.createText("datetime");
+		final Unit dtimeDate = this.unitDAO.createUnit("datetime", datetimeText);
+
+		this.indicatorTypeDAO.createIndicatorType("txtType", txtType, txt, ValueType.TEXT);
+		this.indicatorTypeDAO.createIndicatorType("strType", strType, str, ValueType.STRING);
+		this.indicatorTypeDAO.createIndicatorType("dateType", dateType, dDate, ValueType.DATE);
+		this.indicatorTypeDAO.createIndicatorType("datetimeType", dateTimeType, dtimeDate, ValueType.DATETIME);
 
 		final IndicatorType strIndType = this.indicatorTypeDAO.getIndicatorTypeByCode("strType");
 		final IndicatorType txtIndType = this.indicatorTypeDAO.getIndicatorTypeByCode("txtType");
 		final IndicatorType dateIndType = this.indicatorTypeDAO.getIndicatorTypeByCode("dateType");
-		final IndicatorType dateTimeIndType = this.indicatorTypeDAO.getIndicatorTypeByCode("dateTimeType");
+		final IndicatorType dateTimeIndType = this.indicatorTypeDAO.getIndicatorTypeByCode("datetimeType");
 
 		final Text txtInd = this.textDAO.createText("A TXT value for Indicator");
 		final String strInd = new String("A value string for indicator");
@@ -140,7 +157,21 @@ public class IndicatorValueTypeTest {
 		}
 		this.indicatorDAO.deleteIndicators(ids);
 		listLastIndicators = this.indicatorDAO.listLastIndicators(10);
+
 		Assert.assertEquals(0, listLastIndicators.size());
+
+		this.indicatorTypeDAO.deleteIndicatorTypeByCode("txtType");
+		this.indicatorTypeDAO.deleteIndicatorTypeByCode("strType");
+		this.indicatorTypeDAO.deleteIndicatorTypeByCode("dateType");
+		this.indicatorTypeDAO.deleteIndicatorTypeByCode("datetimeType");
+		Assert.assertEquals(2, this.indicatorTypeDAO.listIndicatorTypes().size());
+
+		this.unitDAO.deleteUnit(this.unitDAO.getUnitByCode("text").getId());
+		this.unitDAO.deleteUnit(this.unitDAO.getUnitByCode("string").getId());
+		this.unitDAO.deleteUnit(this.unitDAO.getUnitByCode("date").getId());
+		this.unitDAO.deleteUnit(this.unitDAO.getUnitByCode("datetime").getId());
+		Assert.assertEquals(2, this.unitDAO.listUnits().size());
+
 	}
 
 	private boolean isValidIndicatorValueType(final Indicator ind) {
