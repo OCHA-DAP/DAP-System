@@ -5,13 +5,8 @@ import java.util.List;
 
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
-import org.ocha.hdx.persistence.entity.curateddata.Entity;
-import org.ocha.hdx.persistence.entity.curateddata.EntityType;
-import org.ocha.hdx.persistence.entity.curateddata.Indicator;
+import org.ocha.hdx.persistence.entity.curateddata.*;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
-import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
-import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
-import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
@@ -54,7 +49,7 @@ public interface CuratedDataService {
 	 */
 	public List<IndicatorType> listIndicatorTypes();
 
-	public void createIndicatorType(final String code, final String defaultName, final String unit, final String valueType);
+	public void createIndicatorType(final String code, final String defaultName, final long unitId, final String valueType);
 
 	public IndicatorType getIndicatorType(final long id);
 
@@ -62,7 +57,7 @@ public interface CuratedDataService {
 
 	public void deleteIndicatorType(final long indicatorTypeId);
 
-	public void updateIndicatorType(final long indicatorTypeId, final String newName, final String newUnit, final String newValueType);
+	public void updateIndicatorType(final long indicatorTypeId, final String newName, final long newUnit, final String newValueType);
 
 	/*
 	 * Sources
@@ -164,4 +159,13 @@ public interface CuratedDataService {
 
 	public void deleteIndicatorTypeDictionary(IndicatorTypeDictionary indicatorTypeDictionary);
 
+
+    /**
+     * Units
+     */
+    public List<Unit> listUnits();
+    public void createUnit(String code, String name);
+    public void deleteUnit(Long id);
+    public void updateUnit(Long id, String name);
+    public Unit getUnit(Long id);
 }

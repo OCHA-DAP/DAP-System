@@ -38,7 +38,8 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/entityTypes') }"><a href="${ctx}/admin/curated/entityTypes/">Entity types</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/entities') }"><a href="${ctx}/admin/curated/entities/">Entities</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/indicatorTypes') }"><a href="${ctx}/admin/curated/indicatorTypes/">Indicator types</a></li>
-					<li ng-class="{ active: isActive('${ctx}/admin/curated/indicators') }"><a href="${ctx}/admin/curated/indicators/">Indicators</a></li>
+                    <li ng-class="{ active: isActive('${ctx}/admin/curated/indicators') }"><a href="${ctx}/admin/curated/indicators/">Indicators</a></li>
+                    <li ng-class="{ active: isActive('${ctx}/admin/curated/units') }"><a href="${ctx}/admin/curated/units/">Units</a></li>
 				</ul></li>
 		</ul>
 		<ul class="nav navbar-nav">

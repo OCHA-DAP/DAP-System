@@ -11,23 +11,14 @@ import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.TimeRange;
 import org.ocha.hdx.model.api.CellDescriptor;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
-import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
-import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
-import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO;
-import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
-import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
+import org.ocha.hdx.persistence.dao.currateddata.*;
 import org.ocha.hdx.persistence.dao.dictionary.IndicatorTypeDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.RegionDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
-import org.ocha.hdx.persistence.entity.curateddata.Entity;
-import org.ocha.hdx.persistence.entity.curateddata.EntityType;
-import org.ocha.hdx.persistence.entity.curateddata.Indicator;
+import org.ocha.hdx.persistence.entity.curateddata.*;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
-import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
-import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
-import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
@@ -77,6 +68,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private IndicatorTypeDictionaryDAO indicatorTypeDictionaryDAO;
+
+    @Autowired
+    private UnitDAO unitDAO;
 
 	/*
 	 * Entity types
@@ -159,8 +153,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void createIndicatorType(final String code, final String defaultName, final String unit, final String valueType) {
+	public void createIndicatorType(final String code, final String defaultName, final long unitId, final String valueType) {
 		final Text text = textDAO.createText(defaultName);
+        final Unit unit = unitDAO.getUnitById(unitId);
 		indicatorTypeDAO.createIndicatorType(code, text, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(valueType));
 	}
 
@@ -171,13 +166,14 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public IndicatorType getIndicatorTypeByCode(final String code) {
-		return indicatorTypeDAO.getIndicatorTypeByCode(code);
+        return indicatorTypeDAO.getIndicatorTypeByCode(code);
 	}
 
 	@Override
 	@Transactional
-	public void updateIndicatorType(final long indicatorTypeId, final String newName, final String newUnit, final String newValueType) {
-		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newName, newUnit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
+	public void updateIndicatorType(final long indicatorTypeId, final String newName, final long newUnit, final String newValueType) {
+        Unit unit = unitDAO.getUnitById(newUnit);
+		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newName, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
 	}
 
 	@Override
@@ -533,4 +529,34 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	}
 
+    /**
+     * Units
+     */
+    @Override
+    public List<Unit> listUnits() {
+        return unitDAO.listUnits();
+    }
+
+    @Override
+    @Transactional
+    public void createUnit(String code, String name) {
+        Text nameText = textDAO.createText(name);
+        unitDAO.createUnit(code, nameText);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUnit(Long id) {
+        unitDAO.deleteUnit(id);
+    }
+
+    @Override
+    public void updateUnit(Long id, String name) {
+        unitDAO.updateUnit(id, name);
+    }
+
+    @Override
+    public Unit getUnit(Long id) {
+        return unitDAO.getUnitById(id);
+    }
 }

@@ -5,6 +5,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, utilities) {
   // /////////
   $scope.resources = function() {
     $scope.valueTypes = appData['valueTypes'];
+    $scope.units = appData['units'];
   }
   $scope.resources();
 
@@ -46,6 +47,14 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, utilities) {
     return (indicatorType.valueType && selected.length) ? selected[0].text : 'Not set';
   };
 
+    // Show an indicator type's value type
+  $scope.showUnit = function(indicatorName) {
+    var selected = $filter('filter')($scope.units, {
+      id : indicatorName.unit
+    });
+    return (indicatorName.unit && selected.length) ? selected[0].name : 'Not set';
+  };
+
   // Create an indicator type
   // ========================
   $scope.createIndicatorType = function(data) {
@@ -62,7 +71,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, utilities) {
     }
     if (data && data.unit) {
       angular.extend(params, {
-        "unit" : data.unit
+        "unit" : data.unit.id
       });
     }
     if (data && data.valueType) {
@@ -122,7 +131,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, utilities) {
     }
     $scope.newResource.code = "";
     $scope.newResource.name = "";
-    $scope.newResource.unit = "";
+    $scope.newResource.unit = $scope.units ? $scope.units[0].name : "";
     $scope.newResource.valueType = $scope.valueTypes ? $scope.valueTypes[0].value : "";
   };
 

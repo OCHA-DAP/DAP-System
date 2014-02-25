@@ -11,7 +11,7 @@
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="indicatorTypes" />
 	<jsp:param name="i18n" value="true" />
-	<jsp:param name="needs" value="valueTypes,search,columnsearch" />
+	<jsp:param name="needs" value="valueTypes,search,columnsearch,units" />
 </jsp:include>
 </head>
 <body ng-controller="IndicatorTypesCtrl">
@@ -30,7 +30,8 @@
 				<tr>
 					<td><input type="text" class="form-control" placeholder="Code" id="newResource_code" ng-model="newResource.code" required /></td>
 					<td><input type="text" class="form-control" placeholder="Name" id="newResource_name" ng-model="newResource.name" required /></td>
-					<td><input type="text" class="form-control" placeholder="Unit" id="newResource_unit" ng-model="newResource.unit" required /></td>
+					<td><select class="form-control" id="newResource_unit" ng-model="newResource.unit" ng-options="u.name for u in units" ng-class="default" required></select>
+                    </td>
 					<td><select class="form-control" id="newResource_valueType" ng-model="newResource.valueType" ng-options="v.value as v.text for v in valueTypes" ng-class="default" required>
 					</select></td>
 					<td style="white-space: nowrap">
@@ -59,7 +60,9 @@
 					<!-- editable name --> <span editable-text="indicatorType.name" e-class="form-control" e-name="name" e-id="name" e-form="rowform" e-required> {{ indicatorType.name }} </span>
 				</td>
 				<td>
-					<!-- editable unit --> <span editable-text="indicatorType.unit" e-class="form-control" e-name="unit" e-id="unit" e-form="rowform" e-required> {{ indicatorType.unit }} </span>
+					<!-- editable unit -->
+                    <span editable-select="indicatorType.unit" e-class="form-control" e-name="unit" e-id="unit" e-form="rowform"
+                          e-ng-options="u.id as u.name for u in units" e-required> {{ showUnit(indicatorType) }} </span>
 				</td>
 				<td>
 					<!-- editable value type --> <span editable-select="indicatorType.valueType" e-class="form-control" e-name="valueType" e-id="valueType" e-form="rowform"
