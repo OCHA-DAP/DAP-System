@@ -54,6 +54,8 @@ public interface IndicatorDAO {
 
 	public void deleteIndicator(final long indicatorId);
 
+	public void deleteIndicators(final List<Long> indList);
+
 	/**
 	 * Based on the existing indicators
 	 * 
