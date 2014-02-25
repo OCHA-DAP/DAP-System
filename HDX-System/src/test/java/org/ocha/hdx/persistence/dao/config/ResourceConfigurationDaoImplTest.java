@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
+import org.ocha.hdx.persistence.dao.currateddata.UnitDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfigEntry;
@@ -22,14 +23,14 @@ import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml",
-		"classpath:/ctx-persistence-test.xml" })
+@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-persistence-test.xml" })
 public class ResourceConfigurationDaoImplTest {
 
 	private final String DUMMY_KEY = "dummy_key";
@@ -55,13 +56,22 @@ public class ResourceConfigurationDaoImplTest {
 	@Autowired
 	private TextDAO textDAO;
 
+	@Autowired
+	private UnitDAO unitDAO;
+
 	private Source source;
 
 	private IndicatorType indicatorType;
 
+	private Unit dollar;
+
 	@Before
 	public void setUp() throws Exception {
 		this.source = this.createDummySource();
+
+		final Text dollarText = textDAO.createText("dollar");
+		dollar = unitDAO.createUnit("dollar", dollarText);
+
 		this.indicatorType = this.createDummyIndicatorType();
 	}
 
@@ -70,6 +80,8 @@ public class ResourceConfigurationDaoImplTest {
 
 		this.sourceDAO.deleteSource(this.source.getId());
 		this.indicatorTypeDAO.deleteIndicatorType(this.indicatorType.getId());
+
+		unitDAO.deleteUnit(dollar.getId());
 	}
 
 	@Test
@@ -124,8 +136,7 @@ public class ResourceConfigurationDaoImplTest {
 	public final void testDeleteResourceConfiguration() {
 		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), config.getGeneralConfigEntries(),
-				config.getIndicatorConfigEntries());
+		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
 
 		assertTrue(newConfig.getId() > 0);
 
@@ -142,8 +153,7 @@ public class ResourceConfigurationDaoImplTest {
 	public final void testCreateResourceConfig() {
 		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), config.getGeneralConfigEntries(),
-				config.getIndicatorConfigEntries());
+		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
 
 		assertTrue(newConfig.getId() > 0);
 
@@ -161,15 +171,12 @@ public class ResourceConfigurationDaoImplTest {
 	public final void testUpdateResourceConfiguration() {
 		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), config.getGeneralConfigEntries(),
-				config.getIndicatorConfigEntries());
+		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
 
 		final long id = newConfig.getId();
 
-		final ResourceConfiguration configModified = this.createDummyConfiguration(CONFIG_NAME + "modified", NUM_OF_ITEMS + 2, NUM_OF_ITEMS + 2, this.source,
-				this.indicatorType);
-		this.resourceConfigurationDao.updateResourceConfiguration(id, configModified.getName(), configModified.getGeneralConfigEntries(),
-				configModified.getIndicatorConfigEntries());
+		final ResourceConfiguration configModified = this.createDummyConfiguration(CONFIG_NAME + "modified", NUM_OF_ITEMS + 2, NUM_OF_ITEMS + 2, this.source, this.indicatorType);
+		this.resourceConfigurationDao.updateResourceConfiguration(id, configModified.getName(), configModified.getGeneralConfigEntries(), configModified.getIndicatorConfigEntries());
 
 		final ResourceConfiguration loadedConfig = this.resourceConfigurationDao.getResourceConfigurationById(id);
 
@@ -181,8 +188,8 @@ public class ResourceConfigurationDaoImplTest {
 
 	}
 
-	private final ResourceConfiguration createDummyConfiguration(final String name, final int numOfResourcesConfig, final int numOfIndResourceConfig,
-			final Source dummySource, final IndicatorType dummyIndicatorType) {
+	private final ResourceConfiguration createDummyConfiguration(final String name, final int numOfResourcesConfig, final int numOfIndResourceConfig, final Source dummySource,
+			final IndicatorType dummyIndicatorType) {
 
 		final ResourceConfiguration resourceConfiguration = new ResourceConfiguration();
 		resourceConfiguration.setName(name);
@@ -198,8 +205,7 @@ public class ResourceConfigurationDaoImplTest {
 
 		final Set<IndicatorResourceConfigEntry> indicatorResourceConfigEntries = new HashSet<IndicatorResourceConfigEntry>();
 		for (int i = 0; i < numOfIndResourceConfig; i++) {
-			final IndicatorResourceConfigEntry entry = new IndicatorResourceConfigEntry(this.DUMMY_KEY + i, this.DUMMY_VALUE + i, dummySource,
-					dummyIndicatorType);
+			final IndicatorResourceConfigEntry entry = new IndicatorResourceConfigEntry(this.DUMMY_KEY + i, this.DUMMY_VALUE + i, dummySource, dummyIndicatorType);
 			indicatorResourceConfigEntries.add(entry);
 		}
 
@@ -221,7 +227,7 @@ public class ResourceConfigurationDaoImplTest {
 	private final IndicatorType createDummyIndicatorType() {
 		final Text textForTest = this.textDAO.createText("Dummy Indicator Type");
 
-		this.indicatorTypeDAO.createIndicatorType(DUMMY_INDICATOR_TYPE_CODE, textForTest, "dollar", ValueType.NUMBER);
+		this.indicatorTypeDAO.createIndicatorType(DUMMY_INDICATOR_TYPE_CODE, textForTest, dollar, ValueType.NUMBER);
 
 		return this.indicatorTypeDAO.getIndicatorTypeByCode(DUMMY_INDICATOR_TYPE_CODE);
 

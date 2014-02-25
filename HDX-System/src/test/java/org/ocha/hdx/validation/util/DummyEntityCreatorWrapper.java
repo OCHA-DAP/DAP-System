@@ -2,8 +2,10 @@ package org.ocha.hdx.validation.util;
 
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
+import org.ocha.hdx.persistence.dao.currateddata.UnitDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
+import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,9 @@ public class DummyEntityCreatorWrapper {
 
 	@Autowired
 	private TextDAO textDAO;
+
+	@Autowired
+	private UnitDAO unitDAO;
 
 	public DummyEntityCreator generateNewEntityCreator() {
 		return new DummyEntityCreator();
@@ -34,7 +39,10 @@ public class DummyEntityCreatorWrapper {
 
 			this.indTypeText = DummyEntityCreatorWrapper.this.textDAO.createText("Population Density");
 
-			DummyEntityCreatorWrapper.this.indicatorTypeDAO.createIndicatorType("PSP080", this.indTypeText, "persons per square km", ValueType.NUMBER);
+			final Text unitText = textDAO.createText("persons per square km");
+			final Unit unit = unitDAO.createUnit("persons per square km", unitText);
+
+			DummyEntityCreatorWrapper.this.indicatorTypeDAO.createIndicatorType("PSP080", this.indTypeText, unit, ValueType.NUMBER);
 		}
 
 		public void deleteNeededIndicatorTypeAndSource() {
