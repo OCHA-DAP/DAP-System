@@ -29,8 +29,14 @@
     alter table hdx_translation 
         drop constraint fk_translation_to_language;
 
+    alter table hdx_unit 
+        drop constraint fk_entity_to_name_text;
+
     alter table indicator_type 
         drop constraint fk_indicator_type_to_name_text;
+
+    alter table indicator_type 
+        drop constraint fk_indicator_type_to_unit;
 
     alter table indicator_type_dictionary 
         drop constraint fk_indicator_type_dictionary_to_indicator_type;
@@ -65,6 +71,8 @@
 
     drop table hdx_translation;
 
+    drop table hdx_unit;
+
     drop table hdx_user;
 
     drop table import_from_ckan;
@@ -88,6 +96,8 @@
     drop sequence entity_seq;
 
     drop sequence entity_type_seq;
+
+    drop sequence hdx_unit_seq;
 
     drop sequence import_from_ckan_seq;
 
@@ -176,6 +186,13 @@
         primary key (language, text)
     );
 
+    create table hdx_unit (
+        id int8 not null,
+        code varchar(255) not null,
+        text_id int8,
+        primary key (id)
+    );
+
     create table hdx_user (
         id varchar(255) not null,
         ckanApiKey varchar(255),
@@ -195,9 +212,9 @@
     create table indicator_type (
         id int8 not null,
         code varchar(255) not null unique,
-        unit varchar(255),
         value_type varchar(255),
         text_id int8,
+        unit_id int8,
         primary key (id)
     );
 
@@ -301,10 +318,20 @@
         foreign key (language) 
         references language;
 
+    alter table hdx_unit 
+        add constraint fk_entity_to_name_text 
+        foreign key (text_id) 
+        references text;
+
     alter table indicator_type 
         add constraint fk_indicator_type_to_name_text 
         foreign key (text_id) 
         references text;
+
+    alter table indicator_type 
+        add constraint fk_indicator_type_to_unit 
+        foreign key (unit_id) 
+        references hdx_unit;
 
     alter table indicator_type_dictionary 
         add constraint fk_indicator_type_dictionary_to_indicator_type 
@@ -344,6 +371,8 @@
     create sequence entity_seq;
 
     create sequence entity_type_seq;
+
+    create sequence hdx_unit_seq;
 
     create sequence import_from_ckan_seq;
 

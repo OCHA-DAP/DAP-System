@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
+import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +25,7 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 
 	@Override
 	@Transactional
-	public void createIndicatorType(final String code, final Text name, final String unit, final ValueType valueType) {
+	public void createIndicatorType(final String code, final Text name, final Unit unit, final ValueType valueType) {
 		final IndicatorType indicatorType = new IndicatorType();
 		indicatorType.setCode(code);
 		indicatorType.setName(name);
@@ -59,7 +60,7 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 
 	@Override
 	@Transactional
-	public void updateIndicatorType(final long indicatorTypeId, final String newName, final String newUnit, final ValueType valueType) {
+	public void updateIndicatorType(final long indicatorTypeId, final String newName, final Unit newUnit, final ValueType valueType) {
 		final IndicatorType indicatorType = em.find(IndicatorType.class, indicatorTypeId);
 		indicatorType.getName().setDefaultValue(newName);
 		indicatorType.setUnit(newUnit);

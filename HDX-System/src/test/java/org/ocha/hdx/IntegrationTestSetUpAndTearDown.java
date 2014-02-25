@@ -4,19 +4,12 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
-import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
-import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
-import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO;
-import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
-import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
+import org.ocha.hdx.persistence.dao.currateddata.*;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
-import org.ocha.hdx.persistence.entity.curateddata.Entity;
+import org.ocha.hdx.persistence.entity.curateddata.*;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
-import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
-import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
-import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.service.CuratedDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +40,10 @@ public class IntegrationTestSetUpAndTearDown {
 	@Autowired
 	TextDAO textDAO;
 
+    @Autowired
+    private UnitDAO unitDAO;
+
+
 	public void setUp() {
 		final Text text = textDAO.createText("Country");
 		entityTypeDAO.createEntityType("country", text);
@@ -55,10 +52,16 @@ public class IntegrationTestSetUpAndTearDown {
 		curatedDataService.createEntity("RUS", "Russia", "country");
 		curatedDataService.createEntity("RWA", "Rwanda", "country");
 
+        final Text dollarText = textDAO.createText("dollar");
+        final Unit dollar = unitDAO.createUnit("dollar", dollarText);
+        final Text countText = textDAO.createText("Count");
+        final Unit count = unitDAO.createUnit("count", countText);
+
+
 		final Text gdp = textDAO.createText("Per capita gdp");
 		final Text conflict = textDAO.createText("Incidence of conflict");
-		indicatorTypeDAO.createIndicatorType("per-capita-gdp", gdp, "dollar", ValueType.NUMBER);
-		indicatorTypeDAO.createIndicatorType("PVX040", conflict, "Count", ValueType.NUMBER);
+		indicatorTypeDAO.createIndicatorType("per-capita-gdp", gdp, dollar, ValueType.NUMBER);
+		indicatorTypeDAO.createIndicatorType("PVX040", conflict, count, ValueType.NUMBER);
 
 		final Text wb = textDAO.createText("World Bank");
 		final Text acled = textDAO.createText("Armed Conflict Location and Event Dataset");
@@ -90,6 +93,9 @@ public class IntegrationTestSetUpAndTearDown {
 
 		sourceDAO.deleteSourceByCode("WB");
 		sourceDAO.deleteSourceByCode("acled");
+
+        unitDAO.deleteUnit(unitDAO.getUnitByCode("dollar").getId());
+        unitDAO.deleteUnit(unitDAO.getUnitByCode("count").getId());
 	}
 
 }

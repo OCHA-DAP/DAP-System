@@ -17,6 +17,7 @@
   <bean id="textDAO" class="org.ocha.hdx.persistence.dao.i18n.TextDAOImpl" />
   <bean id="languageDAO" class="org.ocha.hdx.persistence.dao.i18n.LanguageDAOImpl" />
 
+  <bean id="unitDAO" class="org.ocha.hdx.persistence.dao.currateddata.UnitDAOImpl" />
   <bean id="entityTypeDAO" class="org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAOImpl" />
   <bean id="entityDAO" class="org.ocha.hdx.persistence.dao.currateddata.EntityDAOImpl" />
   <bean id="indicatorTypeDAO" class="org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAOImpl" />
