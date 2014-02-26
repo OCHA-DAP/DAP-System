@@ -7,6 +7,7 @@ import org.ocha.hdx.exporter.country.ExporterCountryCrisis_PDF;
 import org.ocha.hdx.exporter.country.ExporterCountryCrisis_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_PDF;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_XSLX;
+import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 
 /**
  * TODO This class can be used to perform reports manually.
@@ -33,10 +34,10 @@ public class Reporter {
 		// Write the file
 		// ExportStrategy_XLSX.writeFile((Workbook) country_XLSX.export(), "C:\\Users\\bmichiels\\Desktop\\workbook.xlsx");
 
-		final Exporter<XSSFWorkbook> exporter = new ExporterCountryCrisis_XLSX(new ExporterCountryOverview_XSLX());
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryCrisis_XLSX(new ExporterCountryOverview_XSLX());
 		// final Exporter<XSSFWorkbook> exporter = new ExporterCountryOverview_XSLX(new ExporterCountry_XLSX());
 
-		final Exporter<File> exporterPDF = new ExporterCountryCrisis_PDF(new ExporterCountryOverview_PDF());
+		final Exporter<File, ExporterCountryQueryData> exporterPDF = new ExporterCountryCrisis_PDF(new ExporterCountryOverview_PDF());
 
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		// Export

@@ -7,8 +7,8 @@ package org.ocha.hdx.exporter;
  * 
  * @param <E>
  */
-public interface Exporter<E> {
+public interface Exporter<E, QD extends QueryData> {
 
-	public E export(E incomingData, QueryData queryData);
+	public E export(final E incomingData, QD queryData);
 
 }

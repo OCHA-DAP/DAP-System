@@ -376,7 +376,7 @@ public class APIResource {
 		exporterCountryQueryData.setLanguage(language);
 
 		// Define the exporter
-		final Exporter<XSSFWorkbook> exporter = new ExporterCountryCrisis_XLSX(new ExporterCountryOverview_XSLX());
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryCrisis_XLSX(new ExporterCountryOverview_XSLX());
 
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		// Export

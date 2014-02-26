@@ -21,13 +21,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author bmichiels
  * 
  */
-public abstract class Exporter_XLSX extends AbstractExporter<XSSFWorkbook> {
+public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExporter<XSSFWorkbook, QD> {
 
 	public Exporter_XLSX() {
 		super();
 	}
 
-	public Exporter_XLSX(final Exporter<XSSFWorkbook> exporter) {
+	public Exporter_XLSX(final Exporter<XSSFWorkbook, QD> exporter) {
 		super(exporter);
 	}
 
