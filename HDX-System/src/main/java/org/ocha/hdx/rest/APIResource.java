@@ -17,8 +17,9 @@ import javax.ws.rs.core.Response;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.glassfish.jersey.server.mvc.Viewable;
-import org.ocha.hdx.exporter.ExportStrategy;
-import org.ocha.hdx.exporter.country.ExporterCountry;
+import org.ocha.hdx.exporter.Exporter;
+import org.ocha.hdx.exporter.country.ExporterCountryCrisis_XLSX;
+import org.ocha.hdx.exporter.country.ExporterCountryOverview_XSLX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
@@ -375,10 +376,11 @@ public class APIResource {
 		exporterCountryQueryData.setLanguage(language);
 
 		// Define the exporter
-		final ExporterCountry exporter = new ExporterCountry(ExportStrategy.Country_XLSX, exporterCountryQueryData);
+		final Exporter<XSSFWorkbook> exporter = new ExporterCountryCrisis_XLSX(new ExporterCountryOverview_XSLX());
 
+		XSSFWorkbook workbook = new XSSFWorkbook();
 		// Export
-		final XSSFWorkbook workbook = (XSSFWorkbook) exporter.export();
+		workbook = exporter.export(workbook, exporterCountryQueryData);
 		// DO NOT DO THIS BECAUSE IT SEEMS TO CORRUPT THE STREAM : ExportStrategy_XLSX.writeFile(workbook, "C:\\workbook.xlsx");
 		return workbook;
 	}

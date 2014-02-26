@@ -13,19 +13,28 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
- * XLSX implementation of the export strategy.
- * This class should be implemented for every report needing an XLSX export.
+ * XLSX implementation of the export strategy. This class should be implemented for every report needing an XLSX export.
+ * 
  * @author bmichiels
- *
+ * 
  */
-public abstract class ExportStrategy_XLSX {
-	
+public abstract class Exporter_XLSX extends AbstractExporter<XSSFWorkbook> {
+
+	public Exporter_XLSX() {
+		super();
+	}
+
+	public Exporter_XLSX(final Exporter<XSSFWorkbook> exporter) {
+		super(exporter);
+	}
+
 	public static final String DATE_FORMAT_01 = "yyyy-mm-dd";
 
 	// /////
-	// Fonts 
+	// Fonts
 	// /////
 
 	/**
@@ -55,7 +64,7 @@ public abstract class ExportStrategy_XLSX {
 	}
 
 	// /////
-	// Cells 
+	// Cells
 	// /////
 
 	/**
@@ -110,7 +119,7 @@ public abstract class ExportStrategy_XLSX {
 
 		final CellStyle cellStyle = workbook.createCellStyle();
 		cellStyle.setDataFormat(createHelper.createDataFormat().getFormat(format));
-		
+
 		final Cell cell = row.createCell(column);
 		cell.setCellValue(date);
 		cell.setCellStyle(cellStyle);
@@ -118,7 +127,7 @@ public abstract class ExportStrategy_XLSX {
 	}
 
 	// /////
-	// I/O 
+	// I/O
 	// /////
 
 	public static void writeFile(final Workbook wb, final String path) {
