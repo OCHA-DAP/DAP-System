@@ -12,6 +12,7 @@ import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
+import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
@@ -75,6 +76,34 @@ public class IntegrationTestSetUpAndTearDown {
 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord("anyResourceId", "anyRevisionId", new Date());
 		indicatorDAO.createIndicator(sourceWB, russia, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(10000.0), "10000$", "http:www.example.com", importFromCKAN);
+		
+
+		/*
+		 * Reports
+		 */
+		
+		// Country overview
+		
+		// Source
+		final Text m49 = textDAO.createText("m49");
+		sourceDAO.createSource("m49", m49, "www.m49.com");
+		final Source sourceM49 = sourceDAO.getSourceByCode("m49");
+
+		// Entity
+		curatedDataService.createEntity("COL", "Colombia", "country");
+		final Entity colombia = entityDAO.getEntityByCodeAndType("COL", "country");
+				
+		// Indicator type
+		final Text m49_num = textDAO.createText("m49-num");
+		indicatorTypeDAO.createIndicatorType("CG060", m49_num, "dollar", ValueType.NUMBER);
+		final IndicatorType cg060 = indicatorTypeDAO.getIndicatorTypeByCode("CG060");
+		
+		// Indicator
+		final IndicatorValue indicatorValue = new IndicatorValue(170d);
+		indicatorDAO.createIndicator(sourceM49, colombia, cg060, new Date(), null, Indicator.Periodicity.YEAR, indicatorValue, "0", null, importFromCKAN);
+
+		
+		
 	}
 
 	public void tearDown() {

@@ -17,6 +17,7 @@ import org.ocha.hdx.IntegrationTestSetUpAndTearDown;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
+import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
@@ -63,7 +64,8 @@ public class IndicatorDAOImplTest {
 
 	@Test
 	public void testListLastIndicators() {
-		Assert.assertEquals(1, indicatorDAO.listLastIndicators(100).size());
+		final List<Indicator> listLastIndicators = indicatorDAO.listLastIndicators(100);
+		Assert.assertEquals(1, listLastIndicators.size());
 
 		final Entity russia = entityDAO.getEntityByCodeAndType("RUS", "country");
 		final Entity luxembourg = entityDAO.getEntityByCodeAndType("LUX", "country");
@@ -168,4 +170,12 @@ public class IndicatorDAOImplTest {
 		Assert.assertEquals(5, indicatorDAO.listLastIndicators(100).size());
 
 	}
+	
+	@Test
+	public void testReportQueries() {
+		final List listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("COL", "FR");
+		Assert.assertEquals(1, listIndicatorsForCountryOverview.size());
+		final Object[] element = (Object[]) listIndicatorsForCountryOverview.get(0);
+		Assert.assertEquals(1l, element[0]);
+	}	
 }

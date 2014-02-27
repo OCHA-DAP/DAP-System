@@ -46,6 +46,13 @@ public interface IndicatorDAO {
 	public List<Indicator> listIndicatorsByYearAndSourceAndIndicatorTypes(final int year, final String sourceCode, final List<String> indicatorTypeCodes);
 
 	/**
+	 * Indicators for the country overview.
+	 * @param countryCode
+	 * @param languageCode
+	 */
+	public List listIndicatorsForCountryOverview(String countryCode, String languageCode);
+
+	/**
 	 * very likely to be used by the unit tests only
 	 */
 	public void deleteAllIndicators();

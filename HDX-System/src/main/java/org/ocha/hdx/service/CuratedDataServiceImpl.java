@@ -430,6 +430,15 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		}
 		return dataTable;
 	}
+	
+	/*
+	@Override
+	public List<Indicator> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
+		final List<Indicator> result = indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode);
+
+		return result;
+	}
+	*/
 
 	private Map<String, TableRow> addColumnData(final int year, final Map<String, TableRow> rows, final String sourceCode, final String indicatorTypeCode, final List<String> countryCodes) {
 		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode, countryCodes);
