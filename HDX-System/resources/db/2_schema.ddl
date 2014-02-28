@@ -380,6 +380,8 @@
         foreign key (text_id) 
         references text;
 
+    create index indicator_resource_config_entry_index on indicator_resource_config_entry (entry_key);
+
     alter table indicator_resource_config_entry 
         add constraint fk_resource_config_map_to_source 
         foreign key (source_id) 
@@ -424,6 +426,8 @@
         add constraint fk_region_dictionary_to_entity 
         foreign key (entity_id) 
         references entity;
+
+    create index resource_config_entry_index on resource_config_entry (entry_key);
 
     alter table resource_config_entry 
         add constraint fk_resource_config_map_to_source 
