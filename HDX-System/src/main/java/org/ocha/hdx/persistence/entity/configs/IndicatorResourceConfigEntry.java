@@ -3,7 +3,11 @@
  */
 package org.ocha.hdx.persistence.entity.configs;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
@@ -21,6 +25,11 @@ import org.ocha.hdx.persistence.entity.curateddata.Source;
 @Table(name = "indicator_resource_config_entry")
 @SequenceGenerator(name = "indicator_resource_config_entry_seq", sequenceName = "indicator_resource_config_entry_seq")
 public class IndicatorResourceConfigEntry extends AbstractConfigEntry{
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "indicator_resource_config_entry_seq")
+	@Column(name = "id", nullable = false)
+	private long id;
 
 	@ManyToOne
 	@JoinColumn(name = "resource_configuration_id", nullable=false)
@@ -48,6 +57,13 @@ public class IndicatorResourceConfigEntry extends AbstractConfigEntry{
 	}
 
 
+	public long getId() {
+		return this.id;
+	}
+
+	public void setId(final long id) {
+		this.id = id;
+	}
 
 	public Source getSource() {
 		return this.source;

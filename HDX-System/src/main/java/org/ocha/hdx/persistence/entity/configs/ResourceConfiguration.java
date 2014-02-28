@@ -28,7 +28,7 @@ import org.hibernate.annotations.Index;
 public class ResourceConfiguration {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "resource_configuration_seq")
 	@Column(name = "id", nullable = false)
 	private long id;
 

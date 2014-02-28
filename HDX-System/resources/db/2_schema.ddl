@@ -1,4 +1,7 @@
 
+    alter table ckan_resource 
+        drop constraint fk_ckan_resource_to_resource_config;
+
     alter table entity 
         drop constraint fk_entity_to_type;
 
@@ -32,6 +35,15 @@
     alter table hdx_unit 
         drop constraint fk_entity_to_name_text;
 
+    alter table indicator_resource_config_entry 
+        drop constraint fk_resource_config_map_to_source;
+
+    alter table indicator_resource_config_entry 
+        drop constraint fk_resource_config_map_to_indicator_type;
+
+    alter table indicator_resource_config_entry 
+        drop constraint fk_resource_config_map_to_source;
+
     alter table indicator_type 
         drop constraint fk_indicator_type_to_name_text;
 
@@ -49,6 +61,9 @@
 
     alter table region_dictionary 
         drop constraint fk_region_dictionary_to_entity;
+
+    alter table resource_config_entry 
+        drop constraint fk_resource_config_map_to_source;
 
     alter table source 
         drop constraint fk_source_to_name_text;
@@ -77,6 +92,8 @@
 
     drop table import_from_ckan;
 
+    drop table indicator_resource_config_entry;
+
     drop table indicator_type;
 
     drop table indicator_type_dictionary;
@@ -86,6 +103,10 @@
     drop table organisation;
 
     drop table region_dictionary;
+
+    drop table resource_config_entry;
+
+    drop table resource_configuration;
 
     drop table source;
 
@@ -101,11 +122,17 @@
 
     drop sequence import_from_ckan_seq;
 
+    drop sequence indicator_resource_config_entry_seq;
+
     drop sequence indicator_seq;
 
     drop sequence indicator_type_seq;
 
     drop sequence organisation_seq;
+
+    drop sequence resource_config_entry_seq;
+
+    drop sequence resource_configuration_seq;
 
     drop sequence source_seq;
 
@@ -140,6 +167,7 @@
         revision_timestamp timestamp not null,
         validationReport oid,
         workflowState varchar(255) not null,
+        resource_configuration_id int8,
         primary key (id, revision_id)
     );
 
@@ -209,6 +237,16 @@
         primary key (id)
     );
 
+    create table indicator_resource_config_entry (
+        id int8 not null,
+        entry_key varchar(255) not null,
+        entry_value varchar(255) not null,
+        indicator_type_id int8 not null,
+        resource_configuration_id int8 not null,
+        source_id int8 not null,
+        primary key (id)
+    );
+
     create table indicator_type (
         id int8 not null,
         code varchar(255) not null unique,
@@ -246,6 +284,20 @@
         primary key (importer, unnormalized_name)
     );
 
+    create table resource_config_entry (
+        id int8 not null,
+        entry_key varchar(255) not null,
+        entry_value varchar(255) not null,
+        resource_configuration_id int8 not null,
+        primary key (id)
+    );
+
+    create table resource_configuration (
+        id int8 not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    );
+
     create table source (
         id int8 not null,
         code varchar(255) not null unique,
@@ -267,6 +319,11 @@
         default_value varchar(255) not null,
         primary key (id)
     );
+
+    alter table ckan_resource 
+        add constraint fk_ckan_resource_to_resource_config 
+        foreign key (resource_configuration_id) 
+        references resource_configuration;
 
     alter table entity 
         add constraint fk_entity_to_type 
@@ -323,6 +380,23 @@
         foreign key (text_id) 
         references text;
 
+    create index keyIndex on indicator_resource_config_entry (entry_key);
+
+    alter table indicator_resource_config_entry 
+        add constraint fk_resource_config_map_to_source 
+        foreign key (source_id) 
+        references source;
+
+    alter table indicator_resource_config_entry 
+        add constraint fk_resource_config_map_to_indicator_type 
+        foreign key (indicator_type_id) 
+        references indicator_type;
+
+    alter table indicator_resource_config_entry 
+        add constraint fk_resource_config_map_to_source 
+        foreign key (resource_configuration_id) 
+        references resource_configuration;
+
     alter table indicator_type 
         add constraint fk_indicator_type_to_name_text 
         foreign key (text_id) 
@@ -353,6 +427,15 @@
         foreign key (entity_id) 
         references entity;
 
+    create index keyIndex on resource_config_entry (entry_key);
+
+    alter table resource_config_entry 
+        add constraint fk_resource_config_map_to_source 
+        foreign key (resource_configuration_id) 
+        references resource_configuration;
+
+    create index nameIndex on resource_configuration (name);
+
     alter table source 
         add constraint fk_source_to_name_text 
         foreign key (text_id) 
@@ -376,11 +459,17 @@
 
     create sequence import_from_ckan_seq;
 
+    create sequence indicator_resource_config_entry_seq;
+
     create sequence indicator_seq;
 
     create sequence indicator_type_seq;
 
     create sequence organisation_seq;
+
+    create sequence resource_config_entry_seq;
+
+    create sequence resource_configuration_seq;
 
     create sequence source_seq;
 
