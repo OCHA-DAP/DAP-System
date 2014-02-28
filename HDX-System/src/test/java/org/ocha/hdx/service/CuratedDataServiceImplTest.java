@@ -72,7 +72,7 @@ public class CuratedDataServiceImplTest {
 
 	@Test
 	public void testListEntities() {
-		Assert.assertEquals(3, curatedDataService.listEntities().size());
+		Assert.assertEquals(4, curatedDataService.listEntities().size());
 
 		try {
 			curatedDataService.createEntity("RUS", "Russia", "crisis");
@@ -83,11 +83,11 @@ public class CuratedDataServiceImplTest {
 
 		curatedDataService.createEntity("SWE", "Sweden", "country");
 
-		Assert.assertEquals(4, curatedDataService.listEntities().size());
+		Assert.assertEquals(5, curatedDataService.listEntities().size());
 
 		entityDAO.deleteEntityByCodeAndType("SWE", "country");
 
-		Assert.assertEquals(3, curatedDataService.listEntities().size());
+		Assert.assertEquals(4, curatedDataService.listEntities().size());
 	}
 
 	@Test

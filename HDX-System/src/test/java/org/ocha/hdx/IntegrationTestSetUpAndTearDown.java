@@ -108,17 +108,21 @@ public class IntegrationTestSetUpAndTearDown {
 
 	public void tearDown() {
 		indicatorDAO.deleteAllIndicators();
+
 		entityDAO.deleteEntityByCodeAndType("LUX", "country");
 		entityDAO.deleteEntityByCodeAndType("RUS", "country");
 		entityDAO.deleteEntityByCodeAndType("RWA", "country");
+		entityDAO.deleteEntityByCodeAndType("COL", "country");
 
 		entityTypeDAO.deleteEntityTypeByCode("country");
 
 		indicatorTypeDAO.deleteIndicatorTypeByCode("per-capita-gdp");
 		indicatorTypeDAO.deleteIndicatorTypeByCode("PVX040");
+		indicatorTypeDAO.deleteIndicatorTypeByCode("CG060");
 
 		sourceDAO.deleteSourceByCode("WB");
 		sourceDAO.deleteSourceByCode("acled");
+		sourceDAO.deleteSourceByCode("m49");
 	}
 
 }
