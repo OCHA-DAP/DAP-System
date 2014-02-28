@@ -19,7 +19,7 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
   $scope.filteredEntities = [];
   $scope.entitiesByEntityType = function(entityType) {
     var theFilteredEntities = $filter('filter')($scope.entities, {
-      type : entityType.id
+      entityType : entityType.id
     });
     return theFilteredEntities;
   }
