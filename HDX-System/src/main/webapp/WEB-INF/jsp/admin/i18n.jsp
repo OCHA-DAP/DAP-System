@@ -1,4 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!--
+    two parameters need to be defined when including this jsp:
+        - "item" the current item for which the translation component is being rendered
+        -"collection" the object for the collection that's currently iterated
+-->
+
 
 <div ng-controller="TranslationsCtrl">
     <table class="table table-bordered table-hover table-condensed">
