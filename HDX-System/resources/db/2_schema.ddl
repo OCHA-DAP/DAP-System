@@ -42,7 +42,7 @@
         drop constraint fk_resource_config_map_to_indicator_type;
 
     alter table indicator_resource_config_entry 
-        drop constraint fk_resource_config_map_to_source;
+        drop constraint fk_resource_config_map_to_parent;
 
     alter table indicator_type 
         drop constraint fk_indicator_type_to_name_text;
@@ -380,8 +380,6 @@
         foreign key (text_id) 
         references text;
 
-    create index keyIndex on indicator_resource_config_entry (entry_key);
-
     alter table indicator_resource_config_entry 
         add constraint fk_resource_config_map_to_source 
         foreign key (source_id) 
@@ -393,7 +391,7 @@
         references indicator_type;
 
     alter table indicator_resource_config_entry 
-        add constraint fk_resource_config_map_to_source 
+        add constraint fk_resource_config_map_to_parent 
         foreign key (resource_configuration_id) 
         references resource_configuration;
 
@@ -426,8 +424,6 @@
         add constraint fk_region_dictionary_to_entity 
         foreign key (entity_id) 
         references entity;
-
-    create index keyIndex on resource_config_entry (entry_key);
 
     alter table resource_config_entry 
         add constraint fk_resource_config_map_to_source 

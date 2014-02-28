@@ -6,8 +6,6 @@ package org.ocha.hdx.persistence.entity.configs;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
-import org.hibernate.annotations.Index;
-
 /**
  * @author alexandru-m-g
  *
@@ -16,7 +14,6 @@ import org.hibernate.annotations.Index;
 public abstract class AbstractConfigEntry {
 
 	@Column(name = "entry_key", unique = false, nullable = false, updatable = false)
-	@Index(name = "keyIndex")
 	private String entryKey;
 
 	@Column(name = "entry_value", unique = false, nullable = false, updatable = true)
