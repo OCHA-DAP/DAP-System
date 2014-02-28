@@ -15,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.glassfish.jersey.server.mvc.Viewable;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
@@ -23,6 +24,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.rest.helper.BubbleChartConfigurer;
 import org.ocha.hdx.rest.helper.IndicatorAndSourceChartConfigurer;
 import org.ocha.hdx.service.CuratedDataService;
+import org.ocha.hdx.service.ExporterService;
 import org.ocha.hdx.tools.GSONBuilderWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +49,9 @@ public class APIResource {
 
 	@Autowired
 	private CuratedDataService curatedDataService;
+
+	@Autowired
+	private ExporterService exporterService;
 
 	@GET
 	@Produces({ "text/csv" })
@@ -337,5 +342,30 @@ public class APIResource {
 		final List<Source> sources = curatedDataService.getExistingSourcesForIndicatorType(indicatorTypeCode);
 
 		return GSONBuilderWrapper.getGSON().toJson(sources);
+	}
+
+	// //////////////////////
+	// Export functionalities
+	// //////////////////////
+
+	/**
+	 * Export a country report.
+	 * 
+	 * @param countryCode
+	 *            The code of the country (e.g. BEL)
+	 * @param fromYear
+	 *            The year from which the data will be collected (e.g. 1998), inclusive
+	 * @param toYear
+	 *            The year to which the data will be collected (e.g. 2014), inclusive
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A XSSF workbook containing the data as requested
+	 */
+	@GET
+	@Path("/exporter/xlsx/country/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.xlsx")
+	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	public XSSFWorkbook exportCountry_XLSX(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final String fromYear, @PathParam("toYear") final String toYear,
+			@PathParam("language") final String language) {
+		return exporterService.exportCountry_XLSX(countryCode, fromYear, toYear, language);
 	}
 }

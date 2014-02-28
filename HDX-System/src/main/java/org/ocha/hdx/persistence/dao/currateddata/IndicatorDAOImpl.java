@@ -1,10 +1,13 @@
 package org.ocha.hdx.persistence.dao.currateddata;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.ocha.hdx.importer.TimeRange;
@@ -104,6 +107,79 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 				.setParameter("indicatorTypes", indicatorTypeCodes);
 
 		return query.getResultList();
+	}
+
+	@Override
+	/*
+	 * 
+	SELECT
+	it.code AS indicatorId,
+	i.start_time AS startTime,
+	itt.default_value AS indicatorType, 
+	i.date_value AS dateValue,
+	i.datetime_value AS dateTimeValue,
+	i.number_value AS numberValue,
+	i.string_value AS stringValue,
+	ivt.default_value AS textValue,
+	ifc.timestamp AS lastUpdated,
+	st.default_value AS source
+	FROM
+	hdx_indicator i LEFT OUTER JOIN text ivt ON i.text_id = ivt.id, 
+	indicator_type it,
+	text itt,
+	entity e,
+	import_from_ckan ifc,
+	source s,
+	text st
+	WHERE
+	it.code = '_emdat:total_affected'
+	AND i.type_id = it.id 
+	AND it.text_id = itt.id 
+	AND i.entity_id = e.id 
+	AND e.entity_type_id = 1 
+	AND e.code = 'COL' 
+	AND i.import_from_ckan_id = ifc.id 
+	AND i.source_id = s.id 
+	AND s.text_id = st.id 
+	ORDER BY
+	i.start_time DESC
+	LIMIT 
+	1
+	;
+	 * 
+	 * (non-Javadoc)
+	 * @see org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO#listIndicatorsForCountryOverview(java.lang.String, java.lang.String)
+	 */
+	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
+		final String[] indicatorsListForCountryOverview = new String[] { "D010", "CD030", "CD050", "CD070", "CD080", "CD090", "CG020", "CG030", "CG060", "CG070", "CG080",
+				"CG100", "CG120", "CG140", "CG150", "CG260", "CG290", "_m49-name", "_unterm:ISO Country alpha-2-code" };
+		final List<Object[]> result = new ArrayList<Object[]>();
+
+		/*
+		final Indicator i = new Indicator();
+		i.getEntity().getType().getCode();
+		final ImportFromCKAN importFromCKAN = i.getImportFromCKAN();
+		*/
+		for (final String indicator : indicatorsListForCountryOverview) {
+			// final Query query = em
+			// .createQuery(
+			// "SELECT i.id, i.type.code, i.start, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue 
+			// 	from Indicator i, IndicatorType it, ImportFromCKAN ifc 
+			// WHERE i.entity.type.code = :isCountry AND it.code = :code")
+			// .setParameter("isCountry", "country").setParameter("code", "CG060").setMaxResults(1);
+			final Query query = em
+					.createQuery(
+							"SELECT it.code, i.id, i.type.code, i.start, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i, IndicatorType it WHERE i.entity.type.code = :isCountry AND it.code = :code")
+					.setParameter("isCountry", "country").setParameter("code", indicator).setMaxResults(1);
+			Object[] queryResult = null;
+			try {
+				queryResult = (Object[]) query.getSingleResult();
+			} catch (final NoResultException e) {
+				queryResult = new Object[] { indicator };
+			}
+			result.add(queryResult);
+		}
+		return result;
 	}
 
 	@Override

@@ -1,6 +1,10 @@
 package org.ocha.hdx.importer;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.joda.time.DateTime;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
@@ -22,8 +26,9 @@ public class TimeRange {
 		super();
 
 		// First very straightforward implementation relies on the length
-		if (rangeAsString == null)
+		if (rangeAsString == null) {
 			throw new IllegalArgumentException("No Time Range could be build from a null String");
+		}
 
 		if (rangeAsString.length() == 4) {
 			final DateTime dateTime = new DateTime(Integer.parseInt(rangeAsString), 1, 1, 0, 0);
@@ -31,19 +36,39 @@ public class TimeRange {
 			end = dateTime.plusYears(1).toDate();
 
 			periodicity = Periodicity.YEAR;
-		} else if (rangeAsString.length() == 8 && rangeAsString.endsWith("/P1Y")) {
+		} else if ((rangeAsString.length() == 8) && rangeAsString.endsWith("/P1Y")) {
 			final DateTime dateTime = new DateTime(Integer.parseInt(rangeAsString.substring(0, 4)), 1, 1, 0, 0);
 			start = dateTime.toDate();
 			end = dateTime.plusYears(1).toDate();
 
 			periodicity = Periodicity.YEAR;
-		} else if (rangeAsString.length() == 9 && rangeAsString.endsWith("/P10Y")) {
+		} else if ((rangeAsString.length() == 9) && rangeAsString.endsWith("/P10Y")) {
 			final DateTime dateTime = new DateTime(Integer.parseInt(rangeAsString.substring(0, 4)), 1, 1, 0, 0);
 			start = dateTime.toDate();
 			end = dateTime.plusYears(10).toDate();
 
 			periodicity = Periodicity.TEN_YEARS;
-		} else {
+		}
+
+		// Sample : 2013-02-13
+		else if (rangeAsString.length() == 10) {
+			final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = null;
+			try {
+				date = SDF.parse(rangeAsString);
+			} catch (final ParseException e) {
+				throw new IllegalArgumentException(String.format("No time range could be build from String : %s", rangeAsString));
+			}
+			final Calendar gc = new GregorianCalendar();
+			gc.setTime(date);
+			start = date;
+			gc.add(Calendar.DATE, 1);
+			end = gc.getTime() ;
+
+			periodicity = Periodicity.DAY;
+		} else
+
+		{
 			throw new IllegalArgumentException(String.format("No time range could be build from String : %s", rangeAsString));
 		}
 
@@ -96,33 +121,41 @@ public class TimeRange {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((end == null) ? 0 : end.hashCode());
-		result = prime * result + ((periodicity == null) ? 0 : periodicity.hashCode());
-		result = prime * result + ((start == null) ? 0 : start.hashCode());
+		result = (prime * result) + ((end == null) ? 0 : end.hashCode());
+		result = (prime * result) + ((periodicity == null) ? 0 : periodicity.hashCode());
+		result = (prime * result) + ((start == null) ? 0 : start.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(final Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		final TimeRange other = (TimeRange) obj;
 		if (end == null) {
-			if (other.end != null)
+			if (other.end != null) {
 				return false;
-		} else if (!end.equals(other.end))
+			}
+		} else if (!end.equals(other.end)) {
 			return false;
-		if (periodicity != other.periodicity)
+		}
+		if (periodicity != other.periodicity) {
 			return false;
+		}
 		if (start == null) {
-			if (other.start != null)
+			if (other.start != null) {
 				return false;
-		} else if (!start.equals(other.start))
+			}
+		} else if (!start.equals(other.start)) {
 			return false;
+		}
 		return true;
 	}
 

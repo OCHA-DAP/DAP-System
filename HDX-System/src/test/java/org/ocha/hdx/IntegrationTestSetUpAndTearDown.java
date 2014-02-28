@@ -4,12 +4,22 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
-import org.ocha.hdx.persistence.dao.currateddata.*;
+import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
+import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
+import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO;
+import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
+import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
+import org.ocha.hdx.persistence.dao.currateddata.UnitDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
-import org.ocha.hdx.persistence.entity.curateddata.*;
+import org.ocha.hdx.persistence.entity.curateddata.Entity;
+import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
+import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.service.CuratedDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +50,8 @@ public class IntegrationTestSetUpAndTearDown {
 	@Autowired
 	TextDAO textDAO;
 
-    @Autowired
-    private UnitDAO unitDAO;
-
+	@Autowired
+	private UnitDAO unitDAO;
 
 	public void setUp() {
 		final Text text = textDAO.createText("Country");
@@ -52,11 +61,10 @@ public class IntegrationTestSetUpAndTearDown {
 		curatedDataService.createEntity("RUS", "Russia", "country");
 		curatedDataService.createEntity("RWA", "Rwanda", "country");
 
-        final Text dollarText = textDAO.createText("dollar");
-        final Unit dollar = unitDAO.createUnit("dollar", dollarText);
-        final Text countText = textDAO.createText("Count");
-        final Unit count = unitDAO.createUnit("count", countText);
-
+		final Text dollarText = textDAO.createText("dollar");
+		final Unit dollar = unitDAO.createUnit("dollar", dollarText);
+		final Text countText = textDAO.createText("Count");
+		final Unit count = unitDAO.createUnit("count", countText);
 
 		final Text gdp = textDAO.createText("Per capita gdp");
 		final Text conflict = textDAO.createText("Incidence of conflict");
@@ -78,24 +86,54 @@ public class IntegrationTestSetUpAndTearDown {
 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord("anyResourceId", "anyRevisionId", new Date());
 		indicatorDAO.createIndicator(sourceWB, russia, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(10000.0), "10000$", "http:www.example.com", importFromCKAN);
+
+		/*
+		 * Reports
+		 */
+
+		// Country overview
+
+		// Source
+		final Text m49 = textDAO.createText("m49");
+		sourceDAO.createSource("m49", m49, "www.m49.com");
+		final Source sourceM49 = sourceDAO.getSourceByCode("m49");
+
+		// Entity
+		curatedDataService.createEntity("COL", "Colombia", "country");
+		final Entity colombia = entityDAO.getEntityByCodeAndType("COL", "country");
+
+		// Indicator type
+		final Text m49_num = textDAO.createText("m49-num");
+		indicatorTypeDAO.createIndicatorType("CG060", m49_num, dollar, ValueType.NUMBER);
+		final IndicatorType cg060 = indicatorTypeDAO.getIndicatorTypeByCode("CG060");
+
+		// Indicator
+		final IndicatorValue indicatorValue = new IndicatorValue(170d);
+		indicatorDAO.createIndicator(sourceM49, colombia, cg060, new Date(), null, Indicator.Periodicity.YEAR, indicatorValue, "0", null, importFromCKAN);
+
 	}
 
 	public void tearDown() {
 		indicatorDAO.deleteAllIndicators();
+
 		entityDAO.deleteEntityByCodeAndType("LUX", "country");
 		entityDAO.deleteEntityByCodeAndType("RUS", "country");
 		entityDAO.deleteEntityByCodeAndType("RWA", "country");
+		entityDAO.deleteEntityByCodeAndType("COL", "country");
 
 		entityTypeDAO.deleteEntityTypeByCode("country");
 
 		indicatorTypeDAO.deleteIndicatorTypeByCode("per-capita-gdp");
 		indicatorTypeDAO.deleteIndicatorTypeByCode("PVX040");
+		indicatorTypeDAO.deleteIndicatorTypeByCode("CG060");
 
 		sourceDAO.deleteSourceByCode("WB");
 		sourceDAO.deleteSourceByCode("acled");
 
-        unitDAO.deleteUnit(unitDAO.getUnitByCode("dollar").getId());
-        unitDAO.deleteUnit(unitDAO.getUnitByCode("count").getId());
-	}
+		unitDAO.deleteUnit(unitDAO.getUnitByCode("dollar").getId());
+		unitDAO.deleteUnit(unitDAO.getUnitByCode("count").getId());
 
+		sourceDAO.deleteSourceByCode("m49");
+
+	}
 }

@@ -11,14 +11,25 @@ import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.TimeRange;
 import org.ocha.hdx.model.api.CellDescriptor;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
-import org.ocha.hdx.persistence.dao.currateddata.*;
+import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
+import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
+import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO;
+import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
+import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
+import org.ocha.hdx.persistence.dao.currateddata.UnitDAO;
 import org.ocha.hdx.persistence.dao.dictionary.IndicatorTypeDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.RegionDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
-import org.ocha.hdx.persistence.entity.curateddata.*;
+import org.ocha.hdx.persistence.entity.curateddata.Entity;
+import org.ocha.hdx.persistence.entity.curateddata.EntityType;
+import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
+import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
@@ -69,8 +80,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Autowired
 	private IndicatorTypeDictionaryDAO indicatorTypeDictionaryDAO;
 
-    @Autowired
-    private UnitDAO unitDAO;
+	@Autowired
+	private UnitDAO unitDAO;
 
 	/*
 	 * Entity types
@@ -155,7 +166,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Transactional
 	public void createIndicatorType(final String code, final String defaultName, final long unitId, final String valueType) {
 		final Text text = textDAO.createText(defaultName);
-        final Unit unit = unitDAO.getUnitById(unitId);
+		final Unit unit = unitDAO.getUnitById(unitId);
 		indicatorTypeDAO.createIndicatorType(code, text, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(valueType));
 	}
 
@@ -166,13 +177,13 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public IndicatorType getIndicatorTypeByCode(final String code) {
-        return indicatorTypeDAO.getIndicatorTypeByCode(code);
+		return indicatorTypeDAO.getIndicatorTypeByCode(code);
 	}
 
 	@Override
 	@Transactional
 	public void updateIndicatorType(final long indicatorTypeId, final String newName, final long newUnit, final String newValueType) {
-        Unit unit = unitDAO.getUnitById(newUnit);
+		final Unit unit = unitDAO.getUnitById(newUnit);
 		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newName, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
 	}
 
@@ -427,6 +438,13 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return dataTable;
 	}
 
+	/*
+	 * @Override public List<Indicator> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) { final List<Indicator> result =
+	 * indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode);
+	 * 
+	 * return result; }
+	 */
+
 	private Map<String, TableRow> addColumnData(final int year, final Map<String, TableRow> rows, final String sourceCode, final String indicatorTypeCode, final List<String> countryCodes) {
 		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode, countryCodes);
 
@@ -529,34 +547,45 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	}
 
-    /**
-     * Units
-     */
-    @Override
-    public List<Unit> listUnits() {
-        return unitDAO.listUnits();
-    }
+	/**
+	 * Units
+	 */
+	@Override
+	public List<Unit> listUnits() {
+		return unitDAO.listUnits();
+	}
 
-    @Override
-    @Transactional
-    public void createUnit(String code, String name) {
-        Text nameText = textDAO.createText(name);
-        unitDAO.createUnit(code, nameText);
-    }
+	@Override
+	@Transactional
+	public void createUnit(final String code, final String name) {
+		final Text nameText = textDAO.createText(name);
+		unitDAO.createUnit(code, nameText);
+	}
 
-    @Override
-    @Transactional
-    public void deleteUnit(Long id) {
-        unitDAO.deleteUnit(id);
-    }
+	@Override
+	@Transactional
+	public void deleteUnit(final Long id) {
+		unitDAO.deleteUnit(id);
+	}
 
-    @Override
-    public void updateUnit(Long id, String name) {
-        unitDAO.updateUnit(id, name);
-    }
+	@Override
+	public void updateUnit(final Long id, final String name) {
+		unitDAO.updateUnit(id, name);
+	}
 
-    @Override
-    public Unit getUnit(Long id) {
-        return unitDAO.getUnitById(id);
-    }
+	@Override
+	public Unit getUnit(final Long id) {
+		return unitDAO.getUnitById(id);
+	}
+
+	/*
+	 * Reports.
+	 */
+
+	/* Countries */
+	@Override
+	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
+		return indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode);
+	}
+
 }

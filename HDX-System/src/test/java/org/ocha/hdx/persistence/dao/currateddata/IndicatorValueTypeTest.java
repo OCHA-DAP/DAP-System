@@ -72,7 +72,7 @@ public class IndicatorValueTypeTest {
 
 	@Test
 	public void testStrongValueTypeIndicators() {
-		Assert.assertEquals(1, this.indicatorDAO.listLastIndicators(100).size());
+		Assert.assertEquals(2, this.indicatorDAO.listLastIndicators(100).size());
 
 		final Entity russia = this.entityDAO.getEntityByCodeAndType("RUS", "country");
 		final Entity luxembourg = this.entityDAO.getEntityByCodeAndType("LUX", "country");
@@ -149,7 +149,7 @@ public class IndicatorValueTypeTest {
 
 		this.indicatorDAO.createIndicator(sourceAcled, russia, dateTimeIndType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(dateTimeInd, ValueType.DATETIME), "DATETIMElorepipsulum",
 				"http://www.example.com", importFromCKAN);
-		List<Indicator> listLastIndicators = this.indicatorDAO.listLastIndicators(10);
+		List<Indicator> listLastIndicators = this.indicatorDAO.listLastIndicators(20);
 		final List<Long> ids = new ArrayList<Long>();
 		for (final Indicator item : listLastIndicators) {
 			Assert.assertTrue(isValidIndicatorValueType(item));
@@ -164,7 +164,7 @@ public class IndicatorValueTypeTest {
 		this.indicatorTypeDAO.deleteIndicatorTypeByCode("strType");
 		this.indicatorTypeDAO.deleteIndicatorTypeByCode("dateType");
 		this.indicatorTypeDAO.deleteIndicatorTypeByCode("datetimeType");
-		Assert.assertEquals(2, this.indicatorTypeDAO.listIndicatorTypes().size());
+		Assert.assertEquals(3, this.indicatorTypeDAO.listIndicatorTypes().size());
 
 		this.unitDAO.deleteUnit(this.unitDAO.getUnitByCode("text").getId());
 		this.unitDAO.deleteUnit(this.unitDAO.getUnitByCode("string").getId());
