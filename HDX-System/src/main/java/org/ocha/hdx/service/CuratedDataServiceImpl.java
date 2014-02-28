@@ -542,4 +542,13 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	}
 
+	/*
+	 * Reports.
+	 */
+	
+	/* Countries */
+	@Override
+	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
+		return indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode);
+	}
 }

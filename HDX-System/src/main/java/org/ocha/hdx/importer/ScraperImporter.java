@@ -31,13 +31,81 @@ public class ScraperImporter implements HDXImporter {
 			}
 		}
 		acceptedIndicatorTypes.add("PVX040");
-		acceptedIndicatorTypes.add("PSP080");
-		acceptedIndicatorTypes.add("PSE030");
-		acceptedIndicatorTypes.add("PCX051");
-		acceptedIndicatorTypes.add("PVF020");
-		acceptedIndicatorTypes.add("PSP010");
-		acceptedIndicatorTypes.add("_emdat:total_affected");
 
+		acceptedIndicatorTypes.add("CD010");
+		acceptedIndicatorTypes.add("CD030");
+		acceptedIndicatorTypes.add("CD050");
+		acceptedIndicatorTypes.add("CD070");
+		acceptedIndicatorTypes.add("CD080");
+		acceptedIndicatorTypes.add("CD090");
+		acceptedIndicatorTypes.add("CG020");
+		acceptedIndicatorTypes.add("CG030");
+		acceptedIndicatorTypes.add("CG060");
+		acceptedIndicatorTypes.add("CG070");
+		acceptedIndicatorTypes.add("CG080");
+		acceptedIndicatorTypes.add("CG100");
+		acceptedIndicatorTypes.add("CG120");
+		acceptedIndicatorTypes.add("CG140");
+		acceptedIndicatorTypes.add("CG150");
+		acceptedIndicatorTypes.add("CG260");
+		acceptedIndicatorTypes.add("CG290");
+		acceptedIndicatorTypes.add("_m49-name");
+		acceptedIndicatorTypes.add("_unterm:ISO Country alpha-2-code");
+		/*
+		acceptedIndicatorTypes.add("CH070");
+		acceptedIndicatorTypes.add("CH080");
+		acceptedIndicatorTypes.add("CH090");
+		acceptedIndicatorTypes.add("CH100");
+		acceptedIndicatorTypes.add("PSE030");
+		acceptedIndicatorTypes.add("PSE090");
+		acceptedIndicatorTypes.add("PSE120");
+		acceptedIndicatorTypes.add("PSE130");
+		acceptedIndicatorTypes.add("PSP080");
+		acceptedIndicatorTypes.add("PSE140");
+		acceptedIndicatorTypes.add("PSE150");
+		acceptedIndicatorTypes.add("PSE200");
+		acceptedIndicatorTypes.add("PSP010");
+		acceptedIndicatorTypes.add("PSP060");
+		acceptedIndicatorTypes.add("PSP090");
+		acceptedIndicatorTypes.add("PSP110");
+		acceptedIndicatorTypes.add("PVE130");
+		acceptedIndicatorTypes.add("PVF020");
+		acceptedIndicatorTypes.add("PVH140");
+		acceptedIndicatorTypes.add("PVL040");
+		acceptedIndicatorTypes.add("PVN010");
+		acceptedIndicatorTypes.add("PVW010");
+		acceptedIndicatorTypes.add("PVW040");
+		acceptedIndicatorTypes.add("PCX051");
+		acceptedIndicatorTypes.add("PCX080");
+		acceptedIndicatorTypes.add("PCX090");
+		acceptedIndicatorTypes.add("PCX100");
+		acceptedIndicatorTypes.add("_Children 1 year old immunized against measles, percentage");
+		acceptedIndicatorTypes.add("_emdat:no_homeless");
+		acceptedIndicatorTypes.add("_emdat:no_injured");
+		acceptedIndicatorTypes.add("_emdat:total_affected");
+		acceptedIndicatorTypes.add("_GNI, PPP (current international $)");
+		acceptedIndicatorTypes.add("_Internet users per 100 inhabitants");
+		acceptedIndicatorTypes.add("_Land area (sq. km)");
+		acceptedIndicatorTypes.add("_Net ODA received per capita (current US$)");
+		acceptedIndicatorTypes.add("_Number of infant deaths");
+		acceptedIndicatorTypes.add("_Population, total");
+		acceptedIndicatorTypes.add("_Population undernourished, millions");
+		acceptedIndicatorTypes.add("_Population undernourished, percentage");
+		acceptedIndicatorTypes.add("_reliefweb_Humanitarian_Bulletin");
+		acceptedIndicatorTypes.add("_reliefweb_Humanitarian_Dashboard");
+		acceptedIndicatorTypes.add("_reliefweb_Humanitarian_Snapshot");
+		acceptedIndicatorTypes.add("_reliefweb_Infographic");
+		acceptedIndicatorTypes.add("_reliefweb_Key_Messages");
+		acceptedIndicatorTypes.add("_reliefweb_Other");
+		acceptedIndicatorTypes.add("_reliefweb_Press_Release");
+		acceptedIndicatorTypes.add("_reliefweb_Press_Review");
+		acceptedIndicatorTypes.add("_reliefweb_Reference_Map");
+		acceptedIndicatorTypes.add("_reliefweb_Situation_Report");
+		acceptedIndicatorTypes.add("_reliefweb_Statement/Speech");
+		acceptedIndicatorTypes.add("_reliefweb_Thematic_Map");
+		*/
+		
+		
 	}
 
 	public Map<String, String> getCountryList(final File file) {
@@ -110,7 +178,7 @@ public class ScraperImporter implements HDXImporter {
 
 			return new PreparedData(true, preparedIndicators);
 		} catch (final Exception e) {
-			logger.debug(e.toString());
+			logger.debug(e.toString(), e);
 			return new PreparedData(false, null);
 		}
 

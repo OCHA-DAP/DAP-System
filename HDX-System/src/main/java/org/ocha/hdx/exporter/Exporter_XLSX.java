@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.ocha.hdx.service.ExporterService;
 
 /**
  * XLSX implementation of the export strategy. This class should be implemented for every report needing an XLSX export.
@@ -23,8 +24,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExporter<XSSFWorkbook, QD> {
 
-	public Exporter_XLSX() {
-		super();
+	public Exporter_XLSX(final ExporterService exporterService) {
+		super(exporterService);
 	}
 
 	public Exporter_XLSX(final Exporter<XSSFWorkbook, QD> exporter) {

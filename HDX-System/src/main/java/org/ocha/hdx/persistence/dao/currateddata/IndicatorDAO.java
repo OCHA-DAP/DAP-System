@@ -50,7 +50,7 @@ public interface IndicatorDAO {
 	 * @param countryCode
 	 * @param languageCode
 	 */
-	public List listIndicatorsForCountryOverview(String countryCode, String languageCode);
+	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
 
 	/**
 	 * very likely to be used by the unit tests only

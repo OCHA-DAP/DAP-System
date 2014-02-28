@@ -17,10 +17,6 @@ import javax.ws.rs.core.Response;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.glassfish.jersey.server.mvc.Viewable;
-import org.ocha.hdx.exporter.Exporter;
-import org.ocha.hdx.exporter.country.ExporterCountryCrisis_XLSX;
-import org.ocha.hdx.exporter.country.ExporterCountryOverview_XSLX;
-import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
@@ -28,6 +24,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.rest.helper.BubbleChartConfigurer;
 import org.ocha.hdx.rest.helper.IndicatorAndSourceChartConfigurer;
 import org.ocha.hdx.service.CuratedDataService;
+import org.ocha.hdx.service.ExporterService;
 import org.ocha.hdx.tools.GSONBuilderWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +49,9 @@ public class APIResource {
 
 	@Autowired
 	private CuratedDataService curatedDataService;
+
+	@Autowired
+	private ExporterService exporterService;
 
 	@GET
 	@Produces({ "text/csv" })
@@ -364,24 +364,8 @@ public class APIResource {
 	@GET
 	@Path("/exporter/xlsx/country/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.xlsx")
 	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-	@SuppressWarnings("static-method")
 	public XSSFWorkbook exportCountry_XLSX(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final String fromYear, @PathParam("toYear") final String toYear,
 			@PathParam("language") final String language) {
-
-		// Set the query data
-		final ExporterCountryQueryData exporterCountryQueryData = new ExporterCountryQueryData();
-		exporterCountryQueryData.setCountryCode(countryCode);
-		exporterCountryQueryData.setFromYear(fromYear);
-		exporterCountryQueryData.setToYear(toYear);
-		exporterCountryQueryData.setLanguage(language);
-
-		// Define the exporter
-		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryCrisis_XLSX(new ExporterCountryOverview_XSLX());
-
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		// Export
-		workbook = exporter.export(workbook, exporterCountryQueryData);
-		// DO NOT DO THIS BECAUSE IT SEEMS TO CORRUPT THE STREAM : ExportStrategy_XLSX.writeFile(workbook, "C:\\workbook.xlsx");
-		return workbook;
+		return exporterService.exportCountry_XLSX(countryCode, fromYear, toYear, language);
 	}
 }

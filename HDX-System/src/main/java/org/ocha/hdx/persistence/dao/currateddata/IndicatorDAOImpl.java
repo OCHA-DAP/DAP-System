@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -149,31 +150,36 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 * (non-Javadoc)
 	 * @see org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO#listIndicatorsForCountryOverview(java.lang.String, java.lang.String)
 	 */
-	public List<Object> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
-		final String[] indicatorsListForCountryOverview = new String[] { "D010", "CD030", "CD050", "CD070", "CD080", "CD090", "CG020", "CG030", "CG060", "CG070", "CG080", "CG100", "CG120", "CG140",
-				"CG150", "CG260", "CG290", "_m49-name", "_unterm:ISO Country alpha-2-code" };
-		final List<Object> result = new ArrayList<Object>();
+	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
+		final String[] indicatorsListForCountryOverview = new String[] { "D010", "CD030", "CD050", "CD070", "CD080", "CD090", "CG020", "CG030", "CG060", "CG070", "CG080",
+				"CG100", "CG120", "CG140", "CG150", "CG260", "CG290", "_m49-name", "_unterm:ISO Country alpha-2-code" };
+		final List<Object[]> result = new ArrayList<Object[]>();
 
-		final Indicator i = new Indicator();
-		// i.getEntity().getType().getCode();
 		/*
+		final Indicator i = new Indicator();
+		i.getEntity().getType().getCode();
 		final ImportFromCKAN importFromCKAN = i.getImportFromCKAN();
 		*/
-
-		final Query query = em
-				.createQuery(
-						"SELECT i.id, i.type.code, i.start, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i, IndicatorType it, ImportFromCKAN ifc WHERE i.entity.type.code = :isCountry AND it.code = :code")
-				.setParameter("isCountry", "country").setParameter("code", "CG060").setMaxResults(1);
-		final Object queryResult = query.getSingleResult();
-		/*
-		while (results.hasNext()) {
-			final Object[] row = results.next();
-			returned.put(row[0].toString(), Integer.parseInt(row[1].toString()));
+		for (final String indicator : indicatorsListForCountryOverview) {
+			// final Query query = em
+			// .createQuery(
+			// "SELECT i.id, i.type.code, i.start, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue 
+			// 	from Indicator i, IndicatorType it, ImportFromCKAN ifc 
+			// WHERE i.entity.type.code = :isCountry AND it.code = :code")
+			// .setParameter("isCountry", "country").setParameter("code", "CG060").setMaxResults(1);
+			final Query query = em
+					.createQuery(
+							"SELECT it.code, i.id, i.type.code, i.start, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i, IndicatorType it WHERE i.entity.type.code = :isCountry AND it.code = :code")
+					.setParameter("isCountry", "country").setParameter("code", indicator).setMaxResults(1);
+			Object[] queryResult = null;
+			try {
+				queryResult = (Object[]) query.getSingleResult();
+			} catch (final NoResultException e) {
+				queryResult = new Object[] { indicator };
+			}
+			result.add(queryResult);
 		}
-		*/
-		result.add(queryResult);
 		return result;
-
 	}
 
 	@Override

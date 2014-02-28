@@ -168,4 +168,10 @@ public interface CuratedDataService {
 
 	public void deleteIndicatorTypeDictionary(IndicatorTypeDictionary indicatorTypeDictionary);
 
+	/*
+	 * Reports
+	 */
+	
+	/* Country reports */
+	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
 }

@@ -54,4 +54,6 @@
 	</bean>
 
 	<bean id="curatedDataService" class="org.ocha.hdx.service.CuratedDataServiceImpl" />
+
+    <bean id="exporterService" class="org.ocha.hdx.service.ExporterServiceImpl" />
 </beans>
