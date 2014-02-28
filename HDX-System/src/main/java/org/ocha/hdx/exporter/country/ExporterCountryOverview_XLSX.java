@@ -3,7 +3,6 @@ package org.ocha.hdx.exporter.country;
 import java.util.List;
 
 import org.apache.poi.ss.util.WorkbookUtil;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -30,9 +29,9 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 	@Override
 	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) {
 
-		final List<Object[]> countryOverviewData = exporterService.getCountryOverviewData(queryData);
+		final List<Object[]> data = exporterService.getCountryOverviewData(queryData);
 
-		/*** ***/
+		/* TODO i18n */
 
 		// Creating the sheet
 		final String safeName = WorkbookUtil.createSafeSheetName("Overview");
@@ -44,23 +43,37 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 
 		// Fill with the data
 		// Sample : CD010	Wikipedia: geography	http://en.wikipedia.org/wiki/Colombia#Geography	2014-01-22	wikipedia
+		for (int i = 0; i < data.size(); i++) {
+			final Object[] element = data.get(i);
 
-		for (int i = 0; i < countryOverviewData.size(); i++) {
-			final Object[] element = countryOverviewData.get(i);
-			final XSSFRow row = sheet.createRow(i+1);
-			final XSSFCell cell0 = row.createCell(0);
-			cell0.setCellValue(element[0].toString());
+			// Create the row (not overwriting the headers :-) )
+			final XSSFRow row = sheet.createRow(i + 1);
+
+			// "Indicator ID" (always set)
+			createCell(row, (short)0, element[0].toString());
+
+			// Other infos may be unavailable if there are no values for the indicator
 			if (1 < element.length) {
-				final XSSFCell cell1 = row.createCell(1);
-				cell1.setCellValue(element[2].toString());
 
-				createUrlCell(sheet, row, (short) 2, element[4].toString(), element[4].toString());
-				// createDateCell(sheet, row1, (short) 3, new GregorianCalendar(2014, 00, 22).getTime(), DATE_FORMAT_01);
-				final XSSFCell cell3 = row.createCell(3);
-				cell3.setCellValue(element[5].toString());
+				// "Indicator name"
+				createCell(row, (short)1, element[2].toString());
 
-				final XSSFCell cell4 = row.createCell(4);
-				cell4.setCellValue(element[6].toString());
+				// "Value"
+				final String value = element[4].toString();
+				// Value can be a URL
+				if ((null != value) && value.startsWith("http://")) {
+					createUrlCell(row, (short) 2, value, value);
+				}
+				// or a simple string
+				else {
+					createCell(row, (short)2, value);
+				}
+
+				// "Last updated"
+				createCell(row, (short)3, element[5].toString());
+
+				// "Source dataset"
+				createCell(row, (short)4, element[6].toString());
 			}
 		}
 
@@ -79,5 +92,4 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 
 		return super.export(workbook, queryData);
 	}
-
 }

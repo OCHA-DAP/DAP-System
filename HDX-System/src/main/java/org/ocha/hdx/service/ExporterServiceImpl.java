@@ -1,6 +1,7 @@
 package org.ocha.hdx.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
@@ -15,9 +16,24 @@ public class ExporterServiceImpl implements ExporterService {
 	@Autowired
 	private CuratedDataService curatedDataService;
 
+	/*
+	 * Delegates to CuratedDataService
+	 */
+
 	@Override
 	public IndicatorType getIndicatorTypeByCode(final String code) {
 		return curatedDataService.getIndicatorTypeByCode(code);
+	}
+
+	@Override
+	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData) {
+		return curatedDataService.listIndicatorsForCountryOverview(queryData.getCountryCode(), queryData.getLanguage());
+	}
+
+	@Override
+	public Map<String, List<Object[]>> getCountryCrisisHistoryData(final ExporterCountryQueryData queryData) {
+		return curatedDataService.listIndicatorsForCountryCrisisHistory(queryData.getCountryCode(), Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()),
+				queryData.getLanguage());
 	}
 
 	@Override
@@ -25,6 +41,18 @@ public class ExporterServiceImpl implements ExporterService {
 		return curatedDataService.listIndicatorsForCountryOverview(countryCode, languageCode);
 	}
 
+	@Override
+	public Map<String, List<Object[]>> listIndicatorsForCountryCrisis(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		return curatedDataService.listIndicatorsForCountryCrisisHistory(countryCode, fromYear, toYear, languageCode);
+	}
+
+	/*
+	 * Exports
+	 */
+
+	/**
+	 * Export a country report as XLSX 
+	 */
 	@Override
 	public XSSFWorkbook exportCountry_XLSX(final String countryCode, final String fromYear, final String toYear, final String language) {
 		// Set the query data
@@ -47,10 +75,5 @@ public class ExporterServiceImpl implements ExporterService {
 
 		// Return the workbook
 		return workbook;
-	}
-	
-	@Override
-	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData) {
-		return curatedDataService.listIndicatorsForCountryOverview(queryData.getCountryCode(), queryData.getLanguage());
 	}
 }

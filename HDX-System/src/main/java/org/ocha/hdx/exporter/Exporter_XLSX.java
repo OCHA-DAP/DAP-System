@@ -3,6 +3,7 @@ package org.ocha.hdx.exporter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -11,6 +12,7 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -76,36 +78,44 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 	 * @param headers
 	 *            the headers
 	 */
-	public static void createHeaderCells(final XSSFSheet sheet, final String[] headers) {
+	public static void createHeaderCells(final XSSFSheet sheet, final List<String> headers) {
+		createHeaderCells(sheet, headers.toArray(new String[] {}));
+	}
 
-		final Workbook workbook = sheet.getWorkbook();
+	public static void createHeaderCells(final XSSFSheet sheet, final String[] headers) {
 
 		// Create the title row
 		final XSSFRow titleRow = sheet.createRow((short) 0);
 
-		// The header font
-		final Font font = getHeaderFont(workbook);
-
+		// Create the header cells
 		for (int i = 0; i < headers.length; i++) {
-			final String header = headers[i];
-			final Cell cell = titleRow.createCell(i);
-			final CellStyle cellStyle = workbook.createCellStyle();
-			cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			cellStyle.setFont(font);
-			cellStyle.setVerticalAlignment(CellStyle.VERTICAL_BOTTOM);
-			cell.setCellStyle(cellStyle);
-			cell.setCellValue(header);
+			createHeaderCell(headers[i], titleRow, i);
 		}
 	}
 
-	public static void createUrlCell(final XSSFSheet sheet, final XSSFRow row, final short column, final String value, final String address) {
-		final Workbook workbook = sheet.getWorkbook();
+	public static void createHeaderCell(final String header, final XSSFRow titleRow, final int columnIndex) {
+		final Cell cell = titleRow.createCell(columnIndex);
+		final CellStyle cellStyle = titleRow.getSheet().getWorkbook().createCellStyle();
+		cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+		cellStyle.setFont(getHeaderFont(titleRow.getSheet().getWorkbook()));
+		cellStyle.setVerticalAlignment(CellStyle.VERTICAL_BOTTOM);
+		cell.setCellStyle(cellStyle);
+		cell.setCellValue(header);
+	}
+
+	public static void createCell(final XSSFRow row, final short columnIndex, final String value) {
+		final XSSFCell cell = row.createCell(columnIndex);
+		cell.setCellValue(value);
+	}
+
+	public static void createUrlCell(final XSSFRow row, final short columnIndex, final String value, final String address) {
+		final Workbook workbook = row.getSheet().getWorkbook();
 		final CreationHelper createHelper = workbook.getCreationHelper();
 
 		final CellStyle hlink_style = workbook.createCellStyle();
 		hlink_style.setFont(getUrlFont(workbook));
 
-		final Cell cell = row.createCell(column);
+		final Cell cell = row.createCell(columnIndex);
 		cell.setCellValue(value);
 
 		final org.apache.poi.ss.usermodel.Hyperlink link = createHelper.createHyperlink(Hyperlink.LINK_URL);
@@ -114,14 +124,14 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 		cell.setCellStyle(hlink_style);
 	}
 
-	public static void createDateCell(final XSSFSheet sheet, final XSSFRow row, final short column, final Date date, final String format) {
-		final Workbook workbook = sheet.getWorkbook();
+	public static void createDateCell(final XSSFRow row, final short columnIndex, final Date date, final String format) {
+		final Workbook workbook = row.getSheet().getWorkbook();
 		final CreationHelper createHelper = workbook.getCreationHelper();
 
 		final CellStyle cellStyle = workbook.createCellStyle();
 		cellStyle.setDataFormat(createHelper.createDataFormat().getFormat(format));
 
-		final Cell cell = row.createCell(column);
+		final Cell cell = row.createCell(columnIndex);
 		cell.setCellValue(date);
 		cell.setCellStyle(cellStyle);
 

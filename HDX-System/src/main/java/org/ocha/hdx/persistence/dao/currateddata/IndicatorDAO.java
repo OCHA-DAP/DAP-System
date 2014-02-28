@@ -2,6 +2,7 @@ package org.ocha.hdx.persistence.dao.currateddata;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
@@ -51,6 +52,15 @@ public interface IndicatorDAO {
 	 * @param languageCode
 	 */
 	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
+
+	/**
+	 * Indicators for the country crisis history (for a given year).
+	 * @param countryCode
+	 * @param year
+	 * @param languageCode
+	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
+	 */
+	public Map<String, List<Object[]>> listIndicatorsForCountryCrisisHistory(String countryCode, int fromYear, int toYear, String languageCode);
 
 	/**
 	 * very likely to be used by the unit tests only
