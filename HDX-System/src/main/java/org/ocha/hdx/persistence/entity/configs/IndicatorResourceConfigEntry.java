@@ -3,13 +3,18 @@
  */
 package org.ocha.hdx.persistence.entity.configs;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Index;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 
@@ -19,12 +24,19 @@ import org.ocha.hdx.persistence.entity.curateddata.Source;
  */
 @Entity
 @Table(name = "indicator_resource_config_entry")
+@org.hibernate.annotations.Table(indexes={@Index(name="indicator_resource_config_entry_index",columnNames="entry_key")},
+	appliesTo = "indicator_resource_config_entry")
 @SequenceGenerator(name = "indicator_resource_config_entry_seq", sequenceName = "indicator_resource_config_entry_seq")
 public class IndicatorResourceConfigEntry extends AbstractConfigEntry{
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "indicator_resource_config_entry_seq")
+	@Column(name = "id", nullable = false)
+	private long id;
+
 	@ManyToOne
 	@JoinColumn(name = "resource_configuration_id", nullable=false)
-	@ForeignKey(name = "fk_resource_config_map_to_source")
+	@ForeignKey(name = "fk_resource_config_map_to_parent")
 	private ResourceConfiguration  parentConfiguration;
 
 	@ManyToOne
@@ -48,6 +60,13 @@ public class IndicatorResourceConfigEntry extends AbstractConfigEntry{
 	}
 
 
+	public long getId() {
+		return this.id;
+	}
+
+	public void setId(final long id) {
+		this.id = id;
+	}
 
 	public Source getSource() {
 		return this.source;
