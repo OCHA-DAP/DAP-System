@@ -2,6 +2,7 @@ package org.ocha.hdx.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
@@ -187,6 +188,11 @@ public interface CuratedDataService {
 	 */
 
 	/* Country reports */
+	
+	// Country overview
 	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
+
+	// Country crisis history
+	public Map<String, List<Object[]>> listIndicatorsForCountryCrisisHistory(String countryCode, int fromYear, int toYear, String languageCode);
 
 }

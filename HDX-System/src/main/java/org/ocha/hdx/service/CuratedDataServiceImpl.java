@@ -583,9 +583,17 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 
 	/* Countries */
+	
+	// Country overview
 	@Override
 	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
 		return indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode);
+	}
+	
+	// Country crisis history
+	@Override
+	public Map<String, List<Object[]>> listIndicatorsForCountryCrisisHistory(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		return indicatorDAO.listIndicatorsForCountryCrisisHistory(countryCode, fromYear, toYear, languageCode);
 	}
 
 }
