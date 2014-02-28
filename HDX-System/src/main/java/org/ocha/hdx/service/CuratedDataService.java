@@ -168,6 +168,8 @@ public interface CuratedDataService {
 
 	public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorType);
 
+	public void createIndicator(Indicator indicator, ImportFromCKAN importFromCKAN);
+
 	public void deleteIndicatorTypeDictionary(IndicatorTypeDictionary indicatorTypeDictionary);
 
 	/**

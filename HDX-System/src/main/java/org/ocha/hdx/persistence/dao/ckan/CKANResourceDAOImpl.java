@@ -11,6 +11,7 @@ import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 public class CKANResourceDAOImpl implements CKANResourceDAO {
@@ -21,7 +22,8 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional
 	public void newCKANResourceDetected(final String id, final String revision_id, final String name, final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
-			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp) {
+			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp, 
+			final ResourceConfiguration resourceConfiguration) {
 		final CKANResource ckanResource = new CKANResource(id, revision_id, !ckanResourceExists(id), parentDataset_name);
 		if (name != null) {
 			ckanResource.setName(name);
@@ -34,6 +36,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 		ckanResource.setParentDataset_revision_timestamp(parentDataset_revision_timestamp);
 		ckanResource.setDetectionDate(new Date());
 		ckanResource.setDownloadDate(null);
+		ckanResource.setResourceConfiguration(resourceConfiguration);
 
 		em.persist(ckanResource);
 

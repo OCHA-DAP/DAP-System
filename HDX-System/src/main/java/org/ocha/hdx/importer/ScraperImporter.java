@@ -9,34 +9,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
+import org.ocha.hdx.service.IndicatorCreationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ScraperImporter implements HDXImporter {
+public class ScraperImporter implements HDXWithCountryListImporter {
 
 	private static Logger logger = LoggerFactory.getLogger(ScraperImporter.class);
 
 	private final List<String> acceptedIndicatorTypes = new ArrayList<>();
 
+	private final IndicatorCreationService indicatorCreationService;
+
+	private PreparedData preparedData;
+
 	Map<String, String> sourcesMap = new HashMap<>();
 
-	public ScraperImporter(final List<SourceDictionary> sourceDictionaries) {
+	public ScraperImporter(final List<SourceDictionary> sourceDictionaries, final IndicatorCreationService indicatorCreationService) {
 		super();
+
+		this.indicatorCreationService	= indicatorCreationService;
 
 		if (sourceDictionaries != null) {
 			for (final SourceDictionary sourceDictionary : sourceDictionaries) {
-				sourcesMap.put(sourceDictionary.getId().getUnnormalizedName(), sourceDictionary.getSource().getCode());
+				this.sourcesMap.put(sourceDictionary.getId().getUnnormalizedName(), sourceDictionary.getSource().getCode());
 			}
 		}
-		acceptedIndicatorTypes.add("PVX040");
-		acceptedIndicatorTypes.add("PSP080");
-		acceptedIndicatorTypes.add("PSE030");
-		acceptedIndicatorTypes.add("PCX051");
-		acceptedIndicatorTypes.add("PVF020");
-		acceptedIndicatorTypes.add("PSP010");
-		acceptedIndicatorTypes.add("_emdat:total_affected");
+		this.acceptedIndicatorTypes.add("PVX040");
+		this.acceptedIndicatorTypes.add("PSP080");
+		this.acceptedIndicatorTypes.add("PSE030");
+		this.acceptedIndicatorTypes.add("PCX051");
+		this.acceptedIndicatorTypes.add("PVF020");
+		this.acceptedIndicatorTypes.add("PSP010");
+		this.acceptedIndicatorTypes.add("_emdat:total_affected");
 
 		/*
 		 * acceptedIndicatorTypes.add("CD010"); acceptedIndicatorTypes.add("CD030"); acceptedIndicatorTypes.add("CD050"); acceptedIndicatorTypes.add("CD070"); acceptedIndicatorTypes.add("CD080");
@@ -65,6 +73,7 @@ public class ScraperImporter implements HDXImporter {
 
 	}
 
+	@Override
 	public Map<String, String> getCountryList(final File file) {
 		final Map<String, String> result = new HashMap<String, String>();
 		final File parent = file.getParentFile();
@@ -101,11 +110,11 @@ public class ScraperImporter implements HDXImporter {
 
 				// use comma as separator
 				final String[] values = line.split(",");
-				if (acceptedIndicatorTypes.contains(values[2])) {
+				if (this.acceptedIndicatorTypes.contains(values[2])) {
 					final PreparedIndicator preparedIndicator = new PreparedIndicator();
 
-					if (sourcesMap.containsKey(values[0])) {
-						preparedIndicator.setSourceCode(sourcesMap.get(values[0]));
+					if (this.sourcesMap.containsKey(values[0])) {
+						preparedIndicator.setSourceCode(this.sourcesMap.get(values[0]));
 					} else {
 						preparedIndicator.setSourceCode(values[0]);
 					}
@@ -132,12 +141,26 @@ public class ScraperImporter implements HDXImporter {
 					preparedIndicators.add(preparedIndicator);
 				}
 			}
-
-			return new PreparedData(true, preparedIndicators);
+			this.preparedData	=  new PreparedData(true, preparedIndicators);
 		} catch (final Exception e) {
 			logger.debug(e.toString(), e);
-			return new PreparedData(false, null);
+			this.preparedData	= new PreparedData(false, null);
 		}
 
+		return this.preparedData;
+		}
+
+	@Override
+	public List<Indicator> transformToFinalFormat() {
+		final List<Indicator> list	= new ArrayList<Indicator>();
+		for (final PreparedIndicator preparedIndicator : this.preparedData.getIndicatorsToImport()) {
+			try {
+				final Indicator indicator	= this.indicatorCreationService.createIndicator(preparedIndicator);
+				list.add(indicator);
+			} catch (final Exception e) {
+				logger.debug(String.format("Error trying to create preparedIndicator : %s", preparedIndicator.toString()));
+			}
+		}
+		return list;
 	}
 }

@@ -273,6 +273,15 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 				preparedIndicator.getInitialValue(), preparedIndicator.getSourceLink(), importFromCKAN);
 
 	}
+	
+	@Override
+	@Transactional
+	public void createIndicator(final Indicator indicator, final ImportFromCKAN importFromCKAN) {
+
+		this.indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(),
+				indicator.getPeriodicity(), indicator.getValue(), indicator.getInitialValue(), indicator.getSourceLink(), importFromCKAN);
+
+	}
 
 	@Override
 	@Transactional

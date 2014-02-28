@@ -20,24 +20,24 @@ import org.hibernate.annotations.ForeignKey;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 
 /**
- * 
+ *
  * @author Samuel Eustachi
  * @author David Megginson
- * 
+ *
  *         a table listing specific values for indicators, with references to the {@link org.ocha.hdx.persistence.entity.curateddata.Entity}
  *         table for the associated entity, to the {@link Source} table for the data source, and to the {@link IndicatorType} table for the
  *         specific indicator in question. This table will hold most of the data in the repository, and is expected to grow eventually into
  *         the millions of rows (or more).
- * 
- * 
+ *
+ *
  *         The main prupose of this table is to contain the curated data. However, some columns represent some technical metadata used by
  *         the application
- * 
+ *
  *         {@link Indicator#importFromCKAN}
- * 
+ *
  *         {@link Indicator#initialValue}
- * 
- * 
+ *
+ *
  */
 @Entity
 @Table(name = "hdx_indicator", uniqueConstraints = @UniqueConstraint(columnNames = { "source_id", "entity_id", "type_id", "start_time", "periodicity" }))
@@ -106,7 +106,7 @@ public class Indicator {
 	private IndicatorValue value;
 
 	public long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(final long id) {
@@ -114,7 +114,7 @@ public class Indicator {
 	}
 
 	public Source getSource() {
-		return source;
+		return this.source;
 	}
 
 	public void setSource(final Source source) {
@@ -122,7 +122,7 @@ public class Indicator {
 	}
 
 	public org.ocha.hdx.persistence.entity.curateddata.Entity getEntity() {
-		return entity;
+		return this.entity;
 	}
 
 	public void setEntity(final org.ocha.hdx.persistence.entity.curateddata.Entity entity) {
@@ -130,7 +130,7 @@ public class Indicator {
 	}
 
 	public IndicatorType getType() {
-		return type;
+		return this.type;
 	}
 
 	public void setType(final IndicatorType type) {
@@ -138,7 +138,7 @@ public class Indicator {
 	}
 
 	public Date getStart() {
-		return start;
+		return this.start;
 	}
 
 	public void setStart(final Date start) {
@@ -146,7 +146,7 @@ public class Indicator {
 	}
 
 	public Date getEnd() {
-		return end;
+		return this.end;
 	}
 
 	public void setEnd(final Date end) {
@@ -154,7 +154,7 @@ public class Indicator {
 	}
 
 	public Periodicity getPeriodicity() {
-		return periodicity;
+		return this.periodicity;
 	}
 
 	public void setPeriodicity(final Periodicity periodicity) {
@@ -162,7 +162,7 @@ public class Indicator {
 	}
 
 	public String getInitialValue() {
-		return initialValue;
+		return this.initialValue;
 	}
 
 	public void setInitialValue(final String initialValue) {
@@ -170,7 +170,7 @@ public class Indicator {
 	}
 
 	public ImportFromCKAN getImportFromCKAN() {
-		return importFromCKAN;
+		return this.importFromCKAN;
 	}
 
 	public void setImportFromCKAN(final ImportFromCKAN importFromCKAN) {
@@ -178,7 +178,7 @@ public class Indicator {
 	}
 
 	public IndicatorValue getValue() {
-		return value;
+		return this.value;
 	}
 
 	public void setValue(final IndicatorValue value) {
@@ -186,11 +186,20 @@ public class Indicator {
 	}
 
 	public String getSourceLink() {
-		return sourceLink;
+		return this.sourceLink;
 	}
 
 	public void setSourceLink(final String sourceLink) {
 		this.sourceLink = sourceLink;
 	}
+
+	@Override
+	public String toString() {
+		return "Indicator [id=" + this.id + ", source=" + this.source.getCode() + ", entity=" + this.entity.getCode() + ", type="
+				+ this.type.getCode() + ", start=" + this.start + ", end=" + this.end + ", periodicity="
+				+ this.periodicity + ", initialValue=" + this.initialValue + ", sourceLink=" + this.sourceLink + ", value=" + this.value
+				+ "]";
+	}
+
 
 }

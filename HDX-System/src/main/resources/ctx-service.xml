@@ -56,4 +56,6 @@
 	<bean id="curatedDataService" class="org.ocha.hdx.service.CuratedDataServiceImpl" />
 
     <bean id="exporterService" class="org.ocha.hdx.service.ExporterServiceImpl" />
+    
+    <bean id="indicatorCreationService" class="org.ocha.hdx.service.IndicatorCreationServiceImpl" />
 </beans>

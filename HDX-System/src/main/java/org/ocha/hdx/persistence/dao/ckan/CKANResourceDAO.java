@@ -6,10 +6,12 @@ import java.util.List;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 
 public interface CKANResourceDAO {
 	public void newCKANResourceDetected(final String id, final String revision_id, final String name, final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
-			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp);
+			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp,
+			final ResourceConfiguration resourceConfiguration);
 
 	/**
 	 * Flags the given record as Downloaded
