@@ -24,6 +24,7 @@ import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.UserDAO;
 import org.ocha.hdx.persistence.dao.ckan.CKANDatasetDAO;
 import org.ocha.hdx.persistence.dao.ckan.CKANResourceDAO;
+import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao;
 import org.ocha.hdx.persistence.dao.i18n.LanguageDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.User;
@@ -88,7 +89,10 @@ public class HDXServiceImpl implements HDXService {
 
 	@Autowired
 	private FileEvaluatorAndExtractor fileEvaluatorAndExtractor;
-
+	
+	@Autowired
+	private ResourceConfigurationDao resourceConfigurationDao;
+	
 	@Override
 	public void checkForNewCKANDatasets() {
 		final List<DatasetV3DTO> datasetV3DTOList = getDatasetV3DTOsFromQuery(technicalAPIKey);
@@ -118,7 +122,7 @@ public class HDXServiceImpl implements HDXService {
 						}
 
 						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName,
-								dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), null);
+								dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
 					}
 				}
 			}
@@ -161,6 +165,15 @@ public class HDXServiceImpl implements HDXService {
 		if (!success) {
 			throw new RuntimeException("Failed downloading the given resource");
 		}
+		
+		/**
+		 * FIXME , the configuration is HARDCODED because there's no UI for this yet
+		 */
+		else {
+			ResourceConfiguration configuration	= resourceConfigurationDao.getResourceConfigurationById(1);
+			workflowService.flagCKANResourceAsConfigured(id, revision_id, configuration);
+		}
+			
 	}
 
 	@Override

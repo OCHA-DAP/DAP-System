@@ -22,8 +22,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional
 	public void newCKANResourceDetected(final String id, final String revision_id, final String name, final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
-			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp, 
-			final ResourceConfiguration resourceConfiguration) {
+			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp) {
 		final CKANResource ckanResource = new CKANResource(id, revision_id, !ckanResourceExists(id), parentDataset_name);
 		if (name != null) {
 			ckanResource.setName(name);
@@ -36,7 +35,8 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 		ckanResource.setParentDataset_revision_timestamp(parentDataset_revision_timestamp);
 		ckanResource.setDetectionDate(new Date());
 		ckanResource.setDownloadDate(null);
-		ckanResource.setResourceConfiguration(resourceConfiguration);
+		ckanResource.setResourceConfiguration(null);
+		
 
 		em.persist(ckanResource);
 
@@ -56,6 +56,14 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 		ckanResourceToFlag.setWorkflowState(WorkflowState.DOWNLOADED);
 		ckanResourceToFlag.setDownloadDate(new Date());
+	}
+	
+	@Override
+	@Transactional
+	public void flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration) {
+		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		ckanResourceToFlag.setWorkflowState(WorkflowState.CONFIGURED);
+		ckanResourceToFlag.setResourceConfiguration(resourceConfiguration);
 	}
 
 	@Override
@@ -109,7 +117,11 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional(readOnly = true)
 	public CKANResource getCKANResource(final String id, final String revision_id) {
-		return em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		CKANResource ret	=  em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		if (ret != null && ret.getResourceConfiguration() != null ) {
+			ret.getResourceConfiguration().getId();
+		}
+		return ret;
 	}
 
 	@Override

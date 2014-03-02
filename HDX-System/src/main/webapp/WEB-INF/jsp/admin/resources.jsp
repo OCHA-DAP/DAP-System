@@ -41,7 +41,7 @@
 					</td>
 					<td><c:if test="${ckanResource.isDownloadable()}">
 							<a href="${ctx}/admin/status/manuallyTriggerDownload/${ckanResource.id.id}/${ckanResource.id.revision_id}/">download</a>
-						</c:if> <c:if test="${ckanResource.workflowState eq 'DOWNLOADED'}">
+						</c:if> <c:if test="${ckanResource.workflowState eq 'DOWNLOADED' || ckanResource.workflowState eq 'CONFIGURED' }">
 							<a href="${ctx}/admin/status/manuallyTriggerEvaluation/${ckanResource.id.id}/${ckanResource.id.revision_id}/">evaluate</a>
 						</c:if> <c:if test="${ckanResource.workflowState eq 'TECH_EVALUATION_SUCCESS'}">
 							<a href="${ctx}/admin/status/manuallyTriggerImport/${ckanResource.id.id}/${ckanResource.id.revision_id}/">import</a>

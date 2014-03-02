@@ -26,6 +26,7 @@
 				<entry key="DETECTED_NEW" value-ref="listForDetected" />
 				<entry key="DETECTED_REVISION" value-ref="listForRevision" />
 				<entry key="DOWNLOADED" value-ref="listForDownloaded" />
+				<entry key="CONFIGURED" value-ref="listForConfigured" />
 				<entry key="TECH_EVALUATION_SUCCESS" value-ref="listForTechEvalSuccess" />
 			</map>
 		</constructor-arg>
@@ -39,6 +40,11 @@
 		<value>DOWNLOADED</value>
 	</util:list>
 	<util:list id="listForDownloaded">
+		<value>TECH_EVALUATION_SUCCESS</value>
+		<value>TECH_EVALUATION_FAIL</value>
+		<value>CONFIGURED</value>
+	</util:list>
+	<util:list id="listForConfigured">
 		<value>TECH_EVALUATION_SUCCESS</value>
 		<value>TECH_EVALUATION_FAIL</value>
 	</util:list>

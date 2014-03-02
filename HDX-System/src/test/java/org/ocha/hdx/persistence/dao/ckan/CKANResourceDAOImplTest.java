@@ -53,7 +53,7 @@ public class CKANResourceDAOImplTest {
 		
 		final Date revisionTs = new Date();
 		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", "newUnitTestResourceName", revisionTs, "theParent", "parentDataset_id",
-				"parentDataset_revision_id", revisionTs, savedConfig);
+				"parentDataset_revision_id", revisionTs);
 
 		Assert.assertEquals(1, ckanResourceDAO.listCKANResources().size());
 
@@ -63,12 +63,6 @@ public class CKANResourceDAOImplTest {
 			Assert.assertEquals(revisionTs, r.getRevision_timestamp());
 			Assert.assertNull(r.getDownloadDate());
 			
-			Assert.assertNotNull(r.getResourceConfiguration());
-			Assert.assertEquals("test", r.getResourceConfiguration().getName());
-			Assert.assertNotNull(r.getResourceConfiguration().getGeneralConfigEntries());
-			Assert.assertNotNull(r.getResourceConfiguration().getIndicatorConfigEntries());
-			Assert.assertTrue(r.getResourceConfiguration().getGeneralConfigEntries().size() > 0);
-			Assert.assertTrue(r.getResourceConfiguration().getIndicatorConfigEntries().size() > 0);
 		}
 
 		ckanResourceDAO.flagCKANResourceAsDownloaded("newUnitTestResourceId", "newUnitTestResourceRevId");
@@ -80,10 +74,10 @@ public class CKANResourceDAOImplTest {
 			Assert.assertNotNull(r.getDownloadDate());
 		}
 		Assert.assertEquals(1, ckanResourceDAO.listCKANResources().size());
-
+		
 		final Date revision2Ts = new Date();
 		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId2", "newUnitTestResourceName2", revision2Ts, "theParent", "parentDataset_id",
-				"parentDataset_revision_id", revision2Ts, null);
+				"parentDataset_revision_id", revision2Ts);
 
 		// no change expected, the resource already exist
 		Assert.assertEquals(2, ckanResourceDAO.listCKANResources().size());
@@ -102,8 +96,20 @@ public class CKANResourceDAOImplTest {
 			Assert.assertNull(r.getDownloadDate());
 		}
 		
-		entityCreator.deleteNeededIndicatorTypeAndSource();
+		ckanResourceDAO.flagCKANResourceAsConfigured("newUnitTestResourceId", "newUnitTestResourceRevId", savedConfig);
+		{
+			final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId");
+			Assert.assertEquals(WorkflowState.CONFIGURED, r.getWorkflowState());
+			Assert.assertNotNull(r.getResourceConfiguration());
+			Assert.assertEquals("test", r.getResourceConfiguration().getName());
+			Assert.assertNotNull(r.getResourceConfiguration().getGeneralConfigEntries());
+			Assert.assertNotNull(r.getResourceConfiguration().getIndicatorConfigEntries());
+			Assert.assertTrue(r.getResourceConfiguration().getGeneralConfigEntries().size() > 0);
+			Assert.assertTrue(r.getResourceConfiguration().getIndicatorConfigEntries().size() > 0);
+		}
+		ckanResourceDAO.flagCKANResourceAsConfigured("newUnitTestResourceId", "newUnitTestResourceRevId", null);
 		resourceConfigurationDao.deleteResourceConfiguration(configurationId);
+		entityCreator.deleteNeededIndicatorTypeAndSource();
 	}
 
 }

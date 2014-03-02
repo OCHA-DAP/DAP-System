@@ -99,7 +99,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			break;
 		case SCRAPER_VALIDATING:
 			importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByImporter("scraper"),
-					this.dummyConfigurationCreator.createConfiguration(), this.validatorCreators, this.preValidatorCreators, report,  this.indicatorCreationService);
+					config, this.validatorCreators, this.preValidatorCreators, report,  this.indicatorCreationService);
 			preparedData = this.prepareDataForImport(file, importer);
 			break;
 		default:

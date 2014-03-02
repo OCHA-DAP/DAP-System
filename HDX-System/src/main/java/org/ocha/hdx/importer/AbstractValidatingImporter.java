@@ -178,7 +178,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 		boolean ret	= true;
 		final List<IValidator> validators = this.findValidators(indicator);
 		if (validators == null || validators.size() == 0) {
-			logger.warn("No validators found for " + indicator);
+			//logger.warn("No validators found for " + indicator);
 		} else {
 			for (final IValidator validator : validators) {
 				final Response response = validator.validate(indicator);
