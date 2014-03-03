@@ -13,14 +13,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.ocha.hdx.config.ConfigurationConstants;
+import org.ocha.hdx.importer.helper.IndicatorTypeInformationHolder;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.configs.AbstractConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
+import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.validation.Response;
+import org.ocha.hdx.validation.exception.WrongParametersForValidationException;
 import org.ocha.hdx.validation.itemvalidator.IValidator;
+import org.ocha.hdx.validation.itemvalidator.IValidatorCreator;
 import org.ocha.hdx.validation.prevalidator.IPreValidator;
+import org.ocha.hdx.validation.prevalidator.IPreValidatorCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,43 +35,36 @@ import org.slf4j.LoggerFactory;
  *
  * @author alexandru-m-g
  */
-public abstract class AbstractValidatingImporter implements HDXImporter {
+public abstract class AbstractValidatingImporter implements HDXWithCountryListImporter {
 
 	private static Logger logger = LoggerFactory.getLogger(AbstractValidatingImporter.class);
 
-	private Map<String, AbstractConfigEntry> resourceEntriesMap;
+	protected Map<String, AbstractConfigEntry> resourceEntriesMap;
 
 	/**
 	 * The key here will be indicator type code + source code
 	 */
-	private Map<String, Map<String, AbstractConfigEntry>> indicatorEntriesMap;
-
-	/**
-	 * The key here will be indicator type code + source code. Flag if there was already a problem reported for this ind type + source.
-	 */
-	private Map<String, Boolean> indicatorErrorMap;
+	protected Map<String, IndicatorTypeInformationHolder> infoPerIndicatorTypeMap;
 
 	/**
 	 * All existing validators. The key is the validator's name.
 	 */
-	private Map<String, IValidator> validatorsMap;
+	private Map<String, IValidatorCreator> validatorCreatorsMap;
 
 	/**
 	 * All existing pre-validators. The key is the pre-validator's name.
 	 */
 	private Map<String, IPreValidator> preValidatorsMap;
 
-	/**
-	 * Cache of validators per ind type and source. The key is the indicator type code + source code.
-	 */
-	private Map<String, List<IValidator>> cachedIndicatorValidatorsMap;
 
 	private final List<IPreValidator> preValidators;
 
 	private final ValidationReport report;
 
-	public AbstractValidatingImporter(final ResourceConfiguration resourceConfiguration, final List<IValidator> validators,
-			final List<IPreValidator> preValidators, final ValidationReport report) {
+	protected PreparedData preparedData;
+
+	public AbstractValidatingImporter(final ResourceConfiguration resourceConfiguration, final List<IValidatorCreator> validatorCreators,
+			final List<IPreValidatorCreator> preValidatorCreators, final ValidationReport report) {
 		super();
 		this.report = report;
 		if (resourceConfiguration != null) {
@@ -83,19 +81,24 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 			logger.warn("No configuration found. No validation will be performed");
 		}
 
-		if (validators != null && validators.size() > 0) {
-			this.validatorsMap = new HashMap<String, IValidator>();
-			for (final IValidator validator : validators) {
-				this.validatorsMap.put(validator.getValidatorName(), validator);
+		if (validatorCreators != null && validatorCreators.size() > 0) {
+			this.validatorCreatorsMap = new HashMap<String, IValidatorCreator>();
+			for (final IValidatorCreator validator : validatorCreators) {
+				this.validatorCreatorsMap.put(validator.getValidatorName(), validator);
 			}
 		} else {
 			logger.warn("There are no validators available.");
 		}
 
-		if (preValidators != null && preValidators.size() > 0) {
+		if (preValidatorCreators != null && preValidatorCreators.size() > 0) {
 			this.preValidatorsMap	= new HashMap<String, IPreValidator>();
-			for (final IPreValidator preValidator : preValidators) {
-				this.preValidatorsMap.put(preValidator.getPreValidatorName(), preValidator);
+			for (final IPreValidatorCreator preValidatorCreator: preValidatorCreators) {
+				try{
+					this.preValidatorsMap.put(preValidatorCreator.getPreValidatorName(), preValidatorCreator.create(this.resourceEntriesMap));
+				} catch (final WrongParametersForValidationException e) {
+					logger.info( String.format("Pre-validator %s won't run because the necessary config is missing: %s",
+							preValidatorCreator.getPreValidatorName(), e.getMessage()) );
+				}
 			}
 		}
 
@@ -103,16 +106,29 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 	}
 
 	private void generateIndicatorEntriesMap(final ResourceConfiguration resourceConfiguration) {
-		this.indicatorEntriesMap = new HashMap<String, Map<String, AbstractConfigEntry>>();
-		for (final IndicatorResourceConfigEntry indEntry : resourceConfiguration.getIndicatorConfigEntries()) {
-			final String outerKey = indEntry.getIndicatorType().getCode() + indEntry.getSource().getCode();
-			Map<String, AbstractConfigEntry> indSrcMap = this.indicatorEntriesMap.get(outerKey);
-			if (indSrcMap == null) {
-				indSrcMap = new HashMap<String, AbstractConfigEntry>();
-				this.indicatorEntriesMap.put(outerKey, indSrcMap);
-			}
-			indSrcMap.put(indEntry.getEntryKey(), indEntry);
+		if ( this.infoPerIndicatorTypeMap == null ) {
+			this.infoPerIndicatorTypeMap	= new HashMap<String, IndicatorTypeInformationHolder>();
 		}
+		for (final IndicatorResourceConfigEntry indEntry : resourceConfiguration.getIndicatorConfigEntries()) {
+
+			final String outerKey = this.generateMapKey( indEntry.getIndicatorType().getCode(), indEntry.getSource().getCode() );
+
+			final IndicatorTypeInformationHolder indTypeInfoHolder = this.getIndTypeInfoHolder(outerKey);
+			indTypeInfoHolder.getIndicatorEntries().put(indEntry.getEntryKey(), indEntry);
+		}
+	}
+
+	/**
+	 * @param key - key generated by {@link AbstractValidatingImporter#generateMapKey(String, String)}
+	 * @return
+	 */
+	protected IndicatorTypeInformationHolder getIndTypeInfoHolder(final String key) {
+		IndicatorTypeInformationHolder indTypeInfoHolder	= this.infoPerIndicatorTypeMap.get(key);
+		if ( indTypeInfoHolder == null ) {
+			indTypeInfoHolder	= new IndicatorTypeInformationHolder();
+			this.infoPerIndicatorTypeMap.put(key, indTypeInfoHolder);
+		}
+		return indTypeInfoHolder;
 	}
 
 	private void generaterResourceEntriesMap(final ResourceConfiguration resourceConfiguration) {
@@ -138,41 +154,38 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 				try {
 					final String[] values = this.getValuesFromLine(line);
 					if (this.preValidation(values)) {
-						final PreparedIndicator preparedIndicator = new PreparedIndicator();
-						this.populatePreparedIndicator(preparedIndicator, values);
-
-						if (this.validation(preparedIndicator)) {
+						final PreparedIndicator preparedIndicator = this.createPreparedIndicator(values);
+						if ( preparedIndicator != null) {
 							preparedIndicators.add(preparedIndicator);
 						}
-
 					}
 				} catch (final RuntimeException re) {
-					logger.warn(re.getMessage());
+					logger.warn(re.toString());
 				}
 
 
 			}
 
-			return new PreparedData(true, preparedIndicators);
+			this.preparedData	=  new PreparedData(true, preparedIndicators);
 		} catch (final IOException e) {
 			logger.debug(e.getMessage());
-			return new PreparedData(false, null);
+			this.preparedData	=  new PreparedData(true, preparedIndicators);
 		}
+		return this.preparedData;
 	}
 
-	protected boolean validation(final PreparedIndicator preparedIndicator) {
+	protected boolean validation(final Indicator indicator) {
 		boolean ret	= true;
-		final List<IValidator> validators = this.findValidators(preparedIndicator);
+		final List<IValidator> validators = this.findValidators(indicator);
 		if (validators == null || validators.size() == 0) {
-			logger.warn("No validators found for " + preparedIndicator);
+			//logger.warn("No validators found for " + indicator);
 		} else {
-			final String key	= preparedIndicator.getIndicatorTypeCode() + preparedIndicator.getSourceCode();
 			for (final IValidator validator : validators) {
-				final Response response	=
-						validator.validate(preparedIndicator, this.resourceEntriesMap, this.indicatorEntriesMap.get(key));
-				if (! this.verifyResponse(response) ) {
-					ret	= false;
+				final Response response = validator.validate(indicator);
+				if (!this.verifyResponse(response)) {
+					ret = false;
 				}
+
 			}
 		}
 
@@ -210,12 +223,12 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 		return retList;
 	}
 
-	protected List<IValidator> findValidators(final PreparedIndicator preparedIndicator) {
-		final boolean sourceCodeNotEmpty = preparedIndicator.getSourceCode() != null && preparedIndicator.getSourceCode().length() > 0;
-		final boolean indicatorTypeCodeNotEmpty = preparedIndicator.getIndicatorTypeCode() != null && preparedIndicator.getIndicatorTypeCode().length() > 0;
+	protected List<IValidator> findValidators(final Indicator indicator) {
+		final boolean sourceCodeNotEmpty = indicator.getSource() != null && indicator.getSource().getCode() != null;
+		final boolean indicatorTypeCodeNotEmpty = indicator.getType() != null && indicator.getType().getCode() != null;
 
 		if (sourceCodeNotEmpty && indicatorTypeCodeNotEmpty) {
-			return this.cachedFindValidators(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
+			return this.cachedFindValidators(indicator.getType().getCode(), indicator.getSource().getCode());
 
 		}
 		return null;
@@ -223,29 +236,38 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 	}
 
 	protected List<IValidator> cachedFindValidators(final String indTypeCode, final String sourceCode) {
-		if (this.cachedIndicatorValidatorsMap == null) {
-			this.cachedIndicatorValidatorsMap = new HashMap<String, List<IValidator>>();
+		if ( this.infoPerIndicatorTypeMap == null ) {
+			this.infoPerIndicatorTypeMap	= new HashMap<String, IndicatorTypeInformationHolder>();
 		}
-		final String indAndSrcCode = indTypeCode + sourceCode;
-		List<IValidator> cachedValidatorList = this.cachedIndicatorValidatorsMap.get(indAndSrcCode);
+		final String indAndSrcCode = this.generateMapKey(indTypeCode, sourceCode);
+		final IndicatorTypeInformationHolder indTypeInfoHolder	= this.getIndTypeInfoHolder(indAndSrcCode);
+		List<IValidator> cachedValidatorList = indTypeInfoHolder.getValidators();
 		if (cachedValidatorList == null) {
 			cachedValidatorList = new ArrayList<IValidator>();
-			this.cachedIndicatorValidatorsMap.put(indAndSrcCode, cachedValidatorList);
+			indTypeInfoHolder.setValidators(cachedValidatorList);
 
 			/*
 			 * Find configurations specific for this ind type and source pair
 			 */
-			final Map<String, AbstractConfigEntry> indConfigMap = this.indicatorEntriesMap.get(indAndSrcCode);
+			final Map<String, AbstractConfigEntry> indConfigMap = indTypeInfoHolder.getIndicatorEntries();
 			if (indConfigMap != null) {
 				final AbstractConfigEntry validatorsEntry = indConfigMap.get(ConfigurationConstants.VALIDATORS);
 
+				/*
+				 * If there are validators configured to run, instantiate them
+				 */
 				if (validatorsEntry != null && validatorsEntry.getEntryValue() != null) {
 					final String[] validatorNames = validatorsEntry.getEntryValue().split(ConfigurationConstants.SEPARATOR);
 					if (validatorNames != null) {
 						for (final String name : validatorNames) {
-							final IValidator validator = this.validatorsMap.get(name);
-							if (validator != null) {
-								cachedValidatorList.add(validator);
+							final IValidatorCreator validatorCreator = this.validatorCreatorsMap.get(name);
+							if (validatorCreator != null) {
+								try {
+									cachedValidatorList.add(validatorCreator.create(this.resourceEntriesMap, indConfigMap));
+								} catch (final WrongParametersForValidationException e) {
+									logger.info( String.format("Validator %s won't run for indicator type %s and source %s because the necessary config is missing: %s",
+											indTypeCode, sourceCode, validatorCreator.getValidatorName(), e.getMessage()) );
+								}
 							} else {
 								logger.warn("No validator found for name " + name);
 							}
@@ -269,7 +291,7 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 	protected boolean preValidation(final String[] values) {
 		boolean ret = true;
 		for (final IPreValidator preValidator : this.preValidators) {
-			final Response response = preValidator.validate(values, this.resourceEntriesMap);
+			final Response response = preValidator.validate(values);
 			if (! this.verifyResponse(response) ) {
 				ret	= false;
 			}
@@ -277,10 +299,20 @@ public abstract class AbstractValidatingImporter implements HDXImporter {
 		return ret;
 	}
 
+	/**
+	 * @param indTypeCode
+	 * @param sourceCode
+	 * @return
+	 */
+	protected String generateMapKey(final String indTypeCode, final String sourceCode) {
+		final String indAndSrcCode = indTypeCode + sourceCode;
+		return indAndSrcCode;
+	}
+
 	protected abstract String[] getValuesFromLine(final String line);
 
 	protected abstract File findValueFile(File file);
 
-	protected abstract void populatePreparedIndicator(final PreparedIndicator preparedIndicator, String[] values);
+	protected abstract PreparedIndicator createPreparedIndicator(String[] values);
 
 }

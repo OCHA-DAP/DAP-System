@@ -25,21 +25,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ColumnNumPreValidatorTest {
 
 	@Autowired
-	private ColumnNumPreValidator columnNumPreValidator;
+	private ColumnNumPreValidatorCreator columnNumPreValidatorCreator;
 
 	@Test
 	public final void testValidate() {
 
 		final Map<String, AbstractConfigEntry> generalConfig	= new HashMap<String, AbstractConfigEntry>();
-		generalConfig.put(ConfigurationConstants.NUM_OF_ALLOWED_COLUMNS, new ResourceConfigEntry(ConfigurationConstants.NUM_OF_ALLOWED_COLUMNS, "6"));
+		generalConfig.put(ConfigurationConstants.MIN_NUM_OF_COLUMNS, new ResourceConfigEntry(ConfigurationConstants.MIN_NUM_OF_COLUMNS, "6"));
 
-		final Response responseSuccess1	= this.columnNumPreValidator.validate(new String[6], generalConfig);
+		final IPreValidator columnNumPreValidator = this.columnNumPreValidatorCreator.create(generalConfig);
+
+		final Response responseSuccess1	= columnNumPreValidator.validate(new String[6]);
 		assertEquals(ValidationStatus.SUCCESS, responseSuccess1.getStatus());
 
-		final Response responseError2	= this.columnNumPreValidator.validate(new String[7], generalConfig);
-		assertEquals(ValidationStatus.ERROR, responseError2.getStatus());
+		final Response responseSuccess2	= columnNumPreValidator.validate(new String[7]);
+		assertEquals(ValidationStatus.SUCCESS, responseSuccess2.getStatus());
 
-		final Response responseError1	= this.columnNumPreValidator.validate(new String[5], generalConfig);
+		final Response responseError1	= columnNumPreValidator.validate(new String[5]);
 		assertEquals(ValidationStatus.ERROR, responseError1.getStatus());
 	}
 

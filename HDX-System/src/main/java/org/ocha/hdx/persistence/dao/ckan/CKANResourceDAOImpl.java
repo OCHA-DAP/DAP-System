@@ -11,6 +11,7 @@ import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 public class CKANResourceDAOImpl implements CKANResourceDAO {
@@ -34,6 +35,8 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 		ckanResource.setParentDataset_revision_timestamp(parentDataset_revision_timestamp);
 		ckanResource.setDetectionDate(new Date());
 		ckanResource.setDownloadDate(null);
+		ckanResource.setResourceConfiguration(null);
+		
 
 		em.persist(ckanResource);
 
@@ -53,6 +56,14 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 		ckanResourceToFlag.setWorkflowState(WorkflowState.DOWNLOADED);
 		ckanResourceToFlag.setDownloadDate(new Date());
+	}
+	
+	@Override
+	@Transactional
+	public void flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration) {
+		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		ckanResourceToFlag.setWorkflowState(WorkflowState.CONFIGURED);
+		ckanResourceToFlag.setResourceConfiguration(resourceConfiguration);
 	}
 
 	@Override
@@ -106,7 +117,11 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional(readOnly = true)
 	public CKANResource getCKANResource(final String id, final String revision_id) {
-		return em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		CKANResource ret	=  em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		if (ret != null && ret.getResourceConfiguration() != null ) {
+			ret.getResourceConfiguration().getId();
+		}
+		return ret;
 	}
 
 	@Override

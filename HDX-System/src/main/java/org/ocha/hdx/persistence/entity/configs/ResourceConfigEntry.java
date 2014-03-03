@@ -14,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Index;
 
 /**
  * @author alexandru-m-g
@@ -21,6 +22,8 @@ import org.hibernate.annotations.ForeignKey;
  */
 @Entity
 @Table(name = "resource_config_entry")
+@org.hibernate.annotations.Table(indexes={@Index(name="resource_config_entry_index",columnNames="entry_key")},
+appliesTo = "resource_config_entry")
 @SequenceGenerator(name = "resource_config_entry_seq", sequenceName = "resource_config_entry_seq")
 public class ResourceConfigEntry extends AbstractConfigEntry {
 

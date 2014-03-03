@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import javax.annotation.Resource;
 
 import org.ocha.hdx.config.DummyConfigurationCreator;
+import org.ocha.hdx.importer.HDXWithCountryListImporter;
 import org.ocha.hdx.importer.PreparedData;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.ScraperImporter;
@@ -22,10 +23,11 @@ import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
+import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.validation.DummyValidator;
 import org.ocha.hdx.validation.ScraperValidator;
-import org.ocha.hdx.validation.itemvalidator.IValidator;
-import org.ocha.hdx.validation.prevalidator.IPreValidator;
+import org.ocha.hdx.validation.itemvalidator.IValidatorCreator;
+import org.ocha.hdx.validation.prevalidator.IPreValidatorCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,13 +50,16 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 
 	@Autowired
 	private CuratedDataService curatedDataService;
-	
+
+	@Autowired
+	private IndicatorCreationService indicatorCreationService;
+
 	@Resource
-	private List<IValidator> validators;
-	
-	@Resource 
-	private List<IPreValidator> preValidators;
-	
+	private List<IValidatorCreator> validatorCreators;
+
+	@Resource
+	private List<IPreValidatorCreator> preValidatorCreators;
+
 	@Autowired
 	private DummyConfigurationCreator dummyConfigurationCreator;
 
@@ -71,63 +76,68 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			return new ScraperValidator().evaluateFile(file);
 
 		default:
-			return defaultValidationFail(file);
+			return this.defaultValidationFail(file);
 		}
 	}
 
 	@Override
-	public boolean transformAndImportDataFromResource(final File file, final Type type, final String resourceId, final String revisionId, 
-			ResourceConfiguration config, ValidationReport report) {
-		
+	public boolean transformAndImportDataFromResource(final File file, final Type type, final String resourceId, final String revisionId,
+			final ResourceConfiguration config, final ValidationReport report) {
+
+		HDXWithCountryListImporter importer	= null;
+
 		// FIXME we probably want something else here, map of HDXImporter, or
 		// Factory....
 		final PreparedData preparedData;
 		switch (type) {
 		case DUMMY:
-			preparedData = defaultImportFail(file);
+			preparedData = this.defaultImportFail(file);
 			break;
 		case SCRAPER:
-			final ScraperImporter scraperImporter = new ScraperImporter(sourceDictionaryDAO.getSourceDictionariesByImporter("scraper"));
-			for (final Entry<String, String> entry : scraperImporter.getCountryList(file).entrySet()) {
-				try {
-					curatedDataService.createEntity(entry.getKey(), entry.getValue(), "country");
-				} catch (final Exception e) {
-					logger.debug(String.format("Not creating country : %s already exist", entry.getKey()));
-				}
-			}
-			preparedData = scraperImporter.prepareDataForImport(file);
+			importer = new ScraperImporter(this.sourceDictionaryDAO.getSourceDictionariesByImporter("scraper"), this.indicatorCreationService);
+			preparedData = this.prepareDataForImport(file, importer);
 			break;
 		case SCRAPER_VALIDATING:
-			final ScraperValidatingImporter importer = new ScraperValidatingImporter(sourceDictionaryDAO.getSourceDictionariesByImporter("scraper"), 
-					dummyConfigurationCreator.createConfiguration(), validators, preValidators, report);
-			for (final Entry<String, String> entry : importer.getCountryList(file).entrySet()) {
-				try {
-					curatedDataService.createEntity(entry.getKey(), entry.getValue(), "country");
-				} catch (final Exception e) {
-					logger.debug(String.format("Not creating country : %s already exist", entry.getKey()));
-				}
-			}
-			preparedData = importer.prepareDataForImport(file);
+			importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByImporter("scraper"),
+					config, this.validatorCreators, this.preValidatorCreators, report,  this.indicatorCreationService);
+			preparedData = this.prepareDataForImport(file, importer);
 			break;
 		default:
-			preparedData = defaultImportFail(file);
+			preparedData = this.defaultImportFail(file);
 		}
 		if (preparedData.isSuccess()) {
-			incorporatePreparedDataForImport(preparedData, resourceId, revisionId);
+			final List<Indicator> indicators =  importer.transformToFinalFormat();
+			this.saveReadIndicatorsToDatabase(indicators, resourceId, revisionId);
 		}
 
 		return preparedData.isSuccess();
 
 	}
 
+	/**
+	 * see {@link FileEvaluatorAndExtractor#incorporatePreparedDataForImport(PreparedData, String, String)}
+	 */
 	@Override
+	@Deprecated
 	public void incorporatePreparedDataForImport(final PreparedData preparedData, final String resourceId, final String revisionId) {
-		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
+		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
 		for (final PreparedIndicator preparedIndicator : preparedData.getIndicatorsToImport()) {
 			try {
-				curatedDataService.createIndicator(preparedIndicator, importFromCKAN);
+				this.curatedDataService.createIndicator(preparedIndicator, importFromCKAN);
 			} catch (final Exception e) {
 				logger.debug(String.format("Error trying to create preparedIndicator : %s", preparedIndicator.toString()));
+			}
+		}
+	}
+
+	@Override
+	public void saveReadIndicatorsToDatabase(final List<Indicator> indicators, final String resourceId, final String revisionId) {
+		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
+		for (final Indicator indicator : indicators ) {
+			try {
+				this.curatedDataService.createIndicator(indicator, importFromCKAN);
+			} catch (final Exception e) {
+				logger.debug(String.format("Error trying to save Indicator : %s", indicator.toString()));
 			}
 		}
 	}
@@ -141,6 +151,20 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 
 	private PreparedData defaultImportFail(final File file) {
 		final PreparedData preparedData = new PreparedData(false, null);
+		return preparedData;
+	}
+
+	private PreparedData prepareDataForImport(final File file, final HDXWithCountryListImporter importer) {
+		final PreparedData preparedData;
+		for (final Entry<String, String> entry : importer.getCountryList(file).entrySet()) {
+			try {
+				this.curatedDataService.createEntity(entry.getKey(), entry.getValue(), "country");
+			} catch (final Exception e) {
+				logger.debug(String.format("Not creating country : %s already exist", entry.getKey()));
+			}
+		}
+		preparedData = importer.prepareDataForImport(file);
+
 		return preparedData;
 	}
 }

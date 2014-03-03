@@ -16,7 +16,7 @@ public class ScraperImporterTest {
 	@Test
 	public void testPrepareDataForImport() throws IOException {
 		{
-			final ScraperImporter scraperImporter = new ScraperImporter(null);
+			final ScraperImporter scraperImporter = new ScraperImporter(null, null);
 
 			final File csvValueFile = new ClassPathResource("samples/scraper/csv.zip").getFile();
 
@@ -25,8 +25,9 @@ public class ScraperImporterTest {
 			Assert.assertEquals(50081, preparedData.getIndicatorsToImport().size());
 
 			for (final PreparedIndicator preparedIndicator : preparedData.getIndicatorsToImport()) {
-				if (preparedIndicator.getSourceCode().equals("WB"))
+				if (preparedIndicator.getSourceCode().equals("WB")) {
 					Assert.fail("Source WB was not in the file");
+				}
 			}
 		}
 
@@ -35,7 +36,7 @@ public class ScraperImporterTest {
 			wb.setCode("WB");
 			final List<SourceDictionary> dictionaries = new ArrayList<>();
 			dictionaries.add(new SourceDictionary("\"World Bank\"", "scraper", wb));
-			final ScraperImporter scraperImporter = new ScraperImporter(dictionaries);
+			final ScraperImporter scraperImporter = new ScraperImporter(dictionaries, null);
 
 			final File csvValueFile = new ClassPathResource("samples/scraper/csv.zip").getFile();
 
@@ -44,8 +45,9 @@ public class ScraperImporterTest {
 			Assert.assertEquals(50081, preparedData.getIndicatorsToImport().size());
 
 			for (final PreparedIndicator preparedIndicator : preparedData.getIndicatorsToImport()) {
-				if (preparedIndicator.getSourceCode().equals("\"World Bank\""))
+				if (preparedIndicator.getSourceCode().equals("\"World Bank\"")) {
 					Assert.fail("Source \"World Bank\" should have been replaced by WB");
+				}
 			}
 		}
 	}
