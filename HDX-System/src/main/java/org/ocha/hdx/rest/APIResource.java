@@ -95,7 +95,8 @@ public class APIResource {
 		final Map<String, String> model = new HashMap<String, String>();
 		model.put("chartType", chartType);
 		final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode);
-		model.put("title", indicatorType.getDisplayableTitle() + " according to " + curatedDataService.getSourceByCode(sourceCode).getName());
+		// FIXME we could have a display language here
+		model.put("title", indicatorType.getDisplayableTitle() + " according to " + curatedDataService.getSourceByCode(sourceCode).getName().getDefaultValue());
 		if ("BarChart".equals(chartType)) {
 			model.put("vAxisTitle", "year");
 			model.put("hAxisTitle", indicatorType.getName().getDefaultValue());

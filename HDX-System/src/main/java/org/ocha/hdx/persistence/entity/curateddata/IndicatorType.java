@@ -20,8 +20,7 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
  * @author Samuel Eustachi
  * @author David Megginson
  * 
- *         a table listing the types of {@link Indicator} supported in the curated data repository (e.g. mortality rate), using the CHD
- *         codes as the primary keys.
+ *         a table listing the types of {@link Indicator} supported in the curated data repository (e.g. mortality rate), using the CHD codes as the primary keys.
  * 
  */
 @Entity
@@ -46,10 +45,10 @@ public class IndicatorType {
 	@ForeignKey(name = "fk_indicator_type_to_name_text")
 	private Text name;
 
-    @ManyToOne
-    @JoinColumn(name = "unit_id", nullable = true, updatable = true)
-    @ForeignKey(name = "fk_indicator_type_to_unit")
-    private Unit unit;
+	@ManyToOne
+	@JoinColumn(name = "unit_id", nullable = true, updatable = true)
+	@ForeignKey(name = "fk_indicator_type_to_unit")
+	private Unit unit;
 
 	@Column(name = "value_type", nullable = true, updatable = true)
 	@Enumerated(EnumType.STRING)
@@ -88,7 +87,7 @@ public class IndicatorType {
 	}
 
 	public String getDisplayableTitle() {
-		return name + " in " + unit;
+		return name.getDefaultValue() + " in " + unit.getName().getDefaultValue();
 	}
 
 	public ValueType getValueType() {

@@ -31,10 +31,7 @@
 		var data = new google.visualization.DataTable(jsonData);
 
 		// Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.$
-		{
-			it.model.chartType
-		}
+		var chart = new google.visualization.${it.model.chartType}
 		(document.getElementById('chart_div'));
 		chart.draw(data, {
 			title : "${it.model.title}",
