@@ -5,9 +5,11 @@ import java.util.Map;
 
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.ckan.CKANResourceDAO;
+import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class WorkflowServiceImpl implements WorkflowService {
@@ -21,6 +23,9 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Autowired
 	private CKANResourceDAO resourceDAO;
+	
+	@Autowired 
+	private ResourceConfigurationDao resourceConfigurationDao;
 
 	private boolean isTransitionPossible(final WorkflowState from, final WorkflowState to) {
 		final List<WorkflowState> tos = possibleTransitionsMap.get(from);
@@ -56,6 +61,17 @@ public class WorkflowServiceImpl implements WorkflowService {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.DOWNLOADED)) {
 			resourceDAO.flagCKANResourceAsDownloaded(id, revision_id);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration) {
+		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
+		if (nextStateIsPossible(res, WorkflowState.CONFIGURED)) {
+			resourceDAO.flagCKANResourceAsConfigured(id, revision_id, resourceConfiguration);
 			return true;
 		} else {
 			return false;
@@ -105,5 +121,5 @@ public class WorkflowServiceImpl implements WorkflowService {
 			return false;
 		}
 	}
-
+	
 }

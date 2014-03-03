@@ -6,6 +6,7 @@ import java.util.List;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 
 public interface CKANResourceDAO {
 	public void newCKANResourceDetected(final String id, final String revision_id, final String name, final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
@@ -13,7 +14,7 @@ public interface CKANResourceDAO {
 
 	/**
 	 * Flags the given record as Downloaded
-	 * 
+	 *
 	 * @param id
 	 * @param revision_id
 	 */
@@ -21,7 +22,7 @@ public interface CKANResourceDAO {
 
 	/**
 	 * Flags the given record as Tech Evaluation Success and stores which evaluator triggered the success
-	 * 
+	 *
 	 * @param id
 	 * @param revision_id
 	 */
@@ -29,14 +30,14 @@ public interface CKANResourceDAO {
 
 	/**
 	 * Flags the given record as Tech Evaluation Fail and stores which evaluator triggered the failure
-	 * 
+	 *
 	 * @param id
 	 * @param revision_id
 	 */
 	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final ValidationReport report);
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @param revision_id
 	 * @param evaluator
@@ -47,11 +48,13 @@ public interface CKANResourceDAO {
 
 	/**
 	 * Flags the given record as Outdated
-	 * 
+	 *
 	 * @param id
 	 * @param revision_id
 	 */
 	public void flagCKANResourceAsOutdated(final String id, final String revision_id);
+
+	public void flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration );
 
 	public CKANResource getCKANResource(final String id, final String revision_id);
 
