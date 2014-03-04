@@ -20,7 +20,7 @@
 		<jstl.impl.version>1.2</jstl.impl.version>
 		<jersey.version>2.6</jersey.version>
 		<!-- This value is ok for prod, can be overriden for other environments in profiles -->
-		<HDX_ROOT>/opt/ocha/hdx</HDX_ROOT>
+		<HDX_ROOT>/opt/www/tomcat/hdx</HDX_ROOT>
 	</properties>
 
 	<build>
