@@ -85,7 +85,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			final ResourceConfiguration config, final ValidationReport report) {
 
 		HDXWithCountryListImporter importer	= null;
-
+		this.dummyConfigurationCreator.createConfiguration();
 		// FIXME we probably want something else here, map of HDXImporter, or
 		// Factory....
 		final PreparedData preparedData;

@@ -102,7 +102,7 @@ public class ResourceConfigurationDaoImplTest {
 
 		for (int i = 0; i < modifiedList.size(); i++) {
 			final ResourceConfiguration resourceConfiguration = modifiedList.get(i);
-			assertEquals(this.CONFIG_NAME + i, resourceConfiguration.getName());
+			assertEquals(CONFIG_NAME + i, resourceConfiguration.getName());
 
 			assertEquals(NUM_OF_ITEMS, resourceConfiguration.getGeneralConfigEntries().size());
 			for (final ResourceConfigEntry entry : resourceConfiguration.getGeneralConfigEntries()) {
