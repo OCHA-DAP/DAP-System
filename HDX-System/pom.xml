@@ -19,8 +19,38 @@
 		<derby.version>10.10.1.1</derby.version>
 		<jstl.impl.version>1.2</jstl.impl.version>
 		<jersey.version>2.6</jersey.version>
-		<HDX_ROOT>${HDX_FOLDER}</HDX_ROOT>
+		<!-- This value is ok for prod, can be overriden for other environments in profiles -->
+		<HDX_ROOT>/opt/ocha/hdx</HDX_ROOT>
 	</properties>
+
+	<build>
+		<finalName>hdx</finalName>
+		<resources>
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webResources>
+						<resource>
+							<filtering>true</filtering>
+							<directory>src/main/webapp</directory>
+							<includes>
+								<include>**/web.xml</include>
+							</includes>
+						</resource>
+					</webResources>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<dependency>
@@ -223,15 +253,6 @@
 		</dependency>
 
 	</dependencies>
-	<build>
-		<finalName>hdx</finalName>
-		<resources>
-			<resource>
-				<directory>${project.basedir}/src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-	</build>
 
 	<repositories>
 
