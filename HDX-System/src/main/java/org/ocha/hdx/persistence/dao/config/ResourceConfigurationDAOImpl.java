@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 
@@ -26,25 +26,19 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#listSources
-	 * ()
+	 * 
+	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#listSources ()
 	 */
 	@Override
 	public List<ResourceConfiguration> listResourceConfigurations() {
-		final TypedQuery<ResourceConfiguration> query = this.em.createQuery(
-				"SELECT rc FROM ResourceConfiguration rc ORDER BY rc.id",
-				ResourceConfiguration.class);
+		final TypedQuery<ResourceConfiguration> query = this.em.createQuery("SELECT rc FROM ResourceConfiguration rc ORDER BY rc.id", ResourceConfiguration.class);
 		return query.getResultList();
 	}
 
-
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#
-	 * getResourceConfigurationById(long)
+	 * 
+	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao# getResourceConfigurationById(long)
 	 */
 	@Override
 	public ResourceConfiguration getResourceConfigurationById(final long id) {
@@ -53,9 +47,8 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#
-	 * deleteResourceConfiguration(long)
+	 * 
+	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao# deleteResourceConfiguration(long)
 	 */
 	@Override
 	@Transactional
@@ -65,24 +58,24 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#createResourceConfig(java.lang.String, java.util.List, java.util.List)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#createResourceConfiguration(java.lang.String, java.util.List,
+	 * java.util.List)
 	 */
 	@Override
 	@Transactional
-	public ResourceConfiguration createResourceConfig(final String name,
-			final Set<ResourceConfigEntry> generalConfigSet,
-			final Set<IndicatorResourceConfigEntry> indicatorConfigSet) {
+	public ResourceConfiguration createResourceConfiguration(final String name, final Set<ResourceConfigEntry> generalConfigSet, final Set<IndicatorResourceConfigEntry> indicatorConfigSet) {
 
-		final ResourceConfiguration resourceConfiguration	 = new ResourceConfiguration(name, generalConfigSet, indicatorConfigSet);
-		if ( generalConfigSet != null ) {
+		final ResourceConfiguration resourceConfiguration = new ResourceConfiguration(name, generalConfigSet, indicatorConfigSet);
+		if (generalConfigSet != null) {
 			for (final ResourceConfigEntry entry : generalConfigSet) {
 				entry.setParentConfiguration(resourceConfiguration);
 			}
 		}
 
-		if ( indicatorConfigSet != null ) {
+		if (indicatorConfigSet != null) {
 			for (final IndicatorResourceConfigEntry entry : indicatorConfigSet) {
 				entry.setParentConfiguration(resourceConfiguration);
 			}
@@ -93,21 +86,21 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 		return resourceConfiguration;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#updateResourceConfiguration(java.lang.String, java.util.List, java.util.List)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#updateResourceConfiguration(java.lang.String, java.util.List,
+	 * java.util.List)
 	 */
 	@Override
 	@Transactional
-	public void updateResourceConfiguration(final long id, final String name,
-			final Set<ResourceConfigEntry> generalConfigSet,
-			final Set<IndicatorResourceConfigEntry> indicatorConfigSet) {
+	public void updateResourceConfiguration(final long id, final String name, final Set<ResourceConfigEntry> generalConfigSet, final Set<IndicatorResourceConfigEntry> indicatorConfigSet) {
 
-		final ResourceConfiguration resourceConfiguration	= this.getResourceConfigurationById(id);
-		if ( name != null && name.length() > 0 ) {
+		final ResourceConfiguration resourceConfiguration = this.getResourceConfigurationById(id);
+		if (name != null && name.length() > 0) {
 			resourceConfiguration.setName(name);
 		}
-		if ( generalConfigSet != null ) {
+		if (generalConfigSet != null) {
 			resourceConfiguration.getGeneralConfigEntries().clear();
 			resourceConfiguration.getGeneralConfigEntries().addAll(generalConfigSet);
 			for (final ResourceConfigEntry entry : generalConfigSet) {
@@ -115,7 +108,7 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 			}
 		}
 
-		if ( indicatorConfigSet != null ) {
+		if (indicatorConfigSet != null) {
 			resourceConfiguration.getIndicatorConfigEntries().clear();
 			resourceConfiguration.getIndicatorConfigEntries().addAll(indicatorConfigSet);
 			for (final IndicatorResourceConfigEntry entry : indicatorConfigSet) {
@@ -124,7 +117,5 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 		}
 
 	}
-
-
 
 }

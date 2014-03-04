@@ -546,6 +546,43 @@ public class HDXServiceImpl implements HDXService {
 	}
 
 	/*
+	 * Configurations management
+	 */
+
+	@Override
+	public List<ResourceConfiguration> listConfigurations() {
+		return this.resourceConfigurationDao.listResourceConfigurations();
+	}
+
+	@Override
+	public ResourceConfiguration createResourceConfiguration(final String name) throws Exception {
+		return this.resourceConfigurationDao.createResourceConfiguration(name, null, null);
+	}
+
+	@Override
+	public ResourceConfiguration createResourceConfiguration(final String name, final Set<ResourceConfigEntry> generalConfigList, final Set<IndicatorResourceConfigEntry> indicatorConfigList)
+			throws Exception {
+		return this.resourceConfigurationDao.createResourceConfiguration(name, generalConfigList, indicatorConfigList);
+	}
+
+	@Override
+	public void updateResourceConfiguration(final long id, final String name) {
+		// public void updateLanguage(final String code, final String nativeName) throws Exception {
+		this.resourceConfigurationDao.updateResourceConfiguration(id, name, null, null);
+	}
+
+	@Override
+	public void updateResourceConfiguration(final long id, final String name, final Set<ResourceConfigEntry> generalConfigList, final Set<IndicatorResourceConfigEntry> indicatorConfigList) {
+		// public void updateLanguage(final String code, final String nativeName) throws Exception {
+		this.resourceConfigurationDao.updateResourceConfiguration(id, name, generalConfigList, indicatorConfigList);
+	}
+
+	@Override
+	public void deleteResourceConfiguration(final long id) throws Exception {
+		this.resourceConfigurationDao.deleteResourceConfiguration(id);
+	}
+
+	/*
 	 * Translations management
 	 */
 

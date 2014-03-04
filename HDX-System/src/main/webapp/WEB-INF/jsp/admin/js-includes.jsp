@@ -109,12 +109,20 @@ if(needs.contains("sources")) {
 %>
 <script src="${ctx}/admin/curated/indicatorTypes/json?var=data_indicatorTypes"></script>
 <script>
-  appData['indicatorTypes'] = data_indicatorTypes;
+	appData['indicatorTypes'] = data_indicatorTypes;
 </script>
 <%
 	} // End if(needs.contains("indicatorTypes")) {
-	
-if(needs.contains("entities")) {
+	if(needs.contains("resourceConfigurations")) {
+%>
+<script src="${ctx}/admin/misc/configurations/json?var=data_resourceConfigurations"></script>
+<script>
+  appData['resourceConfigurations'] = data_resourceConfigurations;
+</script>
+
+<%
+	} // End if(needs.contains("resourceConfigurations")) {
+	if(needs.contains("entities")) {
 %>
 <script src="${ctx}/admin/curated/entities/json?var=data_entities"></script>
 <script>

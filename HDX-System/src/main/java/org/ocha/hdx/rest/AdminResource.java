@@ -24,6 +24,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.EntityType;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
@@ -197,7 +198,63 @@ public class AdminResource {
 	@POST
 	@Path("/misc/languages/submitDelete")
 	public Response deleteLanguage(@FormParam("code") final String code) throws Exception {
-		hdxService.deleteLanguage(code);
+		this.hdxService.deleteLanguage(code);
+		return Response.ok().build();
+	}
+
+	/*
+	 * Configurations management
+	 */
+	@GET
+	@Path("/misc/configurations/")
+	@SuppressWarnings("static-method")
+	public Response displayConfigurationsList() {
+		return Response.ok(new Viewable("/admin/resourceConfigurations")).build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/misc/configurations/json")
+	public String getResourceConfigurations(@QueryParam("var") final String var) throws TypeMismatchException {
+
+		String result = "";
+
+		final List<ResourceConfiguration> listConfigurations = this.hdxService.listConfigurations();
+		final JsonArray jsonArray = new JsonArray();
+
+		for (final ResourceConfiguration rc : listConfigurations) {
+			final JsonObject element = new JsonObject();
+			element.addProperty("id", rc.getId());
+			element.addProperty("name", rc.getName());
+			// element.addProperty("native_name", language.getNativeName());
+			jsonArray.add(element);
+		}
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
+	}
+
+	@POST
+	@Path("/misc/configurations/submitCreate")
+	public Response createResourceConfiguration(@FormParam("name") final String rcName) throws Exception {
+		// TODO Perform validation
+		this.hdxService.createResourceConfiguration(rcName);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/misc/configurations/submitUpdate")
+	public Response updateResourceConfiguration(@FormParam("id") final String rcId, @FormParam("name") final String rcName) throws Exception {
+		this.hdxService.updateResourceConfiguration(Long.valueOf(rcId), rcName);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/misc/configurations/submitDelete")
+	public Response deleteResourceConfiguration(@FormParam("id") final String rcId) throws Exception {
+		final long id = Long.valueOf(rcId).longValue();
+		this.hdxService.deleteResourceConfiguration(id);
 		return Response.ok().build();
 	}
 

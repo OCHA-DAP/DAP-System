@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 @Component
 public class DummyConfigurationCreator {
@@ -62,17 +62,12 @@ public class DummyConfigurationCreator {
 
 		final Set<ResourceConfigEntry> entries = new HashSet<ResourceConfigEntry>();
 
-		final ResourceConfigEntry entry1 = new ResourceConfigEntry(ConfigurationConstants.PREVALIDATORS, ColumnNumPreValidatorCreator.NAME
+		final ResourceConfigEntry entry1 = new ResourceConfigEntry(ConfigurationConstants.GeneralConfiguration.PREVALIDATORS.getLabel(), ColumnNumPreValidatorCreator.NAME
 				+ ConfigurationConstants.SEPARATOR + AllowedIndicatorTypesValidatorCreator.NAME);
-		final ResourceConfigEntry entry2 = new ResourceConfigEntry(ConfigurationConstants.MIN_NUM_OF_COLUMNS, "6");
-		final ResourceConfigEntry entry3 = new ResourceConfigEntry(ConfigurationConstants.ALLOWED_INDICATOR_TYPES,
-				PVX040 + ConfigurationConstants.SEPARATOR +
-				PSP080 + ConfigurationConstants.SEPARATOR +
-				PSE030 + ConfigurationConstants.SEPARATOR +
-				PCX051 + ConfigurationConstants.SEPARATOR +
-				PVF020 + ConfigurationConstants.SEPARATOR +
-				PSP010 + ConfigurationConstants.SEPARATOR +
-				_EMDAT_TOTAL_AFFECTED);
+		final ResourceConfigEntry entry2 = new ResourceConfigEntry(ConfigurationConstants.GeneralConfiguration.MIN_NUM_OF_COLUMNS.getLabel(), "6");
+		final ResourceConfigEntry entry3 = new ResourceConfigEntry(ConfigurationConstants.GeneralConfiguration.ALLOWED_INDICATOR_TYPES.getLabel(), PVX040 + ConfigurationConstants.SEPARATOR + PSP080
+				+ ConfigurationConstants.SEPARATOR + PSE030 + ConfigurationConstants.SEPARATOR + PCX051 + ConfigurationConstants.SEPARATOR + PVF020 + ConfigurationConstants.SEPARATOR + PSP010
+				+ ConfigurationConstants.SEPARATOR + _EMDAT_TOTAL_AFFECTED);
 
 		entries.add(entry1);
 		entries.add(entry2);

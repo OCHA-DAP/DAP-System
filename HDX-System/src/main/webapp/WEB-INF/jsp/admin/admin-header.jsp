@@ -8,6 +8,7 @@
 			<li class="right"><a href="${ctx}/logout/">Log out</a></li>
 			<li class="right"><a href="${ctx}/admin/misc/users/">Manage users</a></li>
 			<li class="right"><a href="${ctx}/admin/misc/languages/">Manage languages</a></li>
+			<li class="right"><a href="${ctx}/admin/misc/configurations/">Manage configurations</a></li>
 			<li class="right">Logged as ${SESSION_PARAM_UID}</li>
 		</ul>
 	</div>

@@ -10,15 +10,11 @@ import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 public interface ResourceConfigurationDao {
 	public List<ResourceConfiguration> listResourceConfigurations();
 
-	public ResourceConfiguration createResourceConfig(String name,
-			Set<ResourceConfigEntry> generalConfigList,
-			Set<IndicatorResourceConfigEntry> indicatorConfigList);
+	public ResourceConfiguration createResourceConfiguration(String name, Set<ResourceConfigEntry> generalConfigList, Set<IndicatorResourceConfigEntry> indicatorConfigList);
 
 	public ResourceConfiguration getResourceConfigurationById(long id);
 
 	public void deleteResourceConfiguration(long id);
 
-	public void updateResourceConfiguration(final long id,
-			String name, Set<ResourceConfigEntry> generalConfigList,
-			Set<IndicatorResourceConfigEntry> indicatorConfigList);
+	public void updateResourceConfiguration(final long id, String name, Set<ResourceConfigEntry> generalConfigList, Set<IndicatorResourceConfigEntry> indicatorConfigList);
 }
