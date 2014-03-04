@@ -179,5 +179,7 @@ public class IndicatorDAOImplTest {
 		// Assert.assertEquals(1, listIndicatorsForCountryOverview.size());
 		final Object[] element = listIndicatorsForCountryOverview.get(0);
 		// Assert.assertEquals(1l, element[0]);
+
+		integrationTestSetUpAndTearDown.tearDownDataForCountryOverview();
 	}
 }
