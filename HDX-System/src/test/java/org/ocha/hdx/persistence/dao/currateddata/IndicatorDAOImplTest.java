@@ -170,12 +170,14 @@ public class IndicatorDAOImplTest {
 		Assert.assertEquals(6, indicatorDAO.listLastIndicators(100).size());
 
 	}
-	
+
 	@Test
 	public void testReportQueries() {
-		final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("COL", "FR");
+		integrationTestSetUpAndTearDown.setUpDataForCountryOverview();
+
+		final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("USA", "FR");
 		// Assert.assertEquals(1, listIndicatorsForCountryOverview.size());
 		final Object[] element = listIndicatorsForCountryOverview.get(0);
 		// Assert.assertEquals(1l, element[0]);
-	}	
+	}
 }

@@ -136,4 +136,25 @@ public class IntegrationTestSetUpAndTearDown {
 		sourceDAO.deleteSourceByCode("m49");
 
 	}
+
+	public void setUpDataForCountryOverview() {
+		curatedDataService.createEntity("USA", "USA", "country");
+
+		final Text geo = textDAO.createText("Wikipedia: geography");
+		final Text urlText = textDAO.createText("Url");
+		final Unit url = unitDAO.createUnit("url", urlText);
+		indicatorTypeDAO.createIndicatorType("CD010", geo, url, ValueType.STRING);
+
+		final Entity usa = entityDAO.getEntityByCodeAndType("USA", "country");
+		final Source sourceWB = sourceDAO.getSourceByCode("WB");
+		final IndicatorType indicatorTypeCD010 = indicatorTypeDAO.getIndicatorTypeByCode("CD010");
+
+		final DateTime dateTime2013 = new DateTime(2013, 1, 1, 0, 0);
+		final Date date2013 = dateTime2013.toDate();
+		final Date date2014 = dateTime2013.plusYears(1).toDate();
+
+		indicatorDAO.createIndicator(sourceWB, usa, indicatorTypeCD010, date2013, date2014, Periodicity.YEAR, new IndicatorValue("Url for Usa"), "Url for Usa", "http:www.example.com",
+				importFromCKANDAO.listImportsFromCKAN().get(0));
+
+	}
 }

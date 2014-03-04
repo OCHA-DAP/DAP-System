@@ -42,7 +42,7 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 		createHeaderCells(sheet, headers);
 
 		// Fill with the data
-		// Sample : CD010	Wikipedia: geography	http://en.wikipedia.org/wiki/Colombia#Geography	2014-01-22	wikipedia
+		// Sample : CD010 Wikipedia: geography http://en.wikipedia.org/wiki/Colombia#Geography 2014-01-22 wikipedia
 		for (int i = 0; i < data.size(); i++) {
 			final Object[] element = data.get(i);
 
@@ -50,34 +50,34 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 			final XSSFRow row = sheet.createRow(i + 1);
 
 			// "Indicator ID" (always set)
-			createCell(row, (short)0, element[0].toString());
+			createCell(row, (short) 0, element[0].toString());
 
 			// Other infos may be unavailable if there are no values for the indicator
 			if (1 < element.length) {
 
 				// "Indicator name"
-				createCell(row, (short)1, element[2].toString());
+				createCell(row, (short) 1, element[1].toString());
 
 				// "Value"
-				final String value = element[4].toString();
+				final String value = element[2].toString();
 				// Value can be a URL
 				if ((null != value) && value.startsWith("http://")) {
 					createUrlCell(row, (short) 2, value, value);
 				}
 				// or a simple string
 				else {
-					createCell(row, (short)2, value);
+					createCell(row, (short) 2, value);
 				}
 
 				// "Last updated"
-				createCell(row, (short)3, element[5].toString());
+				createCell(row, (short) 3, element[3].toString());
 
 				// "Source dataset"
-				createCell(row, (short)4, element[6].toString());
+				createCell(row, (short) 4, element[4].toString());
 			}
 		}
 
-		// Freeze the headers 
+		// Freeze the headers
 		// Freeze the 2 first columns
 		sheet.createFreezePane(2, 1, 2, 1);
 
