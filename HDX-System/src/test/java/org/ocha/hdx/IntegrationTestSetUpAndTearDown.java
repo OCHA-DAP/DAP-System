@@ -157,4 +157,15 @@ public class IntegrationTestSetUpAndTearDown {
 				importFromCKANDAO.listImportsFromCKAN().get(0));
 
 	}
+
+	public void tearDownDataForCountryOverview() {
+		indicatorDAO.deleteAllIndicators();
+
+		entityDAO.deleteEntityByCodeAndType("USA", "country");
+
+		indicatorTypeDAO.deleteIndicatorTypeByCode("CD010");
+
+		unitDAO.deleteUnit(unitDAO.getUnitByCode("url").getId());
+
+	}
 }
