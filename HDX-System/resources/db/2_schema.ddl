@@ -11,6 +11,15 @@
     alter table entity_type 
         drop constraint fk_entity_type_to_name_text;
 
+    alter table hdx_additional_data 
+        drop constraint fk_additional_data_to_source;
+
+    alter table hdx_additional_data 
+        drop constraint fk_additional_data_to_indicator_type;
+
+    alter table hdx_additional_data 
+        drop constraint fk_additional_data_to_name_text;
+
     alter table hdx_indicator 
         drop constraint fk_indicator_to_source;
 
@@ -82,6 +91,8 @@
 
     drop table entity_type;
 
+    drop table hdx_additional_data;
+
     drop table hdx_indicator;
 
     drop table hdx_translation;
@@ -117,6 +128,8 @@
     drop sequence entity_seq;
 
     drop sequence entity_type_seq;
+
+    drop sequence hdx_additional_data_seq;
 
     drop sequence hdx_unit_seq;
 
@@ -187,6 +200,15 @@
         primary key (id)
     );
 
+    create table hdx_additional_data (
+        id int8 not null,
+        entry_key varchar(255) not null,
+        entry_value_text_id int8,
+        indicator_type_id int8 not null,
+        source_id int8 not null,
+        primary key (id)
+    );
+
     create table hdx_indicator (
         id int8 not null,
         end_time timestamp,
@@ -208,7 +230,7 @@
     );
 
     create table hdx_translation (
-        value varchar(255) not null,
+        value text not null,
         language varchar(255) not null,
         text int8 not null,
         primary key (language, text)
@@ -316,7 +338,7 @@
 
     create table text (
         id int8 not null,
-        default_value varchar(255) not null,
+        default_value text not null,
         primary key (id)
     );
 
@@ -338,6 +360,21 @@
     alter table entity_type 
         add constraint fk_entity_type_to_name_text 
         foreign key (text_id) 
+        references text;
+
+    alter table hdx_additional_data 
+        add constraint fk_additional_data_to_source 
+        foreign key (source_id) 
+        references source;
+
+    alter table hdx_additional_data 
+        add constraint fk_additional_data_to_indicator_type 
+        foreign key (indicator_type_id) 
+        references indicator_type;
+
+    alter table hdx_additional_data 
+        add constraint fk_additional_data_to_name_text 
+        foreign key (entry_value_text_id) 
         references text;
 
     alter table hdx_indicator 
@@ -454,6 +491,8 @@
     create sequence entity_seq;
 
     create sequence entity_type_seq;
+
+    create sequence hdx_additional_data_seq;
 
     create sequence hdx_unit_seq;
 

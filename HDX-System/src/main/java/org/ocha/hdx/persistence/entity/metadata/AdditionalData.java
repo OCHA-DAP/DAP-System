@@ -1,0 +1,118 @@
+/**
+ *
+ */
+package org.ocha.hdx.persistence.entity.metadata;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.ForeignKey;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
+import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.i18n.Text;
+
+/**
+ * @author alexandru-m-g
+ *
+ */
+@Entity
+@Table(name = "hdx_additional_data")
+@SequenceGenerator(name = "hdx_additional_data_seq", sequenceName = "hdx_additional_data_seq")
+public class AdditionalData {
+
+	public enum EntryKey {
+		METHODOLOGY("Methodology"), MORE_INFO("More info"), DATASET_SUMMARY("Dataset summary"), TERMS_OF_USE("Terms of use");
+		private String label;
+
+		private EntryKey(final String label) {
+			this.label = label;
+		}
+		public String getLabel() {
+			return this.label;
+		}
+	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "hdx_additional_data_seq")
+	@Column(name = "id", nullable = false)
+	private long id;
+
+	@ManyToOne
+	@ForeignKey(name = "fk_additional_data_to_source")
+	@JoinColumn(name = "source_id", nullable = false)
+	private Source source;
+
+	@ManyToOne
+	@ForeignKey(name = "fk_additional_data_to_indicator_type")
+	@JoinColumn(name = "indicator_type_id", nullable = false)
+	private IndicatorType indicatorType;
+
+	@Column(name = "entry_key", nullable = false, updatable = false)
+	@Enumerated(EnumType.STRING)
+	private EntryKey entryKey;
+
+	@ManyToOne
+	@JoinColumn(name = "entry_value_text_id")
+	@ForeignKey(name = "fk_additional_data_to_name_text")
+	private Text entryValue;
+
+	public AdditionalData() {}
+
+	public AdditionalData(final IndicatorType type, final Source source, final EntryKey entryKey, final Text entryValue) {
+		super();
+		this.source = source;
+		this.indicatorType = type;
+		this.entryKey = entryKey;
+		this.entryValue = entryValue;
+	}
+
+	public long getId() {
+		return this.id;
+	}
+
+	public void setId(final long id) {
+		this.id = id;
+	}
+
+	public Source getSource() {
+		return this.source;
+	}
+
+	public void setSource(final Source source) {
+		this.source = source;
+	}
+
+	public IndicatorType getIndicatorType() {
+		return this.indicatorType;
+	}
+
+	public void setIndicatorType(final IndicatorType indicatorType) {
+		this.indicatorType = indicatorType;
+	}
+
+	public Text getEntryValue() {
+		return this.entryValue;
+	}
+
+	public void setEntryValue(final Text entryValue) {
+		this.entryValue = entryValue;
+	}
+
+	public EntryKey getEntryKey() {
+		return this.entryKey;
+	}
+
+	public void setEntryKey(final EntryKey entryKey) {
+		this.entryKey = entryKey;
+	}
+
+}

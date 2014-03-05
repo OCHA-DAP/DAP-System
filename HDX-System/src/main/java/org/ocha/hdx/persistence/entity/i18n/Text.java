@@ -9,9 +9,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "text")
@@ -32,6 +35,14 @@ public class Text {
 	@Column(name = "id", nullable = false)
 	private long id;
 
+	/**
+	 * Lob is not enough do to a small weirdness in Hibernate (that seems to persiste in version 4 too )
+	 * That's why the type annotation is also needed.
+	 * see http://www.shredzone.de/cilla/page/299/string-lobs-on-postgresql-with-hibernate-36.html
+	 * 
+	 */
+	@Lob
+	@Type(type="org.hibernate.type.StringClobType")
 	@Column(name = "default_value", nullable = false, updatable = true)
 	private String defaultValue;
 
