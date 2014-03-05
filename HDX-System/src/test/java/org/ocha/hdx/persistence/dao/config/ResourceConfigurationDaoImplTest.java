@@ -69,8 +69,8 @@ public class ResourceConfigurationDaoImplTest {
 	public void setUp() throws Exception {
 		this.source = this.createDummySource();
 
-		final Text dollarText = textDAO.createText("dollar");
-		dollar = unitDAO.createUnit("dollar", dollarText);
+		final Text dollarText = this.textDAO.createText("dollar");
+		this.dollar = this.unitDAO.createUnit("dollar", dollarText);
 
 		this.indicatorType = this.createDummyIndicatorType();
 	}
@@ -81,7 +81,7 @@ public class ResourceConfigurationDaoImplTest {
 		this.sourceDAO.deleteSource(this.source.getId());
 		this.indicatorTypeDAO.deleteIndicatorType(this.indicatorType.getId());
 
-		unitDAO.deleteUnit(dollar.getId());
+		this.unitDAO.deleteUnit(this.dollar.getId());
 	}
 
 	@Test
@@ -168,6 +168,24 @@ public class ResourceConfigurationDaoImplTest {
 	}
 
 	@Test
+	public final void testCreateEmptyResourceConfig() {
+		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
+
+		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), null, null);
+
+		assertTrue(newConfig.getId() > 0);
+
+		// Testing getResourceConfigurationById()
+		final ResourceConfiguration loadedConfig = this.resourceConfigurationDao.getResourceConfigurationById(newConfig.getId());
+		assertNotNull(loadedConfig);
+
+		final long id = loadedConfig.getId();
+		this.resourceConfigurationDao.deleteResourceConfiguration(loadedConfig.getId());
+		final ResourceConfiguration deletedConfig = this.resourceConfigurationDao.getResourceConfigurationById(id);
+		assertNull(deletedConfig);
+	}
+
+	@Test
 	public final void testUpdateResourceConfiguration() {
 		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
 
@@ -227,7 +245,7 @@ public class ResourceConfigurationDaoImplTest {
 	private final IndicatorType createDummyIndicatorType() {
 		final Text textForTest = this.textDAO.createText("Dummy Indicator Type");
 
-		this.indicatorTypeDAO.createIndicatorType(DUMMY_INDICATOR_TYPE_CODE, textForTest, dollar, ValueType.NUMBER);
+		this.indicatorTypeDAO.createIndicatorType(DUMMY_INDICATOR_TYPE_CODE, textForTest, this.dollar, ValueType.NUMBER);
 
 		return this.indicatorTypeDAO.getIndicatorTypeByCode(DUMMY_INDICATOR_TYPE_CODE);
 

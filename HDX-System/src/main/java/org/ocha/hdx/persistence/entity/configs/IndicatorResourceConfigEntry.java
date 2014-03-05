@@ -36,17 +36,17 @@ public class IndicatorResourceConfigEntry extends AbstractConfigEntry{
 
 	@ManyToOne
 	@JoinColumn(name = "resource_configuration_id", nullable=false)
-	@ForeignKey(name = "fk_resource_config_map_to_parent")
+	@ForeignKey(name = "fk_ind_resource_config_map_to_parent")
 	private ResourceConfiguration  parentConfiguration;
 
 	@ManyToOne
 	@JoinColumn(name = "source_id", nullable=false)
-	@ForeignKey(name = "fk_resource_config_map_to_source")
+	@ForeignKey(name = "fk_ind_resource_config_map_to_source")
 	private Source source;
 
 	@ManyToOne
 	@JoinColumn(name = "indicator_type_id", nullable=false)
-	@ForeignKey(name = "fk_resource_config_map_to_indicator_type")
+	@ForeignKey(name = "fk_ind_resource_config_map_to_indicator_type")
 	private IndicatorType indicatorType;
 
 

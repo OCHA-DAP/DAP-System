@@ -1,5 +1,7 @@
 package org.ocha.hdx.persistence.dao.ckan;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Date;
 
 import org.junit.After;
@@ -112,4 +114,13 @@ public class CKANResourceDAOImplTest {
 		entityCreator.deleteNeededIndicatorTypeAndSource();
 	}
 
+	@Test
+	public void testCKANResourceWithEmptyConfig() {
+		final Date revisionTs = new Date();
+		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", "newUnitTestResourceName", revisionTs, "theParent", "parentDataset_id",
+				"parentDataset_revision_id", revisionTs);
+		final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId");
+		
+		assertTrue(r!=null);
+	}
 }

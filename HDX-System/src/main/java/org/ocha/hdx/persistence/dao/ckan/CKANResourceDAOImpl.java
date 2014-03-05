@@ -118,9 +118,6 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Transactional(readOnly = true)
 	public CKANResource getCKANResource(final String id, final String revision_id) {
 		CKANResource ret	=  em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
-		if (ret != null && ret.getResourceConfiguration() != null ) {
-			ret.getResourceConfiguration().getId();
-		}
 		return ret;
 	}
 

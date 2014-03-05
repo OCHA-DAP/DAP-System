@@ -160,7 +160,7 @@ public class CKANResource {
 	@Enumerated(EnumType.STRING)
 	private CKANDataset.Type importer;
 	
-	@ManyToOne(optional=true,fetch= FetchType.LAZY)
+	@ManyToOne(optional=true)
 	@JoinColumn(name = "resource_configuration_id", nullable=true)
 	@ForeignKey(name = "fk_ckan_resource_to_resource_config")
 	private ResourceConfiguration resourceConfiguration;

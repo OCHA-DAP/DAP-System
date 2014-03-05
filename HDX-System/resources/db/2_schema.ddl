@@ -36,13 +36,13 @@
         drop constraint fk_entity_to_name_text;
 
     alter table indicator_resource_config_entry 
-        drop constraint fk_resource_config_map_to_source;
+        drop constraint fk_ind_resource_config_map_to_source;
 
     alter table indicator_resource_config_entry 
-        drop constraint fk_resource_config_map_to_indicator_type;
+        drop constraint fk_ind_resource_config_map_to_indicator_type;
 
     alter table indicator_resource_config_entry 
-        drop constraint fk_resource_config_map_to_parent;
+        drop constraint fk_ind_resource_config_map_to_parent;
 
     alter table indicator_type 
         drop constraint fk_indicator_type_to_name_text;
@@ -63,7 +63,7 @@
         drop constraint fk_region_dictionary_to_entity;
 
     alter table resource_config_entry 
-        drop constraint fk_resource_config_map_to_source;
+        drop constraint fk_resource_config_map_to_parent;
 
     alter table source 
         drop constraint fk_source_to_name_text;
@@ -383,17 +383,17 @@
     create index indicator_resource_config_entry_index on indicator_resource_config_entry (entry_key);
 
     alter table indicator_resource_config_entry 
-        add constraint fk_resource_config_map_to_source 
+        add constraint fk_ind_resource_config_map_to_source 
         foreign key (source_id) 
         references source;
 
     alter table indicator_resource_config_entry 
-        add constraint fk_resource_config_map_to_indicator_type 
+        add constraint fk_ind_resource_config_map_to_indicator_type 
         foreign key (indicator_type_id) 
         references indicator_type;
 
     alter table indicator_resource_config_entry 
-        add constraint fk_resource_config_map_to_parent 
+        add constraint fk_ind_resource_config_map_to_parent 
         foreign key (resource_configuration_id) 
         references resource_configuration;
 
@@ -430,7 +430,7 @@
     create index resource_config_entry_index on resource_config_entry (entry_key);
 
     alter table resource_config_entry 
-        add constraint fk_resource_config_map_to_source 
+        add constraint fk_resource_config_map_to_parent 
         foreign key (resource_configuration_id) 
         references resource_configuration;
 
