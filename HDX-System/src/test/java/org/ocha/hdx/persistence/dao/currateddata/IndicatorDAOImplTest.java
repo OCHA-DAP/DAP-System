@@ -175,10 +175,24 @@ public class IndicatorDAOImplTest {
 	public void testReportQueries() {
 		integrationTestSetUpAndTearDown.setUpDataForCountryOverview();
 
-		final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("USA", "FR");
-		// Assert.assertEquals(1, listIndicatorsForCountryOverview.size());
-		final Object[] element = listIndicatorsForCountryOverview.get(0);
-		// Assert.assertEquals(1l, element[0]);
+		{
+			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("USA", "FR");
+			Assert.assertEquals(19, listIndicatorsForCountryOverview.size());
+			final Object[] element = listIndicatorsForCountryOverview.get(0);
+			Assert.assertEquals(5, element.length);
+			Assert.assertEquals("CD010", element[0]);
+			Assert.assertEquals("Wikipedia: geography", element[1]);
+			Assert.assertEquals("Url for Usa", element[2].toString());
+			Assert.assertEquals("World Bank", element[4]);
+		}
+
+		{
+			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("COL", "FR");
+			Assert.assertEquals(19, listIndicatorsForCountryOverview.size());
+			final Object[] element = listIndicatorsForCountryOverview.get(0);
+			Assert.assertEquals(1, element.length);
+			Assert.assertEquals("CD010", element[0]);
+		}
 
 		integrationTestSetUpAndTearDown.tearDownDataForCountryOverview();
 	}
