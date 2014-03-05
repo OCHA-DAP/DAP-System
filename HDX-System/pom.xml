@@ -21,6 +21,8 @@
 		<jersey.version>2.6</jersey.version>
 		<!-- This value is ok for prod, can be overriden for other environments in profiles -->
 		<HDX_ROOT>/opt/www/tomcat/hdx</HDX_ROOT>
+        <schema.file>2_schema.ddl</schema.file>
+        <schema.dir>resources/db</schema.dir>
 	</properties>
 
 	<build>
@@ -349,12 +351,13 @@
 							<components>
 								<component>
 									<name>hbm2ddl</name>
-									<implementation>jpaconfiguration</implementation>
+                                    <outputDirectory>${schema.dir}</outputDirectory>
+                                    <implementation>jpaconfiguration</implementation>
 								</component>
 							</components>
 							<componentProperties>
 								<persistenceunit>hdx</persistenceunit>
-								<outputfilename>schema.ddl</outputfilename>
+								<outputfilename>${schema.file}</outputfilename>
 								<drop>true</drop>
 								<create>true</create>
 								<export>false</export>
