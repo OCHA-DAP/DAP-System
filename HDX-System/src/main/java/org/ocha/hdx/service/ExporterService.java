@@ -28,7 +28,7 @@ public interface ExporterService {
 	/*
 	 * Country reports.
 	 */
-	public XSSFWorkbook exportCountry_XLSX(String countryCode, String fromYear, String toYear, String language);
+	public XSSFWorkbook exportCountry_XLSX(String countryCode, Integer fromYear, Integer toYear, String language);
 
 	// Country overview
 	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData);

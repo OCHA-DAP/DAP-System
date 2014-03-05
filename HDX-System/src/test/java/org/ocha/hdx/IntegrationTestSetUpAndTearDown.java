@@ -2,6 +2,9 @@ package org.ocha.hdx;
 
 import java.util.Date;
 
+import javax.persistence.PersistenceException;
+
+import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
@@ -138,7 +141,11 @@ public class IntegrationTestSetUpAndTearDown {
 	}
 
 	public void setUpDataForCountryOverview() {
-		curatedDataService.createEntity("USA", "USA", "country");
+		try {
+			curatedDataService.createEntity("USA", "USA", "country");
+		} catch (final ConstraintViolationException | PersistenceException e) {
+			// Might have been created by another setup
+		}
 
 		final Text geo = textDAO.createText("Wikipedia: geography");
 		final Text urlText = textDAO.createText("Url");
@@ -161,7 +168,11 @@ public class IntegrationTestSetUpAndTearDown {
 	public void tearDownDataForCountryOverview() {
 		indicatorDAO.deleteAllIndicators();
 
-		entityDAO.deleteEntityByCodeAndType("USA", "country");
+		try {
+			entityDAO.deleteEntityByCodeAndType("USA", "country");
+		} catch (final Exception e) {
+			// Might have been deleted by another setup
+		}
 
 		indicatorTypeDAO.deleteIndicatorTypeByCode("CD010");
 
@@ -170,7 +181,11 @@ public class IntegrationTestSetUpAndTearDown {
 	}
 
 	public void setUpDataForCountryCrisisHistory() {
-		curatedDataService.createEntity("USA", "USA", "country");
+		try {
+			curatedDataService.createEntity("USA", "USA", "country");
+		} catch (final ConstraintViolationException | PersistenceException e) {
+			// Might have been created by another setup
+		}
 
 		final Text unoText = textDAO.createText("uno");
 		final Unit uno = unitDAO.createUnit("uno", unoText);

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
+import org.ocha.hdx.exporter.country.ExporterCountryCrisisHistory_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
@@ -53,7 +54,7 @@ public class ExporterServiceImpl implements ExporterService {
 	 * Export a country report as XLSX
 	 */
 	@Override
-	public XSSFWorkbook exportCountry_XLSX(final String countryCode, final String fromYear, final String toYear, final String language) {
+	public XSSFWorkbook exportCountry_XLSX(final String countryCode, final Integer fromYear, final Integer toYear, final String language) {
 		// Set the query data
 		final ExporterCountryQueryData exporterCountryQueryData = new ExporterCountryQueryData();
 		exporterCountryQueryData.setCountryCode(countryCode);
@@ -66,9 +67,9 @@ public class ExporterServiceImpl implements ExporterService {
 		// 1. Country overview
 		// 2. Country crisis history
 		// 3. ... TODO
-		// final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(this));
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(this));
 
-		final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(this);
+		// final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(this);
 
 		// Export the data in a new workbook
 		final XSSFWorkbook workbook = new XSSFWorkbook();

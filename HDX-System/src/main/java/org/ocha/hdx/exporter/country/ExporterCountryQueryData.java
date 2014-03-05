@@ -4,13 +4,14 @@ import org.ocha.hdx.exporter.QueryData;
 
 /**
  * Data query for a country.
+ * 
  * @author bmichiels
  */
 public class ExporterCountryQueryData extends QueryData {
 
 	private String countryCode;
-	private String fromYear;
-	private String toYear;
+	private Integer fromYear;
+	private Integer toYear;
 	private String language;
 
 	public String getCountryCode() {
@@ -21,19 +22,19 @@ public class ExporterCountryQueryData extends QueryData {
 		this.countryCode = countryCode;
 	}
 
-	public String getFromYear() {
+	public Integer getFromYear() {
 		return fromYear;
 	}
 
-	public void setFromYear(final String fromYear) {
+	public void setFromYear(final Integer fromYear) {
 		this.fromYear = fromYear;
 	}
 
-	public String getToYear() {
+	public Integer getToYear() {
 		return toYear;
 	}
 
-	public void setToYear(final String toYear) {
+	public void setToYear(final Integer toYear) {
 		this.toYear = toYear;
 	}
 

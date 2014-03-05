@@ -365,7 +365,7 @@ public class APIResource {
 	@GET
 	@Path("/exporter/xlsx/country/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.xlsx")
 	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-	public XSSFWorkbook exportCountry_XLSX(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final String fromYear, @PathParam("toYear") final String toYear,
+	public XSSFWorkbook exportCountry_XLSX(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
 			@PathParam("language") final String language) {
 		return exporterService.exportCountry_XLSX(countryCode, fromYear, toYear, language);
 	}
