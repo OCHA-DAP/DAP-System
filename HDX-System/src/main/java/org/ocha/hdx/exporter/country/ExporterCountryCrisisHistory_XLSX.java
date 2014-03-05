@@ -31,7 +31,7 @@ public class ExporterCountryCrisisHistory_XLSX extends Exporter_XLSX<ExporterCou
 	@Override
 	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) {
 
-		final Map<String, List<Object[]>> data = exporterService.getCountryCrisisHistoryData(queryData);
+		final Map<Integer, List<Object[]>> data = exporterService.getCountryCrisisHistoryData(queryData);
 
 		// TODO i18n, UT
 
@@ -57,13 +57,13 @@ public class ExporterCountryCrisisHistory_XLSX extends Exporter_XLSX<ExporterCou
 
 		// Fill with the data
 		final int index = 0;
-		for (final String year : data.keySet()) {
+		for (final Integer year : data.keySet()) {
 			final List<Object[]> list = data.get(year);
 
 			final int columnIndex = headers.size() + index;
 
 			// Create the header for the given year
-			createHeaderCell(year, sheet.getRow(0), columnIndex);
+			createHeaderCell(year.toString(), sheet.getRow(0), columnIndex);
 
 			// Add the year indicators
 			for (int i = 0; i < list.size(); i++) {
@@ -83,7 +83,7 @@ public class ExporterCountryCrisisHistory_XLSX extends Exporter_XLSX<ExporterCou
 			}
 		}
 
-		// Freeze the headers 
+		// Freeze the headers
 		// Freeze the 4 first columns
 		sheet.createFreezePane(4, 1, 4, 1);
 

@@ -190,11 +190,11 @@ public interface CuratedDataService {
 	 */
 
 	/* Country reports */
-	
+
 	// Country overview
 	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
 
 	// Country crisis history
-	public Map<String, List<Object[]>> listIndicatorsForCountryCrisisHistory(String countryCode, int fromYear, int toYear, String languageCode);
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(String countryCode, int fromYear, int toYear, String languageCode);
 
 }

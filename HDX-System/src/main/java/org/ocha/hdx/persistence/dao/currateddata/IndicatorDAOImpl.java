@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.joda.time.DateTime;
 import org.ocha.hdx.importer.TimeRange;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
@@ -129,7 +130,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 			// TODO i18n
 			final Query query = em
 					.createQuery(
-							"SELECT i.type.code, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i, IndicatorType it WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.entity.code = :countryCode")
+							"SELECT i.type.code, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.entity.code = :countryCode")
 					.setParameter("isCountry", "country").setParameter("code", indicator).setParameter("countryCode", countryCode).setMaxResults(1);
 			Object[] queryResult = null;
 			try {
@@ -148,9 +149,10 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 * List of indicators for a country crisis history for a given year.
 	 */
 	@Override
-	public Map<String, List<Object[]>> listIndicatorsForCountryCrisisHistory(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		// List of indicators relevant for country crisis history. TODO Externalize ?
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		// List of indicators relevant for country crisis history. Each indicator type has an associated source here TODO Externalize ?
 		final String[] indicatorsList = new String[] { "CH070", "CH080", "CH090", "CH100" };
+		final String[] sourcesList = new String[] { "emdat", "emdat", "emdat", "emdat" };
 
 		final int fromYear_ = fromYear;
 		final int toYear_ = toYear;
@@ -167,15 +169,31 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 			// toYear_ = ...;
 		}
 
-		final Map<String, List<Object[]>> result = new HashMap<>();
+		final Map<Integer, List<Object[]>> result = new HashMap<>();
 		for (int year = fromYear_; year <= toYear_; year++) {
+			final DateTime yearAsDate = new DateTime(year, 1, 1, 0, 0);
 			final List<Object[]> yearResult = new ArrayList<Object[]>();
-			for (final String indicator : indicatorsList) {
-				// TODO (see above)
-				final Object[] queryResult = null;
+			for (int i = 0; i < indicatorsList.length; i++) {
+				final String indicator = indicatorsList[i];
+				final String sourceCode = sourcesList[i];
+				// FIXME this should be possible to run only one query per indicator, with several results, one per year. Only if there is one and only one result per year, no updates
+				final Query query = em
+						.createQuery(
+								"SELECT i.type.code, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.source.code = :sourceCode "
+										+ "AND i.entity.code = :countryCode AND i.periodicity = :periodicity and i.start = :start").setParameter("isCountry", "country")
+						.setParameter("code", indicator).setParameter("sourceCode", sourceCode).setParameter("countryCode", countryCode).setParameter("periodicity", Periodicity.YEAR)
+						.setParameter("start", yearAsDate.toDate());
+				Object[] queryResult = null;
+				try {
+					queryResult = (Object[]) query.getSingleResult();
+				} catch (final NoResultException e) {
+					// It is possible that no value exists for the given indicator.
+					// So we just put the indicator in the result.
+					queryResult = new Object[] { indicator };
+				}
 				yearResult.add(queryResult);
 			}
-			result.put(String.valueOf(year), yearResult);
+			result.put(year, yearResult);
 		}
 		return result;
 	}

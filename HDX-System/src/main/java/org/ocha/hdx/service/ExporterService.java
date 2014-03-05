@@ -18,9 +18,11 @@ public interface ExporterService {
 	/*
 	 * Delegates from CuratedDataService.
 	 */
-	
+
 	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode);
-	public Map<String, List<Object[]>> listIndicatorsForCountryCrisis(final String countryCode, final int fromYear, final int toYear, final String languageCode);
+
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisis(final String countryCode, final int fromYear, final int toYear, final String languageCode);
+
 	public IndicatorType getIndicatorTypeByCode(final String code);
 
 	/*
@@ -32,6 +34,6 @@ public interface ExporterService {
 	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData);
 
 	// Country crisis history
-	public Map<String, List<Object[]>> getCountryCrisisHistoryData(ExporterCountryQueryData queryData);
+	public Map<Integer, List<Object[]>> getCountryCrisisHistoryData(ExporterCountryQueryData queryData);
 
 }

@@ -3,6 +3,7 @@ package org.ocha.hdx.persistence.dao.currateddata;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.PersistenceException;
 
@@ -172,7 +173,7 @@ public class IndicatorDAOImplTest {
 	}
 
 	@Test
-	public void testReportQueries() {
+	public void testListIndicatorsForCountryOverview() {
 		integrationTestSetUpAndTearDown.setUpDataForCountryOverview();
 
 		{
@@ -195,5 +196,45 @@ public class IndicatorDAOImplTest {
 		}
 
 		integrationTestSetUpAndTearDown.tearDownDataForCountryOverview();
+	}
+
+	@Test
+	public void testListIndicatorsForCountryCrisisHistory() {
+
+		integrationTestSetUpAndTearDown.setUpDataForCountryCrisisHistory();
+
+		final Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory = indicatorDAO.listIndicatorsForCountryCrisisHistory("USA", 2005, 2010, "FR");
+		Assert.assertEquals(6, listIndicatorsForCountryCrisisHistory.size());
+
+		final List<Object[]> results2005 = listIndicatorsForCountryCrisisHistory.get(new Integer(2005));
+		Assert.assertEquals(4, results2005.size());
+		Assert.assertEquals(1, results2005.get(0).length);
+		Assert.assertEquals("CH070", results2005.get(0)[0]);
+
+		final List<Object[]> results2006 = listIndicatorsForCountryCrisisHistory.get(new Integer(2006));
+		Assert.assertEquals(4, results2006.size());
+		Assert.assertEquals(1, results2006.get(0).length);
+		Assert.assertEquals("CH070", results2006.get(0)[0]);
+
+		final List<Object[]> results2007 = listIndicatorsForCountryCrisisHistory.get(new Integer(2007));
+		Assert.assertEquals(4, results2007.size());
+		Assert.assertEquals(1, results2007.get(0).length);
+		Assert.assertEquals("CH070", results2007.get(0)[0]);
+
+		final List<Object[]> results2008 = listIndicatorsForCountryCrisisHistory.get(new Integer(2008));
+		Assert.assertEquals(4, results2008.size());
+		Assert.assertEquals(5, results2008.get(0).length);
+		Assert.assertEquals("CH070", results2008.get(0)[0]);
+		Assert.assertEquals("Number of disasters", results2008.get(0)[1]);
+		Assert.assertEquals("5.0", results2008.get(0)[2].toString());
+		Assert.assertEquals("emdat", results2008.get(0)[4]);
+
+		final List<Object[]> results2009 = listIndicatorsForCountryCrisisHistory.get(new Integer(2009));
+		Assert.assertEquals(4, results2009.size());
+		Assert.assertEquals(1, results2009.get(0).length);
+		Assert.assertEquals("CH070", results2009.get(0)[0]);
+
+		integrationTestSetUpAndTearDown.tearDownDataForCountryCrisisHistory();
+
 	}
 }

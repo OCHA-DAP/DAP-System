@@ -30,7 +30,7 @@ public class ExporterServiceImpl implements ExporterService {
 	}
 
 	@Override
-	public Map<String, List<Object[]>> getCountryCrisisHistoryData(final ExporterCountryQueryData queryData) {
+	public Map<Integer, List<Object[]>> getCountryCrisisHistoryData(final ExporterCountryQueryData queryData) {
 		return curatedDataService.listIndicatorsForCountryCrisisHistory(queryData.getCountryCode(), Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()),
 				queryData.getLanguage());
 	}
@@ -41,7 +41,7 @@ public class ExporterServiceImpl implements ExporterService {
 	}
 
 	@Override
-	public Map<String, List<Object[]>> listIndicatorsForCountryCrisis(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisis(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 		return curatedDataService.listIndicatorsForCountryCrisisHistory(countryCode, fromYear, toYear, languageCode);
 	}
 

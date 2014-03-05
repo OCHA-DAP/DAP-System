@@ -168,4 +168,42 @@ public class IntegrationTestSetUpAndTearDown {
 		unitDAO.deleteUnit(unitDAO.getUnitByCode("url").getId());
 
 	}
+
+	public void setUpDataForCountryCrisisHistory() {
+		curatedDataService.createEntity("USA", "USA", "country");
+
+		final Text unoText = textDAO.createText("uno");
+		final Unit uno = unitDAO.createUnit("uno", unoText);
+
+		final Text nod = textDAO.createText("Number of disasters");
+
+		indicatorTypeDAO.createIndicatorType("CH070", nod, uno, ValueType.NUMBER);
+
+		final Text emdat = textDAO.createText("emdat");
+		sourceDAO.createSource("emdat", emdat, "www.test.com");
+
+		final Entity usa = entityDAO.getEntityByCodeAndType("USA", "country");
+		final Source sourceEmdat = sourceDAO.getSourceByCode("emdat");
+		final IndicatorType indicatorTypeCH070 = indicatorTypeDAO.getIndicatorTypeByCode("CH070");
+
+		final DateTime dateTime2008 = new DateTime(2008, 1, 1, 0, 0);
+		final Date date2008 = dateTime2008.toDate();
+		final Date date2009 = dateTime2008.plusYears(1).toDate();
+
+		indicatorDAO.createIndicator(sourceEmdat, usa, indicatorTypeCH070, date2008, date2009, Periodicity.YEAR, new IndicatorValue(5.0), "5", "www.disasters.com", importFromCKANDAO
+				.listImportsFromCKAN().get(0));
+	}
+
+	public void tearDownDataForCountryCrisisHistory() {
+		indicatorDAO.deleteAllIndicators();
+
+		entityDAO.deleteEntityByCodeAndType("USA", "country");
+
+		indicatorTypeDAO.deleteIndicatorTypeByCode("CH070");
+
+		sourceDAO.deleteSourceByCode("emdat");
+
+		unitDAO.deleteUnit(unitDAO.getUnitByCode("uno").getId());
+
+	}
 }
