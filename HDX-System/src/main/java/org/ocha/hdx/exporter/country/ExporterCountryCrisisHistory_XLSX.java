@@ -1,15 +1,14 @@
 package org.ocha.hdx.exporter.country;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.ss.util.WorkbookUtil;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_XLSX;
+import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.service.ExporterService;
 
 /**
@@ -31,7 +30,7 @@ public class ExporterCountryCrisisHistory_XLSX extends Exporter_XLSX<ExporterCou
 	@Override
 	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) {
 
-		final Map<Integer, List<Object[]>> data = exporterService.getCountryCrisisHistoryData(queryData);
+		final Map<String, ReportRow> data = exporterService.getCountryCrisisHistoryData(queryData);
 
 		// TODO i18n, UT
 
@@ -57,31 +56,19 @@ public class ExporterCountryCrisisHistory_XLSX extends Exporter_XLSX<ExporterCou
 
 		// Fill with the data
 		final int index = 0;
-		for (final Integer year : data.keySet()) {
-			final List<Object[]> list = data.get(year);
-
-			final int columnIndex = headers.size() + index;
-
-			// Create the header for the given year
-			createHeaderCell(year.toString(), sheet.getRow(0), columnIndex);
-
-			// Add the year indicators
-			for (int i = 0; i < list.size(); i++) {
-				final Object[] element = list.get(i);
-
-				// Get an existing row or creating a new one (not overwriting the headers :-) )
-				XSSFRow row = sheet.getRow(1 + i);
-				if (null == row) {
-					row = sheet.createRow(i + 1);
-				}
-
-				// The indicator value for the current year
-				if (0 < element.length) {
-					// "Value"
-					createCell(row, (short) columnIndex, element[0].toString());
-				}
-			}
-		}
+		/*
+		 * for (final Integer year : data.keySet()) { final List<Object[]> list = data.get(year);
+		 * 
+		 * final int columnIndex = headers.size() + index;
+		 * 
+		 * // Create the header for the given year createHeaderCell(year.toString(), sheet.getRow(0), columnIndex);
+		 * 
+		 * // Add the year indicators for (int i = 0; i < list.size(); i++) { final Object[] element = list.get(i);
+		 * 
+		 * // Get an existing row or creating a new one (not overwriting the headers :-) ) XSSFRow row = sheet.getRow(1 + i); if (null == row) { row = sheet.createRow(i + 1); }
+		 * 
+		 * // The indicator value for the current year if (0 < element.length) { // "Value" createCell(row, (short) columnIndex, element[0].toString()); } } }
+		 */
 
 		// Freeze the headers
 		// Freeze the 4 first columns

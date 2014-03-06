@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
+
+import junit.framework.Assert;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.After;
@@ -11,6 +14,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.hdx.IntegrationTestSetUpAndTearDown;
+import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
+import org.ocha.hdx.exporter.helper.ReportRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -38,6 +43,26 @@ public class ExporterServiceImplTest {
 		integrationTestSetUpAndTearDown.tearDownDataForCountryCrisisHistory();
 		integrationTestSetUpAndTearDown.tearDownDataForCountryOverview();
 		integrationTestSetUpAndTearDown.tearDown();
+	}
+
+	@Test
+	public void testGetCountryCrisisHistoryData() throws FileNotFoundException, IOException {
+		final ExporterCountryQueryData exporterCountryQueryData = new ExporterCountryQueryData();
+		exporterCountryQueryData.setCountryCode("USA");
+		exporterCountryQueryData.setFromYear(2005);
+		exporterCountryQueryData.setToYear(2010);
+		exporterCountryQueryData.setLanguage("En");
+		final Map<String, ReportRow> countryCrisisHistoryData = exporterService.getCountryCrisisHistoryData(exporterCountryQueryData);
+
+		Assert.assertEquals(1, countryCrisisHistoryData.size());
+		final ReportRow reportRow = countryCrisisHistoryData.get("CH070");
+		Assert.assertEquals("Number of disasters", reportRow.getIndicatorName());
+		Assert.assertNull(reportRow.getValue(2005));
+		Assert.assertNull(reportRow.getValue(2006));
+		Assert.assertNull(reportRow.getValue(2007));
+		Assert.assertEquals("5.0", reportRow.getValue(2008));
+		Assert.assertNull(reportRow.getValue(2009));
+		Assert.assertNull(reportRow.getValue(2010));
 	}
 
 	@Test

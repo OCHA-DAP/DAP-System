@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
+import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 
 /**
@@ -33,7 +34,13 @@ public interface ExporterService {
 	// Country overview
 	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData);
 
-	// Country crisis history
-	public Map<Integer, List<Object[]>> getCountryCrisisHistoryData(ExporterCountryQueryData queryData);
+	/**
+	 * 
+	 * Only the rows with actual data are added in the returned result.
+	 * 
+	 * @param queryData
+	 * @return a map of the rows we can expect in the Crisis history report.
+	 */
+	public Map<String, ReportRow> getCountryCrisisHistoryData(ExporterCountryQueryData queryData);
 
 }
