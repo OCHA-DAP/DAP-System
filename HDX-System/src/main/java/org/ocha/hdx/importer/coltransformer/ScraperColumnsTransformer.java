@@ -14,6 +14,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.ocha.hdx.config.ConfigurationConstants;
 import org.ocha.hdx.persistence.entity.configs.AbstractConfigEntry;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,8 @@ import org.slf4j.LoggerFactory;
 public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	private static Logger logger = LoggerFactory.getLogger(ScraperColumnsTransformer.class);
+
+	public static final String ONE_ENTRY = "one entry";
 
 	public static final String EXPECTED_TIME_PATTERN = "YYYY(/P(1|5|10)Y)?";
 	public static final int PERIODICITY_GROUP = 2;
@@ -49,6 +52,8 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	private int day;
 	private int month;
 
+	private final String valueType;
+
 	private TYPE_OF_DATE typeOfDate;
 
 	public ScraperColumnsTransformer(final Map<String, AbstractConfigEntry> generalConfig, final Map<String, AbstractConfigEntry> indConfig,
@@ -56,9 +61,18 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		super(generalConfig, indConfig);
 		this.sourcesMap = sourcesMap;
 
+		final AbstractConfigEntry valueTypeEntry = indConfig.get(ConfigurationConstants.INDICATOR_VALUE_TYPE);
+		if (valueTypeEntry != null) {
+			this.valueType = valueTypeEntry.getEntryValue();
+		} else {
+			this.valueType = null;
+		}
+
 		this.discoverPeriodicity(indConfig);
 
-		this.discoverExpectedStartTime(indConfig);
+		if (this.typeOfDate != null) {
+			this.discoverExpectedStartTime(indConfig);
+		}
 
 	}
 
@@ -106,30 +120,36 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	 */
 	private void discoverPeriodicity(final Map<String, AbstractConfigEntry> indConfig) {
 		final AbstractConfigEntry expectedTimeFormatEntry = indConfig.get(ConfigurationConstants.EXPECTED_TIME_FORMAT);
-		final Pattern expectedTimeFormatPattern = Pattern.compile(EXPECTED_TIME_PATTERN);
-
-		final Matcher matcher = expectedTimeFormatPattern.matcher(expectedTimeFormatEntry.getEntryValue());
-		if (matcher.matches()) {
-
-			final String period = matcher.group(PERIODICITY_GROUP);
-			if (period == null || "1".equals(period)) {
-				this.periodicity = Periodicity.YEAR;
-				this.yearLength = 1;
-			} else if ("5".equals(period)) {
-				this.periodicity = Periodicity.FIVE_YEARS;
-				this.yearLength = 5;
-			} else if ("10".equals(period)) {
-				this.periodicity = Periodicity.TEN_YEARS;
-				this.yearLength = 10;
-			} else {
-				throw new IllegalArgumentException("Wrong pattern for expected time: " + expectedTimeFormatEntry.getEntryValue());
-			}
-			this.typeOfDate = TYPE_OF_DATE.YEAR;
-
-		} else {
-			this.dateTimeFormat = DateTimeFormat.forPattern(expectedTimeFormatEntry.getEntryValue());
+		if (expectedTimeFormatEntry == null || ONE_ENTRY.equals(expectedTimeFormatEntry.getEntryValue())) {
+			this.dateTimeFormat = null;
 			this.periodicity = Periodicity.NONE;
-			this.typeOfDate = TYPE_OF_DATE.FULL_DATE;
+			this.typeOfDate = null;
+		} else {
+			final Pattern expectedTimeFormatPattern = Pattern.compile(EXPECTED_TIME_PATTERN);
+
+			final Matcher matcher = expectedTimeFormatPattern.matcher(expectedTimeFormatEntry.getEntryValue());
+			if (matcher.matches()) {
+
+				final String period = matcher.group(PERIODICITY_GROUP);
+				if (period == null || "1".equals(period)) {
+					this.periodicity = Periodicity.YEAR;
+					this.yearLength = 1;
+				} else if ("5".equals(period)) {
+					this.periodicity = Periodicity.FIVE_YEARS;
+					this.yearLength = 5;
+				} else if ("10".equals(period)) {
+					this.periodicity = Periodicity.TEN_YEARS;
+					this.yearLength = 10;
+				} else {
+					throw new IllegalArgumentException("Wrong pattern for expected time: " + expectedTimeFormatEntry.getEntryValue());
+				}
+				this.typeOfDate = TYPE_OF_DATE.YEAR;
+
+			} else {
+				this.dateTimeFormat = DateTimeFormat.forPattern(expectedTimeFormatEntry.getEntryValue());
+				this.periodicity = Periodicity.NONE;
+				this.typeOfDate = TYPE_OF_DATE.FULL_DATE;
+			}
 		}
 	}
 
@@ -148,7 +168,8 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		} else if (TYPE_OF_DATE.FULL_DATE.equals(this.typeOfDate)) {
 			localDate = LocalDate.parse(actualDateStr, this.dateTimeFormat);
 		} else {
-			throw new IllegalArgumentException("The type of data is not set for this transformer");
+			// throw new IllegalArgumentException("The type of data is not set for this transformer");
+			return null;
 		}
 		return localDate.toDate();
 	}
@@ -168,7 +189,8 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		} else if (TYPE_OF_DATE.FULL_DATE.equals(this.typeOfDate)) {
 			localDate = LocalDate.parse(actualDateStr, this.dateTimeFormat);
 		} else {
-			throw new IllegalArgumentException("The type of data is not set for this transformer");
+			return null;
+			// throw new IllegalArgumentException("The type of data is not set for this transformer");
 		}
 		return localDate.toDate();
 	}
@@ -185,13 +207,18 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	@Override
 	public IndicatorValue getValue(final String[] line) {
-		final Double valueAsDouble = Double.parseDouble(line[4]);
-		// FIXME we should deal about units later, here for
-		// population we must X1000
-		if ("PSP010".equals(line[2])) {
-			return new IndicatorValue(valueAsDouble * 1000);
+		final String value = line[4];
+		if (ValueType.NUMBER.getLabel().equals(this.valueType) || this.valueType == null) {
+			final Double valueAsDouble = Double.parseDouble(value);
+			// FIXME we should deal about units later, here for
+			// population we must X1000
+			if ("PSP010".equals(line[2])) {
+				return new IndicatorValue(valueAsDouble * 1000);
+			} else {
+				return new IndicatorValue(valueAsDouble);
+			}
 		} else {
-			return new IndicatorValue(valueAsDouble);
+			return new IndicatorValue(value);
 		}
 	}
 

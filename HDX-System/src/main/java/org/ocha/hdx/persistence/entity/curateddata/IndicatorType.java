@@ -16,12 +16,12 @@ import org.hibernate.annotations.ForeignKey;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 
 /**
- * 
+ *
  * @author Samuel Eustachi
  * @author David Megginson
- * 
+ *
  *         a table listing the types of {@link Indicator} supported in the curated data repository (e.g. mortality rate), using the CHD codes as the primary keys.
- * 
+ *
  */
 @Entity
 @Table(name = "indicator_type")
@@ -29,7 +29,18 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
 public class IndicatorType {
 
 	public enum ValueType {
-		TEXT, STRING, NUMBER, DATE, DATETIME;
+		TEXT("Text"), STRING("String"), NUMBER("Number"), DATE("Date"), DATETIME("Datetime");
+
+		private final String label;
+
+		private ValueType(final String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return this.label;
+		}
+
 	}
 
 	@Id
@@ -55,7 +66,7 @@ public class IndicatorType {
 	private ValueType valueType;
 
 	public long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(final long id) {
@@ -63,7 +74,7 @@ public class IndicatorType {
 	}
 
 	public String getCode() {
-		return code;
+		return this.code;
 	}
 
 	public void setCode(final String code) {
@@ -71,7 +82,7 @@ public class IndicatorType {
 	}
 
 	public Text getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(final Text name) {
@@ -79,7 +90,7 @@ public class IndicatorType {
 	}
 
 	public Unit getUnit() {
-		return unit;
+		return this.unit;
 	}
 
 	public void setUnit(final Unit unit) {
@@ -87,11 +98,11 @@ public class IndicatorType {
 	}
 
 	public String getDisplayableTitle() {
-		return name.getDefaultValue() + " in " + unit.getName().getDefaultValue();
+		return this.name.getDefaultValue() + " in " + this.unit.getName().getDefaultValue();
 	}
 
 	public ValueType getValueType() {
-		return valueType;
+		return this.valueType;
 	}
 
 	public void setValueType(final ValueType valueType) {

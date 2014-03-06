@@ -25,4 +25,6 @@ public class ConfigurationConstants {
 
 	public static final String EXPECTED_START_TIME_FORMAT = "Expected start time format";
 
+	public static final String INDICATOR_VALUE_TYPE = "Indicator Value Type";
+
 }

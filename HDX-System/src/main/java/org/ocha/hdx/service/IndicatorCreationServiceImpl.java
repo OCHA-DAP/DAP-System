@@ -3,13 +3,19 @@
  */
 package org.ocha.hdx.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.ocha.hdx.config.ConfigurationConstants;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
+import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -49,6 +55,22 @@ public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 		indicator.setSourceLink(preparedIndicator.getSourceLink());
 
 		return indicator;
+	}
+
+	@Override
+	public List<IndicatorResourceConfigEntry> findEmbeddedConfigs(final String indicatorTypeCode, final String sourceCode) {
+		final List<IndicatorResourceConfigEntry> list	= new ArrayList<IndicatorResourceConfigEntry>();
+
+		final IndicatorType indicatorType		= this.indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
+		final Source source						= this.sourceDAO.getSourceByCode(sourceCode);
+
+		final ValueType valueType	= indicatorType.getValueType();
+		if ( valueType != null ) {
+			final IndicatorResourceConfigEntry computedConigEntry = new IndicatorResourceConfigEntry(ConfigurationConstants.INDICATOR_VALUE_TYPE,
+					valueType.getLabel(), source, indicatorType);
+			list.add(computedConigEntry);
+		}
+		return list;
 	}
 
 }
