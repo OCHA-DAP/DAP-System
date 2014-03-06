@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
@@ -46,6 +47,9 @@ public class ExporterCountryCrisisHistory_XLSX extends Exporter_XLSX<ExporterCou
 				add("Indicator name");
 				add("Dataset ID");
 				add("Units");
+				for (int year = queryData.getFromYear(); year <= queryData.getToYear(); year++) {
+					add(Integer.valueOf(year).toString());
+				}
 			}
 		};
 
@@ -55,20 +59,24 @@ public class ExporterCountryCrisisHistory_XLSX extends Exporter_XLSX<ExporterCou
 		// TODO Set the indicators info (cells A2:D5), maybe create a custom query for this.
 
 		// Fill with the data
-		final int index = 0;
-		/*
-		 * for (final Integer year : data.keySet()) { final List<Object[]> list = data.get(year);
-		 * 
-		 * final int columnIndex = headers.size() + index;
-		 * 
-		 * // Create the header for the given year createHeaderCell(year.toString(), sheet.getRow(0), columnIndex);
-		 * 
-		 * // Add the year indicators for (int i = 0; i < list.size(); i++) { final Object[] element = list.get(i);
-		 * 
-		 * // Get an existing row or creating a new one (not overwriting the headers :-) ) XSSFRow row = sheet.getRow(1 + i); if (null == row) { row = sheet.createRow(i + 1); }
-		 * 
-		 * // The indicator value for the current year if (0 < element.length) { // "Value" createCell(row, (short) columnIndex, element[0].toString()); } } }
-		 */
+		int rowIndex = 1;
+
+		for (final String indicatorCode : data.keySet()) {
+			final ReportRow reportRow = data.get(indicatorCode);
+
+			final XSSFRow row = sheet.createRow(rowIndex);
+			rowIndex++;
+
+			createCell(row, (short) 0, reportRow.getIndicatorCode());
+			createCell(row, (short) 1, reportRow.getIndicatorName());
+			createCell(row, (short) 2, reportRow.getDatasetId());
+			createCell(row, (short) 3, reportRow.getUnit());
+			for (int year = queryData.getFromYear(); year <= queryData.getToYear(); year++) {
+				final short columnIndex = (short) (4 + year - queryData.getFromYear());
+				createCell(row, columnIndex, reportRow.getValue(year));
+			}
+
+		}
 
 		// Freeze the headers
 		// Freeze the 4 first columns
