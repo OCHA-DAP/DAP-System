@@ -7,7 +7,8 @@ ALTER SEQUENCE resource_configuration_seq RESTART WITH 2;
 INSERT INTO resource_config_entry(id,resource_configuration_id,entry_key,entry_value)
 	VALUES(1,1,'Pre-validators','Number of columns validator&&Allowed Indicator Types'),
 	(2,1,'Minimum number of columns','6'),
-	(3,1,'Allowed indicator type codes','PSP010&&PVF020&&PCX051&&PSE030&&PVX040&&PSP080');
+	/*	(3,1,'Allowed indicator type codes','PSP010&&PVF020&&PCX051&&PSE030&&PVX040&&PSP080');*/
+	(3,1,'Allowed indicator type codes','CD010&&CD030&&CD050&&CD070&&CD080&&CD090&&CG020&&CG030&&CG060&&CG070&&CG080&&CG100&&CG120&&CG140&&CG150&&CG260&&CG290&&_m49-name&&_unterm:ISO Country alpha-2-code');
 		
 ALTER SEQUENCE resource_config_entry_seq RESTART WITH 4;
 
