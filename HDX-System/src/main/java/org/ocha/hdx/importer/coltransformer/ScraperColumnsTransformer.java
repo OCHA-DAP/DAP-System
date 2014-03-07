@@ -3,6 +3,7 @@
  */
 package org.ocha.hdx.importer.coltransformer;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -169,7 +170,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 			localDate = LocalDate.parse(actualDateStr, this.dateTimeFormat);
 		} else {
 			// throw new IllegalArgumentException("The type of data is not set for this transformer");
-			return null;
+			return Calendar.getInstance().getTime();
 		}
 		return localDate.toDate();
 	}
