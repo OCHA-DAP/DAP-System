@@ -62,7 +62,13 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 				final String value = element[2].toString();
 				// Value can be a URL
 				if ((null != value) && value.startsWith("http://")) {
-					createUrlCell(row, (short) 2, value, value);
+					try {
+						createUrlCell(row, (short) 2, value, value);
+					} catch (final IllegalArgumentException e) {
+						// Some url are considered not valid, even if browsers accept them.
+						// example : http://en.wikipedia.org/wiki/United_States#Geography.2C_climate.2C_and_environment
+						createCell(row, (short) 2, value);
+					}
 				}
 				// or a simple string
 				else {

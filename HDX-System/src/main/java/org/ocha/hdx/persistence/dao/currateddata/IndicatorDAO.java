@@ -64,6 +64,8 @@ public interface IndicatorDAO {
 	 */
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(String countryCode, int fromYear, int toYear, String languageCode);
 
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(String countryCode, int fromYear, int toYear, String languageCode);
+
 	/**
 	 * very likely to be used by the unit tests only
 	 */

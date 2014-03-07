@@ -9,6 +9,7 @@ import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.country.ExporterCountryCrisisHistory_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
+import org.ocha.hdx.exporter.country.ExporterCountryVulnerability_XLSX;
 import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDao;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
@@ -40,13 +41,28 @@ public class ExporterServiceImpl implements ExporterService {
 
 	@Override
 	public Map<String, ReportRow> getCountryCrisisHistoryData(final ExporterCountryQueryData queryData) {
-		final Map<String, ReportRow> reportRows = new HashMap<String, ReportRow>();
-
 		final Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory = curatedDataService.listIndicatorsForCountryCrisisHistory(queryData.getCountryCode(),
 				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
 
-		for (final Integer key : listIndicatorsForCountryCrisisHistory.keySet()) {
-			for (final Object[] record : listIndicatorsForCountryCrisisHistory.get(key)) {
+		return convertToReports(listIndicatorsForCountryCrisisHistory);
+
+	}
+
+	@Override
+	public Map<String, ReportRow> getCountryVulnerabilityData(final ExporterCountryQueryData queryData) {
+
+		final Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory = curatedDataService.listIndicatorsForCountryVulnerability(queryData.getCountryCode(),
+				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
+
+		return convertToReports(listIndicatorsForCountryCrisisHistory);
+
+	}
+
+	private Map<String, ReportRow> convertToReports(final Map<Integer, List<Object[]>> listOfIndicators) {
+		final Map<String, ReportRow> reportRows = new HashMap<String, ReportRow>();
+
+		for (final Integer key : listOfIndicators.keySet()) {
+			for (final Object[] record : listOfIndicators.get(key)) {
 				final String indicatorTypeCode = record[0].toString();
 				// records with only 1 value are just placeholders, but don't contain actual data
 				if (record.length > 1) {
@@ -66,7 +82,6 @@ public class ExporterServiceImpl implements ExporterService {
 		}
 
 		return reportRows;
-
 	}
 
 	@Override
@@ -95,7 +110,7 @@ public class ExporterServiceImpl implements ExporterService {
 		// 1. Country overview
 		// 2. Country crisis history
 		// 3. ... TODO
-		final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(this));
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(new ExporterCountryVulnerability_XLSX(this)));
 
 		// final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(this);
 

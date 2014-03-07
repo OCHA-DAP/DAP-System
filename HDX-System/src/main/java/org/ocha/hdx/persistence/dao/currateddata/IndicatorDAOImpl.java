@@ -154,6 +154,20 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		final String[] indicatorsList = new String[] { "CH070", "CH080", "CH090", "CH100" };
 		final String[] sourcesList = new String[] { "emdat", "emdat", "emdat", "emdat" };
 
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode);
+	}
+
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		// List of indicators relevant for country crisis history. Each indicator type has an associated source here TODO Externalize ?
+		final String[] indicatorsList = new String[] { "PVE130", "PVF020", "PVH140", "PVL040" };
+		final String[] sourcesList = new String[] { "mdgs", "faostat3", "mdgs", "world-bank" };
+
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode);
+	}
+
+	private Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String[] indicatorsList, final String[] sourcesList,
+			final String languageCode) {
 		final int fromYear_ = fromYear;
 		final int toYear_ = toYear;
 
