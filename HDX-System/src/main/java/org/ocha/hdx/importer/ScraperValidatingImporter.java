@@ -14,8 +14,10 @@ import org.ocha.hdx.importer.coltransformer.ScraperColumnsTransformer;
 import org.ocha.hdx.importer.helper.IndicatorTypeInformationHolder;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.configs.AbstractConfigEntry;
+import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.ocha.hdx.service.IndicatorCreationService;
 import org.ocha.hdx.validation.itemvalidator.IValidatorCreator;
@@ -40,6 +42,8 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 	 * The key here will be indicator type code + source code
 	 */
 	Map<String, AbstractColumnsTransformer> colTransformers	= new HashMap<String, AbstractColumnsTransformer>();
+
+	Map<String, IndicatorType> indicatorTypeCache = new HashMap<String, IndicatorType>();
 
 	private final IndicatorCreationService indicatorCreationService;
 
@@ -105,35 +109,52 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 		final IndicatorTypeInformationHolder indTypeInfoHolder		= this.getIndTypeInfoHolder(key);
 		final Map<String, AbstractConfigEntry> indConfigMap			= indTypeInfoHolder.getIndicatorEntries();
 
-		if (indConfigMap != null && indConfigMap.size() > 0) {
-			AbstractColumnsTransformer transformer = this.colTransformers.get(key);
-			if (transformer == null) {
-				transformer = new ScraperColumnsTransformer(this.resourceEntriesMap, indConfigMap, this.sourcesMap);
-				this.colTransformers.put(key, transformer);
+
+		final AbstractColumnsTransformer transformer =
+				this.generateColumnsTransformer(key, indConfigMap, preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
+
+		preparedIndicator.setEntityCode(transformer.getEntityCode(values));
+		preparedIndicator.setEntityTypeCode(transformer.getEntityTypeCode(values));
+
+		preparedIndicator.setStart(transformer.getStartDate(values));
+		preparedIndicator.setEnd(transformer.getEndDate(values));
+		preparedIndicator.setPeriodicity(transformer.getPeriodicity(values));
+		preparedIndicator.setValue(transformer.getValue(values));
+		preparedIndicator.setInitialValue(transformer.getInitialValue(values));
+
+		return preparedIndicator;
+
+		// else {
+		// if ( !indTypeInfoHolder.isErrorDisplayed() ) {
+		// indTypeInfoHolder.setErrorDisplayed(true);
+		// logger.warn( String.format("No configuration found for ind type %s and source %s",
+		// preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()) );
+		// }
+		//
+		// return null;
+		// }
+
+	}
+
+	/**
+	 * @param key
+	 * @param indConfigMap
+	 * @return
+	 */
+	private AbstractColumnsTransformer generateColumnsTransformer(final String key, final Map<String, AbstractConfigEntry> indConfigMap, final String indTypeCode, final String sourceCode) {
+		AbstractColumnsTransformer transformer = this.colTransformers.get(key);
+		if (transformer == null) {
+			final List<IndicatorResourceConfigEntry> embeddedConfigs	= this.indicatorCreationService.findEmbeddedConfigs(indTypeCode, sourceCode);
+			for (final IndicatorResourceConfigEntry indicatorResourceConfigEntry : embeddedConfigs) {
+				final AbstractConfigEntry value	= indConfigMap.get(indicatorResourceConfigEntry.getEntryKey());
+				if (value == null) {
+					indConfigMap.put(indicatorResourceConfigEntry.getEntryKey(), indicatorResourceConfigEntry);
+				}
 			}
-
-			preparedIndicator.setEntityCode(transformer.getEntityCode(values));
-			preparedIndicator.setEntityTypeCode(transformer.getEntityTypeCode(values));
-
-			preparedIndicator.setStart(transformer.getStartDate(values));
-			preparedIndicator.setEnd(transformer.getEndDate(values));
-			preparedIndicator.setPeriodicity(transformer.getPeriodicity(values));
-			preparedIndicator.setValue(transformer.getValue(values));
-			preparedIndicator.setInitialValue(transformer.getInitialValue(values));
-
-			return preparedIndicator;
-
+			transformer = new ScraperColumnsTransformer(this.resourceEntriesMap, indConfigMap, this.sourcesMap);
+			this.colTransformers.put(key, transformer);
 		}
-		else {
-			if ( !indTypeInfoHolder.isErrorDisplayed() ) {
-				indTypeInfoHolder.setErrorDisplayed(true);
-				logger.warn( String.format("No configuration found for ind type %s and source %s",
-					preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()) );
-			}
-
-			return null;
-		}
-
+		return transformer;
 	}
 
 	@Override
