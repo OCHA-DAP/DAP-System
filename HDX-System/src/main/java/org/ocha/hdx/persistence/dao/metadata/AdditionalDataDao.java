@@ -13,7 +13,7 @@ import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 public interface AdditionalDataDao {
 	public List<AdditionalData> listAdditionalData();
@@ -29,4 +29,6 @@ public interface AdditionalDataDao {
 	public AdditionalData updateAdditionalData(long id, Text value);
 
 	public AdditionalData getAdditionalDataById(long id);
+
+	public AdditionalData getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(final String indicatorTypeCode, final String sourceCode, final EntryKey entryKey);
 }

@@ -45,8 +45,9 @@ public class ExporterCountryCrisisHistory_XLSX extends Exporter_XLSX<ExporterCou
 			{
 				add("Indicator ID");
 				add("Indicator name");
-				add("Dataset ID");
+				add("Source code");
 				add("Units");
+				add("Dataset summary");
 				for (int year = queryData.getFromYear(); year <= queryData.getToYear(); year++) {
 					add(Integer.valueOf(year).toString());
 				}
@@ -69,10 +70,11 @@ public class ExporterCountryCrisisHistory_XLSX extends Exporter_XLSX<ExporterCou
 
 			createCell(row, (short) 0, reportRow.getIndicatorCode());
 			createCell(row, (short) 1, reportRow.getIndicatorName());
-			createCell(row, (short) 2, reportRow.getDatasetId());
+			createCell(row, (short) 2, reportRow.getSourceCode());
 			createCell(row, (short) 3, reportRow.getUnit());
+			createCell(row, (short) 4, reportRow.getDatasetSummary());
 			for (int year = queryData.getFromYear(); year <= queryData.getToYear(); year++) {
-				final short columnIndex = (short) (4 + year - queryData.getFromYear());
+				final short columnIndex = (short) (5 + year - queryData.getFromYear());
 				createCell(row, columnIndex, reportRow.getValue(year));
 			}
 
@@ -80,7 +82,7 @@ public class ExporterCountryCrisisHistory_XLSX extends Exporter_XLSX<ExporterCou
 
 		// Freeze the headers
 		// Freeze the 4 first columns
-		sheet.createFreezePane(4, 1, 4, 1);
+		sheet.createFreezePane(5, 1, 5, 1);
 
 		// Auto size the columns
 		for (int i = 0; i < (headers.size() + data.keySet().size()); i++) {

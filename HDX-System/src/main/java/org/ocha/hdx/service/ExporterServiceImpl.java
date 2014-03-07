@@ -10,13 +10,19 @@ import org.ocha.hdx.exporter.country.ExporterCountryCrisisHistory_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDao;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ExporterServiceImpl implements ExporterService {
 
 	@Autowired
 	private CuratedDataService curatedDataService;
+
+	@Autowired
+	private AdditionalDataDao additionalDataDao;
 
 	/*
 	 * Delegates to CuratedDataService
@@ -41,16 +47,18 @@ public class ExporterServiceImpl implements ExporterService {
 
 		for (final Integer key : listIndicatorsForCountryCrisisHistory.keySet()) {
 			for (final Object[] record : listIndicatorsForCountryCrisisHistory.get(key)) {
-				final String indicatorCode = record[0].toString();
+				final String indicatorTypeCode = record[0].toString();
 				// records with only 1 value are just placeholders, but don't contain actual data
 				if (record.length > 1) {
-					if (reportRows.containsKey(indicatorCode)) {
-						reportRows.get(indicatorCode).addValue(key, record[2].toString());
+					if (reportRows.containsKey(indicatorTypeCode)) {
+						reportRows.get(indicatorTypeCode).addValue(key, record[2].toString());
 						// add a value
 					} else {
-						final ReportRow row = new ReportRow(indicatorCode, record[1].toString(), record[4].toString(), null);
+						final String sourceCode = record[4].toString();
+						final AdditionalData additionalData = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.DATASET_SUMMARY);
+						final ReportRow row = new ReportRow(indicatorTypeCode, record[1].toString(), sourceCode, null, additionalData != null ? additionalData.getEntryValue().getDefaultValue() : "");
 						row.addValue(key, record[2].toString());
-						reportRows.put(indicatorCode, row);
+						reportRows.put(indicatorTypeCode, row);
 					}
 				}
 			}
@@ -63,11 +71,6 @@ public class ExporterServiceImpl implements ExporterService {
 	@Override
 	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
 		return curatedDataService.listIndicatorsForCountryOverview(countryCode, languageCode);
-	}
-
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisis(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		return curatedDataService.listIndicatorsForCountryCrisisHistory(countryCode, fromYear, toYear, languageCode);
 	}
 
 	/*

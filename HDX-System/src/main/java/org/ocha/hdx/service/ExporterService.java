@@ -22,8 +22,6 @@ public interface ExporterService {
 
 	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode);
 
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisis(final String countryCode, final int fromYear, final int toYear, final String languageCode);
-
 	public IndicatorType getIndicatorTypeByCode(final String code);
 
 	/*

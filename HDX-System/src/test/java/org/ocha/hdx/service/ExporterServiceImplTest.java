@@ -54,20 +54,37 @@ public class ExporterServiceImplTest {
 		exporterCountryQueryData.setLanguage("En");
 		final Map<String, ReportRow> countryCrisisHistoryData = exporterService.getCountryCrisisHistoryData(exporterCountryQueryData);
 
-		Assert.assertEquals(1, countryCrisisHistoryData.size());
-		final ReportRow reportRow = countryCrisisHistoryData.get("CH070");
-		Assert.assertEquals("Number of disasters", reportRow.getIndicatorName());
-		Assert.assertNull(reportRow.getValue(2005));
-		Assert.assertNull(reportRow.getValue(2006));
-		Assert.assertNull(reportRow.getValue(2007));
-		Assert.assertEquals("5.0", reportRow.getValue(2008));
-		Assert.assertNull(reportRow.getValue(2009));
-		Assert.assertNull(reportRow.getValue(2010));
+		{
+			Assert.assertEquals(2, countryCrisisHistoryData.size());
+			final ReportRow reportRowCH070 = countryCrisisHistoryData.get("CH070");
+			Assert.assertEquals("CH070", reportRowCH070.getIndicatorCode());
+			Assert.assertEquals("Number of disasters", reportRowCH070.getIndicatorName());
+			Assert.assertEquals("", reportRowCH070.getDatasetSummary());
+			Assert.assertNull(reportRowCH070.getValue(2005));
+			Assert.assertNull(reportRowCH070.getValue(2006));
+			Assert.assertNull(reportRowCH070.getValue(2007));
+			Assert.assertEquals("5.0", reportRowCH070.getValue(2008));
+			Assert.assertNull(reportRowCH070.getValue(2009));
+			Assert.assertNull(reportRowCH070.getValue(2010));
+		}
+
+		{
+			final ReportRow reportRowCH080 = countryCrisisHistoryData.get("CH080");
+			Assert.assertEquals("CH080", reportRowCH080.getIndicatorCode());
+			Assert.assertEquals("People killed in disasters", reportRowCH080.getIndicatorName());
+			Assert.assertEquals("Extracted from 1st hand sources", reportRowCH080.getDatasetSummary());
+			Assert.assertNull(reportRowCH080.getValue(2005));
+			Assert.assertNull(reportRowCH080.getValue(2006));
+			Assert.assertNull(reportRowCH080.getValue(2007));
+			Assert.assertNull(reportRowCH080.getValue(2008));
+			Assert.assertEquals("1000.0", reportRowCH080.getValue(2009));
+			Assert.assertNull(reportRowCH080.getValue(2010));
+		}
 	}
 
 	@Test
 	public void testExportCountry_XLSX() throws FileNotFoundException, IOException {
 		final XSSFWorkbook exportCountry_XLSX = exporterService.exportCountry_XLSX("USA", 2005, 2010, "En");
-		exportCountry_XLSX.write(new FileOutputStream(new File("C:\\Users\\seustachi\\Desktop\\USA.xls")));
+		exportCountry_XLSX.write(new FileOutputStream(new File("C:\\Users\\seustachi\\Desktop\\USA.xlsx")));
 	}
 }

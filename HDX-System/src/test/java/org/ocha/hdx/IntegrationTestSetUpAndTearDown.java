@@ -14,6 +14,7 @@ import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
 import org.ocha.hdx.persistence.dao.currateddata.UnitDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
+import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDao;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
@@ -24,6 +25,8 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 import org.ocha.hdx.service.CuratedDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -49,6 +52,9 @@ public class IntegrationTestSetUpAndTearDown {
 
 	@Autowired
 	private CuratedDataService curatedDataService;
+
+	@Autowired
+	private AdditionalDataDao additionalDataDao;
 
 	@Autowired
 	TextDAO textDAO;
@@ -191,8 +197,10 @@ public class IntegrationTestSetUpAndTearDown {
 		final Unit uno = unitDAO.createUnit("uno", unoText);
 
 		final Text nod = textDAO.createText("Number of disasters");
+		final Text pkid = textDAO.createText("People killed in disasters");
 
 		indicatorTypeDAO.createIndicatorType("CH070", nod, uno, ValueType.NUMBER);
+		indicatorTypeDAO.createIndicatorType("CH080", pkid, uno, ValueType.NUMBER);
 
 		final Text emdat = textDAO.createText("emdat");
 		sourceDAO.createSource("emdat", emdat, "www.test.com");
@@ -200,21 +208,35 @@ public class IntegrationTestSetUpAndTearDown {
 		final Entity usa = entityDAO.getEntityByCodeAndType("USA", "country");
 		final Source sourceEmdat = sourceDAO.getSourceByCode("emdat");
 		final IndicatorType indicatorTypeCH070 = indicatorTypeDAO.getIndicatorTypeByCode("CH070");
+		final IndicatorType indicatorTypeCH080 = indicatorTypeDAO.getIndicatorTypeByCode("CH080");
 
 		final DateTime dateTime2008 = new DateTime(2008, 1, 1, 0, 0);
 		final Date date2008 = dateTime2008.toDate();
 		final Date date2009 = dateTime2008.plusYears(1).toDate();
+		final Date date2010 = dateTime2008.plusYears(2).toDate();
 
 		indicatorDAO.createIndicator(sourceEmdat, usa, indicatorTypeCH070, date2008, date2009, Periodicity.YEAR, new IndicatorValue(5.0), "5", "www.disasters.com", importFromCKANDAO
 				.listImportsFromCKAN().get(0));
+
+		indicatorDAO.createIndicator(sourceEmdat, usa, indicatorTypeCH080, date2009, date2010, Periodicity.YEAR, new IndicatorValue(1000.0), "5", "www.disasters.com", importFromCKANDAO
+				.listImportsFromCKAN().get(0));
+
+		final Text extracted = textDAO.createText("Extracted from 1st hand sources");
+		additionalDataDao.createAdditionalData(indicatorTypeCH080, sourceEmdat, EntryKey.DATASET_SUMMARY, extracted);
+
 	}
 
 	public void tearDownDataForCountryCrisisHistory() {
+		final AdditionalData additionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey("CH080", "emdat",
+				EntryKey.DATASET_SUMMARY);
+		additionalDataDao.deleteAdditionalData(additionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey.getId());
+
 		indicatorDAO.deleteAllIndicators();
 
 		entityDAO.deleteEntityByCodeAndType("USA", "country");
 
 		indicatorTypeDAO.deleteIndicatorTypeByCode("CH070");
+		indicatorTypeDAO.deleteIndicatorTypeByCode("CH080");
 
 		sourceDAO.deleteSourceByCode("emdat");
 
