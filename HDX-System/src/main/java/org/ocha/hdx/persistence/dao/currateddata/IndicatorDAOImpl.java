@@ -179,7 +179,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 				// FIXME this should be possible to run only one query per indicator, with several results, one per year. Only if there is one and only one result per year, no updates
 				final Query query = em
 						.createQuery(
-								"SELECT i.type.code, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.source.code = :sourceCode "
+								"SELECT i.type.code, i.type.name.defaultValue, i.type.unit.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.source.code = :sourceCode "
 										+ "AND i.entity.code = :countryCode AND i.periodicity = :periodicity and i.start = :start").setParameter("isCountry", "country")
 						.setParameter("code", indicator).setParameter("sourceCode", sourceCode).setParameter("countryCode", countryCode).setParameter("periodicity", Periodicity.YEAR)
 						.setParameter("start", yearAsDate.toDate());

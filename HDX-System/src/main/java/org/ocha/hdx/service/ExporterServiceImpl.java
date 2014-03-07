@@ -51,13 +51,14 @@ public class ExporterServiceImpl implements ExporterService {
 				// records with only 1 value are just placeholders, but don't contain actual data
 				if (record.length > 1) {
 					if (reportRows.containsKey(indicatorTypeCode)) {
-						reportRows.get(indicatorTypeCode).addValue(key, record[2].toString());
+						reportRows.get(indicatorTypeCode).addValue(key, record[3].toString());
 						// add a value
 					} else {
-						final String sourceCode = record[4].toString();
+						final String sourceCode = record[5].toString();
 						final AdditionalData additionalData = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.DATASET_SUMMARY);
-						final ReportRow row = new ReportRow(indicatorTypeCode, record[1].toString(), sourceCode, null, additionalData != null ? additionalData.getEntryValue().getDefaultValue() : "");
-						row.addValue(key, record[2].toString());
+						final ReportRow row = new ReportRow(indicatorTypeCode, record[1].toString(), sourceCode, record[2].toString(), additionalData != null ? additionalData.getEntryValue()
+								.getDefaultValue() : "");
+						row.addValue(key, record[3].toString());
 						reportRows.put(indicatorTypeCode, row);
 					}
 				}

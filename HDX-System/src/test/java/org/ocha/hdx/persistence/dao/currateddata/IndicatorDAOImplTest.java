@@ -223,22 +223,24 @@ public class IndicatorDAOImplTest {
 
 		final List<Object[]> results2008 = listIndicatorsForCountryCrisisHistory.get(new Integer(2008));
 		Assert.assertEquals(4, results2008.size());
-		Assert.assertEquals(5, results2008.get(0).length);
+		Assert.assertEquals(6, results2008.get(0).length);
 		Assert.assertEquals(1, results2008.get(1).length);
 		Assert.assertEquals("CH070", results2008.get(0)[0]);
 		Assert.assertEquals("Number of disasters", results2008.get(0)[1]);
-		Assert.assertEquals("5.0", results2008.get(0)[2].toString());
-		Assert.assertEquals("emdat", results2008.get(0)[4]);
+		Assert.assertEquals("uno", results2008.get(0)[2]);
+		Assert.assertEquals("5.0", results2008.get(0)[3].toString());
+		Assert.assertEquals("emdat", results2008.get(0)[5]);
 
 		final List<Object[]> results2009 = listIndicatorsForCountryCrisisHistory.get(new Integer(2009));
 		Assert.assertEquals(4, results2009.size());
 		Assert.assertEquals(1, results2009.get(0).length);
-		Assert.assertEquals(5, results2009.get(1).length);
+		Assert.assertEquals(6, results2009.get(1).length);
 		Assert.assertEquals("CH070", results2009.get(0)[0]);
 		Assert.assertEquals("CH080", results2009.get(1)[0]);
 		Assert.assertEquals("People killed in disasters", results2009.get(1)[1]);
-		Assert.assertEquals("1000.0", results2009.get(1)[2].toString());
-		Assert.assertEquals("emdat", results2009.get(1)[4]);
+		Assert.assertEquals("uno", results2009.get(1)[2]);
+		Assert.assertEquals("1000.0", results2009.get(1)[3].toString());
+		Assert.assertEquals("emdat", results2008.get(0)[5]);
 
 		integrationTestSetUpAndTearDown.tearDownDataForCountryCrisisHistory();
 
