@@ -107,11 +107,8 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 		preparedIndicator.setIndicatorTypeCode(values[2]);
 		final String key		= this.generateMapKey(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
 		final IndicatorTypeInformationHolder indTypeInfoHolder		= this.getIndTypeInfoHolder(key);
-		Map<String, AbstractConfigEntry> indConfigMap			= indTypeInfoHolder.getIndicatorEntries();
-		if (indConfigMap == null) {
-			indConfigMap	= new HashMap<String, AbstractConfigEntry>();
-			indTypeInfoHolder.setIndicatorEntries(indConfigMap);
-		}
+		final Map<String, AbstractConfigEntry> indConfigMap			= indTypeInfoHolder.getIndicatorEntries();
+
 
 		final AbstractColumnsTransformer transformer =
 				this.generateColumnsTransformer(key, indConfigMap, preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
