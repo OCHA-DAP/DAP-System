@@ -3,7 +3,7 @@
  */
 package org.ocha.hdx.importer.coltransformer;
 
-import java.util.Calendar;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -28,7 +28,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	private static Logger logger = LoggerFactory.getLogger(ScraperColumnsTransformer.class);
 
-	public static final String ONE_ENTRY = "one entry";
+	public static final String NO_DATE = "none";
 
 	public static final String EXPECTED_TIME_PATTERN = "YYYY(/P(1|5|10)Y)?";
 	public static final int PERIODICITY_GROUP = 2;
@@ -121,7 +121,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	 */
 	private void discoverPeriodicity(final Map<String, AbstractConfigEntry> indConfig) {
 		final AbstractConfigEntry expectedTimeFormatEntry = indConfig.get(ConfigurationConstants.EXPECTED_TIME_FORMAT);
-		if (expectedTimeFormatEntry == null || ONE_ENTRY.equals(expectedTimeFormatEntry.getEntryValue())) {
+		if (expectedTimeFormatEntry == null || NO_DATE.equals(expectedTimeFormatEntry.getEntryValue())) {
 			this.dateTimeFormat = null;
 			this.periodicity = Periodicity.NONE;
 			this.typeOfDate = null;
@@ -164,13 +164,20 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 				final int year = Integer.parseInt(matcher.group(YEAR_GROUP));
 				localDate = new LocalDate(year + this.offset, this.month, this.day);
 			} else {
-				throw new IllegalArgumentException(String.format("Could read string '%s' with the pattern '%s'", actualDateStr, ACTUAL_DATE_PATTERN));
+				throw new IllegalArgumentException(String.format("Could read string '%s' with the pattern '%s' for indicator entry: %s",
+						actualDateStr, ACTUAL_DATE_PATTERN, Arrays.toString(line)));
 			}
 		} else if (TYPE_OF_DATE.FULL_DATE.equals(this.typeOfDate)) {
-			localDate = LocalDate.parse(actualDateStr, this.dateTimeFormat);
+			try {
+				localDate = LocalDate.parse(actualDateStr, this.dateTimeFormat);
+			}
+			catch (final IllegalArgumentException e) {
+				logger.warn(String.format("Couldn't parse date '%s' with format '%s' for indicator entry: %s ", actualDateStr,
+						this.dateTimeFormat.toString(), Arrays.toString(line)));
+				throw e;
+			}
 		} else {
-			// throw new IllegalArgumentException("The type of data is not set for this transformer");
-			return Calendar.getInstance().getTime();
+			return null;
 		}
 		return localDate.toDate();
 	}

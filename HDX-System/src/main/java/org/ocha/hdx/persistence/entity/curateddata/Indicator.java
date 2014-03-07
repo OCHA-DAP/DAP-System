@@ -68,7 +68,12 @@ public class Indicator {
 	@JoinColumn(name = "type_id", nullable = false)
 	private IndicatorType type;
 
-	@Column(name = "start_time", columnDefinition = "timestamp", nullable = false, updatable = false)
+	/**
+	 * Changed nullable to true temporarily. This is because some indicators (like country name, country ISO,etc )
+	 * don't really have a start and end date. Once these will have a special entities where will store them
+	 * ( probably Attributes ) this field should again be mandatory.
+	 */
+	@Column(name = "start_time", columnDefinition = "timestamp", nullable = true, updatable = false)
 	private Date start;
 
 	@Column(name = "end_time", columnDefinition = "timestamp", nullable = true, updatable = false)
