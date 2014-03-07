@@ -30,6 +30,8 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	public static final String NO_DATE = "none";
 
+	public static final LocalDate DUMMY_DATE	= new LocalDate(2511, 5, 1);
+
 	public static final String EXPECTED_TIME_PATTERN = "YYYY(/P(1|5|10)Y)?";
 	public static final int PERIODICITY_GROUP = 2;
 
@@ -177,7 +179,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 				throw e;
 			}
 		} else {
-			return null;
+			return DUMMY_DATE.toDate();
 		}
 		return localDate.toDate();
 	}

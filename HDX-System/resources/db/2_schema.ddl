@@ -215,7 +215,7 @@
         initial_value varchar(255) not null,
         periodicity varchar(255) not null,
         source_link varchar(255),
-        start_time timestamp,
+        start_time timestamp not null,
         date_value date,
         datetime_value timestamp,
         number_value float8,
