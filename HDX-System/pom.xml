@@ -19,10 +19,11 @@
 		<derby.version>10.10.1.1</derby.version>
 		<jstl.impl.version>1.2</jstl.impl.version>
 		<jersey.version>2.6</jersey.version>
+		<aspectj.version>1.7.3</aspectj.version>
 		<!-- This value is ok for prod, can be overriden for other environments in profiles -->
 		<HDX_ROOT>/opt/www/tomcat/hdx</HDX_ROOT>
-        <schema.file>2_schema.ddl</schema.file>
-        <schema.dir>resources/db</schema.dir>
+		<schema.file>2_schema.ddl</schema.file>
+		<schema.dir>resources/db</schema.dir>
 	</properties>
 
 	<build>
@@ -254,6 +255,19 @@
 			<version>3.9</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<repositories>
@@ -351,8 +365,8 @@
 							<components>
 								<component>
 									<name>hbm2ddl</name>
-                                    <outputDirectory>${schema.dir}</outputDirectory>
-                                    <implementation>jpaconfiguration</implementation>
+									<outputDirectory>${schema.dir}</outputDirectory>
+									<implementation>jpaconfiguration</implementation>
 								</component>
 							</components>
 							<componentProperties>
