@@ -112,13 +112,6 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		return query.getResultList();
 	}
 
-	/*
-	 * // The beautiful query : SELECT it.code AS indicatorId, i.start_time AS startTime, itt.default_value AS indicatorType, i.date_value AS dateValue, i.datetime_value AS dateTimeValue,
-	 * i.number_value AS numberValue, i.string_value AS stringValue, ivt.default_value AS textValue, ifc.timestamp AS lastUpdated, st.default_value AS source FROM hdx_indicator i LEFT OUTER JOIN text
-	 * ivt ON i.text_id = ivt.id, indicator_type it, text itt, entity e, import_from_ckan ifc, source s, text st WHERE it.code = '_emdat:total_affected' AND i.type_id = it.id AND it.text_id = itt.id
-	 * AND i.entity_id = e.id AND e.entity_type_id = 1 AND e.code = 'COL' AND i.import_from_ckan_id = ifc.id AND i.source_id = s.id AND s.text_id = st.id ORDER BY i.start_time DESC LIMIT 1 ; List of
-	 * indicators for a country overview.
-	 */
 	@Override
 	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
 		// List of indicators relevant for country overview. TODO Externalize ?
@@ -150,24 +143,30 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 */
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		// List of indicators relevant for country crisis history. Each indicator type has an associated source here TODO Externalize ?
 		final String[] indicatorsList = new String[] { "CH070", "CH080", "CH090", "CH100" };
 		final String[] sourcesList = new String[] { "emdat", "emdat", "emdat", "emdat" };
 
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode);
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.YEAR);
 	}
 
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		// List of indicators relevant for country crisis history. Each indicator type has an associated source here TODO Externalize ?
 		final String[] indicatorsList = new String[] { "PVE130", "PVF020", "PVH140", "PVL040" };
 		final String[] sourcesList = new String[] { "mdgs", "faostat3", "mdgs", "world-bank" };
 
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode);
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.YEAR);
+	}
+
+	@Override
+	public Map<Integer, List<Object[]>> list5YearsIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		final String[] indicatorsList = new String[] { "_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "PSP050", "PVH010", "PVH050", "PVH100", "PVH150" };
+		final String[] sourcesList = new String[] { "esa-unpd-WPP2012", "esa-unpd-WPP2012", "esa-unpd-WPP2012", "esa-unpd-WPP2012", "esa-unpd-WPP2012", "esa-unpd-WPP2012" };
+
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.FIVE_YEARS);
 	}
 
 	private Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String[] indicatorsList, final String[] sourcesList,
-			final String languageCode) {
+			final String languageCode, final Periodicity periodicity) {
 		final int fromYear_ = fromYear;
 		final int toYear_ = toYear;
 
@@ -195,7 +194,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 						.createQuery(
 								"SELECT i.type.code, i.type.name.defaultValue, i.type.unit.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.source.code = :sourceCode "
 										+ "AND i.entity.code = :countryCode AND i.periodicity = :periodicity and i.start = :start").setParameter("isCountry", "country")
-						.setParameter("code", indicator).setParameter("sourceCode", sourceCode).setParameter("countryCode", countryCode).setParameter("periodicity", Periodicity.YEAR)
+						.setParameter("code", indicator).setParameter("sourceCode", sourceCode).setParameter("countryCode", countryCode).setParameter("periodicity", periodicity)
 						.setParameter("start", yearAsDate.toDate());
 				Object[] queryResult = null;
 				try {

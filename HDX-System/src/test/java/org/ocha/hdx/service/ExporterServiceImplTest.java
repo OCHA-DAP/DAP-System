@@ -36,10 +36,12 @@ public class ExporterServiceImplTest {
 		integrationTestSetUpAndTearDown.setUp();
 		integrationTestSetUpAndTearDown.setUpDataForCountryOverview();
 		integrationTestSetUpAndTearDown.setUpDataForCountryCrisisHistory();
+		integrationTestSetUpAndTearDown.setUpDataForCountry5Years();
 	}
 
 	@After
 	public void tearDown() {
+		integrationTestSetUpAndTearDown.tearDownDataForCountry5Years();
 		integrationTestSetUpAndTearDown.tearDownDataForCountryCrisisHistory();
 		integrationTestSetUpAndTearDown.tearDownDataForCountryOverview();
 		integrationTestSetUpAndTearDown.tearDown();
@@ -80,6 +82,29 @@ public class ExporterServiceImplTest {
 			Assert.assertEquals("1000.0", reportRowCH080.getValue(2009));
 			Assert.assertNull(reportRowCH080.getValue(2010));
 		}
+	}
+
+	@Test
+	public void testGetCountry5YearsData() throws FileNotFoundException, IOException {
+		final ExporterCountryQueryData exporterCountryQueryData = new ExporterCountryQueryData();
+		exporterCountryQueryData.setCountryCode("USA");
+		exporterCountryQueryData.setFromYear(2005);
+		exporterCountryQueryData.setToYear(2010);
+		exporterCountryQueryData.setLanguage("En");
+		final Map<String, ReportRow> data5Years = exporterService.getCountry5YearsData(exporterCountryQueryData);
+
+		Assert.assertEquals(1, data5Years.size());
+		final ReportRow reportRow = data5Years.get("_WPP2012_MORT_F02_CRUDE_DEATH_RATE");
+		Assert.assertEquals("_WPP2012_MORT_F02_CRUDE_DEATH_RATE", reportRow.getIndicatorCode());
+		Assert.assertEquals("Number of disasters", reportRow.getIndicatorName());
+		Assert.assertEquals("Average for 5 years", reportRow.getDatasetSummary());
+		Assert.assertNull(reportRow.getValue(2005));
+		Assert.assertNull(reportRow.getValue(2006));
+		Assert.assertNull(reportRow.getValue(2007));
+		Assert.assertEquals("5.0", reportRow.getValue(2008));
+		Assert.assertNull(reportRow.getValue(2009));
+		Assert.assertNull(reportRow.getValue(2010));
+
 	}
 
 	@Test

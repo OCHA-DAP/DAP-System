@@ -43,4 +43,6 @@ public interface ExporterService {
 
 	public Map<String, ReportRow> getCountryVulnerabilityData(ExporterCountryQueryData queryData);
 
+	public Map<String, ReportRow> getCountry5YearsData(ExporterCountryQueryData queryData);
+
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
+import org.ocha.hdx.exporter.country.ExporterCountry5Years_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryCrisisHistory_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
@@ -52,6 +53,16 @@ public class ExporterServiceImpl implements ExporterService {
 	public Map<String, ReportRow> getCountryVulnerabilityData(final ExporterCountryQueryData queryData) {
 
 		final Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory = curatedDataService.listIndicatorsForCountryVulnerability(queryData.getCountryCode(),
+				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
+
+		return convertToReports(listIndicatorsForCountryCrisisHistory);
+
+	}
+
+	@Override
+	public Map<String, ReportRow> getCountry5YearsData(final ExporterCountryQueryData queryData) {
+
+		final Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory = curatedDataService.list5YearsIndicatorsForCountry(queryData.getCountryCode(),
 				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
 
 		return convertToReports(listIndicatorsForCountryCrisisHistory);
@@ -110,7 +121,8 @@ public class ExporterServiceImpl implements ExporterService {
 		// 1. Country overview
 		// 2. Country crisis history
 		// 3. ... TODO
-		final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(new ExporterCountryVulnerability_XLSX(this)));
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(new ExporterCountryVulnerability_XLSX(
+				new ExporterCountry5Years_XLSX(this))));
 
 		// final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(this);
 

@@ -233,14 +233,78 @@ public class IntegrationTestSetUpAndTearDown {
 
 		indicatorDAO.deleteAllIndicators();
 
-		entityDAO.deleteEntityByCodeAndType("USA", "country");
+		try {
+			entityDAO.deleteEntityByCodeAndType("USA", "country");
+		} catch (final Exception e) {
+			// Might have been deleted by another setup
+		}
 
 		indicatorTypeDAO.deleteIndicatorTypeByCode("CH070");
 		indicatorTypeDAO.deleteIndicatorTypeByCode("CH080");
 
 		sourceDAO.deleteSourceByCode("emdat");
 
-		unitDAO.deleteUnit(unitDAO.getUnitByCode("uno").getId());
+		try {
+			unitDAO.deleteUnit(unitDAO.getUnitByCode("uno").getId());
+		} catch (final Exception e) {
+			// Might have been deleted by another setup
+		}
+
+	}
+
+	public void setUpDataForCountry5Years() {
+		try {
+			curatedDataService.createEntity("USA", "USA", "country");
+		} catch (final ConstraintViolationException | PersistenceException e) {
+			// Might have been created by another setup
+		}
+
+		final Text unoText = textDAO.createText("uno");
+		final Unit uno = unitDAO.createUnit("uno", unoText);
+
+		final Text nod = textDAO.createText("Number of disasters");
+
+		indicatorTypeDAO.createIndicatorType("_WPP2012_MORT_F02_CRUDE_DEATH_RATE", nod, uno, ValueType.NUMBER);
+
+		final Text esaunpdWPP2012 = textDAO.createText("esa-unpd-WPP2012");
+		sourceDAO.createSource("esa-unpd-WPP2012", esaunpdWPP2012, "www.test.com");
+
+		final Entity usa = entityDAO.getEntityByCodeAndType("USA", "country");
+		final Source sourceesaunpdWPP2012 = sourceDAO.getSourceByCode("esa-unpd-WPP2012");
+		final IndicatorType indicatorTypeF02 = indicatorTypeDAO.getIndicatorTypeByCode("_WPP2012_MORT_F02_CRUDE_DEATH_RATE");
+
+		final DateTime dateTime2008 = new DateTime(2008, 1, 1, 0, 0);
+		final Date date2008 = dateTime2008.toDate();
+		final Date date2013 = dateTime2008.plusYears(5).toDate();
+
+		indicatorDAO.createIndicator(sourceesaunpdWPP2012, usa, indicatorTypeF02, date2008, date2013, Periodicity.FIVE_YEARS, new IndicatorValue(5.0), "5", "www.disasters.com", importFromCKANDAO
+				.listImportsFromCKAN().get(0));
+
+		final Text extracted = textDAO.createText("Average for 5 years");
+		additionalDataDao.createAdditionalData(indicatorTypeF02, sourceesaunpdWPP2012, EntryKey.DATASET_SUMMARY, extracted);
+	}
+
+	public void tearDownDataForCountry5Years() {
+		final AdditionalData additionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(
+				"_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "esa-unpd-WPP2012", EntryKey.DATASET_SUMMARY);
+		additionalDataDao.deleteAdditionalData(additionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey.getId());
+		indicatorDAO.deleteAllIndicators();
+
+		try {
+			entityDAO.deleteEntityByCodeAndType("USA", "country");
+		} catch (final Exception e) {
+			// Might have been deleted by another setup
+		}
+
+		indicatorTypeDAO.deleteIndicatorTypeByCode("_WPP2012_MORT_F02_CRUDE_DEATH_RATE");
+
+		sourceDAO.deleteSourceByCode("esa-unpd-WPP2012");
+
+		try {
+			unitDAO.deleteUnit(unitDAO.getUnitByCode("uno").getId());
+		} catch (final Exception e) {
+			// Might have been deleted by another setup
+		}
 
 	}
 }

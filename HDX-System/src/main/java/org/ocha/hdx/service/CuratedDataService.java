@@ -194,10 +194,10 @@ public interface CuratedDataService {
 	// Country overview
 	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
 
-	// Country crisis history
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(String countryCode, int fromYear, int toYear, String languageCode);
 
-	// Country crisis history
+	public Map<Integer, List<Object[]>> list5YearsIndicatorsForCountry(String countryCode, int fromYear, int toYear, String languageCode);
+
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(String countryCode, int fromYear, int toYear, String languageCode);
 
 }
