@@ -278,8 +278,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Transactional
 	public void createIndicator(final Indicator indicator, final ImportFromCKAN importFromCKAN) {
 
-		this.indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(),
-				indicator.getValue(), indicator.getInitialValue(), indicator.getSourceLink(), importFromCKAN);
+		indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(), indicator.getValue(),
+				indicator.getInitialValue(), indicator.getSourceLink(), importFromCKAN);
 
 	}
 
@@ -605,6 +605,13 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return indicatorDAO.listIndicatorsForCountryCrisisHistory(countryCode, fromYear, toYear, languageCode);
 	}
 
+	// Country socio-economic
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountrySocioEconomic(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		return indicatorDAO.listIndicatorsForCountrySocioEconomic(countryCode, fromYear, toYear, languageCode);
+	}
+
+	// Country vulnerability
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 		return indicatorDAO.listIndicatorsForCountryVulnerability(countryCode, fromYear, toYear, languageCode);
@@ -613,6 +620,18 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	public Map<Integer, List<Object[]>> list5YearsIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 		return indicatorDAO.list5YearsIndicatorsForCountry(countryCode, fromYear, toYear, languageCode);
+	}
+
+	// Country capacity
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		return indicatorDAO.listIndicatorsForCountryCapacity(countryCode, fromYear, toYear, languageCode);
+	}
+
+	// Country other
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		return indicatorDAO.listIndicatorsForCountryOther(countryCode, fromYear, toYear, languageCode);
 	}
 
 }

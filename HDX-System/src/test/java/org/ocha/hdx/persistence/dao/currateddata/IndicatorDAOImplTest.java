@@ -245,4 +245,17 @@ public class IndicatorDAOImplTest {
 		integrationTestSetUpAndTearDown.tearDownDataForCountryCrisisHistory();
 
 	}
+
+	@Test
+	public void testGetMinMaxDatesForIndicators() {
+
+		integrationTestSetUpAndTearDown.setUpDataForCountryCrisisHistory();
+
+		final Map<String, Integer> minMaxDatesForCountryIndicators = indicatorDAO.getMinMaxDatesForCountryIndicators("USA", new String[] { "CH070", "CH080" }, new String[] { "emdat", "emdat" });
+		Assert.assertEquals(2, minMaxDatesForCountryIndicators.size());
+		Assert.assertEquals(new Integer(2008), minMaxDatesForCountryIndicators.get("MIN"));
+		Assert.assertEquals(new Integer(2009), minMaxDatesForCountryIndicators.get("MAX"));
+		
+		integrationTestSetUpAndTearDown.tearDownDataForCountryCrisisHistory();
+	}
 }

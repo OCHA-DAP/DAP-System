@@ -8,12 +8,12 @@ import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.service.ExporterService;
 
 /**
- * Exporter for a country crisis history.
+ * Exporter for a country - crisis history.
  * 
  * @author bmichiels
  * 
  */
-public class ExporterCountryCrisisHistory_XLSX extends AbstractExporter_XLSX {
+public class ExporterCountryCrisisHistory_XLSX extends AbstractExporterCountry_XLSX {
 
 	public ExporterCountryCrisisHistory_XLSX(final ExporterService exporterService) {
 		super(exporterService);

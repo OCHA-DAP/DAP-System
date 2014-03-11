@@ -7,9 +7,12 @@ import java.util.Map;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.country.ExporterCountry5Years_XLSX;
+import org.ocha.hdx.exporter.country.ExporterCountryCapacity_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryCrisisHistory_XLSX;
+import org.ocha.hdx.exporter.country.ExporterCountryOther_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
+import org.ocha.hdx.exporter.country.ExporterCountrySocioEconomic_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryVulnerability_XLSX;
 import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDao;
@@ -50,6 +53,15 @@ public class ExporterServiceImpl implements ExporterService {
 	}
 
 	@Override
+	public Map<String, ReportRow> getCountrySocioEconomicData(final ExporterCountryQueryData queryData) {
+		final Map<Integer, List<Object[]>> listIndicatorsForCountrySocioEconomic = curatedDataService.listIndicatorsForCountrySocioEconomic(queryData.getCountryCode(),
+				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
+
+		return convertToReports(listIndicatorsForCountrySocioEconomic);
+
+	}
+
+	@Override
 	public Map<String, ReportRow> getCountryVulnerabilityData(final ExporterCountryQueryData queryData) {
 
 		final Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory = curatedDataService.listIndicatorsForCountryVulnerability(queryData.getCountryCode(),
@@ -66,6 +78,25 @@ public class ExporterServiceImpl implements ExporterService {
 				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
 
 		return convertToReports(listIndicatorsForCountryCrisisHistory);
+	}
+
+	@Override
+	public Map<String, ReportRow> getCountryCapacityData(final ExporterCountryQueryData queryData) {
+
+		final Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity = curatedDataService.listIndicatorsForCountryCrisisHistory(queryData.getCountryCode(),
+				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
+
+		return convertToReports(listIndicatorsForCountryCapacity);
+
+	}
+
+	@Override
+	public Map<String, ReportRow> getCountryOtherData(final ExporterCountryQueryData queryData) {
+
+		final Map<Integer, List<Object[]>> listIndicatorsForCountryOther = curatedDataService.listIndicatorsForCountryOther(queryData.getCountryCode(), Integer.valueOf(queryData.getFromYear()),
+				Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
+
+		return convertToReports(listIndicatorsForCountryOther);
 
 	}
 
@@ -121,8 +152,8 @@ public class ExporterServiceImpl implements ExporterService {
 		// 1. Country overview
 		// 2. Country crisis history
 		// 3. ... TODO
-		final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(new ExporterCountryVulnerability_XLSX(
-				new ExporterCountry5Years_XLSX(this))));
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(new ExporterCountrySocioEconomic_XLSX(
+				new ExporterCountryVulnerability_XLSX(new ExporterCountryCapacity_XLSX(new ExporterCountryOther_XLSX(new ExporterCountry5Years_XLSX(this)))))));
 
 		// final Exporter<XSSFWorkbook, ExporterCountryQueryData> countryExporter = new ExporterCountryOverview_XLSX(this);
 

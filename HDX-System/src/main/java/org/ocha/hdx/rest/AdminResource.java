@@ -19,15 +19,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import com.google.gson.*;
 import org.glassfish.jersey.server.mvc.Viewable;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
-import org.ocha.hdx.persistence.entity.curateddata.*;
+import org.ocha.hdx.persistence.entity.curateddata.Entity;
+import org.ocha.hdx.persistence.entity.curateddata.EntityType;
+import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
+import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.i18n.Language;
@@ -40,10 +45,13 @@ import org.ocha.hdx.rest.helper.DisplayRegionDictionaries;
 import org.ocha.hdx.rest.helper.DisplaySourceDictionaries;
 import org.ocha.hdx.service.CuratedDataService;
 import org.ocha.hdx.service.HDXService;
-import org.ocha.hdx.tools.GSONBuilderWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.visualization.datasource.base.TypeMismatchException;
 
 @RolesAllowed("admin")
@@ -259,7 +267,7 @@ public class AdminResource {
 			break;
 		}
 
-        JsonArray jsonTranslations = translationsToJson(translations);
+        final JsonArray jsonTranslations = translationsToJson(translations);
 		return jsonTranslations.toString();
 	}
 
@@ -437,9 +445,9 @@ public class AdminResource {
             result = "var " + var + " = ";
         }
 
-        List<Unit> list = curatedDataService.listUnits();
-        JsonArray jsonArray = new JsonArray();
-        for (Unit unit: list){
+        final List<Unit> list = curatedDataService.listUnits();
+        final JsonArray jsonArray = new JsonArray();
+        for (final Unit unit: list){
             final JsonObject json = new JsonObject();
             json.addProperty("id", unit.getId());
             json.addProperty("code", unit.getCode());
@@ -583,7 +591,7 @@ public class AdminResource {
 		return jsonEntities.toString();
 	}
 
-    private JsonArray translationsToJson(List<Translation> translations) {
+    private JsonArray translationsToJson(final List<Translation> translations) {
         final JsonArray jsonTranslations = new JsonArray();
         for (final Translation translation : translations) {
             final Id translationId = translation.getId();
@@ -1019,6 +1027,18 @@ public class AdminResource {
 	@SuppressWarnings("static-method")
 	public Response test() {
 		return Response.ok(new Viewable("/admin/admin-test")).build();
+	}
+
+	/*
+	 * Reports
+	 */
+	
+	/* Country */
+	@GET
+	@Path("/reports/country")
+	@SuppressWarnings("static-method")
+	public Response displayCountryReports() {
+		return Response.ok(new Viewable("/admin/reportsCountry")).build();
 	}
 
 }

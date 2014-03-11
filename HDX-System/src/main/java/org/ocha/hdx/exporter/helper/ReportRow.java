@@ -9,6 +9,8 @@ public class ReportRow {
 	private final String indicatorName;
 	private final String sourceCode;
 	private final String unit;
+	private int minYear = Integer.MAX_VALUE;
+	private int maxYear = Integer.MIN_VALUE;
 
 	/**
 	 * Metadata from AdditionalData
@@ -49,10 +51,37 @@ public class ReportRow {
 
 	public void addValue(final Integer year, final String value) {
 		valuesForYears.put(year, value);
+		if(minYear > year) {
+			minYear = year;
+		}
+		if(maxYear < year) {
+			maxYear = year;
+		}
 	}
 
 	public String getValue(final Integer year) {
 		return valuesForYears.get(year);
 	}
 
+	public Integer getIntegerValue(final Integer year) {
+		if(null == valuesForYears.get(year)) {
+			return null;
+		}
+		return Integer.valueOf(valuesForYears.get(year));
+	}
+
+	public Double getDoubleValue(final Integer year) {
+		if(null == valuesForYears.get(year)) {
+			return null;
+		}
+		return Double.valueOf(valuesForYears.get(year));
+	}
+
+	public int getMinYear() {
+		return minYear;
+	}
+
+	public int getMaxYear() {
+		return maxYear;
+	}
 }
