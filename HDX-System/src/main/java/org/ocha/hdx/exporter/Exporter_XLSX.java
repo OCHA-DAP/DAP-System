@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Font;
@@ -78,11 +77,11 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 	 * @param headers
 	 *            the headers
 	 */
-	public static void createHeaderCells(final XSSFSheet sheet, final List<String> headers) {
-		createHeaderCells(sheet, headers.toArray(new String[] {}));
+	public static void createHeaderCells(final XSSFSheet sheet, final List<Object> headers) {
+		createHeaderCells(sheet, headers.toArray(new Object[] {}));
 	}
 
-	public static void createHeaderCells(final XSSFSheet sheet, final String[] headers) {
+	public static void createHeaderCells(final XSSFSheet sheet, final Object[] headers) {
 
 		// Create the title row
 		final XSSFRow titleRow = sheet.createRow((short) 0);
@@ -93,48 +92,63 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 		}
 	}
 
-	public static void createHeaderCell(final String header, final XSSFRow titleRow, final int columnIndex) {
-		final Cell cell = titleRow.createCell(columnIndex);
+	public static XSSFCell createHeaderCell(final Object header, final XSSFRow titleRow, final int columnIndex) {
+		final XSSFCell cell = titleRow.createCell(columnIndex);
 		final CellStyle cellStyle = titleRow.getSheet().getWorkbook().createCellStyle();
 		cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
 		cellStyle.setFont(getHeaderFont(titleRow.getSheet().getWorkbook()));
 		cellStyle.setVerticalAlignment(CellStyle.VERTICAL_BOTTOM);
 		cell.setCellStyle(cellStyle);
-		cell.setCellValue(header);
+		if (header instanceof Number) {
+			cell.setCellValue(((Number) header).doubleValue());
+		} else {
+			cell.setCellValue(header.toString());
+		}
+		return cell;
 	}
 
-	public static void createCell(final XSSFRow row, final short columnIndex, final String value) {
+	public static XSSFCell createCell(final XSSFRow row, final short columnIndex, final String value) {
 		final XSSFCell cell = row.createCell(columnIndex);
 		cell.setCellValue(value);
+		return cell;
 	}
 
-	public static void createUrlCell(final XSSFRow row, final short columnIndex, final String value, final String address) {
+	public static XSSFCell createNumCell(final XSSFRow row, final short columnIndex, final Number value) {
+		final XSSFCell cell = row.createCell(columnIndex);
+		if(null != value) {
+			cell.setCellValue((Double) value);
+		}
+		return cell;
+	}
+
+	public static XSSFCell createUrlCell(final XSSFRow row, final short columnIndex, final String value, final String address) {
 		final Workbook workbook = row.getSheet().getWorkbook();
 		final CreationHelper createHelper = workbook.getCreationHelper();
 
 		final CellStyle hlink_style = workbook.createCellStyle();
 		hlink_style.setFont(getUrlFont(workbook));
 
-		final Cell cell = row.createCell(columnIndex);
+		final XSSFCell cell = row.createCell(columnIndex);
 		cell.setCellValue(value);
 
 		final org.apache.poi.ss.usermodel.Hyperlink link = createHelper.createHyperlink(Hyperlink.LINK_URL);
 		link.setAddress(address);
 		cell.setHyperlink(link);
 		cell.setCellStyle(hlink_style);
+		return cell;
 	}
 
-	public static void createDateCell(final XSSFRow row, final short columnIndex, final Date date, final String format) {
+	public static XSSFCell createDateCell(final XSSFRow row, final short columnIndex, final Date date, final String format) {
 		final Workbook workbook = row.getSheet().getWorkbook();
 		final CreationHelper createHelper = workbook.getCreationHelper();
 
 		final CellStyle cellStyle = workbook.createCellStyle();
 		cellStyle.setDataFormat(createHelper.createDataFormat().getFormat(format));
 
-		final Cell cell = row.createCell(columnIndex);
+		final XSSFCell cell = row.createCell(columnIndex);
 		cell.setCellValue(date);
 		cell.setCellStyle(cellStyle);
-
+		return cell;
 	}
 
 	// /////

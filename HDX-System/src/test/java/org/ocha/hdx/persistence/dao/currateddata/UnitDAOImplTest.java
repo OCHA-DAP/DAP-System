@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-persistence-test.xml" })
 public class UnitDAOImplTest {
-	private static Logger logger = LoggerFactory.getLogger(SourceDAOImplTest.class);
+	private static Logger logger = LoggerFactory.getLogger(UnitDAOImplTest.class);
 	private final String unit1Name = "unit1";
 	private final String unit1Code = "unit1Code";
 

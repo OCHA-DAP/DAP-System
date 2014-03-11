@@ -1,7 +1,10 @@
 package org.ocha.hdx.persistence.dao.currateddata;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +24,13 @@ import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 public class IndicatorDAOImpl implements IndicatorDAO {
+
+	private static Logger logger = LoggerFactory.getLogger(IndicatorDAOImpl.class);
 
 	@PersistenceContext
 	private EntityManager em;
@@ -116,12 +123,15 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 * // The beautiful query : SELECT it.code AS indicatorId, i.start_time AS startTime, itt.default_value AS indicatorType, i.date_value AS dateValue, i.datetime_value AS dateTimeValue,
 	 * i.number_value AS numberValue, i.string_value AS stringValue, ivt.default_value AS textValue, ifc.timestamp AS lastUpdated, st.default_value AS source FROM hdx_indicator i LEFT OUTER JOIN text
 	 * ivt ON i.text_id = ivt.id, indicator_type it, text itt, entity e, import_from_ckan ifc, source s, text st WHERE it.code = '_emdat:total_affected' AND i.type_id = it.id AND it.text_id = itt.id
-	 * AND i.entity_id = e.id AND e.entity_type_id = 1 AND e.code = 'COL' AND i.import_from_ckan_id = ifc.id AND i.source_id = s.id AND s.text_id = st.id ORDER BY i.start_time DESC LIMIT 1 ; List of
-	 * indicators for a country overview.
+	 * AND i.entity_id = e.id AND e.entity_type_id = 1 AND e.code = 'COL' AND i.import_from_ckan_id = ifc.id AND i.source_id = s.id AND s.text_id = st.id ORDER BY i.start_time DESC LIMIT 1 ; 
+	 */
+
+	/* 
+	 * List of indicators for a country - overview.
 	 */
 	@Override
 	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
-		// List of indicators relevant for country overview. TODO Externalize ?
+		// List of indicators relevant for country - overview. TODO Externalize ?
 		final String[] indicatorsList = new String[] { "CD010", "CD030", "CD050", "CD070", "CD080", "CD090", "CG020", "CG030", "CG060", "CG070", "CG080", "CG100", "CG120", "CG140", "CG150", "CG260",
 				"CG290", "_m49-name", "_unterm:ISO Country alpha-2-code" };
 
@@ -146,41 +156,92 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	}
 
 	/*
-	 * List of indicators for a country crisis history for a given year.
+	 * List of indicators for a country - crisis history.
 	 */
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		// List of indicators relevant for country crisis history. Each indicator type has an associated source here TODO Externalize ?
+		// List of indicators relevant for country - crisis history. Each indicator type has an associated source here TODO Externalize ?
 		final String[] indicatorsList = new String[] { "CH070", "CH080", "CH090", "CH100" };
 		final String[] sourcesList = new String[] { "emdat", "emdat", "emdat", "emdat" };
 
 		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode);
 	}
 
+	/*
+	 * List of indicators for a country - socio-economic.
+	 */
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountrySocioEconomic(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		// List of indicators relevant for country - socio-economic. Each indicator type has an associated source here TODO Externalize ?
+		final String[] indicatorsList = new String[] { "PSE030", "PSE090", "PSE120", "PSE130", "PSP080", "PSE140", "PSE150", "PSE200", "PSP010", "PSP060", "PSP090", "PSP110" };
+		final String[] sourcesList = new String[] { "world-bank", "world-bank", "world-bank", "world-bank", "esa-unpd-wpp2012", "world-bank", "world-bank", "world-bank", "esa-unpd-wpp2012",
+				"world-bank", "world-bank", "world-bank" };
+
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode);
+	}
+
+	/*
+	 * List of indicators for a country - vulnerability.
+	 */
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		// List of indicators relevant for country crisis history. Each indicator type has an associated source here TODO Externalize ?
-		final String[] indicatorsList = new String[] { "PVE130", "PVF020", "PVH140", "PVL040" };
-		final String[] sourcesList = new String[] { "mdgs", "faostat3", "mdgs", "world-bank" };
+		// List of indicators relevant for country - vulnerability. Each indicator type has an associated source here TODO Externalize ?
+		final String[] indicatorsList = new String[] { "PVE130", "PVF020", "PVH140", "PVL040", "PVN010", "PVW010", "PVW040" };
+		final String[] sourcesList = new String[] { "mdgs", "faostat3", "mdgs", "world-bank", "fao-foodsec", "mdgs", "mdgs" };
+
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode);
+	}
+
+	/*
+	 * List of indicators for a country - capacity.
+	 */
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		// List of indicators relevant for country - capacity. Each indicator type has an associated source here TODO Externalize ?
+		final String[] indicatorsList = new String[] { "PCX051", "PCX080", "PCX090", "PCX100" };
+		final String[] sourcesList = new String[] { "mdgs", "mdgs", "world-bank", "world-bank" };
+
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode);
+	}
+
+	/*
+	 * List of indicators for a country - other.
+	 */
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		// List of indicators relevant for country - other. Each indicator type has an associated source here TODO Externalize ?
+		final String[] indicatorsList = new String[] { "_Children 1 year old immunized against measles, percentage", "_emdat:no_homeless", "_emdat:no_injured", "_emdat:total_affected",
+				"_GNI, PPP (current international $)", "_Internet users per 100 inhabitants", "_Land area (sq. km)", "_Net ODA received per capita (current US$)", "_Number of infant deaths",
+				"_Population, total", "_Population undernourished, millions", "_Population undernourished, percentage", "_reliefweb_Humanitarian_Bulletin", "_reliefweb_Humanitarian_Dashboard",
+				"_reliefweb_Humanitarian_Snapshot", "_reliefweb_Infographic", "_reliefweb_Key_Messages", "_reliefweb_Other", "_reliefweb_Press_Release", "_reliefweb_Press_Review",
+				"_reliefweb_Reference_Map", "_reliefweb_Situation_Report", "_reliefweb_Statement/Speech", "_reliefweb_Thematic_Map" };
+		final String[] sourcesList = new String[] { "mdgs", "emdat", "emdat", "emdat", "world-bank", "mdgs", "world-bank", "world-bank", "world-bank", "world-bank", "mdgs", "mdgs", "reliefweb-api",
+				"reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api",
+				"reliefweb-api" };
 
 		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode);
 	}
 
 	private Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String[] indicatorsList, final String[] sourcesList,
 			final String languageCode) {
-		final int fromYear_ = fromYear;
-		final int toYear_ = toYear;
+		int fromYear_ = fromYear;
+		int toYear_ = toYear;
 
 		// Convention : if fromYear = 0 => we take the earliest data available
+		Map<String, Integer> minMax = null;
 		if (0 == fromYear) {
-			// TODO find the earliest year available
-			// fromYear_ = ...;
+			// Find the earliest year available
+			minMax = getMinMaxDatesForCountryIndicators(countryCode, indicatorsList, sourcesList);
+			fromYear_ = minMax.get("MIN");
 		}
 
 		// Convention : if toYear = 0 => we take the latest data available
 		if (0 == toYear) {
-			// TODO find the latest year available
-			// toYear_ = ...;
+			// Find the latest year available
+			if (null == minMax) {
+				minMax = getMinMaxDatesForCountryIndicators(countryCode, indicatorsList, sourcesList);
+			}
+			toYear_ = minMax.get("MAX");
 		}
 
 		final Map<Integer, List<Object[]>> result = new HashMap<>();
@@ -208,6 +269,56 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 				yearResult.add(queryResult);
 			}
 			result.put(year, yearResult);
+		}
+		return result;
+	}
+
+	@Override
+	public Map<String, Integer> getMinMaxDatesForCountryIndicators(final String countryCode, final String[] indicatorsList, final String[] sourcesList) {
+		String query_ = "SELECT MIN(i.start), MAX(i.start) from Indicator i WHERE i.entity.type.code = :isCountry AND i.entity.code = :countryCode AND i.periodicity = :periodicity AND (";
+		for (int i = 0; i < indicatorsList.length; i++) {
+			query_ += "(i.source.code = :sourceCode_" + i + " AND i.type.code = :code_" + i + ")";
+			if (i < (indicatorsList.length - 1)) {
+				query_ += " OR ";
+			}
+		}
+		query_ += ")";
+		logger.debug("Min-max dates query : " + query_);
+
+		final Query query = em.createQuery(query_);
+
+		query.setParameter("isCountry", "country");
+		query.setParameter("countryCode", countryCode);
+		query.setParameter("periodicity", Periodicity.YEAR);
+
+		for (int i = 0; i < indicatorsList.length; i++) {
+			final String indicator = indicatorsList[i];
+			final String sourceCode = sourcesList[i];
+			query.setParameter("code_" + i, indicator);
+			query.setParameter("sourceCode_" + i, sourceCode);
+		}
+		Object[] queryResult = null;
+		queryResult = (Object[]) query.getSingleResult();
+
+		final Map<String, Integer> result = new HashMap<String, Integer>();
+
+		final Timestamp min = (Timestamp) queryResult[0];
+		final Timestamp max = (Timestamp) queryResult[1];
+
+		final Calendar minCal = new GregorianCalendar();
+		final Calendar maxCal = new GregorianCalendar();
+
+		if (null != min) {
+			minCal.setTimeInMillis(min.getTime());
+			result.put("MIN", minCal.get(Calendar.YEAR));
+		} else {
+			result.put("MIN", 0);
+		}
+		if (null != max) {
+			maxCal.setTimeInMillis(max.getTime());
+			result.put("MAX", maxCal.get(Calendar.YEAR));
+		} else {
+			result.put("MAX", 0);
 		}
 		return result;
 	}

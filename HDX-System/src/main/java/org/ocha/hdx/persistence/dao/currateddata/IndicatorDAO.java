@@ -47,7 +47,7 @@ public interface IndicatorDAO {
 	public List<Indicator> listIndicatorsByYearAndSourceAndIndicatorTypes(final int year, final String sourceCode, final List<String> indicatorTypeCodes);
 
 	/**
-	 * Indicators for the country overview.
+	 * Indicators for the country - overview.
 	 * 
 	 * @param countryCode
 	 * @param languageCode
@@ -55,16 +55,59 @@ public interface IndicatorDAO {
 	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
 
 	/**
-	 * Indicators for the country crisis history (for a given year).
+	 * Indicators for the country - crisis history.
 	 * 
 	 * @param countryCode
-	 * @param year
+	 * @param fromYear
+	 * @param toYear
 	 * @param languageCode
 	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
 	 */
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(String countryCode, int fromYear, int toYear, String languageCode);
 
+	/**
+	 * Indicators for the country - vulnerability.
+	 * 
+	 * @param countryCode
+	 * @param fromYear
+	 * @param toYear
+	 * @param languageCode
+	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
+	 */
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(String countryCode, int fromYear, int toYear, String languageCode);
+
+	/**
+	 * Indicators for the country - socio-economic.
+	 * 
+	 * @param countryCode
+	 * @param fromYear
+	 * @param toYear
+	 * @param languageCode
+	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
+	 */
+	public Map<Integer, List<Object[]>> listIndicatorsForCountrySocioEconomic(String countryCode, int fromYear, int toYear, String languageCode);
+
+	/**
+	 * Indicators for the country - capacity.
+	 * 
+	 * @param countryCode
+	 * @param fromYear
+	 * @param toYear
+	 * @param languageCode
+	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
+	 */
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity(String countryCode, int fromYear, int toYear, String languageCode);
+
+	/**
+	 * Indicators for the country - other.
+	 * 
+	 * @param countryCode
+	 * @param fromYear
+	 * @param toYear
+	 * @param languageCode
+	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
+	 */
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(String countryCode, int fromYear, int toYear, String languageCode);
 
 	/**
 	 * very likely to be used by the unit tests only
@@ -95,5 +138,19 @@ public interface IndicatorDAO {
 	 * @return the list of sources for which there is ar least one matching record in Indicators (IndicatorType)
 	 */
 	public List<String> getExistingSourcesCodesForIndicatorType(final String indicatorTypeCode);
+
+	/**
+	 * Get the min and max dates for a given country, and a set of indicator-source couples.
+	 * 
+	 * @param countryCode
+	 *            The country code
+	 * @param indicatorsList
+	 *            The list of indicators
+	 * @param sourcesList
+	 *            The list of sources
+	 * @return A map with ("MIN" => the earliest date available for this country and at least one of the indicator-source couples) and ("MAX" => the latest date available for this country and at least one of
+	 *         the indicator-source couples)
+	 */
+	public Map<String, Integer> getMinMaxDatesForCountryIndicators(String countryCode, String[] indicatorsList, String[] sourcesList);
 
 }

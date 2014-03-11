@@ -38,8 +38,8 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/entityTypes') }"><a href="${ctx}/admin/curated/entityTypes/">Entity types</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/entities') }"><a href="${ctx}/admin/curated/entities/">Entities</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/indicatorTypes') }"><a href="${ctx}/admin/curated/indicatorTypes/">Indicator types</a></li>
-                    <li ng-class="{ active: isActive('${ctx}/admin/curated/indicators') }"><a href="${ctx}/admin/curated/indicators/">Indicators</a></li>
-                    <li ng-class="{ active: isActive('${ctx}/admin/curated/units') }"><a href="${ctx}/admin/curated/units/">Units</a></li>
+					<li ng-class="{ active: isActive('${ctx}/admin/curated/indicators') }"><a href="${ctx}/admin/curated/indicators/">Indicators</a></li>
+					<li ng-class="{ active: isActive('${ctx}/admin/curated/units') }"><a href="${ctx}/admin/curated/units/">Units</a></li>
 				</ul></li>
 		</ul>
 		<ul class="nav navbar-nav">
@@ -48,6 +48,12 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 					<li ng-class="{ active: isActive('${ctx}/admin/dictionaries/regions') }"><a href="${ctx}/admin/dictionaries/regions/">Regions</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/dictionaries/sources') }"><a href="${ctx}/admin/dictionaries/sources/">Sources</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/dictionaries/indicatorTypes') }"><a href="${ctx}/admin/dictionaries/indicatorTypes/">Indicator Types</a></li>
+				</ul></li>
+		</ul>
+		<ul class="nav navbar-nav">
+			<li class="dropdown" ng-class="{ active: isActive('${ctx}/admin/reports') }"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li ng-class="{ active: isActive('${ctx}/admin/reports/country') }"><a href="${ctx}/admin/reports/country/">Country</a></li>
 				</ul></li>
 		</ul>
 		<!-- form class="navbar-form navbar-left" role="search">

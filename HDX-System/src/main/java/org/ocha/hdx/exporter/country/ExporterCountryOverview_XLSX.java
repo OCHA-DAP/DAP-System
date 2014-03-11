@@ -11,7 +11,7 @@ import org.ocha.hdx.exporter.Exporter_XLSX;
 import org.ocha.hdx.service.ExporterService;
 
 /**
- * Exporter for a country overview.
+ * Exporter for a country - overview.
  * 
  * @author bmichiels
  * 

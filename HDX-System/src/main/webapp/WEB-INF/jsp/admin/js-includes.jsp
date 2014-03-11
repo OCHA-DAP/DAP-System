@@ -18,12 +18,12 @@
 </script>
 <%
 	if ("true".equals(request.getParameter("i18n"))) {
-%><script src="${ctx}/js/admin/i18n.js"></script>
+%>
 <script src="${ctx}/admin/misc/languages/json?var=data_languages"></script>
 <script>
   appData['languages'] = data_languages;
 </script>
-
+<script src="${ctx}/js/admin/i18n.js"></script>
 <%
 	}
 %>
@@ -54,7 +54,7 @@ if(needs.contains("sources")) {
 <%
 	} // End if(needs.contains("sources")) {
 
-if(needs.contains("roles")) {
+	if(needs.contains("roles")) {
 %>
 <script src="${ctx}/admin/misc/users/roles/json?var=data_roles"></script>
 <script>
@@ -63,11 +63,20 @@ if(needs.contains("roles")) {
 <%
 	} // End if(needs.contains("roles")) {
 
-if(needs.contains("periodicities")) {
+	if(needs.contains("periodicities")) {
 %>
 <script src="${ctx}/admin/curated/indicators/periodicities/json?var=data_periodicities"></script>
 <script>
   appData['periodicities'] = data_periodicities;
+</script>
+<%
+	} // End if(needs.contains("periodicities")) {
+
+	if(needs.contains("languages")) {
+%>
+<script src="${ctx}/admin/misc/languages/json?var=data_languages"></script>
+<script>
+  appData['languages'] = data_languages;
 </script>
 <%
 	} // End if(needs.contains("periodicities")) {
@@ -84,18 +93,18 @@ if(needs.contains("periodicities")) {
 %>
 <script src="${ctx}/admin/curated/indicatorTypes/valueTypes/json?var=data_valueTypes"></script>
 <script>
-    appData['valueTypes'] = data_valueTypes;
+  appData['valueTypes'] = data_valueTypes;
 </script>
 <%
-    } // End if(needs.contains("valueTypes")) {
+	} // End if(needs.contains("valueTypes")) {
     if(needs.contains("units")) {
 %>
 <script src="${ctx}/admin/curated/indicatorTypes/units/json?var=data_units"></script>
 <script>
-    appData['units'] = data_units;
+  appData['units'] = data_units;
 </script>
 <%
-    } // End if(needs.contains("valueTypes")) {
+	} // End if(needs.contains("valueTypes")) {
 		if(needs.contains("indicatorTypes")) {
 %>
 <script src="${ctx}/admin/curated/indicatorTypes/json?var=data_indicatorTypes"></script>

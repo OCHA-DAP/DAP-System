@@ -37,10 +37,12 @@ public interface ExporterService {
 	 * Only the rows with actual data are added in the returned result.
 	 * 
 	 * @param queryData
-	 * @return a map of the rows we can expect in the Crisis history report.
+	 * @return a map of the rows we can expect in the report.
 	 */
 	public Map<String, ReportRow> getCountryCrisisHistoryData(ExporterCountryQueryData queryData);
-
+	public Map<String, ReportRow> getCountrySocioEconomicData(ExporterCountryQueryData queryData);
 	public Map<String, ReportRow> getCountryVulnerabilityData(ExporterCountryQueryData queryData);
+	public Map<String, ReportRow> getCountryCapacityData(ExporterCountryQueryData queryData);
+	public Map<String, ReportRow> getCountryOtherData(ExporterCountryQueryData queryData);
 
 }
