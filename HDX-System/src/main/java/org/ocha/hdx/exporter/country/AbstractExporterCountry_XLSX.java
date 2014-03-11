@@ -78,8 +78,7 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 				final Double value = reportRow.getDoubleValue(year);
 				if (null != value) {
 					createNumCell(row, columnIndex, value);
-				}
-				else {
+				} else {
 					createCell(row, columnIndex, " ");
 				}
 			}
@@ -90,9 +89,11 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		sheet.createFreezePane(2, 1, 2, 1);
 
 		// Auto size the columns
-		// Except Dataset summary which is fixed
+		// Except Indicator ID and Dataset summary which is fixed
 		for (int i = 0; i < (headers.size() + data.keySet().size()); i++) {
-			if (4 == i) {
+			if (0 == i) {
+				sheet.setColumnWidth(i, 3000);
+			} else if (4 == i) {
 				sheet.setColumnWidth(i, 20000);
 			} else {
 				sheet.autoSizeColumn(i);
