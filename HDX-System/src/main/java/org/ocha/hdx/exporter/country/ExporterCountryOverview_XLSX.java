@@ -38,7 +38,7 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 		final XSSFSheet sheet = workbook.createSheet(safeName);
 
 		// Assign the headers to the title row
-		final String[] headers = { "Indicator ID", "Indicator name", "Value", "Last updated", "Source dataset" };
+		final String[] headers = { "Attribute ID", "Attribute name", "Value", /*"Last updated", */"Source dataset" };
 		createHeaderCells(sheet, headers);
 
 		// Fill with the data
@@ -75,11 +75,14 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 					createCell(row, (short) 2, value);
 				}
 
+				/*
 				// "Last updated"
-				createCell(row, (short) 3, element[3].toString());
-
+				final Object object = element[3];
+				createCell(row, (short) 3, object.toString());
+				*/
+				
 				// "Source dataset"
-				createCell(row, (short) 4, element[4].toString());
+				createCell(row, (short) 3, element[4].toString());
 			}
 		}
 
@@ -89,7 +92,9 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 
 		// Auto size the columns, except column C, which has a fixed width
 		for (int i = 0; i < headers.length; i++) {
-			if (2 == i) {
+			if (0 == i) {
+				sheet.setColumnWidth(i, 3000);
+			} else if (2 == i) {
 				sheet.setColumnWidth(i, 5000);
 			} else {
 				sheet.autoSizeColumn(i);
