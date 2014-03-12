@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.ocha.hdx.IntegrationTestSetUpAndTearDown;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -61,7 +62,7 @@ public class ExporterServiceImplTest {
 			final ReportRow reportRowCH070 = countryCrisisHistoryData.get("CH070");
 			Assert.assertEquals("CH070", reportRowCH070.getIndicatorCode());
 			Assert.assertEquals("Number of disasters", reportRowCH070.getIndicatorName());
-			Assert.assertEquals("", reportRowCH070.getDatasetSummary());
+			Assert.assertEquals("", reportRowCH070.getMetadata().get(EntryKey.DATASET_SUMMARY));
 			Assert.assertNull(reportRowCH070.getValue(2005));
 			Assert.assertNull(reportRowCH070.getValue(2006));
 			Assert.assertNull(reportRowCH070.getValue(2007));
@@ -74,7 +75,7 @@ public class ExporterServiceImplTest {
 			final ReportRow reportRowCH080 = countryCrisisHistoryData.get("CH080");
 			Assert.assertEquals("CH080", reportRowCH080.getIndicatorCode());
 			Assert.assertEquals("People killed in disasters", reportRowCH080.getIndicatorName());
-			Assert.assertEquals("Extracted from 1st hand sources", reportRowCH080.getDatasetSummary());
+			Assert.assertEquals("Extracted from 1st hand sources", reportRowCH080.getMetadata().get(EntryKey.DATASET_SUMMARY));
 			Assert.assertNull(reportRowCH080.getValue(2005));
 			Assert.assertNull(reportRowCH080.getValue(2006));
 			Assert.assertNull(reportRowCH080.getValue(2007));
@@ -97,7 +98,7 @@ public class ExporterServiceImplTest {
 		final ReportRow reportRow = data5Years.get("_WPP2012_MORT_F02_CRUDE_DEATH_RATE");
 		Assert.assertEquals("_WPP2012_MORT_F02_CRUDE_DEATH_RATE", reportRow.getIndicatorCode());
 		Assert.assertEquals("Number of disasters", reportRow.getIndicatorName());
-		Assert.assertEquals("Average for 5 years", reportRow.getDatasetSummary());
+		Assert.assertEquals("Average for 5 years", reportRow.getMetadata().get(EntryKey.DATASET_SUMMARY));
 		Assert.assertNull(reportRow.getValue(2005));
 		Assert.assertNull(reportRow.getValue(2006));
 		Assert.assertNull(reportRow.getValue(2007));

@@ -3,6 +3,9 @@ package org.ocha.hdx.exporter.helper;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
+
 public class ReportRow {
 
 	private final String indicatorCode;
@@ -15,17 +18,17 @@ public class ReportRow {
 	/**
 	 * Metadata from AdditionalData
 	 */
-	private final String datasetSummary;
+	private final Map<EntryKey, String> metadata;
 
 	private final Map<Integer, String> valuesForYears;
 
-	public ReportRow(final String indicatorCode, final String indicatorName, final String sourceCode, final String unit, final String datasetSummary) {
+	public ReportRow(final String indicatorCode, final String indicatorName, final String sourceCode, final String unit) {
 		super();
 		this.indicatorCode = indicatorCode;
 		this.indicatorName = indicatorName;
 		this.sourceCode = sourceCode;
 		this.unit = unit;
-		this.datasetSummary = datasetSummary;
+		this.metadata = new HashMap<AdditionalData.EntryKey, String>();
 		valuesForYears = new HashMap<Integer, String>();
 	}
 
@@ -45,16 +48,20 @@ public class ReportRow {
 		return unit;
 	}
 
-	public String getDatasetSummary() {
-		return datasetSummary;
+	public Map<EntryKey, String> getMetadata() {
+		return metadata;
+	}
+
+	public void addMetadata(final EntryKey key, final String value) {
+		metadata.put(key, value);
 	}
 
 	public void addValue(final Integer year, final String value) {
 		valuesForYears.put(year, value);
-		if(minYear > year) {
+		if (minYear > year) {
 			minYear = year;
 		}
-		if(maxYear < year) {
+		if (maxYear < year) {
 			maxYear = year;
 		}
 	}
@@ -64,14 +71,14 @@ public class ReportRow {
 	}
 
 	public Integer getIntegerValue(final Integer year) {
-		if(null == valuesForYears.get(year)) {
+		if (null == valuesForYears.get(year)) {
 			return null;
 		}
 		return Integer.valueOf(valuesForYears.get(year));
 	}
 
 	public Double getDoubleValue(final Integer year) {
-		if(null == valuesForYears.get(year)) {
+		if (null == valuesForYears.get(year)) {
 			return null;
 		}
 		return Double.valueOf(valuesForYears.get(year));

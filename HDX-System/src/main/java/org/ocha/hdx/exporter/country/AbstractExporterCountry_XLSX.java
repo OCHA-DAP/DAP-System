@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_XLSX;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 import org.ocha.hdx.service.ExporterService;
 
 public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<ExporterCountryQueryData> {
@@ -36,6 +37,9 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		headers.add("Source code");
 		headers.add("Units");
 		headers.add("Dataset summary");
+		headers.add("More Info");
+		headers.add("Terms of Use");
+		headers.add("HDX Methodology");
 
 		// Retrieve years from the data, as specifying 0 for fromYear/toYear in the queryData allows for earliest/latest data available.
 		int fromYear = Integer.MAX_VALUE;
@@ -72,9 +76,15 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 			createCell(row, (short) 1, reportRow.getIndicatorName());
 			createCell(row, (short) 2, reportRow.getSourceCode());
 			createCell(row, (short) 3, reportRow.getUnit());
-			createDatasetSummaryCell(reportRow, (short) 4, row);
+
+			// createDatasetSummaryCell(reportRow, (short) 4, row);
+			createCell(row, (short) 4, reportRow.getMetadata().get(EntryKey.DATASET_SUMMARY));
+			createCell(row, (short) 5, reportRow.getMetadata().get(EntryKey.MORE_INFO));
+			createCell(row, (short) 6, reportRow.getMetadata().get(EntryKey.TERMS_OF_USE));
+			createCell(row, (short) 7, reportRow.getMetadata().get(EntryKey.METHODOLOGY));
+
 			for (int year = fromYear; year <= toYear; year++) {
-				final short columnIndex = (short) ((5 + year) - fromYear);
+				final short columnIndex = (short) ((8 + year) - fromYear);
 				final Double value = reportRow.getDoubleValue(year);
 				if (null != value) {
 					createNumCell(row, columnIndex, value);
@@ -104,34 +114,32 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 
 	}
 
-	private static void createDatasetSummaryCell(final ReportRow reportRow, final short position, final XSSFRow row) {
-		final String datasetSummary = reportRow.getDatasetSummary();
-		/*
-		if ((null != datasetSummary) && (50 < datasetSummary.length())) {
-			final XSSFCell cell = createCell(row, position, datasetSummary.substring(0, 50) + " ...");
-			final XSSFCreationHelper creationHelper = row.getSheet().getWorkbook().getCreationHelper();
-			final Drawing drawing = row.getSheet().createDrawingPatriarch();
-
-			// When the comment box is visible, have it show in a 1x3 space
-			final ClientAnchor anchor = creationHelper.createClientAnchor();
-			anchor.setCol1(cell.getColumnIndex());
-			anchor.setCol2(cell.getColumnIndex() + 1);
-			anchor.setRow1(row.getRowNum());
-			anchor.setRow2(row.getRowNum() + 3);
-
-			// Create the comment and set the text+author
-			final Comment comment = drawing.createCellComment(anchor);
-			final RichTextString str = creationHelper.createRichTextString(datasetSummary);
-			comment.setString(str);
-
-			// Assign the comment to the cell
-			cell.setCellComment(comment);
-		} else {
-		*/
-		createCell(row, position, datasetSummary);
-		/*
-		}
-		*/
-	}
+	// private static void createDatasetSummaryCell(final ReportRow reportRow, final short position, final XSSFRow row) {
+	// final String datasetSummary = reportRow.getDatasetSummary();
+	//
+	// if ((null != datasetSummary) && (50 < datasetSummary.length())) {
+	// final XSSFCell cell = createCell(row, position, datasetSummary.substring(0, 50) + " ...");
+	// final XSSFCreationHelper creationHelper = row.getSheet().getWorkbook().getCreationHelper();
+	// final Drawing drawing = row.getSheet().createDrawingPatriarch();
+	//
+	// // When the comment box is visible, have it show in a 1x3 space
+	// final ClientAnchor anchor = creationHelper.createClientAnchor();
+	// anchor.setCol1(cell.getColumnIndex());
+	// anchor.setCol2(cell.getColumnIndex() + 1);
+	// anchor.setRow1(row.getRowNum());
+	// anchor.setRow2(row.getRowNum() + 3);
+	//
+	// // Create the comment and set the text+author
+	// final Comment comment = drawing.createCellComment(anchor);
+	// final RichTextString str = creationHelper.createRichTextString(datasetSummary);
+	// comment.setString(str);
+	//
+	// // Assign the comment to the cell cell.setCellComment(comment); } else {
+	//
+	// createCell(row, position, datasetSummary);
+	//
+	// }
+	//
+	// }
 
 }

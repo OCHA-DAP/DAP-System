@@ -113,9 +113,24 @@ public class ExporterServiceImpl implements ExporterService {
 						// add a value
 					} else {
 						final String sourceCode = record[5].toString();
-						final AdditionalData additionalData = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.DATASET_SUMMARY);
-						final ReportRow row = new ReportRow(indicatorTypeCode, record[1].toString(), sourceCode, record[2].toString(), additionalData != null ? additionalData.getEntryValue()
-								.getDefaultValue() : "");
+						final ReportRow row = new ReportRow(indicatorTypeCode, record[1].toString(), sourceCode, record[2].toString());
+
+						final AdditionalData datasetSummary = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.DATASET_SUMMARY);
+						final String datasetSummaryAsString = datasetSummary != null ? datasetSummary.getEntryValue().getDefaultValue() : "";
+						row.addMetadata(EntryKey.DATASET_SUMMARY, datasetSummaryAsString);
+
+						final AdditionalData methodology = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.METHODOLOGY);
+						final String methodologyAsString = methodology != null ? methodology.getEntryValue().getDefaultValue() : "";
+						row.addMetadata(EntryKey.METHODOLOGY, methodologyAsString);
+
+						final AdditionalData moreInfo = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.MORE_INFO);
+						final String moreInfoAsString = moreInfo != null ? moreInfo.getEntryValue().getDefaultValue() : "";
+						row.addMetadata(EntryKey.MORE_INFO, moreInfoAsString);
+
+						final AdditionalData termsOfUse = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.TERMS_OF_USE);
+						final String termsOfUseAsString = termsOfUse != null ? termsOfUse.getEntryValue().getDefaultValue() : "";
+						row.addMetadata(EntryKey.MORE_INFO, termsOfUseAsString);
+
 						row.addValue(key, record[3].toString());
 						reportRows.put(indicatorTypeCode, row);
 					}
