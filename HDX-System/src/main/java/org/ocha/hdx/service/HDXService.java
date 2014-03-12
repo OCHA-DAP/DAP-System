@@ -15,6 +15,8 @@ import org.ocha.hdx.security.exception.InsufficientCredentialsException;
 
 public interface HDXService {
 
+	public boolean addResourceToCKANDataset(final String packageId, final String resourceUrl);
+
 	public void checkForNewCKANDatasets();
 
 	/**
@@ -31,7 +33,7 @@ public interface HDXService {
 	public CKANResource getCKANResource(final String id, final String revision_id);
 
 	public void flagDatasetAsToBeCurated(final String datasetName, final Type type);
-	
+
 	public void flagDatasetAsIgnored(final String datasetName);
 
 	/**
@@ -44,8 +46,7 @@ public interface HDXService {
 
 	/**
 	 * 
-	 * evaluate the file associated to the given id / revision and flags the record as {@link WorkflowState#TECH_EVALUTATION_SUCCESS} or
-	 * {@link WorkflowState#TECH_EVALUTATION_FAIL}
+	 * evaluate the file associated to the given id / revision and flags the record as {@link WorkflowState#TECH_EVALUTATION_SUCCESS} or {@link WorkflowState#TECH_EVALUTATION_FAIL}
 	 * 
 	 * The record must be in a Workflow State allowing evaluation
 	 */
@@ -53,8 +54,8 @@ public interface HDXService {
 
 	/**
 	 * 
-	 * Performs the required transformation and import data from the file associated to the given id / revision and flags the record as
-	 * {@link WorkflowState#IMPORT_SUCCESS} or {@link WorkflowState#IMPORT_FAIL}
+	 * Performs the required transformation and import data from the file associated to the given id / revision and flags the record as {@link WorkflowState#IMPORT_SUCCESS} or
+	 * {@link WorkflowState#IMPORT_FAIL}
 	 * 
 	 * The record must be in a Workflow State allowing transformationAndImport
 	 */
@@ -80,11 +81,10 @@ public interface HDXService {
 
 	public DatasetV3WrapperDTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey);
 
-	
 	/*
 	 * Users management.
 	 */
-	
+
 	public boolean authenticate(final String id, final String password) throws AuthenticationException;
 
 	public User getUserById(String userId);

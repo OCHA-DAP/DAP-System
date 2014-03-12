@@ -20,6 +20,7 @@ import org.ocha.hdx.dto.apiv3.DatasetListV3DTO;
 import org.ocha.hdx.dto.apiv3.DatasetV3DTO;
 import org.ocha.hdx.dto.apiv3.DatasetV3DTO.Resource;
 import org.ocha.hdx.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.hdx.dto.apiv3.ResourceCreateQuery;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.UserDAO;
 import org.ocha.hdx.persistence.dao.ckan.CKANDatasetDAO;
@@ -42,15 +43,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.gson.JsonObject;
+
 public class HDXServiceImpl implements HDXService {
 
 	private static final Logger log = LoggerFactory.getLogger(HDXServiceImpl.class);
 
 	private static String DATASET_LIST_V3_API_PATTERN = "http://%s/api/3/action/package_list";
 	private static String DATASET_V3_API_PATTERN = "http://%s/api/3/action/package_show?id=";
+	private static String RESOURCE_CREATE_V3_API_PATTERN = "http://%s/api/3/action/resource_create";
 
 	private final String urlBaseForDatasetsList;
 	private final String urlBaseForDatasetContentV3;
+	private final String urlBaseForResourceCreation;
 	private final String technicalAPIKey;
 
 	private final File stagingDirectory;
@@ -64,6 +69,7 @@ public class HDXServiceImpl implements HDXService {
 
 		this.urlBaseForDatasetsList = String.format(DATASET_LIST_V3_API_PATTERN, host);
 		this.urlBaseForDatasetContentV3 = String.format(DATASET_V3_API_PATTERN, host);
+		this.urlBaseForResourceCreation = String.format(RESOURCE_CREATE_V3_API_PATTERN, host);
 		this.technicalAPIKey = technicalAPIKey;
 	}
 
@@ -97,6 +103,18 @@ public class HDXServiceImpl implements HDXService {
 	private AdditionalDataDao additionalDataDao;
 
 	@Override
+	public boolean addResourceToCKANDataset(final String packageId, final String resourceUrl) {
+		final ResourceCreateQuery resourceCreateQuery = new ResourceCreateQuery();
+		resourceCreateQuery.setPackage_id(packageId);
+		resourceCreateQuery.setUrl(resourceUrl);
+		final String result = this.performHttpPOST(this.urlBaseForResourceCreation, technicalAPIKey, GSONBuilderWrapper.getGSON().toJson(resourceCreateQuery));
+		final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
+
+		return res.get("success").getAsBoolean();
+
+	}
+
+	@Override
 	public void checkForNewCKANDatasets() {
 		final List<DatasetV3DTO> datasetV3DTOList = this.getDatasetV3DTOsFromQuery(this.technicalAPIKey);
 		this.datasetDAO.importDetectedDatasetsIfNotPresent(datasetV3DTOList);
@@ -124,8 +142,8 @@ public class HDXServiceImpl implements HDXService {
 							this.workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
 						}
 
-						this.resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName,
-								dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
+						this.resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName, dataset.getResult()
+								.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
 					}
 				}
 			}
@@ -173,7 +191,7 @@ public class HDXServiceImpl implements HDXService {
 		 * FIXME , the configuration is HARDCODED because there's no UI for this yet
 		 */
 		else {
-			final ResourceConfiguration configuration	= this.resourceConfigurationDao.getResourceConfigurationById(1);
+			final ResourceConfiguration configuration = this.resourceConfigurationDao.getResourceConfigurationById(1);
 			this.workflowService.flagCKANResourceAsConfigured(id, revision_id, configuration);
 		}
 
@@ -201,8 +219,8 @@ public class HDXServiceImpl implements HDXService {
 
 		final CKANDataset.Type type = this.getTypeForFile(id, revision_id);
 
-		final ResourceConfiguration config	= this.getResourceConfigFromResourceIdAndRevisionId(id, revision_id);
-		final ValidationReport report		= this.getValidationReportFromResourceIdAndRevisionId(id, revision_id);
+		final ResourceConfiguration config = this.getResourceConfigFromResourceIdAndRevisionId(id, revision_id);
+		final ValidationReport report = this.getValidationReportFromResourceIdAndRevisionId(id, revision_id);
 
 		final boolean result = this.fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type, id, revision_id, config, report);
 
@@ -215,7 +233,7 @@ public class HDXServiceImpl implements HDXService {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return true if the file was successfully downloaded
 	 */
 	private boolean performDownload(final URL url, final File destinationFile) throws IOException {
@@ -261,25 +279,25 @@ public class HDXServiceImpl implements HDXService {
 	@Transactional
 	private ResourceConfiguration getResourceConfigFromResourceIdAndRevisionId(final String id, final String revision_id) {
 		final CKANResource resource = this.resourceDAO.getCKANResource(id, revision_id);
-		final ResourceConfiguration config	= resource.getResourceConfiguration();
-		if ( config != null &&
-				(config.getGeneralConfigEntries() != null || config.getIndicatorConfigEntries() != null ) ) {
+		final ResourceConfiguration config = resource.getResourceConfiguration();
+		if (config != null && (config.getGeneralConfigEntries() != null || config.getIndicatorConfigEntries() != null)) {
 			return config;
 		} else {
 			return null;
 		}
 	}
+
 	private ValidationReport getValidationReportFromResourceIdAndRevisionId(final String id, final String revision_id) {
 		final CKANResource resource = this.resourceDAO.getCKANResource(id, revision_id);
 		return resource.getValidationReport();
 	}
 
 	/**
-	 *
+	 * 
 	 * The url might change, while ids cannot, so it is best to get the url from the api (just in time), and never store it
-	 *
+	 * 
 	 * Up to now, this requires a very inefficient browsing of the whole tree of datasets and resources
-	 *
+	 * 
 	 * @throws MalformedURLException
 	 */
 	private URL getResourceURLFromAPI(final String id, final String revision_id) throws MalformedURLException {
@@ -405,7 +423,7 @@ public class HDXServiceImpl implements HDXService {
 
 	/**
 	 * In order to evaluate a file, we must know its type (to use the appropriate evaluator The Type is defined on the Dataset level)
-	 *
+	 * 
 	 */
 	private Type getTypeForFile(final String id, final String revision_id) {
 		final CKANResource ckanResource = this.resourceDAO.getCKANResource(id, revision_id);
@@ -487,4 +505,5 @@ public class HDXServiceImpl implements HDXService {
 	public void updateTranslation(final long textId, final String languageCode, final String translationValue) throws Exception {
 		this.textDao.updateTranslation(textId, languageCode, translationValue);
 	}
+
 }

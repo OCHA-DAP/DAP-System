@@ -144,6 +144,16 @@ public class HDXServiceImplTest {
 		Assert.assertTrue(ckanResourceDAO.listCKANResources().size() > 0);
 	}
 
+	@Test
+	@Ignore
+	public void testAddResourceToCKANDataset() {
+		// hdxService.checkForNewCKANDatasets();
+		// final String firstDatasetName = ckanDatasetDAO.listCKANDatasets().get(0).getName();
+		// System.out.println("Will now try to add a resource to the dataset : " + firstDatasetName);
+		final boolean result = hdxService.addResourceToCKANDataset("accuweather_url", "http://dummyUrl");
+		Assert.assertTrue(result);
+	}
+
 	@Ignore
 	@Test
 	public void testStandardWorkflow() throws IOException {
