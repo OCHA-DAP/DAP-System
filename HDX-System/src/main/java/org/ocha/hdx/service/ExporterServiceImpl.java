@@ -129,7 +129,7 @@ public class ExporterServiceImpl implements ExporterService {
 
 						final AdditionalData termsOfUse = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.TERMS_OF_USE);
 						final String termsOfUseAsString = termsOfUse != null ? termsOfUse.getEntryValue().getDefaultValue() : "";
-						row.addMetadata(EntryKey.MORE_INFO, termsOfUseAsString);
+						row.addMetadata(EntryKey.TERMS_OF_USE, termsOfUseAsString);
 
 						row.addValue(key, record[3].toString());
 						reportRows.put(indicatorTypeCode, row);
