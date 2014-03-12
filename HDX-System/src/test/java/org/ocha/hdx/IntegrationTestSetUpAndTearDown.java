@@ -224,12 +224,17 @@ public class IntegrationTestSetUpAndTearDown {
 		final Text extracted = textDAO.createText("Extracted from 1st hand sources");
 		additionalDataDao.createAdditionalData(indicatorTypeCH080, sourceEmdat, EntryKey.DATASET_SUMMARY, extracted);
 
+		final Text moreInfo = textDAO.createText("http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&SeriesId=589");
+		additionalDataDao.createAdditionalData(indicatorTypeCH080, sourceEmdat, EntryKey.MORE_INFO, moreInfo);
+
 	}
 
 	public void tearDownDataForCountryCrisisHistory() {
-		final AdditionalData additionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey("CH080", "emdat",
-				EntryKey.DATASET_SUMMARY);
-		additionalDataDao.deleteAdditionalData(additionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey.getId());
+		final AdditionalData datasetSummary = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey("CH080", "emdat", EntryKey.DATASET_SUMMARY);
+		additionalDataDao.deleteAdditionalData(datasetSummary.getId());
+
+		final AdditionalData moreInfo = additionalDataDao.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey("CH080", "emdat", EntryKey.MORE_INFO);
+		additionalDataDao.deleteAdditionalData(moreInfo.getId());
 
 		indicatorDAO.deleteAllIndicators();
 

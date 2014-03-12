@@ -76,6 +76,7 @@ public class ExporterServiceImplTest {
 			Assert.assertEquals("CH080", reportRowCH080.getIndicatorCode());
 			Assert.assertEquals("People killed in disasters", reportRowCH080.getIndicatorName());
 			Assert.assertEquals("Extracted from 1st hand sources", reportRowCH080.getMetadata().get(EntryKey.DATASET_SUMMARY));
+			Assert.assertEquals("http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&SeriesId=589", reportRowCH080.getMetadata().get(EntryKey.MORE_INFO));
 			Assert.assertNull(reportRowCH080.getValue(2005));
 			Assert.assertNull(reportRowCH080.getValue(2006));
 			Assert.assertNull(reportRowCH080.getValue(2007));
