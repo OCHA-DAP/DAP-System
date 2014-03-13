@@ -10,12 +10,21 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.ocha.hdx.dto.apiv3.DatasetListV3DTO;
 import org.ocha.hdx.dto.apiv3.DatasetV3DTO;
 import org.ocha.hdx.dto.apiv3.DatasetV3DTO.Resource;
@@ -103,15 +112,25 @@ public class HDXServiceImpl implements HDXService {
 	private AdditionalDataDao additionalDataDao;
 
 	@Override
-	public boolean addResourceToCKANDataset(final String packageId, final String resourceUrl) {
+	public boolean addResourceToCKANDataset(final String packageId, final String resourceUrl, final String name) {
 		final ResourceCreateQuery resourceCreateQuery = new ResourceCreateQuery();
 		resourceCreateQuery.setPackage_id(packageId);
 		resourceCreateQuery.setUrl(resourceUrl);
+		resourceCreateQuery.setName(name);
 		final String result = this.performHttpPOST(this.urlBaseForResourceCreation, technicalAPIKey, GSONBuilderWrapper.getGSON().toJson(resourceCreateQuery));
 		final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
 
+		log.debug(res.toString());
 		return res.get("success").getAsBoolean();
 
+	}
+
+	@Override
+	public boolean addResourceToCKANDataset(final String packageId, final File file) {
+		final String result = this.performHttpPOSTMultipart(this.urlBaseForResourceCreation, technicalAPIKey, packageId, file);
+		final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
+
+		return res.get("success").getAsBoolean();
 	}
 
 	@Override
@@ -394,6 +413,7 @@ public class HDXServiceImpl implements HDXService {
 	}
 
 	private String performHttpPOST(final String url, final String apiKey, final String query) {
+		log.debug(String.format("About to post on : %s", url));
 		String responseBody = null;
 		final DefaultHttpClient httpclient = new DefaultHttpClient();
 
@@ -416,6 +436,44 @@ public class HDXServiceImpl implements HDXService {
 			final ResponseHandler<String> responseHandler = new BasicResponseHandler();
 			responseBody = httpclient.execute(httpPost, responseHandler);
 		} catch (final Exception e) {
+			log.debug(e.toString(), e);
+		}
+		return responseBody;
+	}
+
+	private String performHttpPOSTMultipart(final String url, final String apiKey, final String packageId, final File file) {
+		String responseBody = null;
+		final CloseableHttpClient httpclient = HttpClients.createDefault();
+
+		final HttpPost httpPost = new HttpPost(url);
+		try {
+
+			// se.setContentType("text/xml");
+
+			// This does not work yet. CKAN complains if boundary is not set
+			// but the content-Type should be exactly multipart/form-data !!
+			httpPost.addHeader("Content-Type", "multipart/form-data");
+			// httpPost.addHeader("Content-Type", "multipart/form-data; boundary=nwxUuePw4tNxnJqfcLQem2PLZJFBQS");
+			httpPost.addHeader("accept", "application/json");
+
+			if (apiKey != null) {
+				httpPost.addHeader("X-CKAN-API-Key", apiKey);
+			}
+
+			final FileBody bin = new FileBody(file);
+			final StringBody package_id = new StringBody(packageId, ContentType.TEXT_PLAIN);
+
+			final HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("upload", bin).addPart("package_id", package_id).build();
+			// final HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("package_id", package_id).build();
+
+			httpPost.setEntity(reqEntity);
+
+			System.out.println("executing request " + httpPost.getRequestLine());
+			final CloseableHttpResponse response = httpclient.execute(httpPost);
+			final HttpEntity resEntity = response.getEntity();
+			responseBody = EntityUtils.toString(resEntity);
+		} catch (final Exception e) {
+			e.printStackTrace();
 			log.debug(e.toString(), e);
 		}
 		return responseBody;

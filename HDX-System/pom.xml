@@ -183,7 +183,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.1.1</version>
+			<version>4.3</version>
 			<exclusions>
 				<exclusion>
 					<!-- Already included in poi-ooxml (see below) -->
@@ -191,6 +191,17 @@
 					<groupId>commons-codec</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.3</version>
 		</dependency>
 
 		<dependency>

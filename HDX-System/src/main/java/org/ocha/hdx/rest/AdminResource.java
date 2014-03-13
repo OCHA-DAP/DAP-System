@@ -45,6 +45,8 @@ import org.ocha.hdx.rest.helper.DisplayRegionDictionaries;
 import org.ocha.hdx.rest.helper.DisplaySourceDictionaries;
 import org.ocha.hdx.service.CuratedDataService;
 import org.ocha.hdx.service.HDXService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -59,6 +61,8 @@ import com.google.visualization.datasource.base.TypeMismatchException;
 @Produces(MediaType.TEXT_HTML)
 @Component
 public class AdminResource {
+
+	private static Logger logger = LoggerFactory.getLogger(AdminResource.class);
 
 	@Autowired
 	private HDXService hdxService;
@@ -99,8 +103,8 @@ public class AdminResource {
 	@Path("/misc/users/roles/json")
 	public String getUserRoles(@QueryParam("var") final String var) throws TypeMismatchException {
 
-		String result = ""; 
-		
+		String result = "";
+
 		final List<String> roles = hdxService.listRoles();
 		final JsonArray jsonArray = new JsonArray();
 
@@ -111,7 +115,7 @@ public class AdminResource {
 			element.addProperty("text", role);
 			jsonArray.add(element);
 		}
-		if((null != var) && !"".equals(var)) {
+		if ((null != var) && !"".equals(var)) {
 			result = "var " + var + " = ";
 		}
 		return result + jsonArray.toString();
@@ -156,7 +160,7 @@ public class AdminResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/misc/languages/json")
 	public String getLanguages(@QueryParam("var") final String var) throws TypeMismatchException {
-		
+
 		String result = "";
 
 		final List<Language> listLanguages = hdxService.listLanguages();
@@ -169,7 +173,7 @@ public class AdminResource {
 			element.addProperty("native_name", language.getNativeName());
 			jsonArray.add(element);
 		}
-		if((null != var) && !"".equals(var)) {
+		if ((null != var) && !"".equals(var)) {
 			result = "var " + var + " = ";
 		}
 		return result + jsonArray.toString();
@@ -231,8 +235,8 @@ public class AdminResource {
 		List<Translation> translations = null;
 
 		// Could do with Class.forName and annotations to know how to use identifier, or interface also...
-        final Long id = Long.valueOf(identifier);
-        switch (resource) {
+		final Long id = Long.valueOf(identifier);
+		switch (resource) {
 		case "source": {
 			final Source theResource = curatedDataService.getSource(id);
 			translations = theResource.getName().getTranslations();
@@ -249,25 +253,21 @@ public class AdminResource {
 		}
 			break;
 		/*
-		case "indicator": {
-			final Indicator theResource = curatedDataService.getIndicator(id);
-			translations = theResource.getName().getTranslations();
-		}
-			break;
-		*/
+		 * case "indicator": { final Indicator theResource = curatedDataService.getIndicator(id); translations = theResource.getName().getTranslations(); } break;
+		 */
 		case "indicatorType": {
 			final IndicatorType theResource = curatedDataService.getIndicatorType(id);
 			translations = theResource.getName().getTranslations();
 		}
 			break;
-        case "unit":
-            final Unit unit = curatedDataService.getUnit(id);
-            translations = unit.getName().getTranslations();
+		case "unit":
+			final Unit unit = curatedDataService.getUnit(id);
+			translations = unit.getName().getTranslations();
 		default:
 			break;
 		}
 
-        final JsonArray jsonTranslations = translationsToJson(translations);
+		final JsonArray jsonTranslations = translationsToJson(translations);
 		return jsonTranslations.toString();
 	}
 
@@ -384,7 +384,7 @@ public class AdminResource {
 	public String getEntityTypes(@QueryParam("var") final String var) throws TypeMismatchException {
 
 		String result = "";
-		
+
 		final List<EntityType> listEntityTypes = curatedDataService.listEntityTypes();
 		final JsonArray jsonArray = new JsonArray();
 
@@ -396,11 +396,11 @@ public class AdminResource {
 			jsonEntityType.addProperty("name", entityType.getName().getDefaultValue());
 			jsonEntityType.addProperty("text_id", entityType.getName().getId());
 			final List<Translation> translations = entityType.getName().getTranslations();
-            final JsonArray jsonTranslations = translationsToJson(translations);
+			final JsonArray jsonTranslations = translationsToJson(translations);
 			jsonEntityType.add("translations", jsonTranslations);
 			jsonArray.add(jsonEntityType);
 		}
-		if((null != var) && !"".equals(var)) {
+		if ((null != var) && !"".equals(var)) {
 			result = "var " + var + " = ";
 		}
 		return result + jsonArray.toString();
@@ -427,86 +427,81 @@ public class AdminResource {
 		return Response.ok().build();
 	}
 
-    /*
-     * Curated / units management
-     */
-    @GET
-    @Path("/curated/units/")
-    public Response displayUnitsList() {
-        return Response.ok(new Viewable("/admin/units")).build();
-    }
+	/*
+	 * Curated / units management
+	 */
+	@GET
+	@Path("/curated/units/")
+	public Response displayUnitsList() {
+		return Response.ok(new Viewable("/admin/units")).build();
+	}
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/curated/units/json")
-    public String getUnits(@QueryParam("var") final String var) {
-        String result = "";
-        if((null != var) && !"".equals(var)) {
-            result = "var " + var + " = ";
-        }
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/curated/units/json")
+	public String getUnits(@QueryParam("var") final String var) {
+		String result = "";
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
 
-        final List<Unit> list = curatedDataService.listUnits();
-        final JsonArray jsonArray = new JsonArray();
-        for (final Unit unit: list){
-            final JsonObject json = new JsonObject();
-            json.addProperty("id", unit.getId());
-            json.addProperty("code", unit.getCode());
-            json.addProperty("name", unit.getName().getDefaultValue());
-            json.addProperty("text_id", unit.getName().getId());
-            final List<Translation> translations = unit.getName().getTranslations();
-            final JsonArray jsonTranslations = translationsToJson(translations);
-            json.add("translations", jsonTranslations);
-            jsonArray.add(json);
-        }
-        result = result + jsonArray.toString();
-        return result;
-    }
+		final List<Unit> list = curatedDataService.listUnits();
+		final JsonArray jsonArray = new JsonArray();
+		for (final Unit unit : list) {
+			final JsonObject json = new JsonObject();
+			json.addProperty("id", unit.getId());
+			json.addProperty("code", unit.getCode());
+			json.addProperty("name", unit.getName().getDefaultValue());
+			json.addProperty("text_id", unit.getName().getId());
+			final List<Translation> translations = unit.getName().getTranslations();
+			final JsonArray jsonTranslations = translationsToJson(translations);
+			json.add("translations", jsonTranslations);
+			jsonArray.add(json);
+		}
+		result = result + jsonArray.toString();
+		return result;
+	}
 
-    @POST
-    @Path("/curated/units/submitCreate")
-    public Response createUnit(@FormParam("code") final String code, @FormParam("name") final String name) {
-        curatedDataService.createUnit(code, name);
-        return Response.ok().build();
-    }
+	@POST
+	@Path("/curated/units/submitCreate")
+	public Response createUnit(@FormParam("code") final String code, @FormParam("name") final String name) {
+		curatedDataService.createUnit(code, name);
+		return Response.ok().build();
+	}
 
-    @POST
-    @Path("/curated/units/submitDelete")
-    public Response deleteUnit(@FormParam("id") final long id, @Context final UriInfo uriInfo) {
-        curatedDataService.deleteUnit(id);
+	@POST
+	@Path("/curated/units/submitDelete")
+	public Response deleteUnit(@FormParam("id") final long id, @Context final UriInfo uriInfo) {
+		curatedDataService.deleteUnit(id);
 
-        final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/units/").build();
-        return Response.seeOther(newURI).build();
-    }
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/units/").build();
+		return Response.seeOther(newURI).build();
+	}
 
-    @POST
-    @Path("/curated/units/submitUpdate")
-    public Response updateUnit(@FormParam("id") final long id, @FormParam("newName") final String newName, @Context final UriInfo uriInfo) {
-        curatedDataService.updateUnit(id, newName);
+	@POST
+	@Path("/curated/units/submitUpdate")
+	public Response updateUnit(@FormParam("id") final long id, @FormParam("newName") final String newName, @Context final UriInfo uriInfo) {
+		curatedDataService.updateUnit(id, newName);
 
-        final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/units/").build();
-        return Response.seeOther(newURI).build();
-    }
-    /*
-     * =END= Curated / units management
-     */
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/units/").build();
+		return Response.seeOther(newURI).build();
+	}
 
-    /*
+	/*
+	 * =END= Curated / units management
+	 */
+
+	/*
 	 * Curated / entities management
 	 */
 	@GET
 	@SuppressWarnings("static-method")
 	@Path("/curated/entities/")
-	public Response displayEntitiesList(/*@QueryParam("howMuch") final String howMuch*/) {
+	public Response displayEntitiesList(/* @QueryParam("howMuch") final String howMuch */) {
 		/*
-		String _howMuch = null;
-		if((null == howMuch) || "".equals(howMuch)) {
-			_howMuch = "10";
-		}
-		else {
-			_howMuch = howMuch;
-		}
-		return Response.ok(new Viewable("/admin/entities?howMuch=" + _howMuch)).build();
-		*/
+		 * String _howMuch = null; if((null == howMuch) || "".equals(howMuch)) { _howMuch = "10"; } else { _howMuch = howMuch; } return Response.ok(new Viewable("/admin/entities?howMuch=" +
+		 * _howMuch)).build();
+		 */
 		return Response.ok(new Viewable("/admin/entities")).build();
 	}
 
@@ -514,9 +509,9 @@ public class AdminResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("curated/entities/json")
 	public String getEntities(@QueryParam("var") final String var) throws TypeMismatchException {
-		
+
 		String result = "";
-		
+
 		final List<Entity> listEntities = curatedDataService.listEntities();
 		final JsonArray jsonArray = new JsonArray();
 		for (final Entity entity : listEntities) {
@@ -527,12 +522,12 @@ public class AdminResource {
 			jsonEntity.addProperty("name", entity.getName().getDefaultValue());
 			jsonEntity.addProperty("text_id", entity.getName().getId());
 			final List<Translation> translations = entity.getName().getTranslations();
-            final JsonArray jsonTranslations = translationsToJson(translations);
+			final JsonArray jsonTranslations = translationsToJson(translations);
 			jsonEntity.add("translations", jsonTranslations);
 
 			jsonArray.add(jsonEntity);
 		}
-		if((null != var) && !"".equals(var)) {
+		if ((null != var) && !"".equals(var)) {
 			result = "var " + var + " = ";
 		}
 		return result + jsonArray.toString();
@@ -580,7 +575,7 @@ public class AdminResource {
 			jsonEntity.addProperty("name", entity.getName().getDefaultValue());
 			jsonEntity.addProperty("text_id", entity.getName().getId());
 			final List<Translation> translations = entity.getName().getTranslations();
-            final JsonArray jsonTranslations = translationsToJson(translations);
+			final JsonArray jsonTranslations = translationsToJson(translations);
 			jsonEntity.add("translations", jsonTranslations);
 
 			jsonEntitiesArray.add(jsonEntity);
@@ -591,23 +586,23 @@ public class AdminResource {
 		return jsonEntities.toString();
 	}
 
-    private JsonArray translationsToJson(final List<Translation> translations) {
-        final JsonArray jsonTranslations = new JsonArray();
-        for (final Translation translation : translations) {
-            final Id translationId = translation.getId();
-            final Language language = translationId.getLanguage();
-            final String code = language.getCode();
-            final String value = translation.getValue();
-            final JsonObject jsonTranslation = new JsonObject();
-            jsonTranslation.addProperty("code", code);
-            jsonTranslation.addProperty("value", value);
+	private JsonArray translationsToJson(final List<Translation> translations) {
+		final JsonArray jsonTranslations = new JsonArray();
+		for (final Translation translation : translations) {
+			final Id translationId = translation.getId();
+			final Language language = translationId.getLanguage();
+			final String code = language.getCode();
+			final String value = translation.getValue();
+			final JsonObject jsonTranslation = new JsonObject();
+			jsonTranslation.addProperty("code", code);
+			jsonTranslation.addProperty("value", value);
 
-            jsonTranslations.add(jsonTranslation);
-        }
-        return jsonTranslations;
-    }
+			jsonTranslations.add(jsonTranslation);
+		}
+		return jsonTranslations;
+	}
 
-    private static void addPagination(final JsonObject jsonObject, final int _fromIndex, final int _toIndex, final int _nextIndex, final int _previousIndex, final int _totalNumber,
+	private static void addPagination(final JsonObject jsonObject, final int _fromIndex, final int _toIndex, final int _nextIndex, final int _previousIndex, final int _totalNumber,
 			final int _currentPage, final int _nbPages, final int _firstIndex, final int _lastIndex, final int howMuch) {
 		final JsonObject pagination = new JsonObject();
 		pagination.addProperty("fromIndex", _fromIndex);
@@ -663,9 +658,9 @@ public class AdminResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/curated/indicatorTypes/json")
 	public String getIndicatorTypes(@QueryParam("var") final String var) throws TypeMismatchException {
-		
+
 		String result = "";
-		
+
 		final List<IndicatorType> listIndicatorTypes = curatedDataService.listIndicatorTypes();
 		final JsonArray jsonArray = new JsonArray();
 		for (final IndicatorType indicatorType : listIndicatorTypes) {
@@ -673,7 +668,7 @@ public class AdminResource {
 
 			jsonArray.add(jsonIndicatorType);
 		}
-		if((null != var) && !"".equals(var)) {
+		if ((null != var) && !"".equals(var)) {
 			result = "var " + var + " = ";
 		}
 		return result + jsonArray.toString();
@@ -689,40 +684,40 @@ public class AdminResource {
 		jsonIndicatorType.addProperty("valueType", indicatorType.getValueType().toString());
 		jsonIndicatorType.addProperty("text_id", indicatorType.getName().getId());
 		final List<Translation> translations = indicatorType.getName().getTranslations();
-        final JsonArray jsonTranslations = translationsToJson(translations);
+		final JsonArray jsonTranslations = translationsToJson(translations);
 		jsonIndicatorType.add("translations", jsonTranslations);
 		return jsonIndicatorType;
 	}
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/curated/indicatorTypes/units/json")
-    @SuppressWarnings("static-method")
-    public String getIndicatorTypeUnits(@QueryParam("var") final String var) throws TypeMismatchException {
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/curated/indicatorTypes/units/json")
+	@SuppressWarnings("static-method")
+	public String getIndicatorTypeUnits(@QueryParam("var") final String var) throws TypeMismatchException {
 
-        String result = "";
+		String result = "";
 
-        final JsonArray jsonArray = new JsonArray();
-        for (final Unit unit : curatedDataService.listUnits()) {
-            final JsonObject jsonValueType = new JsonObject();
-            jsonValueType.addProperty("id", unit.getId());
-            jsonValueType.addProperty("name", unit.getName().getDefaultValue());
-            jsonArray.add(jsonValueType);
-        }
-        if((null != var) && !"".equals(var)) {
-            result = "var " + var + " = ";
-        }
-        return result + jsonArray.toString();
-    }
+		final JsonArray jsonArray = new JsonArray();
+		for (final Unit unit : curatedDataService.listUnits()) {
+			final JsonObject jsonValueType = new JsonObject();
+			jsonValueType.addProperty("id", unit.getId());
+			jsonValueType.addProperty("name", unit.getName().getDefaultValue());
+			jsonArray.add(jsonValueType);
+		}
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
+	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/curated/indicatorTypes/valueTypes/json")
 	@SuppressWarnings("static-method")
 	public String getIndicatorTypeValueTypes(@QueryParam("var") final String var) throws TypeMismatchException {
-		
+
 		String result = "";
-		
+
 		final JsonArray jsonArray = new JsonArray();
 		for (final ValueType valueType : ValueType.values()) {
 			final JsonObject jsonValueType = new JsonObject();
@@ -730,7 +725,7 @@ public class AdminResource {
 			jsonValueType.addProperty("text", valueType.toString());
 			jsonArray.add(jsonValueType);
 		}
-		if((null != var) && !"".equals(var)) {
+		if ((null != var) && !"".equals(var)) {
 			result = "var " + var + " = ";
 		}
 		return result + jsonArray.toString();
@@ -739,7 +734,7 @@ public class AdminResource {
 	@POST
 	@Path("/curated/indicatorTypes/submitCreate")
 	public Response createIndicatorType(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("unit") final String unit, @FormParam("valueType") final String valueType) {
-        curatedDataService.createIndicatorType(code, name, Long.valueOf(unit), valueType);
+		curatedDataService.createIndicatorType(code, name, Long.valueOf(unit), valueType);
 		return Response.ok().build();
 	}
 
@@ -755,7 +750,7 @@ public class AdminResource {
 	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newName") final String newName, @FormParam("newUnit") final long newUnit,
 			@FormParam("newValueType") final String newValueType) {
 		curatedDataService.updateIndicatorType(indicatorTypeId, newName, newUnit, newValueType);
-        return Response.ok().build();
+		return Response.ok().build();
 	}
 
 	/*
@@ -771,9 +766,9 @@ public class AdminResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("curated/sources/json")
 	public String getSources(@QueryParam("var") final String var) throws TypeMismatchException {
-		
+
 		String result = "";
-		
+
 		final List<Source> listSources = curatedDataService.listSources();
 		final JsonArray jsonArray = new JsonArray();
 		for (final Source source : listSources) {
@@ -781,7 +776,7 @@ public class AdminResource {
 
 			jsonArray.add(jsonSource);
 		}
-		if((null != var) && !"".equals(var)) {
+		if ((null != var) && !"".equals(var)) {
 			result = "var " + var + " = ";
 		}
 		return result + jsonArray.toString();
@@ -796,7 +791,7 @@ public class AdminResource {
 		jsonSource.addProperty("link", source.getOrgLink());
 		jsonSource.addProperty("text_id", source.getName().getId());
 		final List<Translation> translations = source.getName().getTranslations();
-        final JsonArray jsonTranslations = translationsToJson(translations);
+		final JsonArray jsonTranslations = translationsToJson(translations);
 		jsonSource.add("translations", jsonTranslations);
 		return jsonSource;
 	}
@@ -870,9 +865,9 @@ public class AdminResource {
 	@Path("/curated/indicators/periodicities/json")
 	@SuppressWarnings("static-method")
 	public String getIndicatorPeriodicities(@QueryParam("var") final String var) throws TypeMismatchException {
-		
+
 		String result = "";
-		
+
 		final JsonArray jsonArray = new JsonArray();
 		for (final Periodicity periodicity : Periodicity.values()) {
 			final JsonObject jsonPeriodicity = new JsonObject();
@@ -880,7 +875,7 @@ public class AdminResource {
 			jsonPeriodicity.addProperty("text", periodicity.toString());
 			jsonArray.add(jsonPeriodicity);
 		}
-		if((null != var) && !"".equals(var)) {
+		if ((null != var) && !"".equals(var)) {
 			result = "var " + var + " = ";
 		}
 		return result + jsonArray.toString();
@@ -1032,13 +1027,29 @@ public class AdminResource {
 	/*
 	 * Reports
 	 */
-	
+
 	/* Country */
 	@GET
 	@Path("/reports/country")
 	@SuppressWarnings("static-method")
 	public Response displayCountryReports() {
 		return Response.ok(new Viewable("/admin/reportsCountry")).build();
+	}
+
+	@GET
+	@Path("/exporterpublisher/country/xlsx/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/")
+	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	public Response publishCountry_XLSX(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
+			@PathParam("language") final String language, @Context final UriInfo uriInfo) {
+		final String url = String.format("%s/exporter/country/xlsx/%s/fromYear/%d/toYear/%d/language/%s/%s_baseline.xlsx", uriInfo.getBaseUriBuilder().path("/api").build().toString(), countryCode,
+				fromYear, toYear, language, countryCode);
+
+		logger.debug(String.format("About to publish doc at url %s", url));
+
+		hdxService.addResourceToCKANDataset(countryCode.toLowerCase(), url, String.format("%s_baseline.xlsx", countryCode));
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/reports/country").build();
+		return Response.seeOther(newURI).build();
 	}
 
 }

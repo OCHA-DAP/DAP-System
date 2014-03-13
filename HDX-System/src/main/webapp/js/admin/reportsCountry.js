@@ -35,5 +35,13 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
     // Sample http://localhost:8080/hdx/api/exporter/xlsx/country/COL/fromYear/1998/toYear/2014/language/FR/COL.xlsx
     window.location.href = hdxContextRoot + "/api/exporter/country/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
   } 
+  
+  $scope.publishReport = function() {
+	    
+	    // Sample data.ochadata.net:9231/hdx-1.0.0/api/exporter/country/xlsx/SDN/fromYear/1998/toYear/2014/language/en/sdn.xlsx
+	    window.location.href = hdxContextRoot + "/admin/exporterpublisher/country/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/" + $scope.reportLanguage.code + "/";
+	  } 
+  
+  
 
 });

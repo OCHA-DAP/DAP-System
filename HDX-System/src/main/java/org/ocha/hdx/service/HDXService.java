@@ -1,5 +1,6 @@
 package org.ocha.hdx.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,7 +16,9 @@ import org.ocha.hdx.security.exception.InsufficientCredentialsException;
 
 public interface HDXService {
 
-	public boolean addResourceToCKANDataset(final String packageId, final String resourceUrl);
+	public boolean addResourceToCKANDataset(final String packageId, final String resourceUrl, final String name);
+
+	public boolean addResourceToCKANDataset(final String packageId, final File file);
 
 	public void checkForNewCKANDatasets();
 

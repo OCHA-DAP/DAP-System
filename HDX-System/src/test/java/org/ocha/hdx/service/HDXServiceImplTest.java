@@ -145,12 +145,15 @@ public class HDXServiceImplTest {
 	}
 
 	@Test
-	@Ignore
-	public void testAddResourceToCKANDataset() {
+	public void testAddResourceToCKANDataset() throws IOException {
 		// hdxService.checkForNewCKANDatasets();
 		// final String firstDatasetName = ckanDatasetDAO.listCKANDatasets().get(0).getName();
 		// System.out.println("Will now try to add a resource to the dataset : " + firstDatasetName);
-		final boolean result = hdxService.addResourceToCKANDataset("accuweather_url", "http://dummyUrl");
+
+		// final File inputFile = new ClassPathResource("samples/report/USA.xlsx").getFile();
+
+		final boolean result = hdxService.addResourceToCKANDataset("sdn",
+				"http://data.ochadata.net:9231/hdx-1.0.0/api/exporter/country/xlsx/SDN/fromYear/1998/toYear/2014/language/EN/SDN_baseline.xlsx", "sdn");
 		Assert.assertTrue(result);
 	}
 

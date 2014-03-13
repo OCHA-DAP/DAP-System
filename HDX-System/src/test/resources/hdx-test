@@ -1,5 +1,12 @@
-ckan.host = ckan.megginson.com
-ckan.technical.api.key = 079f6194-45e1-4534-8ca7-1bd4130ef897
+#ckan.host = ckan.megginson.com
+#ckan.technical.api.key = 079f6194-45e1-4534-8ca7-1bd4130ef897
+
+ckan.host = data.ochadata.net
+ckan.technical.api.key = 54d9d207-8364-4455-8ebd-14cf746d34cb
+#ckan.technical.api.key = ab6ca073-acbc-4508-aa8e-93a6d7d9f43b
+
+
+
 
 smtp.host=smtp.service.emergency.lu
 smtp.port=25
