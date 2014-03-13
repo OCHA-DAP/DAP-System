@@ -97,7 +97,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			preparedData = this.prepareDataForImport(file, importer);
 			break;
 		case SCRAPER_VALIDATING:
-			importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByImporter("scraper"),
+			importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByImporter("scraper-validator"),
 					config, this.validatorCreators, this.preValidatorCreators, report,  this.indicatorCreationService);
 			preparedData = this.prepareDataForImport(file, importer);
 			break;
