@@ -80,6 +80,10 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
   });
 
   $scope.showDate = function(jsonDate) {
+    console.log("[" + jsonDate + "]");
+    if('null' === jsonDate) {
+      return "";
+    }
     var stripped = jsonDate.substring(1, jsonDate.length - 1);
     // console.log("Date from json [" + stripped + "]");
     var date = new Date(Date.parse(stripped));
