@@ -3,6 +3,7 @@ package org.ocha.hdx.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -948,6 +949,7 @@ public class AdminResource {
 		final DisplayRegionDictionaries displayRegionDictionaries = new DisplayRegionDictionaries();
 		displayRegionDictionaries.setEntities(curatedDataService.listEntities());
 		displayRegionDictionaries.setRegionDictionaries(curatedDataService.listRegionDictionaries());
+		displayRegionDictionaries.setImporters(Arrays.asList(CKANDataset.Type.values()));
 		return Response.ok(new Viewable("/admin/regionDictionaries", displayRegionDictionaries)).build();
 	}
 
@@ -959,6 +961,13 @@ public class AdminResource {
 	}
 
 	@POST
+	@Path("/dictionaries/regions/submitCreate")
+	public Response createRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entityId") final long entityId) {
+		curatedDataService.createRegionDictionary(unnormalizedName, importer, entityId);
+		return Response.ok().build();
+	}
+	
+	@POST
 	@Path("/dictionaries/regions/submitDelete")
 	public Response deleteRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
@@ -966,7 +975,6 @@ public class AdminResource {
 		curatedDataService.deleteRegionDictionary(regionDictionary);
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/regions/").build();
 		return Response.seeOther(newURI).build();
-
 	}
 
 	/*
@@ -978,6 +986,7 @@ public class AdminResource {
 		final DisplaySourceDictionaries displaySourceDictionaries = new DisplaySourceDictionaries();
 		displaySourceDictionaries.setSources(curatedDataService.listSources());
 		displaySourceDictionaries.setSourceDictionaries(curatedDataService.listSourceDictionaries());
+		displaySourceDictionaries.setImporters(Arrays.asList(CKANDataset.Type.values()));
 		return Response.ok(new Viewable("/admin/sourceDictionaries", displaySourceDictionaries)).build();
 	}
 
@@ -988,6 +997,22 @@ public class AdminResource {
 		return displaySourceDictionariesList();
 	}
 
+	@POST
+	@Path("/dictionaries/sources/submitCreate")
+	public Response createSourceDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("sourceId") final long sourceId) {
+		curatedDataService.createSourceDictionary(unnormalizedName, importer, sourceId);
+		return Response.ok().build();
+	}
+	
+	@POST
+	@Path("/dictionaries/sources/submitDelete")
+	public Response deleteSourceDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
+			throws URISyntaxException {
+		curatedDataService.deleteSourceDictionary(unnormalizedName, importer);
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/sources/").build();
+		return Response.seeOther(newURI).build();
+	}
+	
 	/*
 	 * Dictionaries / indicator types management
 	 */
@@ -997,6 +1022,7 @@ public class AdminResource {
 		final DisplayIndicatorTypeDictionaries displayIndicatorTypeDictionaries = new DisplayIndicatorTypeDictionaries();
 		displayIndicatorTypeDictionaries.setIndicatorTypes(curatedDataService.listIndicatorTypes());
 		displayIndicatorTypeDictionaries.setIndicatorTypeDictionaries(curatedDataService.listIndicatorTypeDictionaries());
+		displayIndicatorTypeDictionaries.setImporters(Arrays.asList(CKANDataset.Type.values()));
 		return Response.ok(new Viewable("/admin/indicatorTypeDictionaries", displayIndicatorTypeDictionaries)).build();
 	}
 
@@ -1009,6 +1035,13 @@ public class AdminResource {
 	}
 
 	@POST
+	@Path("/dictionaries/indicatorTypes/submitCreate")
+	public Response createIndicatorTypesDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("indicatorTypeId") final long indicatorTypeId) {
+		curatedDataService.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorTypeId);
+		return Response.ok().build();
+	}
+	
+	@POST
 	@Path("/dictionaries/indicatorTypes/submitDelete")
 	public Response deleteIndicatorTypeDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
@@ -1016,7 +1049,6 @@ public class AdminResource {
 		curatedDataService.deleteIndicatorTypeDictionary(indicatorTypeDictionary);
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/indicatorTypes/").build();
 		return Response.seeOther(newURI).build();
-
 	}
 
 	/*

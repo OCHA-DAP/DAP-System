@@ -473,7 +473,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return rows;
 	}
 
-	private Map<String, TableRow> addACellToEveryRow(final Map<String, TableRow> rows) {
+	private static Map<String, TableRow> addACellToEveryRow(final Map<String, TableRow> rows) {
 		for (final TableRow row : rows.values()) {
 			row.addCell(0);
 		}
@@ -534,6 +534,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		final Source source = sourceDAO.getSourceById(sourceId);
 		sourceDictionaryDAO.createSourceDictionary(unnormalizedName, importer, source);
 
+	}
+
+	@Override
+	public void deleteSourceDictionary(final String unnormalizedName, final String importer) {
+		sourceDictionaryDAO.deleteSourceDictionary(unnormalizedName, importer);
 	}
 
 	/*

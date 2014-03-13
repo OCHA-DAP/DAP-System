@@ -11,6 +11,10 @@ public interface SourceDictionaryDAO {
 
 	public void createSourceDictionary(final String unnormalizedName, final String importer, final Source source);
 
+	public void deleteSourceDictionary(final SourceDictionary sourceDictionary);
+
+	public void deleteSourceDictionary(String unnormalizedName, String importer);
+
 	public List<SourceDictionary> getSourceDictionariesByImporter(final String importer);
 
 	/**

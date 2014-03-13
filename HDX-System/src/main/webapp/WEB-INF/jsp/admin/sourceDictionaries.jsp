@@ -17,30 +17,35 @@
 	<div>
 		<h3>Add a new Source Dictionary</h3>
 		<div>
-			<form method="POST" action="" class="css-form" role="form">
-				<div class="form-group" style="">
-					<label for="entity">For Entity</label> <select class="form-control" name="source" id="source">
+			<form novalidate name="createResourceForm" class="css-form">
+				<div class="form-group">
+					<label for="entity">For source</label> <select class="form-control" name="source" id="newResource_sourceId" ng-model="newResource.sourceId">
 						<c:forEach var="source" items="${it.sources}">
 							<option value="${source.id}">${source.name.defaultValue}</option>
 						</c:forEach>
 					</select>
 				</div>
-				<div class="form-group" style="">
-					<label for="unnormalizedName">Unnormalized Name</label> <input type="text" name="unnormalizedName" id="unnormalizedName" class="form-control" />
+				<div class="form-group">
+					<label for="unnormalizedName">Unnormalized Name</label> <input type="text" name="unnormalizedName" id="newResource_unnormalizedName" ng-model="newResource.unnormalizedName" class="form-control" />
 				</div>
-				<div class="form-group" style="">
-					<label for="importer">Importer</label> <input type="text" name="importer" id="importer" class="form-control" />
+				<div class="form-group">
+					<label for="importer">Importer</label> <!-- input type="text" name="importer" id="importer" class="form-control" / -->
+					<select class="form-control" name="importer" id="newResource_importer" ng-model="newResource.importer" >
+						<c:forEach var="importer" items="${it.importers}">
+							<option value="${importer}">${importer}</option>
+						</c:forEach>
+					</select>
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
+				<button class="btn btn-primary btn-custom-default" ng-click="createDictionary(newResource)">Add</button>
 			</form>
 		</div>
-
-		<h3>List of region dictionaries</h3>
+		<h3>List of source dictionaries</h3>
 		<table class="table table-bordered table-hover table-condensed">
 			<tr>
 				<th>Source name</th>
 				<th>Importer</th>
 				<th>Unnormalized Name</th>
+				<th>Action</th>
 			</tr>
 
 			<c:forEach var="sourceDictionary" items="${it.sourceDictionaries}">
@@ -48,11 +53,16 @@
 					<td>${sourceDictionary.source.name.defaultValue}</td>
 					<td>${sourceDictionary.id.importer}</td>
 					<td>${sourceDictionary.id.unnormalizedName}</td>
+					<td>
+						<form method="POST" action="submitDelete">
+							<input type="hidden" name="unnormalizedName" value="${sourceDictionary.id.unnormalizedName}" /> <input type="hidden" name="importer" value="${sourceDictionary.id.importer}" /> <input
+								type="submit" value="Delete" />
+						</form>
+					</td>
 				</tr>
 			</c:forEach>
 
 		</table>
 	</div>
-
 </body>
 </html>

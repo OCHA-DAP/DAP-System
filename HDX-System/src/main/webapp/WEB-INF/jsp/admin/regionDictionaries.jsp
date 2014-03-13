@@ -17,21 +17,28 @@
 	<div>
 		<h3>Add a new Region Dictionary</h3>
 		<div>
-			<form method="POST" action="" class="css-form" role="form">
-				<div class="form-group" style="">
-					<label for="entity">For Entity</label> <select class="form-control" name="entity" id="entity">
+			<form novalidate name="createResourceForm" class="css-form">
+				<div class="form-group">
+					<label for="entity">For entity</label> 
+					<select class="form-control" name="entity" id="newResource_entityId" ng-model="newResource.entityId">
 						<c:forEach var="entity" items="${it.entities}">
-							<option value="${entity.id}">${entity.type.name}/${entity.name.defaultValue}</option>
+							<option value="${entity.id}">${entity.type.name.defaultValue}/${entity.name.defaultValue}</option>
 						</c:forEach>
 					</select>
 				</div>
-				<div class="form-group" style="">
-					<label for="unnormalizedName">Unnormalized Name</label> <input type="text" name="unnormalizedName" id="unnormalizedName" class="form-control" />
+				<div class="form-group">
+					<label for="unnormalizedName">Unnormalized Name</label> 
+					<input type="text" name="unnormalizedName" id="newResource_unnormalizedName" ng-model="newResource.unnormalizedName" class="form-control" />
 				</div>
-				<div class="form-group" style="">
-					<label for="importer">Importer</label> <input type="text" name="importer" id="importer" class="form-control" />
+				<div class="form-group">
+					<label for="importer">Importer</label> <!-- input type="text" name="importer" id="importer" class="form-control" / -->
+					<select class="form-control" name="importer" id="newResource_importer" ng-model="newResource.importer" >
+						<c:forEach var="importer" items="${it.importers}">
+							<option value="${importer}">${importer}</option>
+						</c:forEach>
+					</select>
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
+				<button class="btn btn-primary btn-custom-default" ng-click="createDictionary(newResource)">Add</button>
 			</form>
 		</div>
 		<h3>List of region dictionaries</h3>
@@ -46,7 +53,7 @@
 
 			<c:forEach var="regionDictionary" items="${it.regionDictionaries}">
 				<tr>
-					<td>${regionDictionary.entity.type.name}</td>
+					<td>${regionDictionary.entity.type.name.defaultValue}</td>
 					<td>${regionDictionary.entity.name.defaultValue}</td>
 					<td>${regionDictionary.id.importer}</td>
 					<td>${regionDictionary.id.unnormalizedName}</td>
@@ -58,7 +65,6 @@
 					</td>
 				</tr>
 			</c:forEach>
-
 		</table>
 	</div>
 </body>
