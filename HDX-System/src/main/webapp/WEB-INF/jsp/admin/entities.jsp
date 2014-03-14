@@ -32,7 +32,7 @@
 					<td><input type="text" class="form-control" placeholder="Code" id="newResource_code" ng-model="newResource.code" required /></td>
 					<td><input type="text" class="form-control" placeholder="Name" id="newResource_name" ng-model="newResource.name" required /></td>
 					<td style="white-space: nowrap">
-						<button class="btn btn-primary btn-custom-default" ng-click=" createEntity(newResource)">Add</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="createEntity(newResource)">Add</button>
 					</td>
 				</tr>
 			</table>

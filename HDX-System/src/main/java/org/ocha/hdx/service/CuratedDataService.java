@@ -161,6 +161,8 @@ public interface CuratedDataService {
 
 	public void createSourceDictionary(final String unnormalizedName, final String importer, final long sourceId);
 
+	public void deleteSourceDictionary(String unnormalizedName, String importer);
+
 	/*
 	 * Indicator type dictionaries
 	 */

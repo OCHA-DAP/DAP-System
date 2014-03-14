@@ -34,7 +34,7 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		final ArrayList<Object> headers = new ArrayList<Object>();
 		headers.add("Indicator ID");
 		headers.add("Indicator name");
-		headers.add("Source code");
+		headers.add("Source dataset");
 		headers.add("Units");
 		headers.add("Dataset summary");
 		headers.add("More Info");
@@ -53,7 +53,7 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 				toYear = reportRow.getMaxYear();
 			}
 		}
-		for (int year = fromYear; year <= toYear; year++) {
+		for (int year = toYear; year >= fromYear; year--) {
 			headers.add(year);
 		}
 
@@ -83,8 +83,9 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 			createCell(row, (short) 6, reportRow.getMetadata().get(EntryKey.TERMS_OF_USE));
 			createCell(row, (short) 7, reportRow.getMetadata().get(EntryKey.METHODOLOGY));
 
-			for (int year = fromYear; year <= toYear; year++) {
-				final short columnIndex = (short) ((8 + year) - fromYear);
+			for (int year = toYear; year >= fromYear; year--) {
+				final short columnIndex = (short) ((8 + toYear) - year);
+
 				final Double value = reportRow.getDoubleValue(year);
 				if (null != value) {
 					createNumCell(row, columnIndex, value);
