@@ -34,6 +34,7 @@ SELECT 'Starting language and translations' from text limit 0;
 /* languages & translations */
 INSERT INTO language(code, native_name) VALUES ('FR', 'Français');
 INSERT INTO language(code, native_name) VALUES ('EN', 'English');
+INSERT INTO language(code, native_name) VALUES ('ES', 'Español');
 
 INSERT INTO hdx_translation(text, language, value) SELECT id, 'FR', 'Russie' FROM text WHERE default_value='RUSSIA' limit 1;
 INSERT INTO hdx_translation(text, language, value) SELECT id, 'EN', 'Russia' FROM text WHERE default_value='RUSSIA' limit 1;
