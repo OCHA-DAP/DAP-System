@@ -1,7 +1,13 @@
 /* hdx_user */
-INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('seustachi', 'G++lx4RQM5AqO3wlMiUhjZXU6ZtA3KKIq/cjjUznbTjgljHdUtJEnKm49sxcg3l1', '{SHA}zzsrXdRof78GkYbWwsfVZ2UbQmw=', 'admin');
-INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('cjhendrix', 'G++lx4RQM5AqO3wlMiUhjZXU6ZtA3KKIq/cjjUznbTjgljHdUtJEnKm49sxcg3l1', '{SHA}zzsrXdRof78GkYbWwsfVZ2UbQmw=', 'api');
 INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('bmi', 'KHPUpxraF+oA1wkmG+s0hQ==', '{SHA}JuQIzlXAzjNi9ovRIG1IfdWw9k0=', 'admin');
+INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('cj', 'x7VyojQPfYXyGM8joVzFLg==', '{SHA}zke1B4fsnaOG+2rJBFpxeE2KulE=', 'admin');
+INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('david', 'x7VyojQPfYXyGM8joVzFLg==', '{SHA}+m4z+Wh21HKuDVqUN1hw+K4DBFk=', 'admin');
+INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('godfrey', 'x7VyojQPfYXyGM8joVzFLg==', '{SHA}/MwLCVQ0eHflNwxeQ4IvsoqDdRk=', 'admin');
+INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('javier', 'x7VyojQPfYXyGM8joVzFLg==', '{SHA}ZjlcH7xBg5TqPlwQ9pZdq/S+8/k=', 'admin');
+INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('luis', 'x7VyojQPfYXyGM8joVzFLg==', '{SHA}WzLfYpIRjivhT6PyKwa8FIr8u1I=', 'admin');
+INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('sarah', 'PzVxCsj/A1mKnI8Sg9e/0w==', '{SHA}W98c5BOn5tK9wRlyPJ3VqsXvoY4=', 'admin');
+INSERT INTO hdx_user(id, ckanapikey, password, role) VALUES ('seustachi', 'G++lx4RQM5AqO3wlMiUhjZXU6ZtA3KKIq/cjjUznbTjgljHdUtJEnKm49sxcg3l1', '{SHA}zzsrXdRof78GkYbWwsfVZ2UbQmw=', 'admin');
+
 /* END hdx_user */
 
 /* entity_type moved to 3_countries.sql
@@ -439,6 +445,8 @@ INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'acled');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'acled', currval('text_seq'));
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'hdi-disaster');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'hdi-disaster', currval('text_seq'));
+INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'data.undp.org');
+INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'data.undp.org', currval('text_seq'));
 /* END sources */
 
 
