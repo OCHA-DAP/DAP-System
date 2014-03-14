@@ -15,16 +15,18 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 @Component
 public class AllowedIndicatorTypesValidatorCreator implements IPreValidatorCreator {
 
-	public static final int IND_TYPE_POSITION=2;
+	public static final int IND_TYPE_POSITION = 2;
 
-	public static final String NAME	= "Allowed Indicator Types";
+	public static final String NAME = "Allowed Indicator Types";
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ocha.hdx.validation.prevalidator.IPreValidator#getPreValidatorName()
 	 */
 	@Override
@@ -39,18 +41,18 @@ public class AllowedIndicatorTypesValidatorCreator implements IPreValidatorCreat
 
 	public class AllowedIndicatorTypesValidator implements IPreValidator {
 
-		private final HashSet<String> allowedTypesSet	= new HashSet<String>();
+		private final HashSet<String> allowedTypesSet = new HashSet<String>();
 
 		public AllowedIndicatorTypesValidator(final Map<String, AbstractConfigEntry> generalConfig) {
-			final AbstractConfigEntry allowedIndicatorTypesEntry = generalConfig.get(ConfigurationConstants.ALLOWED_INDICATOR_TYPES);
+			final AbstractConfigEntry allowedIndicatorTypesEntry = generalConfig.get(ConfigurationConstants.GeneralConfiguration.ALLOWED_INDICATOR_TYPES.getLabel());
 			if (allowedIndicatorTypesEntry == null) {
 				throw new WrongParametersForValidationException("Non configuration found for key ALLOWED_INDICATOR_TYPES");
 			} else {
 				final String[] types = allowedIndicatorTypesEntry.getEntryValue().split(ConfigurationConstants.SEPARATOR);
 				if (types != null && types.length > 0) {
 					for (final String type : types) {
-						if (type != null && type.length() > 0 ) {
-							this.allowedTypesSet.add( type.trim() );
+						if (type != null && type.length() > 0) {
+							this.allowedTypesSet.add(type.trim());
 						}
 					}
 				}

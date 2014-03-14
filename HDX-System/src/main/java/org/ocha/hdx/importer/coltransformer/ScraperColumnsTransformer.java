@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
@@ -30,7 +30,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	public static final String NO_DATE = "none";
 
-	public static final LocalDate DUMMY_DATE	= new LocalDate(2511, 5, 1);
+	public static final LocalDate DUMMY_DATE = new LocalDate(2511, 5, 1);
 
 	public static final String EXPECTED_TIME_PATTERN = "YYYY(/P(1|5|10)Y)?";
 	public static final int PERIODICITY_GROUP = 2;
@@ -59,12 +59,11 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	private TYPE_OF_DATE typeOfDate;
 
-	public ScraperColumnsTransformer(final Map<String, AbstractConfigEntry> generalConfig, final Map<String, AbstractConfigEntry> indConfig,
-			final Map<String, String> sourcesMap) {
+	public ScraperColumnsTransformer(final Map<String, AbstractConfigEntry> generalConfig, final Map<String, AbstractConfigEntry> indConfig, final Map<String, String> sourcesMap) {
 		super(generalConfig, indConfig);
 		this.sourcesMap = sourcesMap;
 
-		final AbstractConfigEntry valueTypeEntry = indConfig.get(ConfigurationConstants.INDICATOR_VALUE_TYPE);
+		final AbstractConfigEntry valueTypeEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.INDICATOR_VALUE_TYPE.getLabel());
 		if (valueTypeEntry != null) {
 			this.valueType = valueTypeEntry.getEntryValue();
 		} else {
@@ -86,7 +85,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		this.offset = 0;
 		this.day = 1;
 		this.month = 1;
-		final AbstractConfigEntry expectedStartTimeFormatEntry = indConfig.get(ConfigurationConstants.EXPECTED_START_TIME_FORMAT);
+		final AbstractConfigEntry expectedStartTimeFormatEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel());
 		final Pattern expectedStartTimeFormatPattern = Pattern.compile(EXPECTED_START_TIME_PATTERN);
 
 		final Matcher matcher = expectedStartTimeFormatPattern.matcher(expectedStartTimeFormatEntry.getEntryValue());
@@ -122,7 +121,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	 * @param indConfig
 	 */
 	private void discoverPeriodicity(final Map<String, AbstractConfigEntry> indConfig) {
-		final AbstractConfigEntry expectedTimeFormatEntry = indConfig.get(ConfigurationConstants.EXPECTED_TIME_FORMAT);
+		final AbstractConfigEntry expectedTimeFormatEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel());
 		if (expectedTimeFormatEntry == null || NO_DATE.equals(expectedTimeFormatEntry.getEntryValue())) {
 			this.dateTimeFormat = null;
 			this.periodicity = Periodicity.NONE;
@@ -166,16 +165,13 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 				final int year = Integer.parseInt(matcher.group(YEAR_GROUP));
 				localDate = new LocalDate(year + this.offset, this.month, this.day);
 			} else {
-				throw new IllegalArgumentException(String.format("Could read string '%s' with the pattern '%s' for indicator entry: %s",
-						actualDateStr, ACTUAL_DATE_PATTERN, Arrays.toString(line)));
+				throw new IllegalArgumentException(String.format("Could read string '%s' with the pattern '%s' for indicator entry: %s", actualDateStr, ACTUAL_DATE_PATTERN, Arrays.toString(line)));
 			}
 		} else if (TYPE_OF_DATE.FULL_DATE.equals(this.typeOfDate)) {
 			try {
 				localDate = LocalDate.parse(actualDateStr, this.dateTimeFormat);
-			}
-			catch (final IllegalArgumentException e) {
-				logger.warn(String.format("Couldn't parse date '%s' with format '%s' for indicator entry: %s ", actualDateStr,
-						this.dateTimeFormat.toString(), Arrays.toString(line)));
+			} catch (final IllegalArgumentException e) {
+				logger.warn(String.format("Couldn't parse date '%s' with format '%s' for indicator entry: %s ", actualDateStr, this.dateTimeFormat.toString(), Arrays.toString(line)));
 				throw e;
 			}
 		} else {

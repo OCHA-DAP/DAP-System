@@ -3,6 +3,7 @@ package org.ocha.hdx.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import org.ocha.hdx.dto.apiv3.DatasetV3WrapperDTO;
 import org.ocha.hdx.persistence.entity.User;
@@ -10,6 +11,9 @@ import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
+import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfigEntry;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.i18n.Language;
 import org.ocha.hdx.security.exception.AuthenticationException;
 import org.ocha.hdx.security.exception.InsufficientCredentialsException;
@@ -101,6 +105,35 @@ public interface HDXService {
 	public void updateUser(final String id, final String password, final String role, final String apiKey) throws Exception;
 
 	public void deleteUser(final String id) throws Exception;
+
+	/*
+	 * Configurations management.
+	 */
+	public List<ResourceConfiguration> listConfigurations();
+
+	public ResourceConfiguration createResourceConfiguration(String name, Set<ResourceConfigEntry> generalConfigList, Set<IndicatorResourceConfigEntry> indicatorConfigList) throws Exception;
+
+	public ResourceConfiguration createResourceConfiguration(String name) throws Exception;
+
+	public void updateResourceConfiguration(final long id, String name, Set<ResourceConfigEntry> generalConfigList, Set<IndicatorResourceConfigEntry> indicatorConfigList) throws Exception;
+
+	public void updateResourceConfiguration(final long id, String name) throws Exception;
+
+	public void deleteResourceConfiguration(final long id) throws Exception;
+
+	public ResourceConfiguration getResourceConfiguration(final long id) throws Exception;
+
+	public void addGeneralConfiguration(long id, String key, String value) throws Exception;
+
+	public void deleteGeneralConfiguration(long rcID, long gcID) throws Exception;
+
+	public void updateGeneralConfiguration(long id, String key, String value) throws Exception;
+
+	public void addIndicatorConfiguration(long rcID, long itID, long srcID, String key, String value) throws Exception;
+
+	public void deleteIndicatorConfiguration(long rcID, long id) throws Exception;
+
+	public void updateIndicatorConfiguration(long id, long indTypeID, long srcID, String key, String value) throws Exception;
 
 	/*
 	 * Languages management.

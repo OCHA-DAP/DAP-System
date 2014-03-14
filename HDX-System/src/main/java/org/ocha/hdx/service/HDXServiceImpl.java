@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ResponseHandler;
@@ -42,6 +43,8 @@ import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
+import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.i18n.Language;
 import org.ocha.hdx.security.exception.AuthenticationException;
@@ -108,6 +111,7 @@ public class HDXServiceImpl implements HDXService {
 
 	@Autowired
 	private ResourceConfigurationDao resourceConfigurationDao;
+
 	@Autowired
 	private AdditionalDataDao additionalDataDao;
 
@@ -543,6 +547,78 @@ public class HDXServiceImpl implements HDXService {
 	@Override
 	public void deleteLanguage(final String code) throws Exception {
 		this.languageDao.deleteLanguage(code);
+	}
+
+	/*
+	 * Configurations management
+	 */
+
+	@Override
+	public List<ResourceConfiguration> listConfigurations() {
+		return this.resourceConfigurationDao.listResourceConfigurations();
+	}
+
+	@Override
+	public ResourceConfiguration createResourceConfiguration(final String name) throws Exception {
+		return this.resourceConfigurationDao.createResourceConfiguration(name, null, null);
+	}
+
+	@Override
+	public ResourceConfiguration createResourceConfiguration(final String name, final Set<ResourceConfigEntry> generalConfigList, final Set<IndicatorResourceConfigEntry> indicatorConfigList)
+			throws Exception {
+		return this.resourceConfigurationDao.createResourceConfiguration(name, generalConfigList, indicatorConfigList);
+	}
+
+	@Override
+	public void updateResourceConfiguration(final long id, final String name) {
+		// public void updateLanguage(final String code, final String nativeName) throws Exception {
+		this.resourceConfigurationDao.updateResourceConfiguration(id, name, null, null);
+	}
+
+	@Override
+	public void updateResourceConfiguration(final long id, final String name, final Set<ResourceConfigEntry> generalConfigList, final Set<IndicatorResourceConfigEntry> indicatorConfigList) {
+		// public void updateLanguage(final String code, final String nativeName) throws Exception {
+		this.resourceConfigurationDao.updateResourceConfiguration(id, name, generalConfigList, indicatorConfigList);
+	}
+
+	@Override
+	public void deleteResourceConfiguration(final long id) throws Exception {
+		this.resourceConfigurationDao.deleteResourceConfiguration(id);
+	}
+
+	@Override
+	public ResourceConfiguration getResourceConfiguration(final long id) throws Exception {
+		return this.resourceConfigurationDao.getResourceConfigurationById(id);
+	}
+
+	@Override
+	public void addGeneralConfiguration(final long id, final String key, final String value) throws Exception {
+		this.resourceConfigurationDao.addGeneralConfiguration(id, key, value);
+	}
+
+	@Override
+	public void deleteGeneralConfiguration(final long rcID, final long id) throws Exception {
+		this.resourceConfigurationDao.deleteGeneralConfiguration(rcID, id);
+	}
+
+	@Override
+	public void updateGeneralConfiguration(final long id, final String key, final String value) throws Exception {
+		this.resourceConfigurationDao.updateGeneralConfiguration(id, key, value);
+	}
+
+	@Override
+	public void addIndicatorConfiguration(final long rcID, final long itID, final long srcID, final String key, final String value) throws Exception {
+		this.resourceConfigurationDao.addIndicatorConfiguration(rcID, itID, srcID, key, value);
+	}
+
+	@Override
+	public void deleteIndicatorConfiguration(final long rcID, final long id) throws Exception {
+		this.resourceConfigurationDao.deleteIndicatorConfiguration(rcID, id);
+	}
+
+	@Override
+	public void updateIndicatorConfiguration(final long id, final long indTypeID, final long srcID, final String key, final String value) throws Exception {
+		this.resourceConfigurationDao.updateIndicatorConfiguration(id, indTypeID, srcID, key, value);
 	}
 
 	/*
