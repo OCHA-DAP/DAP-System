@@ -3,6 +3,7 @@ package org.ocha.hdx.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -27,12 +28,12 @@ import org.ocha.hdx.config.ConfigurationConstants.GeneralConfiguration;
 import org.ocha.hdx.config.ConfigurationConstants.IndicatorConfiguration;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
+import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.EntityType;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
-import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
-import org.ocha.hdx.persistence.entity.configs.ResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
@@ -206,7 +207,6 @@ public class AdminResource {
 		this.hdxService.deleteLanguage(code);
 		return Response.ok().build();
 	}
-
 
 	/*
 	 * Configurations management
@@ -1177,7 +1177,7 @@ public class AdminResource {
 		curatedDataService.createRegionDictionary(unnormalizedName, importer, entityId);
 		return Response.ok().build();
 	}
-	
+
 	@POST
 	@Path("/dictionaries/regions/submitDelete")
 	public Response deleteRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
@@ -1214,7 +1214,7 @@ public class AdminResource {
 		curatedDataService.createSourceDictionary(unnormalizedName, importer, sourceId);
 		return Response.ok().build();
 	}
-	
+
 	@POST
 	@Path("/dictionaries/sources/submitDelete")
 	public Response deleteSourceDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
@@ -1223,7 +1223,7 @@ public class AdminResource {
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/sources/").build();
 		return Response.seeOther(newURI).build();
 	}
-	
+
 	/*
 	 * Dictionaries / indicator types management
 	 */
@@ -1247,11 +1247,12 @@ public class AdminResource {
 
 	@POST
 	@Path("/dictionaries/indicatorTypes/submitCreate")
-	public Response createIndicatorTypesDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("indicatorTypeId") final long indicatorTypeId) {
+	public Response createIndicatorTypesDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer,
+			@FormParam("indicatorTypeId") final long indicatorTypeId) {
 		curatedDataService.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorTypeId);
 		return Response.ok().build();
 	}
-	
+
 	@POST
 	@Path("/dictionaries/indicatorTypes/submitDelete")
 	public Response deleteIndicatorTypeDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
@@ -1282,6 +1283,99 @@ public class AdminResource {
 	@SuppressWarnings("static-method")
 	public Response displayCountryReports() {
 		return Response.ok(new Viewable("/admin/reportsCountry")).build();
+	}
+
+	/* Country */
+	@GET
+	@Path("/reports/country/publishAll/")
+	@SuppressWarnings("static-method")
+	public Response publishAllCountry_XLSX(@Context final UriInfo uriInfo) {
+		// FIXME remove this when Bash script generating the resources is ready
+
+		final List<String> countryCodes = new ArrayList<String>();
+		countryCodes.add("AFG");
+		countryCodes.add("DZA");
+		countryCodes.add("BGD");
+		countryCodes.add("BEN");
+		countryCodes.add("BOL");
+		countryCodes.add("BWA");
+		countryCodes.add("BFA");
+		countryCodes.add("BDI");
+		countryCodes.add("KHM");
+		countryCodes.add("CMR");
+		countryCodes.add("CAF");
+		countryCodes.add("TCD");
+		countryCodes.add("COL");
+		countryCodes.add("COG");
+		countryCodes.add("COD");
+		countryCodes.add("CIV");
+		countryCodes.add("DJI");
+		countryCodes.add("DOM");
+		countryCodes.add("EGY");
+		countryCodes.add("ERI");
+		countryCodes.add("ETH");
+		countryCodes.add("GMB");
+		countryCodes.add("GTM");
+		countryCodes.add("GIN");
+		countryCodes.add("GNB");
+		countryCodes.add("HTI");
+		countryCodes.add("HND");
+		countryCodes.add("IDN");
+		countryCodes.add("IRQ");
+		countryCodes.add("JAM");
+		countryCodes.add("JOR");
+		countryCodes.add("KEN");
+		countryCodes.add("PRK");
+		countryCodes.add("KGZ");
+		countryCodes.add("LAO");
+		countryCodes.add("LBN");
+		countryCodes.add("LSO");
+		countryCodes.add("LBR");
+		countryCodes.add("LBY");
+		countryCodes.add("MDG");
+		countryCodes.add("MWI");
+		countryCodes.add("MLI");
+		countryCodes.add("MRT");
+		countryCodes.add("MNG");
+		countryCodes.add("MOZ");
+		countryCodes.add("MMR");
+		countryCodes.add("NAM");
+		countryCodes.add("NPL");
+		countryCodes.add("NER");
+		countryCodes.add("NGA");
+		countryCodes.add("PAK");
+		countryCodes.add("PHL");
+		countryCodes.add("RWA");
+		countryCodes.add("SEN");
+		countryCodes.add("SLE");
+		countryCodes.add("SOM");
+		countryCodes.add("ZAF");
+		countryCodes.add("SSD");
+		countryCodes.add("LKA");
+		countryCodes.add("SDN");
+		countryCodes.add("SWZ");
+		countryCodes.add("SYR");
+		countryCodes.add("TJK");
+		countryCodes.add("TZA");
+		countryCodes.add("THA");
+		countryCodes.add("TUN");
+		countryCodes.add("TUR");
+		countryCodes.add("UGA");
+		countryCodes.add("UZB");
+		countryCodes.add("VUT");
+		countryCodes.add("YEM");
+		countryCodes.add("ZMB");
+		countryCodes.add("ZWE");
+		for (final String countryCode : countryCodes) {
+			final String url = String.format("%s/exporter/country/xlsx/%s/fromYear/1950/toYear/2014/language/EN/%s_baseline.xlsx", uriInfo.getBaseUriBuilder().path("/api").build().toString(),
+					countryCode, countryCode);
+
+			logger.debug(String.format("About to publish doc at url %s", url));
+			hdxService.addResourceToCKANDataset(countryCode.toLowerCase(), url, String.format("%s_baseline.xlsx", countryCode));
+		}
+
+		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/reports/country").build();
+		return Response.seeOther(newURI).build();
 	}
 
 	@GET

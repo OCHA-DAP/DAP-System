@@ -42,7 +42,7 @@
 					<label for="reportFileName">File name</label> <input type="text" class="form-control" id="reportFileName" ng-model="reportFileName" placeholder="Report file name...">
 				</div>
 				<button type="button" class="btn btn-default" ng-click="createReport()">Submit</button>
-				<button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button>
+				<!-- <button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button> -->
 			</form>
 		</div>
 	</div>
