@@ -206,6 +206,7 @@ public class AdminResource {
 		return Response.ok().build();
 	}
 
+
 	/*
 	 * Configurations management
 	 */
@@ -236,7 +237,8 @@ public class AdminResource {
 		if ((null != var) && !"".equals(var)) {
 			result = "var " + var + " = ";
 		}
-		return result + jsonArray.toString();
+		result += jsonArray.toString();
+		return result;// + jsonArray.toString();
 	}
 
 	@POST
@@ -260,6 +262,159 @@ public class AdminResource {
 		final long id = Long.valueOf(rcId).longValue();
 		this.hdxService.deleteResourceConfiguration(id);
 		return Response.ok().build();
+	}
+
+	@GET
+	@Path("/misc/configurations/id/{id}/edit")
+	public Response editResourceConfiguration(@PathParam("id") final String id) throws IllegalArgumentException, Exception {
+		final long lId = Long.valueOf(id).longValue();
+		return Response.ok(new Viewable("/admin/editResourceConfiguration", this.hdxService.getResourceConfiguration(lId))).build();
+	}
+
+	@POST
+	@Path("/misc/configurations/addGeneralConfiguration")
+	public Response addGeneralConfiguration(@FormParam("rcID") final String rcID, @FormParam("key") final String key, @FormParam("value") final String value) throws Exception {
+		// TODO Perform validation
+		final long id = Long.valueOf(rcID).longValue();
+		this.hdxService.addGeneralConfiguration(id, key, value);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/misc/configurations/deleteGeneralConfiguration")
+	public Response deleteGeneralConfiguration(@FormParam("rcID") final String rcID, @FormParam("id") final String id) throws Exception {
+		// TODO Perform validation
+		final long resConfID = Long.valueOf(rcID).longValue();
+		final long genConfID = Long.valueOf(id).longValue();
+		this.hdxService.deleteGeneralConfiguration(resConfID, genConfID);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/misc/configurations/updateGeneralConfiguration")
+	public Response deleteGeneralConfiguration(@FormParam("id") final String id, @FormParam("key") final String key, @FormParam("value") final String value) throws Exception {
+		// TODO Perform validation
+		final long genConfID = Long.valueOf(id).longValue();
+		this.hdxService.updateGeneralConfiguration(genConfID, key, value);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/misc/configurations/addIndicatorConfiguration")
+	public Response addIndicatorConfiguration(@FormParam("rcID") final String rcId, @FormParam("indTypeId") final String indTypeId, @FormParam("sourceId") final String sourceId,
+			@FormParam("key") final String key, @FormParam("value") final String value) throws Exception {
+		// TODO Perform validation
+		final long rcID = Long.valueOf(rcId).longValue();
+		final long itID = Long.valueOf(indTypeId).longValue();
+		final long srcID = Long.valueOf(sourceId).longValue();
+		this.hdxService.addIndicatorConfiguration(rcID, itID, srcID, key, value);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/misc/configurations/deleteIndicatorConfiguration")
+	public Response deleteIndicatorConfiguration(@FormParam("rcID") final String rcID, @FormParam("id") final String id) throws Exception {
+		// TODO Perform validation
+		final long resConfID = Long.valueOf(rcID).longValue();
+		final long genConfID = Long.valueOf(id).longValue();
+		this.hdxService.deleteIndicatorConfiguration(resConfID, genConfID);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/misc/configurations/updateIndicatorConfiguration")
+	public Response deleteIndicatorConfiguration(@FormParam("id") final String id, @FormParam("indTypeId") final String indTypeId, @FormParam("sourceId") final String sourceId,
+			@FormParam("key") final String key, @FormParam("value") final String value) throws Exception {
+		// TODO Perform validation
+		final long icID = Long.valueOf(id).longValue();
+		final long itID = Long.valueOf(indTypeId).longValue();
+		final long srcID = Long.valueOf(sourceId).longValue();
+		this.hdxService.updateIndicatorConfiguration(icID, itID, srcID, key, value);
+		return Response.ok().build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/misc/configurations/id/{id}/json")
+	public String getResourceConfigurationById(@QueryParam("var") final String var, @PathParam("id") final String id) throws Exception {
+
+		String result = "";
+		final long lId = Long.valueOf(id).longValue();
+		final ResourceConfiguration rc = this.hdxService.getResourceConfiguration(lId);
+		// final JsonArray jsonArray = new JsonArray();
+		final JsonObject element = new JsonObject();
+		element.addProperty("id", rc.getId());
+		element.addProperty("name", rc.getName());
+
+		// populate the dropdown for available general configuration keys
+		final JsonArray availableGenConfigList = new JsonArray();
+		for (final GeneralConfiguration p : GeneralConfiguration.values()) {
+			final JsonObject gcItem = new JsonObject();
+			gcItem.addProperty("key", p.getLabel());
+			availableGenConfigList.add(gcItem);
+		}
+		element.add("availableGenConfs", availableGenConfigList);
+
+		// get the general configurations assigned to current RC
+		final JsonArray gcList = new JsonArray();
+		for (final ResourceConfigEntry rce : rc.getGeneralConfigEntries()) {
+			final JsonObject gcItem = new JsonObject();
+			gcItem.addProperty("id", rce.getId());
+			gcItem.addProperty("key", rce.getEntryKey());
+			gcItem.addProperty("value", rce.getEntryValue());
+			gcList.add(gcItem);
+		}
+		element.add("generalConfigurations", gcList);
+
+		// populate the dropdown for available indicator configuration keys
+		final JsonArray availableIndConfigList = new JsonArray();
+		for (final IndicatorConfiguration p : IndicatorConfiguration.values()) {
+			final JsonObject gcItem = new JsonObject();
+			gcItem.addProperty("key", p.getLabel());
+			availableIndConfigList.add(gcItem);
+		}
+		element.add("availableIndConfs", availableIndConfigList);
+
+		// get available sources in db
+		final List<Source> sourcesList = this.curatedDataService.listSources();
+		final JsonArray sources = new JsonArray();
+		for (final Source src : sourcesList) {
+			final JsonObject gcItem = new JsonObject();
+			gcItem.addProperty("id", src.getId());
+			gcItem.addProperty("code", src.getCode());
+			sources.add(gcItem);
+		}
+		element.add("sources", sources);
+
+		// get indicator types from db
+		final List<IndicatorType> listIndicatorTypes = this.curatedDataService.listIndicatorTypes();
+		final JsonArray indTypes = new JsonArray();
+		for (final IndicatorType src : listIndicatorTypes) {
+			final JsonObject item = new JsonObject();
+			item.addProperty("id", src.getId());
+			item.addProperty("code", src.getCode());
+			indTypes.add(item);
+		}
+		element.add("indicatorTypes", indTypes);
+
+		// get the indicator configurations assigned to current RC
+		final JsonArray icList = new JsonArray();
+		for (final IndicatorResourceConfigEntry rce : rc.getIndicatorConfigEntries()) {
+			final JsonObject gcItem = new JsonObject();
+			gcItem.addProperty("id", rce.getId());
+			gcItem.addProperty("key", rce.getEntryKey());
+			gcItem.addProperty("value", rce.getEntryValue());
+			gcItem.addProperty("indTypeId", rce.getIndicatorType().getId());
+			gcItem.addProperty("srcId", rce.getSource().getId());
+			icList.add(gcItem);
+		}
+		element.add("indicatorConfigurations", icList);
+
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		result += element.toString();
+		return result;
 	}
 
 	/*
