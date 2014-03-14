@@ -121,6 +121,20 @@ public interface HDXService {
 
 	public void deleteResourceConfiguration(final long id) throws Exception;
 
+	public ResourceConfiguration getResourceConfiguration(final long id) throws Exception;
+
+	public void addGeneralConfiguration(long id, String key, String value) throws Exception;
+
+	public void deleteGeneralConfiguration(long rcID, long gcID) throws Exception;
+
+	public void updateGeneralConfiguration(long id, String key, String value) throws Exception;
+
+	public void addIndicatorConfiguration(long rcID, long itID, long srcID, String key, String value) throws Exception;
+
+	public void deleteIndicatorConfiguration(long rcID, long id) throws Exception;
+
+	public void updateIndicatorConfiguration(long id, long indTypeID, long srcID, String key, String value) throws Exception;
+
 	/*
 	 * Languages management.
 	 */

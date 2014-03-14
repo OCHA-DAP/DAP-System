@@ -111,6 +111,7 @@ public class HDXServiceImpl implements HDXService {
 
 	@Autowired
 	private ResourceConfigurationDao resourceConfigurationDao;
+
 	@Autowired
 	private AdditionalDataDao additionalDataDao;
 
@@ -583,6 +584,41 @@ public class HDXServiceImpl implements HDXService {
 	@Override
 	public void deleteResourceConfiguration(final long id) throws Exception {
 		this.resourceConfigurationDao.deleteResourceConfiguration(id);
+	}
+
+	@Override
+	public ResourceConfiguration getResourceConfiguration(final long id) throws Exception {
+		return this.resourceConfigurationDao.getResourceConfigurationById(id);
+	}
+
+	@Override
+	public void addGeneralConfiguration(final long id, final String key, final String value) throws Exception {
+		this.resourceConfigurationDao.addGeneralConfiguration(id, key, value);
+	}
+
+	@Override
+	public void deleteGeneralConfiguration(final long rcID, final long id) throws Exception {
+		this.resourceConfigurationDao.deleteGeneralConfiguration(rcID, id);
+	}
+
+	@Override
+	public void updateGeneralConfiguration(final long id, final String key, final String value) throws Exception {
+		this.resourceConfigurationDao.updateGeneralConfiguration(id, key, value);
+	}
+
+	@Override
+	public void addIndicatorConfiguration(final long rcID, final long itID, final long srcID, final String key, final String value) throws Exception {
+		this.resourceConfigurationDao.addIndicatorConfiguration(rcID, itID, srcID, key, value);
+	}
+
+	@Override
+	public void deleteIndicatorConfiguration(final long rcID, final long id) throws Exception {
+		this.resourceConfigurationDao.deleteIndicatorConfiguration(rcID, id);
+	}
+
+	@Override
+	public void updateIndicatorConfiguration(final long id, final long indTypeID, final long srcID, final String key, final String value) throws Exception {
+		this.resourceConfigurationDao.updateIndicatorConfiguration(id, indTypeID, srcID, key, value);
 	}
 
 	/*

@@ -3,6 +3,7 @@
  */
 package org.ocha.hdx.config;
 
+
 /**
  * @author alexandru-m-g
  * 
@@ -26,35 +27,30 @@ public class ConfigurationConstants {
 
 	}
 
-	// public enum GeneralConfiguration {
-	// MIN_NUM_OF_COLUMNS("Minimum number of columns"), PREVALIDATORS("Pre-validators"),
-	// ALLOWED_INDICATOR_TYPES("Allowed indicator type codes");
-	//
-	// private final String label;
-	//
-	// public String getLabel() {
-	// return label;
-	// }
-	//
-	// private GeneralConfiguration(final String lbl) {
-	// this.label = lbl;
-	// }
-	//
-	// }
+	public enum IndicatorConfiguration {
+		MAX_VALUE("Max Value"), MIN_VALUE("Min Value"), VALIDATORS("Validators"), EXPECTED_TIME_FORMAT("Expected time format"), EXPECTED_START_TIME_FORMAT("Expected start time format"), INDICATOR_VALUE_TYPE(
+				"Indicator Value Type");
 
-	/* General Configurations */
-	// public static final String MIN_NUM_OF_COLUMNS = "Minimum number of columns";
-	// public static final String PREVALIDATORS = "Pre-validators";
-	// public static final String ALLOWED_INDICATOR_TYPES = "Allowed indicator type codes";
+		private final String label;
 
-	/* Indicator specific configurations */
-	public static final String MAX_VALUE = "Max Value";
-	public static final String MIN_VALUE = "Min Value";
-	public static final String VALIDATORS = "Validators";
-	public static final String EXPECTED_TIME_FORMAT = "Expected time format";
+		public String getLabel() {
+			return this.label;
+		}
 
-	public static final String EXPECTED_START_TIME_FORMAT = "Expected start time format";
+		private IndicatorConfiguration(final String lbl) {
+			this.label = lbl;
+		}
 
-	public static final String INDICATOR_VALUE_TYPE = "Indicator Value Type";
+	}
+
+	/*
+	 * Indicator specific configurations public static final String MAX_VALUE = "Max Value"; public static final String MIN_VALUE =
+	 * "Min Value"; public static final String VALIDATORS = "Validators"; public static final String EXPECTED_TIME_FORMAT =
+	 * "Expected time format";
+	 * 
+	 * public static final String EXPECTED_START_TIME_FORMAT = "Expected start time format";
+	 * 
+	 * public static final String INDICATOR_VALUE_TYPE = "Indicator Value Type";
+	 */
 
 }

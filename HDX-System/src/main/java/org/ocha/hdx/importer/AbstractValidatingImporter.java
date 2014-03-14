@@ -250,7 +250,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 			 */
 			final Map<String, AbstractConfigEntry> indConfigMap = indTypeInfoHolder.getIndicatorEntries();
 			if (indConfigMap != null) {
-				final AbstractConfigEntry validatorsEntry = indConfigMap.get(ConfigurationConstants.VALIDATORS);
+				final AbstractConfigEntry validatorsEntry = indConfigMap.get(ConfigurationConstants.IndicatorConfiguration.VALIDATORS.getLabel());
 
 				/*
 				 * If there are validators configured to run, instantiate them
@@ -320,7 +320,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 					string = string.substring(0, string.length() - 1);
 				}
 			}
-			line[i]	= string;
+			line[i] = string;
 		}
 	}
 

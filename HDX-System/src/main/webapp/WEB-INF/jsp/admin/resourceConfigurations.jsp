@@ -43,20 +43,15 @@
 			<tr ng-repeat="rc in resourceConfigurations | orderBy:predicate:reverse">
 				<td>
 					<!-- non editable code  -->
-					<span e-name="id" e-form="rowform"> {{ rc.id }} </span>
+					<span > {{ rc.id }} </span>
 				</td>
 				<td>
 					<!-- editable native name  -->
-					<span editable-text="rc.name" e-class="form-control" e-name="name" e-form="rowform" e-required> {{ rc.name }} </span>
+					<span > {{ rc.name }} </span>
 				</td>
 				<td style="white-space: nowrap">
-					<!-- form -->
-					<form editable-form name="rowform" onbeforesave="updateResourceConfiguration($data, rc.name)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == rc">
-						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
-						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
-					</form>
 					<div class="buttons" ng-show="!rowform.$visible">
-						<button class="btn btn-primary btn-custom-default" ng-click="rowform.$show()" >Edit</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="editConfiguration(rc.id)" >Edit</button>
 						<button class="btn btn-danger btn-custom-danger" ng-click="deleteResourceConfiguration(rc.id)">Delete</button>
 					</div>
 				</td>

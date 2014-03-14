@@ -171,7 +171,7 @@ public class ResourceConfigurationDaoImplTest {
 	public final void testCreateEmptyResourceConfig() {
 		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), null, null);
+		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfiguration(config.getName(), null, null);
 
 		assertTrue(newConfig.getId() > 0);
 

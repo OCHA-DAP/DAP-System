@@ -83,13 +83,13 @@ public class DummyConfigurationCreator {
 		final IndicatorType type = this.typeDAO.getIndicatorTypeByCode(PSP080);
 		final Source source = this.sourceDAO.getSourceByCode(ESA_UNPD_WPP2012);
 
-		final IndicatorResourceConfigEntry entry1 = new IndicatorResourceConfigEntry(ConfigurationConstants.MAX_VALUE, "24000", source, type);
-		final IndicatorResourceConfigEntry entry2 = new IndicatorResourceConfigEntry(ConfigurationConstants.MIN_VALUE, "0.022", source, type);
+		final IndicatorResourceConfigEntry entry1 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel(), "24000", source, type);
+		final IndicatorResourceConfigEntry entry2 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel(), "0.022", source, type);
 
-		final IndicatorResourceConfigEntry entry3 = new IndicatorResourceConfigEntry(ConfigurationConstants.VALIDATORS, MinMaxValidatorCreator.NAME, source, type);
+		final IndicatorResourceConfigEntry entry3 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.VALIDATORS.getLabel(), MinMaxValidatorCreator.NAME, source, type);
 
-		final IndicatorResourceConfigEntry entry4 = new IndicatorResourceConfigEntry(ConfigurationConstants.EXPECTED_TIME_FORMAT, "YYYY", source, type);
-		final IndicatorResourceConfigEntry entry5 = new IndicatorResourceConfigEntry(ConfigurationConstants.EXPECTED_START_TIME_FORMAT, "YYYY-01-01", source, type);
+		final IndicatorResourceConfigEntry entry4 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel(), "YYYY", source, type);
+		final IndicatorResourceConfigEntry entry5 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel(), "YYYY-01-01", source, type);
 
 		entries.add(entry1);
 		entries.add(entry2);
