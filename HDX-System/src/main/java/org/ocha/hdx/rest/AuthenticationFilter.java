@@ -47,6 +47,9 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 			containerRequest.setSecurityContext(new AuthorizationSecurityContext(hdxService.getUserById(uid)));
 		} else if (path.endsWith("/login/")) {
 			log.debug("Doing nothing, login page");
+		} else if (path.contains("exporter/country/xlsx")) {
+			// FIXME remove this, and manage public resources in a nicer way
+			log.debug("Doing nothing, public page");
 		} else {
 			log.debug("No session, about to redirect to login page");
 
