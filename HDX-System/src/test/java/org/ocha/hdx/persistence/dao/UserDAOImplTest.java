@@ -113,7 +113,7 @@ public class UserDAOImplTest {
 		final User user = userDAO.getUserById("fakeId");
 
 		User updatedUser;
-		
+
 		// Update all datas
 		userDAO.updateUser(user.getId(), "newPassword", "newRole", "newAPIKey");
 		updatedUser = userDAO.getUserById(user.getId());
@@ -191,5 +191,11 @@ public class UserDAOImplTest {
 		final User deletedUser = userDAO.getUserById(user.getId());
 
 		Assert.assertNull(deletedUser);
+	}
+
+	@Test
+	public void testSha1Encrypt() {
+		final String encryptedPwd = userDAO.sha1Encrypt("TestPwd");
+		Assert.assertEquals("{SHA}hjLZDZI9dpxQIankFVlA0xs7IHs=", encryptedPwd);
 	}
 }
