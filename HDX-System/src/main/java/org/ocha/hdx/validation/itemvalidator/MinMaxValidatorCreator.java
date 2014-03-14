@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 @Component
 public class MinMaxValidatorCreator implements IValidatorCreator {
@@ -42,14 +42,13 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 
 	public class MinMaxValidator implements IValidator {
 
-
 		private final AbstractConfigEntry minValueEntry;
 		private final AbstractConfigEntry maxValueEntry;
 
 		public MinMaxValidator(final Map<String, AbstractConfigEntry> generalConfig, final Map<String, AbstractConfigEntry> indConfig) {
 
-			this.minValueEntry = indConfig.get(ConfigurationConstants.MIN_VALUE);
-			this.maxValueEntry = indConfig.get(ConfigurationConstants.MAX_VALUE);
+			this.minValueEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel());
+			this.maxValueEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel());
 
 			if (this.minValueEntry == null || this.maxValueEntry == null) {
 				throw new WrongParametersForValidationException("Min value and Max value cannot be null");
@@ -62,9 +61,9 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 		}
 
 		/**
-		 *
+		 * 
 		 * @see IValidator#validate(Indicator)
-		 *
+		 * 
 		 */
 		@Override
 		public Response validate(final Indicator indicator) throws WrongParametersForValidationException {
@@ -93,8 +92,8 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 			return response;
 		}
 
-		private void checkNumber(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response,
-				final Indicator indicator) throws WrongParametersForValidationException {
+		private void checkNumber(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response, final Indicator indicator)
+				throws WrongParametersForValidationException {
 			try {
 				final Double doubleValue = indicator.getValue().getNumberValue();
 				final Double min = Double.parseDouble(minValueEntry.getEntryValue());
@@ -110,8 +109,7 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 			}
 		}
 
-		private void checkDate(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response,
-				final Indicator indicator) {
+		private void checkDate(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response, final Indicator indicator) {
 			final LocalDate localDate = new LocalDate(indicator.getValue().getDateValue());
 
 			final LocalDate minDate = LocalDate.parse(minValueEntry.getEntryValue(), DATE_FORMATTER);
@@ -124,8 +122,7 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 			}
 		}
 
-		private void checkDateTime(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response,
-				final Indicator indicator) {
+		private void checkDateTime(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response, final Indicator indicator) {
 			final LocalDateTime localDateTime = new LocalDateTime(indicator.getValue().getDatetimeValue());
 
 			final LocalDateTime minDateTime = LocalDateTime.parse(minValueEntry.getEntryValue(), DATE_TIME_FORMATTER);
@@ -138,10 +135,8 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 			}
 		}
 
-		private void populateErrorResponse(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response,
-				final Indicator indicator) {
-			response.setDescription(String.format("Value is not between %s and %s for %s", minValueEntry.getEntryValue(), maxValueEntry.getEntryValue(),
-					indicator.toString()));
+		private void populateErrorResponse(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response, final Indicator indicator) {
+			response.setDescription(String.format("Value is not between %s and %s for %s", minValueEntry.getEntryValue(), maxValueEntry.getEntryValue(), indicator.toString()));
 			response.setStatus(ValidationStatus.ERROR);
 		}
 	}

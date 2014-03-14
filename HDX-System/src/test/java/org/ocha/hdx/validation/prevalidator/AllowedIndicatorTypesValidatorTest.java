@@ -18,11 +18,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-persistence-test.xml" })
-
 public class AllowedIndicatorTypesValidatorTest {
 
 	@Autowired
@@ -31,24 +30,25 @@ public class AllowedIndicatorTypesValidatorTest {
 	@Test
 	public final void testValidate() {
 
-		final Map<String, AbstractConfigEntry> generalConfig	= new HashMap<String, AbstractConfigEntry>();
-		generalConfig.put(ConfigurationConstants.ALLOWED_INDICATOR_TYPES,
-				new ResourceConfigEntry(ConfigurationConstants.ALLOWED_INDICATOR_TYPES, "test1_indicator_type" + ConfigurationConstants.SEPARATOR + "test2_indicator_type"));
+		final Map<String, AbstractConfigEntry> generalConfig = new HashMap<String, AbstractConfigEntry>();
+		generalConfig.put(ConfigurationConstants.GeneralConfiguration.ALLOWED_INDICATOR_TYPES.getLabel(),
+				new ResourceConfigEntry(ConfigurationConstants.GeneralConfiguration.ALLOWED_INDICATOR_TYPES.getLabel(), "test1_indicator_type" + ConfigurationConstants.SEPARATOR
+						+ "test2_indicator_type"));
 
-		final String [] testLine	= new String[AllowedIndicatorTypesValidatorCreator.IND_TYPE_POSITION+1];
+		final String[] testLine = new String[AllowedIndicatorTypesValidatorCreator.IND_TYPE_POSITION + 1];
 		testLine[AllowedIndicatorTypesValidatorCreator.IND_TYPE_POSITION] = "test1_indicator_type";
 
-		final IPreValidator allowedIndicatorTypesValidator	 = this.allowedIndicatorTypesValidatorsCreator.create(generalConfig);
+		final IPreValidator allowedIndicatorTypesValidator = this.allowedIndicatorTypesValidatorsCreator.create(generalConfig);
 
-		final Response responseSuccess1	= allowedIndicatorTypesValidator.validate(testLine);
+		final Response responseSuccess1 = allowedIndicatorTypesValidator.validate(testLine);
 		assertEquals(ValidationStatus.SUCCESS, responseSuccess1.getStatus());
 
 		testLine[AllowedIndicatorTypesValidatorCreator.IND_TYPE_POSITION] = "test2_indicator_type";
-		final Response responseSuccess2	= allowedIndicatorTypesValidator.validate(testLine);
+		final Response responseSuccess2 = allowedIndicatorTypesValidator.validate(testLine);
 		assertEquals(ValidationStatus.SUCCESS, responseSuccess2.getStatus());
 
 		testLine[AllowedIndicatorTypesValidatorCreator.IND_TYPE_POSITION] = "test3_indicator_type";
-		final Response responseError	= allowedIndicatorTypesValidator.validate(testLine);
+		final Response responseError = allowedIndicatorTypesValidator.validate(testLine);
 		assertEquals(ValidationStatus.ERROR, responseError.getStatus());
 	}
 

@@ -36,7 +36,7 @@ public class ColumnNumPreValidatorCreator implements IPreValidatorCreator {
 		private int numOfAllowedCols;
 
 		public ColumnNumPreValidator(final Map<String, AbstractConfigEntry> generalConfig) {
-			final AbstractConfigEntry numOfColumnsAllowedEntry = generalConfig.get(ConfigurationConstants.MIN_NUM_OF_COLUMNS);
+			final AbstractConfigEntry numOfColumnsAllowedEntry = generalConfig.get(ConfigurationConstants.GeneralConfiguration.MIN_NUM_OF_COLUMNS.getLabel());
 			if (numOfColumnsAllowedEntry == null) {
 				throw new WrongParametersForValidationException("NUM_OF_ALLOWED_COLUMNS config value cannot be null");
 			} else {
@@ -56,7 +56,7 @@ public class ColumnNumPreValidatorCreator implements IPreValidatorCreator {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see org.ocha.hdx.validation.prevalidator.IPreValidator#validate(java.lang.String[], java.util.Map)
 		 */
 		@Override

@@ -38,12 +38,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml",
-		"classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
-
+@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
 public class MinMaxValidatorTest {
 
 	@Autowired
@@ -55,16 +53,14 @@ public class MinMaxValidatorTest {
 	@Autowired
 	private DummyEntityCreatorWrapper dummyEntityCreatorWrapper;
 
-
 	@Autowired
 	private IndicatorCreationService indicatorCreationService;
 
 	private DummyEntityCreator entityCreator;
 
-
 	@Before
 	public void setup() {
-		this.entityCreator	= this.dummyEntityCreatorWrapper.generateNewEntityCreator();
+		this.entityCreator = this.dummyEntityCreatorWrapper.generateNewEntityCreator();
 		this.entityCreator.createNeededIndicatorTypeAndSource();
 	}
 
@@ -73,17 +69,16 @@ public class MinMaxValidatorTest {
 		this.entityCreator.deleteNeededIndicatorTypeAndSource();
 	}
 
-
 	/**
-	 * Test method for {@link org.ocha.hdx.validation.itemvalidator.MinMaxValidatorCreator#validate(org.ocha.hdx.importer.PreparedIndicator, java.util.Map, java.util.Map)}.
+	 * Test method for
+	 * {@link org.ocha.hdx.validation.itemvalidator.MinMaxValidatorCreator#validate(org.ocha.hdx.importer.PreparedIndicator, java.util.Map, java.util.Map)}
+	 * .
 	 */
 	@Test
 	public final void testValidateNumber() {
 
-
-
-		final ResourceConfiguration config					= this.dummyConfigurationCreator.createConfiguration();
-		final Map<String,AbstractConfigEntry> generalConfig	= new HashMap<String, AbstractConfigEntry>();
+		final ResourceConfiguration config = this.dummyConfigurationCreator.createConfiguration();
+		final Map<String, AbstractConfigEntry> generalConfig = new HashMap<String, AbstractConfigEntry>();
 
 		for (final AbstractConfigEntry entry : config.getGeneralConfigEntries()) {
 			generalConfig.put(entry.getEntryKey(), entry);
@@ -91,93 +86,91 @@ public class MinMaxValidatorTest {
 
 		assertTrue(generalConfig.size() > 0);
 
-
-		final Map<String, AbstractConfigEntry> indConfig		= new HashMap<String, AbstractConfigEntry>();
-		for (final IndicatorResourceConfigEntry indConfigEntry: config.getIndicatorConfigEntries() ) {
-			if ( DummyConfigurationCreator.ESA_UNPD_WPP2012.equals(indConfigEntry.getSource().getCode())
-					&& DummyConfigurationCreator.PSP080.equals(indConfigEntry.getIndicatorType().getCode()) ) {
+		final Map<String, AbstractConfigEntry> indConfig = new HashMap<String, AbstractConfigEntry>();
+		for (final IndicatorResourceConfigEntry indConfigEntry : config.getIndicatorConfigEntries()) {
+			if (DummyConfigurationCreator.ESA_UNPD_WPP2012.equals(indConfigEntry.getSource().getCode()) && DummyConfigurationCreator.PSP080.equals(indConfigEntry.getIndicatorType().getCode())) {
 				indConfig.put(indConfigEntry.getEntryKey(), indConfigEntry);
 			}
 		}
 
 		assertTrue(indConfig.size() > 0);
 
-		final PreparedIndicator preparedIndicator	= new PreparedIndicator();
+		final PreparedIndicator preparedIndicator = new PreparedIndicator();
 
 		preparedIndicator.setSourceCode(DummyConfigurationCreator.ESA_UNPD_WPP2012);
 		preparedIndicator.setIndicatorTypeCode(DummyConfigurationCreator.PSP080);
 		preparedIndicator.setEntityCode("Fi");
 		preparedIndicator.setEntityTypeCode("country");
-		preparedIndicator.setValue( new IndicatorValue(100d) );
+		preparedIndicator.setValue(new IndicatorValue(100d));
 
-		Indicator indicator	= this.indicatorCreationService.createIndicator(preparedIndicator);
+		Indicator indicator = this.indicatorCreationService.createIndicator(preparedIndicator);
 
 		final IValidator minMaxValidator = this.minMaxValidatorCreator.create(generalConfig, indConfig);
 
-		final Response responseSuccess	= minMaxValidator.validate(indicator);
+		final Response responseSuccess = minMaxValidator.validate(indicator);
 		assertEquals(ValidationStatus.SUCCESS, responseSuccess.getStatus());
 
-		preparedIndicator.setValue( new IndicatorValue(0.0) );
-		indicator	= this.indicatorCreationService.createIndicator(preparedIndicator);
+		preparedIndicator.setValue(new IndicatorValue(0.0));
+		indicator = this.indicatorCreationService.createIndicator(preparedIndicator);
 
-		final Response responseError	= minMaxValidator.validate(indicator);
+		final Response responseError = minMaxValidator.validate(indicator);
 		assertEquals(ValidationStatus.ERROR, responseError.getStatus());
 
-		indConfig.remove(ConfigurationConstants.MAX_VALUE) ;
+		indConfig.remove(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel());
 		try {
 			final IValidator minMaxValidator2 = this.minMaxValidatorCreator.create(generalConfig, indConfig);
 			fail("If a configuration parameter is missing it needs to raise an exception");
-		}
-		catch(final WrongParametersForValidationException e) {
+		} catch (final WrongParametersForValidationException e) {
 			assertTrue(true);
 		}
-
-
 
 	}
 
 	@Test
 	public final void testValidateDate() {
 
-		final ResourceConfiguration config					= this.dummyConfigurationCreator.createConfiguration();
-		final Map<String,AbstractConfigEntry> generalConfig	= new HashMap<String, AbstractConfigEntry>();
+		final ResourceConfiguration config = this.dummyConfigurationCreator.createConfiguration();
+		final Map<String, AbstractConfigEntry> generalConfig = new HashMap<String, AbstractConfigEntry>();
 
 		for (final AbstractConfigEntry entry : config.getGeneralConfigEntries()) {
 			generalConfig.put(entry.getEntryKey(), entry);
 		}
 
-		final Map<String, AbstractConfigEntry> indConfig		= new HashMap<String, AbstractConfigEntry>();
+		final Map<String, AbstractConfigEntry> indConfig = new HashMap<String, AbstractConfigEntry>();
 
-		final AbstractConfigEntry minConfigEntry	= new AbstractConfigEntry(ConfigurationConstants.MIN_VALUE,"05/05/2013") {};
-		final AbstractConfigEntry maxConfigEntry	= new AbstractConfigEntry(ConfigurationConstants.MAX_VALUE,"31/12/2014") {};
+		final AbstractConfigEntry minConfigEntry = new AbstractConfigEntry(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel(), "05/05/2013") {
+		};
+		final AbstractConfigEntry maxConfigEntry = new AbstractConfigEntry(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel(), "31/12/2014") {
+		};
 		indConfig.put(minConfigEntry.getEntryKey(), minConfigEntry);
 		indConfig.put(maxConfigEntry.getEntryKey(), maxConfigEntry);
 
-		final PreparedIndicator preparedIndicator	= new PreparedIndicator();
+		final PreparedIndicator preparedIndicator = new PreparedIndicator();
 
-		final Date testDate 	= LocalDate.parse("05/05/2013", MinMaxValidatorCreator.DATE_FORMATTER).toDate();
+		final Date testDate = LocalDate.parse("05/05/2013", MinMaxValidatorCreator.DATE_FORMATTER).toDate();
 
 		preparedIndicator.setSourceCode(DummyConfigurationCreator.ESA_UNPD_WPP2012);
 		preparedIndicator.setIndicatorTypeCode(DummyConfigurationCreator.PSP080);
 		preparedIndicator.setEntityCode("Fi");
 		preparedIndicator.setEntityTypeCode("country");
-		preparedIndicator.setValue( new IndicatorValue(testDate,ValueType.DATE) );
+		preparedIndicator.setValue(new IndicatorValue(testDate, ValueType.DATE));
 
-		final Indicator indicator	= this.indicatorCreationService.createIndicator(preparedIndicator);
-
+		final Indicator indicator = this.indicatorCreationService.createIndicator(preparedIndicator);
 
 		IValidator minMaxValidator = this.minMaxValidatorCreator.create(generalConfig, indConfig);
-		final Response responseSuccess1	= minMaxValidator.validate(indicator);
+		final Response responseSuccess1 = minMaxValidator.validate(indicator);
 		assertEquals(ValidationStatus.SUCCESS, responseSuccess1.getStatus());
 
-		indConfig.put(ConfigurationConstants.MIN_VALUE, new AbstractConfigEntry(ConfigurationConstants.MIN_VALUE,"04/05/2013"){});
+		indConfig.put(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel(), new AbstractConfigEntry(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel(), "04/05/2013") {
+		});
 		minMaxValidator = this.minMaxValidatorCreator.create(generalConfig, indConfig);
-		final Response responseSuccess2	= minMaxValidator.validate(indicator);
+		final Response responseSuccess2 = minMaxValidator.validate(indicator);
 		assertEquals(ValidationStatus.SUCCESS, responseSuccess2.getStatus());
 
-		indConfig.put(ConfigurationConstants.MAX_VALUE, new AbstractConfigEntry(ConfigurationConstants.MAX_VALUE,"04/05/2012"){});
+		indConfig.put(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel(), new AbstractConfigEntry(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel(), "04/05/2012") {
+		});
 		minMaxValidator = this.minMaxValidatorCreator.create(generalConfig, indConfig);
-		final Response responseError	= minMaxValidator.validate(indicator);
+		final Response responseError = minMaxValidator.validate(indicator);
 		assertEquals(ValidationStatus.ERROR, responseError.getStatus());
 
 	}
@@ -185,45 +178,51 @@ public class MinMaxValidatorTest {
 	@Test
 	public final void testValidateDatetime() {
 
-		final ResourceConfiguration config					= this.dummyConfigurationCreator.createConfiguration();
-		final Map<String,AbstractConfigEntry> generalConfig	= new HashMap<String, AbstractConfigEntry>();
+		final ResourceConfiguration config = this.dummyConfigurationCreator.createConfiguration();
+		final Map<String, AbstractConfigEntry> generalConfig = new HashMap<String, AbstractConfigEntry>();
 
 		for (final AbstractConfigEntry entry : config.getGeneralConfigEntries()) {
 			generalConfig.put(entry.getEntryKey(), entry);
 		}
 
-		final Map<String, AbstractConfigEntry> indConfig		= new HashMap<String, AbstractConfigEntry>();
+		final Map<String, AbstractConfigEntry> indConfig = new HashMap<String, AbstractConfigEntry>();
 
-		final AbstractConfigEntry minConfigEntry	= new AbstractConfigEntry(ConfigurationConstants.MIN_VALUE,"05/05/2013 07:07:07") {};
-		final AbstractConfigEntry maxConfigEntry	= new AbstractConfigEntry(ConfigurationConstants.MAX_VALUE,"31/12/2014 07:07:07") {};
+		final AbstractConfigEntry minConfigEntry = new AbstractConfigEntry(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel(), "05/05/2013 07:07:07") {
+		};
+		final AbstractConfigEntry maxConfigEntry = new AbstractConfigEntry(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel(), "31/12/2014 07:07:07") {
+		};
 		indConfig.put(minConfigEntry.getEntryKey(), minConfigEntry);
 		indConfig.put(maxConfigEntry.getEntryKey(), maxConfigEntry);
 
-		final PreparedIndicator preparedIndicator	= new PreparedIndicator();
+		final PreparedIndicator preparedIndicator = new PreparedIndicator();
 
-		final Date testDate 	= LocalDateTime.parse("05/05/2013 07:07:07", MinMaxValidatorCreator.DATE_TIME_FORMATTER).toDate();
+		final Date testDate = LocalDateTime.parse("05/05/2013 07:07:07", MinMaxValidatorCreator.DATE_TIME_FORMATTER).toDate();
 
 		preparedIndicator.setSourceCode(DummyConfigurationCreator.ESA_UNPD_WPP2012);
 		preparedIndicator.setIndicatorTypeCode(DummyConfigurationCreator.PSP080);
 		preparedIndicator.setEntityCode("Fi");
 		preparedIndicator.setEntityTypeCode("country");
-		preparedIndicator.setValue( new IndicatorValue(testDate,ValueType.DATETIME) );
+		preparedIndicator.setValue(new IndicatorValue(testDate, ValueType.DATETIME));
 
-		final Indicator indicator	= this.indicatorCreationService.createIndicator(preparedIndicator);
+		final Indicator indicator = this.indicatorCreationService.createIndicator(preparedIndicator);
 
 		IValidator minMaxValidator = this.minMaxValidatorCreator.create(generalConfig, indConfig);
 
-		final Response responseSuccess1	= minMaxValidator.validate(indicator);
+		final Response responseSuccess1 = minMaxValidator.validate(indicator);
 		assertEquals(ValidationStatus.SUCCESS, responseSuccess1.getStatus());
 
-		indConfig.put(ConfigurationConstants.MIN_VALUE, new AbstractConfigEntry(ConfigurationConstants.MIN_VALUE,"04/05/2013 06:06:06"){});
+		indConfig.put(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel(), new AbstractConfigEntry(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel(),
+				"04/05/2013 06:06:06") {
+		});
 		minMaxValidator = this.minMaxValidatorCreator.create(generalConfig, indConfig);
-		final Response responseSuccess2	= minMaxValidator.validate(indicator);
+		final Response responseSuccess2 = minMaxValidator.validate(indicator);
 		assertEquals(ValidationStatus.SUCCESS, responseSuccess2.getStatus());
 
-		indConfig.put(ConfigurationConstants.MAX_VALUE, new AbstractConfigEntry(ConfigurationConstants.MAX_VALUE,"05/05/2013 06:06:06"){});
+		indConfig.put(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel(), new AbstractConfigEntry(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel(),
+				"05/05/2013 06:06:06") {
+		});
 		minMaxValidator = this.minMaxValidatorCreator.create(generalConfig, indConfig);
-		final Response responseError	= minMaxValidator.validate(indicator);
+		final Response responseError = minMaxValidator.validate(indicator);
 		assertEquals(ValidationStatus.ERROR, responseError.getStatus());
 
 	}

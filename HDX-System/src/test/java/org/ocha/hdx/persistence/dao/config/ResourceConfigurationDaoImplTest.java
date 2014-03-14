@@ -93,7 +93,7 @@ public class ResourceConfigurationDaoImplTest {
 		for (int i = 0; i < NUM_OF_ITEMS; i++) {
 			final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME + i, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
 
-			this.resourceConfigurationDao.createResourceConfig(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
+			this.resourceConfigurationDao.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
 		}
 
 		final List<ResourceConfiguration> modifiedList = this.resourceConfigurationDao.listResourceConfigurations();
@@ -136,7 +136,7 @@ public class ResourceConfigurationDaoImplTest {
 	public final void testDeleteResourceConfiguration() {
 		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
+		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
 
 		assertTrue(newConfig.getId() > 0);
 
@@ -153,7 +153,7 @@ public class ResourceConfigurationDaoImplTest {
 	public final void testCreateResourceConfig() {
 		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
+		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
 
 		assertTrue(newConfig.getId() > 0);
 
@@ -171,7 +171,7 @@ public class ResourceConfigurationDaoImplTest {
 	public final void testCreateEmptyResourceConfig() {
 		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), null, null);
+		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfiguration(config.getName(), null, null);
 
 		assertTrue(newConfig.getId() > 0);
 
@@ -189,7 +189,7 @@ public class ResourceConfigurationDaoImplTest {
 	public final void testUpdateResourceConfiguration() {
 		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfig(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
+		final ResourceConfiguration newConfig = this.resourceConfigurationDao.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
 
 		final long id = newConfig.getId();
 

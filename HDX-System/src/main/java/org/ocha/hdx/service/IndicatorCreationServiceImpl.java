@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 
@@ -34,7 +34,9 @@ public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 	@Autowired
 	private EntityDAO entityDAO;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ocha.hdx.service.IndicatorCreationService#createIndicator(org.ocha.hdx.importer.PreparedIndicator)
 	 */
 	@Override
@@ -59,14 +61,14 @@ public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 
 	@Override
 	public List<IndicatorResourceConfigEntry> findEmbeddedConfigs(final String indicatorTypeCode, final String sourceCode) {
-		final List<IndicatorResourceConfigEntry> list	= new ArrayList<IndicatorResourceConfigEntry>();
+		final List<IndicatorResourceConfigEntry> list = new ArrayList<IndicatorResourceConfigEntry>();
 
-		final IndicatorType indicatorType		= this.indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
-		final Source source						= this.sourceDAO.getSourceByCode(sourceCode);
+		final IndicatorType indicatorType = this.indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
+		final Source source = this.sourceDAO.getSourceByCode(sourceCode);
 
-		final ValueType valueType	= indicatorType.getValueType();
-		if ( valueType != null ) {
-			final IndicatorResourceConfigEntry computedConigEntry = new IndicatorResourceConfigEntry(ConfigurationConstants.INDICATOR_VALUE_TYPE,
+		final ValueType valueType = indicatorType.getValueType();
+		if (valueType != null) {
+			final IndicatorResourceConfigEntry computedConigEntry = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.INDICATOR_VALUE_TYPE.getLabel(),
 					valueType.getLabel(), source, indicatorType);
 			list.add(computedConigEntry);
 		}

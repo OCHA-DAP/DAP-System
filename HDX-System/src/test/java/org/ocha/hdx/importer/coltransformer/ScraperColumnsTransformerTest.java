@@ -70,7 +70,6 @@ public class ScraperColumnsTransformerTest {
 		assertNull(matcher2.group(ScraperColumnsTransformer.SIGN_GROUP));
 		assertNull(matcher2.group(ScraperColumnsTransformer.OFFSET_GROUP));
 
-
 		final Matcher matcher3 = expectedTimeFormatPattern.matcher(option3);
 		assertTrue(matcher3.matches());
 		assertEquals("20", matcher3.group(ScraperColumnsTransformer.DAY_GROUP));
@@ -78,16 +77,15 @@ public class ScraperColumnsTransformerTest {
 		assertEquals("-", matcher3.group(ScraperColumnsTransformer.SIGN_GROUP));
 		assertEquals("2", matcher3.group(ScraperColumnsTransformer.OFFSET_GROUP));
 
-
-
 	}
+
 	@Test
 	public void testActualDatePattern() {
 		final Pattern pattern = Pattern.compile(ScraperColumnsTransformer.ACTUAL_DATE_PATTERN);
 
-		final String option1	= "1995/P5Y";
+		final String option1 = "1995/P5Y";
 
-		final Matcher matcher1		= pattern.matcher(option1);
+		final Matcher matcher1 = pattern.matcher(option1);
 
 		assertTrue(matcher1.matches());
 		assertEquals("1995", matcher1.group(ScraperColumnsTransformer.YEAR_GROUP));
@@ -95,46 +93,54 @@ public class ScraperColumnsTransformerTest {
 	}
 
 	@Test
-	public void testPeriodConfigurations () {
+	public void testPeriodConfigurations() {
 		final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
 
-		final Map<String, AbstractConfigEntry> indConfig	= new HashMap<String, AbstractConfigEntry>();
+		final Map<String, AbstractConfigEntry> indConfig = new HashMap<String, AbstractConfigEntry>();
 
-		indConfig.put(ConfigurationConstants.EXPECTED_TIME_FORMAT, new AbstractConfigEntry(ConfigurationConstants.EXPECTED_TIME_FORMAT, "YYYY/P5Y") {});
-		indConfig.put(ConfigurationConstants.EXPECTED_START_TIME_FORMAT, new AbstractConfigEntry(ConfigurationConstants.EXPECTED_START_TIME_FORMAT, "YYYY(-1)-20-11") {});
+		indConfig.put(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel(),
+				new AbstractConfigEntry(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel(), "YYYY/P5Y") {
+				});
+		indConfig.put(ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel(), new AbstractConfigEntry(
+				ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel(), "YYYY(-1)-20-11") {
+		});
 
-		final ScraperColumnsTransformer transformer	= new ScraperColumnsTransformer(null, indConfig, null);
+		final ScraperColumnsTransformer transformer = new ScraperColumnsTransformer(null, indConfig, null);
 
-		final String [] line = {"","","","1995/P5Y"};
-		final Date startDate	= transformer.getStartDate(line);
-		final LocalDate localStartDate	=	LocalDate.parse("20/11/1994", DATE_FORMATTER);
+		final String[] line = { "", "", "", "1995/P5Y" };
+		final Date startDate = transformer.getStartDate(line);
+		final LocalDate localStartDate = LocalDate.parse("20/11/1994", DATE_FORMATTER);
 		assertEquals(localStartDate.toDate(), startDate);
 		assertEquals(Periodicity.FIVE_YEARS, transformer.getPeriodicity(line));
 
-		final Date endDate	= transformer.getEndDate(line);
-		final LocalDate localEndDate	=	LocalDate.parse("20/11/1999", DATE_FORMATTER);
-		assertEquals(localEndDate.toDate(),endDate);
+		final Date endDate = transformer.getEndDate(line);
+		final LocalDate localEndDate = LocalDate.parse("20/11/1999", DATE_FORMATTER);
+		assertEquals(localEndDate.toDate(), endDate);
 	}
 
 	@Test
-	public void testExactDateConfiguration () {
+	public void testExactDateConfiguration() {
 		final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
 
-		final Map<String, AbstractConfigEntry> indConfig	= new HashMap<String, AbstractConfigEntry>();
+		final Map<String, AbstractConfigEntry> indConfig = new HashMap<String, AbstractConfigEntry>();
 
-		indConfig.put(ConfigurationConstants.EXPECTED_TIME_FORMAT, new AbstractConfigEntry(ConfigurationConstants.EXPECTED_TIME_FORMAT, "dd-MM-yyyy") {});
-		indConfig.put(ConfigurationConstants.EXPECTED_START_TIME_FORMAT, new AbstractConfigEntry(ConfigurationConstants.EXPECTED_START_TIME_FORMAT, "dd-MM-yyyy") {});
+		indConfig.put(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel(),
+				new AbstractConfigEntry(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel(), "dd-MM-yyyy") {
+				});
+		indConfig.put(ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel(), new AbstractConfigEntry(
+				ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel(), "dd-MM-yyyy") {
+		});
 
-		final ScraperColumnsTransformer transformer	= new ScraperColumnsTransformer(null, indConfig, null);
+		final ScraperColumnsTransformer transformer = new ScraperColumnsTransformer(null, indConfig, null);
 
-		final String [] line = {"","","","13-02-2013"};
-		final Date startDate	= transformer.getStartDate(line);
-		final LocalDate localStartDate	=	LocalDate.parse("13/02/2013", DATE_FORMATTER);
+		final String[] line = { "", "", "", "13-02-2013" };
+		final Date startDate = transformer.getStartDate(line);
+		final LocalDate localStartDate = LocalDate.parse("13/02/2013", DATE_FORMATTER);
 		assertEquals(localStartDate.toDate(), startDate);
 		assertEquals(Periodicity.NONE, transformer.getPeriodicity(line));
 
-		final Date endDate	= transformer.getEndDate(line);
-		assertEquals(localStartDate.toDate(),endDate);
+		final Date endDate = transformer.getEndDate(line);
+		assertEquals(localStartDate.toDate(), endDate);
 
 	}
 }
