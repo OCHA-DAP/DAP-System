@@ -39,18 +39,18 @@ public class Text {
 	 * Lob is not enough do to a small weirdness in Hibernate (that seems to persiste in version 4 too )
 	 * That's why the type annotation is also needed.
 	 * see http://www.shredzone.de/cilla/page/299/string-lobs-on-postgresql-with-hibernate-36.html
-	 * 
+	 *
 	 */
 	@Lob
 	@Type(type="org.hibernate.type.StringClobType")
-	@Column(name = "default_value", nullable = false, updatable = true)
+	@Column(name = "default_value", nullable = false, updatable = true, length=10000)
 	private String defaultValue;
 
 	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "id.text")
 	private List<Translation> translations;
 
 	public long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(final long id) {
@@ -58,7 +58,7 @@ public class Text {
 	}
 
 	public String getDefaultValue() {
-		return defaultValue;
+		return this.defaultValue;
 	}
 
 	public void setDefaultValue(final String defaultValue) {
@@ -66,7 +66,7 @@ public class Text {
 	}
 
 	public List<Translation> getTranslations() {
-		return translations;
+		return this.translations;
 	}
 
 	public void setTranslations(final List<Translation> translations) {
@@ -77,27 +77,33 @@ public class Text {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((this.defaultValue == null) ? 0 : this.defaultValue.hashCode());
+		result = prime * result + (int) (this.id ^ (this.id >>> 32));
 		return result;
 	}
 
 	@Override
 	public boolean equals(final Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (this.getClass() != obj.getClass()) {
 			return false;
+		}
 		final Text other = (Text) obj;
-		if (defaultValue == null) {
-			if (other.defaultValue != null)
+		if (this.defaultValue == null) {
+			if (other.defaultValue != null) {
 				return false;
-		} else if (!defaultValue.equals(other.defaultValue))
+			}
+		} else if (!this.defaultValue.equals(other.defaultValue)) {
 			return false;
-		if (id != other.id)
+		}
+		if (this.id != other.id) {
 			return false;
+		}
 		return true;
 	}
 
