@@ -1,0 +1,1280 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <language code="FR" native_name="Français"/>
+  <language code="EN" native_name="English"/>
+  <language code="ES" native_name="Español"/>
+  <text id="1" default_value="Country"/>
+  <text id="2" default_value="Crisis"/>
+  <text id="3" default_value="AFGHANISTAN"/>
+  <text id="4" default_value="ALBANIA"/>
+  <text id="5" default_value="ALGERIA"/>
+  <text id="6" default_value="AMERICAN SAMOA"/>
+  <text id="7" default_value="ANDORRA"/>
+  <text id="8" default_value="ANGOLA"/>
+  <text id="9" default_value="ANGUILLA"/>
+  <text id="10" default_value="ANTARCTICA"/>
+  <text id="11" default_value="ANTIGUA AND BARBUDA"/>
+  <text id="12" default_value="ARGENTINA"/>
+  <text id="13" default_value="ARMENIA"/>
+  <text id="14" default_value="ARUBA"/>
+  <text id="15" default_value="AUSTRALIA"/>
+  <text id="16" default_value="AUSTRIA"/>
+  <text id="17" default_value="AZERBAIJAN"/>
+  <text id="18" default_value="BAHAMAS"/>
+  <text id="19" default_value="BAHRAIN"/>
+  <text id="20" default_value="BANGLADESH"/>
+  <text id="21" default_value="BARBADOS"/>
+  <text id="22" default_value="BELARUS"/>
+  <text id="23" default_value="BELGIUM"/>
+  <text id="24" default_value="BELIZE"/>
+  <text id="25" default_value="BENIN"/>
+  <text id="26" default_value="BERMUDA"/>
+  <text id="27" default_value="BHUTAN"/>
+  <text id="28" default_value="BOLIVIA"/>
+  <text id="29" default_value="BOSNIA AND HERZEGOWINA"/>
+  <text id="30" default_value="BOTSWANA"/>
+  <text id="31" default_value="BOUVET ISLAND"/>
+  <text id="32" default_value="BRAZIL"/>
+  <text id="33" default_value="BRITISH INDIAN OCEAN TERRITORY"/>
+  <text id="34" default_value="BRUNEI DARUSSALAM"/>
+  <text id="35" default_value="BULGARIA"/>
+  <text id="36" default_value="BURKINA FASO"/>
+  <text id="37" default_value="BURUNDI"/>
+  <text id="38" default_value="CAMBODIA"/>
+  <text id="39" default_value="CAMEROON"/>
+  <text id="40" default_value="CANADA"/>
+  <text id="41" default_value="CAPE VERDE"/>
+  <text id="42" default_value="CAYMAN ISLANDS"/>
+  <text id="43" default_value="CENTRAL AFRICAN REPUBLIC"/>
+  <text id="44" default_value="CHAD"/>
+  <text id="45" default_value="CHILE"/>
+  <text id="46" default_value="CHINA"/>
+  <text id="47" default_value="CHRISTMAS ISLAND"/>
+  <text id="48" default_value="COCOS (KEELING) ISLANDS"/>
+  <text id="49" default_value="COLOMBIA"/>
+  <text id="50" default_value="COMOROS"/>
+  <text id="51" default_value="CONGO"/>
+  <text id="52" default_value="CONGO, THE DRC"/>
+  <text id="53" default_value="COOK ISLANDS"/>
+  <text id="54" default_value="COSTA RICA"/>
+  <text id="55" default_value="COTE D&apos;IVOIRE"/>
+  <text id="56" default_value="CROATIA (local name: Hrvatska)"/>
+  <text id="57" default_value="CUBA"/>
+  <text id="58" default_value="CYPRUS"/>
+  <text id="59" default_value="CZECH REPUBLIC"/>
+  <text id="60" default_value="DENMARK"/>
+  <text id="61" default_value="DJIBOUTI"/>
+  <text id="62" default_value="DOMINICA"/>
+  <text id="63" default_value="DOMINICAN REPUBLIC"/>
+  <text id="64" default_value="EAST TIMOR"/>
+  <text id="65" default_value="ECUADOR"/>
+  <text id="66" default_value="EGYPT"/>
+  <text id="67" default_value="EL SALVADOR"/>
+  <text id="68" default_value="EQUATORIAL GUINEA"/>
+  <text id="69" default_value="ERITREA"/>
+  <text id="70" default_value="ESTONIA"/>
+  <text id="71" default_value="ETHIOPIA"/>
+  <text id="72" default_value="FALKLAND ISLANDS (MALVINAS)"/>
+  <text id="73" default_value="FAROE ISLANDS"/>
+  <text id="74" default_value="FIJI"/>
+  <text id="75" default_value="FINLAND"/>
+  <text id="76" default_value="FRANCE"/>
+  <text id="77" default_value="FRANCE, METROPOLITAN"/>
+  <text id="78" default_value="FRENCH GUIANA"/>
+  <text id="79" default_value="FRENCH POLYNESIA"/>
+  <text id="80" default_value="FRENCH SOUTHERN TERRITORIES"/>
+  <text id="81" default_value="GABON"/>
+  <text id="82" default_value="GAMBIA"/>
+  <text id="83" default_value="GEORGIA"/>
+  <text id="84" default_value="GERMANY"/>
+  <text id="85" default_value="GHANA"/>
+  <text id="86" default_value="GIBRALTAR"/>
+  <text id="87" default_value="GREECE"/>
+  <text id="88" default_value="GREENLAND"/>
+  <text id="89" default_value="GRENADA"/>
+  <text id="90" default_value="GUADELOUPE"/>
+  <text id="91" default_value="GUAM"/>
+  <text id="92" default_value="GUATEMALA"/>
+  <text id="93" default_value="GUINEA"/>
+  <text id="94" default_value="GUINEA-BISSAU"/>
+  <text id="95" default_value="GUYANA"/>
+  <text id="96" default_value="HAITI"/>
+  <text id="97" default_value="HEARD AND MC DONALD ISLANDS"/>
+  <text id="98" default_value="HOLY SEE (VATICAN CITY STATE)"/>
+  <text id="99" default_value="HONDURAS"/>
+  <text id="100" default_value="HONG KONG"/>
+  <text id="101" default_value="HUNGARY"/>
+  <text id="102" default_value="ICELAND"/>
+  <text id="103" default_value="INDIA"/>
+  <text id="104" default_value="INDONESIA"/>
+  <text id="105" default_value="IRAN (ISLAMIC REPUBLIC OF)"/>
+  <text id="106" default_value="IRAQ"/>
+  <text id="107" default_value="IRELAND"/>
+  <text id="108" default_value="ISRAEL"/>
+  <text id="109" default_value="ITALY"/>
+  <text id="110" default_value="JAMAICA"/>
+  <text id="111" default_value="JAPAN"/>
+  <text id="112" default_value="JORDAN"/>
+  <text id="113" default_value="KAZAKHSTAN"/>
+  <text id="114" default_value="KENYA"/>
+  <text id="115" default_value="KIRIBATI"/>
+  <text id="116" default_value="KOREA, D.P.R.O."/>
+  <text id="117" default_value="KOREA, REPUBLIC OF"/>
+  <text id="118" default_value="KUWAIT"/>
+  <text id="119" default_value="KYRGYZSTAN"/>
+  <text id="120" default_value="LAOS "/>
+  <text id="121" default_value="LATVIA"/>
+  <text id="122" default_value="LEBANON"/>
+  <text id="123" default_value="LESOTHO"/>
+  <text id="124" default_value="LIBERIA"/>
+  <text id="125" default_value="LIBYAN ARAB JAMAHIRIYA"/>
+  <text id="126" default_value="LIECHTENSTEIN"/>
+  <text id="127" default_value="LITHUANIA"/>
+  <text id="128" default_value="LUXEMBURG"/>
+  <text id="129" default_value="MACAU"/>
+  <text id="130" default_value="MACEDONIA"/>
+  <text id="131" default_value="MADAGASCAR"/>
+  <text id="132" default_value="MALAWI"/>
+  <text id="133" default_value="MALAYSIA"/>
+  <text id="134" default_value="MALDIVES"/>
+  <text id="135" default_value="MALI"/>
+  <text id="136" default_value="MALTA"/>
+  <text id="137" default_value="MARSHALL ISLANDS"/>
+  <text id="138" default_value="MARTINIQUE"/>
+  <text id="139" default_value="MAURITANIA"/>
+  <text id="140" default_value="MAURITIUS"/>
+  <text id="141" default_value="MAYOTTE"/>
+  <text id="142" default_value="MEXICO"/>
+  <text id="143" default_value="MICRONESIA, FEDERATED STATES OF"/>
+  <text id="144" default_value="MOLDOVA, REPUBLIC OF"/>
+  <text id="145" default_value="MONACO"/>
+  <text id="146" default_value="MONGOLIA"/>
+  <text id="147" default_value="MONTENEGRO"/>
+  <text id="148" default_value="MONTSERRAT"/>
+  <text id="149" default_value="MOROCCO"/>
+  <text id="150" default_value="MOZAMBIQUE"/>
+  <text id="151" default_value="MYANMAR (Burma) "/>
+  <text id="152" default_value="NAMIBIA"/>
+  <text id="153" default_value="NAURU"/>
+  <text id="154" default_value="NEPAL"/>
+  <text id="155" default_value="NETHERLANDS"/>
+  <text id="156" default_value="NETHERLANDS ANTILLES"/>
+  <text id="157" default_value="NEW CALEDONIA"/>
+  <text id="158" default_value="NEW ZEALAND"/>
+  <text id="159" default_value="NICARAGUA"/>
+  <text id="160" default_value="NIGER"/>
+  <text id="161" default_value="NIGERIA"/>
+  <text id="162" default_value="NIUE"/>
+  <text id="163" default_value="NORFOLK ISLAND"/>
+  <text id="164" default_value="NORTHERN MARIANA ISLANDS"/>
+  <text id="165" default_value="NORWAY"/>
+  <text id="166" default_value="OMAN"/>
+  <text id="167" default_value="PAKISTAN"/>
+  <text id="168" default_value="PALAU"/>
+  <text id="169" default_value="PANAMA"/>
+  <text id="170" default_value="PAPUA NEW GUINEA"/>
+  <text id="171" default_value="PARAGUAY"/>
+  <text id="172" default_value="PERU"/>
+  <text id="173" default_value="PHILIPPINES"/>
+  <text id="174" default_value="PITCAIRN"/>
+  <text id="175" default_value="POLAND"/>
+  <text id="176" default_value="PORTUGAL"/>
+  <text id="177" default_value="PUERTO RICO"/>
+  <text id="178" default_value="QATAR"/>
+  <text id="179" default_value="REUNION"/>
+  <text id="180" default_value="ROMANIA"/>
+  <text id="181" default_value="RUSSIA"/>
+  <text id="182" default_value="RWANDA"/>
+  <text id="183" default_value="SAINT KITTS AND NEVIS"/>
+  <text id="184" default_value="SAINT LUCIA"/>
+  <text id="185" default_value="SAINT VINCENT AND THE GRENADINES"/>
+  <text id="186" default_value="SAMOA"/>
+  <text id="187" default_value="SAN MARINO"/>
+  <text id="188" default_value="SAO TOME AND PRINCIPE"/>
+  <text id="189" default_value="SAUDI ARABIA"/>
+  <text id="190" default_value="SENEGAL"/>
+  <text id="191" default_value="SERBIA"/>
+  <text id="192" default_value="SEYCHELLES"/>
+  <text id="193" default_value="SIERRA LEONE"/>
+  <text id="194" default_value="SINGAPORE"/>
+  <text id="195" default_value="SLOVAKIA (Slovak Republic)"/>
+  <text id="196" default_value="SLOVENIA"/>
+  <text id="197" default_value="SOLOMON ISLANDS"/>
+  <text id="198" default_value="SOMALIA"/>
+  <text id="199" default_value="SOUTH AFRICA"/>
+  <text id="200" default_value="SOUTH SUDAN"/>
+  <text id="201" default_value="SOUTH GEORGIA AND SOUTH S.S."/>
+  <text id="202" default_value="SPAIN"/>
+  <text id="203" default_value="SRI LANKA"/>
+  <text id="204" default_value="ST. HELENA"/>
+  <text id="205" default_value="ST. PIERRE AND MIQUELON"/>
+  <text id="206" default_value="SUDAN"/>
+  <text id="207" default_value="SURINAME"/>
+  <text id="208" default_value="SVALBARD AND JAN MAYEN ISLANDS"/>
+  <text id="209" default_value="SWAZILAND"/>
+  <text id="210" default_value="SWEDEN"/>
+  <text id="211" default_value="SWITZERLAND"/>
+  <text id="212" default_value="SYRIAN ARAB REPUBLIC"/>
+  <text id="213" default_value="TAIWAN, PROVINCE OF CHINA"/>
+  <text id="214" default_value="TAJIKISTAN"/>
+  <text id="215" default_value="TANZANIA, UNITED REPUBLIC OF"/>
+  <text id="216" default_value="THAILAND"/>
+  <text id="217" default_value="TOGO"/>
+  <text id="218" default_value="TOKELAU"/>
+  <text id="219" default_value="TONGA"/>
+  <text id="220" default_value="TRINIDAD AND TOBAGO"/>
+  <text id="221" default_value="TUNISIA"/>
+  <text id="222" default_value="TURKEY"/>
+  <text id="223" default_value="TURKMENISTAN"/>
+  <text id="224" default_value="TURKS AND CAICOS ISLANDS"/>
+  <text id="225" default_value="TUVALU"/>
+  <text id="226" default_value="UGANDA"/>
+  <text id="227" default_value="UKRAINE"/>
+  <text id="228" default_value="UNITED ARAB EMIRATES"/>
+  <text id="229" default_value="UNITED KINGDOM"/>
+  <text id="230" default_value="UNITED STATES"/>
+  <text id="231" default_value="U.S. MINOR ISLANDS"/>
+  <text id="232" default_value="URUGUAY"/>
+  <text id="233" default_value="UZBEKISTAN"/>
+  <text id="234" default_value="VANUATU"/>
+  <text id="235" default_value="VENEZUELA"/>
+  <text id="236" default_value="VIET NAM"/>
+  <text id="237" default_value="VIRGIN ISLANDS (BRITISH)"/>
+  <text id="238" default_value="VIRGIN ISLANDS (U.S.)"/>
+  <text id="239" default_value="WALLIS AND FUTUNA ISLANDS"/>
+  <text id="240" default_value="WESTERN SAHARA"/>
+  <text id="241" default_value="YEMEN"/>
+  <text id="242" default_value="ZAMBIA"/>
+  <text id="243" default_value="ZIMBABWE "/>
+  <text id="244" default_value="% of population"/>
+  <text id="245" default_value="Percentage"/>
+  <text id="246" default_value="Number of people"/>
+  <text id="247" default_value="Current international $"/>
+  <text id="248" default_value="Number"/>
+  <text id="249" default_value="Per 100 inhabitants"/>
+  <text id="250" default_value="sq. km"/>
+  <text id="251" default_value="2 Digit string"/>
+  <text id="252" default_value="current US$"/>
+  <text id="253" default_value="Millions of people"/>
+  <text id="254" default_value="Percentage of population"/>
+  <text id="255" default_value="deaths per 1,000 population"/>
+  <text id="256" default_value="url"/>
+  <text id="257" default_value="string"/>
+  <text id="258" default_value="Date"/>
+  <text id="259" default_value="Number of disasters"/>
+  <text id="260" default_value=",000$ USD"/>
+  <text id="261" default_value="%"/>
+  <text id="262" default_value="per 100 people"/>
+  <text id="263" default_value="1=low to 5=high"/>
+  <text id="264" default_value="Constant 2005 international $"/>
+  <text id="265" default_value="% of working-age population"/>
+  <text id="266" default_value="Index"/>
+  <text id="267" default_value="thousands"/>
+  <text id="268" default_value="years"/>
+  <text id="269" default_value="persons per square km"/>
+  <text id="270" default_value="people per sq. km of land area"/>
+  <text id="271" default_value="uno"/>
+  <text id="272" default_value="% aged 15 and above"/>
+  <text id="273" default_value="both sexes"/>
+  <text id="274" default_value="kcal/capita/day"/>
+  <text id="275" default_value="per 1,000 female adults"/>
+  <text id="276" default_value="per 1,000 male adults"/>
+  <text id="277" default_value="deaths under age five per 1,000 live births"/>
+  <text id="278" default_value="per 1,000 live births"/>
+  <text id="279" default_value="infant deaths per 1,000 live births"/>
+  <text id="280" default_value="deaths of women per100,000 live births"/>
+  <text id="281" default_value="ratio"/>
+  <text id="282" default_value="count"/>
+  <text id="283" default_value="km"/>
+  <text id="284" default_value="total route-km"/>
+  <text id="285" default_value="index value"/>
+  <text id="286" default_value="incidents of conflict"/>
+  <text id="287" default_value="per million people per year"/>
+  <text id="288" default_value="average per year per million people"/>
+  <text id="289" default_value="Percentage of population with access to electricity"/>
+  <text id="290" default_value="Percentage of children one year old immunized against measles"/>
+  <text id="291" default_value="Number of people made homeless by disasters"/>
+  <text id="292" default_value="Number of people injured in disasters"/>
+  <text id="293" default_value="Total number of people affected by disasters"/>
+  <text id="294" default_value="Gross national income (GNI) converted to international dollars using purchasing power parity rates. "/>
+  <text id="295" default_value="GII: Gender Inequality Index, value"/>
+  <text id="296" default_value="International migrant stock "/>
+  <text id="297" default_value="Internet users per 100 inhabitants"/>
+  <text id="298" default_value="Land area "/>
+  <text id="299" default_value="Country code (m49-name)"/>
+  <text id="300" default_value="Net ODA received per capita "/>
+  <text id="301" default_value="Number of infant deaths"/>
+  <text id="302" default_value="Population undernourished (millions)"/>
+  <text id="303" default_value="Population undernourished (percentage)"/>
+  <text id="304" default_value="Population, total"/>
+  <text id="305" default_value="Country code (ISO Country alpha-2-code)"/>
+  <text id="306" default_value="Crude death rate by major area, region and country, 1950-2100"/>
+  <text id="307" default_value="Wikipedia: geography"/>
+  <text id="308" default_value="Wikipedia: climate"/>
+  <text id="309" default_value="Wikipedia: economy"/>
+  <text id="310" default_value="Wikipedia: transport"/>
+  <text id="311" default_value="Wikipedia: education"/>
+  <text id="312" default_value="Wikipedia: demographics"/>
+  <text id="313" default_value="Wikipedia: religion"/>
+  <text id="314" default_value="Formal Name"/>
+  <text id="315" default_value="Short Name"/>
+  <text id="316" default_value="m49-num"/>
+  <text id="317" default_value="ISO Country alpha-3-code"/>
+  <text id="318" default_value="Capital City"/>
+  <text id="319" default_value="Languages"/>
+  <text id="320" default_value="Currency Abbr."/>
+  <text id="321" default_value="ISO Currency Code"/>
+  <text id="322" default_value="Income Category"/>
+  <text id="323" default_value="AccuWeather URL"/>
+  <text id="324" default_value="Date of Entry into UN"/>
+  <text id="325" default_value="Number of disasters"/>
+  <text id="326" default_value="People killed in disasters"/>
+  <text id="327" default_value="People affected by disasters"/>
+  <text id="328" default_value="Total cost of damage done by disasters"/>
+  <text id="329" default_value="Routine EPI vaccines financed by government"/>
+  <text id="330" default_value="Mobile cellular subscriptions per 100 inhabitants"/>
+  <text id="331" default_value="Fixed telephone lines per 100 inhabitants"/>
+  <text id="332" default_value="Mobile cellular subscriptions "/>
+  <text id="333" default_value="Internet users "/>
+  <text id="334" default_value="Logistics performance index: Overall "/>
+  <text id="335" default_value="GDP per capita, PPP "/>
+  <text id="336" default_value="GNI per capita, PPP "/>
+  <text id="337" default_value="GNI per capita in PPP terms (constant 2005 international $)"/>
+  <text id="338" default_value="GNI (current US$)"/>
+  <text id="339" default_value="Household final consumption expenditure, PPP "/>
+  <text id="340" default_value="Age dependency ratio, old "/>
+  <text id="341" default_value="Age dependency ratio, young "/>
+  <text id="342" default_value="MPI: Population living below $1.25 PPP per day"/>
+  <text id="343" default_value="Poverty headcount ratio at $1.25 a day (PPP) "/>
+  <text id="344" default_value="Inflation, consumer prices "/>
+  <text id="345" default_value="GINI index"/>
+  <text id="346" default_value="Human Development Index rank"/>
+  <text id="347" default_value="Total population (both sexes combined) by major area, region and country, annually for 1950-2010"/>
+  <text id="348" default_value="Average annual rate of population change by major area, region and country, 1950-2010"/>
+  <text id="349" default_value="Population growth "/>
+  <text id="350" default_value="Median age by major area, region and country, 1950-2010"/>
+  <text id="351" default_value="Population density by major area, region and country, 1950-2010"/>
+  <text id="352" default_value="Population density "/>
+  <text id="353" default_value="Percentage of Population Residing in Urban Areas by Major Area, Region and Country, 1950-2050"/>
+  <text id="354" default_value="Population in urban agglomerations of more than 1 million"/>
+  <text id="355" default_value="Public expenditure on education (% of GDP)"/>
+  <text id="356" default_value="Expected Years of Schooling (of children)"/>
+  <text id="357" default_value="Adult literacy rate, both sexes"/>
+  <text id="358" default_value="Mean years of schooling (of adults)"/>
+  <text id="359" default_value="Combined gross enrolment in education (both sexes)"/>
+  <text id="360" default_value="Total net enrolment ratio in primary education"/>
+  <text id="361" default_value="Per capita food supply"/>
+  <text id="362" default_value="Life expectancy at birth (both sexes combined) by major area, region and country, 1950-2010"/>
+  <text id="363" default_value="Deaths (both sexes combined) by major area, region and country, 1950-2010"/>
+  <text id="364" default_value="Mortality rate, adult, female "/>
+  <text id="365" default_value="Mortality rate, adult, male "/>
+  <text id="366" default_value="Under-five mortality (both sexes combined) by major area, region and country, 1950-2010"/>
+  <text id="367" default_value="Under-five mortality"/>
+  <text id="368" default_value="Children under five mortality rate per 1,000 live births"/>
+  <text id="369" default_value="Infant mortality rate (both sexes combined) by major area, region and country, 1950-2100"/>
+  <text id="370" default_value="Maternal mortality ratio"/>
+  <text id="371" default_value="Maternal mortality ratio per 100,000 live births"/>
+  <text id="372" default_value="Number of airports"/>
+  <text id="373" default_value="Roads, total network "/>
+  <text id="374" default_value="Rail lines "/>
+  <text id="375" default_value="Prevalence of undernourishment"/>
+  <text id="376" default_value="Children under 5 moderately or severely underweight"/>
+  <text id="377" default_value="Proportion of the population using improved drinking water sources"/>
+  <text id="378" default_value="Proportion of the population using improved sanitation facilities"/>
+  <text id="379" default_value="GNA Vulnerability Index"/>
+  <text id="380" default_value="GNA Crisis Index"/>
+  <text id="381" default_value="Incidence of Conflict"/>
+  <text id="382" default_value="Impact of natural disasters: number of deaths"/>
+  <text id="383" default_value="Impact of natural disasters: population affected (average per year/million)"/>
+  <text id="384" default_value="Accuweather"/>
+  <text id="385" default_value="ACCW"/>
+  <text id="386" default_value="Armed Conflict Location &amp; Event Dataset"/>
+  <text id="387" default_value="ACLED"/>
+  <text id="388" default_value="Centre for Research on the Epidemiology of Disasters"/>
+  <text id="389" default_value="CRED"/>
+  <text id="390" default_value="European Commission"/>
+  <text id="391" default_value="EC"/>
+  <text id="392" default_value="Food and Agricultural organization of the United Nations"/>
+  <text id="393" default_value="FAO"/>
+  <text id="394" default_value="UN Department of Economic and Social Affairs Population Division"/>
+  <text id="395" default_value="Population Division"/>
+  <text id="396" default_value="Relief web"/>
+  <text id="397" default_value="RW"/>
+  <text id="398" default_value="DESA United Nations Indicators for Monitoring the Millennium Development Goals"/>
+  <text id="399" default_value="UNDESA MDGS"/>
+  <text id="400" default_value="UNDP Human Development Reports"/>
+  <text id="401" default_value="UNDP HDR"/>
+  <text id="402" default_value="Unicef Statistics and Monitoring"/>
+  <text id="403" default_value="Unicef"/>
+  <text id="404" default_value="United Nations Multilingual Terminology Database"/>
+  <text id="405" default_value="UNTERM"/>
+  <text id="406" default_value="Wikipedia"/>
+  <text id="407" default_value="WIKI"/>
+  <text id="408" default_value="World Bank"/>
+  <text id="409" default_value="WB"/>
+  <text id="410" default_value="Worldaerodata"/>
+  <text id="411" default_value="WAD"/>
+  <text id="412" default_value="World Bank"/>
+  <text id="413" default_value="mdgs"/>
+  <text id="414" default_value="emdat"/>
+  <text id="415" default_value="HDRStats"/>
+  <text id="416" default_value="m49"/>
+  <text id="417" default_value="unterm"/>
+  <text id="418" default_value="esa-unpd-WPP2012"/>
+  <text id="419" default_value="wikipedia"/>
+  <text id="420" default_value="worldbank-lending-groups"/>
+  <text id="421" default_value="accuweather"/>
+  <text id="422" default_value="unicef-infobycountry"/>
+  <text id="423" default_value="esa-unpd-WUP2011"/>
+  <text id="424" default_value="faostat3"/>
+  <text id="425" default_value="worldaerodata"/>
+  <text id="426" default_value="fao-foodsec"/>
+  <text id="427" default_value="echo"/>
+  <text id="428" default_value="acled"/>
+  <text id="429" default_value="hdi-disaster"/>
+  <text id="430" default_value="data.undp.org"/>
+  <text id="431" default_value="Access to electricity is the percentage of population with access to electricity. Electrification data are collected from industry, national surveys and international sources."/>
+  <text id="432" default_value="http://data.worldbank.org/indicator/EG.ELC.ACCS.ZS"/>
+  <text id="433" default_value="You are free to copy, distribute, adapt, display or include the data in other products for commercial and noncommercial purposes at no cost subject to certain limitations summarized below.&#xA;You must include attribution for the data you use in the manner indicated in the metadata included with the data.&#xA;You must not claim or imply that The World Bank endorses your use of the data by or use The World Bank’s logo(s) or trademark(s) in conjunction with such use.&#xA;Other parties may have ownership interests in some of the materials contained on The World Bank Web site. For example, we maintain a list of some specific data within the Datasets that you may not redistribute or reuse without first contacting the original content provider, as well as information regarding how to contact the original content provider. Before incorporating any data in other products, please check the list: Terms of use: Restricted Data&#xA;The World Bank makes no warranties with respect to the data and you agree The World Bank shall not be liable to you in connection with your use of the data.&#xA;This is only a summary of the Terms of Use for Datasets Listed in The World Bank Data Catalogue. Please read the actual agreement that controls your use of the Datasets, which is available here: Terms of use for datasets. Also see World Bank Terms and Conditions."/>
+  <text id="434" default_value="The proportion of 1 year-old children immunized against measles is the proportion of children under one year of age who have received at least one dose of measles-containing vaccine. &#xA;&#xA;Children under one year of age who have received a measles vaccine are estimated as the percentage of children aged 12–23 months who received at least one dose of measles vaccine any time before the survey or before the age of 12 months.&#xA;&#xA;Measles-containing vaccines are live attenuated viral measles vaccines consisting of one dose given by the intramuscular or subcutaneous route, with the opportunity for a second dose at least one month after the first. It is generally recommended for children to be immunized against measles at the age of 9 months. In certain countries in Latin America and the Caribbean it is recommended for children to be immunized between the ages of 12 months and 15 months.&#xA;&#xA;"/>
+  <text id="435" default_value="More information, including rationale, interpretation, sources, data collection, comments, limitation, and gender equality issues can be found at http://mdgs.un.org/unsd/mi/wiki/4-3-Proportion-of-1-year-old-children-immunised-against-measles.ashx"/>
+  <text id="436" default_value="You are free to copy and distribute data contained in this website. Reference to the work of the UNSD and in particular to the Millennium Development Goals is appreciated."/>
+  <text id="437" default_value="Number of people needing immediate assistance for shelter due to a disaster"/>
+  <text id="438" default_value="http://www.emdat.be/explanatory-notes"/>
+  <text id="439" default_value="The EM-DAT database is protected by the law of June 30th, 1994 on copyrights and the law of August 31st, 1998 on the legal protection of databases. Access to the EM-DAT database is made available free of charge by the UCL. The reproduction and communication of the information from EM-DAT is authorized by any means and in all forms, provided that the source is clearly mentioned and as follows:&#xA; &#xA;“EM-DAT: The OFDA/CRED International Disaster Database – www.emdat.be – Université catholique de Louvain – Brussels – Belgium.”&#xA;&#xA;"/>
+  <text id="440" default_value="Number of People suffering from physical injuries, trauma or an illness requiring medical treatment as a direct result of a disaster."/>
+  <text id="441" default_value="http://www.emdat.be/explanatory-notes"/>
+  <text id="442" default_value="&#xA;Total affected includes the total number of injured, homeless, and affected people. "/>
+  <text id="443" default_value="http://www.emdat.be/explanatory-notes"/>
+  <text id="444" default_value="PPP GNI (formerly PPP GNP) is gross national income (GNI) converted to international dollars using purchasing power parity rates. An international dollar has the same purchasing power over GNI as a U.S. dollar has in the United States. Gross national income is the sum of value added by all resident producers plus any product taxes (less subsidies) not included in the valuation of output plus net receipts of primary income (compensation of employees and property income) from abroad. Data are in current international dollars. "/>
+  <text id="445" default_value="http://data.worldbank.org/indicator/NY.GNP.MKTP.PP.CD"/>
+  <text id="446" default_value="A composite measure reflecting inequality in achievements between women and men in three dimensions: reproductive health, empowerment and the labour market. "/>
+  <text id="447" default_value="See Technical notes at http://hdr.undp.org/en/media/HDR_2012_EN_TechNotes.pdf for details on how the Gender Inequality Index is calculated. "/>
+  <text id="448" default_value="International migrant stock is the number of people born in a country other than that in which they live. It also includes refugees. The data used to estimate the international migrant stock at a particular time are obtained mainly from population censuses. The estimates are derived from the data on foreign-born population--people who have residence in one country but were born in another country. When data on the foreign-born population are not available, data on foreign population--that is, people who are citizens of a country other than the country in which they reside--are used as estimates. After the breakup of the Soviet Union in 1991 people living in one of the newly independent countries who were born in another were classified as international migrants. Estimates of migrant stock in the newly independent states from 1990 on are based on the 1989 census of the Soviet Union. For countries with information on the international migrant stock for at least two points in time, interpolation or extrapolation was used to estimate the international migrant stock on July 1 of the reference years. For countries with only one observation, estimates for the reference years were derived using rates of change in the migrant stock in the years preceding or following the single observation available. A model was used to estimate migrants for countries that had no data. "/>
+  <text id="449" default_value="http://data.worldbank.org/indicator/SM.POP.TOTL.ZS"/>
+  <text id="450" default_value="This indicator is the percentage of individuals using the Internet."/>
+  <text id="451" default_value="http://mdgs.un.org/unsd/mi/wiki/8-16-Internet-users-per-100-inhabitants.ashx"/>
+  <text id="452" default_value="Land area is a country&apos;s total area, excluding area under inland water bodies, national claims to continental shelf, and exclusive economic zones. In most cases the definition of inland water bodies includes major rivers and lakes."/>
+  <text id="453" default_value="http://data.worldbank.org/indicator/AG.LND.TOTL.K2"/>
+  <text id="454" default_value="List of two letter codes (ISO alpha-2) and the three letter codes (ISO alpha-3) as well as the United Nations used numerical code M49 for countries, dependencies, and other areas."/>
+  <text id="455" default_value="http://unterm.un.org/"/>
+  <text id="456" default_value="Net official development assistance (ODA) per capita consists of disbursements of loans made on concessional terms (net of repayments of principal) and grants by official agencies of the members of the Development Assistance Committee (DAC), by multilateral institutions, and by non-DAC countries to promote economic development and welfare in countries and territories in the DAC list of ODA recipients; and is calculated by dividing net ODA received by the midyear population estimate. It includes loans with a grant element of at least 25 percent (calculated at a rate of discount of 10 percent). "/>
+  <text id="457" default_value="http://data.worldbank.org/indicator/DT.ODA.ODAT.PC.ZS"/>
+  <text id="458" default_value="Number of infants dying before reaching one year of age"/>
+  <text id="459" default_value="http://data.worldbank.org/indicator/SP.DYN.IMRT.IN"/>
+  <text id="460" default_value="The proportion of the population below the minimum level of dietary energy consumption referred to as the prevalence of undernourishment, is the percentage of the population that is undernourished or food deprived.&#xA;&#xA;The undernourished or food deprived are those individuals whose food intake falls below the minimum level of dietary energy requirements.&#xA;"/>
+  <text id="461" default_value="http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&amp;SeriesId=640"/>
+  <text id="462" default_value="The proportion of the population below the minimum level of dietary energy consumption referred to as the prevalence of undernourishment, is the percentage of the population that is undernourished or food deprived.&#xA;&#xA;The undernourished or food deprived are those individuals whose food intake falls below the minimum level of dietary energy requirements.&#xA;"/>
+  <text id="463" default_value="http://mdgs.un.org/unsd/mdg/SeriesDetail.aspx?srid=566&amp;crid="/>
+  <text id="464" default_value="Population, total refers to the total population."/>
+  <text id="465" default_value="http://data.worldbank.org/indicator/SP.POP.TOTL"/>
+  <text id="466" default_value="Number of ReliefWeb reports flagged with ocha_product: Humanitarian Bulletin"/>
+  <text id="467" default_value="http://reliefweb.int/"/>
+  <text id="468" default_value="Number of ReliefWeb reports flagged with ocha_product: Humanitarian Dashboard"/>
+  <text id="469" default_value="http://reliefweb.int/"/>
+  <text id="470" default_value="Number of ReliefWeb reports flagged with ocha_product: Humanitarian Snapshot"/>
+  <text id="471" default_value="http://reliefweb.int/"/>
+  <text id="472" default_value="Number of ReliefWeb reports flagged with ocha_product: Infographic"/>
+  <text id="473" default_value="http://reliefweb.int/"/>
+  <text id="474" default_value="Number of ReliefWeb reports flagged with ocha_product: Key Messages"/>
+  <text id="475" default_value="http://reliefweb.int/"/>
+  <text id="476" default_value="Number of ReliefWeb reports flagged with ocha_product: Other"/>
+  <text id="477" default_value="http://reliefweb.int/"/>
+  <text id="478" default_value="Number of ReliefWeb reports flagged with ocha_product: Press Release"/>
+  <text id="479" default_value="http://reliefweb.int/"/>
+  <text id="480" default_value="Number of ReliefWeb reports flagged with ocha_product: Press Review"/>
+  <text id="481" default_value="http://reliefweb.int/"/>
+  <text id="482" default_value="Number of ReliefWeb reports flagged with ocha_product: Reference Map"/>
+  <text id="483" default_value="http://reliefweb.int/"/>
+  <text id="484" default_value="Number of ReliefWeb reports flagged with ocha_product: Situation Report"/>
+  <text id="485" default_value="http://reliefweb.int/"/>
+  <text id="486" default_value="Number of ReliefWeb reports flagged with ocha_product: Statement/Speech"/>
+  <text id="487" default_value="http://reliefweb.int/"/>
+  <text id="488" default_value="Number of ReliefWeb reports flagged with ocha_product: Thematic Map"/>
+  <text id="489" default_value="http://reliefweb.int/"/>
+  <text id="490" default_value="List of two letter codes (ISO alpha-2) and the three letter codes (ISO alpha-3) as well as the United Nations used numerical code M49 for countries, dependencies, and other areas."/>
+  <text id="491" default_value="http://unterm.un.org/"/>
+  <text id="492" default_value="Number of deaths over a given period divided by the person-years lived by the population over that period. It is expressed as average annual number of deaths per 1,000 population."/>
+  <text id="493" default_value="http://esa.un.org/wpp/Excel-Data/mortality.htm"/>
+  <text id="494" default_value="Wikipedia: geography"/>
+  <text id="495" default_value="Wikipedia: climate"/>
+  <text id="496" default_value="Wikipedia: economy"/>
+  <text id="497" default_value="Wikipedia: transport"/>
+  <text id="498" default_value="Wikipedia: education"/>
+  <text id="499" default_value="Wikipedia: demographics"/>
+  <text id="500" default_value="Wikipedia: religion"/>
+  <text id="501" default_value="This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat&apos;s intranet. "/>
+  <text id="502" default_value="http://unterm.un.org/"/>
+  <text id="503" default_value="This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat&apos;s intranet. "/>
+  <text id="504" default_value="http://unterm.un.org/"/>
+  <text id="505" default_value="List of two letter codes (ISO alpha-2) and the three letter codes (ISO alpha-3) as well as the United Nations used numerical code M49 for countries, dependencies, and other areas."/>
+  <text id="506" default_value="http://unterm.un.org/"/>
+  <text id="507" default_value="List of two letter codes (ISO alpha-2) and the three letter codes (ISO alpha-3) as well as the United Nations used numerical code M49 for countries, dependencies, and other areas."/>
+  <text id="508" default_value="http://unterm.un.org/"/>
+  <text id="509" default_value="This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat&apos;s intranet. "/>
+  <text id="510" default_value="http://unterm.un.org/"/>
+  <text id="511" default_value="This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat&apos;s intranet. "/>
+  <text id="512" default_value="http://unterm.un.org/"/>
+  <text id="513" default_value="This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat&apos;s intranet. "/>
+  <text id="514" default_value="http://unterm.un.org/"/>
+  <text id="575" default_value="http://data.worldbank.org/indicator/EN.POP.DNST"/>
+  <text id="515" default_value="This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat&apos;s intranet. "/>
+  <text id="516" default_value="http://unterm.un.org/"/>
+  <text id="517" default_value="For operational and analytical purposes, the World Bank’s main criterion for classifying economies is gross national income (GNI) per capita. In previous editions of our publications, this term was referred to as gross national product, or GNP. (Learn more about this change in terminology.) Based on its GNI per capita, every economy is classified as low income, middle income (subdivided into lower middle and upper middle), or high income. Other analytical groups based on geographic regions are also used."/>
+  <text id="518" default_value="http://data.worldbank.org/about/country-classifications"/>
+  <text id="519" default_value="AccuWeather is an American media company that provides for-profit weather forecasting services worldwide."/>
+  <text id="520" default_value="http://en.wikipedia.org/wiki/AccuWeather"/>
+  <text id="521" default_value="This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat&apos;s intranet. "/>
+  <text id="522" default_value="http://unterm.un.org/"/>
+  <text id="523" default_value="For a disaster to be entered into the database at least one of the following criteria must be fulfilled: Ten (10) or more people reported killed. Hundred (100) or more people reported affected. Declaration of a state of emergency. Call for international assistance."/>
+  <text id="524" default_value="http://www.emdat.be/explanatory-notes"/>
+  <text id="525" default_value="Persons confirmed as dead and persons missing and presumed dead (official figures when available)."/>
+  <text id="526" default_value="http://www.emdat.be/explanatory-notes"/>
+  <text id="527" default_value="People requiring immediate assistance during a period of emergency; it can also include displaced or evacuated people."/>
+  <text id="528" default_value="http://www.emdat.be/explanatory-notes"/>
+  <text id="529" default_value="Several institutions have developed methodologies to quantify these losses in their specific domain. However, there is no standard procedure to determine a global figure for economic impact. Estimated damage are given (000’) US$."/>
+  <text id="530" default_value="http://www.emdat.be/explanatory-notes"/>
+  <text id="531" default_value="Percentage of vaccines routinely administered in a country to protect children that are financed by the national government (including loans). EPI refers to the Expanded Programme on Immunization: The immunizations in this programme include those against TB, DPT, polio and measles, as well as protecting babies against neonatal tetanus by vaccination of pregnant women. Other vaccines (e.g. against hepatitis B or yellow fever) may be included in the programme in some countries.&#xA;"/>
+  <text id="532" default_value="http://www.unicef.org/sowc01/tables/table3.htm"/>
+  <text id="533" default_value="Mobile cellular telephone subscriptions are subscriptions to a public mobile telephone service using cellular technology, which provide access to the public switched telephone network. Post-paid and prepaid subscriptions are included. "/>
+  <text id="534" default_value="Telephone lines are fixed telephone lines that connect a subscriber&apos;s terminal equipment to the public switched telephone network and that have a port on a telephone exchange. Integrated services digital network channels ands fixed wireless subscribers are included."/>
+  <text id="535" default_value="http://data.worldbank.org/indicator/IT.MLT.MAIN.P2"/>
+  <text id="536" default_value="Mobile cellular telephone subscriptions are subscriptions to a public mobile telephone service using cellular technology, which provide access to the public switched telephone network. Post-paid and prepaid subscriptions are included. "/>
+  <text id="537" default_value="http://data.worldbank.org/indicator/IT.CEL.SETS.P2"/>
+  <text id="538" default_value="Internet users are people with access to the worldwide network."/>
+  <text id="539" default_value="http://data.worldbank.org/indicator/IT.NET.USER.P2"/>
+  <text id="540" default_value="Logistics Performance Index overall score reflects perceptions of a country&apos;s logistics based on efficiency of customs clearance process, quality of trade- and transport-related infrastructure, ease of arranging competitively priced shipments, quality of logistics services, ability to track and trace consignments, and frequency with which shipments reach the consignee within the scheduled time. The index ranges from 1 to 5, with a higher score representing better performance. Data are from Logistics Performance Index surveys conducted by the World Bank in partnership with academic and international institutions and private companies and individuals engaged in international logistics. 2009 round of surveys covered more than 5,000 country assessments by nearly 1,000 international freight forwarders. Respondents evaluate eight markets on six core dimensions on a scale from 1 (worst) to 5 (best). The markets are chosen based on the most important export and import markets of the respondent&apos;s country, random selection, and, for landlocked countries, neighboring countries that connect them with international markets. Scores for the six areas are averaged across all respondents and aggregated to a single score using principal components analysis. "/>
+  <text id="541" default_value="Details of the survey methodology and index construction methodology are in Arvis and others&apos; Connecting to Compete 2010: Trade Logistics in the Global Economy (2010). http://data.worldbank.org/indicator/LP.LPI.OVRL.XQ"/>
+  <text id="542" default_value="GDP per capita based on purchasing power parity (PPP). PPP GDP is gross domestic product converted to international dollars using purchasing power parity rates. An international dollar has the same purchasing power over GDP as the U.S. dollar has in the United States. GDP at purchaser&apos;s prices is the sum of gross value added by all resident producers in the economy plus any product taxes and minus any subsidies not included in the value of the products. It is calculated without making deductions for depreciation of fabricated assets or for depletion and degradation of natural resources. Data are in current international dollars."/>
+  <text id="543" default_value="http://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD"/>
+  <text id="544" default_value="GNI per capita based on purchasing power parity (PPP). PPP GNI is gross national income (GNI) converted to international dollars using purchasing power parity rates. An international dollar has the same purchasing power over GNI as a U.S. dollar has in the United States. GNI is the sum of value added by all resident producers plus any product taxes (less subsidies) not included in the valuation of output plus net receipts of primary income (compensation of employees and property income) from abroad. Data are in current international dollars."/>
+  <text id="545" default_value="http://data.worldbank.org/indicator/NY.GNP.PCAP.PP.CD"/>
+  <text id="576" default_value="Percentage of Population Residing in Urban Areas by Major Area, Region and Country, 1950-2050"/>
+  <text id="577" default_value="http://esa.un.org/wpp/Excel-Data/population.htm"/>
+  <text id="546" default_value="GDP per capita based on purchasing power parity (PPP). PPP GDP is gross domestic product converted to international dollars using purchasing power parity rates. An international dollar has the same purchasing power over GDP as the U.S. dollar has in the United States. GDP at purchaser&apos;s prices is the sum of gross value added by all resident producers in the economy plus any product taxes and minus any subsidies not included in the value of the products. It is calculated without making deductions for depreciation of fabricated assets or for depletion and degradation of natural resources. Data are in constant 2005 international dollars."/>
+  <text id="547" default_value="http://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD"/>
+  <text id="548" default_value="GNI (formerly GNP) is the sum of value added by all resident producers plus any product taxes (less subsidies) not included in the valuation of output plus net receipts of primary income (compensation of employees and property income) from abroad. Data are in current U.S. dollars."/>
+  <text id="549" default_value="http://data.worldbank.org/indicator/NY.GNP.MKTP.CD"/>
+  <text id="550" default_value="Household final consumption expenditure (formerly private consumption) is the market value of all goods and services, including durable products (such as cars, washing machines, and home computers), purchased by households. It excludes purchases of dwellings but includes imputed rent for owner-occupied dwellings. It also includes payments and fees to governments to obtain permits and licenses. Here, household consumption expenditure includes the expenditures of nonprofit institutions serving households, even when reported separately by the country. Data are converted to constant 2005 international dollars using purchasing power parity rates."/>
+  <text id="551" default_value="http://data.worldbank.org/indicator/NE.CON.PRVT.PP.KD"/>
+  <text id="552" default_value="Age dependency ratio, old, is the ratio of older dependents (people older than 64) to the working-age population (those ages 15-64). Data are shown as the proportion of dependents per 100 working-age population. World Bank staff estimates from various sources including census reports, the United Nations Population Division&apos;s World Population Prospects, national statistical offices, household surveys conducted by national agencies, and ICF International."/>
+  <text id="553" default_value="http://data.worldbank.org/indicator/SP.POP.DPND.OL"/>
+  <text id="554" default_value="Age dependency ratio, young, is the ratio of younger dependents (people younger than 15) to the working-age population(those ages 15-64). Data are shown as the proportion of dependents per 100 working-age population. World Bank staff estimates from various sources including census reports, the United Nations Population Division&apos;s World Population Prospects, national statistical offices, household surveys conducted by national agencies, and ICF International."/>
+  <text id="555" default_value="Percentage of the population living below the international poverty line $1.25 (in purchasing power parity terms) a day"/>
+  <text id="556" default_value="Population below $1.25 a day is the percentage of the population living on less than $1.25 a day at 2005 international prices. As a result of revisions in PPP exchange rates, poverty rates for individual countries cannot be compared with poverty rates reported in earlier editions."/>
+  <text id="557" default_value="World Bank, Development Research Group. Data are based on primary household survey data obtained from government statistical agencies and World Bank country departments. Data for high-income economies are from the Luxembourg Income Study database. For more information and methodology, please see PovcalNet (http://iresearch.worldbank.org/PovcalNet/index.htm). http://data.worldbank.org/indicator/SI.POV.DDAY"/>
+  <text id="558" default_value="Inflation as measured by the consumer price index reflects the annual percentage change in the cost to the average consumer of acquiring a basket of goods and services that may be fixed or changed at specified intervals, such as yearly. The Laspeyres formula is generally used."/>
+  <text id="559" default_value="http://data.worldbank.org/indicator/FP.CPI.TOTL.ZG"/>
+  <text id="560" default_value="Gini index measures the extent to which the distribution of income or consumption expenditure among individuals or households within an economy deviates from a perfectly equal distribution. A Lorenz curve plots the cumulative percentages of total income received against the cumulative number of recipients, starting with the poorest individual or household. The Gini index measures the area between the Lorenz curve and a hypothetical line of absolute equality, expressed as a percentage of the maximum area under the line. Thus a Gini index of 0 represents perfect equality, while an index of 100 implies perfect inequality."/>
+  <text id="561" default_value="http://data.worldbank.org/indicator/SI.POV.GINI"/>
+  <text id="562" default_value="The Human Development Index (HDI) is a composite statistic of life expectancy, education, and income indices used to rank countries into four tiers of human development. It was created by the Pakistani economist Mahbub ul Haq and the Indian economist Amartya Sen in 1990 and was published by the United Nations Development Programme."/>
+  <text id="563" default_value="http://hdr.undp.org/en/statistics/hdi"/>
+  <text id="564" default_value="Total Population - Both Sexes. De facto population in a country, area or region as of 1 July of the year indicated. Figures are presented in thousands."/>
+  <text id="565" default_value="http://esa.un.org/wpp/Excel-Data/population.htm"/>
+  <text id="566" default_value="Average exponential rate of growth of the population over a given period.  It is calculated as ln(Pt/P0)/t where t is the length of the period. It is expressed as a percentage."/>
+  <text id="567" default_value="http://esa.un.org/wpp/Excel-Data/population.htm"/>
+  <text id="568" default_value="Population growth (annual %) is the exponential rate of growth of midyear population from year t-1 to t, expressed as a percentage. Derived from total population. Population source: (1) United Nations Population Division. World Population Prospects, (2) United Nations Statistical Division. Population and Vital Statistics Report (various years), (3) Census reports and other statistical publications from national statistical offices, (4) Eurostat: Demographic Statistics, (5) Secretariat of the Pacific Community: Statistics and Demography Programme, and (6) U.S. Census Bureau: International Database."/>
+  <text id="569" default_value="http://data.worldbank.org/indicator/SP.POP.GROW"/>
+  <text id="570" default_value="Age that divides the population in two parts of equal size, that is, there are as many persons with ages above the median as there are with ages below the median. It is expressed as years."/>
+  <text id="571" default_value="http://esa.un.org/wpp/Excel-Data/population.htm"/>
+  <text id="572" default_value="Population per square Kilometer."/>
+  <text id="573" default_value="http://esa.un.org/wpp/Excel-Data/population.htm"/>
+  <text id="574" default_value="Population density is midyear population divided by land area in square kilometers. Population is based on the de facto definition of population, which counts all residents regardless of legal status or citizenship--except for refugees not permanently settled in the country of asylum, who are generally considered part of the population of their country of origin. Land area is a country&apos;s total area, excluding area under inland water bodies, national claims to continental shelf, and exclusive economic zones. In most cases the definition of inland water bodies includes major rivers and lakes. Food and Agriculture Organization and World Bank population estimates."/>
+  <text id="578" default_value="Population in urban agglomerations of more than one million is the percentage of a country&apos;s population living in metropolitan areas that in 2000 had a population of more than one million people."/>
+  <text id="579" default_value="http://esa.un.org/wpp/Excel-Data/population.htm"/>
+  <text id="580" default_value="Public expenditure on education as % of GDP is the total public expenditure (current and capital) on education expressed as a percentage of the Gross Domestic Product (GDP) in a given year. Public expenditure on education includes government spending on educational institutions (both public and private), education administration, and transfers/subsidies for private entities (students/households and other privates entities)."/>
+  <text id="581" default_value="https://data.undp.org/dataset/Public-expenditure-on-education-of-GDP-/bkr7-unqh"/>
+  <text id="582" default_value="Number of years of schooling that a child of school entrance age can expect to receive if prevailing patterns of age-specific enrolment rates persist throughout the child’s life."/>
+  <text id="583" default_value="https://data.undp.org/dataset/Expected-Years-of-Schooling-of-children-years-/qnam-f624"/>
+  <text id="584" default_value="Percentage of the population ages 15 and older who can, with understanding, both read and write a short simple statement on their everyday life. "/>
+  <text id="585" default_value="https://data.undp.org/dataset/Adult-literacy-rate-both-sexes-aged-15-and-above-/x22y-8m6h"/>
+  <text id="586" default_value="Average number of years of education received by people ages 25 and older, converted from education attainment levels using official durations of each level."/>
+  <text id="587" default_value="https://data.undp.org/dataset/Mean-years-of-schooling-of-adults-years-/m67k-vi5c"/>
+  <text id="588" default_value="The number of students enrolled in primary, secondary and tertiary levels of education, regardless of age, as a percentage of the population of theoretical school age for the three levels. "/>
+  <text id="589" default_value="http://stats.uis.unesco.org/unesco/tableviewer/document.aspx?ReportId=143"/>
+  <text id="590" default_value="Net primary enrolment rate in primary education is the number of children of official primary school age (according to ISCED971) who are enrolled in primary education as a percentage of the total children of the official school age population. Total net primary enrolment rate also includes children of primary school age enrolled in secondary education. Where more than one system of primary education exists within the country the most widespread or common structure is used for determining the official school age group."/>
+  <text id="591" default_value="http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&amp;SeriesId=589"/>
+  <text id="592" default_value="Estimates of per capita food supplies available for human consumption during the reference period in terms of quantity, caloric value, protein and fat content. Calorie supplies are reported in kilocalories (1 calorie = 4.19 kilojoules). Per capita supplies in terms of product weight are derived from the total supplies available for human consumption (i.e. Food) by dividing the quantities of Food by the total population actually partaking of the food supplies during the reference period, i.e. the present in-area (de facto) population within the present geographical boundaries of the country. In other words, nationals living abroad during the reference period are excluded, but foreigners living in the country are included. Adjustments are made wherever possible for part-time presence or absence, such as temporary migrants, tourists and refugees supported by special schemes (if it has not been possible to allow for the amounts provided by such schemes under imports). In almost all cases, the population figures used are the mid-year estimates published by the United Nations Population Division. Per capita supply figures shown in the commodity balances therefore represent only the average supply available for the population as a whole and do not necessarily indicate what is actually consumed by individuals. Even if they are taken as approximation to per capita consumption, it is important to note that the amount of food actually consumed may be lower than the quantity shown here, depending on the degree of losses of edible food and nutrients in the household, e.g. during storage, in preparation and cooking etc. In many cases commodities are not consumed in the primary form in which they are presented in the commodity balance, e.g. cereals enter the household mainly in processed form like flour, meal, husked or milled rice. To take this fact into account, the caloric value, the protein and fat content shown against primary commodities in the commodity balances have been derived by applying the appropriate food composition factors to the quantities of the processed commodities and not by multiplying the quantities shown in the commodity balance with the food composition factors relating to primary commodities."/>
+  <text id="593" default_value="http://faostat3.fao.org/faostat-gateway/go/to/browse/C/*/E"/>
+  <text id="594" default_value="The average number of years of life expected by a hypothetical cohort of individuals who would be subject during all their lives to the mortality rates of a given period. It is expressed as years."/>
+  <text id="595" default_value="http://esa.un.org/wpp/Excel-Data/mortality.htm"/>
+  <text id="596" default_value="Number of deaths over a given period. Refers to five-year periods running from 1 July to 30 June of the initial and final years. Data are presented in thousands."/>
+  <text id="597" default_value="http://esa.un.org/wpp/Excel-Data/mortality.htm"/>
+  <text id="598" default_value="Adult mortality rate is the probability of dying between the ages of 15 and 60--that is, the probability of a 15-year-old dying before reaching age 60, if subject to current age-specific mortality rates between those ages."/>
+  <text id="599" default_value="http://esa.un.org/wpp/unpp/panel_population.htm"/>
+  <text id="600" default_value="Adult mortality rate is the probability of dying between the ages of 15 and 60--that is, the probability of a 15-year-old dying before reaching age 60, if subject to current age-specific mortality rates between those ages."/>
+  <text id="601" default_value="http://esa.un.org/wpp/Excel-Data/mortality.htm"/>
+  <text id="602" default_value="Probability of dying between birth and exact age 5. It is expressed as average annual deaths per 1,000 births."/>
+  <text id="603" default_value="http://esa.un.org/wpp/Excel-Data/mortality.htm"/>
+  <text id="604" default_value="Probability of dying between birth and exactly age 5, expressed per 1,000 live births. Source: Inter-agency Group for Child Mortality Estimation (UNICEF, WHO, UN Population Division and World Bank) 2012"/>
+  <text id="605" default_value="https://data.undp.org/dataset/Under-five-mortality-per-1-000-live-births-/a4ay-qce2"/>
+  <text id="606" default_value="The under-five mortality rate (U5MR) is the probability (expressed as a rate per 1,000 live births) of a child born in a specified year dying before reaching the age of five if subject to current age-specific mortality rates.&#xA;&#xA;A live birth is the complete expulsion or extraction from its mother of a product of conception, irrespective of the duration of the pregnancy, which, after such separation, breathes or shows any other evidence of life—such as beating of the heart, pulsation of the umbilical cord, or definite movement of voluntary muscles—whether or not the umbilical cord has been cut or the placenta is attached. Each product of such a birth is considered a live birth."/>
+  <text id="607" default_value="http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&amp;SeriesId=561"/>
+  <text id="608" default_value="Probability of dying between birth and exact age 1. It is expressed as average annual deaths per 1,000 births"/>
+  <text id="609" default_value="http://esa.un.org/wpp/Excel-Data/mortality.htm"/>
+  <text id="610" default_value="Ratio of the number of maternal deaths to the number of live births in a given year, expressed per 100,000 live births. "/>
+  <text id="611" default_value="https://data.undp.org/dataset/Maternal-mortality-ratio-deaths-of-women-per-100-0/4gkx-mq89"/>
+  <text id="612" default_value="The maternal mortality ratio (MMR) is the ratio of the number of maternal deaths during a given time period per 100,000 live births during the same time-period. A maternal death refers to a female death from any cause related to or aggravated by pregnancy or its management (excluding accidental or incidental causes) during pregnancy and childbirth or within 42 days of termination of pregnancy, irrespective of the duration and site of the pregnancy."/>
+  <text id="613" default_value="http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&amp;SeriesId=553"/>
+  <text id="614" default_value="Number of airports by country"/>
+  <text id="615" default_value="http://worldaerodata.com/"/>
+  <text id="616" default_value="Total road network includes motorways, highways, and main or national roads, secondary or regional roads, and all other roads in a country. A motorway is a road designed and built for motor traffic that separates the traffic flowing in opposite directions."/>
+  <text id="617" default_value="http://data.worldbank.org/indicator/IS.ROD.TOTL.KM"/>
+  <text id="618" default_value="Rail lines are the length of railway route available for train service, irrespective of the number of parallel tracks."/>
+  <text id="619" default_value="http://data.worldbank.org/indicator/IS.RRS.TOTL.KM"/>
+  <text id="620" default_value="Estimated number of people at risk of undernourishment.&#xA;It is calculated by applying the estimated prevalence of undernourishment (see indicator V 7.1) to the total population (see indicator V_A1 in each period. Data for a 3-year period have been used for the estimation of the prevalence of undernourishment.&#xA;&#xA;The reference periods are those periods for which data were available.&#xA;&#xA;Baseline refers to 1993–95 for Former USSR Republics, Former Yugoslavian Republic and Former Czechoslovakia for proportion of undernourished and 1990-92 population-based for number of undernourished.&#xA;&#xA;China, refers to China Mainland, Hong Kong SAR, Macao SAR and Taiwan Province.&#xA;&#xA;Although not listed separately, provisional estimates for Afghanistan, Democratic Rep. of Congo, Iraq, Myanmar, Papua New Guinea and Somalia have been included in the relevant regional aggregates.&#xA;&#xA;Eritrea and Ethiopia were not separate entities in 1990-1992 but estimates of the number and proportion of undernourished in the former Ethiopia PDR are included in regional and subregional aggregates for that period.&#xA;&#xA;A dash (-) represents data less than 5%.&#xA;&#xA;"/>
+  <text id="621" default_value="http://www.fao.org/docrep/005/Y4249E/y4249e06.htm"/>
+  <text id="622" default_value="Prevalence of (moderately and severely) underweight children is the percentage of children aged 0-59 months whose weights for age are less than two standard deviations below the median weight for age of the international reference population. The international reference population, often referred to as the NCHS/WHO reference population, was formulated by the National Center for Health Statistics (NCHS) as a reference for the United States and later adopted by the World Health Organization (WHO).&#xA;&#xA;The NCHS/WHO reference standard represents the distribution of height and weight by age and sex in a well-nourished population. In a well-nourished population, 2.3 percent of children fall below minus two standard deviations.&#xA;&#xA;A new standard reference population, the WHO Child Growth Standards, was released in April 2006 and is also being used to estimate underweight prevalence (see Comments and Limitations below).&#xA;&#xA;Percentage of children under five that are underweight =        (Number of children under age five that fall below minus two standard deviations from the median weight for age of the NCHS/WHO standard (moderate and severe))*100/ Total number of children under age five that were weighted."/>
+  <text id="623" default_value="http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&amp;SeriesId=559"/>
+  <text id="624" default_value="The proportion of the population using an improved drinking water source, total, urban, and rural, is the percentage of the population who use any of the following types of water supply for drinking: piped water into dwelling, plot or yard; public tap/standpipe; borehole/tube well; protected dug well; protected spring; rainwater collection and bottled water (if a secondary available source is also improved). It does not include unprotected well, unprotected spring, water provided by carts with small tanks/drums, tanker truck-provided water and bottled water (if secondary source is not an improved source) or surface water taken directly from rivers, ponds, streams, lakes, dams, or irrigation channels. Definitions and a detailed description of these facilities can be found at the website of the WHO/UNICEF Joint Monitoring Programme for Water Supply and Sanitation at www.wssinfo.org."/>
+  <text id="625" default_value="http://unstats.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&amp;SeriesId=665"/>
+  <text id="626" default_value="The proportion of the population using an improved sanitation facility, total, urban, rural, is the percentage of the population with access to facilities that hygienically separate human excreta from human contact. Improved facilities include flush/pour flush toilets or latrines connected to a sewer, -septic tank, or -pit, ventilated improved pit latrines, pit latrines with a slab or platform of any material which covers the pit entirely, except for the drop hole and composting toilets/latrines. Unimproved facilities include public or shared facilities of an otherwise acceptable type, flush/pour-flush toilets or latrines which discharge directly into an open sewer or ditch, pit latrines without a slab, bucket latrines, hanging toilets or latrines which directly discharge in water bodies or in the open and the practice of open defecation in the bush, field or bodies or water. Definitions and a detailed description of these facilities can be found at the website of the WHO/UNICEF Joint Monitoring Programme for Water Supply and Sanitation at www.wssinfo.org."/>
+  <text id="627" default_value="http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&amp;SeriesId=668"/>
+  <text id="628" default_value="The GNA Final Index lists countries in ranking order. The GNA Vulnerability Index and the GNA Crisis Index are shown, as well as the various dimensions. Each dimension has a value that is the result of combining indicators. Note that all values are the result of ranking countries. If countries are in the top quartile (25%), they score 3; in the bottom quartile, they score 1; in the middle 2 quartiles, they score 2.  For the calculation methods see the Methodological notes on http://ec.europa.eu/echo/policies/strategy_en.htm"/>
+  <text id="629" default_value="Index value is taken directly from the source dataset."/>
+  <text id="630" default_value="http://ec.europa.eu"/>
+  <text id="631" default_value="The GNA Final Index lists countries in ranking order. The GNA Vulnerability Index and the GNA Crisis Index are shown, as well as the various dimensions. Each dimension has a value that is the result of combining indicators. Note that all values are the result of ranking countries. If countries are in the top quartile (25%), they score 3; in the bottom quartile, they score 1; in the middle 2 quartiles, they score 2.  For the calculation methods see the Methodological notes on http://ec.europa.eu/echo/policies/strategy_en.htm"/>
+  <text id="632" default_value="Index value is taken directly from the source dataset."/>
+  <text id="633" default_value="http://ec.europa.eu"/>
+  <text id="634" default_value="The Armed Conflict Location and Event Database (ACLED) project codes reported information on the exact location, date, and other characteristics of politically violent events in unstable and warring states. ACLED focuses specifically on: &#xA;- Tracking rebel, militia and government activity over time and space &#xA;- Locating rebel group bases, headquarters, strongholds and presence &#xA;- Distinguishing between territorial transfers of military control from governments &#xA;to rebel groups and vice versa &#xA;- Recording violent acts between militias &#xA;- Collecting information on rioting and protesting &#xA;- Non-violent events that are crucial to the dynamics of political violence (e.g. rallies, recruitment drives, peace talks, high-level arrests) &#xA;ACLED data cover all countries on the African continent from 1997-present. Real-time data is available for African states. Data for additional countries including Haiti, Laos, Cambodia, Nepal, Myanmar are available from 1997-early 2010. Data for Afghanistan and Pakistan is available from 2006-2009 and Lebanon from 2006-2012.&#xA;"/>
+  <text id="635" default_value="Total number of incidents of all types are summed by country by year.  Non-violent incident categories are excluded from the sum."/>
+  <text id="636" default_value="http://www.acleddata.com"/>
+  <text id="637" default_value="Can&apos;t find this series. Only 2010 in the scraped data. EM-DAT also provides this data"/>
+  <hdx_translation value="Russie" language="FR" text="181"/>
+  <hdx_translation value="Russia" language="EN" text="181"/>
+  <hdx_translation value="Luxembourg" language="FR" text="128"/>
+  <hdx_translation value="Luxemburg" language="EN" text="128"/>
+  <organisation id="1" org_link="http://www.accuweather.com/" full_name_id="384" short_name_id="385"/>
+  <organisation id="2" org_link="http://www.acleddata.com" full_name_id="386" short_name_id="387"/>
+  <organisation id="3" org_link="http://www.emdat.be/database" full_name_id="388" short_name_id="389"/>
+  <organisation id="4" org_link="http://ec.europa.eu" full_name_id="390" short_name_id="391"/>
+  <organisation id="5" org_link="http://faostat3.fao.org/faostat-gateway/go/to/browse/C/*/E" full_name_id="392" short_name_id="393"/>
+  <organisation id="6" org_link="http://www.un.org/en/development/desa/population/" full_name_id="394" short_name_id="395"/>
+  <organisation id="7" org_link="http://reliefweb.int/" full_name_id="396" short_name_id="397"/>
+  <organisation id="8" org_link="http://mdgs.un.org/unsd/mdg/Default.aspx" full_name_id="398" short_name_id="399"/>
+  <organisation id="9" org_link="http://hdr.undp.org/en/data/explorer" full_name_id="400" short_name_id="401"/>
+  <organisation id="10" org_link="http://www.unicef.org/statistics/" full_name_id="402" short_name_id="403"/>
+  <organisation id="11" org_link="http://unterm.un.org/" full_name_id="404" short_name_id="405"/>
+  <organisation id="12" org_link="http://www.wikipedia.org/" full_name_id="406" short_name_id="407"/>
+  <organisation id="13" org_link="http://www.worldbank.org/" full_name_id="408" short_name_id="409"/>
+  <organisation id="14" org_link="http://worldaerodata.com/" full_name_id="410" short_name_id="411"/>
+  <source id="1" code="world-bank" text_id="412"/>
+  <source id="2" code="mdgs" text_id="413"/>
+  <source id="3" code="emdat" text_id="414"/>
+  <source id="4" code="hdrstats" text_id="415"/>
+  <source id="5" code="m49" text_id="416"/>
+  <source id="6" code="unterm" text_id="417"/>
+  <source id="7" code="esa-unpd-wpp2012" text_id="418"/>
+  <source id="8" code="wikipedia" text_id="419"/>
+  <source id="9" code="worldbank-lending-groups" text_id="420"/>
+  <source id="10" code="accuweather" text_id="421"/>
+  <source id="11" code="unicef-infobycountry" text_id="422"/>
+  <source id="12" code="esa-unpd-wup2011" text_id="423"/>
+  <source id="13" code="faostat3" text_id="424"/>
+  <source id="14" code="worldaerodata" text_id="425"/>
+  <source id="15" code="fao-foodsec" text_id="426"/>
+  <source id="16" code="echo" text_id="427"/>
+  <source id="17" code="acled" text_id="428"/>
+  <source id="18" code="hdi-disaster" text_id="429"/>
+  <source id="19" code="data.undp.org" text_id="430"/>
+  <source_dictionary importer="scraper" unnormalized_name="&quot;World Bank&quot;" source_id="1"/>
+  <source_dictionary importer="scraper-validator" unnormalized_name="World Bank" source_id="1"/>
+  <source_dictionary importer="scraper" unnormalized_name="HDRStats" source_id="4"/>
+  <source_dictionary importer="scraper-validator" unnormalized_name="HDRStats" source_id="4"/>
+  <source_dictionary importer="scraper" unnormalized_name="esa-unpd-WPP2012" source_id="7"/>
+  <source_dictionary importer="scraper-validator" unnormalized_name="esa-unpd-WPP2012" source_id="7"/>
+  <source_dictionary importer="scraper" unnormalized_name="esa-unpd-WUP2011" source_id="12"/>
+  <source_dictionary importer="scraper-validator" unnormalized_name="esa-unpd-WUP2011" source_id="12"/>
+  <hdx_unit id="1" code="%-of-population" text_id="244"/>
+  <hdx_unit id="2" code="percentage" text_id="245"/>
+  <hdx_unit id="3" code="number-of-people" text_id="246"/>
+  <hdx_unit id="4" code="current-international-$" text_id="247"/>
+  <hdx_unit id="5" code="number" text_id="248"/>
+  <hdx_unit id="6" code="per-100-inhabitants" text_id="249"/>
+  <hdx_unit id="7" code="sq.-km" text_id="250"/>
+  <hdx_unit id="8" code="2-digit-string" text_id="251"/>
+  <hdx_unit id="9" code="current-us$" text_id="252"/>
+  <hdx_unit id="10" code="millions-of-people" text_id="253"/>
+  <hdx_unit id="11" code="percentage-of-population" text_id="254"/>
+  <hdx_unit id="12" code="deaths-per-1,000-population" text_id="255"/>
+  <hdx_unit id="13" code="url" text_id="256"/>
+  <hdx_unit id="14" code="string" text_id="257"/>
+  <hdx_unit id="15" code="date" text_id="258"/>
+  <hdx_unit id="16" code="number-of-disasters" text_id="259"/>
+  <hdx_unit id="17" code=",000$-usd" text_id="260"/>
+  <hdx_unit id="18" code="%" text_id="261"/>
+  <hdx_unit id="19" code="per-100-people" text_id="262"/>
+  <hdx_unit id="20" code="1=low-to-5=high" text_id="263"/>
+  <hdx_unit id="21" code="constant-2005-international-$" text_id="264"/>
+  <hdx_unit id="22" code="%-of-working-age-population" text_id="265"/>
+  <hdx_unit id="23" code="index" text_id="266"/>
+  <hdx_unit id="24" code="thousands" text_id="267"/>
+  <hdx_unit id="25" code="years" text_id="268"/>
+  <hdx_unit id="26" code="persons-per-square-km" text_id="269"/>
+  <hdx_unit id="27" code="people-per-sq.-km-of-land-area" text_id="270"/>
+  <hdx_unit id="28" code="uno" text_id="271"/>
+  <hdx_unit id="29" code="%-aged-15-and-above" text_id="272"/>
+  <hdx_unit id="30" code="both-sexes" text_id="273"/>
+  <hdx_unit id="31" code="kcal/capita/day" text_id="274"/>
+  <hdx_unit id="32" code="per-1,000-female-adults" text_id="275"/>
+  <hdx_unit id="33" code="per-1,000-male-adults" text_id="276"/>
+  <hdx_unit id="34" code="deaths-under-age-five-per-1,000-live-births" text_id="277"/>
+  <hdx_unit id="35" code="per-1,000-live-births" text_id="278"/>
+  <hdx_unit id="36" code="infant-deaths-per-1,000-live-births" text_id="279"/>
+  <hdx_unit id="37" code="deaths-of-women-per100,000-live-births" text_id="280"/>
+  <hdx_unit id="38" code="ratio" text_id="281"/>
+  <hdx_unit id="39" code="count" text_id="282"/>
+  <hdx_unit id="40" code="km" text_id="283"/>
+  <hdx_unit id="41" code="total-route-km" text_id="284"/>
+  <hdx_unit id="42" code="index-value" text_id="285"/>
+  <hdx_unit id="43" code="incidents-of-conflict" text_id="286"/>
+  <hdx_unit id="44" code="per-million-people-per-year" text_id="287"/>
+  <hdx_unit id="45" code="average-per-year-per-million-people" text_id="288"/>
+  <indicator_type id="1" code="_Access to electricity (% of population)" value_type="NUMBER" text_id="289" unit_id="1"/>
+  <indicator_type id="2" code="_Children 1 year old immunized against measles, percentage" value_type="NUMBER" text_id="290" unit_id="2"/>
+  <indicator_type id="3" code="_emdat:no_homeless" value_type="NUMBER" text_id="291" unit_id="3"/>
+  <indicator_type id="4" code="_emdat:no_injured" value_type="NUMBER" text_id="292" unit_id="3"/>
+  <indicator_type id="5" code="_emdat:total_affected" value_type="NUMBER" text_id="293" unit_id="3"/>
+  <indicator_type id="6" code="_GNI, PPP (current international $)" value_type="NUMBER" text_id="294" unit_id="4"/>
+  <indicator_type id="7" code="_HDR:68606" value_type="NUMBER" text_id="295" unit_id="5"/>
+  <indicator_type id="8" code="_International migrant stock (% of population)" value_type="NUMBER" text_id="296" unit_id="1"/>
+  <indicator_type id="9" code="_Internet users per 100 inhabitants" value_type="NUMBER" text_id="297" unit_id="6"/>
+  <indicator_type id="10" code="_Land area (sq. km)" value_type="NUMBER" text_id="298" unit_id="7"/>
+  <indicator_type id="11" code="_m49-name" value_type="STRING" text_id="299" unit_id="8"/>
+  <indicator_type id="12" code="_Net ODA received per capita (current US$)" value_type="NUMBER" text_id="300" unit_id="9"/>
+  <indicator_type id="13" code="_Number of infant deaths" value_type="NUMBER" text_id="301" unit_id="3"/>
+  <indicator_type id="14" code="_Population undernourished, millions" value_type="NUMBER" text_id="302" unit_id="10"/>
+  <indicator_type id="15" code="_Population undernourished, percentage" value_type="NUMBER" text_id="303" unit_id="11"/>
+  <indicator_type id="16" code="_Population, total" value_type="NUMBER" text_id="304" unit_id="3"/>
+  <indicator_type id="17" code="_unterm:ISO Country alpha-2-code" value_type="STRING" text_id="305" unit_id="8"/>
+  <indicator_type id="18" code="_WPP2012_MORT_F02_CRUDE_DEATH_RATE" value_type="NUMBER" text_id="306" unit_id="12"/>
+  <indicator_type id="19" code="CD010" value_type="STRING" text_id="307" unit_id="13"/>
+  <indicator_type id="20" code="CD030" value_type="STRING" text_id="308" unit_id="13"/>
+  <indicator_type id="21" code="CD050" value_type="STRING" text_id="309" unit_id="13"/>
+  <indicator_type id="22" code="CD060" value_type="STRING" text_id="310" unit_id="13"/>
+  <indicator_type id="23" code="CD070" value_type="STRING" text_id="311" unit_id="13"/>
+  <indicator_type id="24" code="CD080" value_type="STRING" text_id="312" unit_id="13"/>
+  <indicator_type id="25" code="CD090" value_type="STRING" text_id="313" unit_id="13"/>
+  <indicator_type id="26" code="CG020" value_type="STRING" text_id="314" unit_id="14"/>
+  <indicator_type id="27" code="CG030" value_type="STRING" text_id="315" unit_id="14"/>
+  <indicator_type id="28" code="CG060" value_type="STRING" text_id="316" unit_id="14"/>
+  <indicator_type id="29" code="CG070" value_type="STRING" text_id="317" unit_id="14"/>
+  <indicator_type id="30" code="CG080" value_type="STRING" text_id="318" unit_id="14"/>
+  <indicator_type id="31" code="CG100" value_type="STRING" text_id="319" unit_id="14"/>
+  <indicator_type id="32" code="CG120" value_type="STRING" text_id="320" unit_id="14"/>
+  <indicator_type id="33" code="CG140" value_type="STRING" text_id="321" unit_id="14"/>
+  <indicator_type id="34" code="CG150" value_type="STRING" text_id="322" unit_id="14"/>
+  <indicator_type id="35" code="CG260" value_type="STRING" text_id="323" unit_id="13"/>
+  <indicator_type id="36" code="CG290" value_type="DATE" text_id="324" unit_id="15"/>
+  <indicator_type id="37" code="CH070" value_type="NUMBER" text_id="325" unit_id="16"/>
+  <indicator_type id="38" code="CH080" value_type="NUMBER" text_id="326" unit_id="3"/>
+  <indicator_type id="39" code="CH090" value_type="NUMBER" text_id="327" unit_id="3"/>
+  <indicator_type id="40" code="CH100" value_type="NUMBER" text_id="328" unit_id="17"/>
+  <indicator_type id="41" code="PCH090" value_type="NUMBER" text_id="329" unit_id="18"/>
+  <indicator_type id="42" code="PCX051" value_type="NUMBER" text_id="330" unit_id="19"/>
+  <indicator_type id="43" code="PCX080" value_type="NUMBER" text_id="331" unit_id="19"/>
+  <indicator_type id="44" code="PCX090" value_type="NUMBER" text_id="332" unit_id="19"/>
+  <indicator_type id="45" code="PCX100" value_type="NUMBER" text_id="333" unit_id="19"/>
+  <indicator_type id="46" code="PCX130" value_type="NUMBER" text_id="334" unit_id="20"/>
+  <indicator_type id="47" code="PSE030" value_type="NUMBER" text_id="335" unit_id="4"/>
+  <indicator_type id="48" code="PSE090" value_type="NUMBER" text_id="336" unit_id="4"/>
+  <indicator_type id="49" code="PSE110" value_type="NUMBER" text_id="337" unit_id="21"/>
+  <indicator_type id="50" code="PSE120" value_type="NUMBER" text_id="338" unit_id="9"/>
+  <indicator_type id="51" code="PSE130" value_type="NUMBER" text_id="339" unit_id="21"/>
+  <indicator_type id="52" code="PSE140" value_type="NUMBER" text_id="340" unit_id="22"/>
+  <indicator_type id="53" code="PSE150" value_type="NUMBER" text_id="341" unit_id="22"/>
+  <indicator_type id="54" code="PSE160" value_type="NUMBER" text_id="342" unit_id="18"/>
+  <indicator_type id="55" code="PSE170" value_type="NUMBER" text_id="343" unit_id="1"/>
+  <indicator_type id="56" code="PSE200" value_type="NUMBER" text_id="344" unit_id="2"/>
+  <indicator_type id="57" code="PSE210" value_type="NUMBER" text_id="345" unit_id="23"/>
+  <indicator_type id="58" code="PSE220" value_type="NUMBER" text_id="346" unit_id="23"/>
+  <indicator_type id="59" code="PSP010" value_type="NUMBER" text_id="347" unit_id="24"/>
+  <indicator_type id="60" code="PSP050" value_type="NUMBER" text_id="348" unit_id="2"/>
+  <indicator_type id="61" code="PSP060" value_type="NUMBER" text_id="349" unit_id="2"/>
+  <indicator_type id="62" code="PSP070" value_type="NUMBER" text_id="350" unit_id="25"/>
+  <indicator_type id="63" code="PSP080" value_type="NUMBER" text_id="351" unit_id="26"/>
+  <indicator_type id="64" code="PSP090" value_type="NUMBER" text_id="352" unit_id="27"/>
+  <indicator_type id="65" code="PSP100" value_type="NUMBER" text_id="353" unit_id="2"/>
+  <indicator_type id="66" code="PSP110" value_type="NUMBER" text_id="354" unit_id="28"/>
+  <indicator_type id="67" code="PVE010" value_type="NUMBER" text_id="355" unit_id="18"/>
+  <indicator_type id="68" code="PVE030" value_type="NUMBER" text_id="356" unit_id="25"/>
+  <indicator_type id="69" code="PVE040" value_type="NUMBER" text_id="357" unit_id="29"/>
+  <indicator_type id="70" code="PVE110" value_type="NUMBER" text_id="358" unit_id="25"/>
+  <indicator_type id="71" code="PVE120" value_type="NUMBER" text_id="359" unit_id="18"/>
+  <indicator_type id="72" code="PVE130" value_type="NUMBER" text_id="360" unit_id="30"/>
+  <indicator_type id="73" code="PVF020" value_type="NUMBER" text_id="361" unit_id="31"/>
+  <indicator_type id="74" code="PVH010" value_type="NUMBER" text_id="362" unit_id="25"/>
+  <indicator_type id="75" code="PVH050" value_type="NUMBER" text_id="363" unit_id="24"/>
+  <indicator_type id="76" code="PVH080" value_type="NUMBER" text_id="364" unit_id="32"/>
+  <indicator_type id="77" code="PVH090" value_type="NUMBER" text_id="365" unit_id="33"/>
+  <indicator_type id="78" code="PVH100" value_type="NUMBER" text_id="366" unit_id="34"/>
+  <indicator_type id="79" code="PVH120" value_type="NUMBER" text_id="367" unit_id="35"/>
+  <indicator_type id="80" code="PVH140" value_type="NUMBER" text_id="368" unit_id="35"/>
+  <indicator_type id="81" code="PVH150" value_type="NUMBER" text_id="369" unit_id="36"/>
+  <indicator_type id="82" code="PVH180" value_type="NUMBER" text_id="370" unit_id="37"/>
+  <indicator_type id="83" code="PVH190" value_type="NUMBER" text_id="371" unit_id="38"/>
+  <indicator_type id="84" code="PVL010" value_type="NUMBER" text_id="372" unit_id="39"/>
+  <indicator_type id="85" code="PVL030" value_type="NUMBER" text_id="373" unit_id="40"/>
+  <indicator_type id="86" code="PVL040" value_type="NUMBER" text_id="374" unit_id="41"/>
+  <indicator_type id="87" code="PVN010" value_type="NUMBER" text_id="375" unit_id="2"/>
+  <indicator_type id="88" code="PVN050" value_type="NUMBER" text_id="376" unit_id="2"/>
+  <indicator_type id="89" code="PVW010" value_type="NUMBER" text_id="377" unit_id="2"/>
+  <indicator_type id="90" code="PVW040" value_type="NUMBER" text_id="378" unit_id="2"/>
+  <indicator_type id="91" code="PVX010" value_type="NUMBER" text_id="379" unit_id="42"/>
+  <indicator_type id="92" code="PVX020" value_type="NUMBER" text_id="380" unit_id="42"/>
+  <indicator_type id="93" code="PVX040" value_type="NUMBER" text_id="381" unit_id="43"/>
+  <indicator_type id="94" code="PVX060" value_type="NUMBER" text_id="382" unit_id="44"/>
+  <indicator_type id="95" code="PVX070" value_type="NUMBER" text_id="383" unit_id="45"/>
+  <entity_type id="1" code="country" text_id="1"/>
+  <entity_type id="2" code="crisis" text_id="2"/>
+  <entity id="1" code="AFG" text_id="3" entity_type_id="1"/>
+  <entity id="2" code="ALB" text_id="4" entity_type_id="1"/>
+  <entity id="3" code="DZA" text_id="5" entity_type_id="1"/>
+  <entity id="4" code="ASM" text_id="6" entity_type_id="1"/>
+  <entity id="5" code="AND" text_id="7" entity_type_id="1"/>
+  <entity id="6" code="AGO" text_id="8" entity_type_id="1"/>
+  <entity id="7" code="AIA" text_id="9" entity_type_id="1"/>
+  <entity id="8" code="ATA" text_id="10" entity_type_id="1"/>
+  <entity id="9" code="ATG" text_id="11" entity_type_id="1"/>
+  <entity id="10" code="ARG" text_id="12" entity_type_id="1"/>
+  <entity id="11" code="ARM" text_id="13" entity_type_id="1"/>
+  <entity id="12" code="ABW" text_id="14" entity_type_id="1"/>
+  <entity id="13" code="AUS" text_id="15" entity_type_id="1"/>
+  <entity id="14" code="AUT" text_id="16" entity_type_id="1"/>
+  <entity id="15" code="AZE" text_id="17" entity_type_id="1"/>
+  <entity id="16" code="BHS" text_id="18" entity_type_id="1"/>
+  <entity id="17" code="BHR" text_id="19" entity_type_id="1"/>
+  <entity id="18" code="BGD" text_id="20" entity_type_id="1"/>
+  <entity id="19" code="BRB" text_id="21" entity_type_id="1"/>
+  <entity id="20" code="BLR" text_id="22" entity_type_id="1"/>
+  <entity id="21" code="BEL" text_id="23" entity_type_id="1"/>
+  <entity id="22" code="BLZ" text_id="24" entity_type_id="1"/>
+  <entity id="23" code="BEN" text_id="25" entity_type_id="1"/>
+  <entity id="24" code="BMU" text_id="26" entity_type_id="1"/>
+  <entity id="25" code="BTN" text_id="27" entity_type_id="1"/>
+  <entity id="26" code="BOL" text_id="28" entity_type_id="1"/>
+  <entity id="27" code="BIH" text_id="29" entity_type_id="1"/>
+  <entity id="28" code="BWA" text_id="30" entity_type_id="1"/>
+  <entity id="29" code="BVT" text_id="31" entity_type_id="1"/>
+  <entity id="30" code="BRA" text_id="32" entity_type_id="1"/>
+  <entity id="31" code="IOT" text_id="33" entity_type_id="1"/>
+  <entity id="32" code="BRN" text_id="34" entity_type_id="1"/>
+  <entity id="33" code="BGR" text_id="35" entity_type_id="1"/>
+  <entity id="34" code="BFA" text_id="36" entity_type_id="1"/>
+  <entity id="35" code="BDI" text_id="37" entity_type_id="1"/>
+  <entity id="36" code="KHM" text_id="38" entity_type_id="1"/>
+  <entity id="37" code="CMR" text_id="39" entity_type_id="1"/>
+  <entity id="38" code="CAN" text_id="40" entity_type_id="1"/>
+  <entity id="39" code="CPV" text_id="41" entity_type_id="1"/>
+  <entity id="40" code="CYM" text_id="42" entity_type_id="1"/>
+  <entity id="41" code="CAF" text_id="43" entity_type_id="1"/>
+  <entity id="42" code="TCD" text_id="44" entity_type_id="1"/>
+  <entity id="43" code="CHL" text_id="45" entity_type_id="1"/>
+  <entity id="44" code="CHN" text_id="46" entity_type_id="1"/>
+  <entity id="45" code="CXR" text_id="47" entity_type_id="1"/>
+  <entity id="46" code="CCK" text_id="48" entity_type_id="1"/>
+  <entity id="47" code="COL" text_id="49" entity_type_id="1"/>
+  <entity id="48" code="COM" text_id="50" entity_type_id="1"/>
+  <entity id="49" code="COG" text_id="51" entity_type_id="1"/>
+  <entity id="50" code="COD" text_id="52" entity_type_id="1"/>
+  <entity id="51" code="COK" text_id="53" entity_type_id="1"/>
+  <entity id="52" code="CRI" text_id="54" entity_type_id="1"/>
+  <entity id="53" code="CIV" text_id="55" entity_type_id="1"/>
+  <entity id="54" code="HRV" text_id="56" entity_type_id="1"/>
+  <entity id="55" code="CUB" text_id="57" entity_type_id="1"/>
+  <entity id="56" code="CYP" text_id="58" entity_type_id="1"/>
+  <entity id="57" code="CZE" text_id="59" entity_type_id="1"/>
+  <entity id="58" code="DNK" text_id="60" entity_type_id="1"/>
+  <entity id="59" code="DJI" text_id="61" entity_type_id="1"/>
+  <entity id="60" code="DMA" text_id="62" entity_type_id="1"/>
+  <entity id="61" code="DOM" text_id="63" entity_type_id="1"/>
+  <entity id="62" code="TMP" text_id="64" entity_type_id="1"/>
+  <entity id="63" code="ECU" text_id="65" entity_type_id="1"/>
+  <entity id="64" code="EGY" text_id="66" entity_type_id="1"/>
+  <entity id="65" code="SLV" text_id="67" entity_type_id="1"/>
+  <entity id="66" code="GNQ" text_id="68" entity_type_id="1"/>
+  <entity id="67" code="ERI" text_id="69" entity_type_id="1"/>
+  <entity id="68" code="EST" text_id="70" entity_type_id="1"/>
+  <entity id="69" code="ETH " text_id="71" entity_type_id="1"/>
+  <entity id="70" code="FLK" text_id="72" entity_type_id="1"/>
+  <entity id="71" code="FRO" text_id="73" entity_type_id="1"/>
+  <entity id="72" code="FJI" text_id="74" entity_type_id="1"/>
+  <entity id="73" code="FIN" text_id="75" entity_type_id="1"/>
+  <entity id="74" code="FRA" text_id="76" entity_type_id="1"/>
+  <entity id="75" code="FXX" text_id="77" entity_type_id="1"/>
+  <entity id="76" code="GUF" text_id="78" entity_type_id="1"/>
+  <entity id="77" code="PYF" text_id="79" entity_type_id="1"/>
+  <entity id="78" code="ATF" text_id="80" entity_type_id="1"/>
+  <entity id="79" code="GAB" text_id="81" entity_type_id="1"/>
+  <entity id="80" code="GMB" text_id="82" entity_type_id="1"/>
+  <entity id="81" code="GEO" text_id="83" entity_type_id="1"/>
+  <entity id="82" code="DEU" text_id="84" entity_type_id="1"/>
+  <entity id="83" code="GHA" text_id="85" entity_type_id="1"/>
+  <entity id="84" code="GIB" text_id="86" entity_type_id="1"/>
+  <entity id="85" code="GRC" text_id="87" entity_type_id="1"/>
+  <entity id="86" code="GRL" text_id="88" entity_type_id="1"/>
+  <entity id="87" code="GRD" text_id="89" entity_type_id="1"/>
+  <entity id="88" code="GLP" text_id="90" entity_type_id="1"/>
+  <entity id="89" code="GUM" text_id="91" entity_type_id="1"/>
+  <entity id="90" code="GTM" text_id="92" entity_type_id="1"/>
+  <entity id="91" code="GIN" text_id="93" entity_type_id="1"/>
+  <entity id="92" code="GNB" text_id="94" entity_type_id="1"/>
+  <entity id="93" code="GUY" text_id="95" entity_type_id="1"/>
+  <entity id="94" code="HTI" text_id="96" entity_type_id="1"/>
+  <entity id="95" code="HMD" text_id="97" entity_type_id="1"/>
+  <entity id="96" code="VAT" text_id="98" entity_type_id="1"/>
+  <entity id="97" code="HND" text_id="99" entity_type_id="1"/>
+  <entity id="98" code="HKG" text_id="100" entity_type_id="1"/>
+  <entity id="99" code="HUN" text_id="101" entity_type_id="1"/>
+  <entity id="100" code="ISL" text_id="102" entity_type_id="1"/>
+  <entity id="101" code="IND" text_id="103" entity_type_id="1"/>
+  <entity id="102" code="IDN" text_id="104" entity_type_id="1"/>
+  <entity id="103" code="IRN" text_id="105" entity_type_id="1"/>
+  <entity id="104" code="IRQ" text_id="106" entity_type_id="1"/>
+  <entity id="105" code="IRL" text_id="107" entity_type_id="1"/>
+  <entity id="106" code="ISR" text_id="108" entity_type_id="1"/>
+  <entity id="107" code="ITA" text_id="109" entity_type_id="1"/>
+  <entity id="108" code="JAM" text_id="110" entity_type_id="1"/>
+  <entity id="109" code="JPN" text_id="111" entity_type_id="1"/>
+  <entity id="110" code="JOR" text_id="112" entity_type_id="1"/>
+  <entity id="111" code="KAZ" text_id="113" entity_type_id="1"/>
+  <entity id="112" code="KEN" text_id="114" entity_type_id="1"/>
+  <entity id="113" code="KIR" text_id="115" entity_type_id="1"/>
+  <entity id="114" code="PRK" text_id="116" entity_type_id="1"/>
+  <entity id="115" code="KOR" text_id="117" entity_type_id="1"/>
+  <entity id="116" code="KWT" text_id="118" entity_type_id="1"/>
+  <entity id="117" code="KGZ" text_id="119" entity_type_id="1"/>
+  <entity id="118" code="LAO" text_id="120" entity_type_id="1"/>
+  <entity id="119" code="LVA" text_id="121" entity_type_id="1"/>
+  <entity id="120" code="LBN" text_id="122" entity_type_id="1"/>
+  <entity id="121" code="LSO" text_id="123" entity_type_id="1"/>
+  <entity id="122" code="LBR" text_id="124" entity_type_id="1"/>
+  <entity id="123" code="LBY" text_id="125" entity_type_id="1"/>
+  <entity id="124" code="LIE" text_id="126" entity_type_id="1"/>
+  <entity id="125" code="LTU" text_id="127" entity_type_id="1"/>
+  <entity id="126" code="LUX" text_id="128" entity_type_id="1"/>
+  <entity id="127" code="MAC" text_id="129" entity_type_id="1"/>
+  <entity id="128" code="MKD" text_id="130" entity_type_id="1"/>
+  <entity id="129" code="MDG" text_id="131" entity_type_id="1"/>
+  <entity id="130" code="MWI" text_id="132" entity_type_id="1"/>
+  <entity id="131" code="MYS" text_id="133" entity_type_id="1"/>
+  <entity id="132" code="MDV" text_id="134" entity_type_id="1"/>
+  <entity id="133" code="MLI" text_id="135" entity_type_id="1"/>
+  <entity id="134" code="MLT" text_id="136" entity_type_id="1"/>
+  <entity id="135" code="MHL" text_id="137" entity_type_id="1"/>
+  <entity id="136" code="MTQ" text_id="138" entity_type_id="1"/>
+  <entity id="137" code="MRT" text_id="139" entity_type_id="1"/>
+  <entity id="138" code="MUS" text_id="140" entity_type_id="1"/>
+  <entity id="139" code="MYT" text_id="141" entity_type_id="1"/>
+  <entity id="140" code="MEX" text_id="142" entity_type_id="1"/>
+  <entity id="141" code="FSM" text_id="143" entity_type_id="1"/>
+  <entity id="142" code="MDA" text_id="144" entity_type_id="1"/>
+  <entity id="143" code="MCO" text_id="145" entity_type_id="1"/>
+  <entity id="144" code="MNG" text_id="146" entity_type_id="1"/>
+  <entity id="145" code="MNE" text_id="147" entity_type_id="1"/>
+  <entity id="146" code="MSR" text_id="148" entity_type_id="1"/>
+  <entity id="147" code="MAR" text_id="149" entity_type_id="1"/>
+  <entity id="148" code="MOZ" text_id="150" entity_type_id="1"/>
+  <entity id="149" code="MMR" text_id="151" entity_type_id="1"/>
+  <entity id="150" code="NAM" text_id="152" entity_type_id="1"/>
+  <entity id="151" code="NRU" text_id="153" entity_type_id="1"/>
+  <entity id="152" code="NPL" text_id="154" entity_type_id="1"/>
+  <entity id="153" code="NLD" text_id="155" entity_type_id="1"/>
+  <entity id="154" code="ANT" text_id="156" entity_type_id="1"/>
+  <entity id="155" code="NCL" text_id="157" entity_type_id="1"/>
+  <entity id="156" code="NZL" text_id="158" entity_type_id="1"/>
+  <entity id="157" code="NIC" text_id="159" entity_type_id="1"/>
+  <entity id="158" code="NER" text_id="160" entity_type_id="1"/>
+  <entity id="159" code="NGA" text_id="161" entity_type_id="1"/>
+  <entity id="160" code="NIU" text_id="162" entity_type_id="1"/>
+  <entity id="161" code="NFK" text_id="163" entity_type_id="1"/>
+  <entity id="162" code="MNP" text_id="164" entity_type_id="1"/>
+  <entity id="163" code="NOR" text_id="165" entity_type_id="1"/>
+  <entity id="164" code="OMN" text_id="166" entity_type_id="1"/>
+  <entity id="165" code="PAK" text_id="167" entity_type_id="1"/>
+  <entity id="166" code="PLW" text_id="168" entity_type_id="1"/>
+  <entity id="167" code="PAN" text_id="169" entity_type_id="1"/>
+  <entity id="168" code="PNG" text_id="170" entity_type_id="1"/>
+  <entity id="169" code="PRY" text_id="171" entity_type_id="1"/>
+  <entity id="170" code="PER" text_id="172" entity_type_id="1"/>
+  <entity id="171" code="PHL" text_id="173" entity_type_id="1"/>
+  <entity id="172" code="PCN" text_id="174" entity_type_id="1"/>
+  <entity id="173" code="POL" text_id="175" entity_type_id="1"/>
+  <entity id="174" code="PRT" text_id="176" entity_type_id="1"/>
+  <entity id="175" code="PRI" text_id="177" entity_type_id="1"/>
+  <entity id="176" code="QAT" text_id="178" entity_type_id="1"/>
+  <entity id="177" code="REU" text_id="179" entity_type_id="1"/>
+  <entity id="178" code="ROM" text_id="180" entity_type_id="1"/>
+  <entity id="179" code="RUS" text_id="181" entity_type_id="1"/>
+  <entity id="180" code="RWA" text_id="182" entity_type_id="1"/>
+  <entity id="181" code="KNA" text_id="183" entity_type_id="1"/>
+  <entity id="182" code="LCA" text_id="184" entity_type_id="1"/>
+  <entity id="183" code="VCT" text_id="185" entity_type_id="1"/>
+  <entity id="184" code="WSM" text_id="186" entity_type_id="1"/>
+  <entity id="185" code="SMR" text_id="187" entity_type_id="1"/>
+  <entity id="186" code="STP" text_id="188" entity_type_id="1"/>
+  <entity id="187" code="SAU" text_id="189" entity_type_id="1"/>
+  <entity id="188" code="SEN" text_id="190" entity_type_id="1"/>
+  <entity id="189" code="SRB" text_id="191" entity_type_id="1"/>
+  <entity id="190" code="SYC" text_id="192" entity_type_id="1"/>
+  <entity id="191" code="SLE" text_id="193" entity_type_id="1"/>
+  <entity id="192" code="SGP" text_id="194" entity_type_id="1"/>
+  <entity id="193" code="SVK" text_id="195" entity_type_id="1"/>
+  <entity id="194" code="SVN" text_id="196" entity_type_id="1"/>
+  <entity id="195" code="SLB" text_id="197" entity_type_id="1"/>
+  <entity id="196" code="SOM" text_id="198" entity_type_id="1"/>
+  <entity id="197" code="ZAF" text_id="199" entity_type_id="1"/>
+  <entity id="198" code="SSD" text_id="200" entity_type_id="1"/>
+  <entity id="199" code="SGS" text_id="201" entity_type_id="1"/>
+  <entity id="200" code="ESP" text_id="202" entity_type_id="1"/>
+  <entity id="201" code="LKA" text_id="203" entity_type_id="1"/>
+  <entity id="202" code="SHN" text_id="204" entity_type_id="1"/>
+  <entity id="203" code="SPM" text_id="205" entity_type_id="1"/>
+  <entity id="204" code="SDN" text_id="206" entity_type_id="1"/>
+  <entity id="205" code="SUR" text_id="207" entity_type_id="1"/>
+  <entity id="206" code="SJM" text_id="208" entity_type_id="1"/>
+  <entity id="207" code="SWZ" text_id="209" entity_type_id="1"/>
+  <entity id="208" code="SWE" text_id="210" entity_type_id="1"/>
+  <entity id="209" code="CHE" text_id="211" entity_type_id="1"/>
+  <entity id="210" code="SYR" text_id="212" entity_type_id="1"/>
+  <entity id="211" code="TWN" text_id="213" entity_type_id="1"/>
+  <entity id="212" code="TJK" text_id="214" entity_type_id="1"/>
+  <entity id="213" code="TZA" text_id="215" entity_type_id="1"/>
+  <entity id="214" code="THA" text_id="216" entity_type_id="1"/>
+  <entity id="215" code="TGO" text_id="217" entity_type_id="1"/>
+  <entity id="216" code="TKL" text_id="218" entity_type_id="1"/>
+  <entity id="217" code="TON" text_id="219" entity_type_id="1"/>
+  <entity id="218" code="TTO" text_id="220" entity_type_id="1"/>
+  <entity id="219" code="TUN" text_id="221" entity_type_id="1"/>
+  <entity id="220" code="TUR" text_id="222" entity_type_id="1"/>
+  <entity id="221" code="TKM" text_id="223" entity_type_id="1"/>
+  <entity id="222" code="TCA" text_id="224" entity_type_id="1"/>
+  <entity id="223" code="TUV" text_id="225" entity_type_id="1"/>
+  <entity id="224" code="UGA" text_id="226" entity_type_id="1"/>
+  <entity id="225" code="UKR" text_id="227" entity_type_id="1"/>
+  <entity id="226" code="ARE" text_id="228" entity_type_id="1"/>
+  <entity id="227" code="GBR" text_id="229" entity_type_id="1"/>
+  <entity id="228" code="USA" text_id="230" entity_type_id="1"/>
+  <entity id="229" code="UMI" text_id="231" entity_type_id="1"/>
+  <entity id="230" code="URY" text_id="232" entity_type_id="1"/>
+  <entity id="231" code="UZB" text_id="233" entity_type_id="1"/>
+  <entity id="232" code="VUT" text_id="234" entity_type_id="1"/>
+  <entity id="233" code="VEN" text_id="235" entity_type_id="1"/>
+  <entity id="234" code="VNM" text_id="236" entity_type_id="1"/>
+  <entity id="235" code="VGB" text_id="237" entity_type_id="1"/>
+  <entity id="236" code="VIR" text_id="238" entity_type_id="1"/>
+  <entity id="237" code="WLF" text_id="239" entity_type_id="1"/>
+  <entity id="238" code="ESH" text_id="240" entity_type_id="1"/>
+  <entity id="239" code="YEM" text_id="241" entity_type_id="1"/>
+  <entity id="240" code="ZMB" text_id="242" entity_type_id="1"/>
+  <entity id="241" code="ZWE " text_id="243" entity_type_id="1"/>
+  <resource_configuration id="1" name="Sample Scraper Config"/>
+  <resource_config_entry id="1" entry_key="Pre-validators" entry_value="Number of columns validator&amp;&amp;Allowed Indicator Types" resource_configuration_id="1"/>
+  <resource_config_entry id="2" entry_key="Minimum number of columns" entry_value="6" resource_configuration_id="1"/>
+  <resource_config_entry id="3" entry_key="Allowed indicator type codes" entry_value="CD010&amp;&amp;CG150&amp;&amp;CG260&amp;&amp;CG290&amp;&amp;_unterm:ISO Country alpha-2-code&amp;&amp;_m49-name&amp;&amp;PVE130&amp;&amp;PVF020&amp;&amp;PVH140" resource_configuration_id="1"/>
+  <indicator_resource_config_entry id="1" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="1" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="2" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="1" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="3" entry_key="Min Value" entry_value="0" indicator_type_id="1" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="4" entry_key="Max Value" entry_value="100" indicator_type_id="1" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="5" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="2" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="6" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="2" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="7" entry_key="Min Value" entry_value="0" indicator_type_id="2" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="8" entry_key="Max Value" entry_value="100" indicator_type_id="2" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="9" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="3" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="10" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="3" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="11" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="4" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="12" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="4" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="13" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="5" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="14" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="5" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="15" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="6" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="16" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="6" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="17" entry_key="Min Value" entry_value="0" indicator_type_id="6" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="18" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="7" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="19" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="7" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="20" entry_key="Min Value" entry_value="0" indicator_type_id="7" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="21" entry_key="Max Value" entry_value="1" indicator_type_id="7" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="22" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="8" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="23" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="8" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="24" entry_key="Min Value" entry_value="0" indicator_type_id="8" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="25" entry_key="Max Value" entry_value="100" indicator_type_id="8" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="26" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="9" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="27" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="9" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="28" entry_key="Min Value" entry_value="0" indicator_type_id="9" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="29" entry_key="Max Value" entry_value="100" indicator_type_id="9" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="30" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="10" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="31" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="10" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="32" entry_key="Min Value" entry_value="0" indicator_type_id="10" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="33" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="11" resource_configuration_id="1" source_id="5"/>
+  <indicator_resource_config_entry id="34" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="11" resource_configuration_id="1" source_id="5"/>
+  <indicator_resource_config_entry id="35" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="12" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="36" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="12" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="37" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="13" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="38" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="13" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="39" entry_key="Min Value" entry_value="0" indicator_type_id="13" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="40" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="14" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="41" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="14" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="42" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="15" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="43" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="15" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="44" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="16" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="45" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="16" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="46" entry_key="Expected time format" entry_value="none" indicator_type_id="17" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="47" entry_key="Expected start time format" entry_value="none" indicator_type_id="17" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="48" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="18" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="49" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="18" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="50" entry_key="Expected time format" entry_value="none" indicator_type_id="19" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="51" entry_key="Expected start time format" entry_value="none" indicator_type_id="19" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="52" entry_key="Expected time format" entry_value="none" indicator_type_id="20" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="53" entry_key="Expected start time format" entry_value="none" indicator_type_id="20" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="54" entry_key="Expected time format" entry_value="none" indicator_type_id="21" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="55" entry_key="Expected start time format" entry_value="none" indicator_type_id="21" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="56" entry_key="Expected time format" entry_value="none" indicator_type_id="22" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="57" entry_key="Expected start time format" entry_value="none" indicator_type_id="22" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="58" entry_key="Expected time format" entry_value="none" indicator_type_id="23" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="59" entry_key="Expected start time format" entry_value="none" indicator_type_id="23" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="60" entry_key="Expected time format" entry_value="none" indicator_type_id="24" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="61" entry_key="Expected start time format" entry_value="none" indicator_type_id="24" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="62" entry_key="Expected time format" entry_value="none" indicator_type_id="25" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="63" entry_key="Expected start time format" entry_value="none" indicator_type_id="25" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="64" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="26" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="65" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="26" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="66" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="27" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="67" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="27" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="68" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="28" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="69" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="28" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="70" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="29" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="71" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="29" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="72" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="30" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="73" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="30" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="74" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="31" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="75" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="31" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="76" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="32" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="77" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="32" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="78" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="33" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="79" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="33" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="80" entry_key="Expected time format" entry_value="none" indicator_type_id="34" resource_configuration_id="1" source_id="9"/>
+  <indicator_resource_config_entry id="81" entry_key="Expected start time format" entry_value="none" indicator_type_id="34" resource_configuration_id="1" source_id="9"/>
+  <indicator_resource_config_entry id="82" entry_key="Expected time format" entry_value="none" indicator_type_id="35" resource_configuration_id="1" source_id="10"/>
+  <indicator_resource_config_entry id="83" entry_key="Expected start time format" entry_value="none" indicator_type_id="35" resource_configuration_id="1" source_id="10"/>
+  <indicator_resource_config_entry id="84" entry_key="Expected time format" entry_value="none" indicator_type_id="36" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="85" entry_key="Expected start time format" entry_value="none" indicator_type_id="36" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="86" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="37" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="87" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="37" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="88" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="38" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="89" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="38" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="90" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="39" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="91" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="39" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="92" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="40" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="93" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="40" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="94" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="41" resource_configuration_id="1" source_id="11"/>
+  <indicator_resource_config_entry id="95" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="41" resource_configuration_id="1" source_id="11"/>
+  <indicator_resource_config_entry id="96" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="42" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="97" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="42" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="98" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="43" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="99" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="43" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="100" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="44" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="101" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="44" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="102" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="45" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="103" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="45" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="104" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="46" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="105" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="46" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="106" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="47" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="107" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="47" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="108" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="48" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="109" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="48" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="110" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="49" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="111" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="49" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="112" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="50" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="113" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="50" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="114" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="51" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="115" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="51" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="116" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="52" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="117" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="52" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="118" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="53" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="119" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="53" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="120" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="54" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="121" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="54" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="122" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="55" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="123" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="55" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="124" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="56" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="125" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="56" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="126" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="127" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="128" entry_key="Min Value" entry_value="0" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="129" entry_key="Max Value" entry_value="100" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="130" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="58" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="131" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="58" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="132" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="59" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="133" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="59" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="134" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="60" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="135" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="60" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="136" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="61" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="137" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="61" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="138" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="62" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="139" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="62" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="140" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="63" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="141" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="63" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="142" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="64" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="143" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="64" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="144" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="65" resource_configuration_id="1" source_id="12"/>
+  <indicator_resource_config_entry id="145" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="65" resource_configuration_id="1" source_id="12"/>
+  <indicator_resource_config_entry id="146" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="66" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="147" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="66" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="148" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="67" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="149" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="67" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="150" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="68" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="151" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="68" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="152" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="69" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="153" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="69" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="154" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="70" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="155" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="70" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="156" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="71" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="157" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="71" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="158" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="72" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="159" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="72" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="160" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="73" resource_configuration_id="1" source_id="13"/>
+  <indicator_resource_config_entry id="161" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="73" resource_configuration_id="1" source_id="13"/>
+  <indicator_resource_config_entry id="162" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="74" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="163" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="74" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="164" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="75" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="165" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="75" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="166" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="76" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="167" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="76" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="168" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="77" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="169" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="77" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="170" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="78" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="171" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="78" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="172" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="79" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="173" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="79" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="174" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="80" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="175" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="80" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="176" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="81" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="177" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="81" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="178" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="82" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="179" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="82" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="180" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="83" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="181" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="83" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="182" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="84" resource_configuration_id="1" source_id="14"/>
+  <indicator_resource_config_entry id="183" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="84" resource_configuration_id="1" source_id="14"/>
+  <indicator_resource_config_entry id="184" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="85" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="185" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="85" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="186" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="86" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="187" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="86" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="188" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="87" resource_configuration_id="1" source_id="15"/>
+  <indicator_resource_config_entry id="189" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="87" resource_configuration_id="1" source_id="15"/>
+  <indicator_resource_config_entry id="190" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="88" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="191" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="88" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="192" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="89" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="193" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="89" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="194" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="90" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="195" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="90" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="196" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="91" resource_configuration_id="1" source_id="16"/>
+  <indicator_resource_config_entry id="197" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="91" resource_configuration_id="1" source_id="16"/>
+  <indicator_resource_config_entry id="198" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="92" resource_configuration_id="1" source_id="16"/>
+  <indicator_resource_config_entry id="199" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="92" resource_configuration_id="1" source_id="16"/>
+  <indicator_resource_config_entry id="200" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="93" resource_configuration_id="1" source_id="17"/>
+  <indicator_resource_config_entry id="201" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="93" resource_configuration_id="1" source_id="17"/>
+  <indicator_resource_config_entry id="202" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="94" resource_configuration_id="1" source_id="18"/>
+  <indicator_resource_config_entry id="203" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="94" resource_configuration_id="1" source_id="18"/>
+  <indicator_resource_config_entry id="204" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="95" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="205" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="95" resource_configuration_id="1" source_id="4"/>
+</dataset>

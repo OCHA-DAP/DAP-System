@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
@@ -165,7 +165,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 				final int year = Integer.parseInt(matcher.group(YEAR_GROUP));
 				localDate = new LocalDate(year + this.offset, this.month, this.day);
 			} else {
-				throw new IllegalArgumentException(String.format("Could read string '%s' with the pattern '%s' for indicator entry: %s", actualDateStr, ACTUAL_DATE_PATTERN, Arrays.toString(line)));
+				throw new IllegalArgumentException(String.format("Couldn't read string '%s' with the pattern '%s' for indicator entry: %s", actualDateStr, ACTUAL_DATE_PATTERN, Arrays.toString(line)));
 			}
 		} else if (TYPE_OF_DATE.FULL_DATE.equals(this.typeOfDate)) {
 			try {

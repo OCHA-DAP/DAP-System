@@ -6,6 +6,8 @@ package org.ocha.hdx.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.ocha.hdx.config.ConfigurationConstants;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
@@ -17,13 +19,17 @@ import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 public class IndicatorCreationServiceImpl implements IndicatorCreationService {
+
+	private static Logger logger = LoggerFactory.getLogger(IndicatorCreationServiceImpl.class);
 
 	@Autowired
 	private IndicatorTypeDAO indicatorTypeDAO;
@@ -36,7 +42,7 @@ public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.ocha.hdx.service.IndicatorCreationService#createIndicator(org.ocha.hdx.importer.PreparedIndicator)
 	 */
 	@Override
@@ -63,14 +69,20 @@ public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 	public List<IndicatorResourceConfigEntry> findEmbeddedConfigs(final String indicatorTypeCode, final String sourceCode) {
 		final List<IndicatorResourceConfigEntry> list = new ArrayList<IndicatorResourceConfigEntry>();
 
-		final IndicatorType indicatorType = this.indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
-		final Source source = this.sourceDAO.getSourceByCode(sourceCode);
+		try {
+			final IndicatorType indicatorType = this.indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
+			final Source source = this.sourceDAO.getSourceByCode(sourceCode);
 
-		final ValueType valueType = indicatorType.getValueType();
-		if (valueType != null) {
-			final IndicatorResourceConfigEntry computedConigEntry = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.INDICATOR_VALUE_TYPE.getLabel(),
-					valueType.getLabel(), source, indicatorType);
-			list.add(computedConigEntry);
+
+			final ValueType valueType = indicatorType.getValueType();
+			if (valueType != null) {
+				final IndicatorResourceConfigEntry computedConigEntry = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.INDICATOR_VALUE_TYPE.getLabel(),
+						valueType.getLabel(), source, indicatorType);
+				list.add(computedConigEntry);
+			}
+		}
+		catch (final NoResultException e) {
+			logger.warn(String.format("For type '%s' and source '%s' there was a problem in getting the hibernate entities from the database. Missing ?", indicatorTypeCode, sourceCode));
 		}
 		return list;
 	}
