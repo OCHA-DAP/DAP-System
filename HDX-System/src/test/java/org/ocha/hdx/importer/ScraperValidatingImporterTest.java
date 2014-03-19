@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.hdx.config.DummyConfigurationCreator;
@@ -50,13 +51,14 @@ public class ScraperValidatingImporterTest {
 	private IndicatorCreationService indService;
 
 	@Test
+	@Ignore
 	public void testPrepareDataForImport() throws IOException {
 
-		final DummyEntityCreator entityCreator	= this.dummyEntityCreatorWrapper.generateNewEntityCreator();
+		final DummyEntityCreator entityCreator	= dummyEntityCreatorWrapper.generateNewEntityCreator();
 		entityCreator.createNeededIndicatorTypeAndSource();
 
-		final ScraperValidatingImporter scraperImporter = new ScraperValidatingImporter(null, this.dummyConfigurationCreator.createConfiguration(), this.validatorCreators,
-				this.preValidatorCreators, new ValidationReport(CKANDataset.Type.SCRAPER_VALIDATING), this.indService);
+		final ScraperValidatingImporter scraperImporter = new ScraperValidatingImporter(null, dummyConfigurationCreator.createConfiguration(), validatorCreators,
+				preValidatorCreators, new ValidationReport(CKANDataset.Type.SCRAPER_VALIDATING), indService);
 
 		final File csvValueFile = new ClassPathResource("samples/scraper/csv.zip").getFile();
 
