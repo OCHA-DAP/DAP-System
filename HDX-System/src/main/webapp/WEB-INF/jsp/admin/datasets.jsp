@@ -14,7 +14,7 @@
 <body ng-controller="DatasetsCtrl">
 	<jsp:include page="admin-menu.jsp" />
 	<div>
-		<h3>List of datasets in HDX</h3>
+		<h3>List of datasets in CKAN</h3>
 		<table class="table table-bordered table-hover table-condensed">
 			<tr>
 				<th><!-- a href="" ng-click="predicate='title'; reverse=!reverse" -->Title (name)<!-- /a --></th>

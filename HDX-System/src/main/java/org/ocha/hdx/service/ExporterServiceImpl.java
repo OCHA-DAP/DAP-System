@@ -12,6 +12,7 @@ import org.ocha.hdx.exporter.country.ExporterCountryCrisisHistory_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOther_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
+import org.ocha.hdx.exporter.country.ExporterCountryReadme_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountrySocioEconomic_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryVulnerability_XLSX;
 import org.ocha.hdx.exporter.helper.ReportRow;
@@ -86,7 +87,7 @@ public class ExporterServiceImpl implements ExporterService {
 		// 8. Read me
 
 		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(new ExporterCountrySocioEconomic_XLSX(
-				new ExporterCountryVulnerability_XLSX(new ExporterCountryCapacity_XLSX(new ExporterCountryOther_XLSX(new ExporterCountry5Years_XLSX(this)))))));
+				new ExporterCountryVulnerability_XLSX(new ExporterCountryCapacity_XLSX(new ExporterCountryOther_XLSX(new ExporterCountry5Years_XLSX(new ExporterCountryReadme_XLSX(this))))))));
 
 		// final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> countryExporter = new ExporterIndicatorTypeOverview_XLSX(this);
 

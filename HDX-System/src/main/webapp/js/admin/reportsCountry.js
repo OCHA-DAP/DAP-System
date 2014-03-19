@@ -28,6 +28,7 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
   $scope.countrySelect = function() {
     $scope.reportFileName = $scope.country.code + "_baseline";
   }
+  $scope.countrySelect();
   
   $scope.createReport = function() {
     // Sample http://localhost:8080/hdx/api/exporter/country/xlsx/BEL/fromYear/1998/toYear/2014/language/EN/Test.xlsx

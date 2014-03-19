@@ -89,10 +89,13 @@
 				on-select-page="paginate(page)" style="margin-top: 0px; margin-right: 10px;"></pagination>
 		</div>
 		<div class="pull-right">
-			<select class="form-control" ng-model="howMuch" ng-change="loadEntities()"><option>5</option>
-				<option>10</option>
-				<option>25</option>
-				<option>50</option></select>
+			<select class="form-control" ng-model="howMuch" ng-change="loadEntities()">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="25">25</option>
+				<option value="50">50</option>
+				<option value="0">All</option>
+			</select>
 		</div>
 	</div>
 	<div ng-show="showTestZone">

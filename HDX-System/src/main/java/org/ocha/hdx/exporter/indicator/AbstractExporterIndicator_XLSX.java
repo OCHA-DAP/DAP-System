@@ -49,12 +49,17 @@ public abstract class AbstractExporterIndicator_XLSX extends Exporter_XLSX<Expor
 		logger.debug("Min year = " + minYear + ", max year = " + maxYear);
 
 		// Create header cells for country code, country name, source and years
+		final boolean includeSource = false;
 		final Map<Long, Integer> yearColumns = new HashMap<Long, Integer>();
 		final XSSFRow headersRow = sheet.createRow(0);
 		int columnIndex = 0;
 		createColumnHeaderCell("Country code", headersRow, columnIndex++);
 		createColumnHeaderCell("Country name", headersRow, columnIndex++);
-		createColumnHeaderCell("Source", headersRow, columnIndex++);
+		int freezeFromColumn = columnIndex;
+		if (includeSource) {
+			createColumnHeaderCell("Source", headersRow, columnIndex++);
+			freezeFromColumn++;
+		}
 		for (Long year = maxYear; year >= minYear; year--) {
 			createColumnHeaderCell(year, headersRow, columnIndex);
 			yearColumns.put(year, columnIndex);
@@ -85,7 +90,9 @@ public abstract class AbstractExporterIndicator_XLSX extends Exporter_XLSX<Expor
 			final XSSFRow countryRow = sheet.createRow(rowIndex);
 			createRowHeaderCell(countryCode, countryRow, 0);
 			createCell(countryRow, 1, countryCodes.get(countryCode));
-			createCell(countryRow, 2, source);
+			if (includeSource) {
+				createCell(countryRow, 2, source);
+			}
 			countryRows.put(countryCode, countryRow);
 			logger.debug("Country " + countryCode + " is in row " + rowIndex);
 			++rowIndex;
@@ -105,12 +112,14 @@ public abstract class AbstractExporterIndicator_XLSX extends Exporter_XLSX<Expor
 
 		// Freeze the headers
 		// Freeze the three first column
-		sheet.createFreezePane(3, 1, 3, 1);
+		sheet.createFreezePane(freezeFromColumn, 1, freezeFromColumn, 1);
 
 		// Auto size the columns
 		sheet.autoSizeColumn(0);
 		sheet.autoSizeColumn(1);
-		sheet.autoSizeColumn(2);
+		if (includeSource) {
+			sheet.autoSizeColumn(2);
+		}
 		for (final int i : yearColumns.values()) {
 			sheet.autoSizeColumn(i);
 		}

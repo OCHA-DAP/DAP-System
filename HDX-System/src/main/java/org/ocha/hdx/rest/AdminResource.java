@@ -204,7 +204,7 @@ public class AdminResource {
 	@POST
 	@Path("/misc/languages/submitDelete")
 	public Response deleteLanguage(@FormParam("code") final String code) throws Exception {
-		this.hdxService.deleteLanguage(code);
+		hdxService.deleteLanguage(code);
 		return Response.ok().build();
 	}
 
@@ -225,7 +225,7 @@ public class AdminResource {
 
 		String result = "";
 
-		final List<ResourceConfiguration> listConfigurations = this.hdxService.listConfigurations();
+		final List<ResourceConfiguration> listConfigurations = hdxService.listConfigurations();
 		final JsonArray jsonArray = new JsonArray();
 
 		for (final ResourceConfiguration rc : listConfigurations) {
@@ -246,14 +246,14 @@ public class AdminResource {
 	@Path("/misc/configurations/submitCreate")
 	public Response createResourceConfiguration(@FormParam("name") final String rcName) throws Exception {
 		// TODO Perform validation
-		this.hdxService.createResourceConfiguration(rcName);
+		hdxService.createResourceConfiguration(rcName);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/misc/configurations/submitUpdate")
 	public Response updateResourceConfiguration(@FormParam("id") final String rcId, @FormParam("name") final String rcName) throws Exception {
-		this.hdxService.updateResourceConfiguration(Long.valueOf(rcId), rcName);
+		hdxService.updateResourceConfiguration(Long.valueOf(rcId), rcName);
 		return Response.ok().build();
 	}
 
@@ -261,7 +261,7 @@ public class AdminResource {
 	@Path("/misc/configurations/submitDelete")
 	public Response deleteResourceConfiguration(@FormParam("id") final String rcId) throws Exception {
 		final long id = Long.valueOf(rcId).longValue();
-		this.hdxService.deleteResourceConfiguration(id);
+		hdxService.deleteResourceConfiguration(id);
 		return Response.ok().build();
 	}
 
@@ -269,7 +269,7 @@ public class AdminResource {
 	@Path("/misc/configurations/id/{id}/edit")
 	public Response editResourceConfiguration(@PathParam("id") final String id) throws IllegalArgumentException, Exception {
 		final long lId = Long.valueOf(id).longValue();
-		return Response.ok(new Viewable("/admin/editResourceConfiguration", this.hdxService.getResourceConfiguration(lId))).build();
+		return Response.ok(new Viewable("/admin/editResourceConfiguration", hdxService.getResourceConfiguration(lId))).build();
 	}
 
 	@POST
@@ -277,7 +277,7 @@ public class AdminResource {
 	public Response addGeneralConfiguration(@FormParam("rcID") final String rcID, @FormParam("key") final String key, @FormParam("value") final String value) throws Exception {
 		// TODO Perform validation
 		final long id = Long.valueOf(rcID).longValue();
-		this.hdxService.addGeneralConfiguration(id, key, value);
+		hdxService.addGeneralConfiguration(id, key, value);
 		return Response.ok().build();
 	}
 
@@ -287,7 +287,7 @@ public class AdminResource {
 		// TODO Perform validation
 		final long resConfID = Long.valueOf(rcID).longValue();
 		final long genConfID = Long.valueOf(id).longValue();
-		this.hdxService.deleteGeneralConfiguration(resConfID, genConfID);
+		hdxService.deleteGeneralConfiguration(resConfID, genConfID);
 		return Response.ok().build();
 	}
 
@@ -296,7 +296,7 @@ public class AdminResource {
 	public Response deleteGeneralConfiguration(@FormParam("id") final String id, @FormParam("key") final String key, @FormParam("value") final String value) throws Exception {
 		// TODO Perform validation
 		final long genConfID = Long.valueOf(id).longValue();
-		this.hdxService.updateGeneralConfiguration(genConfID, key, value);
+		hdxService.updateGeneralConfiguration(genConfID, key, value);
 		return Response.ok().build();
 	}
 
@@ -308,7 +308,7 @@ public class AdminResource {
 		final long rcID = Long.valueOf(rcId).longValue();
 		final long itID = Long.valueOf(indTypeId).longValue();
 		final long srcID = Long.valueOf(sourceId).longValue();
-		this.hdxService.addIndicatorConfiguration(rcID, itID, srcID, key, value);
+		hdxService.addIndicatorConfiguration(rcID, itID, srcID, key, value);
 		return Response.ok().build();
 	}
 
@@ -318,7 +318,7 @@ public class AdminResource {
 		// TODO Perform validation
 		final long resConfID = Long.valueOf(rcID).longValue();
 		final long genConfID = Long.valueOf(id).longValue();
-		this.hdxService.deleteIndicatorConfiguration(resConfID, genConfID);
+		hdxService.deleteIndicatorConfiguration(resConfID, genConfID);
 		return Response.ok().build();
 	}
 
@@ -330,7 +330,7 @@ public class AdminResource {
 		final long icID = Long.valueOf(id).longValue();
 		final long itID = Long.valueOf(indTypeId).longValue();
 		final long srcID = Long.valueOf(sourceId).longValue();
-		this.hdxService.updateIndicatorConfiguration(icID, itID, srcID, key, value);
+		hdxService.updateIndicatorConfiguration(icID, itID, srcID, key, value);
 		return Response.ok().build();
 	}
 
@@ -341,7 +341,7 @@ public class AdminResource {
 
 		String result = "";
 		final long lId = Long.valueOf(id).longValue();
-		final ResourceConfiguration rc = this.hdxService.getResourceConfiguration(lId);
+		final ResourceConfiguration rc = hdxService.getResourceConfiguration(lId);
 		// final JsonArray jsonArray = new JsonArray();
 		final JsonObject element = new JsonObject();
 		element.addProperty("id", rc.getId());
@@ -377,7 +377,7 @@ public class AdminResource {
 		element.add("availableIndConfs", availableIndConfigList);
 
 		// get available sources in db
-		final List<Source> sourcesList = this.curatedDataService.listSources();
+		final List<Source> sourcesList = curatedDataService.listSources();
 		final JsonArray sources = new JsonArray();
 		for (final Source src : sourcesList) {
 			final JsonObject gcItem = new JsonObject();
@@ -388,7 +388,7 @@ public class AdminResource {
 		element.add("sources", sources);
 
 		// get indicator types from db
-		final List<IndicatorType> listIndicatorTypes = this.curatedDataService.listIndicatorTypes();
+		final List<IndicatorType> listIndicatorTypes = curatedDataService.listIndicatorTypes();
 		final JsonArray indTypes = new JsonArray();
 		for (final IndicatorType src : listIndicatorTypes) {
 			final JsonObject item = new JsonObject();
@@ -760,29 +760,34 @@ public class AdminResource {
 		final List<Entity> allEntities = curatedDataService.listEntities();
 
 		final int _totalNumber = allEntities.size();
+		int _howMuch = howMuch;
 		int _fromIndex = fromIndex;
-		int _toIndex = fromIndex + howMuch;
-		int _previousIndex = _fromIndex - howMuch;
+		if(0 == howMuch) {
+			_howMuch = allEntities.size();
+			_fromIndex = 0;
+		}
+		int _toIndex = fromIndex + _howMuch;
+		int _previousIndex = _fromIndex - _howMuch;
 		int _nextIndex = _toIndex;
 		final int _firstIndex = 0;
-		final int _lastIndex = _totalNumber - ((0 != howMuch) && (0 == (_totalNumber % howMuch)) ? howMuch : _totalNumber % howMuch);
+		final int _lastIndex = _totalNumber - ((0 != _howMuch) && (0 == (_totalNumber % _howMuch)) ? _howMuch : _totalNumber % _howMuch);
 
 		// Checks
 		if (fromIndex >= _totalNumber) {
 			// Setting to totalNumber to return an empty list
 			_fromIndex = _totalNumber;
-			_previousIndex = _totalNumber - howMuch;
+			_previousIndex = _totalNumber - _howMuch;
 			_nextIndex = -1;
 		}
-		if ((fromIndex + howMuch) >= _totalNumber) {
+		if ((fromIndex + _howMuch) >= _totalNumber) {
 			// Setting to totalNumber to return an empty list
 			_toIndex = _totalNumber;
-			_previousIndex = _totalNumber - howMuch - (_totalNumber % howMuch);
+			_previousIndex = _totalNumber - _howMuch - (_totalNumber % _howMuch);
 			_nextIndex = -1;
 		}
 
-		final int _nbPages = (_totalNumber / howMuch) + (0 == (_totalNumber % howMuch) ? 0 : 1);
-		final int _currentPage = ((_fromIndex + 1) / howMuch) + 1;
+		final int _nbPages = (_totalNumber / _howMuch) + (0 == (_totalNumber % _howMuch) ? 0 : 1);
+		final int _currentPage = ((_fromIndex + 1) / _howMuch) + 1;
 		final List<Entity> paginatedEntities = allEntities.subList(_fromIndex, _toIndex);
 		final JsonObject jsonEntities = new JsonObject();
 		final JsonArray jsonEntitiesArray = new JsonArray();
@@ -800,7 +805,7 @@ public class AdminResource {
 			jsonEntitiesArray.add(jsonEntity);
 		}
 		jsonEntities.add("entities", jsonEntitiesArray);
-		addPagination(jsonEntities, _fromIndex, _toIndex, _nextIndex, _previousIndex, _totalNumber, _currentPage, _nbPages, _firstIndex, _lastIndex, howMuch);
+		addPagination(jsonEntities, _fromIndex, _toIndex, _nextIndex, _previousIndex, _totalNumber, _currentPage, _nbPages, _firstIndex, _lastIndex, _howMuch);
 
 		return jsonEntities.toString();
 	}
