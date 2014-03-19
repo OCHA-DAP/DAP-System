@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 import org.ocha.hdx.config.ConfigurationConstants;
 import org.ocha.hdx.importer.helper.IndicatorTypeInformationHolder;
 import org.ocha.hdx.model.validation.ValidationReport;
-import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao;
+import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.configs.AbstractConfigEntry;
@@ -88,7 +88,7 @@ public class ScraperValidatingImporterAllIndicatorTypesTest {
 	private SourceDictionaryDAO sourceDictionaryDAO;
 
 	@Autowired
-	private ResourceConfigurationDao resourceConfigurationDao;
+	private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	@Resource
 	private List<IValidatorCreator> validatorCreators;
@@ -228,7 +228,7 @@ public class ScraperValidatingImporterAllIndicatorTypesTest {
 	 * @return
 	 */
 	private ResourceConfiguration getConfigWithInjectedAllowedIndicators() {
-		final ResourceConfiguration config	= this.resourceConfigurationDao.getResourceConfigurationById(1);
+		final ResourceConfiguration config	= this.resourceConfigurationDAO.getResourceConfigurationById(1);
 
 		ResourceConfigEntry allowedIndicatorTypesEntry	= null;
 		for (final ResourceConfigEntry entry : config.getGeneralConfigEntries()) {
