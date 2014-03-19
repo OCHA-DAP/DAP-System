@@ -7,7 +7,7 @@ import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 
-public interface ResourceConfigurationDao {
+public interface ResourceConfigurationDAO {
 	public List<ResourceConfiguration> listResourceConfigurations();
 
 	public ResourceConfiguration createResourceConfig(String name,
