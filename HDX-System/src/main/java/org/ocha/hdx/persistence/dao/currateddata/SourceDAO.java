@@ -9,6 +9,8 @@ public interface SourceDAO {
 
 	public List<Source> listSources();
 
+	public List<Source> listSourcesForIndicatorType(String indicatorTypeCode);
+
 	public void createSource(String code, Text name, String link);
 
 	public Source getSourceByCode(String code);

@@ -202,6 +202,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
+	public List<Source> listSourcesForIndicatorType(final String indicatorTypeCode) {
+		return sourceDAO.listSourcesForIndicatorType(indicatorTypeCode);
+	}
+
+	@Override
 	@Transactional
 	public void createSource(final String code, final String defaultValue, final String link) {
 		final Text name = textDAO.createText(defaultValue);
@@ -637,6 +642,14 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 		return indicatorDAO.listIndicatorsForCountryOther(countryCode, fromYear, toYear, languageCode);
+	}
+
+	/* Indicators */
+
+	// Indicator overview
+	@Override
+	public Object[] getIndicatorTypeOverview(final String indicatorTypeCode, final String sourceCode, final String languageCode) {
+		return indicatorDAO.getIndicatorTypeOverview(indicatorTypeCode, sourceCode, languageCode);
 	}
 
 }

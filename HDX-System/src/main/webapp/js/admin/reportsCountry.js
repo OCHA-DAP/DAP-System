@@ -30,9 +30,7 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
   }
   
   $scope.createReport = function() {
-    
-    // Sample http://localhost:8080/hdx/api/exporter/xlsx/country/BEL/fromYear/1998/toYear/2014/language/EN/Test.xlsx
-    // Sample http://localhost:8080/hdx/api/exporter/xlsx/country/COL/fromYear/1998/toYear/2014/language/FR/COL.xlsx
+    // Sample http://localhost:8080/hdx/api/exporter/country/xlsx/BEL/fromYear/1998/toYear/2014/language/EN/Test.xlsx
     window.location.href = hdxContextRoot + "/api/exporter/country/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
   } 
   
@@ -43,5 +41,6 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
 	//  } 
   
   
+
 
 });

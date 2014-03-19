@@ -477,9 +477,11 @@ public class AdminResource {
 			translations = theResource.getName().getTranslations();
 		}
 			break;
-		case "unit":
+		case "unit": {
 			final Unit unit = curatedDataService.getUnit(id);
 			translations = unit.getName().getTranslations();
+		}
+			break;
 		default:
 			break;
 		}
@@ -649,7 +651,7 @@ public class AdminResource {
 	 */
 	@GET
 	@Path("/curated/units/")
-	public Response displayUnitsList() {
+	public static Response displayUnitsList() {
 		return Response.ok(new Viewable("/admin/units")).build();
 	}
 
@@ -803,7 +805,7 @@ public class AdminResource {
 		return jsonEntities.toString();
 	}
 
-	private JsonArray translationsToJson(final List<Translation> translations) {
+	private static JsonArray translationsToJson(final List<Translation> translations) {
 		final JsonArray jsonTranslations = new JsonArray();
 		for (final Translation translation : translations) {
 			final Id translationId = translation.getId();
@@ -891,8 +893,7 @@ public class AdminResource {
 		return result + jsonArray.toString();
 	}
 
-	@SuppressWarnings("static-method")
-	private JsonObject indicatorTypeToJson(final IndicatorType indicatorType) {
+	private static JsonObject indicatorTypeToJson(final IndicatorType indicatorType) {
 		final JsonObject jsonIndicatorType = new JsonObject();
 		jsonIndicatorType.addProperty("id", indicatorType.getId());
 		jsonIndicatorType.addProperty("code", indicatorType.getCode());
@@ -909,7 +910,6 @@ public class AdminResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/curated/indicatorTypes/units/json")
-	@SuppressWarnings("static-method")
 	public String getIndicatorTypeUnits(@QueryParam("var") final String var) throws TypeMismatchException {
 
 		String result = "";
@@ -999,8 +999,27 @@ public class AdminResource {
 		return result + jsonArray.toString();
 	}
 
-	@SuppressWarnings("static-method")
-	private JsonObject sourceToJson(final Source source) {
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("curated/sourcesForIndicatorType/json")
+	public String getSourcesForIndicatorType(@QueryParam("var") final String var, @QueryParam("indicatorTypeCode") final String indicatorTypeCode) throws TypeMismatchException {
+
+		String result = "";
+
+		final List<Source> listSources = curatedDataService.listSourcesForIndicatorType(indicatorTypeCode);
+		final JsonArray jsonArray = new JsonArray();
+		for (final Source source : listSources) {
+			final JsonObject jsonSource = sourceToJson(source);
+
+			jsonArray.add(jsonSource);
+		}
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
+	}
+
+	private static JsonObject sourceToJson(final Source source) {
 		final JsonObject jsonSource = new JsonObject();
 		jsonSource.addProperty("id", source.getId());
 		jsonSource.addProperty("code", source.getCode());
@@ -1392,6 +1411,14 @@ public class AdminResource {
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/reports/country").build();
 		return Response.seeOther(newURI).build();
+	}
+
+	/* Indicator */
+	@GET
+	@Path("/reports/indicator")
+	@SuppressWarnings("static-method")
+	public Response displayIndicatorReports() {
+		return Response.ok(new Viewable("/admin/reportsIndicator")).build();
 	}
 
 }

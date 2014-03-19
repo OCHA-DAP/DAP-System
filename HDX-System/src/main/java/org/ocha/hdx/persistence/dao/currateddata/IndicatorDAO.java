@@ -155,4 +155,14 @@ public interface IndicatorDAO {
 	 */
 	public Map<String, Integer> getMinMaxDatesForCountryIndicators(String countryCode, String[] indicatorsList, String[] sourcesList);
 
+
+	/**
+	 * Data for indicator-centric overview.
+	 * @param indicatorTypeCode
+	 * @param sourceCode
+	 * @param languageCode
+	 * @return
+	 */
+	public Object[] getIndicatorTypeOverview(String indicatorTypeCode, String sourceCode, String languageCode);
+
 }

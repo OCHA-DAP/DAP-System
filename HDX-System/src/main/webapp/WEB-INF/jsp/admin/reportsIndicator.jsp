@@ -9,18 +9,22 @@
 <meta charset="UTF-8">
 <jsp:include page="css-includes.jsp" />
 <jsp:include page="js-includes.jsp">
-	<jsp:param name="which" value="reportsCountry" />
-	<jsp:param name="needs" value="languages,entities" />
+	<jsp:param name="which" value="reportsIndicator" />
+	<jsp:param name="needs" value="languages,indicatorTypes" />
 </jsp:include>
 </head>
-<body ng-controller="ReportsCountryCtrl">
+<body ng-controller="ReportsIndicatorCtrl">
 	<jsp:include page="admin-menu.jsp" />
 	<div>
-		<h3>Country-centric reports</h3>
+		<h3>Indicator-centric reports</h3>
 		<div style="width: 300px;">
 			<form role="form" class="css-form">
 				<div class="form-group">
-					<label for="country">Country</label> <select class="form-control" id="country" ng-model="country" ng-change="countrySelect()" ng-options="country.code for country in entities " ng-class="default">
+					<label for="indicatorType">Indicator type</label> <select class="form-control" id="indicatorType" ng-model="indicatorType" ng-change="indicatorTypeSelect()" ng-options="indicatorType.code for indicatorType in indicatorTypes" ng-class="default">
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="source">Source</label> <select class="form-control" id="source" ng-disabled="sourceUnavailable" ng-model="source" ng-options="source.code for source in sources" ng-class="default">
 					</select>
 				</div>
 				<div class="form-group">
@@ -41,8 +45,8 @@
 				<div class="form-group">
 					<label for="reportFileName">File name</label> <input type="text" class="form-control" id="reportFileName" ng-model="reportFileName" placeholder="Report file name...">
 				</div>
-				<button type="button" class="btn btn-default" ng-click="createReport()">Submit</button>
-				<!-- <button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button> -->
+				<button type="button" class="btn btn-default" ng-disabled="sourceUnavailable" ng-click="createReport()">Submit</button>
+				<button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button>
 			</form>
 		</div>
 	</div>
@@ -50,7 +54,7 @@
 		<h3>Test zone</h3>
 		<pre>
 		<p>Languages : {{ languages | json }}</p>
-		<p>Entities : {{ entities | json }}</p>
+		<p>Indicator types : {{ indicatorTypes | json }}</p>
 	</pre>
 	</div>
 </body>

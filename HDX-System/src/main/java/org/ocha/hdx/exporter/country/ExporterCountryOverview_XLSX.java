@@ -39,50 +39,50 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 
 		// Assign the headers to the title row
 		final String[] headers = { "Attribute ID", "Attribute name", "Value", /*"Last updated", */"Source dataset" };
-		createHeaderCells(sheet, headers);
+		createColumnHeaderCells(sheet, headers);
 
 		// Fill with the data
-		// Sample : CD010 Wikipedia: geography http://en.wikipedia.org/wiki/Colombia#Geography 2014-01-22 wikipedia
+		// Sample : CD010 Wikipedia: geography http://en.wikipedia.org/wiki/Colombia#Geography /* 2014-01-22 */ wikipedia
 		for (int i = 0; i < data.size(); i++) {
 			final Object[] element = data.get(i);
 
 			// Create the row (not overwriting the headers :-) )
 			final XSSFRow row = sheet.createRow(i + 1);
 
-			// "Indicator ID" (always set)
-			createCell(row, (short) 0, element[0].toString());
+			// "Attribute ID" (always set)
+			createCell(row, 0, element[0].toString());
 
 			// Other infos may be unavailable if there are no values for the indicator
 			if (1 < element.length) {
 
-				// "Indicator name"
-				createCell(row, (short) 1, element[1].toString());
+				// "Attribute name"
+				createCell(row, 1, element[1].toString());
 
 				// "Value"
 				final String value = element[2].toString();
 				// Value can be a URL
 				if ((null != value) && value.startsWith("http://")) {
 					try {
-						createUrlCell(row, (short) 2, value, value);
+						createUrlCell(row, 2, value, value);
 					} catch (final IllegalArgumentException e) {
 						// Some url are considered not valid, even if browsers accept them.
 						// example : http://en.wikipedia.org/wiki/United_States#Geography.2C_climate.2C_and_environment
-						createCell(row, (short) 2, value);
+						createCell(row, 2, value);
 					}
 				}
 				// or a simple string
 				else {
-					createCell(row, (short) 2, value);
+					createCell(row, 2, value);
 				}
 
 				/*
 				// "Last updated"
 				final Object object = element[3];
-				createCell(row, (short) 3, object.toString());
+				createCell(row, 3, object.toString());
 				*/
 				
 				// "Source dataset"
-				createCell(row, (short) 3, element[4].toString());
+				createCell(row, 3, element[4].toString());
 			}
 		}
 
@@ -90,7 +90,7 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 		// Freeze the 2 first columns
 		sheet.createFreezePane(2, 1, 2, 1);
 
-		// Auto size the columns, except column C, which has a fixed width
+		// Auto size the columns, except columns A and C, which have a fixed width
 		for (int i = 0; i < headers.length; i++) {
 			if (0 == i) {
 				sheet.setColumnWidth(i, 3000);

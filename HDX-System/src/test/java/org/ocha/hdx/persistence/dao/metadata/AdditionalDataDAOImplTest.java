@@ -38,12 +38,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-persistence-test.xml" })
-public class AdditionalDataDaoImplTest {
+public class AdditionalDataDAOImplTest {
 
 	private static final int NUM_OF_ITEMS = 3;
 
 	@Autowired
-	private AdditionalDataDao additionalDataDao;
+	private AdditionalDataDAO additionalDataDAO;
 
 	@Autowired
 	private SourceDAO sourceDAO;
@@ -84,21 +84,21 @@ public class AdditionalDataDaoImplTest {
 	}
 
 	/**
-	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.AdditionalDataDaoImpl#listAdditionalData()}.
+	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAOImpl#listAdditionalData()}.
 	 */
 	@Test
 	@Transactional
 	public final void testListAdditionalData() {
-		final List<AdditionalData> initialList = this.additionalDataDao.listAdditionalData();
+		final List<AdditionalData> initialList = this.additionalDataDAO.listAdditionalData();
 		assertEquals(0, initialList.size());
 
 		for (int i = 0; i < NUM_OF_ITEMS; i++) {
 			final Text text = this.textDAO.createText("Dummy Value " + i);
 
-			final AdditionalData additionalData	= this.additionalDataDao.createAdditionalData(this.indicatorType, this.source, EntryKey.METHODOLOGY, text);
+			final AdditionalData additionalData	= this.additionalDataDAO.createAdditionalData(this.indicatorType, this.source, EntryKey.METHODOLOGY, text);
 		}
 
-		final List<AdditionalData> modifiedList = this.additionalDataDao.listAdditionalData();
+		final List<AdditionalData> modifiedList = this.additionalDataDAO.listAdditionalData();
 
 		assertEquals(NUM_OF_ITEMS, modifiedList.size());
 		for (int i = 0; i < modifiedList.size(); i++) {
@@ -110,13 +110,13 @@ public class AdditionalDataDaoImplTest {
 			assertEquals("Dummy Value " + i,additionalData.getEntryValue().getDefaultValue() );
 		}
 		for (final AdditionalData additionalData : modifiedList) {
-			this.additionalDataDao.deleteAdditionalData(additionalData.getId());
+			this.additionalDataDAO.deleteAdditionalData(additionalData.getId());
 		}
-		assertEquals(0, this.additionalDataDao.listAdditionalData().size());
+		assertEquals(0, this.additionalDataDAO.listAdditionalData().size());
 	}
 
 	/**
-	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.AdditionalDataDaoImpl#listAdditionalDataByIndicatorTypeIdAndSourceId(long, long)}.
+	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAOImpl#listAdditionalDataByIndicatorTypeIdAndSourceId(long, long)}.
 	 */
 	@Test
 	@Transactional
@@ -134,19 +134,19 @@ public class AdditionalDataDaoImplTest {
 		final IndicatorType indicatorType2	= this.indicatorTypeDAO.getIndicatorTypeByCode("indicator-type-2");
 
 
-		final List<AdditionalData> initialList = this.additionalDataDao.listAdditionalData();
+		final List<AdditionalData> initialList = this.additionalDataDAO.listAdditionalData();
 		assertEquals(0, initialList.size());
 
 		for (int i = 0; i < NUM_OF_ITEMS; i++) {
 			final Text text = this.textDAO.createText("Dummy Value " + i);
 			if ( i%2 == 0 ) {
-				this.additionalDataDao.createAdditionalData(this.indicatorType, this.source, EntryKey.METHODOLOGY, text);
+				this.additionalDataDAO.createAdditionalData(this.indicatorType, this.source, EntryKey.METHODOLOGY, text);
 			} else {
-				this.additionalDataDao.createAdditionalData(indicatorType2, source2, EntryKey.METHODOLOGY, text);
+				this.additionalDataDAO.createAdditionalData(indicatorType2, source2, EntryKey.METHODOLOGY, text);
 			}
 		}
 
-		final List<AdditionalData> modifiedList = this.additionalDataDao.listAdditionalDataByIndicatorTypeIdAndSourceId(indicatorType2.getId(), source2.getId());
+		final List<AdditionalData> modifiedList = this.additionalDataDAO.listAdditionalDataByIndicatorTypeIdAndSourceId(indicatorType2.getId(), source2.getId());
 
 		assertEquals(NUM_OF_ITEMS/2, modifiedList.size());
 		for (int i = 0; i < modifiedList.size(); i++) {
@@ -159,7 +159,7 @@ public class AdditionalDataDaoImplTest {
 			assertEquals("Dummy Value " + realIndex,additionalData.getEntryValue().getDefaultValue() );
 		}
 
-		final List<AdditionalData> modifiedList2 = this.additionalDataDao.listAdditionalDataByIndicatorTypeCodeAndSourceCode(indicatorType2.getCode(), source2.getCode());
+		final List<AdditionalData> modifiedList2 = this.additionalDataDAO.listAdditionalDataByIndicatorTypeCodeAndSourceCode(indicatorType2.getCode(), source2.getCode());
 
 		assertEquals(NUM_OF_ITEMS/2, modifiedList2.size());
 		for (int i = 0; i < modifiedList2.size(); i++) {
@@ -172,10 +172,10 @@ public class AdditionalDataDaoImplTest {
 			assertEquals("Dummy Value " + realIndex,additionalData.getEntryValue().getDefaultValue() );
 		}
 
-		for (final AdditionalData additionalData : this.additionalDataDao.listAdditionalData()) {
-			this.additionalDataDao.deleteAdditionalData(additionalData.getId());
+		for (final AdditionalData additionalData : this.additionalDataDAO.listAdditionalData()) {
+			this.additionalDataDAO.deleteAdditionalData(additionalData.getId());
 		}
-		assertEquals(0, this.additionalDataDao.listAdditionalData().size());
+		assertEquals(0, this.additionalDataDAO.listAdditionalData().size());
 
 		this.indicatorTypeDAO.deleteIndicatorType(indicatorType2.getId());
 		this.unitDAO.deleteUnit(unit.getId());
@@ -186,16 +186,16 @@ public class AdditionalDataDaoImplTest {
 
 
 	/**
-	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.AdditionalDataDaoImpl#createAdditionalData(org.ocha.hdx.persistence.entity.curateddata.IndicatorType, org.ocha.hdx.persistence.entity.curateddata.Source, org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey, org.ocha.hdx.persistence.entity.i18n.Text)}.
+	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAOImpl#createAdditionalData(org.ocha.hdx.persistence.entity.curateddata.IndicatorType, org.ocha.hdx.persistence.entity.curateddata.Source, org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey, org.ocha.hdx.persistence.entity.i18n.Text)}.
 	 */
 	@Test
 	@Transactional
 	public final void testCreateAdditionalData() {
 		final Text text = this.textDAO.createText("Dummy Value");
-		final AdditionalData additionalData	= this.additionalDataDao.createAdditionalData(this.indicatorType, this.source, EntryKey.METHODOLOGY, text);
+		final AdditionalData additionalData	= this.additionalDataDAO.createAdditionalData(this.indicatorType, this.source, EntryKey.METHODOLOGY, text);
 		assertTrue(additionalData.getId() > 0);
 
-		final AdditionalData dbAdditionalData	= this.additionalDataDao.getAdditionalDataById(additionalData.getId());
+		final AdditionalData dbAdditionalData	= this.additionalDataDAO.getAdditionalDataById(additionalData.getId());
 		assertNotNull(dbAdditionalData);
 
 		assertEquals(this.source.getCode(),dbAdditionalData.getSource().getCode() );
@@ -203,25 +203,25 @@ public class AdditionalDataDaoImplTest {
 		assertEquals(EntryKey.METHODOLOGY,dbAdditionalData.getEntryKey() );
 		assertEquals("Dummy Value",dbAdditionalData.getEntryValue().getDefaultValue() );
 
-		this.additionalDataDao.deleteAdditionalData(dbAdditionalData.getId());
+		this.additionalDataDAO.deleteAdditionalData(dbAdditionalData.getId());
 
-		assertNull(this.additionalDataDao.getAdditionalDataById(additionalData.getId()));
+		assertNull(this.additionalDataDAO.getAdditionalDataById(additionalData.getId()));
 
 		this.textDAO.deleteText(text.getId());
 
 	}
 
 	/**
-	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.AdditionalDataDaoImpl#deleteAdditionalData(long)}.
+	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAOImpl#deleteAdditionalData(long)}.
 	 */
 	@Test
 	@Transactional
 	public final void testDeleteAdditionalData() {
 		final Text text = this.textDAO.createText("Dummy Value");
-		final AdditionalData additionalData	= this.additionalDataDao.createAdditionalData(this.indicatorType, this.source, EntryKey.METHODOLOGY, text);
+		final AdditionalData additionalData	= this.additionalDataDAO.createAdditionalData(this.indicatorType, this.source, EntryKey.METHODOLOGY, text);
 		assertTrue(additionalData.getId() > 0);
 
-		final AdditionalData dbAdditionalData	= this.additionalDataDao.getAdditionalDataById(additionalData.getId());
+		final AdditionalData dbAdditionalData	= this.additionalDataDAO.getAdditionalDataById(additionalData.getId());
 		assertNotNull(dbAdditionalData);
 
 		assertEquals(this.source.getCode(),dbAdditionalData.getSource().getCode() );
@@ -229,24 +229,24 @@ public class AdditionalDataDaoImplTest {
 		assertEquals(EntryKey.METHODOLOGY,dbAdditionalData.getEntryKey() );
 		assertEquals("Dummy Value",dbAdditionalData.getEntryValue().getDefaultValue() );
 
-		this.additionalDataDao.deleteAdditionalData(dbAdditionalData.getId());
+		this.additionalDataDAO.deleteAdditionalData(dbAdditionalData.getId());
 
-		assertNull(this.additionalDataDao.getAdditionalDataById(additionalData.getId()));
+		assertNull(this.additionalDataDAO.getAdditionalDataById(additionalData.getId()));
 		this.textDAO.deleteText(text.getId());
 	}
 
 
 	/**
-	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.AdditionalDataDaoImpl#updateAdditionalData(long, org.ocha.hdx.persistence.entity.i18n.Text)}.
+	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAOImpl#updateAdditionalData(long, org.ocha.hdx.persistence.entity.i18n.Text)}.
 	 */
 	@Test
 	@Transactional
 	public final void testUpdateAdditionalData() {
 		final Text text = this.textDAO.createText("Dummy Value");
-		final AdditionalData additionalData	= this.additionalDataDao.createAdditionalData(this.indicatorType, this.source, EntryKey.METHODOLOGY, text);
+		final AdditionalData additionalData	= this.additionalDataDAO.createAdditionalData(this.indicatorType, this.source, EntryKey.METHODOLOGY, text);
 		assertTrue(additionalData.getId() > 0);
 
-		final AdditionalData dbAdditionalData	= this.additionalDataDao.getAdditionalDataById(additionalData.getId());
+		final AdditionalData dbAdditionalData	= this.additionalDataDAO.getAdditionalDataById(additionalData.getId());
 		assertNotNull(dbAdditionalData);
 
 		assertEquals(this.source.getCode(),dbAdditionalData.getSource().getCode() );
@@ -255,13 +255,13 @@ public class AdditionalDataDaoImplTest {
 		assertEquals("Dummy Value",dbAdditionalData.getEntryValue().getDefaultValue() );
 
 		final Text text2 = this.textDAO.createText("Dummy Value 2");
-		this.additionalDataDao.updateAdditionalData(dbAdditionalData.getId(), text2);
+		this.additionalDataDAO.updateAdditionalData(dbAdditionalData.getId(), text2);
 
-		final AdditionalData modifiedAdditionalData	= this.additionalDataDao.getAdditionalDataById(additionalData.getId());
+		final AdditionalData modifiedAdditionalData	= this.additionalDataDAO.getAdditionalDataById(additionalData.getId());
 		assertNotNull(modifiedAdditionalData);
 		assertEquals("Dummy Value 2",modifiedAdditionalData.getEntryValue().getDefaultValue() );
 
-		this.additionalDataDao.deleteAdditionalData(modifiedAdditionalData.getId());
+		this.additionalDataDAO.deleteAdditionalData(modifiedAdditionalData.getId());
 		this.textDAO.deleteText(text.getId());
 	}
 

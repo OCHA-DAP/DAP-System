@@ -35,12 +35,13 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@PersistenceContext
 	private EntityManager em;
 
-	@Override
-	public List<Indicator> listLastIndicators(final int limit) {
-		final TypedQuery<Indicator> query = em.createQuery("SELECT i FROM Indicator i ORDER BY i.id DESC", Indicator.class).setMaxResults(limit);
-		return query.getResultList();
-	}
+	/* *************** */
+	/* CRUD operations */
+	/* *************** */
 
+	/**
+	 * Create indicator.
+	 */
 	@Override
 	@Transactional
 	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
@@ -58,6 +59,56 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		indicator.setSourceLink(sourceLink);
 		indicator.setImportFromCKAN(importFromCKAN);
 		em.persist(indicator);
+	}
+
+	/**
+	 * Delete an indicator.
+	 */
+	@Override
+	@Transactional
+	public void deleteIndicator(final long indicatorId) {
+		em.createQuery("DELETE FROM Indicator i WHERE i.id = :indicatorId").setParameter("indicatorId", indicatorId).executeUpdate();
+
+	}
+
+	/**
+	 * Delete some indicators.
+	 * 
+	 * @author Dan TODO: It could delete all indicators in one transaction
+	 */
+	@Override
+	@Transactional
+	public void deleteIndicators(final List<Long> indList) {
+		for (final Long ind : indList) {
+			deleteIndicator(ind);
+		}
+	}
+
+	/**
+	 * Delete all indicators.
+	 */
+	@Override
+	@Transactional
+	public void deleteAllIndicators() {
+		em.createQuery("DELETE FROM Indicator").executeUpdate();
+	}
+
+	/**
+	 * Delete all indicators for a given import.
+	 */
+	@Override
+	@Transactional
+	public void deleteAllIndicatorsFromImport(final long importId) {
+		em.createQuery("DELETE FROM Indicator i WHERE i.importFromCKAN.id = :importId").setParameter("importId", importId).executeUpdate();
+
+	}
+
+	/* Lists */
+
+	@Override
+	public List<Indicator> listLastIndicators(final int limit) {
+		final TypedQuery<Indicator> query = em.createQuery("SELECT i FROM Indicator i ORDER BY i.id DESC", Indicator.class).setMaxResults(limit);
+		return query.getResultList();
 	}
 
 	@Override
@@ -119,6 +170,15 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		return query.getResultList();
 	}
 
+	/* ******* */
+	/* Reports */
+	/* ******* */
+
+	/* Country reports */
+
+	/*
+	 * List of indicators for a country - overview.
+	 */
 	@Override
 	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
 		// List of indicators relevant for country - overview. TODO Externalize ?
@@ -213,6 +273,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.YEAR);
 	}
 
+	/*
+	 * List of indicators for a country - 5-years data.
+	 */
 	@Override
 	public Map<Integer, List<Object[]>> list5YearsIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 		final String[] indicatorsList = new String[] { "_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "PSP050", "PVH010", "PVH050", "PVH100", "PVH150" };
@@ -221,6 +284,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.FIVE_YEARS);
 	}
 
+	/*
+	 * Generic method to get indicators for a given country.
+	 */
 	private Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String[] indicatorsList, final String[] sourcesList,
 			final String languageCode, final Periodicity periodicity) {
 		int fromYear_ = fromYear;
@@ -272,6 +338,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		return result;
 	}
 
+	/*
+	 * For a given country and list of indicators, find the earliest and latest years of information available.
+	 */
 	@Override
 	public Map<String, Integer> getMinMaxDatesForCountryIndicators(final String countryCode, final String[] indicatorsList, final String[] sourcesList) {
 		String query_ = "SELECT MIN(i.start), MAX(i.start) from Indicator i WHERE i.entity.type.code = :isCountry AND i.entity.code = :countryCode AND i.periodicity = :periodicity AND (";
@@ -322,36 +391,32 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		return result;
 	}
 
-	@Override
-	@Transactional
-	public void deleteAllIndicators() {
-		em.createQuery("DELETE FROM Indicator").executeUpdate();
-	}
+	/* Indicator reports */
 
-	@Override
-	@Transactional
-	public void deleteAllIndicatorsFromImport(final long importId) {
-		em.createQuery("DELETE FROM Indicator i WHERE i.importFromCKAN.id = :importId").setParameter("importId", importId).executeUpdate();
-
-	}
-
-	@Override
-	@Transactional
-	public void deleteIndicator(final long indicatorId) {
-		em.createQuery("DELETE FROM Indicator i WHERE i.id = :indicatorId").setParameter("indicatorId", indicatorId).executeUpdate();
-
-	}
-
-	/**
-	 * @author Dan TODO: It could delete all indicators in one transaction
+	/*
+	 * Indicator - overview.
 	 */
 	@Override
-	@Transactional
-	public void deleteIndicators(final List<Long> indList) {
-		for (final Long ind : indList) {
-			deleteIndicator(ind);
+	public Object[] getIndicatorTypeOverview(final String indicatorTypeCode, final String sourceCode, final String languageCode) {
+		// TODO i18n
+		final Query query = em
+				.createQuery(
+						"SELECT i.type.code, i.type.name.defaultValue, i.source.code, i.value, i.source.name.defaultValue from Indicator i WHERE i.type.code = :code and ")
+				.setParameter("code", indicatorTypeCode).setMaxResults(1);
+		Object[] queryResult = null;
+		try {
+			queryResult = (Object[]) query.getSingleResult();
+		} catch (final NoResultException e) {
+			// It is possible that no value exists for the given indicator.
+			// So we just put the indicator in the result.
+			queryResult = new Object[] { indicatorTypeCode };
 		}
+		return queryResult;
 	}
+
+	/* ********* */
+	/* Utilities */
+	/* ********* */
 
 	@Override
 	public List<String> getExistingSourcesCodesForYearAndIndicatorType(final int year, final String indicatorTypeCode) {

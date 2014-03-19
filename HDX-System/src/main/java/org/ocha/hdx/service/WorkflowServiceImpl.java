@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.ckan.CKANResourceDAO;
-import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao;
+import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
@@ -25,7 +25,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 	private CKANResourceDAO resourceDAO;
 	
 	@Autowired 
-	private ResourceConfigurationDao resourceConfigurationDao;
+	private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	private boolean isTransitionPossible(final WorkflowState from, final WorkflowState to) {
 		final List<WorkflowState> tos = possibleTransitionsMap.get(from);

@@ -35,10 +35,10 @@ import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.UserDAO;
 import org.ocha.hdx.persistence.dao.ckan.CKANDatasetDAO;
 import org.ocha.hdx.persistence.dao.ckan.CKANResourceDAO;
-import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao;
+import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.dao.i18n.LanguageDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
-import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDao;
+import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAO;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
@@ -110,10 +110,10 @@ public class HDXServiceImpl implements HDXService {
 	private FileEvaluatorAndExtractor fileEvaluatorAndExtractor;
 
 	@Autowired
-	private ResourceConfigurationDao resourceConfigurationDao;
+	private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	@Autowired
-	private AdditionalDataDao additionalDataDao;
+	private AdditionalDataDAO additionalDataDAO;
 
 	@Override
 	public boolean addResourceToCKANDataset(final String packageId, final String resourceUrl, final String name) {
@@ -214,7 +214,7 @@ public class HDXServiceImpl implements HDXService {
 		 * FIXME , the configuration is HARDCODED because there's no UI for this yet
 		 */
 		else {
-			final ResourceConfiguration configuration = this.resourceConfigurationDao.getResourceConfigurationById(1);
+			final ResourceConfiguration configuration = this.resourceConfigurationDAO.getResourceConfigurationById(1);
 			this.workflowService.flagCKANResourceAsConfigured(id, revision_id, configuration);
 		}
 
@@ -555,70 +555,70 @@ public class HDXServiceImpl implements HDXService {
 
 	@Override
 	public List<ResourceConfiguration> listConfigurations() {
-		return this.resourceConfigurationDao.listResourceConfigurations();
+		return this.resourceConfigurationDAO.listResourceConfigurations();
 	}
 
 	@Override
 	public ResourceConfiguration createResourceConfiguration(final String name) throws Exception {
-		return this.resourceConfigurationDao.createResourceConfiguration(name, null, null);
+		return this.resourceConfigurationDAO.createResourceConfiguration(name, null, null);
 	}
 
 	@Override
 	public ResourceConfiguration createResourceConfiguration(final String name, final Set<ResourceConfigEntry> generalConfigList, final Set<IndicatorResourceConfigEntry> indicatorConfigList)
 			throws Exception {
-		return this.resourceConfigurationDao.createResourceConfiguration(name, generalConfigList, indicatorConfigList);
+		return this.resourceConfigurationDAO.createResourceConfiguration(name, generalConfigList, indicatorConfigList);
 	}
 
 	@Override
 	public void updateResourceConfiguration(final long id, final String name) {
 		// public void updateLanguage(final String code, final String nativeName) throws Exception {
-		this.resourceConfigurationDao.updateResourceConfiguration(id, name, null, null);
+		this.resourceConfigurationDAO.updateResourceConfiguration(id, name, null, null);
 	}
 
 	@Override
 	public void updateResourceConfiguration(final long id, final String name, final Set<ResourceConfigEntry> generalConfigList, final Set<IndicatorResourceConfigEntry> indicatorConfigList) {
 		// public void updateLanguage(final String code, final String nativeName) throws Exception {
-		this.resourceConfigurationDao.updateResourceConfiguration(id, name, generalConfigList, indicatorConfigList);
+		this.resourceConfigurationDAO.updateResourceConfiguration(id, name, generalConfigList, indicatorConfigList);
 	}
 
 	@Override
 	public void deleteResourceConfiguration(final long id) throws Exception {
-		this.resourceConfigurationDao.deleteResourceConfiguration(id);
+		this.resourceConfigurationDAO.deleteResourceConfiguration(id);
 	}
 
 	@Override
 	public ResourceConfiguration getResourceConfiguration(final long id) throws Exception {
-		return this.resourceConfigurationDao.getResourceConfigurationById(id);
+		return this.resourceConfigurationDAO.getResourceConfigurationById(id);
 	}
 
 	@Override
 	public void addGeneralConfiguration(final long id, final String key, final String value) throws Exception {
-		this.resourceConfigurationDao.addGeneralConfiguration(id, key, value);
+		this.resourceConfigurationDAO.addGeneralConfiguration(id, key, value);
 	}
 
 	@Override
 	public void deleteGeneralConfiguration(final long rcID, final long id) throws Exception {
-		this.resourceConfigurationDao.deleteGeneralConfiguration(rcID, id);
+		this.resourceConfigurationDAO.deleteGeneralConfiguration(rcID, id);
 	}
 
 	@Override
 	public void updateGeneralConfiguration(final long id, final String key, final String value) throws Exception {
-		this.resourceConfigurationDao.updateGeneralConfiguration(id, key, value);
+		this.resourceConfigurationDAO.updateGeneralConfiguration(id, key, value);
 	}
 
 	@Override
 	public void addIndicatorConfiguration(final long rcID, final long itID, final long srcID, final String key, final String value) throws Exception {
-		this.resourceConfigurationDao.addIndicatorConfiguration(rcID, itID, srcID, key, value);
+		this.resourceConfigurationDAO.addIndicatorConfiguration(rcID, itID, srcID, key, value);
 	}
 
 	@Override
 	public void deleteIndicatorConfiguration(final long rcID, final long id) throws Exception {
-		this.resourceConfigurationDao.deleteIndicatorConfiguration(rcID, id);
+		this.resourceConfigurationDAO.deleteIndicatorConfiguration(rcID, id);
 	}
 
 	@Override
 	public void updateIndicatorConfiguration(final long id, final long indTypeID, final long srcID, final String key, final String value) throws Exception {
-		this.resourceConfigurationDao.updateIndicatorConfiguration(id, indTypeID, srcID, key, value);
+		this.resourceConfigurationDAO.updateIndicatorConfiguration(id, indTypeID, srcID, key, value);
 	}
 
 	/*

@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author alexandru-m-g
  * 
  */
-public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
+public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 
 	@PersistenceContext
 	private EntityManager em;
@@ -44,6 +44,7 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 	@Override
 	public List<ResourceConfiguration> listResourceConfigurations() {
 		final TypedQuery<ResourceConfiguration> query = this.em.createQuery("SELECT rc FROM ResourceConfiguration rc ORDER BY rc.id", ResourceConfiguration.class);
+
 		return query.getResultList();
 	}
 
@@ -54,7 +55,7 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 	 */
 	@Override
 	public ResourceConfiguration getResourceConfigurationById(final long id) {
-		return this.em.find(ResourceConfiguration.class, id);
+		return em.find(ResourceConfiguration.class, id);
 	}
 
 	@Override
@@ -75,16 +76,15 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 	@Override
 	@Transactional
 	public void deleteResourceConfiguration(final long id) {
-		final ResourceConfiguration resourceConfiguration = this.getResourceConfigurationById(id);
-		this.em.remove(resourceConfiguration);
+		final ResourceConfiguration resourceConfiguration = getResourceConfigurationById(id);
+		em.remove(resourceConfiguration);
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#createResourceConfiguration(java.lang.String, java.util.List,
-	 * java.util.List)
+	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#createResourceConfiguration(java.lang.String, java.util.List, java.util.List)
 	 */
 	@Override
 	@Transactional
@@ -103,7 +103,7 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 			}
 		}
 
-		this.em.persist(resourceConfiguration);
+		em.persist(resourceConfiguration);
 
 		return resourceConfiguration;
 	}
@@ -111,8 +111,7 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDao {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#updateResourceConfiguration(java.lang.String, java.util.List,
-	 * java.util.List)
+	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#updateResourceConfiguration(java.lang.String, java.util.List, java.util.List)
 	 */
 	@Override
 	@Transactional

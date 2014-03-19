@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.hdx.config.DummyConfigurationCreator;
-import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao;
+import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
@@ -34,7 +34,7 @@ public class CKANResourceDAOImplTest {
 	private DummyEntityCreatorWrapper dummyEntityCreatorWrapper;
 
 	@Autowired
-	private ResourceConfigurationDao resourceConfigurationDao;
+	private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	@After
 	public void tearDown() {
@@ -49,7 +49,7 @@ public class CKANResourceDAOImplTest {
 		entityCreator.createNeededIndicatorTypeAndSource();
 
 		final ResourceConfiguration tempConfig = this.dummyConfigurationCreator.createConfiguration();
-		final ResourceConfiguration savedConfig = this.resourceConfigurationDao.createResourceConfiguration("test", tempConfig.getGeneralConfigEntries(), tempConfig.getIndicatorConfigEntries());
+		final ResourceConfiguration savedConfig = resourceConfigurationDAO.createResourceConfiguration("test", tempConfig.getGeneralConfigEntries(), tempConfig.getIndicatorConfigEntries());
 		final Long configurationId = savedConfig.getId();
 
 		final Date revisionTs = new Date();
@@ -108,8 +108,9 @@ public class CKANResourceDAOImplTest {
 			Assert.assertTrue(r.getResourceConfiguration().getGeneralConfigEntries().size() > 0);
 			Assert.assertTrue(r.getResourceConfiguration().getIndicatorConfigEntries().size() > 0);
 		}
-		this.ckanResourceDAO.flagCKANResourceAsConfigured("newUnitTestResourceId", "newUnitTestResourceRevId", null);
-		this.resourceConfigurationDao.deleteResourceConfiguration(configurationId);
+
+		ckanResourceDAO.flagCKANResourceAsConfigured("newUnitTestResourceId", "newUnitTestResourceRevId", null);
+		resourceConfigurationDAO.deleteResourceConfiguration(configurationId);
 		entityCreator.deleteNeededIndicatorTypeAndSource();
 	}
 
@@ -119,7 +120,7 @@ public class CKANResourceDAOImplTest {
 		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", "newUnitTestResourceName", revisionTs, "theParent", "parentDataset_id",
 				"parentDataset_revision_id", revisionTs);
 		final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId");
-		
-		assertTrue(r!=null);
+
+		assertTrue(r != null);
 	}
 }

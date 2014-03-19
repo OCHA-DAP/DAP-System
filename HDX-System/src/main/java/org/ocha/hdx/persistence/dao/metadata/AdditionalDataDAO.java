@@ -15,7 +15,7 @@ import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
  * @author alexandru-m-g
  * 
  */
-public interface AdditionalDataDao {
+public interface AdditionalDataDAO {
 	public List<AdditionalData> listAdditionalData();
 
 	public List<AdditionalData> listAdditionalDataByIndicatorTypeIdAndSourceId(long indicatorTypeId, long sourceId);

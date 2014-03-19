@@ -71,6 +71,8 @@ public interface CuratedDataService {
 	 */
 	public List<Source> listSources();
 
+	public List<Source> listSourcesForIndicatorType(String indicatorTypeCode);
+	
 	public void createSource(final String code, final String name, final String link);
 
 	public Source getSource(final Long id);
@@ -211,5 +213,11 @@ public interface CuratedDataService {
 
 	// Country other
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(String countryCode, int fromYear, int toYear, String languageCode);
+
+
+	/* Indicator reports */
+
+	// Indicator overview
+	public Object[] getIndicatorTypeOverview(String indicatorTypeCode, String sourceCode, String language);
 
 }
