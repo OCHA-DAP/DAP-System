@@ -134,7 +134,7 @@ INSERT INTO entity(id, code, text_id, entity_type_id) SELECT nextval('entity_seq
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'DOMINICAN REPUBLIC');
 INSERT INTO entity(id, code, text_id, entity_type_id) SELECT nextval('entity_seq'),'DOM', currval('text_seq'), id FROM entity_type WHERE code='country' ;
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'EAST TIMOR');
-INSERT INTO entity(id, code, text_id, entity_type_id) SELECT nextval('entity_seq'),'TMP', currval('text_seq'), id FROM entity_type WHERE code='country' ;
+INSERT INTO entity(id, code, text_id, entity_type_id) SELECT nextval('entity_seq'),'TLS', currval('text_seq'), id FROM entity_type WHERE code='country' ;
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'ECUADOR');
 INSERT INTO entity(id, code, text_id, entity_type_id) SELECT nextval('entity_seq'),'ECU', currval('text_seq'), id FROM entity_type WHERE code='country' ;
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'EGYPT');

@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
@@ -41,8 +41,9 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	public static final int DAY_GROUP = 5;
 	public static final int MONTH_GROUP = 6;
 
-	public static final String ACTUAL_DATE_PATTERN = "([0-9]{4})(/P(1|5|10)Y)?";
+	public static final String ACTUAL_DATE_PATTERN = "([0-9]{4})(/P(1|2|3|5|10)Y)?";
 	public static final int YEAR_GROUP = 1;
+	public static final int PERIOD_YEAR_GROUP = 3;
 	public static final Pattern ACTUAL_TIME_PATTERN_COMPILED = Pattern.compile(ACTUAL_DATE_PATTERN);
 
 	private final Map<String, String> sourcesMap;
@@ -111,9 +112,6 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 				logger.warn("Something wrong with the following expected start time format: " + expectedStartTimeFormatEntry.getEntryValue());
 			}
 
-		} else {
-			logger.info("Configuration for expected start time not set or could not be read. Using defaults !");
-
 		}
 	}
 
@@ -133,18 +131,21 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 			if (matcher.matches()) {
 
 				final String period = matcher.group(PERIODICITY_GROUP);
-				if (period == null || "1".equals(period)) {
-					this.periodicity = Periodicity.YEAR;
-					this.yearLength = 1;
-				} else if ("5".equals(period)) {
-					this.periodicity = Periodicity.FIVE_YEARS;
-					this.yearLength = 5;
-				} else if ("10".equals(period)) {
-					this.periodicity = Periodicity.TEN_YEARS;
-					this.yearLength = 10;
+				if (period == null) {
+					this.yearLength	= 1;
 				} else {
-					throw new IllegalArgumentException("Wrong pattern for expected time: " + expectedTimeFormatEntry.getEntryValue());
+					try {
+						this.yearLength	= Integer.parseInt(period);
+					} catch (final NumberFormatException e) {
+						throw new IllegalArgumentException("Wrong pattern for expected time: " + expectedTimeFormatEntry.getEntryValue(), e);
+					}
 				}
+				this.periodicity	= Periodicity.findPeriodicityByCode(this.yearLength+"Y");
+
+				if (this.periodicity == null) {
+					throw new IllegalArgumentException("Specified periodicity doesn't exist in Periodicity enum: " + this.yearLength + "Y");
+				}
+
 				this.typeOfDate = TYPE_OF_DATE.YEAR;
 
 			} else {
@@ -163,6 +164,9 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 			final Matcher matcher = ACTUAL_TIME_PATTERN_COMPILED.matcher(actualDateStr);
 			if (matcher.matches()) {
 				final int year = Integer.parseInt(matcher.group(YEAR_GROUP));
+				final String readDataPeriodicityStr	= matcher.group(PERIOD_YEAR_GROUP);
+				this.compareReadDataPeriodicity(readDataPeriodicityStr, line );
+
 				localDate = new LocalDate(year + this.offset, this.month, this.day);
 			} else {
 				throw new IllegalArgumentException(String.format("Couldn't read string '%s' with the pattern '%s' for indicator entry: %s", actualDateStr, ACTUAL_DATE_PATTERN, Arrays.toString(line)));
@@ -178,6 +182,22 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 			return DUMMY_DATE.toDate();
 		}
 		return localDate.toDate();
+	}
+
+	private void compareReadDataPeriodicity(final String readDataPeriodicityStr, final String [] line) {
+		if ( readDataPeriodicityStr != null ) {
+			try {
+				final Integer yearPeriod	= Integer.parseInt(readDataPeriodicityStr);
+				final Periodicity tempPeriodicity	= Periodicity.findPeriodicityByCode(yearPeriod + "Y");
+				if ( !tempPeriodicity.equals(this.periodicity) ) {
+					logger.warn(String.format("Periodicity different in read values compared to metadata. Read: %s, metadata: %s. For line: %s",
+							tempPeriodicity, this.periodicity, Arrays.toString(line)));
+				}
+			} catch (final NumberFormatException e) {
+				logger.error(e.getMessage());
+			}
+		}
+
 	}
 
 	@Override

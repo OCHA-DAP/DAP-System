@@ -1,6 +1,9 @@
 package org.ocha.hdx.persistence.entity.curateddata;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -20,24 +23,24 @@ import org.hibernate.annotations.ForeignKey;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 
 /**
- * 
+ *
  * @author Samuel Eustachi
  * @author David Megginson
- * 
+ *
  *         a table listing specific values for indicators, with references to the {@link org.ocha.hdx.persistence.entity.curateddata.Entity}
  *         table for the associated entity, to the {@link Source} table for the data source, and to the {@link IndicatorType} table for the
  *         specific indicator in question. This table will hold most of the data in the repository, and is expected to grow eventually into
  *         the millions of rows (or more).
- * 
- * 
+ *
+ *
  *         The main prupose of this table is to contain the curated data. However, some columns represent some technical metadata used by
  *         the application
- * 
+ *
  *         {@link Indicator#importFromCKAN}
- * 
+ *
  *         {@link Indicator#initialValue}
- * 
- * 
+ *
+ *
  */
 @Entity
 @Table(name = "hdx_indicator", uniqueConstraints = @UniqueConstraint(columnNames = { "source_id", "entity_id", "type_id", "start_time", "periodicity" }))
@@ -45,7 +48,35 @@ import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 public class Indicator {
 
 	public enum Periodicity {
-		NONE, DAY, WEEK, MONTH, QUARTER, YEAR, TWO_YEARS, THREE_YEARS, FIVE_YEARS, TEN_YEARS;
+		NONE("N"), DAY("D"), WEEK("W"), MONTH("M"), QUARTER("Q"), YEAR("Y"), TWO_YEARS("2Y"), THREE_YEARS("3Y"), FIVE_YEARS("5Y"), TEN_YEARS("10Y");
+
+		private static final Map<String, Periodicity> map;
+		static {
+			final HashMap<String, Periodicity>tempMap	= new HashMap<String, Indicator.Periodicity>();
+			for (final Periodicity periodicity : Periodicity.values()) {
+				tempMap.put(periodicity.getCode(), periodicity);
+			}
+			map		= Collections.unmodifiableMap(tempMap);
+		}
+		public static Periodicity findPeriodicityByCode(final String code) {
+			String tempCode	= code;
+			if ( tempCode.startsWith("1") ) {
+				tempCode	= tempCode.substring(1);
+			}
+			return map.get(tempCode);
+		}
+
+		private final String code;
+
+		private Periodicity(final String code) {
+			this.code = code;
+		}
+
+
+		public String getCode() {
+			return this.code;
+		}
+
 	}
 
 	@Id

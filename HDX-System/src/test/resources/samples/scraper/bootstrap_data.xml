@@ -888,7 +888,7 @@
   <entity id="59" code="DJI" text_id="61" entity_type_id="1"/>
   <entity id="60" code="DMA" text_id="62" entity_type_id="1"/>
   <entity id="61" code="DOM" text_id="63" entity_type_id="1"/>
-  <entity id="62" code="TMP" text_id="64" entity_type_id="1"/>
+  <entity id="62" code="TLS" text_id="64" entity_type_id="1"/>
   <entity id="63" code="ECU" text_id="65" entity_type_id="1"/>
   <entity id="64" code="EGY" text_id="66" entity_type_id="1"/>
   <entity id="65" code="SLV" text_id="67" entity_type_id="1"/>
@@ -1111,170 +1111,168 @@
   <indicator_resource_config_entry id="37" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="13" resource_configuration_id="1" source_id="1"/>
   <indicator_resource_config_entry id="38" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="13" resource_configuration_id="1" source_id="1"/>
   <indicator_resource_config_entry id="39" entry_key="Min Value" entry_value="0" indicator_type_id="13" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="40" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="14" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="41" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="14" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="42" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="15" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="43" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="15" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="44" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="16" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="45" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="16" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="46" entry_key="Expected time format" entry_value="none" indicator_type_id="17" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="47" entry_key="Expected start time format" entry_value="none" indicator_type_id="17" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="48" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="18" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="49" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="18" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="50" entry_key="Expected time format" entry_value="none" indicator_type_id="19" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="51" entry_key="Expected start time format" entry_value="none" indicator_type_id="19" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="52" entry_key="Expected time format" entry_value="none" indicator_type_id="20" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="53" entry_key="Expected start time format" entry_value="none" indicator_type_id="20" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="54" entry_key="Expected time format" entry_value="none" indicator_type_id="21" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="55" entry_key="Expected start time format" entry_value="none" indicator_type_id="21" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="56" entry_key="Expected time format" entry_value="none" indicator_type_id="22" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="57" entry_key="Expected start time format" entry_value="none" indicator_type_id="22" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="58" entry_key="Expected time format" entry_value="none" indicator_type_id="23" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="59" entry_key="Expected start time format" entry_value="none" indicator_type_id="23" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="60" entry_key="Expected time format" entry_value="none" indicator_type_id="24" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="61" entry_key="Expected start time format" entry_value="none" indicator_type_id="24" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="62" entry_key="Expected time format" entry_value="none" indicator_type_id="25" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="63" entry_key="Expected start time format" entry_value="none" indicator_type_id="25" resource_configuration_id="1" source_id="8"/>
-  <indicator_resource_config_entry id="64" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="26" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="65" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="26" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="66" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="27" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="67" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="27" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="68" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="28" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="69" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="28" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="70" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="29" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="71" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="29" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="72" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="30" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="73" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="30" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="74" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="31" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="75" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="31" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="76" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="32" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="77" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="32" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="78" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="33" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="79" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="33" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="80" entry_key="Expected time format" entry_value="none" indicator_type_id="34" resource_configuration_id="1" source_id="9"/>
-  <indicator_resource_config_entry id="81" entry_key="Expected start time format" entry_value="none" indicator_type_id="34" resource_configuration_id="1" source_id="9"/>
-  <indicator_resource_config_entry id="82" entry_key="Expected time format" entry_value="none" indicator_type_id="35" resource_configuration_id="1" source_id="10"/>
-  <indicator_resource_config_entry id="83" entry_key="Expected start time format" entry_value="none" indicator_type_id="35" resource_configuration_id="1" source_id="10"/>
-  <indicator_resource_config_entry id="84" entry_key="Expected time format" entry_value="none" indicator_type_id="36" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="85" entry_key="Expected start time format" entry_value="none" indicator_type_id="36" resource_configuration_id="1" source_id="6"/>
-  <indicator_resource_config_entry id="86" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="37" resource_configuration_id="1" source_id="3"/>
-  <indicator_resource_config_entry id="87" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="37" resource_configuration_id="1" source_id="3"/>
-  <indicator_resource_config_entry id="88" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="38" resource_configuration_id="1" source_id="3"/>
-  <indicator_resource_config_entry id="89" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="38" resource_configuration_id="1" source_id="3"/>
-  <indicator_resource_config_entry id="90" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="39" resource_configuration_id="1" source_id="3"/>
-  <indicator_resource_config_entry id="91" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="39" resource_configuration_id="1" source_id="3"/>
-  <indicator_resource_config_entry id="92" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="40" resource_configuration_id="1" source_id="3"/>
-  <indicator_resource_config_entry id="93" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="40" resource_configuration_id="1" source_id="3"/>
-  <indicator_resource_config_entry id="94" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="41" resource_configuration_id="1" source_id="11"/>
-  <indicator_resource_config_entry id="95" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="41" resource_configuration_id="1" source_id="11"/>
-  <indicator_resource_config_entry id="96" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="42" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="97" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="42" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="98" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="43" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="99" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="43" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="100" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="44" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="101" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="44" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="102" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="45" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="103" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="45" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="104" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="46" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="105" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="46" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="106" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="47" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="107" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="47" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="108" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="48" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="109" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="48" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="110" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="49" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="111" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="49" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="112" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="50" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="113" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="50" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="114" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="51" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="115" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="51" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="116" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="52" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="117" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="52" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="118" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="53" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="119" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="53" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="120" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="54" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="121" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="54" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="122" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="55" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="123" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="55" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="124" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="56" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="125" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="56" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="126" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="127" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="128" entry_key="Min Value" entry_value="0" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="129" entry_key="Max Value" entry_value="100" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="130" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="58" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="131" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="58" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="132" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="59" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="133" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="59" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="134" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="60" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="135" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="60" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="136" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="61" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="137" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="61" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="138" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="62" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="139" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="62" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="140" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="63" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="141" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="63" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="142" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="64" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="143" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="64" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="144" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="65" resource_configuration_id="1" source_id="12"/>
-  <indicator_resource_config_entry id="145" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="65" resource_configuration_id="1" source_id="12"/>
-  <indicator_resource_config_entry id="146" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="66" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="147" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="66" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="148" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="67" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="149" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="67" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="150" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="68" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="151" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="68" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="152" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="69" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="153" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="69" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="154" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="70" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="155" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="70" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="156" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="71" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="157" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="71" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="158" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="72" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="159" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="72" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="160" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="73" resource_configuration_id="1" source_id="13"/>
-  <indicator_resource_config_entry id="161" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="73" resource_configuration_id="1" source_id="13"/>
-  <indicator_resource_config_entry id="162" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="74" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="163" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="74" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="164" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="75" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="165" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="75" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="166" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="76" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="167" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="76" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="168" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="77" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="169" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="77" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="170" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="78" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="171" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="78" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="172" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="79" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="173" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="79" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="174" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="80" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="175" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="80" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="176" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="81" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="177" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="81" resource_configuration_id="1" source_id="7"/>
-  <indicator_resource_config_entry id="178" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="82" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="179" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="82" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="180" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="83" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="181" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="83" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="182" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="84" resource_configuration_id="1" source_id="14"/>
-  <indicator_resource_config_entry id="183" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="84" resource_configuration_id="1" source_id="14"/>
-  <indicator_resource_config_entry id="184" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="85" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="185" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="85" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="186" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="86" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="187" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="86" resource_configuration_id="1" source_id="1"/>
-  <indicator_resource_config_entry id="188" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="87" resource_configuration_id="1" source_id="15"/>
-  <indicator_resource_config_entry id="189" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="87" resource_configuration_id="1" source_id="15"/>
-  <indicator_resource_config_entry id="190" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="88" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="191" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="88" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="192" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="89" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="193" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="89" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="194" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="90" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="195" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="90" resource_configuration_id="1" source_id="2"/>
-  <indicator_resource_config_entry id="196" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="91" resource_configuration_id="1" source_id="16"/>
-  <indicator_resource_config_entry id="197" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="91" resource_configuration_id="1" source_id="16"/>
-  <indicator_resource_config_entry id="198" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="92" resource_configuration_id="1" source_id="16"/>
-  <indicator_resource_config_entry id="199" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="92" resource_configuration_id="1" source_id="16"/>
-  <indicator_resource_config_entry id="200" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="93" resource_configuration_id="1" source_id="17"/>
-  <indicator_resource_config_entry id="201" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="93" resource_configuration_id="1" source_id="17"/>
-  <indicator_resource_config_entry id="202" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="94" resource_configuration_id="1" source_id="18"/>
-  <indicator_resource_config_entry id="203" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="94" resource_configuration_id="1" source_id="18"/>
-  <indicator_resource_config_entry id="204" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="95" resource_configuration_id="1" source_id="4"/>
-  <indicator_resource_config_entry id="205" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="95" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="40" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="15" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="41" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="15" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="42" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="16" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="43" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="16" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="44" entry_key="Expected time format" entry_value="none" indicator_type_id="17" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="45" entry_key="Expected start time format" entry_value="none" indicator_type_id="17" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="46" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="18" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="47" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="18" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="48" entry_key="Expected time format" entry_value="none" indicator_type_id="19" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="49" entry_key="Expected start time format" entry_value="none" indicator_type_id="19" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="50" entry_key="Expected time format" entry_value="none" indicator_type_id="20" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="51" entry_key="Expected start time format" entry_value="none" indicator_type_id="20" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="52" entry_key="Expected time format" entry_value="none" indicator_type_id="21" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="53" entry_key="Expected start time format" entry_value="none" indicator_type_id="21" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="54" entry_key="Expected time format" entry_value="none" indicator_type_id="22" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="55" entry_key="Expected start time format" entry_value="none" indicator_type_id="22" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="56" entry_key="Expected time format" entry_value="none" indicator_type_id="23" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="57" entry_key="Expected start time format" entry_value="none" indicator_type_id="23" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="58" entry_key="Expected time format" entry_value="none" indicator_type_id="24" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="59" entry_key="Expected start time format" entry_value="none" indicator_type_id="24" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="60" entry_key="Expected time format" entry_value="none" indicator_type_id="25" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="61" entry_key="Expected start time format" entry_value="none" indicator_type_id="25" resource_configuration_id="1" source_id="8"/>
+  <indicator_resource_config_entry id="62" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="26" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="63" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="26" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="64" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="27" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="65" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="27" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="66" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="28" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="67" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="28" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="68" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="29" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="69" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="29" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="70" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="30" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="71" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="30" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="72" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="31" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="73" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="31" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="74" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="32" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="75" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="32" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="76" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="33" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="77" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="33" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="78" entry_key="Expected time format" entry_value="none" indicator_type_id="34" resource_configuration_id="1" source_id="9"/>
+  <indicator_resource_config_entry id="79" entry_key="Expected start time format" entry_value="none" indicator_type_id="34" resource_configuration_id="1" source_id="9"/>
+  <indicator_resource_config_entry id="80" entry_key="Expected time format" entry_value="none" indicator_type_id="35" resource_configuration_id="1" source_id="10"/>
+  <indicator_resource_config_entry id="81" entry_key="Expected start time format" entry_value="none" indicator_type_id="35" resource_configuration_id="1" source_id="10"/>
+  <indicator_resource_config_entry id="82" entry_key="Expected time format" entry_value="none" indicator_type_id="36" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="83" entry_key="Expected start time format" entry_value="none" indicator_type_id="36" resource_configuration_id="1" source_id="6"/>
+  <indicator_resource_config_entry id="84" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="37" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="85" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="37" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="86" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="38" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="87" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="38" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="88" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="39" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="89" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="39" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="90" entry_key="Expected time format" entry_value="YYYY/P1Y" indicator_type_id="40" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="91" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="40" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="92" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="41" resource_configuration_id="1" source_id="11"/>
+  <indicator_resource_config_entry id="93" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="41" resource_configuration_id="1" source_id="11"/>
+  <indicator_resource_config_entry id="94" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="42" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="95" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="42" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="96" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="43" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="97" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="43" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="98" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="44" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="99" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="44" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="100" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="45" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="101" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="45" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="102" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="46" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="103" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="46" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="104" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="47" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="105" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="47" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="106" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="48" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="107" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="48" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="108" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="49" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="109" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="49" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="110" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="50" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="111" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="50" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="112" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="51" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="113" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="51" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="114" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="52" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="115" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="52" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="116" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="53" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="117" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="53" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="118" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="54" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="119" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="54" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="120" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="55" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="121" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="55" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="122" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="56" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="123" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="56" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="124" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="125" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="126" entry_key="Min Value" entry_value="0" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="127" entry_key="Max Value" entry_value="100" indicator_type_id="57" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="128" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="58" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="129" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="58" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="130" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="59" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="131" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="59" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="132" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="60" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="133" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="60" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="134" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="61" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="135" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="61" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="136" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="62" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="137" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="62" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="138" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="63" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="139" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="63" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="140" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="64" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="141" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="64" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="142" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="65" resource_configuration_id="1" source_id="12"/>
+  <indicator_resource_config_entry id="143" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="65" resource_configuration_id="1" source_id="12"/>
+  <indicator_resource_config_entry id="144" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="66" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="145" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="66" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="146" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="67" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="147" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="67" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="148" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="68" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="149" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="68" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="150" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="69" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="151" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="69" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="152" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="70" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="153" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="70" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="154" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="71" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="155" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="71" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="156" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="72" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="157" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="72" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="158" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="73" resource_configuration_id="1" source_id="13"/>
+  <indicator_resource_config_entry id="159" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="73" resource_configuration_id="1" source_id="13"/>
+  <indicator_resource_config_entry id="160" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="74" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="161" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="74" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="162" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="75" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="163" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="75" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="164" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="76" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="165" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="76" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="166" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="77" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="167" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="77" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="168" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="78" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="169" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="78" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="170" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="79" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="171" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="79" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="172" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="80" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="173" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="80" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="174" entry_key="Expected time format" entry_value="YYYY/P5Y" indicator_type_id="81" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="175" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="81" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="176" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="82" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="177" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="82" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="178" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="83" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="179" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="83" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="180" entry_key="Expected time format" entry_value="yyyy-MM-dd" indicator_type_id="84" resource_configuration_id="1" source_id="14"/>
+  <indicator_resource_config_entry id="181" entry_key="Expected start time format" entry_value="yyyy-MM-dd" indicator_type_id="84" resource_configuration_id="1" source_id="14"/>
+  <indicator_resource_config_entry id="182" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="85" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="183" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="85" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="184" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="86" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="185" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="86" resource_configuration_id="1" source_id="1"/>
+  <indicator_resource_config_entry id="186" entry_key="Expected time format" entry_value="YYYY/P3Y" indicator_type_id="87" resource_configuration_id="1" source_id="15"/>
+  <indicator_resource_config_entry id="187" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="87" resource_configuration_id="1" source_id="15"/>
+  <indicator_resource_config_entry id="188" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="88" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="189" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="88" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="190" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="89" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="191" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="89" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="192" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="90" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="193" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="90" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="194" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="91" resource_configuration_id="1" source_id="16"/>
+  <indicator_resource_config_entry id="195" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="91" resource_configuration_id="1" source_id="16"/>
+  <indicator_resource_config_entry id="196" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="92" resource_configuration_id="1" source_id="16"/>
+  <indicator_resource_config_entry id="197" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="92" resource_configuration_id="1" source_id="16"/>
+  <indicator_resource_config_entry id="198" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="93" resource_configuration_id="1" source_id="17"/>
+  <indicator_resource_config_entry id="199" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="93" resource_configuration_id="1" source_id="17"/>
+  <indicator_resource_config_entry id="200" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="94" resource_configuration_id="1" source_id="18"/>
+  <indicator_resource_config_entry id="201" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="94" resource_configuration_id="1" source_id="18"/>
+  <indicator_resource_config_entry id="202" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="95" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="203" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="95" resource_configuration_id="1" source_id="4"/>
 </dataset>

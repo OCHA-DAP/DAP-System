@@ -467,7 +467,7 @@
 							<username>${db.username}</username>
 							<password>${db.password}</password>
 							<format>flat</format>
-							<dest>${project.basedir}/src/test/resources/samples/bootstrap_data.xml</dest>
+							<dest>${project.basedir}/src/test/resources/samples/scraper/bootstrap_data.xml</dest>
 							<tables>
 								<list>	
 									<name>language</name>
