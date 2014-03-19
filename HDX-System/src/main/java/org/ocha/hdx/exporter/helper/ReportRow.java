@@ -8,7 +8,7 @@ import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 
 public class ReportRow {
 
-	private final String indicatorCode;
+	private final String indicatorTypeCode;
 	private final String indicatorName;
 	private final String sourceCode;
 	private final String unit;
@@ -22,18 +22,18 @@ public class ReportRow {
 
 	private final Map<Integer, String> valuesForYears;
 
-	public ReportRow(final String indicatorCode, final String indicatorName, final String sourceCode, final String unit) {
+	public ReportRow(final String indicatorTypeCode, final String indicatorName, final String sourceCode, final String unit) {
 		super();
-		this.indicatorCode = indicatorCode;
+		this.indicatorTypeCode = indicatorTypeCode;
 		this.indicatorName = indicatorName;
 		this.sourceCode = sourceCode;
 		this.unit = unit;
-		this.metadata = new HashMap<AdditionalData.EntryKey, String>();
+		metadata = new HashMap<AdditionalData.EntryKey, String>();
 		valuesForYears = new HashMap<Integer, String>();
 	}
 
-	public String getIndicatorCode() {
-		return indicatorCode;
+	public String getIndicatorTypeCode() {
+		return indicatorTypeCode;
 	}
 
 	public String getIndicatorName() {
