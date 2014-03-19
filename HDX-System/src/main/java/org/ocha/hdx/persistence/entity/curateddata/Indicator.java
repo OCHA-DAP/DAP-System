@@ -20,24 +20,24 @@ import org.hibernate.annotations.ForeignKey;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 
 /**
- *
+ * 
  * @author Samuel Eustachi
  * @author David Megginson
- *
+ * 
  *         a table listing specific values for indicators, with references to the {@link org.ocha.hdx.persistence.entity.curateddata.Entity}
  *         table for the associated entity, to the {@link Source} table for the data source, and to the {@link IndicatorType} table for the
  *         specific indicator in question. This table will hold most of the data in the repository, and is expected to grow eventually into
  *         the millions of rows (or more).
- *
- *
+ * 
+ * 
  *         The main prupose of this table is to contain the curated data. However, some columns represent some technical metadata used by
  *         the application
- *
+ * 
  *         {@link Indicator#importFromCKAN}
- *
+ * 
  *         {@link Indicator#initialValue}
- *
- *
+ * 
+ * 
  */
 @Entity
 @Table(name = "hdx_indicator", uniqueConstraints = @UniqueConstraint(columnNames = { "source_id", "entity_id", "type_id", "start_time", "periodicity" }))
@@ -45,7 +45,7 @@ import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 public class Indicator {
 
 	public enum Periodicity {
-		NONE, DAY, WEEK, MONTH, QUARTER, YEAR, FIVE_YEARS, TEN_YEARS;
+		NONE, DAY, WEEK, MONTH, QUARTER, YEAR, TWO_YEARS, THREE_YEARS, FIVE_YEARS, TEN_YEARS;
 	}
 
 	@Id
@@ -195,11 +195,8 @@ public class Indicator {
 
 	@Override
 	public String toString() {
-		return "Indicator [id=" + this.id + ", source=" + this.source.getCode() + ", entity=" + this.entity.getCode() + ", type="
-				+ this.type.getCode() + ", start=" + this.start + ", end=" + this.end + ", periodicity="
-				+ this.periodicity + ", initialValue=" + this.initialValue + ", sourceLink=" + this.sourceLink + ", value=" + this.value
-				+ "]";
+		return "Indicator [id=" + this.id + ", source=" + this.source.getCode() + ", entity=" + this.entity.getCode() + ", type=" + this.type.getCode() + ", start=" + this.start + ", end=" + this.end
+				+ ", periodicity=" + this.periodicity + ", initialValue=" + this.initialValue + ", sourceLink=" + this.sourceLink + ", value=" + this.value + "]";
 	}
-
 
 }

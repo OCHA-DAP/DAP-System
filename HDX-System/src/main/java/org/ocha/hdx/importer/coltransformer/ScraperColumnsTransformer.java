@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
@@ -32,7 +32,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	public static final LocalDate DUMMY_DATE = new LocalDate(2511, 5, 1);
 
-	public static final String EXPECTED_TIME_PATTERN = "YYYY(/P(1|5|10)Y)?";
+	public static final String EXPECTED_TIME_PATTERN = "YYYY(/P(1|2|3|5|10)Y)?";
 	public static final int PERIODICITY_GROUP = 2;
 
 	public static final String EXPECTED_START_TIME_PATTERN = "YYYY(\\((-|\\+)?([0-9]{1,2})\\))?(-([0-9]{2})-([0-9]{2}))?";
