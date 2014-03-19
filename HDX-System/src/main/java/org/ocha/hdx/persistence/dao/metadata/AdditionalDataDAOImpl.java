@@ -14,7 +14,7 @@ import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
 import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 import org.springframework.transaction.annotation.Transactional;
 
-public class AdditionalDataDaoImpl implements AdditionalDataDao {
+public class AdditionalDataDAOImpl implements AdditionalDataDAO {
 
 	@PersistenceContext
 	private EntityManager em;
