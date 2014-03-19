@@ -42,11 +42,11 @@
 					<label for="reportLanguage">Language</label> <select class="form-control" id="reportLanguage" ng-model="reportLanguage" ng-options="language.code for language in languages" ng-class="default">
 					</select>
 				</div>
-				<div class="form-group">
+				<!-- div class="form-group">
 					<label for="reportFileName">File name</label> <input type="text" class="form-control" id="reportFileName" ng-model="reportFileName" placeholder="Report file name...">
-				</div>
-				<button type="button" class="btn btn-default" ng-disabled="sourceUnavailable" ng-click="createReport()">Submit</button>
-				<button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button>
+				</div -->
+				<button type="button" class="btn btn-default" ng-disabled="sourceUnavailable" ng-click="createReport()">Create report</button>
+				<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
 			</form>
 		</div>
 	</div>

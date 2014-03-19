@@ -36,8 +36,14 @@ public class IndicatorData {
 	@Column(name = "source_code")
 	private String sourceCode;
 
+	@Column(name = "source_default_value")
+	private String sourceDefaultValue;
+
 	@Column(name = "country_code")
 	private String countryCode;
+
+	@Column(name = "country_default_value")
+	private String countryDefaultValue;
 
 	public Long getIndicatorId() {
 		return indicatorId;
@@ -85,5 +91,21 @@ public class IndicatorData {
 
 	public void setCountryCode(final String countryCode) {
 		this.countryCode = countryCode;
+	}
+
+	public String getSourceDefaultValue() {
+		return sourceDefaultValue;
+	}
+
+	public void setSourceDefaultValue(final String sourceDefaultValue) {
+		this.sourceDefaultValue = sourceDefaultValue;
+	}
+
+	public String getCountryDefaultValue() {
+		return countryDefaultValue;
+	}
+
+	public void setCountryDefaultValue(final String countryDefaultValue) {
+		this.countryDefaultValue = countryDefaultValue;
 	}
 }

@@ -26,7 +26,7 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
   $scope.reportLanguage = $scope.languages[0];
   
   $scope.countrySelect = function() {
-    $scope.reportFileName = $scope.country.code;
+    $scope.reportFileName = $scope.country.code + "_baseline";
   }
   
   $scope.createReport = function() {
