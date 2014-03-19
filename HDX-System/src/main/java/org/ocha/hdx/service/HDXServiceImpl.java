@@ -34,10 +34,10 @@ import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.UserDAO;
 import org.ocha.hdx.persistence.dao.ckan.CKANDatasetDAO;
 import org.ocha.hdx.persistence.dao.ckan.CKANResourceDAO;
-import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao;
+import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.dao.i18n.LanguageDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
-import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDao;
+import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAO;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
@@ -107,9 +107,9 @@ public class HDXServiceImpl implements HDXService {
 	private FileEvaluatorAndExtractor fileEvaluatorAndExtractor;
 
 	@Autowired
-	private ResourceConfigurationDao resourceConfigurationDao;
+	private ResourceConfigurationDAO resourceConfigurationDAO;
 	@Autowired
-	private AdditionalDataDao additionalDataDao;
+	private AdditionalDataDAO additionalDataDAO;
 
 	@Override
 	public boolean addResourceToCKANDataset(final String packageId, final String resourceUrl, final String name) {
@@ -210,7 +210,7 @@ public class HDXServiceImpl implements HDXService {
 		 * FIXME , the configuration is HARDCODED because there's no UI for this yet
 		 */
 		else {
-			final ResourceConfiguration configuration = this.resourceConfigurationDao.getResourceConfigurationById(1);
+			final ResourceConfiguration configuration = this.resourceConfigurationDAO.getResourceConfigurationById(1);
 			this.workflowService.flagCKANResourceAsConfigured(id, revision_id, configuration);
 		}
 
