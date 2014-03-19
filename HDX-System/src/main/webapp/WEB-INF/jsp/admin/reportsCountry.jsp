@@ -16,7 +16,7 @@
 <body ng-controller="ReportsCountryCtrl">
 	<jsp:include page="admin-menu.jsp" />
 	<div>
-		<h3>Country reports</h3>
+		<h3>Country-centric reports</h3>
 		<div style="width: 300px;">
 			<form role="form" class="css-form">
 				<div class="form-group">
