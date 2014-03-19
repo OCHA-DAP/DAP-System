@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.hdx.config.DummyConfigurationCreator;
-import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao;
+import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
@@ -35,7 +35,7 @@ public class CKANResourceDAOImplTest {
 	private DummyEntityCreatorWrapper dummyEntityCreatorWrapper;
 	
 	@Autowired
-	private ResourceConfigurationDao resourceConfigurationDao;
+	private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	@After
 	public void tearDown() {
@@ -50,7 +50,7 @@ public class CKANResourceDAOImplTest {
 		entityCreator.createNeededIndicatorTypeAndSource();
 		
 		final ResourceConfiguration tempConfig	= this.dummyConfigurationCreator.createConfiguration();
-		final ResourceConfiguration savedConfig	= resourceConfigurationDao.createResourceConfig("test", tempConfig.getGeneralConfigEntries(), tempConfig.getIndicatorConfigEntries() );
+		final ResourceConfiguration savedConfig	= resourceConfigurationDAO.createResourceConfig("test", tempConfig.getGeneralConfigEntries(), tempConfig.getIndicatorConfigEntries() );
 		Long configurationId = savedConfig.getId();	
 		
 		final Date revisionTs = new Date();
@@ -110,7 +110,7 @@ public class CKANResourceDAOImplTest {
 			Assert.assertTrue(r.getResourceConfiguration().getIndicatorConfigEntries().size() > 0);
 		}
 		ckanResourceDAO.flagCKANResourceAsConfigured("newUnitTestResourceId", "newUnitTestResourceRevId", null);
-		resourceConfigurationDao.deleteResourceConfiguration(configurationId);
+		resourceConfigurationDAO.deleteResourceConfiguration(configurationId);
 		entityCreator.deleteNeededIndicatorTypeAndSource();
 	}
 
