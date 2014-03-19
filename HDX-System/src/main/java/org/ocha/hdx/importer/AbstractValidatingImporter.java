@@ -3,7 +3,6 @@
  */
 package org.ocha.hdx.importer;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -29,10 +28,12 @@ import org.ocha.hdx.validation.prevalidator.IPreValidatorCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import au.com.bytecode.opencsv.CSVReader;
+
 /**
- * 
+ *
  * This class should be implemented by any importer class that needs to support the validation framework
- * 
+ *
  * @author alexandru-m-g
  */
 public abstract class AbstractValidatingImporter implements HDXWithCountryListImporter {
@@ -139,7 +140,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.ocha.hdx.importer.HDXImporter#prepareDataForImport(java.io.File)
 	 */
 	@Override
@@ -147,12 +148,13 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 		final List<PreparedIndicator> preparedIndicators = new ArrayList<>();
 		final File valueFile = this.findValueFile(file);
 
-		try (final BufferedReader br = new BufferedReader(new FileReader(valueFile))) {
-			String line;
-			while ((line = br.readLine()) != null) {
+
+		try (FileReader fileReader	= new FileReader(valueFile)) {
+			final CSVReader reader = new CSVReader(fileReader);
+			String [] values;
+			while ( (values = reader.readNext()) != null) {
 				try {
-					final String[] values = this.getValuesFromLine(line);
-					this.cleanStrings(values);
+//					this.cleanStrings(values);
 					if (this.preValidation(values)) {
 						final PreparedIndicator preparedIndicator = this.createPreparedIndicator(values);
 						if (preparedIndicator != null) {

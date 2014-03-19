@@ -1,6 +1,9 @@
 package org.ocha.hdx.persistence.entity.curateddata;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -45,7 +48,35 @@ import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 public class Indicator {
 
 	public enum Periodicity {
-		NONE, DAY, WEEK, MONTH, QUARTER, YEAR, FIVE_YEARS, TEN_YEARS;
+		NONE("N"), DAY("D"), WEEK("W"), MONTH("M"), QUARTER("Q"), YEAR("Y"), TWO_YEARS("2Y"), THREE_YEARS("3Y"), FIVE_YEARS("5Y"), TEN_YEARS("10Y");
+
+		private static final Map<String, Periodicity> map;
+		static {
+			final HashMap<String, Periodicity>tempMap	= new HashMap<String, Indicator.Periodicity>();
+			for (final Periodicity periodicity : Periodicity.values()) {
+				tempMap.put(periodicity.getCode(), periodicity);
+			}
+			map		= Collections.unmodifiableMap(tempMap);
+		}
+		public static Periodicity findPeriodicityByCode(final String code) {
+			String tempCode	= code;
+			if ( tempCode.startsWith("1") ) {
+				tempCode	= tempCode.substring(1);
+			}
+			return map.get(tempCode);
+		}
+
+		private final String code;
+
+		private Periodicity(final String code) {
+			this.code = code;
+		}
+
+
+		public String getCode() {
+			return this.code;
+		}
+
 	}
 
 	@Id
@@ -195,11 +226,8 @@ public class Indicator {
 
 	@Override
 	public String toString() {
-		return "Indicator [id=" + this.id + ", source=" + this.source.getCode() + ", entity=" + this.entity.getCode() + ", type="
-				+ this.type.getCode() + ", start=" + this.start + ", end=" + this.end + ", periodicity="
-				+ this.periodicity + ", initialValue=" + this.initialValue + ", sourceLink=" + this.sourceLink + ", value=" + this.value
-				+ "]";
+		return "Indicator [id=" + this.id + ", source=" + this.source.getCode() + ", entity=" + this.entity.getCode() + ", type=" + this.type.getCode() + ", start=" + this.start + ", end=" + this.end
+				+ ", periodicity=" + this.periodicity + ", initialValue=" + this.initialValue + ", sourceLink=" + this.sourceLink + ", value=" + this.value + "]";
 	}
-
 
 }

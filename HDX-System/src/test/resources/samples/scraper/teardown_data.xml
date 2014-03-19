@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <language />
+  <text />
+ 
+  
+  <hdx_translation />
+  <organisation />
+
+  <source />
+  
+  <source_dictionary /> 
+
+  <hdx_unit />
+  
+  <indicator_type />
+  
+  <entity_type />
+  
+  <entity />
+  <resource_configuration />
+  <resource_config_entry /> 
+  <indicator_resource_config_entry />
+</dataset>

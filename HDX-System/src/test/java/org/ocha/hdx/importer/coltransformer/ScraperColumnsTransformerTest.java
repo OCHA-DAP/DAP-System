@@ -90,6 +90,8 @@ public class ScraperColumnsTransformerTest {
 		assertTrue(matcher1.matches());
 		assertEquals("1995", matcher1.group(ScraperColumnsTransformer.YEAR_GROUP));
 
+		assertEquals("5", matcher1.group(ScraperColumnsTransformer.PERIOD_YEAR_GROUP));
+
 	}
 
 	@Test

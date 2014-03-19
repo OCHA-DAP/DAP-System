@@ -1,0 +1,90 @@
+dsID,region,indID,period,value,is_number,source
+"World Bank",AFG,"_Access to electricity (% of population)",2009,15.6,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+mdgs,AFG,"_Children 1 year old immunized against measles, percentage",1990,20.0,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=563
+emdat,CPV,_emdat:no_homeless,1900/P1Y,0.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
+emdat,CPV,_emdat:no_injured,1900/P1Y,0.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
+emdat,CPV,_emdat:total_affected,1900/P1Y,0.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
+"World Bank",AFG,"_GNI, PPP (current international $)",2002,15573848233.5421,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+data.undp.org,NOR,_HDR:68606,2000,0.105,1,http://data.undp.org/resource/bh77-rzbn.json
+"World Bank",AFG,"_International migrant stock (% of population)",1960,0.529583654341474,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+mdgs,AFG,"_Internet users per 100 inhabitants",1990,0.0,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=605
+"World Bank",AFG,"_Land area (sq. km)",1961,652230.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+m49,AFG,_m49-name,2013-11-06,Afghanistan,0,http://unstats.un.org/unsd/methods/m49/m49alpha.htm
+"World Bank",AFG,"_Net ODA received per capita (current US$)",1960,1.95795971024932,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,"_Number of infant deaths",1961,106000.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+mdgs,DZA,"_Population undernourished, millions",1991,1.4,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=640
+mdgs,DZA,"_Population undernourished, percentage",1991,5.5,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=566
+"World Bank",AFG,"_Population, total",1960,8774440.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+unterm,VNM,"_unterm:ISO Country alpha-2-code",2014-03-17,VN,0,http://unterm.un.org/DGAACS/unterm.nsf/WebView/5F89E9A813E6E94E85256DC700440AB6?OpenDocument
+esa-unpd-WPP2012,BDI,_WPP2012_MORT_F02_CRUDE_DEATH_RATE,1950/P5Y,25.206,1,http://esa.un.org/unpd/wpp/Excel-Data/EXCEL_FILES/3_Mortality/WPP2012_MORT_F02_CRUDE_DEATH_RATE.XLS
+wikipedia,CAN,CD010,2014-03-17,http://en.wikipedia.org/wiki/Canada#Geography,0,http://en.wikipedia.org/wiki/Canada#Geography
+wikipedia,TKM,CD030,2014-03-17,http://en.wikipedia.org/wiki/Turkmenistan#Climate,0,http://en.wikipedia.org/wiki/Turkmenistan#Climate
+wikipedia,CAN,CD050,2014-03-17,http://en.wikipedia.org/wiki/Canada#Economy,0,http://en.wikipedia.org/wiki/Canada#Economy
+wikipedia,TKM,CD060,2014-03-17,http://en.wikipedia.org/wiki/Turkmenistan#Transportation,0,http://en.wikipedia.org/wiki/Turkmenistan#Transportation
+wikipedia,TLS,CD070,2014-03-17,"http://en.wikipedia.org/wiki/East Timor#Education",0,"http://en.wikipedia.org/wiki/East Timor#Education"
+wikipedia,CAN,CD080,2014-03-17,http://en.wikipedia.org/wiki/Canada#Demographics,0,http://en.wikipedia.org/wiki/Canada#Demographics
+wikipedia,TLS,CD090,2014-03-17,"http://en.wikipedia.org/wiki/East Timor#Religion",0,"http://en.wikipedia.org/wiki/East Timor#Religion"
+unterm,VNM,CG020,2014-03-17,"the Socialist Republic of Viet Nam",0,http://unterm.un.org/DGAACS/unterm.nsf/WebView/5F89E9A813E6E94E85256DC700440AB6?OpenDocument
+unterm,VNM,CG030,2014-03-17,"Viet Nam",0,http://unterm.un.org/DGAACS/unterm.nsf/WebView/5F89E9A813E6E94E85256DC700440AB6?OpenDocument
+m49,AFG,CG060,2013-11-06,004,0,http://unstats.un.org/unsd/methods/m49/m49alpha.htm
+unterm,VNM,CG070,2014-03-17,VNM,0,http://unterm.un.org/DGAACS/unterm.nsf/WebView/5F89E9A813E6E94E85256DC700440AB6?OpenDocument
+unterm,VNM,CG080,2014-03-17,Hanoi,0,http://unterm.un.org/DGAACS/unterm.nsf/WebView/5F89E9A813E6E94E85256DC700440AB6?OpenDocument
+unterm,VNM,CG100,2014-03-17,Vietnamese,0,http://unterm.un.org/DGAACS/unterm.nsf/WebView/5F89E9A813E6E94E85256DC700440AB6?OpenDocument
+unterm,VNM,CG120,2014-03-17,"₫",0,http://unterm.un.org/DGAACS/unterm.nsf/WebView/5F89E9A813E6E94E85256DC700440AB6?OpenDocument
+unterm,VNM,CG140,2014-03-17,VND,0,http://unterm.un.org/DGAACS/unterm.nsf/WebView/5F89E9A813E6E94E85256DC700440AB6?OpenDocument
+worldbank-lending-groups,AFG,CG150,2014-03-17,Low-income,0,http://data.worldbank.org/about/country-classifications/country-and-lending-groups
+accuweather,AGO,CG260,2014-03-17,http://www.accuweather.com/en/ao/angola-weather,0,http://www.accuweather.com
+unterm,VNM,CG290,2014-03-17,"20 September 1977",0,http://unterm.un.org/DGAACS/unterm.nsf/WebView/5F89E9A813E6E94E85256DC700440AB6?OpenDocument
+emdat,CPV,CH070,1900/P1Y,1.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
+emdat,CPV,CH080,1900/P1Y,11000.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
+emdat,CPV,CH090,1900/P1Y,0.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
+emdat,CPV,CH100,1900/P1Y,0.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
+unicef-infobycountry,AFG,PCH090,2014-03-17,5.4,1,http://www.unicef.org/infobycountry/afghanistan_statistics.html
+"World Bank",AFG,PCX090,1960,0.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PCX100,1990,0.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PCX130,2007,1.21,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PSE030,2002,701.469826682544,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PSE090,2002,700.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+data.undp.org,NOR,PSE110,2000,43382.0,1,http://data.undp.org/resource/u2dx-y6wx.json
+"World Bank",AFG,PSE120,1960,548888849.066667,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PSE130,2005,21982728654.9379,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PSE140,1960,4.55669407537059,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PSE150,1960,81.1973234653402,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+data.undp.org,SVN,PSE160,2012,0.1,1,http://data.undp.org/resource/ehe9-pgud.json
+"World Bank",ALB,PSE170,1997,0.2,1,http://api.worldbank.org/datafiles/ALB_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PSE200,2005,12.1458589343717,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PSE210,2008,27.82,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+data.undp.org,NOR,PSE220,2012,1.0,1,http://data.undp.org/resource/u2dx-y6wx.json
+esa-unpd-WPP2012,BDI,PSP010,1950,2308.923,1,http://esa.un.org/unpd/wpp/Excel-Data/EXCEL_FILES/1_Population/WPP2012_POP_F01_1_TOTAL_POPULATION_BOTH_SEXES.XLS
+esa-unpd-WPP2012,BDI,PSP050,1950/P5Y,1.843,1,http://esa.un.org/unpd/wpp/Excel-Data/EXCEL_FILES/1_Population/WPP2012_POP_F02_POPULATION_GROWTH_RATE.XLS
+"World Bank",AFG,PSP060,1960,1.9589936626479,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+esa-unpd-WPP2012,BDI,PSP070,1950,19.499,1,http://esa.un.org/unpd/wpp/Excel-Data/EXCEL_FILES/1_Population/WPP2012_POP_F05_MEDIAN_AGE.XLS
+esa-unpd-WPP2012,BDI,PSP080,1950,82.953,1,http://esa.un.org/unpd/wpp/Excel-Data/EXCEL_FILES/1_Population/WPP2012_POP_F06_POPULATION_DENSITY.XLS
+"World Bank",AFG,PSP090,1961,13.7275868941938,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+esa-unpd-WUP2011,BDI,PSP100,1950,1.728,1,http://esa.un.org/unpd/wup/CD-ROM/WUP2011-F02-Proportion_Urban.xls
+"World Bank",AFG,PSP110,1960,264803.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+data.undp.org,NOR,PVE010,2000,6.6,1,http://data.undp.org/resource/bkr7-unqh.json
+data.undp.org,NOR,PVE030,2000,17.5,1,http://data.undp.org/resource/qnam-f624.json
+data.undp.org,NOR,PVE110,2000,11.5,1,http://data.undp.org/resource/m67k-vi5c.json
+data.undp.org,NOR,PVE120,2000,98.0,1,http://data.undp.org/resource/jbhn-xkjv.json
+mdgs,AFG,PVE130,1993,25.7,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=589
+faostat3,DZA,PVF020,1961,1700.0,1,http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/FoodSupply_Crops_E_Africa_1.zip
+esa-unpd-WPP2012,BDI,PVH010,1950/P5Y,39.031,1,http://esa.un.org/unpd/wpp/Excel-Data/EXCEL_FILES/3_Mortality/WPP2012_MORT_F07_1_LIFE_EXPECTANCY_0_BOTH_SEXES.XLS
+esa-unpd-WPP2012,BDI,PVH050,1950/P5Y,305.036,1,http://esa.un.org/unpd/wpp/Excel-Data/EXCEL_FILES/3_Mortality/WPP2012_MORT_F03_1_DEATHS_BOTH_SEXES.XLS
+"World Bank",AFG,PVH080,1997,418.026,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PVH090,1997,447.766,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+esa-unpd-WPP2012,BDI,PVH100,1950/P5Y,280.926,1,http://esa.un.org/unpd/wpp/Excel-Data/EXCEL_FILES/3_Mortality/WPP2012_MORT_F01_2_Q5_BOTH_SEXES.XLS
+data.undp.org,NOR,PVH120,2010,3.0,1,http://data.undp.org/resource/a4ay-qce2.json
+mdgs,AFG,PVH140,1990,176.2,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=561
+esa-unpd-WPP2012,BDI,PVH150,1950/P5Y,166.771,1,http://esa.un.org/unpd/wpp/Excel-Data/EXCEL_FILES/3_Mortality/WPP2012_MORT_F01_1_IMR_BOTH_SEXES.XLS
+data.undp.org,NOR,PVH180,2000,8.0,1,http://data.undp.org/resource/4gkx-mq89.json
+mdgs,AFG,PVH190,1990,1300.0,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=553
+worldaerodata,CAN,PVL010,2014-03-17,457.0,1,http://worldaerodata.com/countries/
+"World Bank",AFG,PVL030,2004,34782.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",ALB,PVL040,1980,610.0,1,http://api.worldbank.org/datafiles/ALB_Country_MetaData_en_EXCEL.xls
+fao-foodsec,DZA,PVN010,1990/P3Y,5.5,1,http://bit.ly/14FRxGV
+mdgs,AFG,PVN050,1997,44.9,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=559
+mdgs,AFG,PVW010,1991,5.0,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=665
+mdgs,AFG,PVW040,1991,21.0,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=668
+echo,SOM,PVX010,2012,3.0,1,http://ec.europa.eu/echo/files/policies/strategy/gna_2012_2013.xls
+echo,SOM,PVX020,2012,3.0,1,http://ec.europa.eu/echo/files/policies/strategy/gna_2012_2013.xls
