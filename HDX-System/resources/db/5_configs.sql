@@ -17,7 +17,6 @@ ALTER SEQUENCE resource_config_entry_seq RESTART WITH 4;
 */
 
 /* Indicator type configurations */
-
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value)  SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('_Access to electricity (% of population)') AND lower(src.code)=lower('world-bank');
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value)  SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('_Access to electricity (% of population)') AND lower(src.code)=lower('world-bank');
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value)  SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Min Value','0' FROM indicator_type type,source src WHERE lower(type.code)=lower('_Access to electricity (% of population)') AND lower(src.code)=lower('world-bank');
@@ -410,7 +409,7 @@ INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicat
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVL040') AND lower(src.code)=lower('world-bank');
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVN010') AND lower(src.code)=lower('fao-foodsec');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY/P3Y' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVN010') AND lower(src.code)=lower('fao-foodsec');
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVN010') AND lower(src.code)=lower('fao-foodsec');
 
 
@@ -444,6 +443,8 @@ INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicat
 
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVX070') AND lower(src.code)=lower('hdrstats');
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVX070') AND lower(src.code)=lower('hdrstats');
+
+
 
 /*
 ALTER SEQUENCE indicator_resource_config_entry_seq RESTART WITH 428;
