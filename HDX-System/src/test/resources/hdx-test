@@ -5,9 +5,17 @@ ckan.host = data.ochadata.net
 ckan.technical.api.key = 54d9d207-8364-4455-8ebd-14cf746d34cb
 #ckan.technical.api.key = ab6ca073-acbc-4508-aa8e-93a6d7d9f43b
 
-
-
+db.url=jdbc:postgresql://localhost/hdx
+db.username=dap-user
+db.password=changeThis
 
 smtp.host=smtp.service.emergency.lu
 smtp.port=25
 mail.from=no-reply@emergency.lu
+
+
+db.driver=org.postgresql.Driver
+datasource.dialect=org.hibernate.dialect.PostgreSQLDialect
+datasource.formatsql=false
+# none, update, create, create-drop 
+hibernate.hbm2ddl.auto=none
