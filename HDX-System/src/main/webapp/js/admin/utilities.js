@@ -62,7 +62,8 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
   // - a callback for success
   // - a callback for error
   function post(options) {
-    return $http.post(hdxContextRoot + options.url, encodeParams(options.params), {
+    var params = encodeParams(options.params);
+    return $http.post(hdxContextRoot + options.url, params, {
       headers : {
         'Content-Type' : 'application/x-www-form-urlencoded'
       }
@@ -70,13 +71,13 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
       // this callback will be called asynchronously
       // when the response is available
       if (options.successCallback) {
-        options.successCallback();
+        options.successCallback(data, status, headers, config);
       }
     }).error(function(data, status, headers, config) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
       if (options.errorCallback) {
-        options.errorCallback();
+        options.errorCallback(data, status, headers, config);
       }
     });
   }
