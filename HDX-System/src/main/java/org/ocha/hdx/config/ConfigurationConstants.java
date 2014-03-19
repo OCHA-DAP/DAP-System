@@ -3,7 +3,6 @@
  */
 package org.ocha.hdx.config;
 
-
 /**
  * @author alexandru-m-g
  * 
@@ -13,16 +12,26 @@ public class ConfigurationConstants {
 	public static final String SEPARATOR = "&&";
 
 	public enum GeneralConfiguration {
-		MIN_NUM_OF_COLUMNS("Minimum number of columns"), PREVALIDATORS("Pre-validators"), ALLOWED_INDICATOR_TYPES("Allowed indicator type codes");
+		MIN_NUM_OF_COLUMNS("Minimum number of columns"), PREVALIDATORS("Pre-validators"), ALLOWED_INDICATOR_TYPES("Allowed indicator type codes", true);
 
 		private final String label;
+		private final Boolean multipleValuesFlag;
+
+		public Boolean getMultipleValuesFlag() {
+			return this.multipleValuesFlag;
+		}
 
 		public String getLabel() {
 			return this.label;
 		}
 
 		private GeneralConfiguration(final String lbl) {
+			this(lbl, false);
+		}
+
+		private GeneralConfiguration(final String lbl, final Boolean flag) {
 			this.label = lbl;
+			this.multipleValuesFlag = flag;
 		}
 
 	}
