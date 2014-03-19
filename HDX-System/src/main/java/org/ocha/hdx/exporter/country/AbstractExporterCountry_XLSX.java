@@ -44,8 +44,8 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		// Retrieve years from the data, as specifying 0 for fromYear/toYear in the queryData allows for earliest/latest data available.
 		int fromYear = Integer.MAX_VALUE;
 		int toYear = Integer.MIN_VALUE;
-		for (final String indicatorCode : data.keySet()) {
-			final ReportRow reportRow = data.get(indicatorCode);
+		for (final String indicatorTypeCode : data.keySet()) {
+			final ReportRow reportRow = data.get(indicatorTypeCode);
 			if (fromYear > reportRow.getMinYear()) {
 				fromYear = reportRow.getMinYear();
 			}
@@ -58,7 +58,7 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		}
 
 		// Assign the headers to the title row
-		createHeaderCells(sheet, headers);
+		createColumnHeaderCells(sheet, headers);
 
 		// TODO Set the indicators info (cells A2:Dx), maybe create a custom query for this.
 
@@ -66,25 +66,25 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		// We start right just after the headers row
 		int rowIndex = 1;
 
-		for (final String indicatorCode : data.keySet()) {
-			final ReportRow reportRow = data.get(indicatorCode);
+		for (final String indicatorTypeCode : data.keySet()) {
+			final ReportRow reportRow = data.get(indicatorTypeCode);
 
 			final XSSFRow row = sheet.createRow(rowIndex);
 			rowIndex++;
 
-			createCell(row, (short) 0, reportRow.getIndicatorCode());
-			createCell(row, (short) 1, reportRow.getIndicatorName());
-			createCell(row, (short) 2, reportRow.getSourceCode());
-			createCell(row, (short) 3, reportRow.getUnit());
+			createCell(row, 0, reportRow.getIndicatorTypeCode());
+			createCell(row, 1, reportRow.getIndicatorName());
+			createCell(row, 2, reportRow.getSourceCode());
+			createCell(row, 3, reportRow.getUnit());
 
-			// createDatasetSummaryCell(reportRow, (short) 4, row);
-			createCell(row, (short) 4, reportRow.getMetadata().get(EntryKey.DATASET_SUMMARY));
-			createCell(row, (short) 5, reportRow.getMetadata().get(EntryKey.MORE_INFO));
-			createCell(row, (short) 6, reportRow.getMetadata().get(EntryKey.TERMS_OF_USE));
-			createCell(row, (short) 7, reportRow.getMetadata().get(EntryKey.METHODOLOGY));
+			// createDatasetSummaryCell(reportRow, 4, row);
+			createCell(row, 4, reportRow.getMetadata().get(EntryKey.DATASET_SUMMARY));
+			createCell(row, 5, reportRow.getMetadata().get(EntryKey.MORE_INFO));
+			createCell(row, 6, reportRow.getMetadata().get(EntryKey.TERMS_OF_USE));
+			createCell(row, 7, reportRow.getMetadata().get(EntryKey.METHODOLOGY));
 
 			for (int year = fromYear; year <= toYear; year++) {
-				final short columnIndex = (short) ((8 + year) - fromYear);
+				final int columnIndex = ((8 + year) - fromYear);
 				final Double value = reportRow.getDoubleValue(year);
 				if (null != value) {
 					createNumCell(row, columnIndex, value);
