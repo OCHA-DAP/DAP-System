@@ -63,16 +63,22 @@ AS SELECT
 	,i.number_value as "indicator_value"
 	,it.code as "indicator_type_code"
 	,s.code as "source_code"
+	,st.default_value as "source_default_value"
 	,e.code as "country_code"
+	,etx.default_value as "country_default_value"
 from 
 	 hdx_indicator i 
 	,indicator_type it
 	,source s 
+	,text st 
 	,entity e 
+	,text etx 
 	,entity_type et
 where 
 	    it.id = i.type_id
 	and s.id = i.source_id
+	and st.id = s.text_id
 	and e.id = i.entity_id
+	and etx.id = e.text_id
 	and et.id = e.entity_type_id
 	and et.code = 'country';

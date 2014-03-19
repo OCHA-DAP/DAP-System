@@ -14,7 +14,7 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
   // /////////////////////////////
 
   $scope.indicatorTypeSelect = function() {
-    $scope.reportFileName = $scope.indicatorType.code;
+    $scope.reportFileName = $scope.indicatorType.code + "_baseline";
     $scope.loadSources();
   }
   
