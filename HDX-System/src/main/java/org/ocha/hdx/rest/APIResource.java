@@ -350,7 +350,7 @@ public class APIResource {
 	// //////////////////////
 
 	/**
-	 * Export a country report.
+	 * Export a country-centric report.
 	 * 
 	 * @param countryCode
 	 *            The code of the country (e.g. BEL)
@@ -368,6 +368,27 @@ public class APIResource {
 	public XSSFWorkbook exportCountry_XLSX(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
 			@PathParam("language") final String language) {
 		return exporterService.exportCountry_XLSX(countryCode, fromYear, toYear, language);
+	}
+
+	/**
+	 * Export an indicator-centric report.
+	 * 
+	 * @param indicatorTypeCode
+	 *            The code of the indicator (e.g. PVF020)
+	 * @param fromYear
+	 *            The year from which the data will be collected (e.g. 1998), inclusive
+	 * @param toYear
+	 *            The year to which the data will be collected (e.g. 2014), inclusive
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A XSSF workbook containing the data as requested
+	 */
+	@GET
+	@Path("/exporter/indicator/xlsx/{indicatorTypeCode}/source/{sourceCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.xlsx")
+	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	public XSSFWorkbook exportIndicator_XLSX(@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("sourceCode") final String sourceCode, @PathParam("fromYear") final Long fromYear, @PathParam("toYear") final Long toYear,
+			@PathParam("language") final String language) {
+		return exporterService.exportIndicator_XLSX(indicatorTypeCode, sourceCode, fromYear, toYear, language);
 	}
 
 }
