@@ -22,6 +22,12 @@ public class SourceDAOImpl implements SourceDAO {
 	}
 
 	@Override
+	public List<Source> listSourcesForIndicatorType(final String indicatorTypeCode) {
+		final TypedQuery<Source> query = em.createQuery("SELECT DISTINCT i.source FROM Indicator i WHERE i.type.code = :indicatorTypeCode", Source.class).setParameter("indicatorTypeCode", indicatorTypeCode);
+		return query.getResultList();
+	}
+
+	@Override
 	@Transactional
 	public void createSource(final String code, final Text name, final String link) {
 		final Source source = new Source();
