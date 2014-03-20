@@ -90,8 +90,8 @@ public class ExporterCountryReadme_XLSX extends Exporter_XLSX<ExporterCountryQue
 		createCell(row16, 0, "HDX methodology");
 		createCell(row16, 1, "A description of any data processing performed by HDX in compiling the data.  If there is no information in this field, you can assume that the data has been pulled from the source using some form of script, has been validated against acceptable minimum and maxiumum values, and that the units have not changed from the source.  Additional processing will be described here. ");
 		 
-		// Auto size first column
-		sheet.autoSizeColumn(0);
+		// Fix-width first column
+		sheet.setColumnWidth(0, 8000);
 
 		
 		return super.export(workbook, queryData);
