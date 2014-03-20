@@ -13,6 +13,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.ocha.hdx.config.ConfigurationConstants;
+import org.ocha.hdx.config.ConfigurationConstants.MultiplicationValues;
 import org.ocha.hdx.persistence.entity.configs.AbstractConfigEntry;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
@@ -56,6 +57,8 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	private int day;
 	private int month;
 
+	private double multiplyBy;
+
 	private final String valueType;
 
 	private TYPE_OF_DATE typeOfDate;
@@ -76,6 +79,8 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		if (this.typeOfDate != null) {
 			this.discoverExpectedStartTime(indConfig);
 		}
+
+		this.discoverMultiplication(indConfig);
 
 	}
 
@@ -152,6 +157,17 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 				this.dateTimeFormat = DateTimeFormat.forPattern(expectedTimeFormatEntry.getEntryValue());
 				this.periodicity = Periodicity.NONE;
 				this.typeOfDate = TYPE_OF_DATE.FULL_DATE;
+			}
+		}
+	}
+
+	private void discoverMultiplication(final Map<String, AbstractConfigEntry> indConfig) {
+		this.multiplyBy	= 1;
+		final AbstractConfigEntry multiplicationEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.MULTIPLICATION.getLabel());
+		if ( multiplicationEntry != null ) {
+			final MultiplicationValues value 	= MultiplicationValues.findByLabel(multiplicationEntry.getEntryValue());
+			if ( value != null ) {
+				this.multiplyBy	= value.getFactor();
 			}
 		}
 	}
@@ -238,8 +254,8 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 			final Double valueAsDouble = Double.parseDouble(value);
 			// FIXME we should deal about units later, here for
 			// population we must X1000
-			if ("PSP010".equals(line[2])) {
-				return new IndicatorValue(valueAsDouble * 1000);
+			if (this.multiplyBy > 1) {
+				return new IndicatorValue(valueAsDouble * this.multiplyBy);
 			} else {
 				return new IndicatorValue(valueAsDouble);
 			}
