@@ -4,11 +4,14 @@
 package org.ocha.hdx.persistence.entity.configs;
 
 import javax.persistence.Column;
+import javax.persistence.Lob;
 import javax.persistence.MappedSuperclass;
+
+import org.hibernate.annotations.Type;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 @MappedSuperclass
 public abstract class AbstractConfigEntry {
@@ -16,10 +19,13 @@ public abstract class AbstractConfigEntry {
 	@Column(name = "entry_key", unique = false, nullable = false, updatable = false)
 	private String entryKey;
 
-	@Column(name = "entry_value", unique = false, nullable = false, updatable = true)
+	@Lob
+	@Type(type = "org.hibernate.type.StringClobType")
+	@Column(name = "entry_value", unique = false, nullable = false, updatable = true, length = 10000)
 	private String entryValue;
 
-	public AbstractConfigEntry() {}
+	public AbstractConfigEntry() {
+	}
 
 	public AbstractConfigEntry(final String key, final String value) {
 		super();
@@ -42,7 +48,5 @@ public abstract class AbstractConfigEntry {
 	public void setEntryValue(final String value) {
 		this.entryValue = value;
 	}
-
-
 
 }

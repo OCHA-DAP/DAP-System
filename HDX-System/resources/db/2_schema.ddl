@@ -101,6 +101,10 @@
 
     drop table hdx_user;
 
+    drop table hdx_view_report_indicator_data;
+
+    drop table hdx_view_report_indicator_type_overview;
+
     drop table import_from_ckan;
 
     drop table indicator_resource_config_entry;
@@ -251,6 +255,37 @@
         primary key (id)
     );
 
+    create table hdx_view_report_indicator_data (
+        indicator_id int8 not null,
+        country_code varchar(255),
+        country_default_value varchar(255),
+        indicator_type_code varchar(255),
+        indicator_value float8,
+        indicator_year int8,
+        source_code varchar(255),
+        source_default_value varchar(255),
+        primary key (indicator_id)
+    );
+
+    create table hdx_view_report_indicator_type_overview (
+        indicator_type_code varchar(255) not null,
+        source_code varchar(255) not null,
+        data_summary_default_value varchar(255),
+        data_summary_id int8,
+        indicator_type_default_value varchar(255),
+        indicator_type_id int8,
+        methodology_default_value varchar(255),
+        methodology_id int8,
+        more_info_default_value varchar(255),
+        more_info_id int8,
+        source_default_value varchar(255),
+        terms_of_use_default_value varchar(255),
+        terms_of_use_id int8,
+        unit_code varchar(255),
+        unit_default_value varchar(255),
+        primary key (indicator_type_code, source_code)
+    );
+
     create table import_from_ckan (
         id int8 not null,
         resource_id varchar(255) not null,
@@ -262,7 +297,7 @@
     create table indicator_resource_config_entry (
         id int8 not null,
         entry_key varchar(255) not null,
-        entry_value varchar(255) not null,
+        entry_value text not null,
         indicator_type_id int8 not null,
         resource_configuration_id int8 not null,
         source_id int8 not null,
@@ -309,7 +344,7 @@
     create table resource_config_entry (
         id int8 not null,
         entry_key varchar(255) not null,
-        entry_value varchar(255) not null,
+        entry_value text not null,
         resource_configuration_id int8 not null,
         primary key (id)
     );

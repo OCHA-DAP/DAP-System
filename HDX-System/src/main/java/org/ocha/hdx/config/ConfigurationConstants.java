@@ -12,7 +12,7 @@ public class ConfigurationConstants {
 	public static final String SEPARATOR = "&&";
 
 	public enum GeneralConfiguration {
-		MIN_NUM_OF_COLUMNS("Minimum number of columns"), PREVALIDATORS("Pre-validators"), ALLOWED_INDICATOR_TYPES("Allowed indicator type codes", true);
+		MIN_NUM_OF_COLUMNS("Minimum number of columns"), PREVALIDATORS("Pre-validators", true), ALLOWED_INDICATOR_TYPES("Allowed indicator type codes", true);
 
 		private final String label;
 		private final Boolean multipleValuesFlag;
@@ -37,17 +37,27 @@ public class ConfigurationConstants {
 	}
 
 	public enum IndicatorConfiguration {
-		MAX_VALUE("Max Value"), MIN_VALUE("Min Value"), VALIDATORS("Validators"), EXPECTED_TIME_FORMAT("Expected time format"), EXPECTED_START_TIME_FORMAT("Expected start time format"), INDICATOR_VALUE_TYPE(
+		MAX_VALUE("Max Value"), MIN_VALUE("Min Value"), VALIDATORS("Validators", true), EXPECTED_TIME_FORMAT("Expected time format"), EXPECTED_START_TIME_FORMAT("Expected start time format"), INDICATOR_VALUE_TYPE(
 				"Indicator Value Type");
 
 		private final String label;
+		private final Boolean multipleValuesFlag;
+
+		public Boolean getMultipleValuesFlag() {
+			return this.multipleValuesFlag;
+		}
 
 		public String getLabel() {
 			return this.label;
 		}
 
 		private IndicatorConfiguration(final String lbl) {
+			this(lbl, false);
+		}
+
+		private IndicatorConfiguration(final String lbl, final Boolean flag) {
 			this.label = lbl;
+			this.multipleValuesFlag = flag;
 		}
 
 	}
