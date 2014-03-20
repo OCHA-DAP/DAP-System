@@ -1275,4 +1275,8 @@
   <indicator_resource_config_entry id="201" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="94" resource_configuration_id="1" source_id="18"/>
   <indicator_resource_config_entry id="202" entry_key="Expected time format" entry_value="YYYY" indicator_type_id="95" resource_configuration_id="1" source_id="4"/>
   <indicator_resource_config_entry id="203" entry_key="Expected start time format" entry_value="YYYY-01-01" indicator_type_id="95" resource_configuration_id="1" source_id="4"/>
+  <indicator_resource_config_entry id="204" entry_key="Multiplication" entry_value="millions" indicator_type_id="14" resource_configuration_id="1" source_id="2"/>
+  <indicator_resource_config_entry id="205" entry_key="Multiplication" entry_value="thousands" indicator_type_id="40" resource_configuration_id="1" source_id="3"/>
+  <indicator_resource_config_entry id="206" entry_key="Multiplication" entry_value="thousands" indicator_type_id="59" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="207" entry_key="Multiplication" entry_value="thousands" indicator_type_id="75" resource_configuration_id="1" source_id="7"/>
 </dataset>

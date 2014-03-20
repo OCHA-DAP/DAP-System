@@ -446,6 +446,14 @@ INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicat
 
 
 
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'), currval('resource_configuration_seq'), type.id,src.id, 'Multiplication','millions' FROM indicator_type type,source src WHERE lower(type.code)=lower('_Population undernourished, millions') AND lower(src.code)=lower('mdgs');
+
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'), currval('resource_configuration_seq'), type.id,src.id, 'Multiplication','thousands' FROM indicator_type type,source src WHERE lower(type.code)=lower('CH100') AND lower(src.code)=lower('emdat');
+
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'), currval('resource_configuration_seq'), type.id,src.id, 'Multiplication','thousands' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSP010') AND lower(src.code)=lower('esa-unpd-wpp2012');
+
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'), currval('resource_configuration_seq'), type.id,src.id, 'Multiplication','thousands' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVH050') AND lower(src.code)=lower('esa-unpd-wpp2012');
+
 /*
 ALTER SEQUENCE indicator_resource_config_entry_seq RESTART WITH 428;
 */
