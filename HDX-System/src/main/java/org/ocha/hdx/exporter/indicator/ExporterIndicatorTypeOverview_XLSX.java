@@ -37,7 +37,7 @@ public class ExporterIndicatorTypeOverview_XLSX extends Exporter_XLSX<ExporterIn
 		final XSSFSheet sheet = workbook.createSheet(safeName);
 
 		// Assign the headers to the title row
-		final String[] headers = { "Indicator ID", "Indicator name", "Source code", "Units", "Data summary", "More info", "Terms of use", "HDX methodology" };
+		final String[] headers = { "Indicator ID", "Indicator name", "Source dataset", "Units", "Data summary", "More info", "Terms of use", "HDX methodology" };
 		createRowHeaderCells(sheet, headers);
 
 		// Get the rows (should have been created at header creation time)
