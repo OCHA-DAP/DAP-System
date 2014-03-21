@@ -15,9 +15,11 @@ import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountrySocioEconomic_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryVulnerability_XLSX;
+import org.ocha.hdx.exporter.helper.ReadmeHelper;
 import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorData_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeOverview_XLSX;
 import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAO;
 import org.ocha.hdx.persistence.dao.view.IndicatorDataDAO;
@@ -43,6 +45,8 @@ public class ExporterServiceImpl implements ExporterService {
 	@Autowired
 	private IndicatorDataDAO indicatorDataDAO;
 
+	@Autowired
+	private ReadmeHelper readmeHelper;
 
 	/* ******************************* */
 	/* Delegates to CuratedDataService */
@@ -74,6 +78,7 @@ public class ExporterServiceImpl implements ExporterService {
 		queryData.setFromYear(fromYear);
 		queryData.setToYear(toYear);
 		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
 
 		// Define the exporter
 		// Country report contains :
@@ -111,13 +116,14 @@ public class ExporterServiceImpl implements ExporterService {
 		queryData.setFromYear(fromYear);
 		queryData.setToYear(toYear);
 		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
 
 		// Define the exporter
 		// Indicator report contains :
 		// 1. Indicator overview
 		// 2. Indicator data
 		// 3. Read me
-		final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter = new ExporterIndicatorTypeOverview_XLSX(new ExporterIndicatorData_XLSX((this)));
+		final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_XLSX(new ExporterIndicatorTypeOverview_XLSX(new ExporterIndicatorData_XLSX((this))));
 
 		// Export the data in a new workbook
 		final XSSFWorkbook workbook = new XSSFWorkbook();
