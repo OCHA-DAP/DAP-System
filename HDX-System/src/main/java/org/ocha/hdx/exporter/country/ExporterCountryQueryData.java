@@ -1,6 +1,7 @@
 package org.ocha.hdx.exporter.country;
 
 import org.ocha.hdx.exporter.QueryData;
+import org.ocha.hdx.exporter.helper.ReadmeHelper;
 
 /**
  * Data query for a country.
@@ -13,6 +14,7 @@ public class ExporterCountryQueryData extends QueryData {
 	private Integer fromYear;
 	private Integer toYear;
 	private String language;
+	private ReadmeHelper readmeHelper;
 
 	public String getCountryCode() {
 		return countryCode;
@@ -44,5 +46,13 @@ public class ExporterCountryQueryData extends QueryData {
 
 	public void setLanguage(final String language) {
 		this.language = language;
+	}
+
+	public ReadmeHelper getReadmeHelper() {
+		return readmeHelper;
+	}
+
+	public void setReadmeHelper(final ReadmeHelper readmeHelper) {
+		this.readmeHelper = readmeHelper;
 	}
 }

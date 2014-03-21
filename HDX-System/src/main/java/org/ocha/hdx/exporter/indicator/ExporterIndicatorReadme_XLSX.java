@@ -1,4 +1,4 @@
-package org.ocha.hdx.exporter.country;
+package org.ocha.hdx.exporter.indicator;
 
 import java.util.List;
 
@@ -17,18 +17,18 @@ import org.ocha.hdx.service.ExporterService;
  * @author bmichiels
  * 
  */
-public class ExporterCountryReadme_XLSX extends Exporter_XLSX<ExporterCountryQueryData> {
-	
-	public ExporterCountryReadme_XLSX(final ExporterService exporterService) {
+public class ExporterIndicatorReadme_XLSX extends Exporter_XLSX<ExporterIndicatorQueryData> {
+
+	public ExporterIndicatorReadme_XLSX(final ExporterService exporterService) {
 		super(exporterService);
 	}
 
-	public ExporterCountryReadme_XLSX(final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter) {
+	public ExporterIndicatorReadme_XLSX(final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter) {
 		super(exporter);
 	}
 
 	@Override
-	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) {
+	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterIndicatorQueryData queryData) {
 		/* TODO i18n */
 
 		// Creating the sheet
@@ -42,7 +42,7 @@ public class ExporterCountryReadme_XLSX extends Exporter_XLSX<ExporterCountryQue
 			if(null == row) {
 				row = sheet.createRow(readmeSentence.getRow());
 			}
-			if(6 == i) {
+			if(5 == i) {
 				createRowHeaderCell(readmeSentence.getSentence(), row, readmeSentence.getColumn());
 			}
 			else {
@@ -52,6 +52,7 @@ public class ExporterCountryReadme_XLSX extends Exporter_XLSX<ExporterCountryQue
 		 
 		// Fix-width first column
 		sheet.setColumnWidth(0, 8000);
+
 		
 		return super.export(workbook, queryData);
 	}
