@@ -112,7 +112,7 @@ app.controller('ResourceConfigurationsCtrl', function($scope, $filter, $http, $r
   
   $scope.editConfiguration = function(id) {
 	  	//alert (id);
-	    return window.location.href = '/admin/misc/configurations/id/'+id+"/edit/";
+	    return window.location.href = hdxContextRoot + '/admin/misc/configurations/id/'+id+"/edit/";
 	  }
   
 });

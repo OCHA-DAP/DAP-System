@@ -35,7 +35,7 @@
 					</td>
 					<td style="white-space: nowrap; width:auto">
 						<!-- form -->
-						<form  editable-form name="ercform" onbeforesave="updateResourceConfiguration($data, editResourceConfiguration.id)" ng-show="ercform.$visible" class="form-buttons form-inline" shown="inserted == editResourceConfiguration">
+						<form  editable-form name="ercform" onbeforesave="updateResourceConfiguration($data, editResourceConfiguration.id)" ng-show="ercform.$visible" class="form-buttons form-inline" shown="inserted == editResourceConfiguration && ercFormVisibility">
 							<button type="submit" ng-disabled="ercform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 							<button type="button" ng-disabled="ercform.$waiting" ng-click="ercform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 						</form>
@@ -172,6 +172,5 @@
 				</tr>
 			</table>
 		</div>
-	
 </body>
 </html>
