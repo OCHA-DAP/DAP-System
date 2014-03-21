@@ -1,6 +1,7 @@
 package org.ocha.hdx.exporter.indicator;
 
 import org.ocha.hdx.exporter.QueryData;
+import org.ocha.hdx.exporter.helper.ReadmeHelper;
 
 /**
  * Data query for an indicator.
@@ -14,6 +15,7 @@ public class ExporterIndicatorQueryData extends QueryData {
 	private Long fromYear;
 	private Long toYear;
 	private String language;
+	private ReadmeHelper readmeHelper;
 
 	public Long getFromYear() {
 		return fromYear;
@@ -53,5 +55,13 @@ public class ExporterIndicatorQueryData extends QueryData {
 
 	public void setSourceCode(final String sourceCode) {
 		this.sourceCode = sourceCode;
+	}
+
+	public ReadmeHelper getReadmeHelper() {
+		return readmeHelper;
+	}
+
+	public void setReadmeHelper(ReadmeHelper readmeHelper) {
+		this.readmeHelper = readmeHelper;
 	}
 }
