@@ -9,17 +9,17 @@ app.controller('ResourceConfigurationsCtrl', function($scope, $filter, $http, $r
 
   // Load configurations
   // ==============
-  $scope.loadConfigurations = function() {
+  $scope.loadRCList = function() {
     return utilities.loadResource($scope, 'resourceConfigurations', '/admin/misc/configurations/json');
   }
-  $scope.loadConfigurations();
+  $scope.loadRCList();
 
   // Create a configuration
   // =================
-  $scope.createResourceConfiguration = function(data) {
+  $scope.createRC = function(data) {
     var name = data ? data.name : "";
     return utilities.createResource({
-      validate : $scope.checkCreateForm,
+      validate : $scope.checkCreateRCForm,
       data : data,
       params : {
         //"code" : code,
@@ -29,7 +29,7 @@ app.controller('ResourceConfigurationsCtrl', function($scope, $filter, $http, $r
       successCallback : function() {
         $scope.resetNewConfiguration();
         $scope.resetCreateResourceForm();
-        $scope.loadConfigurations();
+        $scope.loadRCList();
       },
       errorCallback : function() {
         alert("Configuration creation threw an error. Maybe this configuration already exists. No configuration has been created.");
@@ -37,8 +37,27 @@ app.controller('ResourceConfigurationsCtrl', function($scope, $filter, $http, $r
     });
   }
 
+  $scope.editRC = function(id) {
+	    return window.location.href = hdxContextRoot + '/admin/misc/configurations/id/'+id+"/edit/";
+  }
+  
+  // Delete a configuration
+  // =================
+  $scope.deleteRC = function(id) {
+    return utilities.deleteResource({
+      params : {
+        "id" : id
+      },
+      url : '/admin/misc/configurations/submitDelete',
+      successCallback : $scope.loadRCList,
+      errorCallback : function() {
+        alert("Configuration deletion threw an error. Maybe this configuration is used in some translation. No configuration has been deleted.");
+      }
+    });
+  };
+  
   // Check that the new configuration is complete
-  $scope.checkCreateForm = function(data) {
+  $scope.checkCreateRCForm = function(data) {
     if (!data) {
       utilities.setFocus('newResource_name');
       return "At least some info should be provided.";
@@ -65,27 +84,6 @@ app.controller('ResourceConfigurationsCtrl', function($scope, $filter, $http, $r
     $scope.createResourceForm.$setPristine();
   };
 
-  // Update a configuration
-  // =================
-  $scope.updateResourceConfiguration = function(data, id) {
-    return utilities.updateResource({
-      validate : $scope.checkUpdateForm,
-      data : data,
-      params : {
-        "id" : id,
-        "name" : data.name
-      },
-      url : '/admin/misc/configurations/submitUpdate',
-      successCallback : function() {
-        $scope.loadConfigurations();
-      },
-      errorCallback : function() {
-        alert("Configuration update threw an error. No configuration has been updated.");
-        $scope.loadConfigurations();
-      }
-    });
-  };
-
   // Check that the updated configuration is valid
   $scope.checkUpdateForm = function(data) {
     var name = data.name;
@@ -95,24 +93,4 @@ app.controller('ResourceConfigurationsCtrl', function($scope, $filter, $http, $r
     return "OK";
   };
 
-  // Delete a configuration
-  // =================
-  $scope.deleteResourceConfiguration = function(id) {
-    return utilities.deleteResource({
-      params : {
-        "id" : id
-      },
-      url : '/admin/misc/configurations/submitDelete',
-      successCallback : $scope.loadConfigurations,
-      errorCallback : function() {
-        alert("Configuration deletion threw an error. Maybe this configuration is used in some translation. No configuration has been deleted.");
-      }
-    });
-  };
-  
-  $scope.editConfiguration = function(id) {
-	  	//alert (id);
-	    return window.location.href = hdxContextRoot + '/admin/misc/configurations/id/'+id+"/edit/";
-	  }
-  
 });

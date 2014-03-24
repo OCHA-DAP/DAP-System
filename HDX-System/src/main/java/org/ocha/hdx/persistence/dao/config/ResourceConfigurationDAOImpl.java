@@ -55,7 +55,7 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 	 */
 	@Override
 	public ResourceConfiguration getResourceConfigurationById(final long id) {
-		return em.find(ResourceConfiguration.class, id);
+		return this.em.find(ResourceConfiguration.class, id);
 	}
 
 	@Override
@@ -77,14 +77,15 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 	@Transactional
 	public void deleteResourceConfiguration(final long id) {
 		final ResourceConfiguration resourceConfiguration = getResourceConfigurationById(id);
-		em.remove(resourceConfiguration);
+		this.em.remove(resourceConfiguration);
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#createResourceConfiguration(java.lang.String, java.util.List, java.util.List)
+	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#createResourceConfiguration(java.lang.String, java.util.List,
+	 * java.util.List)
 	 */
 	@Override
 	@Transactional
@@ -103,7 +104,7 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 			}
 		}
 
-		em.persist(resourceConfiguration);
+		this.em.persist(resourceConfiguration);
 
 		return resourceConfiguration;
 	}
@@ -111,7 +112,8 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#updateResourceConfiguration(java.lang.String, java.util.List, java.util.List)
+	 * @see org.ocha.hdx.persistence.dao.config.ResourceConfigurationDao#updateResourceConfiguration(java.lang.String, java.util.List,
+	 * java.util.List)
 	 */
 	@Override
 	@Transactional
@@ -141,6 +143,7 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 
 	@Override
 	@Transactional
+	// if GC configuration exists it will be replaced.
 	public void addGeneralConfiguration(final long id, final String key, final String value) {
 		final ResourceConfiguration rc = this.getResourceConfigurationById(id);
 		if (rc.getGeneralConfigEntries() == null)
