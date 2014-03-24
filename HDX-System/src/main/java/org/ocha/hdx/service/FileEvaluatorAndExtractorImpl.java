@@ -73,7 +73,10 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		case SCRAPER_VALIDATING:
 
 		case SCRAPER:
-			return new ScraperValidator().evaluateFile(file);
+            final ValidationReport validationReport = new ScraperValidator().evaluateFile(file);
+            //since we're using the same validator for both types, we're setting the correct type afterwards
+            validationReport.setValidator(type);
+            return validationReport;
 
 		default:
 			return this.defaultValidationFail(file);

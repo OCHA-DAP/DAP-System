@@ -32,8 +32,8 @@
 					<td>
 						<form method="POST" action="flagDatasetAsToBeCurated">
 							<input type="hidden" name="datasetName" value="${dataset.name}" /> <select name="type">
-								<option value="SCRAPER">SCRAPER</option>
-								<option value="SCRAPER_VALIDATING">SCRAPER_VALIDATING</option>
+							    <option value="SCRAPER">SCRAPER</option>
+								<option value="SCRAPER_VALIDATING" selected="selected">SCRAPER_VALIDATING</option>
 								<option value="DUMMY">DUMMY</option>
 							</select> <input type="submit" value="flag for curation" />
 						</form>

@@ -19,7 +19,7 @@ public class ValidationReport implements Serializable {
 		return !status.equals(ValidationStatus.ERROR);
 	}
 
-	private final CKANDataset.Type validator;
+	private CKANDataset.Type validator;
 
 	private final List<ValidationReportEntry> entries;
 
@@ -53,7 +53,11 @@ public class ValidationReport implements Serializable {
 		return validator;
 	}
 
-	public List<ValidationReportEntry> getEntries() {
+    public void setValidator(CKANDataset.Type validator) {
+        this.validator = validator;
+    }
+
+    public List<ValidationReportEntry> getEntries() {
 		return entries;
 	}
 
