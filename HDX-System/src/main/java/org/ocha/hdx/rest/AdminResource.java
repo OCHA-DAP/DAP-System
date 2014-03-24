@@ -92,7 +92,7 @@ public class AdminResource {
 	@Path("/misc/users/json")
 	public String getUsers() throws TypeMismatchException {
 
-		final List<User> listUsers = hdxService.listUsers();
+		final List<User> listUsers = this.hdxService.listUsers();
 		final JsonArray jsonArray = new JsonArray();
 
 		for (final User user : listUsers) {
@@ -112,7 +112,7 @@ public class AdminResource {
 
 		String result = "";
 
-		final List<String> roles = hdxService.listRoles();
+		final List<String> roles = this.hdxService.listRoles();
 		final JsonArray jsonArray = new JsonArray();
 
 		for (final String role : roles) {
@@ -134,7 +134,7 @@ public class AdminResource {
 			@FormParam("newRole") final String newRole) throws Exception {
 		// TODO Perform validation
 
-		hdxService.createUser(userId, newPassword, newRole, newCkanApiKey);
+		this.hdxService.createUser(userId, newPassword, newRole, newCkanApiKey);
 		return Response.ok().build();
 	}
 
@@ -142,14 +142,14 @@ public class AdminResource {
 	@Path("/misc/users/submitUpdate")
 	public Response updateUser(@FormParam("userId") final String userId, @FormParam("newPassword") final String newPassword, @FormParam("newCkanApiKey") final String newCkanApiKey,
 			@FormParam("newRole") final String newRole) throws Exception {
-		hdxService.updateUser(userId, newPassword, newRole, newCkanApiKey);
+		this.hdxService.updateUser(userId, newPassword, newRole, newCkanApiKey);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/misc/users/submitDelete")
 	public Response deleteUser(@FormParam("userId") final String userId) throws Exception {
-		hdxService.deleteUser(userId);
+		this.hdxService.deleteUser(userId);
 		return Response.ok().build();
 	}
 
@@ -170,7 +170,7 @@ public class AdminResource {
 
 		String result = "";
 
-		final List<Language> listLanguages = hdxService.listLanguages();
+		final List<Language> listLanguages = this.hdxService.listLanguages();
 		final JsonArray jsonArray = new JsonArray();
 
 		for (final Language language : listLanguages) {
@@ -190,21 +190,21 @@ public class AdminResource {
 	@Path("/misc/languages/submitCreate")
 	public Response createLanguage(@FormParam("code") final String languageCode, @FormParam("newNativeName") final String newNativeName) throws Exception {
 		// TODO Perform validation
-		hdxService.createLanguage(languageCode, newNativeName);
+		this.hdxService.createLanguage(languageCode, newNativeName);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/misc/languages/submitUpdate")
 	public Response updateLanguage(@FormParam("code") final String code, @FormParam("newNativeName") final String newNativeName) throws Exception {
-		hdxService.updateLanguage(code, newNativeName);
+		this.hdxService.updateLanguage(code, newNativeName);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/misc/languages/submitDelete")
 	public Response deleteLanguage(@FormParam("code") final String code) throws Exception {
-		hdxService.deleteLanguage(code);
+		this.hdxService.deleteLanguage(code);
 		return Response.ok().build();
 	}
 
@@ -225,7 +225,7 @@ public class AdminResource {
 
 		String result = "";
 
-		final List<ResourceConfiguration> listConfigurations = hdxService.listConfigurations();
+		final List<ResourceConfiguration> listConfigurations = this.hdxService.listConfigurations();
 		final JsonArray jsonArray = new JsonArray();
 
 		for (final ResourceConfiguration rc : listConfigurations) {
@@ -246,14 +246,14 @@ public class AdminResource {
 	@Path("/misc/configurations/submitCreate")
 	public Response createResourceConfiguration(@FormParam("name") final String rcName) throws Exception {
 		// TODO Perform validation
-		hdxService.createResourceConfiguration(rcName);
+		this.hdxService.createResourceConfiguration(rcName);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/misc/configurations/submitUpdate")
 	public Response updateResourceConfiguration(@FormParam("id") final String rcId, @FormParam("name") final String rcName) throws Exception {
-		hdxService.updateResourceConfiguration(Long.valueOf(rcId), rcName);
+		this.hdxService.updateResourceConfiguration(Long.valueOf(rcId), rcName);
 		return Response.ok().build();
 	}
 
@@ -261,7 +261,7 @@ public class AdminResource {
 	@Path("/misc/configurations/submitDelete")
 	public Response deleteResourceConfiguration(@FormParam("id") final String rcId) throws Exception {
 		final long id = Long.valueOf(rcId).longValue();
-		hdxService.deleteResourceConfiguration(id);
+		this.hdxService.deleteResourceConfiguration(id);
 		return Response.ok().build();
 	}
 
@@ -269,15 +269,23 @@ public class AdminResource {
 	@Path("/misc/configurations/id/{id}/edit")
 	public Response editResourceConfiguration(@PathParam("id") final String id) throws IllegalArgumentException, Exception {
 		final long lId = Long.valueOf(id).longValue();
-		return Response.ok(new Viewable("/admin/editResourceConfiguration", hdxService.getResourceConfiguration(lId))).build();
+		return Response.ok(new Viewable("/admin/editResourceConfiguration", this.hdxService.getResourceConfiguration(lId))).build();
 	}
 
 	@POST
 	@Path("/misc/configurations/addGeneralConfiguration")
-	public Response addGeneralConfiguration(@FormParam("rcID") final String rcID, @FormParam("key") final String key, @FormParam("value") final String value) throws Exception {
+	public Response addGeneralConfiguration(@FormParam("rcID") final String rcID, @FormParam("gcID") final String gcID, @FormParam("key") final String key, @FormParam("value") final String value)
+			throws Exception {
 		// TODO Perform validation
 		final long id = Long.valueOf(rcID).longValue();
-		hdxService.addGeneralConfiguration(id, key, value);
+		Long gID = null;
+		if (gcID != null && "null".compareTo(gcID) != 0)
+			gID = Long.valueOf(gcID);
+		if (gID != null) {
+			this.hdxService.updateGeneralConfiguration(gID.longValue(), key, value);
+		} else {
+			this.hdxService.addGeneralConfiguration(id, key, value);
+		}
 		return Response.ok().build();
 	}
 
@@ -287,7 +295,7 @@ public class AdminResource {
 		// TODO Perform validation
 		final long resConfID = Long.valueOf(rcID).longValue();
 		final long genConfID = Long.valueOf(id).longValue();
-		hdxService.deleteGeneralConfiguration(resConfID, genConfID);
+		this.hdxService.deleteGeneralConfiguration(resConfID, genConfID);
 		return Response.ok().build();
 	}
 
@@ -296,19 +304,27 @@ public class AdminResource {
 	public Response deleteGeneralConfiguration(@FormParam("id") final String id, @FormParam("key") final String key, @FormParam("value") final String value) throws Exception {
 		// TODO Perform validation
 		final long genConfID = Long.valueOf(id).longValue();
-		hdxService.updateGeneralConfiguration(genConfID, key, value);
+		this.hdxService.updateGeneralConfiguration(genConfID, key, value);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/misc/configurations/addIndicatorConfiguration")
-	public Response addIndicatorConfiguration(@FormParam("rcID") final String rcId, @FormParam("indTypeId") final String indTypeId, @FormParam("sourceId") final String sourceId,
-			@FormParam("key") final String key, @FormParam("value") final String value) throws Exception {
+	public Response addIndicatorConfiguration(@FormParam("rcID") final String rcId, @FormParam("icID") final String icId, @FormParam("indTypeId") final String indTypeId,
+			@FormParam("sourceId") final String sourceId, @FormParam("key") final String key, @FormParam("value") final String value) throws Exception {
 		// TODO Perform validation
 		final long rcID = Long.valueOf(rcId).longValue();
 		final long itID = Long.valueOf(indTypeId).longValue();
 		final long srcID = Long.valueOf(sourceId).longValue();
-		hdxService.addIndicatorConfiguration(rcID, itID, srcID, key, value);
+
+		Long indID = null;
+		if (icId != null && "null".compareTo(icId) != 0)
+			indID = Long.valueOf(icId);
+		if (indID != null) {
+			this.hdxService.updateIndicatorConfiguration(indID.longValue(), itID, srcID, key, value);
+		} else {
+			this.hdxService.addIndicatorConfiguration(rcID, itID, srcID, key, value);
+		}
 		return Response.ok().build();
 	}
 
@@ -318,7 +334,7 @@ public class AdminResource {
 		// TODO Perform validation
 		final long resConfID = Long.valueOf(rcID).longValue();
 		final long genConfID = Long.valueOf(id).longValue();
-		hdxService.deleteIndicatorConfiguration(resConfID, genConfID);
+		this.hdxService.deleteIndicatorConfiguration(resConfID, genConfID);
 		return Response.ok().build();
 	}
 
@@ -330,7 +346,7 @@ public class AdminResource {
 		final long icID = Long.valueOf(id).longValue();
 		final long itID = Long.valueOf(indTypeId).longValue();
 		final long srcID = Long.valueOf(sourceId).longValue();
-		hdxService.updateIndicatorConfiguration(icID, itID, srcID, key, value);
+		this.hdxService.updateIndicatorConfiguration(icID, itID, srcID, key, value);
 		return Response.ok().build();
 	}
 
@@ -341,7 +357,7 @@ public class AdminResource {
 
 		String result = "";
 		final long lId = Long.valueOf(id).longValue();
-		final ResourceConfiguration rc = hdxService.getResourceConfiguration(lId);
+		final ResourceConfiguration rc = this.hdxService.getResourceConfiguration(lId);
 		// final JsonArray jsonArray = new JsonArray();
 		final JsonObject element = new JsonObject();
 		element.addProperty("id", rc.getId());
@@ -377,7 +393,7 @@ public class AdminResource {
 		element.add("availableIndConfs", availableIndConfigList);
 
 		// get available sources in db
-		final List<Source> sourcesList = curatedDataService.listSources();
+		final List<Source> sourcesList = this.curatedDataService.listSources();
 		final JsonArray sources = new JsonArray();
 		for (final Source src : sourcesList) {
 			final JsonObject gcItem = new JsonObject();
@@ -388,7 +404,7 @@ public class AdminResource {
 		element.add("sources", sources);
 
 		// get indicator types from db
-		final List<IndicatorType> listIndicatorTypes = curatedDataService.listIndicatorTypes();
+		final List<IndicatorType> listIndicatorTypes = this.curatedDataService.listIndicatorTypes();
 		final JsonArray indTypes = new JsonArray();
 		for (final IndicatorType src : listIndicatorTypes) {
 			final JsonObject item = new JsonObject();
@@ -426,7 +442,7 @@ public class AdminResource {
 	@Path("/translations/submitCreate")
 	public Response createTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue)
 			throws Exception, Exception {
-		hdxService.createTranslation(Long.valueOf(textId), languageCode, translationValue);
+		this.hdxService.createTranslation(Long.valueOf(textId), languageCode, translationValue);
 		return Response.ok().build();
 	}
 
@@ -434,14 +450,14 @@ public class AdminResource {
 	@Path("/translations/submitUpdate")
 	public Response updateTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode, @FormParam("translationValue") final String translationValue)
 			throws Exception {
-		hdxService.updateTranslation(Long.valueOf(textId), languageCode, translationValue);
+		this.hdxService.updateTranslation(Long.valueOf(textId), languageCode, translationValue);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/translations/submitDelete")
 	public Response deleteTranslation(@FormParam("textId") final String textId, @FormParam("languageCode") final String languageCode) throws Exception {
-		hdxService.deleteTranslation(Long.valueOf(textId), languageCode);
+		this.hdxService.deleteTranslation(Long.valueOf(textId), languageCode);
 		return Response.ok().build();
 	}
 
@@ -455,30 +471,31 @@ public class AdminResource {
 		final Long id = Long.valueOf(identifier);
 		switch (resource) {
 		case "source": {
-			final Source theResource = curatedDataService.getSource(id);
+			final Source theResource = this.curatedDataService.getSource(id);
 			translations = theResource.getName().getTranslations();
 		}
 			break;
 		case "entity": {
-			final Entity theResource = curatedDataService.getEntity(id);
+			final Entity theResource = this.curatedDataService.getEntity(id);
 			translations = theResource.getName().getTranslations();
 		}
 			break;
 		case "entityType": {
-			final EntityType theResource = curatedDataService.getEntityType(id);
+			final EntityType theResource = this.curatedDataService.getEntityType(id);
 			translations = theResource.getName().getTranslations();
 		}
 			break;
 		/*
-		 * case "indicator": { final Indicator theResource = curatedDataService.getIndicator(id); translations = theResource.getName().getTranslations(); } break;
+		 * case "indicator": { final Indicator theResource = curatedDataService.getIndicator(id); translations =
+		 * theResource.getName().getTranslations(); } break;
 		 */
 		case "indicatorType": {
-			final IndicatorType theResource = curatedDataService.getIndicatorType(id);
+			final IndicatorType theResource = this.curatedDataService.getIndicatorType(id);
 			translations = theResource.getName().getTranslations();
 		}
 			break;
 		case "unit": {
-			final Unit unit = curatedDataService.getUnit(id);
+			final Unit unit = this.curatedDataService.getUnit(id);
 			translations = unit.getName().getTranslations();
 		}
 			break;
@@ -496,14 +513,14 @@ public class AdminResource {
 	@GET
 	@Path("/status/datasets/")
 	public Response getCKANDatasetsStatus() {
-		return Response.ok(new Viewable("/admin/datasets", hdxService.listCKANDatasets())).build();
+		return Response.ok(new Viewable("/admin/datasets", this.hdxService.listCKANDatasets())).build();
 	}
 
 	@POST
 	@Path("/status/datasets/flagDatasetAsToBeCurated")
 	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
-		hdxService.flagDatasetAsToBeCurated(datasetName, type);
+		this.hdxService.flagDatasetAsToBeCurated(datasetName, type);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 		return Response.seeOther(newURI).build();
@@ -512,7 +529,7 @@ public class AdminResource {
 	@POST
 	@Path("/status/datasets/flagDatasetAsIgnored")
 	public Response flagDatasetAsIgnored(@FormParam("datasetName") final String datasetName, @Context final UriInfo uriInfo) throws URISyntaxException {
-		hdxService.flagDatasetAsIgnored(datasetName);
+		this.hdxService.flagDatasetAsIgnored(datasetName);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 		return Response.seeOther(newURI).build();
@@ -524,13 +541,13 @@ public class AdminResource {
 	@GET
 	@Path("/status/resources/")
 	public Response getCKANResourcesStatus() {
-		return Response.ok(new Viewable("/admin/resources", hdxService.listCKANResources())).build();
+		return Response.ok(new Viewable("/admin/resources", this.hdxService.listCKANResources())).build();
 	}
 
 	@GET
 	@Path("/status/resources/{id}/{revision_id}/report")
 	public Response getCKANResourceReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
-		return Response.ok(new Viewable("/admin/report", hdxService.getCKANResource(id, revision_id))).build();
+		return Response.ok(new Viewable("/admin/report", this.hdxService.getCKANResource(id, revision_id))).build();
 	}
 
 	/*
@@ -540,7 +557,7 @@ public class AdminResource {
 	@Path("/status/manuallyTriggerDownload/{id}/{revision_id}")
 	public Response manuallyTriggerDownload(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException,
 			IOException {
-		hdxService.downloadFileForCKANResource(id, revision_id);
+		this.hdxService.downloadFileForCKANResource(id, revision_id);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 
@@ -551,7 +568,7 @@ public class AdminResource {
 	@Path("/status/manuallyTriggerEvaluation/{id}/{revision_id}")
 	public Response manuallyTriggerEvaluation(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException,
 			IOException {
-		hdxService.evaluateFileForCKANResource(id, revision_id);
+		this.hdxService.evaluateFileForCKANResource(id, revision_id);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 
@@ -561,7 +578,7 @@ public class AdminResource {
 	@GET
 	@Path("/status/manuallyTriggerImport/{id}/{revision_id}")
 	public Response manuallyTriggerImport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id, @Context final UriInfo uriInfo) throws URISyntaxException, IOException {
-		hdxService.transformAndImportDataFromFileForCKANResource(id, revision_id);
+		this.hdxService.transformAndImportDataFromFileForCKANResource(id, revision_id);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 
@@ -571,7 +588,7 @@ public class AdminResource {
 	@GET
 	@Path("/status/manuallyTriggerDatasetsDetection")
 	public Response manuallyTriggerDatasetsDetection(@Context final UriInfo uriInfo) throws URISyntaxException {
-		hdxService.checkForNewCKANDatasets();
+		this.hdxService.checkForNewCKANDatasets();
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 
@@ -581,7 +598,7 @@ public class AdminResource {
 	@GET
 	@Path("/status/manuallyTriggerResourcesDetection")
 	public Response manuallyTriggerResourcesDetection(@Context final UriInfo uriInfo) throws URISyntaxException {
-		hdxService.checkForNewCKANResources();
+		this.hdxService.checkForNewCKANResources();
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
 
@@ -594,7 +611,7 @@ public class AdminResource {
 	@GET
 	@Path("/curated/entityTypes")
 	public Response displayEntityTypesList() {
-		return Response.ok(new Viewable("/admin/entityTypes", curatedDataService.listEntityTypes())).build();
+		return Response.ok(new Viewable("/admin/entityTypes", this.curatedDataService.listEntityTypes())).build();
 	}
 
 	@GET
@@ -604,7 +621,7 @@ public class AdminResource {
 
 		String result = "";
 
-		final List<EntityType> listEntityTypes = curatedDataService.listEntityTypes();
+		final List<EntityType> listEntityTypes = this.curatedDataService.listEntityTypes();
 		final JsonArray jsonArray = new JsonArray();
 
 		for (final EntityType entityType : listEntityTypes) {
@@ -628,21 +645,21 @@ public class AdminResource {
 	@POST
 	@Path("/curated/entityTypes/submitCreate")
 	public Response createEntityType(@FormParam("code") final String code, @FormParam("name") final String name) {
-		curatedDataService.createEntityType(code, name);
+		this.curatedDataService.createEntityType(code, name);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/curated/entityTypes/submitDelete")
 	public Response deleteEntityType(@FormParam("entityTypeId") final long entityTypeId) {
-		curatedDataService.deleteEntityType(entityTypeId);
+		this.curatedDataService.deleteEntityType(entityTypeId);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/curated/entityTypes/submitUpdate")
 	public Response updateEntityType(@FormParam("entityTypeId") final long entityTypeId, @FormParam("newName") final String newName) {
-		curatedDataService.updateEntityType(entityTypeId, newName);
+		this.curatedDataService.updateEntityType(entityTypeId, newName);
 		return Response.ok().build();
 	}
 
@@ -664,7 +681,7 @@ public class AdminResource {
 			result = "var " + var + " = ";
 		}
 
-		final List<Unit> list = curatedDataService.listUnits();
+		final List<Unit> list = this.curatedDataService.listUnits();
 		final JsonArray jsonArray = new JsonArray();
 		for (final Unit unit : list) {
 			final JsonObject json = new JsonObject();
@@ -684,14 +701,14 @@ public class AdminResource {
 	@POST
 	@Path("/curated/units/submitCreate")
 	public Response createUnit(@FormParam("code") final String code, @FormParam("name") final String name) {
-		curatedDataService.createUnit(code, name);
+		this.curatedDataService.createUnit(code, name);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/curated/units/submitDelete")
 	public Response deleteUnit(@FormParam("id") final long id, @Context final UriInfo uriInfo) {
-		curatedDataService.deleteUnit(id);
+		this.curatedDataService.deleteUnit(id);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/units/").build();
 		return Response.seeOther(newURI).build();
@@ -700,7 +717,7 @@ public class AdminResource {
 	@POST
 	@Path("/curated/units/submitUpdate")
 	public Response updateUnit(@FormParam("id") final long id, @FormParam("newName") final String newName, @Context final UriInfo uriInfo) {
-		curatedDataService.updateUnit(id, newName);
+		this.curatedDataService.updateUnit(id, newName);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/units/").build();
 		return Response.seeOther(newURI).build();
@@ -718,8 +735,8 @@ public class AdminResource {
 	@Path("/curated/entities/")
 	public Response displayEntitiesList(/* @QueryParam("howMuch") final String howMuch */) {
 		/*
-		 * String _howMuch = null; if((null == howMuch) || "".equals(howMuch)) { _howMuch = "10"; } else { _howMuch = howMuch; } return Response.ok(new Viewable("/admin/entities?howMuch=" +
-		 * _howMuch)).build();
+		 * String _howMuch = null; if((null == howMuch) || "".equals(howMuch)) { _howMuch = "10"; } else { _howMuch = howMuch; } return
+		 * Response.ok(new Viewable("/admin/entities?howMuch=" + _howMuch)).build();
 		 */
 		return Response.ok(new Viewable("/admin/entities")).build();
 	}
@@ -731,7 +748,7 @@ public class AdminResource {
 
 		String result = "";
 
-		final List<Entity> listEntities = curatedDataService.listEntities();
+		final List<Entity> listEntities = this.curatedDataService.listEntities();
 		final JsonArray jsonArray = new JsonArray();
 		for (final Entity entity : listEntities) {
 			final JsonObject jsonEntity = new JsonObject();
@@ -757,12 +774,12 @@ public class AdminResource {
 	@Path("curated/entities/paginated/json")
 	// From is zero-based
 	public String getPaginatedEntities(@QueryParam("fromIndex") final int fromIndex, @QueryParam("howMuch") final int howMuch) throws TypeMismatchException {
-		final List<Entity> allEntities = curatedDataService.listEntities();
+		final List<Entity> allEntities = this.curatedDataService.listEntities();
 
 		final int _totalNumber = allEntities.size();
 		int _howMuch = howMuch;
 		int _fromIndex = fromIndex;
-		if(0 == howMuch) {
+		if (0 == howMuch) {
 			_howMuch = allEntities.size();
 			_fromIndex = 0;
 		}
@@ -847,14 +864,14 @@ public class AdminResource {
 	@POST
 	@Path("/curated/entities/submitCreate")
 	public Response createEntity(@FormParam("entityTypeCode") final String entityTypeCode, @FormParam("code") final String code, @FormParam("name") final String name) {
-		curatedDataService.createEntity(code, name, entityTypeCode);
+		this.curatedDataService.createEntity(code, name, entityTypeCode);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/curated/entities/submitDelete")
 	public Response deleteEntity(@FormParam("entityId") final long entityId, @Context final UriInfo uriInfo) {
-		curatedDataService.deleteEntity(entityId);
+		this.curatedDataService.deleteEntity(entityId);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/entities/").build();
 		return Response.seeOther(newURI).build();
@@ -863,7 +880,7 @@ public class AdminResource {
 	@POST
 	@Path("/curated/entities/submitUpdate")
 	public Response updateEntity(@FormParam("entityId") final long entityId, @FormParam("newName") final String newName, @Context final UriInfo uriInfo) {
-		curatedDataService.updateEntity(entityId, newName);
+		this.curatedDataService.updateEntity(entityId, newName);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/entities/").build();
 		return Response.seeOther(newURI).build();
@@ -875,7 +892,7 @@ public class AdminResource {
 	@GET
 	@Path("/curated/indicatorTypes")
 	public Response displayIndicatorTypesList() {
-		return Response.ok(new Viewable("/admin/indicatorTypes", curatedDataService.listIndicatorTypes())).build();
+		return Response.ok(new Viewable("/admin/indicatorTypes", this.curatedDataService.listIndicatorTypes())).build();
 	}
 
 	@GET
@@ -885,7 +902,7 @@ public class AdminResource {
 
 		String result = "";
 
-		final List<IndicatorType> listIndicatorTypes = curatedDataService.listIndicatorTypes();
+		final List<IndicatorType> listIndicatorTypes = this.curatedDataService.listIndicatorTypes();
 		final JsonArray jsonArray = new JsonArray();
 		for (final IndicatorType indicatorType : listIndicatorTypes) {
 			final JsonObject jsonIndicatorType = indicatorTypeToJson(indicatorType);
@@ -920,7 +937,7 @@ public class AdminResource {
 		String result = "";
 
 		final JsonArray jsonArray = new JsonArray();
-		for (final Unit unit : curatedDataService.listUnits()) {
+		for (final Unit unit : this.curatedDataService.listUnits()) {
 			final JsonObject jsonValueType = new JsonObject();
 			jsonValueType.addProperty("id", unit.getId());
 			jsonValueType.addProperty("name", unit.getName().getDefaultValue());
@@ -956,14 +973,14 @@ public class AdminResource {
 	@POST
 	@Path("/curated/indicatorTypes/submitCreate")
 	public Response createIndicatorType(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("unit") final String unit, @FormParam("valueType") final String valueType) {
-		curatedDataService.createIndicatorType(code, name, Long.valueOf(unit), valueType);
+		this.curatedDataService.createIndicatorType(code, name, Long.valueOf(unit), valueType);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/curated/indicatorTypes/submitDelete")
 	public Response deleteIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId) {
-		curatedDataService.deleteIndicatorType(indicatorTypeId);
+		this.curatedDataService.deleteIndicatorType(indicatorTypeId);
 		return Response.ok().build();
 	}
 
@@ -971,7 +988,7 @@ public class AdminResource {
 	@Path("/curated/indicatorTypes/submitUpdate")
 	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newName") final String newName, @FormParam("newUnit") final long newUnit,
 			@FormParam("newValueType") final String newValueType) {
-		curatedDataService.updateIndicatorType(indicatorTypeId, newName, newUnit, newValueType);
+		this.curatedDataService.updateIndicatorType(indicatorTypeId, newName, newUnit, newValueType);
 		return Response.ok().build();
 	}
 
@@ -981,7 +998,7 @@ public class AdminResource {
 	@GET
 	@Path("/curated/sources")
 	public Response displaySourcesList() {
-		return Response.ok(new Viewable("/admin/sources", curatedDataService.listSources())).build();
+		return Response.ok(new Viewable("/admin/sources", this.curatedDataService.listSources())).build();
 	}
 
 	@GET
@@ -991,7 +1008,7 @@ public class AdminResource {
 
 		String result = "";
 
-		final List<Source> listSources = curatedDataService.listSources();
+		final List<Source> listSources = this.curatedDataService.listSources();
 		final JsonArray jsonArray = new JsonArray();
 		for (final Source source : listSources) {
 			final JsonObject jsonSource = sourceToJson(source);
@@ -1011,7 +1028,7 @@ public class AdminResource {
 
 		String result = "";
 
-		final List<Source> listSources = curatedDataService.listSourcesForIndicatorType(indicatorTypeCode);
+		final List<Source> listSources = this.curatedDataService.listSourcesForIndicatorType(indicatorTypeCode);
 		final JsonArray jsonArray = new JsonArray();
 		for (final Source source : listSources) {
 			final JsonObject jsonSource = sourceToJson(source);
@@ -1040,21 +1057,21 @@ public class AdminResource {
 	@POST
 	@Path("/curated/sources/submitCreate")
 	public Response createSource(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("link") final String link) {
-		curatedDataService.createSource(code, name, link);
+		this.curatedDataService.createSource(code, name, link);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/curated/sources/submitDelete")
 	public Response deleteSource(@FormParam("sourceId") final long sourceId) {
-		curatedDataService.deleteSource(sourceId);
+		this.curatedDataService.deleteSource(sourceId);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/curated/sources/submitUpdate")
 	public Response updateSource(@FormParam("sourceId") final long sourceId, @FormParam("newName") final String newName, @FormParam("newLink") final String newLink) {
-		curatedDataService.updateSource(sourceId, newName, newLink);
+		this.curatedDataService.updateSource(sourceId, newName, newLink);
 		return Response.ok().build();
 	}
 
@@ -1064,13 +1081,13 @@ public class AdminResource {
 	@GET
 	@Path("/curated/importsfromckan")
 	public Response displayImportFromCKANList() {
-		return Response.ok(new Viewable("/admin/importsFromCKAN", curatedDataService.listImportsFromCKAN())).build();
+		return Response.ok(new Viewable("/admin/importsFromCKAN", this.curatedDataService.listImportsFromCKAN())).build();
 	}
 
 	@POST
 	@Path("/curated/importsfromckan/delete")
 	public Response deleteImportFromCKAN(@FormParam("importToDeleteId") final long importToDeleteId) {
-		curatedDataService.deleteImportFromCKAN(importToDeleteId);
+		this.curatedDataService.deleteImportFromCKAN(importToDeleteId);
 		return displayImportFromCKANList();
 	}
 
@@ -1081,7 +1098,7 @@ public class AdminResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("curated/indicators/json")
 	public String getIndicators() throws TypeMismatchException {
-		final List<Indicator> listIndicators = curatedDataService.listLastIndicators(100);
+		final List<Indicator> listIndicators = this.curatedDataService.listLastIndicators(100);
 		final JsonArray jsonIndicators = new JsonArray();
 		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		for (final Indicator indicator : listIndicators) {
@@ -1126,10 +1143,10 @@ public class AdminResource {
 	@Path("/curated/indicators/")
 	public Response displayIndicatorsList() {
 		final DisplayIndicators displayIndicators = new DisplayIndicators();
-		displayIndicators.setIndicators(curatedDataService.listLastIndicators(100));
-		displayIndicators.setSources(curatedDataService.listSources());
-		displayIndicators.setEntities(curatedDataService.listEntities());
-		displayIndicators.setIndicatorTypes(curatedDataService.listIndicatorTypes());
+		displayIndicators.setIndicators(this.curatedDataService.listLastIndicators(100));
+		displayIndicators.setSources(this.curatedDataService.listSources());
+		displayIndicators.setEntities(this.curatedDataService.listEntities());
+		displayIndicators.setIndicatorTypes(this.curatedDataService.listIndicatorTypes());
 		displayIndicators.setPeriodicities(Indicator.Periodicity.values());
 		displayIndicators.setValueTypes(IndicatorType.ValueType.values());
 		return Response.ok(new Viewable("/admin/indicators", displayIndicators)).build();
@@ -1162,14 +1179,14 @@ public class AdminResource {
 			value = new IndicatorValue(valueAsString);
 			break;
 		}
-		curatedDataService.createIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, value, initialValue, sourceLink);
+		this.curatedDataService.createIndicator(sourceCode, entityId, indicatorTypeCode, startDate, endDate, periodicity, value, initialValue, sourceLink);
 		return displayIndicatorsList();
 	}
 
 	@POST
 	@Path("/curated/indicators/submitDelete")
 	public Response deleteIndicator(@FormParam("indicatorId") final long indicatorId, @Context final UriInfo uriInfo) {
-		curatedDataService.deleteIndicator(indicatorId);
+		this.curatedDataService.deleteIndicator(indicatorId);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/indicators/").build();
 		return Response.seeOther(newURI).build();
@@ -1182,8 +1199,8 @@ public class AdminResource {
 	@Path("/dictionaries/regions")
 	public Response displayRegionDictionariesList() {
 		final DisplayRegionDictionaries displayRegionDictionaries = new DisplayRegionDictionaries();
-		displayRegionDictionaries.setEntities(curatedDataService.listEntities());
-		displayRegionDictionaries.setRegionDictionaries(curatedDataService.listRegionDictionaries());
+		displayRegionDictionaries.setEntities(this.curatedDataService.listEntities());
+		displayRegionDictionaries.setRegionDictionaries(this.curatedDataService.listRegionDictionaries());
 		displayRegionDictionaries.setImporters(Arrays.asList(CKANDataset.Type.values()));
 		return Response.ok(new Viewable("/admin/regionDictionaries", displayRegionDictionaries)).build();
 	}
@@ -1191,14 +1208,14 @@ public class AdminResource {
 	@POST
 	@Path("/dictionaries/regions")
 	public Response createRegionDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entity") final long entity) {
-		curatedDataService.createRegionDictionary(unnormalizedName, importer, entity);
+		this.curatedDataService.createRegionDictionary(unnormalizedName, importer, entity);
 		return displayRegionDictionariesList();
 	}
 
 	@POST
 	@Path("/dictionaries/regions/submitCreate")
 	public Response createRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entityId") final long entityId) {
-		curatedDataService.createRegionDictionary(unnormalizedName, importer, entityId);
+		this.curatedDataService.createRegionDictionary(unnormalizedName, importer, entityId);
 		return Response.ok().build();
 	}
 
@@ -1207,7 +1224,7 @@ public class AdminResource {
 	public Response deleteRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
 		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
-		curatedDataService.deleteRegionDictionary(regionDictionary);
+		this.curatedDataService.deleteRegionDictionary(regionDictionary);
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/regions/").build();
 		return Response.seeOther(newURI).build();
 	}
@@ -1219,8 +1236,8 @@ public class AdminResource {
 	@Path("/dictionaries/sources")
 	public Response displaySourceDictionariesList() {
 		final DisplaySourceDictionaries displaySourceDictionaries = new DisplaySourceDictionaries();
-		displaySourceDictionaries.setSources(curatedDataService.listSources());
-		displaySourceDictionaries.setSourceDictionaries(curatedDataService.listSourceDictionaries());
+		displaySourceDictionaries.setSources(this.curatedDataService.listSources());
+		displaySourceDictionaries.setSourceDictionaries(this.curatedDataService.listSourceDictionaries());
 		displaySourceDictionaries.setImporters(Arrays.asList(CKANDataset.Type.values()));
 		return Response.ok(new Viewable("/admin/sourceDictionaries", displaySourceDictionaries)).build();
 	}
@@ -1228,14 +1245,14 @@ public class AdminResource {
 	@POST
 	@Path("/dictionaries/sources")
 	public Response createSourceDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("source") final long source) {
-		curatedDataService.createSourceDictionary(unnormalizedName, importer, source);
+		this.curatedDataService.createSourceDictionary(unnormalizedName, importer, source);
 		return displaySourceDictionariesList();
 	}
 
 	@POST
 	@Path("/dictionaries/sources/submitCreate")
 	public Response createSourceDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("sourceId") final long sourceId) {
-		curatedDataService.createSourceDictionary(unnormalizedName, importer, sourceId);
+		this.curatedDataService.createSourceDictionary(unnormalizedName, importer, sourceId);
 		return Response.ok().build();
 	}
 
@@ -1243,7 +1260,7 @@ public class AdminResource {
 	@Path("/dictionaries/sources/submitDelete")
 	public Response deleteSourceDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
-		curatedDataService.deleteSourceDictionary(unnormalizedName, importer);
+		this.curatedDataService.deleteSourceDictionary(unnormalizedName, importer);
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/sources/").build();
 		return Response.seeOther(newURI).build();
 	}
@@ -1255,8 +1272,8 @@ public class AdminResource {
 	@Path("/dictionaries/indicatorTypes")
 	public Response displayIndicatorTypeDictionariesList() {
 		final DisplayIndicatorTypeDictionaries displayIndicatorTypeDictionaries = new DisplayIndicatorTypeDictionaries();
-		displayIndicatorTypeDictionaries.setIndicatorTypes(curatedDataService.listIndicatorTypes());
-		displayIndicatorTypeDictionaries.setIndicatorTypeDictionaries(curatedDataService.listIndicatorTypeDictionaries());
+		displayIndicatorTypeDictionaries.setIndicatorTypes(this.curatedDataService.listIndicatorTypes());
+		displayIndicatorTypeDictionaries.setIndicatorTypeDictionaries(this.curatedDataService.listIndicatorTypeDictionaries());
 		displayIndicatorTypeDictionaries.setImporters(Arrays.asList(CKANDataset.Type.values()));
 		return Response.ok(new Viewable("/admin/indicatorTypeDictionaries", displayIndicatorTypeDictionaries)).build();
 	}
@@ -1265,7 +1282,7 @@ public class AdminResource {
 	@Path("/dictionaries/indicatorTypes")
 	public Response createIndicatorTypeDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer,
 			@FormParam("indicatorType") final long indicatorType) {
-		curatedDataService.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
+		this.curatedDataService.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
 		return displayIndicatorTypeDictionariesList();
 	}
 
@@ -1273,7 +1290,7 @@ public class AdminResource {
 	@Path("/dictionaries/indicatorTypes/submitCreate")
 	public Response createIndicatorTypesDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer,
 			@FormParam("indicatorTypeId") final long indicatorTypeId) {
-		curatedDataService.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorTypeId);
+		this.curatedDataService.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorTypeId);
 		return Response.ok().build();
 	}
 
@@ -1282,7 +1299,7 @@ public class AdminResource {
 	public Response deleteIndicatorTypeDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
 		final IndicatorTypeDictionary indicatorTypeDictionary = new IndicatorTypeDictionary(unnormalizedName, importer);
-		curatedDataService.deleteIndicatorTypeDictionary(indicatorTypeDictionary);
+		this.curatedDataService.deleteIndicatorTypeDictionary(indicatorTypeDictionary);
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/indicatorTypes/").build();
 		return Response.seeOther(newURI).build();
 	}
@@ -1395,7 +1412,7 @@ public class AdminResource {
 					countryCode, countryCode);
 
 			logger.debug(String.format("About to publish doc at url %s", url));
-			hdxService.addResourceToCKANDataset(countryCode.toLowerCase(), url, String.format("%s_baseline.xlsx", countryCode));
+			this.hdxService.addResourceToCKANDataset(countryCode.toLowerCase(), url, String.format("%s_baseline.xlsx", countryCode));
 		}
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/reports/country").build();
@@ -1412,7 +1429,7 @@ public class AdminResource {
 
 		logger.debug(String.format("About to publish doc at url %s", url));
 
-		hdxService.addResourceToCKANDataset(countryCode.toLowerCase(), url, String.format("%s_baseline.xlsx", countryCode));
+		this.hdxService.addResourceToCKANDataset(countryCode.toLowerCase(), url, String.format("%s_baseline.xlsx", countryCode));
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/reports/country").build();
 		return Response.seeOther(newURI).build();

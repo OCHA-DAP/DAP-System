@@ -35,7 +35,7 @@
 					</td>
 					<td style="white-space: nowrap; width:auto">
 						<!-- form -->
-						<form  editable-form name="ercform" onbeforesave="updateResourceConfiguration($data, editResourceConfiguration.id)" ng-show="ercform.$visible" class="form-buttons form-inline" shown="inserted == editResourceConfiguration && ercFormVisibility">
+						<form  editable-form name="ercform" onbeforesave="updateRC($data, editResourceConfiguration.id)" ng-show="ercform.$visible" class="form-buttons form-inline" shown="inserted == editResourceConfiguration && ercFormVisibility">
 							<button type="submit" ng-disabled="ercform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 							<button type="button" ng-disabled="ercform.$waiting" ng-click="ercform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 						</form>
@@ -46,9 +46,10 @@
 				</tr>
 			</table>
 		</div>
+		<hr/>
 		<h3>General Resource Configurations</h3>
 		<div style="width:50%">
-			<h3>Add General Resource Configuration</h3>
+			<h4>Add General Resource Configuration</h4>
 			<form novalidate name="createGeneralResourceForm" class="css-form">
 				<table class="table table-bordered table-hover table-condensed">
 					<tr style="font-weight: bold">
@@ -64,11 +65,12 @@
 							<input type="text" class="form-control" placeholder="Value" id="newGenRC_value" ng-model="newGenRC.value" required />
 						</td>
 						<td style="white-space: nowrap">
-							<button class="btn btn-primary btn-custom-default" ng-click="addGeneralRC(newGenRC,editResourceConfiguration.id)">Add</button>
+							<button class="btn btn-primary btn-custom-default" ng-click="addGC(newGenRC,editResourceConfiguration)">Add</button>
 						</td>
 					</tr>
 				</table>
 			</form>
+			<h4>List of General Resource Configurations</h4>
 			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
 					<td style="width: 20%"><a href="" ng-click="predicate='key'; reverse=!reverse">Key</td>
@@ -97,9 +99,10 @@
 				</tr>
 			</table>
 		</div>
+		<hr/>
 		<h3>Indicator Resource Configurations</h3>
 		<div style="width:50%">
-			<h3>Add Indicator Resource Configuration</h3>
+			<h4>Add Indicator Resource Configuration</h4>
 			<form novalidate name="createIndicatorResourceForm" class="css-form">
 				<table class="table table-bordered table-hover table-condensed">
 					<tr style="font-weight: bold">
@@ -123,11 +126,12 @@
 							<input type="text" class="form-control" placeholder="Value" id="newIndRC_value" ng-model="newIndRC.value" required />
 						</td>
 						<td style="white-space: nowrap">
-							<button class="btn btn-primary btn-custom-default" ng-click="addIndicatorRC(newIndRC,editResourceConfiguration.id)">Add</button>
+							<button class="btn btn-primary btn-custom-default" ng-click="addIndicatorRC(newIndRC,editResourceConfiguration)">Add</button>
 						</td>
 					</tr>
 				</table>
 			</form>
+			<h4>List of Indicator Resource Configurations</h4>
 			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
 					<td style="width: auto"><a href="" ng-click="predicate='indType'; reverse=!reverse">Indicator Type</td>
@@ -140,7 +144,7 @@
 					<td>
 					  <span editable-select="newIndRC.indTypeCode" e-class="form-control" e-name="indType" 
 					  		e-id="indType" e-form="icform" 
-					  		e-ng-options="v.id as v.code for v in editResourceConfiguration.indicatorTypes"> 
+					  		e-ng-options="v.id as v.code for v in editResourceConfiguration.indicatorTypes" e-required> 
 					  		{{ showIndicatorType(ic) }} 
 					  </span>
 					</td>

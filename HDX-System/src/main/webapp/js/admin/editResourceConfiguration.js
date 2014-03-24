@@ -27,59 +27,183 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
     var id = partialString.split(suffix)[0];
     return id;
   }
+  	
+  	$scope.updateRC = function(data, id) {
+	    return utilities.updateResource({
+	      validate : $scope.checkRCUpdateForm,
+	      data : data,
+	      params : {
+	        "id" : id,
+	        "name" : data.name
+	      },
+	      url : '/admin/misc/configurations/submitUpdate',
+	      successCallback : function() {
+	        $scope.loadResourceConfiguration();
+	      },
+	      errorCallback : function() {
+	        alert("Configuration update threw an error. No configuration has been updated.");
+	        $scope.loadResourceConfiguration();
+	      }
+	    });
+	};
+	
+	$scope.checkRCUpdateForm = function(data) {
+	    var value = data.name;
+	    if (!value || null === value || '' === value) {
+	      return "Name cannot be empty.";
+	    }
+	    return "OK";
+	};
 
-  // Create a configuration
-  // =================
-  $scope.createResourceConfiguration = function(data) {
-    var name = data ? data.name : "";
-    return utilities.createResource({
-      validate : $scope.checkCreateForm,
+ // Add a general configuration
+  $scope.addGC = function(data, rc) {
+	var existGC = 0;
+	var gcID = null;
+	
+	if(rc.generalConfigurations!=null && rc.generalConfigurations.length>0){
+		for(i=0;i<rc.generalConfigurations.length;i++){
+			if(data.key.key == rc.generalConfigurations[i].key){
+				existGC=1;
+				gcID = rc.generalConfigurations[i].id;
+			}
+		}
+	}
+	if(existGC == 1){
+		if (confirm("The General Configuration exists and will be overwritten! Are you sure you want to continue?") == false) {
+		    return;
+		}
+	}
+	return utilities.createResource({
+        validate : $scope.checkCreateGCForm,
+        data : data,
+        params : {
+          "rcID" : rc.id,
+          "gcID" : gcID,
+          "key" : data.key.key,
+          "value" : data.value
+        },
+        url : '/admin/misc/configurations/addGeneralConfiguration',
+        successCallback : function() {
+          $scope.resetNewGCConfiguration();
+          $scope.resetCreateGCForm();
+          $scope.loadResourceConfiguration();
+        },
+        errorCallback : function() {
+          alert("Configuration creation threw an error. Maybe this configuration already exists. No configuration has been created.");
+        }
+      });
+
+  };
+  
+  // Reset the create resource form
+  $scope.resetCreateGCForm = function() {
+    $scope.createGeneralResourceForm.$setPristine();
+  };
+  
+  // Check that the new general configuration is complete
+  $scope.checkCreateGCForm = function(data) {
+    if (!data) {
+      utilities.setFocus('newGenRC_key');
+      return "At least some info should be provided.";
+    }
+    var key = data.key;
+    if (!key || null === key || '' === key) {
+      utilities.setFocus('newGenRC_key');
+      return "Key cannot be empty.";
+    }
+    var value = data.value;
+    if (!value || null === value || '' === value) {
+      utilities.setFocus('newGenRC_value');
+      return "Value cannot be empty.";
+    }
+    return "OK";
+  };
+  
+  // Reset the new configuration
+  $scope.resetNewGCConfiguration = function() {
+    if (!$scope.newGenRC) {
+      $scope.newGenRC = {};
+    }
+    $scope.newGenRC.key = "";
+    $scope.newGenRC.value = "";
+  };
+
+  // Update a configuration
+  $scope.updateGC = function(data, gc) {
+    return utilities.updateResource({
+      validate : $scope.checkUpdateGCForm,
       data : data,
       params : {
-        //"code" : code,
-        "name" : name
-      },
-      url : '/admin/misc/configurations/submitCreate',
-      successCallback : function() {
-        $scope.resetNewConfiguration();
-        $scope.resetCreateResourceForm();
-        $scope.loadResourceConfiguration();
-      },
-      errorCallback : function() {
-        alert("Configuration creation threw an error. Maybe this configuration already exists. No configuration has been created.");
-      }
-    });
-  }
-
-  $scope.addGeneralRC = function(data, rcID) {
-
-    return utilities.createResource({
-      validate : $scope.checkCreateForm,
-      data : data,
-      params : {
-        "rcID" : rcID,
-        "key" : data.key.key,
+        "id" : gc.id,
+        "key" : gc.key,
         "value" : data.value
       },
-      url : '/admin/misc/configurations/addGeneralConfiguration',
+      url : '/admin/misc/configurations/updateGeneralConfiguration',
       successCallback : function() {
-        $scope.resetNewConfiguration();
-        $scope.resetCreateResourceForm();
         $scope.loadResourceConfiguration();
       },
       errorCallback : function() {
-        alert("Configuration creation threw an error. Maybe this configuration already exists. No configuration has been created.");
+        alert("General Configuration update threw an error. No configuration has been updated.");
+        $scope.loadResourceConfiguration();
       }
     });
-
-  }
-
-  $scope.addIndicatorRC = function(data, rcID) {
+  };
+  
+  // Check that the updated configuration is valid
+  $scope.checkUpdateGCForm = function(data) {
+    var value = data.value;
+    if (!value || null === value || '' === value) {
+      return "Value cannot be empty.";
+    }
+    return "OK";
+  };
+  
+  // Delete a general configuration
+  // =================
+  $scope.deleteGC = function(rcID, id) {
+    return utilities.deleteResource({
+      params : {
+        "rcID" : rcID,
+        "id" : id
+      },
+      url : '/admin/misc/configurations/deleteGeneralConfiguration',
+      successCallback : $scope.loadResourceConfiguration,
+      errorCallback : function() {
+        alert("Configuration deletion threw an error. Maybe this configuration is used in some translation. No configuration has been deleted.");
+      }
+    });
+  };
+  
+  
+  // Indicator Resource Configuration
+  
+  // add an Indicator Resource Configuration
+  $scope.addIndicatorRC = function(data, rc) {
+	 
+	var existIC = 0;
+	var icID = null;
+	
+	if(rc.indicatorConfigurations!=null && rc.indicatorConfigurations.length>0){
+		for(i=0;i<rc.indicatorConfigurations.length;i++){
+			if(data.key.key == rc.indicatorConfigurations[i].key && data.indTypeCode.id == rc.indicatorConfigurations[i].indTypeId &&
+			   data.sourceCode.id == rc.indicatorConfigurations[i].srcId){
+				existIC=1;
+				icID = rc.indicatorConfigurations[i].id;
+			}
+		}
+	}
+	if(existIC == 1){
+		if (confirm("The Indicator Configuration exists and will be overwritten! Are you sure you want to continue?") == false) {
+		    return;
+		}
+	}  
+	  
     return utilities.createResource({
       validate : $scope.checkIndicatorCreateForm,
       data : data,
       params : {
-        "rcID" : rcID,
+        "rcID" : rc.id,
+        "icID" : icID,
         "indTypeId" : data.indTypeCode.id,
         "sourceId" : data.sourceCode.id,
         "key" : data.key.key,
@@ -95,8 +219,7 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
         alert("Indicator Configuration creation threw an error. Maybe this configuration already exists. No configuration has been created.");
       }
     });
-
-  }
+  };
 
   // Check that the new general configuration is complete
   $scope.checkIndicatorCreateForm = function(data) {
@@ -127,34 +250,6 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
     return "OK";
   };
 
-  // Check that the new general configuration is complete
-  $scope.checkCreateForm = function(data) {
-    if (!data) {
-      utilities.setFocus('newGenRC_key');
-      return "At least some info should be provided.";
-    }
-    var key = data.key;
-    if (!key || null === key || '' === key) {
-      utilities.setFocus('newGenRC_key');
-      return "Key cannot be empty.";
-    }
-    var value = data.value;
-    if (!value || null === value || '' === value) {
-      utilities.setFocus('newGenRC_value');
-      return "Value cannot be empty.";
-    }
-    return "OK";
-  };
-
-  // Reset the new configuration
-  $scope.resetNewConfiguration = function() {
-    if (!$scope.newGenRC) {
-      $scope.newGenRC = {};
-    }
-    $scope.newGenRC.key = "";
-    $scope.newGenRC.value = "";
-  };
-
   $scope.resetIndicatorNewConfiguration = function() {
     if (!$scope.newGenRC) {
       $scope.newIndRC = {};
@@ -169,59 +264,7 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
     $scope.createIndicatorResourceForm.$setPristine();
   };
 
-  // Reset the create resource form
-  $scope.resetCreateResourceForm = function() {
-    $scope.createGeneralResourceForm.$setPristine();
-  };
-
-  // Update a configuration
-  // =================
-  $scope.updateGC = function(data, gc) {
-    return utilities.updateResource({
-      validate : $scope.checkUpdateForm,
-      data : data,
-      params : {
-        "id" : gc.id,
-        "key" : gc.key,
-        "value" : data.value
-      },
-      url : '/admin/misc/configurations/updateGeneralConfiguration',
-      successCallback : function() {
-        $scope.loadResourceConfiguration();
-      },
-      errorCallback : function() {
-        alert("General Configuration update threw an error. No configuration has been updated.");
-        $scope.loadResourceConfiguration();
-      }
-    });
-  };
-
-  // Check that the updated configuration is valid
-  $scope.checkUpdateForm = function(data) {
-    var value = data.value;
-    if (!value || null === value || '' === value) {
-      return "Value cannot be empty.";
-    }
-    return "OK";
-  };
-
-  // Delete a general configuration
-  // =================
-  $scope.deleteGC = function(rcID, id) {
-
-    return utilities.deleteResource({
-      params : {
-        "rcID" : rcID,
-        "id" : id
-      },
-      url : '/admin/misc/configurations/deleteGeneralConfiguration',
-      successCallback : $scope.loadResourceConfiguration,
-      errorCallback : function() {
-        alert("Configuration deletion threw an error. Maybe this configuration is used in some translation. No configuration has been deleted.");
-      }
-    });
-  };
-
+  // delete an Indicator Resource Configuration
   $scope.deleteIC = function(rcID, id) {
     return utilities.deleteResource({
       params : {
@@ -236,9 +279,10 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
     });
   };
 
+  //update an Indicator Resource Configuration
   $scope.updateIC = function(data, ic) {
     return utilities.updateResource({
-      validate : $scope.checkUpdateForm,
+      validate : $scope.checkUpdateIndicatorForm,
       data : data,
       params : {
         "id" : ic.id,
@@ -257,17 +301,50 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
       }
     });
   };
+  
+//Check that the updated configuration is valid
+  $scope.checkUpdateIndicatorForm = function(data) {
+    if (!data) {
+      utilities.setFocus('newIndRC_key');
+      return "At least some info should be provided.";
+    }
+//    var key = data.key;
+//    if (!key || null === key || '' === key) {
+//      utilities.setFocus('newIndRC_key');
+//      return "Key cannot be empty.";
+//    }
+    var value = data.value;
+    if (!value || null === value || '' === value) {
+      utilities.setFocus('newIndRC_value');
+      return "Value cannot be empty.";
+    }
+    var itc = data.indType;
+    if (!itc || null === itc || '' === itc) {
+      utilities.setFocus('newIndRC_indTypeCode');
+      return "Indicator Type cannot be empty.";
+    }
+    var src = data.src;
+    if (!src || null === src || '' === src) {
+      utilities.setFocus('newIndRC_sourceCode');
+      return "Source cannot be empty.";
+    }
+    return "OK";
+  };
+  
+  
+
 
   $scope.showIndicatorType = function(ic) {
     if (ic.indTypeId) {
       var selected = $filter('filter')($scope.indicatorTypes, {
         id : ic.indTypeId
       });
-      return selected.length ? selected[0].code : 'Not set';
+      return (ic.indTypeId && selected.length)? selected[0].code : 'Not set';
     } else {
       return ic.indTypeId || 'Not set';
     }
   };
+  
   $scope.showSources = function(ic) {
     if (ic.srcId) {
       var selected = $filter('filter')($scope.sources, {

@@ -26,7 +26,7 @@
 				<tr>
 					<td><input type="text" class="form-control" placeholder="Name" id="newResource_name" ng-model="newResource.name" required /></td>
 					<td style="white-space: nowrap">
-						<button class="btn btn-primary btn-custom-default" ng-click="createResourceConfiguration(newResource)">Add</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="createRC(newResource)">Add</button>
 					</td>
 				</tr>
 			</table>
@@ -51,8 +51,8 @@
 				</td>
 				<td style="white-space: nowrap">
 					<div class="buttons" ng-show="!rowform.$visible">
-						<button class="btn btn-primary btn-custom-default" ng-click="editConfiguration(rc.id)" >Edit</button>
-						<button class="btn btn-danger btn-custom-danger" ng-click="deleteResourceConfiguration(rc.id)">Delete</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="editRC(rc.id)" >Edit</button>
+						<button class="btn btn-danger btn-custom-danger" ng-click="deleteRC(rc.id)">Delete</button>
 					</div>
 				</td>
 			</tr>
