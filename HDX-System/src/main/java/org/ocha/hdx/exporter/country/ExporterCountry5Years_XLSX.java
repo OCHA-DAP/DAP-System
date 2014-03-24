@@ -7,6 +7,12 @@ import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.service.ExporterService;
 
+/**
+ * Exporter for a country - 5-years data.
+ * 
+ * @author seustachi
+ * 
+ */
 public class ExporterCountry5Years_XLSX extends AbstractExporterCountry_XLSX {
 
 	public ExporterCountry5Years_XLSX(final ExporterService exporterService) {

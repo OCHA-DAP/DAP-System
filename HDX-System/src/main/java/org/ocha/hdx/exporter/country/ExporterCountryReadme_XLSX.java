@@ -12,7 +12,7 @@ import org.ocha.hdx.exporter.helper.ReadmeHelperImpl.ReadmeSentence;
 import org.ocha.hdx.service.ExporterService;
 
 /**
- * Exporter for a readme.
+ * Exporter for a country - readme.
  * 
  * @author bmichiels
  * 

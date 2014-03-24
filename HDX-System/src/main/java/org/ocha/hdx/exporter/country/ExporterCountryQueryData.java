@@ -10,10 +10,32 @@ import org.ocha.hdx.exporter.helper.ReadmeHelper;
  */
 public class ExporterCountryQueryData extends QueryData {
 
+	/**
+	 * The country code (e.g. COL, USA, BEL, etc.).
+	 */
 	private String countryCode;
+	
+	/**
+	 * The year from which the report will start (e.g. 1998).
+	 * If set to 0, the report will start with the earliest data available.
+	 */
 	private Integer fromYear;
+
+	/**
+	 * The year to which the report will go (e.g. 2010).
+	 * If set to 0, the report go to the latest data available.
+	 */
 	private Integer toYear;
+	
+	/**
+	 * The language into which the report will be generated.
+	 * TODO Not implemented yet. All texts are set in the default value.
+	 */
 	private String language;
+	
+	/**
+	 * The helper to build the readme part of the report.
+	 */
 	private ReadmeHelper readmeHelper;
 
 	public String getCountryCode() {

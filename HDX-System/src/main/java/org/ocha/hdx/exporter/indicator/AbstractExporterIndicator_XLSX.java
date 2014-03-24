@@ -15,6 +15,13 @@ import org.ocha.hdx.service.ExporterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Abstract exporter for all indicator-centric sheets (except overview).
+ * Currently there is only one indicator-centric data sheet.
+ * Keeping this, should another sheet be developed.
+ *
+ * @author bmichiels
+ */
 public abstract class AbstractExporterIndicator_XLSX extends Exporter_XLSX<ExporterIndicatorQueryData> {
 
 	private static Logger logger = LoggerFactory.getLogger(AbstractExporterIndicator_XLSX.class);
@@ -63,7 +70,7 @@ public abstract class AbstractExporterIndicator_XLSX extends Exporter_XLSX<Expor
 		for (Long year = maxYear; year >= minYear; year--) {
 			createColumnHeaderCell(year, headersRow, columnIndex);
 			yearColumns.put(year, columnIndex);
-			logger.debug("Year " + year + " is in column " + columnIndex);
+			// logger.debug("Year " + year + " is in column " + columnIndex);
 			++columnIndex;
 		}
 
@@ -81,7 +88,7 @@ public abstract class AbstractExporterIndicator_XLSX extends Exporter_XLSX<Expor
 				source = indicatorData.getSourceDefaultValue();
 			}
 		}
-		logger.debug("# of countries = " + countryCodes.size());
+		// logger.debug("# of countries = " + countryCodes.size());
 
 		// Create country rows with country header for code and name
 		final Map<String, XSSFRow> countryRows = new HashMap<String, XSSFRow>();
@@ -94,15 +101,15 @@ public abstract class AbstractExporterIndicator_XLSX extends Exporter_XLSX<Expor
 				createCell(countryRow, 2, source);
 			}
 			countryRows.put(countryCode, countryRow);
-			logger.debug("Country " + countryCode + " is in row " + rowIndex);
+			// logger.debug("Country " + countryCode + " is in row " + rowIndex);
 			++rowIndex;
 		}
 
 		for (final Long year : data.keySet()) {
-			logger.debug("Indicator data year : " + year);
+			// logger.debug("Indicator data year : " + year);
 			final Map<String, IndicatorData> countryMap = data.get(year);
 			for (final String countryCode : new TreeSet<String>(countryMap.keySet())) {
-				logger.debug("\tCountry code : " + countryCode);
+				// logger.debug("\tCountry code : " + countryCode);
 				final IndicatorData indicatorData = countryMap.get(countryCode);
 				final XSSFRow countryRow = countryRows.get(countryCode);
 				final Integer index = yearColumns.get(year);

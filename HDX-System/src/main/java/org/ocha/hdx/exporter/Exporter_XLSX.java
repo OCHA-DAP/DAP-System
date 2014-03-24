@@ -18,13 +18,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.service.ExporterService;
 
 /**
- * XLSX implementation of the export of reports. 
+ * Abstract class for XLSX report generation.
  * This class should be implemented for every report needing an XLSX export.
  * 
  * Exporters follow the Decorator pattern (see constructors).
  * 
  * @author bmichiels
- * 
+ *
+ * @param <QD> The information needed to query and gather the report data.
  */
 public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExporter<XSSFWorkbook, QD> {
 

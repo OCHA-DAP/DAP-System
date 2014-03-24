@@ -10,11 +10,37 @@ import org.ocha.hdx.exporter.helper.ReadmeHelper;
  */
 public class ExporterIndicatorQueryData extends QueryData {
 
+	/**
+	 * The indicator type code (e.g. PVF020).
+	 */
 	private String indicatorTypeCode;
+	
+	/**
+	 * The source code (e.g. faostat3).
+	 */
 	private String sourceCode;
+	
+	/**
+	 * The year from which the report will start (e.g. 1998).
+	 * If set to 0, the report will start with the earliest data available.
+	 */
 	private Long fromYear;
+
+	/**
+	 * The year to which the report will go (e.g. 2010).
+	 * If set to 0, the report go to the latest data available.
+	 */
 	private Long toYear;
+	
+	/**
+	 * The language into which the report will be generated.
+	 * TODO Not implemented yet. All texts are set in the default value.
+	 */
 	private String language;
+	
+	/**
+	 * The helper to build the readme part of the report.
+	 */
 	private ReadmeHelper readmeHelper;
 
 	public Long getFromYear() {
@@ -61,7 +87,7 @@ public class ExporterIndicatorQueryData extends QueryData {
 		return readmeHelper;
 	}
 
-	public void setReadmeHelper(ReadmeHelper readmeHelper) {
+	public void setReadmeHelper(final ReadmeHelper readmeHelper) {
 		this.readmeHelper = readmeHelper;
 	}
 }

@@ -6,6 +6,10 @@ import org.ocha.hdx.exporter.Exporter_XLSX;
 import org.ocha.hdx.exporter.QueryData;
 import org.ocha.hdx.exporter.helper.ReadmeHelperImpl.ReadmeSentence;
 
+/**
+ * Helper interface for the readme parts of reports.
+ * @author bmichiels
+ */
 public interface ReadmeHelper {
 	public List<ReadmeSentence> getReadme(final Class<? extends Exporter_XLSX<? extends QueryData>> clazz);
 }

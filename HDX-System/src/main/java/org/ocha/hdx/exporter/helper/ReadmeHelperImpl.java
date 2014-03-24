@@ -10,11 +10,33 @@ import org.ocha.hdx.exporter.QueryData;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_XLSX;
 
+/**
+ * Implementation of the helper interface for the readme parts of reports.
+ * @author bmichiels
+ *
+ * TODO Externalize and i18n.
+ */
 public class ReadmeHelperImpl implements ReadmeHelper {
 
+	/**
+	 * A readme sentence.
+	 * @author bmichiels
+	 *
+	 */
 	public static final class ReadmeSentence {
+		/**
+		 * The readme statement.
+		 */
 		private final String sentence;
+		
+		/**
+		 * The row index of the statement.
+		 */
 		private final int row;
+		
+		/**
+		 * The column index of the statement.
+		 */
 		private final int column;
 
 		public ReadmeSentence(final String sentence, final int row, final int column) {
@@ -37,7 +59,14 @@ public class ReadmeHelperImpl implements ReadmeHelper {
 		}
 	}
 
+	/**
+	 * The list of all readme sentences.
+	 */
 	private static final List<String> SENTENCES = new ArrayList<String>();
+	
+	/**
+	 * The readme descriptors for each type of exporter.
+	 */
 	private static final Map<Class<? extends Exporter_XLSX<? extends QueryData>>, List<ReadmeSentence>> DESCRIPTORS = new HashMap<Class<? extends Exporter_XLSX<? extends QueryData>>, List<ReadmeSentence>>();
 
 	public ReadmeHelperImpl() {
@@ -79,6 +108,10 @@ public class ReadmeHelperImpl implements ReadmeHelper {
 		DESCRIPTORS.put(ExporterIndicatorReadme_XLSX.class, getIndicatorReadme());
 	}
 
+	/**
+	 * Get the readme sentences for a country-centric report.
+	 * @return
+	 */
 	private static List<ReadmeSentence> getCountryReadme() {
 		final List<ReadmeSentence> result = new ArrayList<ReadmeHelperImpl.ReadmeSentence>();
 		int rowIndex = 0;
@@ -112,6 +145,10 @@ public class ReadmeHelperImpl implements ReadmeHelper {
 		return result;
 	}
 
+	/**
+	 * Get the readme sentences for an indicator-centric report.
+	 * @return
+	 */
 	private static List<ReadmeSentence> getIndicatorReadme() {
 		final List<ReadmeSentence> result = new ArrayList<ReadmeHelperImpl.ReadmeSentence>();
 		int rowIndex = 0;
@@ -140,6 +177,9 @@ public class ReadmeHelperImpl implements ReadmeHelper {
 		return result;
 	}
 
+	/**
+	 * Get the readme descriptor for a given exporter.
+	 */
 	@Override
 	public List<ReadmeSentence> getReadme(final Class<? extends Exporter_XLSX<? extends QueryData>> clazz) {
 		return DESCRIPTORS.get(clazz);

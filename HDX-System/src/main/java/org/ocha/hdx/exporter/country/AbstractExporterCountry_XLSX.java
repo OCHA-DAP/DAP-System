@@ -13,6 +13,10 @@ import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 import org.ocha.hdx.service.ExporterService;
 
+/**
+ * Abstract exporter for all country-centric sheets (except overview).
+ * @author bmichiels
+ */
 public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<ExporterCountryQueryData> {
 
 	public AbstractExporterCountry_XLSX(final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter) {

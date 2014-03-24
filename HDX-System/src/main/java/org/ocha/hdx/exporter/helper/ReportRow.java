@@ -6,6 +6,12 @@ import java.util.Map;
 import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
 import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 
+/**
+ * A mapping of data coming from the database to a structure more easy 
+ * to use for the report generation. 
+ * @author seustachi
+ *
+ */
 public class ReportRow {
 
 	private final String indicatorTypeCode;
@@ -20,6 +26,9 @@ public class ReportRow {
 	 */
 	private final Map<EntryKey, String> metadata;
 
+	/**
+	 * Values for years.
+	 */
 	private final Map<Integer, String> valuesForYears;
 
 	public ReportRow(final String indicatorTypeCode, final String indicatorName, final String sourceCode, final String unit) {
