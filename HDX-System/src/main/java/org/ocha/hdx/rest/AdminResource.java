@@ -3,7 +3,6 @@ package org.ocha.hdx.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -486,8 +485,7 @@ public class AdminResource {
 		}
 			break;
 		/*
-		 * case "indicator": { final Indicator theResource = curatedDataService.getIndicator(id); translations =
-		 * theResource.getName().getTranslations(); } break;
+		 * case "indicator": { final Indicator theResource = curatedDataService.getIndicator(id); translations = theResource.getName().getTranslations(); } break;
 		 */
 		case "indicatorType": {
 			final IndicatorType theResource = this.curatedDataService.getIndicatorType(id);
@@ -735,8 +733,8 @@ public class AdminResource {
 	@Path("/curated/entities/")
 	public Response displayEntitiesList(/* @QueryParam("howMuch") final String howMuch */) {
 		/*
-		 * String _howMuch = null; if((null == howMuch) || "".equals(howMuch)) { _howMuch = "10"; } else { _howMuch = howMuch; } return
-		 * Response.ok(new Viewable("/admin/entities?howMuch=" + _howMuch)).build();
+		 * String _howMuch = null; if((null == howMuch) || "".equals(howMuch)) { _howMuch = "10"; } else { _howMuch = howMuch; } return Response.ok(new Viewable("/admin/entities?howMuch=" +
+		 * _howMuch)).build();
 		 */
 		return Response.ok(new Viewable("/admin/entities")).build();
 	}
@@ -1324,99 +1322,6 @@ public class AdminResource {
 	@SuppressWarnings("static-method")
 	public Response displayCountryReports() {
 		return Response.ok(new Viewable("/admin/reportsCountry")).build();
-	}
-
-	/* Country */
-	@GET
-	@Path("/reports/country/publishAll/")
-	@SuppressWarnings("static-method")
-	public Response publishAllCountry_XLSX(@Context final UriInfo uriInfo) {
-		// FIXME remove this when Bash script generating the resources is ready
-
-		final List<String> countryCodes = new ArrayList<String>();
-		countryCodes.add("AFG");
-		countryCodes.add("DZA");
-		countryCodes.add("BGD");
-		countryCodes.add("BEN");
-		countryCodes.add("BOL");
-		countryCodes.add("BWA");
-		countryCodes.add("BFA");
-		countryCodes.add("BDI");
-		countryCodes.add("KHM");
-		countryCodes.add("CMR");
-		countryCodes.add("CAF");
-		countryCodes.add("TCD");
-		countryCodes.add("COL");
-		countryCodes.add("COG");
-		countryCodes.add("COD");
-		countryCodes.add("CIV");
-		countryCodes.add("DJI");
-		countryCodes.add("DOM");
-		countryCodes.add("EGY");
-		countryCodes.add("ERI");
-		countryCodes.add("ETH");
-		countryCodes.add("GMB");
-		countryCodes.add("GTM");
-		countryCodes.add("GIN");
-		countryCodes.add("GNB");
-		countryCodes.add("HTI");
-		countryCodes.add("HND");
-		countryCodes.add("IDN");
-		countryCodes.add("IRQ");
-		countryCodes.add("JAM");
-		countryCodes.add("JOR");
-		countryCodes.add("KEN");
-		countryCodes.add("PRK");
-		countryCodes.add("KGZ");
-		countryCodes.add("LAO");
-		countryCodes.add("LBN");
-		countryCodes.add("LSO");
-		countryCodes.add("LBR");
-		countryCodes.add("LBY");
-		countryCodes.add("MDG");
-		countryCodes.add("MWI");
-		countryCodes.add("MLI");
-		countryCodes.add("MRT");
-		countryCodes.add("MNG");
-		countryCodes.add("MOZ");
-		countryCodes.add("MMR");
-		countryCodes.add("NAM");
-		countryCodes.add("NPL");
-		countryCodes.add("NER");
-		countryCodes.add("NGA");
-		countryCodes.add("PAK");
-		countryCodes.add("PHL");
-		countryCodes.add("RWA");
-		countryCodes.add("SEN");
-		countryCodes.add("SLE");
-		countryCodes.add("SOM");
-		countryCodes.add("ZAF");
-		countryCodes.add("SSD");
-		countryCodes.add("LKA");
-		countryCodes.add("SDN");
-		countryCodes.add("SWZ");
-		countryCodes.add("SYR");
-		countryCodes.add("TJK");
-		countryCodes.add("TZA");
-		countryCodes.add("THA");
-		countryCodes.add("TUN");
-		countryCodes.add("TUR");
-		countryCodes.add("UGA");
-		countryCodes.add("UZB");
-		countryCodes.add("VUT");
-		countryCodes.add("YEM");
-		countryCodes.add("ZMB");
-		countryCodes.add("ZWE");
-		for (final String countryCode : countryCodes) {
-			final String url = String.format("%s/exporter/country/xlsx/%s/fromYear/1950/toYear/2014/language/EN/%s_baseline.xlsx", uriInfo.getBaseUriBuilder().path("/api").build().toString(),
-					countryCode, countryCode);
-
-			logger.debug(String.format("About to publish doc at url %s", url));
-			this.hdxService.addResourceToCKANDataset(countryCode.toLowerCase(), url, String.format("%s_baseline.xlsx", countryCode));
-		}
-
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/reports/country").build();
-		return Response.seeOther(newURI).build();
 	}
 
 	@GET
