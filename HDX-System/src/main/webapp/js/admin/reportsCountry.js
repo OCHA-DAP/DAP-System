@@ -19,7 +19,7 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
     code : "USA"
   });
   $scope.country = selected[0];
-  $scope.fromYear = 1998;
+  $scope.fromYear = 1950;
   $scope.toYear = 2014;
   $scope.reportFileName = selected[0].code;
   $scope.reportFormat = "xlsx";
