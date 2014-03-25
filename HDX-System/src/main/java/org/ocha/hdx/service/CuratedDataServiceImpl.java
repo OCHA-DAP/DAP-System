@@ -21,6 +21,7 @@ import org.ocha.hdx.persistence.dao.dictionary.IndicatorTypeDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.RegionDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
+import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.EntityType;
@@ -34,6 +35,8 @@ import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.ocha.hdx.persistence.entity.i18n.Text;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +85,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private UnitDAO unitDAO;
+
+	@Autowired
+	private AdditionalDataDAO additionalDataDAO;
 
 	/*
 	 * Entity types
@@ -652,4 +658,25 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return indicatorDAO.getIndicatorTypeOverview(indicatorTypeCode, sourceCode, languageCode);
 	}
 
+	/* Metadata */
+
+	@Override
+	public List<AdditionalData> getMetadataForIndicatorTypeAndSource(final String indicatorTypeCode, final String sourceCode) {
+		return additionalDataDAO.listAdditionalDataByIndicatorTypeCodeAndSourceCode(indicatorTypeCode, sourceCode);
+
+	}
+
+	@Override
+	public void updateMetadataForIndicatorTypeAndSource(final String which, final String data, final String indicatorTypeCode, final String sourceCode) {
+		final EntryKey entryKey = EntryKey.valueOf(which);
+		final AdditionalData additionalData = additionalDataDAO.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
+		if (null == additionalData) {
+			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
+			final Source source = sourceDAO.getSourceByCode(sourceCode);
+			final Text text = textDAO.createText(data);
+			additionalDataDAO.createAdditionalData(indicatorType, source, entryKey, text);
+		} else {
+			additionalDataDAO.updateAdditionalData(indicatorTypeCode, sourceCode, which, data);
+		}
+	}
 }

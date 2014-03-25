@@ -148,3 +148,14 @@ legend.test {
 .gray {
 	color: gray;
 }
+
+
+.scrollable-tab-pane {
+    overflow-y: auto;
+    height: 200px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-right: 1px solid lightGray;
+    border-left: 1px solid lightGray;
+    border-bottom: 1px solid lightGray;
+}

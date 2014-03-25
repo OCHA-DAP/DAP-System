@@ -91,8 +91,9 @@
 	<div ng-show="showTestZone">
 		<h3>Test zone</h3>
 		<pre>
-		<p>IndicatorTypes : {{ indicatorTypes | json }}</p>
+		<p>Units : {{ units | json }}</p>
 		<p>Value types : {{ valueTypes | json }}</p>
+		<p>IndicatorTypes : {{ indicatorTypes | json }}</p>
 		<p>Languages : {{ languages | json }}</p>
 	</pre>
 	</div>

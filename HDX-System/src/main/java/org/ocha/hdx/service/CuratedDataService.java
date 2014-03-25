@@ -17,6 +17,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
 
 import com.google.visualization.datasource.base.TypeMismatchException;
 import com.google.visualization.datasource.datatable.DataTable;
@@ -72,7 +73,7 @@ public interface CuratedDataService {
 	public List<Source> listSources();
 
 	public List<Source> listSourcesForIndicatorType(String indicatorTypeCode);
-	
+
 	public void createSource(final String code, final String name, final String link);
 
 	public Source getSource(final Long id);
@@ -148,6 +149,13 @@ public interface CuratedDataService {
 	 */
 
 	/*
+	 * Metadata
+	 */
+	public List<AdditionalData> getMetadataForIndicatorTypeAndSource(String indicatorTypeCode, String sourceCode);
+
+	public void updateMetadataForIndicatorTypeAndSource(String which, String data, String indicatorTypeCode, String sourceCode);
+
+	/*
 	 * Region dictionaries
 	 */
 	public List<RegionDictionary> listRegionDictionaries();
@@ -213,7 +221,6 @@ public interface CuratedDataService {
 
 	// Country other
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(String countryCode, int fromYear, int toYear, String languageCode);
-
 
 	/* Indicator reports */
 

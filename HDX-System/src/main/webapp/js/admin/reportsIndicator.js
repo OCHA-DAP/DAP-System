@@ -13,11 +13,14 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
   // Indicators reports management
   // /////////////////////////////
 
+  // On indicator type selection, 
+  // reload the sources available for this indicator type.
   $scope.indicatorTypeSelect = function() {
     $scope.reportFileName = $scope.indicatorType.code + "_baseline";
     $scope.loadSources();
   }
   
+  // Load the sources available for the current selected indicator type.
   $scope.loadSources = function() {
     return $http.get(hdxContextRoot + '/admin/curated/sourcesForIndicatorType/json', {
       params : {
@@ -35,6 +38,7 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
     });
   }
   
+  // Display the default indicator type and other values.
   var selected = $filter('filter')($scope.indicatorTypes, {
     code : "PVF020"
   });
