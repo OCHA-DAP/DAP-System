@@ -28,6 +28,8 @@ public interface AdditionalDataDAO {
 
 	public AdditionalData updateAdditionalData(long id, Text value);
 
+	public AdditionalData updateAdditionalData(String indicatorTypeCode, String sourceCode, String entryKey, String defaultValue);
+
 	public AdditionalData getAdditionalDataById(long id);
 
 	public AdditionalData getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(final String indicatorTypeCode, final String sourceCode, final EntryKey entryKey);
