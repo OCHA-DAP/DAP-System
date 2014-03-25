@@ -5,12 +5,14 @@ INSERT INTO entity_type(id, code, text_id) VALUES (1, 'country', 1);
 INSERT INTO text(id, default_value) VALUES (2, 'Crisis');
 INSERT INTO entity_type(id, code, text_id) VALUES (2, 'crisis', 2);
 */
+
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'Country');
 INSERT INTO entity_type(id, code, text_id) VALUES (nextval('entity_type_seq'), 'country',currval('text_seq'));
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'Crisis');
 INSERT INTO entity_type(id, code, text_id) VALUES (nextval('entity_type_seq'), 'crisis',currval('text_seq'));
 
 /* countries */
+SELECT 'Starting countries' from text limit 0;
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'AFGHANISTAN');
 INSERT INTO entity(id, code, text_id, entity_type_id) SELECT nextval('entity_seq'),'AFG', currval('text_seq'), id FROM entity_type WHERE code='country' ;
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'ALBANIA');
