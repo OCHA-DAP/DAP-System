@@ -1,6 +1,7 @@
 package org.ocha.hdx.exporter.country;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.poi.ss.util.WorkbookUtil;
@@ -57,8 +58,13 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 				toYear = reportRow.getMaxYear();
 			}
 		}
+		
+		// We may have holes in the series of years, 
+		// so we map each year to the corresponding column index.
+		final Map<Integer, Integer> yearToColum = new HashMap<Integer, Integer>();
 		for (int year = toYear; year >= fromYear; year--) {
 			headers.add(year);
+			yearToColum.put(year, headers.size()-1);
 		}
 
 		// Assign the headers to the title row
@@ -88,7 +94,7 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 			createCell(row, 7, reportRow.getMetadata().get(EntryKey.METHODOLOGY));
 
 			for (int year = fromYear; year <= toYear; year++) {
-				final int columnIndex = ((8 + year) - fromYear);
+				final int columnIndex = yearToColum.get(year);
 				final Double value = reportRow.getDoubleValue(year);
 				if (null != value) {
 					createNumCell(row, columnIndex, value);
