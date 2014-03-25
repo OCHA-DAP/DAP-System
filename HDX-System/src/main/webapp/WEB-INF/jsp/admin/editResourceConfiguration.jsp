@@ -142,14 +142,14 @@
 				</tr>
 				<tr ng-repeat="ic in editResourceConfiguration.indicatorConfigurations | orderBy:predicate:reverse">
 					<td>
-					  <span editable-select="newIndRC.indTypeCode" e-class="form-control" e-name="indType" 
+					  <span editable-select="ic.indTypeId" e-class="form-control" e-name="indType" 
 					  		e-id="indType" e-form="icform" 
 					  		e-ng-options="v.id as v.code for v in editResourceConfiguration.indicatorTypes" e-required> 
 					  		{{ showIndicatorType(ic) }} 
 					  </span>
 					</td>
 					<td>
-					  <span editable-select="newIndRC.sourceCode" e-class="form-control" e-name="src" 
+					  <span editable-select="ic.srcId" e-class="form-control" e-name="src" 
 					  		e-id="src" e-form="icform" 
 					  		e-ng-options="v.id as v.code for v in editResourceConfiguration.sources"> 
 					  		{{ showSources(ic) }} 
@@ -176,5 +176,11 @@
 				</tr>
 			</table>
 		</div>
+	<div ng-show="showTestZone">
+		<h3>Test zone</h3>
+		<pre>
+		<p>EditResourceConfiguration : {{ editResourceConfiguration | json }}</p>
+	</pre>
+	</div>
 </body>
 </html>
