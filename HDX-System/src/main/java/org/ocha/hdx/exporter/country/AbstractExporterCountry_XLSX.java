@@ -58,6 +58,9 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 				toYear = reportRow.getMaxYear();
 			}
 		}
+		
+		// We may have holes in the series of years, 
+		// so we map each year to the corresponding column index.
 		final Map<Integer, Integer> yearToColum = new HashMap<Integer, Integer>();
 		for (int year = toYear; year >= fromYear; year--) {
 			headers.add(year);
