@@ -388,8 +388,9 @@ public class APIResource {
 	@GET
 	@Path("/exporter/indicator/xlsx/{indicatorTypeCode}/source/{sourceCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.xlsx")
 	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-	public XSSFWorkbook exportIndicator_XLSX(@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("sourceCode") final String sourceCode, @PathParam("fromYear") final Long fromYear, @PathParam("toYear") final Long toYear,
-			@PathParam("language") final String language) {
+	@PermitAll
+	public XSSFWorkbook exportIndicator_XLSX(@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("sourceCode") final String sourceCode,
+			@PathParam("fromYear") final Long fromYear, @PathParam("toYear") final Long toYear, @PathParam("language") final String language) {
 		return exporterService.exportIndicator_XLSX(indicatorTypeCode, sourceCode, fromYear, toYear, language);
 	}
 
