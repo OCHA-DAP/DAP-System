@@ -24,37 +24,35 @@ import org.ocha.hdx.validation.itemvalidator.IValidatorCreator;
 import org.ocha.hdx.validation.prevalidator.IPreValidatorCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
- *
- * Sample implementation of the {@link AbstractValidatingImporter} that has the same functionality as {@link ScraperImporter}
- * plus the validation part
- *
+ * 
+ * Sample implementation of the {@link AbstractValidatingImporter} that has the same functionality as {@link ScraperImporter} plus the
+ * validation part
+ * 
  * @author alexandru-m-g
- *
+ * 
  */
 public class ScraperValidatingImporter extends AbstractValidatingImporter {
 
 	private static Logger logger = LoggerFactory.getLogger(ScraperValidatingImporter.class);
 
-
 	Map<String, String> sourcesMap = new HashMap<>();
 	/**
 	 * The key here will be indicator type code + source code
 	 */
-	Map<String, AbstractColumnsTransformer> colTransformers	= new HashMap<String, AbstractColumnsTransformer>();
+	Map<String, AbstractColumnsTransformer> colTransformers = new HashMap<String, AbstractColumnsTransformer>();
 
 	Map<String, IndicatorType> indicatorTypeCache = new HashMap<String, IndicatorType>();
 
 	private final IndicatorCreationService indicatorCreationService;
 
-
-	public ScraperValidatingImporter(final List<SourceDictionary> sourceDictionaries, final ResourceConfiguration resourceConfiguration,
-			final List<IValidatorCreator> validatorCreators, final List<IPreValidatorCreator> preValidatorCreators,
-			final ValidationReport report, final IndicatorCreationService indicatorCreationService) {
+	public ScraperValidatingImporter(final List<SourceDictionary> sourceDictionaries, final ResourceConfiguration resourceConfiguration, final List<IValidatorCreator> validatorCreators,
+			final List<IPreValidatorCreator> preValidatorCreators, final ValidationReport report, final IndicatorCreationService indicatorCreationService) {
 
 		super(resourceConfiguration, validatorCreators, preValidatorCreators, report);
 
-		this.indicatorCreationService	= indicatorCreationService;
+		this.indicatorCreationService = indicatorCreationService;
 
 		if (sourceDictionaries != null) {
 			for (final SourceDictionary sourceDictionary : sourceDictionaries) {
@@ -97,21 +95,19 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 	}
 
 	@Override
-	protected PreparedIndicator createPreparedIndicator(final String [] values) {
-		final PreparedIndicator preparedIndicator	= new PreparedIndicator();
+	protected PreparedIndicator createPreparedIndicator(final String[] values) {
+		final PreparedIndicator preparedIndicator = new PreparedIndicator();
 		if (this.sourcesMap.containsKey(values[0])) {
 			preparedIndicator.setSourceCode(this.sourcesMap.get(values[0]));
 		} else {
 			preparedIndicator.setSourceCode(values[0]);
 		}
 		preparedIndicator.setIndicatorTypeCode(values[2]);
-		final String key		= this.generateMapKey(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
-		final IndicatorTypeInformationHolder indTypeInfoHolder		= this.getIndTypeInfoHolder(key);
-		final Map<String, AbstractConfigEntry> indConfigMap			= indTypeInfoHolder.getIndicatorEntries();
+		final String key = this.generateMapKey(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
+		final IndicatorTypeInformationHolder indTypeInfoHolder = this.getIndTypeInfoHolder(key);
+		final Map<String, AbstractConfigEntry> indConfigMap = indTypeInfoHolder.getIndicatorEntries();
 
-
-		final AbstractColumnsTransformer transformer =
-				this.generateColumnsTransformer(key, indConfigMap, preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
+		final AbstractColumnsTransformer transformer = this.generateColumnsTransformer(key, indConfigMap, preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
 
 		preparedIndicator.setEntityCode(transformer.getEntityCode(values));
 		preparedIndicator.setEntityTypeCode(transformer.getEntityTypeCode(values));
@@ -144,9 +140,9 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 	private AbstractColumnsTransformer generateColumnsTransformer(final String key, final Map<String, AbstractConfigEntry> indConfigMap, final String indTypeCode, final String sourceCode) {
 		AbstractColumnsTransformer transformer = this.colTransformers.get(key);
 		if (transformer == null) {
-			final List<IndicatorResourceConfigEntry> embeddedConfigs	= this.indicatorCreationService.findEmbeddedConfigs(indTypeCode, sourceCode);
+			final List<IndicatorResourceConfigEntry> embeddedConfigs = this.indicatorCreationService.findEmbeddedConfigs(indTypeCode, sourceCode);
 			for (final IndicatorResourceConfigEntry indicatorResourceConfigEntry : embeddedConfigs) {
-				final AbstractConfigEntry value	= indConfigMap.get(indicatorResourceConfigEntry.getEntryKey());
+				final AbstractConfigEntry value = indConfigMap.get(indicatorResourceConfigEntry.getEntryKey());
 				if (value == null) {
 					indConfigMap.put(indicatorResourceConfigEntry.getEntryKey(), indicatorResourceConfigEntry);
 				}
@@ -159,11 +155,11 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 
 	@Override
 	public List<Indicator> transformToFinalFormat() {
-		final List<Indicator> list	= new ArrayList<Indicator>();
+		final List<Indicator> list = new ArrayList<Indicator>();
 		for (final PreparedIndicator preparedIndicator : this.preparedData.getIndicatorsToImport()) {
 			try {
-				final Indicator indicator	= this.indicatorCreationService.createIndicator(preparedIndicator);
-				if ( this.validation(indicator) ) {
+				final Indicator indicator = this.indicatorCreationService.createIndicator(preparedIndicator);
+				if (this.validation(indicator)) {
 					list.add(indicator);
 				}
 			} catch (final Exception e) {
