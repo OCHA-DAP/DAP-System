@@ -145,6 +145,7 @@ public class HDXServiceImplTest {
 	}
 
 	@Test
+	@Ignore
 	public void testAddResourceToCKANDataset() throws IOException {
 		// hdxService.checkForNewCKANDatasets();
 		// final String firstDatasetName = ckanDatasetDAO.listCKANDatasets().get(0).getName();

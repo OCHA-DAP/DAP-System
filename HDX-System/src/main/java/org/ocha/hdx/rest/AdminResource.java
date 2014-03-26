@@ -1324,22 +1324,6 @@ public class AdminResource {
 		return Response.ok(new Viewable("/admin/reportsCountry")).build();
 	}
 
-	@GET
-	@Path("/exporterpublisher/country/xlsx/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/")
-	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-	public Response publishCountry_XLSX(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
-			@PathParam("language") final String language, @Context final UriInfo uriInfo) {
-		final String url = String.format("%s/exporter/country/xlsx/%s/fromYear/%d/toYear/%d/language/%s/%s_baseline.xlsx", uriInfo.getBaseUriBuilder().path("/api").build().toString(), countryCode,
-				fromYear, toYear, language, countryCode);
-
-		logger.debug(String.format("About to publish doc at url %s", url));
-
-		this.hdxService.addResourceToCKANDataset(countryCode.toLowerCase(), url, String.format("%s_baseline.xlsx", countryCode));
-
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/reports/country").build();
-		return Response.seeOther(newURI).build();
-	}
-
 	/* Indicator */
 	@GET
 	@Path("/reports/indicator")
