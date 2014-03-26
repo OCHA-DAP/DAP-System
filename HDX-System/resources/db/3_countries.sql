@@ -12,7 +12,7 @@ INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'Crisis');
 INSERT INTO entity_type(id, code, text_id) VALUES (nextval('entity_type_seq'), 'crisis',currval('text_seq'));
 
 /* countries */
-SELECT 'Starting countries' from text limit 0;
+SELECT 'Starting countries' from text limit 1;
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'AFGHANISTAN');
 INSERT INTO entity(id, code, text_id, entity_type_id) SELECT nextval('entity_seq'),'AFG', currval('text_seq'), id FROM entity_type WHERE code='country' ;
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'ALBANIA');

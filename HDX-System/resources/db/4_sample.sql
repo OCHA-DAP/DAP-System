@@ -24,7 +24,7 @@ ALTER SEQUENCE entity_seq RESTART WITH 5;
 */
 /*END  entity - countries*/
 
-SELECT 'Starting language and translations' from text limit 0;
+SELECT 'Starting language and translations' from text limit 1;
 
 /* languages & translations */
 INSERT INTO language(code, native_name) VALUES ('FR', 'Français');
@@ -348,41 +348,58 @@ INSERT INTO organisation(id, org_link, full_name_id, short_name_id) SELECT nextv
 /* END organisations */
 
 /* sources */
-SELECT 'Starting sources' from text limit 0;
+SELECT 'Starting sources' from text limit 1;
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'World Bank');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'world-bank', currval('text_seq'));
+INSERT INTO source_dictionary(importer,unnormalized_name, source_id) VALUES('SCRAPER_VALIDATING','World Bank',currval('source_seq'));
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'mdgs');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'mdgs', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'emdat');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'emdat', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'HDRStats');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'hdrstats', currval('text_seq'));
+INSERT INTO source_dictionary(importer,unnormalized_name, source_id) VALUES('SCRAPER_VALIDATING','HDRStats',currval('source_seq'));
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'm49');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'm49', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'unterm');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'unterm', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'esa-unpd-WPP2012');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'esa-unpd-wpp2012', currval('text_seq'));
+INSERT INTO source_dictionary(importer,unnormalized_name, source_id) VALUES('SCRAPER_VALIDATING','esa-unpd-WPP2012',currval('source_seq'));
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'wikipedia');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'wikipedia', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'worldbank-lending-groups');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'worldbank-lending-groups', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'accuweather');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'accuweather', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'unicef-infobycountry');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'unicef-infobycountry', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'esa-unpd-WUP2011');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'esa-unpd-wup2011', currval('text_seq'));
+INSERT INTO source_dictionary(importer,unnormalized_name, source_id) VALUES('SCRAPER_VALIDATING','esa-unpd-WUP2011',currval('source_seq'));
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'faostat3');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'faostat3', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'worldaerodata');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'worldaerodata', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'fao-foodsec');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'fao-foodsec', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'echo');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'echo', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'acled');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'acled', currval('text_seq'));
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'hdi-disaster');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'hdi-disaster', currval('text_seq'));
 /* END sources */

@@ -73,10 +73,10 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		case SCRAPER_VALIDATING:
 
 		case SCRAPER:
-            final ValidationReport validationReport = new ScraperValidator().evaluateFile(file);
-            //since we're using the same validator for both types, we're setting the correct type afterwards
-            validationReport.setValidator(type);
-            return validationReport;
+			final ValidationReport validationReport = new ScraperValidator().evaluateFile(file);
+			// since we're using the same validator for both types, we're setting the correct type afterwards
+			validationReport.setValidator(type);
+			return validationReport;
 
 		default:
 			return this.defaultValidationFail(file);
@@ -84,10 +84,10 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	}
 
 	@Override
-	public boolean transformAndImportDataFromResource(final File file, final Type type, final String resourceId, final String revisionId,
-			final ResourceConfiguration config, final ValidationReport report) {
+	public boolean transformAndImportDataFromResource(final File file, final Type type, final String resourceId, final String revisionId, final ResourceConfiguration config,
+			final ValidationReport report) {
 
-		HDXWithCountryListImporter importer	= null;
+		HDXWithCountryListImporter importer = null;
 		// FIXME we probably want something else here, map of HDXImporter, or
 		// Factory....
 		final PreparedData preparedData;
@@ -100,15 +100,15 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			preparedData = this.prepareDataForImport(file, importer);
 			break;
 		case SCRAPER_VALIDATING:
-			importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByImporter("scraper-validator"),
-					config, this.validatorCreators, this.preValidatorCreators, report,  this.indicatorCreationService);
+			importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByImporter(CKANDataset.Type.SCRAPER_VALIDATING.toString()), config, this.validatorCreators,
+					this.preValidatorCreators, report, this.indicatorCreationService);
 			preparedData = this.prepareDataForImport(file, importer);
 			break;
 		default:
 			preparedData = this.defaultImportFail(file);
 		}
 		if (preparedData.isSuccess()) {
-			final List<Indicator> indicators =  importer.transformToFinalFormat();
+			final List<Indicator> indicators = importer.transformToFinalFormat();
 			this.saveReadIndicatorsToDatabase(indicators, resourceId, revisionId);
 		}
 
@@ -135,7 +135,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	@Override
 	public void saveReadIndicatorsToDatabase(final List<Indicator> indicators, final String resourceId, final String revisionId) {
 		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
-		for (final Indicator indicator : indicators ) {
+		for (final Indicator indicator : indicators) {
 			try {
 				this.curatedDataService.createIndicator(indicator, importFromCKAN);
 			} catch (final Exception e) {
