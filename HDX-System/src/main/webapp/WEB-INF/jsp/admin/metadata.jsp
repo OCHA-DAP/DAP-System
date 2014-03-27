@@ -16,22 +16,24 @@
 <body ng-controller="MetadataCtrl">
 	<jsp:include page="admin-menu.jsp" />
 	<div>
-		<h3>Metadata</h3>
+		<h3>Metadata managements</h3>
 		<div style="width: 400px; margin-bottom: 20px;">
 			<div class="form-group">
 				<label for="indicatorType">Indicator type</label> <select class="form-control" id="indicatorType" ng-model="indicatorType" ng-change="indicatorTypeSelect()"
-					ng-options="indicatorType.code for indicatorType in indicatorTypes" ng-class="default">
+					ng-options="indicatorType as (indicatorType | showIndicatorType) for indicatorType in indicatorTypes" ng-class="default">
 				</select>
 			</div>
 			<div class="form-group">
 				<label for="source">Source</label> <select class="form-control" id="source" ng-disabled="sourceUnavailable" ng-model="source" ng-change="sourceSelect()"
-					ng-options="source.code for source in sources" ng-class="default">
+					ng-options="source as (source | showSource) for source in sources" ng-class="default">
 				</select>
 			</div>
 			<button class="btn btn-primary btn-custom-default" ng-click="showMetadata()" ng-disabled="sourceUnavailable">Show metadata</button>
+			<button class="btn btn-primary btn-custom-default" ng-click="showTimeParameters()" ng-disabled="sourceUnavailable">Show time parameters</button>
 		</div>
 
 		<div style="width: 800px;" ng-show="metadataAvailable">
+			<h4>Metadata for indicator type [{{indicatorType.code}}] and source [{{source.code}}]</h4>
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" id="metadataTabs">
 				<li class="active"><a href="#DATASET_SUMMARY" data-toggle="tab">Dataset summary</a></li>
@@ -92,6 +94,26 @@
 						<button class="btn btn-primary btn-custom-default" ng-click="termsOfUseForm.$show()">Edit</button>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div style="width: 800px;" ng-show="timeParametersAvailable">
+			<h4>Time parameters for indicator type [{{indicatorType.code}}] and source [{{source.code}}]</h4>
+			<div style="width: 400px;">
+				<form novalidate name="timeParametersForm" class="css-form">
+					<div class="form-group">
+						<label for="expectedTimeFormat">Expected time format</label> <input type="text" class="form-control" placeholder="Expected time format..." ng-model="timeParameters.expectedTimeFormat"
+							id="expectedTimeFormat" />
+					</div>
+					<div class="form-group">
+						<label for="interpretedStartTime">Interpreted start time</label> <input type="text" class="form-control" placeholder="Interpreted start time..." ng-model="timeParameters.interpretedStartTime"
+							id="interpretedStartTime" />
+					</div>
+					<div class="form-group">
+						<label for="interpretedEndTime">Interpreted end time</label> <input type="text" class="form-control" placeholder="Interpreted end time..." ng-model="timeParameters.interpretedEndTime"
+							id="interpretedEndTime" />
+					</div>
+					<button class="btn btn-primary btn-custom-default" ng-click="updateTimeParameters()">Save</button>
+				</form>
 			</div>
 		</div>
 	</div>
