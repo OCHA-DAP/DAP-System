@@ -148,3 +148,20 @@ legend.test {
 .gray {
 	color: gray;
 }
+
+#footer {
+  font-size: 12px;
+  height: 20px;
+  margin-bottom: 10px;
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: black;
+  background: #CECFBD;
+}
+
+#footer p.right {
+  float: right;
+  padding: 0 10px;
+  line-height: 18px;
+  text-align: right;
+}

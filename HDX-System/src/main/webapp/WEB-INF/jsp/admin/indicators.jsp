@@ -238,5 +238,6 @@
 		<p>Languages : {{ languages | json }}</p>
 	</pre>
 	</div>
+	<jsp:include page="admin-footer.jsp" />
 </body>
 </html>

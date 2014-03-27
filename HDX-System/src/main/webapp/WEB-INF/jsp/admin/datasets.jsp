@@ -48,5 +48,7 @@
 
 		</table>
 	</div>
+	
+	<jsp:include page="admin-footer.jsp" />
 </body>
 </html>

@@ -18,5 +18,7 @@
 			<li class="${entry.status}">${entry.status}:${entry.message}</li>
 		</c:forEach>
 	</ul>
+	
+	<jsp:include page="admin-footer.jsp" />
 </body>
 </html>

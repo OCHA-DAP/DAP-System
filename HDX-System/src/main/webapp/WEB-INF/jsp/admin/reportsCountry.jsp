@@ -54,5 +54,7 @@
 		<p>Entities : {{ entities | json }}</p>
 	</pre>
 	</div>
+	
+	<jsp:include page="admin-footer.jsp" />
 </body>
 </html>
