@@ -9,14 +9,14 @@
 <meta charset="UTF-8">
 <jsp:include page="css-includes.jsp" />
 <jsp:include page="js-includes.jsp">
-	<jsp:param name="which" value="metadata" />
+	<jsp:param name="which" value="dataSeries" />
 	<jsp:param name="needs" value="languages,indicatorTypes" />
 </jsp:include>
 </head>
-<body ng-controller="MetadataCtrl">
+<body ng-controller="DataSeriesCtrl">
 	<jsp:include page="admin-menu.jsp" />
 	<div>
-		<h3>Metadata managements</h3>
+		<h3>Data Series management</h3>
 		<div style="width: 400px; margin-bottom: 20px;">
 			<div class="form-group">
 				<label for="indicatorType">Indicator type</label> <select class="form-control" id="indicatorType" ng-model="indicatorType" ng-change="indicatorTypeSelect()"

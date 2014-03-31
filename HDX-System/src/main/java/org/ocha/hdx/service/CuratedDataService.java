@@ -12,6 +12,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
+import org.ocha.hdx.persistence.entity.curateddata.Organization;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
@@ -66,6 +67,19 @@ public interface CuratedDataService {
 	public void deleteIndicatorType(final long indicatorTypeId);
 
 	public void updateIndicatorType(final long indicatorTypeId, final String newName, final long newUnit, final String newValueType);
+
+	/*
+	 * Organizations
+	 */
+	public List<Organization> listOrganizations();
+
+	public void createOrganization(final String shortName, final String fullName, final String link);
+
+	public Organization getOrganization(final Long id);
+
+	public void deleteOrganization(final long organizationId);
+
+	public void updateOrganization(long organizationId, String newShortName, String newFullName, String newLink);
 
 	/*
 	 * Sources
@@ -226,5 +240,6 @@ public interface CuratedDataService {
 
 	// Indicator overview
 	public Object[] getIndicatorTypeOverview(String indicatorTypeCode, String sourceCode, String language);
+
 
 }

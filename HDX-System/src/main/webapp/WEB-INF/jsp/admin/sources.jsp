@@ -50,7 +50,7 @@
 				<td style="width: 15%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a> <columnsearch param="search.name"></columnsearch></td>
 				<td style="width: 15%"><a href="" ng-click="predicate='link'; reverse=!reverse">Link</a> <columnsearch param="search.link"></columnsearch></td>
 				<td style="width: 35%">Translations</td>
-				<td style="width: 20%">Action</td>
+				<td style="width: 20%">Action&nbsp;<span class="glyphicon glyphicon-info-sign gray hdx_tooltip" data-placement="top" title="Actions"></span></td>
 			</tr>
 			<tr ng-repeat="source in sources | filter:search | orderBy:predicate:reverse">
 				<td>

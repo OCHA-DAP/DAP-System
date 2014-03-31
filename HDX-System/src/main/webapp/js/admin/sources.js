@@ -148,7 +148,7 @@ app.controller('SourcesCtrl', function($scope, $filter, utilities) {
       }
     });
   }
-  
+
   // Get a source by its id
   // ======================
   $scope.getSourceById = function(sourceId) {

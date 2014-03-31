@@ -23,7 +23,7 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
 @Entity
 @Table(name = "organisation")
 @SequenceGenerator(name = "organisation_seq", sequenceName = "organisation_seq")
-public class Organisation {
+public class Organization {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "organisation_seq")
 	@Column(name = "id", nullable = false)
@@ -46,10 +46,10 @@ public class Organisation {
 	private Text shortName;
 
 
-	public Organisation() {
+	public Organization() {
 	}
 
-	public Organisation(final String orgLink, final Text fullName, final Text shortName) {
+	public Organization(final String orgLink, final Text fullName, final Text shortName) {
 		this.orgLink = orgLink;
 		this.fullName = fullName;
 		this.shortName = shortName;

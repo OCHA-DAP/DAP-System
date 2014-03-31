@@ -1,0 +1,103 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set value="${pageContext.request.contextPath}" var="ctx" scope="request" />
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+<meta charset="UTF-8">
+<jsp:include page="css-includes.jsp" />
+<jsp:include page="js-includes.jsp">
+	<jsp:param name="which" value="organizations" />
+	<jsp:param name="i18n" value="true" />
+	<jsp:param name="needs" value="search,columnsearch" />
+</jsp:include>
+</head>
+<body ng-controller="OrganizationsCtrl">
+	<jsp:include page="admin-menu.jsp" />
+	<div>
+		<h3>Add organization</h3>
+		<form novalidate name="createResourceForm" class="css-form">
+			<table class="table table-bordered table-hover table-condensed">
+				<tr style="font-weight: bold">
+					<td style="width: 15%">Short name</td>
+					<td style="width: 15%">Full name</td>
+					<td style="width: 50%">Link</td>
+					<td style="width: 20%">Action</td>
+				</tr>
+				<tr>
+					<td><input type="text" class="form-control" placeholder="Short name..." id="newResource_shortName" ng-model="newResource.shortName" required /></td>
+					<td><input type="text" class="form-control" placeholder="Full name..." id="newResource_fullName" ng-model="newResource.fullName" required /></td>
+					<td>
+						<div class="input-group">
+							<span class="input-group-addon">http://</span>
+							<input type="text" class="form-control" id="newResource_link" ng-model="newResource.link" />
+						</div>
+					</td>
+					<td style="white-space: nowrap">
+						<button class="btn btn-primary btn-custom-default" ng-click="createOrganization(newResource)">Add</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<search title="Organizations"></search>
+	<div ng-controller="I18nCtrl">
+		<table class="table table-bordered table-hover table-condensed">
+			<tr style="font-weight: bold">
+				<td style="width: 10%"><a href="" ng-click="predicate='code'; reverse=!reverse">Short name</a> <columnsearch param="search.shortName"></columnsearch></td>
+				<td style="width: 30%">Translations</td>
+				<td style="width: 10%"><a href="" ng-click="predicate='name'; reverse=!reverse">Full name</a> <columnsearch param="search.fullName"></columnsearch></td>
+				<td style="width: 30%">Translations</td>
+				<td style="width: 10%"><a href="" ng-click="predicate='link'; reverse=!reverse">Link</a> <columnsearch param="search.link"></columnsearch></td>
+				<td style="width: 10%">Action&nbsp;<span class="glyphicon glyphicon-info-sign gray hdx_tooltip" data-placement="top" title="Actions"></span></td>
+			</tr>
+			<tr ng-repeat="organization in organizations | filter:search | orderBy:predicate:reverse">
+				<td>
+					<!-- editable short name --> <span editable-text="organization.shortName" e-class="form-control" e-name="shortName" e-form="rowform" e-required> {{ organization.shortName}} </span>
+				</td>
+				<td>
+                    <jsp:include page="i18n.jsp">
+                        <jsp:param name="item" value="organization.shortNameTranslations"/>
+                        <jsp:param name="collection" value="shortNames"/>
+                    </jsp:include>
+				</td>
+				<td>
+					<!-- editable full name --> <span editable-text="organization.fullName" e-class="form-control" e-name="fullName" e-form="rowform" e-required> {{ organization.fullName}} </span>
+				</td>
+				<td>
+                    <jsp:include page="i18n.jsp">
+                        <jsp:param name="item" value="organization.fullNameTranslations"/>
+                        <jsp:param name="collection" value="fullNames"/>
+                    </jsp:include>
+				</td>
+				<td>
+					<!-- editable link --> <span editable-text="organization.link" e-class="form-control" e-name="link" e-id="link" e-form="rowform" e-required>
+						<a href="{{ organization.link }}" target="_blank"> {{ organization.link }} </a>
+					</span>
+				</td>
+				<td style="white-space: nowrap">
+					<!-- form -->
+					<form editable-form name="rowform" onbeforesave="updateOrganization($data, organization.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == organization">
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
+						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
+					</form>
+					<div class="buttons" ng-show="!rowform.$visible">
+						<button class="btn btn-primary btn-custom-default" ng-click="rowform.$show()">Edit</button>
+						<button class="btn btn-danger btn-custom-danger" ng-click="deleteOrganization(organization.id)">Delete</button>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div ng-show="showTestZone">
+		<h3>Test zone</h3>
+		<pre>
+			<p>Organizations : {{ organizations | json }}</p>
+			<p>Short names : {{ shortNames | json }}</p>
+			<p>Languages : {{ languages | json }}</p>
+		</pre>
+	</div>
+</body>
+</html>

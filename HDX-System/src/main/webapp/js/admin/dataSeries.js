@@ -1,4 +1,4 @@
-app.controller('MetadataCtrl', function($scope, $filter, $http, utilities) {
+app.controller('DataSeriesCtrl', function($scope, $filter, $http, utilities) {
 
   // /////////
   // Resources

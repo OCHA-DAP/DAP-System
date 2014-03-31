@@ -44,7 +44,7 @@ public class Source {
 	@ManyToOne
 	@JoinColumn(name = "organisation_id")
 	@ForeignKey(name = "fk_source_to_organisation")
-	private Organisation organisation;
+	private Organization organization;
 
 	public long getId() {
 		return this.id;

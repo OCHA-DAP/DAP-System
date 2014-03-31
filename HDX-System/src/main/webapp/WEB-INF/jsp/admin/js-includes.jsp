@@ -132,3 +132,9 @@ if(needs.contains("sources")) {
 	} // End if(needs.contains("entities")) {
 	} // End if (null != needsRequest && !"".equals(needsRequest)) {
 %>
+<script>
+	// Activate tooltips
+	jQuery(function($) {
+		$(".hdx_tooltip").tooltip()
+	});
+</script>

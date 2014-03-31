@@ -159,3 +159,7 @@ legend.test {
     border-left: 1px solid lightGray;
     border-bottom: 1px solid lightGray;
 }
+
+search {
+	display: block;
+}

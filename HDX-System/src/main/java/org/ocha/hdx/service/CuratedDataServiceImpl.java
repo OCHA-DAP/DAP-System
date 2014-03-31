@@ -15,6 +15,7 @@ import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
+import org.ocha.hdx.persistence.dao.currateddata.OrganizationDAO;
 import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
 import org.ocha.hdx.persistence.dao.currateddata.UnitDAO;
 import org.ocha.hdx.persistence.dao.dictionary.IndicatorTypeDictionaryDAO;
@@ -29,6 +30,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
+import org.ocha.hdx.persistence.entity.curateddata.Organization;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
@@ -67,6 +69,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private SourceDAO sourceDAO;
+
+	@Autowired
+	private OrganizationDAO organizationDAO;
 
 	@Autowired
 	private IndicatorDAO indicatorDAO;
@@ -197,6 +202,39 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Transactional
 	public void deleteIndicatorType(final long indicatorTypeId) {
 		indicatorTypeDAO.deleteIndicatorType(indicatorTypeId);
+	}
+
+	/*
+	 * Organizations
+	 */
+	@Override
+	public List<Organization> listOrganizations() {
+		return organizationDAO.listOrganizations();
+	}
+
+	@Override
+	@Transactional
+	public void createOrganization(final String shortNameDefaultValue, final String fullNameDefaultValue, final String link) {
+		final Text shortName = textDAO.createText(shortNameDefaultValue);
+		final Text fullName = textDAO.createText(fullNameDefaultValue);
+		organizationDAO.createOrganization(link, fullName, shortName);
+	}
+
+	@Override
+	public Organization getOrganization(final Long id) {
+		return organizationDAO.getOrganizationById(id);
+	}
+
+	@Override
+	@Transactional
+	public void updateOrganization(final long organizationId, final String newShortName, final String newFullName, final String newLink) {
+		organizationDAO.updateOrganization(organizationId, newLink, newFullName, newShortName);
+	}
+
+	@Override
+	@Transactional
+	public void deleteOrganization(final long organizationId) {
+		organizationDAO.deleteOrganization(organizationId);
 	}
 
 	/*

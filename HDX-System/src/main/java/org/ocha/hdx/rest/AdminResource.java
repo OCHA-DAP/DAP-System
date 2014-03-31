@@ -38,6 +38,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
+import org.ocha.hdx.persistence.entity.curateddata.Organization;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
@@ -455,6 +456,16 @@ public class AdminResource {
 		// Could do with Class.forName and annotations to know how to use identifier, or interface also...
 		final Long id = Long.valueOf(identifier);
 		switch (resource) {
+		case "organization.shortNameTranslations": {
+			final Organization theResource = curatedDataService.getOrganization(id);
+			translations = theResource.getShortName().getTranslations();
+		}
+			break;
+		case "organization.fullNameTranslations": {
+			final Organization theResource = curatedDataService.getOrganization(id);
+			translations = theResource.getFullName().getTranslations();
+		}
+			break;
 		case "source": {
 			final Source theResource = curatedDataService.getSource(id);
 			translations = theResource.getName().getTranslations();
@@ -977,6 +988,82 @@ public class AdminResource {
 	}
 
 	/*
+	 * Curated / organizations management
+	 */
+	@GET
+	@Path("/curated/organizations")
+	public Response displayOrganizationsList() {
+		return Response.ok(new Viewable("/admin/organizations", curatedDataService.listOrganizations())).build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("curated/organizations/json")
+	public String getOrganizations(@QueryParam("var") final String var) throws TypeMismatchException {
+
+		String result = "";
+
+		final List<Organization> listOrganizations = curatedDataService.listOrganizations();
+		final JsonArray jsonArray = new JsonArray();
+		for (final Organization organization : listOrganizations) {
+			final JsonObject jsonOrganization = organizationToJson(organization);
+
+			jsonArray.add(jsonOrganization);
+		}
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
+	}
+
+	private static JsonObject organizationToJson(final Organization organization) {
+		final JsonObject jsonOrganization = new JsonObject();
+		jsonOrganization.addProperty("id", organization.getId());
+		jsonOrganization.addProperty("shortName", organization.getShortName().getDefaultValue());
+		jsonOrganization.addProperty("fullName", organization.getFullName().getDefaultValue());
+		jsonOrganization.addProperty("link", organization.getOrgLink());
+
+		final List<Translation> shortNameTranslations = organization.getShortName().getTranslations();
+		final JsonObject jsonShortNameTranslations = new JsonObject();
+		jsonOrganization.add("shortNameTranslations", jsonShortNameTranslations);
+		final JsonArray jsonShortNameTranslationsArray = translationsToJson(shortNameTranslations);
+		jsonShortNameTranslations.addProperty("id", organization.getId());
+		jsonShortNameTranslations.addProperty("text_id", organization.getShortName().getId());
+		jsonShortNameTranslations.add("translations", jsonShortNameTranslationsArray);
+
+		final List<Translation> fullNameTranslations = organization.getFullName().getTranslations();
+		final JsonObject jsonFullNameTranslations = new JsonObject();
+		jsonOrganization.add("fullNameTranslations", jsonFullNameTranslations);
+		final JsonArray jsonFullNameTranslationsArray = translationsToJson(fullNameTranslations);
+		jsonFullNameTranslations.addProperty("id", organization.getId());
+		jsonFullNameTranslations.addProperty("text_id", organization.getFullName().getId());
+		jsonFullNameTranslations.add("translations", jsonFullNameTranslationsArray);
+
+		return jsonOrganization;
+	}
+
+	@POST
+	@Path("/curated/organizations/submitCreate")
+	public Response createOrganization(@FormParam("shortName") final String shortName, @FormParam("fullName") final String fullName, @FormParam("link") final String link) {
+		curatedDataService.createOrganization(shortName, fullName, link);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/curated/organizations/submitDelete")
+	public Response deleteOrganization(@FormParam("organizationId") final long organizationId) {
+		curatedDataService.deleteOrganization(organizationId);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/curated/organizations/submitUpdate")
+	public Response updateOrganization(@FormParam("organizationId") final long organizationId, @FormParam("newShortName") final String newShortName, @FormParam("newFullName") final String newFullName, @FormParam("newLink") final String newLink) {
+		curatedDataService.updateOrganization(organizationId, newShortName, newFullName, newLink);
+		return Response.ok().build();
+	}
+
+	/*
 	 * Curated / sources management
 	 */
 	@GET
@@ -1180,10 +1267,10 @@ public class AdminResource {
 	// Metadata //
 	// //////// //
 	@GET
-	@Path("/curated/metadata")
+	@Path("/curated/dataSeries")
 	@SuppressWarnings("static-method")
 	public Response displayMetadata() {
-		return Response.ok(new Viewable("/admin/metadata")).build();
+		return Response.ok(new Viewable("/admin/dataSeries")).build();
 	}
 	
 	@GET

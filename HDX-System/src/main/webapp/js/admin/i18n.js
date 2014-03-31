@@ -1,7 +1,7 @@
 // ******************* //
 // The I18n controller //
 // ******************* //
-app.controller('I18nCtrl', function($scope, $filter, $http, utilities, $rootScope) {
+app.controller('I18nCtrl', function($rootScope, $scope, $filter, $http, utilities, $rootScope) {
 
   // /////////
   // Resources
@@ -11,6 +11,7 @@ app.controller('I18nCtrl', function($scope, $filter, $http, utilities, $rootScop
   }
   $scope.resources();
 
+  $rootScope.i18nUpdate = false;
   $rootScope.filterCount = 0;
   
   // ////////////////////
@@ -181,6 +182,7 @@ app.controller('TranslationsCtrl', function($scope, $filter, utilities, $rootSco
         console.log("Translation created for language [" + data.language.code + "]");
         $scope.resetNewTranslation();
         $scope.loadTranslations(instance, resource, identifier);
+        $rootScope.i18nUpdate = true;
       },
       errorCallback : function() {
         console.log("Translation error creation for language [" + data.language.code + "]");
@@ -241,6 +243,7 @@ app.controller('TranslationsCtrl', function($scope, $filter, utilities, $rootSco
       successCallback : function() {
         console.log("Translation updated for language [" + language_code + "]");
         $scope.loadTranslations(instance, resource, identifier);
+        $rootScope.i18nUpdate = true;
       },
       errorCallback : function() {
         console.log("Translation update error for language [" + language_code + "]");
@@ -272,6 +275,7 @@ app.controller('TranslationsCtrl', function($scope, $filter, utilities, $rootSco
         console.log("Translation deleted for language [" + language_code + "]");
         $scope.resetNewTranslation();
         $scope.loadTranslations(instance, resource, identifier);
+        $rootScope.i18nUpdate = true;
       },
       errorCallback : function() {
         console.log("Translation deletion error for language [" + language_code + "]");
