@@ -216,6 +216,31 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 	}
 
 	/**
+	 * Create a link cell (to another part in the same workbook).
+	 * @param row The row to create the cell into
+	 * @param columnIndex The column index to create the cell into
+	 * @param value The value to put in the cell 
+	 * @param address The actual link (e.g. "'Target sheet'!A1")
+	 * @return The newly created cell
+	 */
+	public static XSSFCell createLinkCell(final XSSFRow row, final int columnIndex, final String value, final String address) {
+		final Workbook workbook = row.getSheet().getWorkbook();
+		final CreationHelper createHelper = workbook.getCreationHelper();
+
+		final CellStyle hlink_style = workbook.createCellStyle();
+		hlink_style.setFont(getUrlFont(workbook));
+
+		final XSSFCell cell = row.createCell(columnIndex);
+		cell.setCellValue(value);
+
+		final org.apache.poi.ss.usermodel.Hyperlink link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+		link.setAddress(address);
+		cell.setHyperlink(link);
+		cell.setCellStyle(hlink_style);
+		return cell;
+	}
+
+	/**
 	 * Create a date cell.
 	 * @param row The row to create the cell into
 	 * @param columnIndex The column index to create the cell into

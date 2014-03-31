@@ -1,7 +1,9 @@
 package org.ocha.hdx.exporter.country;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -9,15 +11,21 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_XLSX;
+import org.ocha.hdx.exporter.QueryData.CHANNEL_KEYS;
 import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 import org.ocha.hdx.service.ExporterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract exporter for all country-centric sheets (except overview).
+ * 
  * @author bmichiels
  */
 public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<ExporterCountryQueryData> {
+
+	private static Logger logger = LoggerFactory.getLogger(AbstractExporterCountry_XLSX.class);
 
 	public AbstractExporterCountry_XLSX(final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter) {
 		super(exporter);
@@ -27,6 +35,7 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		super(exporterService);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData, final Map<String, ReportRow> data, final String sheetName) {
 		// TODO i18n, UT
 
@@ -76,10 +85,13 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 			final XSSFRow row = sheet.createRow(rowIndex);
 			rowIndex++;
 
-			createCell(row, 0, reportRow.getIndicatorTypeCode());
+			createLinkCell(row, 0, reportRow.getIndicatorTypeCode(), "'Definitions'!A1");
 			createCell(row, 1, reportRow.getIndicatorName());
 			createCell(row, 2, reportRow.getSourceCode());
 			createCell(row, 3, reportRow.getUnit());
+
+			// Keep track of the indicator types processed
+			trackIndicatorTypes(queryData, reportRow, sheetName);
 
 			// createDatasetSummaryCell(reportRow, 4, row);
 			createCell(row, 4, reportRow.getMetadata().get(EntryKey.DATASET_SUMMARY));
@@ -114,8 +126,25 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 			}
 		}
 
+		// Show processed indicator types so far
+		final Set<String[]> indicatorTypes = (Set<String[]>) queryData.getChannelValue(CHANNEL_KEYS.INDICATOR_TYPES);
+		logger.debug("Indicators type after " + this.getClass().getName() + " : ");
+		for (final String[] indicatorType : indicatorTypes) {
+			logger.debug("\t" + indicatorType[0] + " => " + indicatorType[1]);
+		}
+
 		return super.export(workbook, queryData);
 
+	}
+
+	private static void trackIndicatorTypes(final ExporterCountryQueryData queryData, final ReportRow reportRow, final String sheetName) {
+		@SuppressWarnings("unchecked")
+		Set<String[]> indicatorTypes = (Set<String[]>) queryData.getChannelValue(CHANNEL_KEYS.INDICATOR_TYPES);
+		if (null == indicatorTypes) {
+			indicatorTypes = new HashSet<String[]>();
+			queryData.setChannelValue(CHANNEL_KEYS.INDICATOR_TYPES, indicatorTypes);
+		}
+		indicatorTypes.add(new String[]{reportRow.getIndicatorTypeCode(), sheetName});
 	}
 
 	// private static void createDatasetSummaryCell(final ReportRow reportRow, final short position, final XSSFRow row) {
