@@ -336,10 +336,11 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
 
   $scope.showIndicatorType = function(ic) {
     if (ic.indTypeId) {
-      var selected = $filter('filter')($scope.indicatorTypes, {
-        id : ic.indTypeId
-      });
-      return (ic.indTypeId && selected.length)? selected[0].code : 'Not set';
+      for(i=0;i<$scope.indicatorTypes.length;i++){
+    	  if($scope.indicatorTypes[i].id == ic.indTypeId)
+    		  return $scope.indicatorTypes[i].code;
+      }
+      return 'Not set';
     } else {
       return ic.indTypeId || 'Not set';
     }
@@ -347,10 +348,11 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
   
   $scope.showSources = function(ic) {
     if (ic.srcId) {
-      var selected = $filter('filter')($scope.sources, {
-        id : ic.srcId
-      });
-      return selected.length ? selected[0].code : 'Not set';
+      for(i=0;i<$scope.sources.length;i++){
+    	  if($scope.sources[i].id == ic.srcId)
+    		  return $scope.sources[i].code;
+      }
+      return 'Not set';
     } else {
       return ic.srcId || 'Not set';
     }

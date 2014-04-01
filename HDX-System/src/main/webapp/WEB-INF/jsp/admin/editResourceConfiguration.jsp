@@ -82,9 +82,11 @@
 						<!-- non editable code  -->
 						<span e-name="key" e-form="gcform"> {{ gc.key }} </span>
 					</td>
-					<td>
-						<!-- editable native name  -->
-						<span editable-text="gc.value" e-class="form-control" e-name="value" e-form="gcform" e-required> {{ gc.value }} </span>
+					<td class="td_value">
+						<div>
+							<!-- editable native name  -->
+							<span editable-text="gc.value" e-class="form-control" e-name="value" e-form="gcform" e-required> {{ gc.value }} </span>
+						</div>
 					</td>
 					<td style="white-space: nowrap">
 						<form editable-form name="gcform" onbeforesave="updateGC($data, gc)" ng-show="gcform.$visible" class="form-buttons form-inline" shown="inserted == gc">
@@ -159,9 +161,11 @@
 						<!-- non editable code  -->
 						<span e-name="key" e-form="icform"> {{ ic.key }} </span>
 					</td>
-					<td>
+					<td class="td_value">
+						<div>
 						<!-- editable native name  -->
-						<span editable-text="ic.value" e-class="form-control" e-name="value" e-form="icform" e-required> {{ ic.value }} </span>
+							<span editable-text="ic.value" e-class="form-control" e-name="value" e-form="icform" e-required> {{ ic.value }} </span>
+						</div>
 					</td>
 					<td style="white-space: nowrap">
 						<form editable-form name="icform" onbeforesave="updateIC($data, ic)" ng-show="icform.$visible" class="form-buttons form-inline" shown="inserted == ic">

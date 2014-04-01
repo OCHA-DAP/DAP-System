@@ -16,6 +16,7 @@ td {
 	border-style: dotted;
 	border-color: black;
 	*/
+	
 }
 
 .menu ul {
@@ -47,7 +48,6 @@ td {
 .menu ul a:hover {
 	text-decoration: underline;
 }
-
 
 /*
 Translations CSS settings
@@ -149,17 +149,24 @@ legend.test {
 	color: gray;
 }
 
-
 .scrollable-tab-pane {
-    overflow-y: auto;
-    height: 200px;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-right: 1px solid lightGray;
-    border-left: 1px solid lightGray;
-    border-bottom: 1px solid lightGray;
+	overflow-y: auto;
+	height: 200px;
+	padding: 10px;
+	margin-bottom: 20px;
+	border-right: 1px solid lightGray;
+	border-left: 1px solid lightGray;
+	border-bottom: 1px solid lightGray;
 }
 
 search {
 	display: block;
+}
+
+.td_value div {
+	height: 50px;
+	max-height: 200px;
+	width: auto;
+	max-width: 500px;
+	overflow: auto;
 }
