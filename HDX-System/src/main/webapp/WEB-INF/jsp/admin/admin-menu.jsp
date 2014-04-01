@@ -34,12 +34,14 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 				<ul class="dropdown-menu">
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/importsfromckan') }"><a href="${ctx}/admin/curated/importsfromckan/">Imports From CKAN</a></li>
 					<li class="divider"></li>
+					<li ng-class="{ active: isActive('${ctx}/admin/curated/organizations') }"><a href="${ctx}/admin/curated/organizations/">Organizations</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/sources') }"><a href="${ctx}/admin/curated/sources/">Sources</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/entityTypes') }"><a href="${ctx}/admin/curated/entityTypes/">Entity types</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/entities') }"><a href="${ctx}/admin/curated/entities/">Entities</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/indicatorTypes') }"><a href="${ctx}/admin/curated/indicatorTypes/">Indicator types</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/indicators') }"><a href="${ctx}/admin/curated/indicators/">Indicators</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/curated/units') }"><a href="${ctx}/admin/curated/units/">Units</a></li>
+					<li ng-class="{ active: isActive('${ctx}/admin/curated/dataSeries') }"><a href="${ctx}/admin/curated/dataSeries/">Data Series</a></li>
 				</ul></li>
 		</ul>
 		<ul class="nav navbar-nav">

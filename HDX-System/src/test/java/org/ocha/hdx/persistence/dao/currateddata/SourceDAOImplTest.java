@@ -16,6 +16,7 @@ import org.ocha.hdx.persistence.entity.curateddata.EntityType;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
+import org.ocha.hdx.persistence.entity.curateddata.Organization;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
@@ -53,6 +54,9 @@ public class SourceDAOImplTest {
 	private UnitDAO unitDAO;
 
 	@Autowired
+	private OrganizationDAO organizationDAO;
+
+	@Autowired
 	private TextDAO textDAO;
 
 	@Test
@@ -68,15 +72,20 @@ public class SourceDAOImplTest {
 		Assert.assertEquals(0, sourceDAO.listSources().size());
 
 		final Text text = textDAO.createText("World Bank");
-		sourceDAO.createSource("WB", text, "www.test.com");
+		final Text ftext = textDAO.createText("fullName org");
+		final Text stext = textDAO.createText("shortName org");
+		organizationDAO.createOrganization("www.org.org", ftext, stext);
+		final Organization organization = organizationDAO.listOrganizations().get(0);
+		sourceDAO.createSource("WB", text, "www.test.com", organization);
 		final Source wbSource = sourceDAO.getSourceByCode("WB");
 		Assert.assertEquals("World Bank", wbSource.getName().getDefaultValue());
 		Assert.assertEquals("www.test.com", wbSource.getOrgLink());
+		Assert.assertEquals(organization.getId(), wbSource.getOrganization().getId());
 		Assert.assertEquals(1, sourceDAO.listSources().size());
 		
 
 		final Text text2 = textDAO.createText("Test source");
-		sourceDAO.createSource("TS", text2, "www.testsource.com");
+		sourceDAO.createSource("TS", text2, "www.testsource.com", organization);
 		final Source tsSource = sourceDAO.getSourceByCode("TS");
 
 		final Text uText = textDAO.createText("Test unit");
@@ -133,6 +142,7 @@ public class SourceDAOImplTest {
 		textDAO.deleteText(wbSource.getName().getId());
 		Assert.assertEquals(0, sourceDAO.listSources().size());
 
+		organizationDAO.deleteOrganization(organization.getId());
 	}
 
 	@Test
@@ -140,7 +150,11 @@ public class SourceDAOImplTest {
 		logger.info("Testing create source...");
 
 		final Text s1 = textDAO.createText("Source 1");
-		sourceDAO.createSource("S1", s1, "www.test.com");
+		final Text ftext = textDAO.createText("fullName org");
+		final Text stext = textDAO.createText("shortName org");
+		organizationDAO.createOrganization("www.org.org", ftext, stext);
+		final Organization organization = organizationDAO.listOrganizations().get(0);
+		sourceDAO.createSource("S1", s1, "www.test.com", organization);
 
 		final Source sourceForCode = sourceDAO.getSourceByCode("S1");
 		Assert.assertEquals("Source 1", sourceForCode.getName().getDefaultValue());
@@ -153,6 +167,8 @@ public class SourceDAOImplTest {
 		sourceDAO.deleteSourceByCode("S1");
 
 		Assert.assertEquals(0, sourceDAO.listSources().size());
+
+		organizationDAO.deleteOrganization(organization.getId());
 	}
 
 	@Test
@@ -160,10 +176,14 @@ public class SourceDAOImplTest {
 		logger.info("Testing update source...");
 
 		final Text s1 = textDAO.createText("S1");
-		sourceDAO.createSource("S1", s1, "www.test.com");
+		final Text ftext = textDAO.createText("fullName org");
+		final Text stext = textDAO.createText("shortName org");
+		organizationDAO.createOrganization("www.org.org", ftext, stext);
+		final Organization organization = organizationDAO.listOrganizations().get(0);
+		sourceDAO.createSource("S1", s1, "www.test.com", organization);
 		final Source source = sourceDAO.getSourceByCode("S1");
 
-		sourceDAO.updateSource(source.getId(), "NewName", "NewLink");
+		sourceDAO.updateSource(source.getId(), "NewName", "NewLink", organization);
 		final Source updatedSource = sourceDAO.getSourceById(source.getId());
 
 		Assert.assertEquals("NewName", updatedSource.getName().getDefaultValue());
@@ -172,6 +192,8 @@ public class SourceDAOImplTest {
 		Assert.assertEquals(source.getId(), updatedSource.getId());
 
 		sourceDAO.deleteSourceByCode("S1");
+
+		organizationDAO.deleteOrganization(organization.getId());
 	}
 
 	@Test
@@ -179,7 +201,11 @@ public class SourceDAOImplTest {
 		logger.info("Testing delete source...");
 
 		final Text s1 = textDAO.createText("S1");
-		sourceDAO.createSource("S1", s1, "www.test.com");
+		final Text ftext = textDAO.createText("fullName org");
+		final Text stext = textDAO.createText("shortName org");
+		organizationDAO.createOrganization("www.org.org", ftext, stext);
+		final Organization organization = organizationDAO.listOrganizations().get(0);
+		sourceDAO.createSource("S1", s1, "www.test.com", organization);
 
 		final Source sourceForCode = sourceDAO.getSourceByCode("S1");
 		final long id = sourceForCode.getId();
@@ -187,5 +213,7 @@ public class SourceDAOImplTest {
 		sourceDAO.deleteSource(id);
 
 		Assert.assertNull(sourceDAO.getSourceById(id));
+
+		organizationDAO.deleteOrganization(organization.getId());
 	}
 }

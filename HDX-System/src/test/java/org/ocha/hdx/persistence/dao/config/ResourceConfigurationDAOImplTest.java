@@ -67,36 +67,36 @@ public class ResourceConfigurationDAOImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.source = this.createDummySource();
+		source = createDummySource();
 
-		final Text dollarText = this.textDAO.createText("dollar");
-		this.dollar = this.unitDAO.createUnit("dollar", dollarText);
+		final Text dollarText = textDAO.createText("dollar");
+		dollar = unitDAO.createUnit("dollar", dollarText);
 
-		this.indicatorType = this.createDummyIndicatorType();
+		indicatorType = createDummyIndicatorType();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 
-		this.sourceDAO.deleteSource(this.source.getId());
-		this.indicatorTypeDAO.deleteIndicatorType(this.indicatorType.getId());
+		sourceDAO.deleteSource(source.getId());
+		indicatorTypeDAO.deleteIndicatorType(indicatorType.getId());
 
-		this.unitDAO.deleteUnit(this.dollar.getId());
+		unitDAO.deleteUnit(dollar.getId());
 	}
 
 	@Test
 	public final void testListSources() {
 
-		final List<ResourceConfiguration> initialList = this.resourceConfigurationDAO.listResourceConfigurations();
+		final List<ResourceConfiguration> initialList = resourceConfigurationDAO.listResourceConfigurations();
 		assertEquals(0, initialList.size());
 
 		for (int i = 0; i < NUM_OF_ITEMS; i++) {
-			final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME + i, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
+			final ResourceConfiguration config = createDummyConfiguration(CONFIG_NAME + i, NUM_OF_ITEMS, NUM_OF_ITEMS, source, indicatorType);
 
-			this.resourceConfigurationDAO.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
+			resourceConfigurationDAO.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
 		}
 
-		final List<ResourceConfiguration> modifiedList = this.resourceConfigurationDAO.listResourceConfigurations();
+		final List<ResourceConfiguration> modifiedList = resourceConfigurationDAO.listResourceConfigurations();
 
 		assertEquals(NUM_OF_ITEMS, modifiedList.size());
 
@@ -106,103 +106,103 @@ public class ResourceConfigurationDAOImplTest {
 
 			assertEquals(NUM_OF_ITEMS, resourceConfiguration.getGeneralConfigEntries().size());
 			for (final ResourceConfigEntry entry : resourceConfiguration.getGeneralConfigEntries()) {
-				assertTrue(entry.getEntryKey().contains(this.DUMMY_KEY));
-				assertTrue(entry.getEntryValue().contains(this.DUMMY_VALUE));
+				assertTrue(entry.getEntryKey().contains(DUMMY_KEY));
+				assertTrue(entry.getEntryValue().contains(DUMMY_VALUE));
 			}
 
 			assertEquals(NUM_OF_ITEMS, resourceConfiguration.getIndicatorConfigEntries().size());
 
 			for (final IndicatorResourceConfigEntry entry : resourceConfiguration.getIndicatorConfigEntries()) {
-				assertTrue(entry.getEntryKey().contains(this.DUMMY_KEY));
-				assertTrue(entry.getEntryValue().contains(this.DUMMY_VALUE));
+				assertTrue(entry.getEntryKey().contains(DUMMY_KEY));
+				assertTrue(entry.getEntryValue().contains(DUMMY_VALUE));
 
 				assertNotNull(entry.getSource());
-				assertEquals(this.source.getId(), entry.getSource().getId());
+				assertEquals(source.getId(), entry.getSource().getId());
 
 				assertNotNull(entry.getIndicatorType());
-				assertEquals(this.indicatorType.getId(), entry.getIndicatorType().getId());
+				assertEquals(indicatorType.getId(), entry.getIndicatorType().getId());
 			}
 		}
 
 		for (final ResourceConfiguration resourceConfiguration : modifiedList) {
-			this.resourceConfigurationDAO.deleteResourceConfiguration(resourceConfiguration.getId());
+			resourceConfigurationDAO.deleteResourceConfiguration(resourceConfiguration.getId());
 		}
 
-		assertEquals(0, this.resourceConfigurationDAO.listResourceConfigurations().size());
+		assertEquals(0, resourceConfigurationDAO.listResourceConfigurations().size());
 
 	}
 
 	@Test
 	public final void testDeleteResourceConfiguration() {
-		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
+		final ResourceConfiguration config = createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, source, indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDAO.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
+		final ResourceConfiguration newConfig = resourceConfigurationDAO.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
 
 		assertTrue(newConfig.getId() > 0);
 
-		final ResourceConfiguration loadedConfig = this.resourceConfigurationDAO.getResourceConfigurationById(newConfig.getId());
+		final ResourceConfiguration loadedConfig = resourceConfigurationDAO.getResourceConfigurationById(newConfig.getId());
 		assertNotNull(loadedConfig);
 
 		final long id = loadedConfig.getId();
-		this.resourceConfigurationDAO.deleteResourceConfiguration(loadedConfig.getId());
-		final ResourceConfiguration deletedConfig = this.resourceConfigurationDAO.getResourceConfigurationById(id);
+		resourceConfigurationDAO.deleteResourceConfiguration(loadedConfig.getId());
+		final ResourceConfiguration deletedConfig = resourceConfigurationDAO.getResourceConfigurationById(id);
 		assertNull(deletedConfig);
 	}
 
 	@Test
 	public final void testCreateResourceConfig() {
-		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
+		final ResourceConfiguration config = createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, source, indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDAO.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
+		final ResourceConfiguration newConfig = resourceConfigurationDAO.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
 
 		assertTrue(newConfig.getId() > 0);
 
 		// Testing getResourceConfigurationById()
-		final ResourceConfiguration loadedConfig = this.resourceConfigurationDAO.getResourceConfigurationById(newConfig.getId());
+		final ResourceConfiguration loadedConfig = resourceConfigurationDAO.getResourceConfigurationById(newConfig.getId());
 		assertNotNull(loadedConfig);
 
 		final long id = loadedConfig.getId();
-		this.resourceConfigurationDAO.deleteResourceConfiguration(loadedConfig.getId());
-		final ResourceConfiguration deletedConfig = this.resourceConfigurationDAO.getResourceConfigurationById(id);
+		resourceConfigurationDAO.deleteResourceConfiguration(loadedConfig.getId());
+		final ResourceConfiguration deletedConfig = resourceConfigurationDAO.getResourceConfigurationById(id);
 		assertNull(deletedConfig);
 	}
 
 	@Test
 	public final void testCreateEmptyResourceConfig() {
-		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
+		final ResourceConfiguration config = createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, source, indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDAO.createResourceConfiguration(config.getName(), null, null);
+		final ResourceConfiguration newConfig = resourceConfigurationDAO.createResourceConfiguration(config.getName(), null, null);
 
 		assertTrue(newConfig.getId() > 0);
 
 		// Testing getResourceConfigurationById()
-		final ResourceConfiguration loadedConfig = this.resourceConfigurationDAO.getResourceConfigurationById(newConfig.getId());
+		final ResourceConfiguration loadedConfig = resourceConfigurationDAO.getResourceConfigurationById(newConfig.getId());
 		assertNotNull(loadedConfig);
 
 		final long id = loadedConfig.getId();
-		this.resourceConfigurationDAO.deleteResourceConfiguration(loadedConfig.getId());
-		final ResourceConfiguration deletedConfig = this.resourceConfigurationDAO.getResourceConfigurationById(id);
+		resourceConfigurationDAO.deleteResourceConfiguration(loadedConfig.getId());
+		final ResourceConfiguration deletedConfig = resourceConfigurationDAO.getResourceConfigurationById(id);
 		assertNull(deletedConfig);
 	}
 
 	@Test
 	public final void testUpdateResourceConfiguration() {
-		final ResourceConfiguration config = this.createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, this.source, this.indicatorType);
+		final ResourceConfiguration config = createDummyConfiguration(CONFIG_NAME, NUM_OF_ITEMS, NUM_OF_ITEMS, source, indicatorType);
 
-		final ResourceConfiguration newConfig = this.resourceConfigurationDAO.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
+		final ResourceConfiguration newConfig = resourceConfigurationDAO.createResourceConfiguration(config.getName(), config.getGeneralConfigEntries(), config.getIndicatorConfigEntries());
 
 		final long id = newConfig.getId();
 
-		final ResourceConfiguration configModified = this.createDummyConfiguration(CONFIG_NAME + "modified", NUM_OF_ITEMS + 2, NUM_OF_ITEMS + 2, this.source, this.indicatorType);
-		this.resourceConfigurationDAO.updateResourceConfiguration(id, configModified.getName(), configModified.getGeneralConfigEntries(), configModified.getIndicatorConfigEntries());
+		final ResourceConfiguration configModified = createDummyConfiguration(CONFIG_NAME + "modified", NUM_OF_ITEMS + 2, NUM_OF_ITEMS + 2, source, indicatorType);
+		resourceConfigurationDAO.updateResourceConfiguration(id, configModified.getName(), configModified.getGeneralConfigEntries(), configModified.getIndicatorConfigEntries());
 
-		final ResourceConfiguration loadedConfig = this.resourceConfigurationDAO.getResourceConfigurationById(id);
+		final ResourceConfiguration loadedConfig = resourceConfigurationDAO.getResourceConfigurationById(id);
 
 		assertEquals(CONFIG_NAME + "modified", loadedConfig.getName());
 		assertEquals(NUM_OF_ITEMS + 2, loadedConfig.getGeneralConfigEntries().size());
 		assertEquals(NUM_OF_ITEMS + 2, loadedConfig.getIndicatorConfigEntries().size());
 
-		this.resourceConfigurationDAO.deleteResourceConfiguration(loadedConfig.getId());
+		resourceConfigurationDAO.deleteResourceConfiguration(loadedConfig.getId());
 
 	}
 
@@ -214,7 +214,7 @@ public class ResourceConfigurationDAOImplTest {
 
 		final Set<ResourceConfigEntry> resourceConfigEntries = new HashSet<ResourceConfigEntry>();
 		for (int i = 0; i < numOfResourcesConfig; i++) {
-			final ResourceConfigEntry entry = new ResourceConfigEntry(this.DUMMY_KEY + i, this.DUMMY_VALUE + i);
+			final ResourceConfigEntry entry = new ResourceConfigEntry(DUMMY_KEY + i, DUMMY_VALUE + i);
 			resourceConfigEntries.add(entry);
 		}
 		if (resourceConfigEntries.size() > 0) {
@@ -223,7 +223,7 @@ public class ResourceConfigurationDAOImplTest {
 
 		final Set<IndicatorResourceConfigEntry> indicatorResourceConfigEntries = new HashSet<IndicatorResourceConfigEntry>();
 		for (int i = 0; i < numOfIndResourceConfig; i++) {
-			final IndicatorResourceConfigEntry entry = new IndicatorResourceConfigEntry(this.DUMMY_KEY + i, this.DUMMY_VALUE + i, dummySource, dummyIndicatorType);
+			final IndicatorResourceConfigEntry entry = new IndicatorResourceConfigEntry(DUMMY_KEY + i, DUMMY_VALUE + i, dummySource, dummyIndicatorType);
 			indicatorResourceConfigEntries.add(entry);
 		}
 
@@ -235,19 +235,19 @@ public class ResourceConfigurationDAOImplTest {
 	}
 
 	private final Source createDummySource() {
-		final Text text = this.textDAO.createText("Dummy Source");
-		this.sourceDAO.createSource(DUMMY_SOURCE_CODE, text, "www.dummy-source.com");
+		final Text text = textDAO.createText("Dummy Source");
+		sourceDAO.createSource(DUMMY_SOURCE_CODE, text, "www.dummy-source.com", null);
 
-		return this.sourceDAO.getSourceByCode(DUMMY_SOURCE_CODE);
+		return sourceDAO.getSourceByCode(DUMMY_SOURCE_CODE);
 
 	}
 
 	private final IndicatorType createDummyIndicatorType() {
-		final Text textForTest = this.textDAO.createText("Dummy Indicator Type");
+		final Text textForTest = textDAO.createText("Dummy Indicator Type");
 
-		this.indicatorTypeDAO.createIndicatorType(DUMMY_INDICATOR_TYPE_CODE, textForTest, this.dollar, ValueType.NUMBER);
+		indicatorTypeDAO.createIndicatorType(DUMMY_INDICATOR_TYPE_CODE, textForTest, dollar, ValueType.NUMBER);
 
-		return this.indicatorTypeDAO.getIndicatorTypeByCode(DUMMY_INDICATOR_TYPE_CODE);
+		return indicatorTypeDAO.getIndicatorTypeByCode(DUMMY_INDICATOR_TYPE_CODE);
 
 	}
 

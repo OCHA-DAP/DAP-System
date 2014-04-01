@@ -15,12 +15,14 @@ import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
+import org.ocha.hdx.persistence.dao.currateddata.OrganizationDAO;
 import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
 import org.ocha.hdx.persistence.dao.currateddata.UnitDAO;
 import org.ocha.hdx.persistence.dao.dictionary.IndicatorTypeDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.RegionDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
+import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.EntityType;
@@ -28,12 +30,15 @@ import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
+import org.ocha.hdx.persistence.entity.curateddata.Organization;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.ocha.hdx.persistence.entity.i18n.Text;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +71,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	private SourceDAO sourceDAO;
 
 	@Autowired
+	private OrganizationDAO organizationDAO;
+
+	@Autowired
 	private IndicatorDAO indicatorDAO;
 
 	@Autowired
@@ -82,6 +90,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private UnitDAO unitDAO;
+
+	@Autowired
+	private AdditionalDataDAO additionalDataDAO;
 
 	/*
 	 * Entity types
@@ -194,6 +205,39 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	/*
+	 * Organizations
+	 */
+	@Override
+	public List<Organization> listOrganizations() {
+		return organizationDAO.listOrganizations();
+	}
+
+	@Override
+	@Transactional
+	public void createOrganization(final String shortNameDefaultValue, final String fullNameDefaultValue, final String link) {
+		final Text shortName = textDAO.createText(shortNameDefaultValue);
+		final Text fullName = textDAO.createText(fullNameDefaultValue);
+		organizationDAO.createOrganization(link, fullName, shortName);
+	}
+
+	@Override
+	public Organization getOrganization(final Long id) {
+		return organizationDAO.getOrganizationById(id);
+	}
+
+	@Override
+	@Transactional
+	public void updateOrganization(final long organizationId, final String newShortName, final String newFullName, final String newLink) {
+		organizationDAO.updateOrganization(organizationId, newLink, newFullName, newShortName);
+	}
+
+	@Override
+	@Transactional
+	public void deleteOrganization(final long organizationId) {
+		organizationDAO.deleteOrganization(organizationId);
+	}
+
+	/*
 	 * Sources
 	 */
 	@Override
@@ -208,9 +252,10 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void createSource(final String code, final String defaultValue, final String link) {
+	public void createSource(final String code, final String defaultValue, final String link, final Long organization) {
 		final Text name = textDAO.createText(defaultValue);
-		sourceDAO.createSource(code, name, link);
+		final Organization organization_ = organizationDAO.getOrganizationById(organization);
+		sourceDAO.createSource(code, name, link, organization_);
 	}
 
 	@Override
@@ -225,8 +270,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void updateSource(final long sourceId, final String newName, final String newLink) {
-		sourceDAO.updateSource(sourceId, newName, newLink);
+	public void updateSource(final long sourceId, final String newName, final String newLink, final Long newOrganization) {
+		final Organization organization = organizationDAO.getOrganizationById(newOrganization);
+		sourceDAO.updateSource(sourceId, newName, newLink, organization);
 	}
 
 	@Override
@@ -652,4 +698,25 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return indicatorDAO.getIndicatorTypeOverview(indicatorTypeCode, sourceCode, languageCode);
 	}
 
+	/* Metadata */
+
+	@Override
+	public List<AdditionalData> getMetadataForIndicatorTypeAndSource(final String indicatorTypeCode, final String sourceCode) {
+		return additionalDataDAO.listAdditionalDataByIndicatorTypeCodeAndSourceCode(indicatorTypeCode, sourceCode);
+
+	}
+
+	@Override
+	public void updateMetadataForIndicatorTypeAndSource(final String which, final String data, final String indicatorTypeCode, final String sourceCode) {
+		final EntryKey entryKey = EntryKey.valueOf(which);
+		final AdditionalData additionalData = additionalDataDAO.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
+		if (null == additionalData) {
+			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
+			final Source source = sourceDAO.getSourceByCode(sourceCode);
+			final Text text = textDAO.createText(data);
+			additionalDataDAO.createAdditionalData(indicatorType, source, entryKey, text);
+		} else {
+			additionalDataDAO.updateAdditionalData(indicatorTypeCode, sourceCode, which, data);
+		}
+	}
 }

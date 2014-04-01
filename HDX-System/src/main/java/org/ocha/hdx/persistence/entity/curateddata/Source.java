@@ -44,7 +44,7 @@ public class Source {
 	@ManyToOne
 	@JoinColumn(name = "organisation_id")
 	@ForeignKey(name = "fk_source_to_organisation")
-	private Organisation organisation;
+	private Organization organization;
 
 	public long getId() {
 		return this.id;
@@ -76,6 +76,14 @@ public class Source {
 
 	public void setOrgLink(final String orgLink) {
 		this.orgLink = orgLink;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 }

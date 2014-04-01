@@ -12,11 +12,13 @@ import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
+import org.ocha.hdx.persistence.entity.curateddata.Organization;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
+import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
 
 import com.google.visualization.datasource.base.TypeMismatchException;
 import com.google.visualization.datasource.datatable.DataTable;
@@ -67,13 +69,26 @@ public interface CuratedDataService {
 	public void updateIndicatorType(final long indicatorTypeId, final String newName, final long newUnit, final String newValueType);
 
 	/*
+	 * Organizations
+	 */
+	public List<Organization> listOrganizations();
+
+	public void createOrganization(final String shortName, final String fullName, final String link);
+
+	public Organization getOrganization(final Long id);
+
+	public void deleteOrganization(final long organizationId);
+
+	public void updateOrganization(long organizationId, final String newShortName, final String newFullName, final String newLink);
+
+	/*
 	 * Sources
 	 */
 	public List<Source> listSources();
 
-	public List<Source> listSourcesForIndicatorType(String indicatorTypeCode);
-	
-	public void createSource(final String code, final String name, final String link);
+	public List<Source> listSourcesForIndicatorType(final String indicatorTypeCode);
+
+	public void createSource(final String code, final String defaultValue, final String link, final Long organization);
 
 	public Source getSource(final Long id);
 
@@ -81,7 +96,7 @@ public interface CuratedDataService {
 
 	public void deleteSource(final long sourceId);
 
-	public void updateSource(final long sourceId, final String newName, final String newLink);
+	public void updateSource(final long sourceId, final String newName, final String newLink, final Long newOrganization);
 
 	/*
 	 * Imports from CKAN
@@ -146,6 +161,13 @@ public interface CuratedDataService {
 	/*
 	 * public List<Indicator> listIndicatorsForCountryOverview(final String countryCode, final String languageCode);
 	 */
+
+	/*
+	 * Metadata
+	 */
+	public List<AdditionalData> getMetadataForIndicatorTypeAndSource(String indicatorTypeCode, String sourceCode);
+
+	public void updateMetadataForIndicatorTypeAndSource(String which, String data, String indicatorTypeCode, String sourceCode);
 
 	/*
 	 * Region dictionaries
@@ -214,10 +236,10 @@ public interface CuratedDataService {
 	// Country other
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(String countryCode, int fromYear, int toYear, String languageCode);
 
-
 	/* Indicator reports */
 
 	// Indicator overview
 	public Object[] getIndicatorTypeOverview(String indicatorTypeCode, String sourceCode, String language);
+
 
 }
