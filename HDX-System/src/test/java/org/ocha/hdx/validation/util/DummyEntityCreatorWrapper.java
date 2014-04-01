@@ -45,37 +45,37 @@ public class DummyEntityCreatorWrapper {
 		private Text entityText;
 
 		public void createNeededIndicatorTypeAndSource() {
-			this.srcText = DummyEntityCreatorWrapper.this.textDAO.createText("Source 1");
-			DummyEntityCreatorWrapper.this.sourceDAO.createSource("esa-unpd-WPP2012", this.srcText, "www.test.com");
+			srcText = textDAO.createText("Source 1");
+			sourceDAO.createSource("esa-unpd-WPP2012", srcText, "www.test.com", null);
 
-			this.indTypeText = DummyEntityCreatorWrapper.this.textDAO.createText("Population Density");
+			indTypeText = textDAO.createText("Population Density");
 
-			final Text unitText = DummyEntityCreatorWrapper.this.textDAO.createText("persons per square km");
-			final Unit unit = DummyEntityCreatorWrapper.this.unitDAO.createUnit("persons per square km", unitText);
+			final Text unitText = textDAO.createText("persons per square km");
+			final Unit unit = unitDAO.createUnit("persons per square km", unitText);
 
-			DummyEntityCreatorWrapper.this.indicatorTypeDAO.createIndicatorType("PSP080", this.indTypeText, unit, ValueType.NUMBER);
+			indicatorTypeDAO.createIndicatorType("PSP080", indTypeText, unit, ValueType.NUMBER);
 
 
-			this.countryType = DummyEntityCreatorWrapper.this.textDAO.createText("Country");
-			DummyEntityCreatorWrapper.this.entityTypeDAO.createEntityType("country", this.countryType);
-			final EntityType country = DummyEntityCreatorWrapper.this.entityTypeDAO.getEntityTypeByCode("country");
+			countryType = textDAO.createText("Country");
+			entityTypeDAO.createEntityType("country", countryType);
+			final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
 
-			this.entityText = DummyEntityCreatorWrapper.this.textDAO.createText("Finland");
-			DummyEntityCreatorWrapper.this.entityDAO.createEntity("Fi", this.entityText, country);
+			entityText = textDAO.createText("Finland");
+			entityDAO.createEntity("Fi", entityText, country);
 		}
 
 		public void deleteNeededIndicatorTypeAndSource() {
-			DummyEntityCreatorWrapper.this.sourceDAO.deleteSourceByCode("esa-unpd-WPP2012");
-			DummyEntityCreatorWrapper.this.textDAO.deleteText(this.srcText.getId());
+			sourceDAO.deleteSourceByCode("esa-unpd-WPP2012");
+			textDAO.deleteText(srcText.getId());
 
-			DummyEntityCreatorWrapper.this.indicatorTypeDAO.deleteIndicatorTypeByCode("PSP080");
-			DummyEntityCreatorWrapper.this.textDAO.deleteText(this.indTypeText.getId());
+			indicatorTypeDAO.deleteIndicatorTypeByCode("PSP080");
+			textDAO.deleteText(indTypeText.getId());
 
-			DummyEntityCreatorWrapper.this.entityDAO.deleteEntityByCodeAndType("Fi", "country");
-			DummyEntityCreatorWrapper.this.textDAO.deleteText(this.entityText.getId());
+			entityDAO.deleteEntityByCodeAndType("Fi", "country");
+			textDAO.deleteText(entityText.getId());
 
-			DummyEntityCreatorWrapper.this.entityTypeDAO.deleteEntityTypeByCode("country");
-			DummyEntityCreatorWrapper.this.textDAO.deleteText(this.countryType.getId());
+			entityTypeDAO.deleteEntityTypeByCode("country");
+			textDAO.deleteText(countryType.getId());
 		}
 
 	}

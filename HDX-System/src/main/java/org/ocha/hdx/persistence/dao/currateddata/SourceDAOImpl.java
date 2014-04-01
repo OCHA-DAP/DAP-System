@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.ocha.hdx.persistence.entity.curateddata.Organization;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,11 +30,12 @@ public class SourceDAOImpl implements SourceDAO {
 
 	@Override
 	@Transactional
-	public void createSource(final String code, final Text name, final String link) {
+	public void createSource(final String code, final Text name, final String link, final Organization organization) {
 		final Source source = new Source();
 		source.setCode(code);
 		source.setName(name);
 		source.setOrgLink(link);
+		source.setOrganization(organization);
 		em.persist(source);
 	}
 
@@ -62,10 +64,11 @@ public class SourceDAOImpl implements SourceDAO {
 
 	@Override
 	@Transactional
-	public void updateSource(final long sourceId, final String newName, final String newLink) {
+	public void updateSource(final long sourceId, final String newName, final String newLink, final Organization newOrganization) {
 		final Source source = em.find(Source.class, sourceId);
 		source.getName().setDefaultValue(newName);
 		source.setOrgLink(newLink);
+		source.setOrganization(newOrganization);
 	}
 
 }

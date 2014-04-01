@@ -82,8 +82,8 @@ public class IntegrationTestSetUpAndTearDown {
 
 		final Text wb = textDAO.createText("World Bank");
 		final Text acled = textDAO.createText("Armed Conflict Location and Event Dataset");
-		sourceDAO.createSource("WB", wb, "www.test.com");
-		sourceDAO.createSource("acled", acled, "www.test.com");
+		sourceDAO.createSource("WB", wb, "www.test.com", null);
+		sourceDAO.createSource("acled", acled, "www.test.com", null);
 
 		final Source sourceWB = sourceDAO.getSourceByCode("WB");
 		final Entity russia = entityDAO.getEntityByCodeAndType("RUS", "country");
@@ -104,7 +104,7 @@ public class IntegrationTestSetUpAndTearDown {
 
 		// Source
 		final Text m49 = textDAO.createText("m49");
-		sourceDAO.createSource("m49", m49, "www.m49.com");
+		sourceDAO.createSource("m49", m49, "www.m49.com", null);
 		final Source sourceM49 = sourceDAO.getSourceByCode("m49");
 
 		// Entity
@@ -203,7 +203,7 @@ public class IntegrationTestSetUpAndTearDown {
 		indicatorTypeDAO.createIndicatorType("CH080", pkid, uno, ValueType.NUMBER);
 
 		final Text emdat = textDAO.createText("emdat");
-		sourceDAO.createSource("emdat", emdat, "www.test.com");
+		sourceDAO.createSource("emdat", emdat, "www.test.com", null);
 
 		final Entity usa = entityDAO.getEntityByCodeAndType("USA", "country");
 		final Source sourceEmdat = sourceDAO.getSourceByCode("emdat");
@@ -272,7 +272,7 @@ public class IntegrationTestSetUpAndTearDown {
 		indicatorTypeDAO.createIndicatorType("_WPP2012_MORT_F02_CRUDE_DEATH_RATE", nod, uno, ValueType.NUMBER);
 
 		final Text esaunpdWPP2012 = textDAO.createText("esa-unpd-WPP2012");
-		sourceDAO.createSource("esa-unpd-WPP2012", esaunpdWPP2012, "www.test.com");
+		sourceDAO.createSource("esa-unpd-WPP2012", esaunpdWPP2012, "www.test.com", null);
 
 		final Entity usa = entityDAO.getEntityByCodeAndType("USA", "country");
 		final Source sourceesaunpdWPP2012 = sourceDAO.getSourceByCode("esa-unpd-WPP2012");

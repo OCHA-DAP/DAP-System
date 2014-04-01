@@ -45,14 +45,23 @@
 <%
 	} // End if(needs.contains("columnsearch")) {
 
-if(needs.contains("sources")) {
+	if(needs.contains("sources")) {
 %>
 <script src="${ctx}/admin/curated/sources/json?var=data_sources"></script>
 <script>
-  appData['sources'] = data_sources;
+	appData['sources'] = data_sources;
 </script>
 <%
 	} // End if(needs.contains("sources")) {
+
+	if(needs.contains("organizations")) {
+%>
+<script src="${ctx}/admin/curated/organizations/json?var=data_organizations"></script>
+<script>
+	appData['organizations'] = data_organizations;
+</script>
+<%
+	} // End if(needs.contains("organizations")) {
 
 	if(needs.contains("roles")) {
 %>
@@ -133,8 +142,8 @@ if(needs.contains("sources")) {
 	} // End if (null != needsRequest && !"".equals(needsRequest)) {
 %>
 <script>
-	// Activate tooltips
-	jQuery(function($) {
-		$(".hdx_tooltip").tooltip()
-	});
+  // Activate tooltips
+  jQuery(function($) {
+    $(".hdx_tooltip").tooltip()
+  });
 </script>

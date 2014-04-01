@@ -1,5 +1,16 @@
 app.controller('SourcesCtrl', function($scope, $filter, utilities) {
 
+  // /////////
+  // Resources
+  // /////////
+  $scope.resources = function() {
+    $scope.organizations = appData['organizations'];
+  }
+  $scope.resources();
+
+  // The new indicator
+  $scope.newResource;
+
   // ////////////////////
   // Sources management
   // ////////////////////
@@ -36,6 +47,11 @@ app.controller('SourcesCtrl', function($scope, $filter, utilities) {
       }
       angular.extend(params, {
         "link" : data.link
+      });
+    }
+    if (data && data.organization) {
+      angular.extend(params, {
+        "organization" : data.organization.id
       });
     }
     return utilities.createResource({
@@ -81,6 +97,7 @@ app.controller('SourcesCtrl', function($scope, $filter, utilities) {
     $scope.newResource.code = "";
     $scope.newResource.name = "";
     $scope.newResource.link = "";
+    $scope.newResource.organization = "";
   };
 
   // Reset the create resource form
@@ -101,6 +118,11 @@ app.controller('SourcesCtrl', function($scope, $filter, utilities) {
     if (data.link) {
       angular.extend(params, {
         "newLink" : data.link
+      });
+    }
+    if (data.organization) {
+      angular.extend(params, {
+        "newOrganization" : data.organization
       });
     }
 
@@ -158,4 +180,16 @@ app.controller('SourcesCtrl', function($scope, $filter, utilities) {
     var theSource = filteredSources && 0 < filteredSources.length ? filteredSources[0] : null;
     return theSource;
   }
+  
+  // Show a source's organization
+  $scope.showOrganization = function(source) {
+    if(!source.organization) {
+      return '';
+    }
+    var selected = $filter('filter')($scope.organizations, {
+      id : source.organization.id
+    });
+    return (selected.length) ? selected[0].fullName : '';
+  };
+
 });

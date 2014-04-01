@@ -11,7 +11,7 @@
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="sources" />
 	<jsp:param name="i18n" value="true" />
-	<jsp:param name="needs" value="search,columnsearch" />
+	<jsp:param name="needs" value="search,columnsearch,organizations" />
 </jsp:include>
 </head>
 <body ng-controller="SourcesCtrl">
@@ -23,8 +23,9 @@
 				<tr style="font-weight: bold">
 					<td style="width: 15%">Code</td>
 					<td style="width: 15%">Default name</td>
-					<td style="width: 50%">Link</td>
-					<td style="width: 20%">Action</td>
+					<td style="width: 25%">Link</td>
+					<td style="width: 30%">Organization</td>
+					<td style="width: 15%">Action</td>
 				</tr>
 				<tr>
 					<td><input type="text" class="form-control" placeholder="Code" id="newResource_code" ng-model="newResource.code" required /></td>
@@ -35,6 +36,8 @@
 							<input type="text" class="form-control" id="newResource_link" ng-model="newResource.link" />
 						</div>
 					</td>
+					<td><select class="form-control" id="newResource_organization" ng-model="newResource.organization" ng-options="organization.fullName for organization in organizations" ng-class="default">
+					</select></td>
 					<td style="white-space: nowrap">
 						<button class="btn btn-primary btn-custom-default" ng-click="createSource(newResource)">Add</button>
 					</td>
@@ -48,9 +51,10 @@
 			<tr style="font-weight: bold">
 				<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a> <columnsearch param="search.code"></columnsearch></td>
 				<td style="width: 15%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a> <columnsearch param="search.name"></columnsearch></td>
+				<td style="width: 25%">Translations</td>
 				<td style="width: 15%"><a href="" ng-click="predicate='link'; reverse=!reverse">Link</a> <columnsearch param="search.link"></columnsearch></td>
-				<td style="width: 35%">Translations</td>
-				<td style="width: 20%">Action&nbsp;<span class="glyphicon glyphicon-info-sign gray hdx_tooltip" data-placement="top" title="Actions"></span></td>
+				<td style="width: 15%"><a href="" ng-click="predicate='organization'; reverse=!reverse">Organization</a></td>
+				<td style="width: 15%">Action&nbsp;<span class="glyphicon glyphicon-info-sign gray hdx_tooltip" data-placement="top" title="Actions"></span></td>
 			</tr>
 			<tr ng-repeat="source in sources | filter:search | orderBy:predicate:reverse">
 				<td>
@@ -60,15 +64,20 @@
 					<!-- editable name --> <span editable-text="source.name" e-class="form-control" e-name="name" e-form="rowform" e-required> {{ source.name }} </span>
 				</td>
 				<td>
+                    <jsp:include page="i18n.jsp">
+                        <jsp:param name="item" value="source"/>
+                        <jsp:param name="collection" value="sources"/>
+                    </jsp:include>
+				</td>
+				<td>
 					<!-- editable link --> <span editable-text="source.link" e-class="form-control" e-name="link" e-id="link" e-form="rowform" e-required>
 						<a href="{{ source.link }}" target="_blank"> {{ source.link }} </a>
 					</span>
 				</td>
 				<td>
-                    <jsp:include page="i18n.jsp">
-                        <jsp:param name="item" value="source"/>
-                        <jsp:param name="collection" value="sources"/>
-                    </jsp:include>
+					<!-- editable organization -->
+                    <span editable-select="source.organization_id" e-class="form-control" e-name="organization" e-id="organization" e-form="rowform"
+                          e-ng-options="o.id as o.fullName for o in organizations" e-required> {{ showOrganization(source) }} </span>
 				</td>
 				<td style="white-space: nowrap">
 					<!-- form -->
@@ -88,6 +97,7 @@
 		<h3>Test zone</h3>
 		<pre>
 			<p>Sources : {{ sources | json }}</p>
+			<p>Organizations : {{ organizations | json }}</p>
 			<p>Languages : {{ languages | json }}</p>
 		</pre>
 	</div>

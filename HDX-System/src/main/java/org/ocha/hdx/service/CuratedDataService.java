@@ -79,16 +79,16 @@ public interface CuratedDataService {
 
 	public void deleteOrganization(final long organizationId);
 
-	public void updateOrganization(long organizationId, String newShortName, String newFullName, String newLink);
+	public void updateOrganization(long organizationId, final String newShortName, final String newFullName, final String newLink);
 
 	/*
 	 * Sources
 	 */
 	public List<Source> listSources();
 
-	public List<Source> listSourcesForIndicatorType(String indicatorTypeCode);
+	public List<Source> listSourcesForIndicatorType(final String indicatorTypeCode);
 
-	public void createSource(final String code, final String name, final String link);
+	public void createSource(final String code, final String defaultValue, final String link, final Long organization);
 
 	public Source getSource(final Long id);
 
@@ -96,7 +96,7 @@ public interface CuratedDataService {
 
 	public void deleteSource(final long sourceId);
 
-	public void updateSource(final long sourceId, final String newName, final String newLink);
+	public void updateSource(final long sourceId, final String newName, final String newLink, final Long newOrganization);
 
 	/*
 	 * Imports from CKAN

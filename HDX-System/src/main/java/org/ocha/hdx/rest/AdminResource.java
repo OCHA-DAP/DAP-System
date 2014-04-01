@@ -1017,6 +1017,10 @@ public class AdminResource {
 	}
 
 	private static JsonObject organizationToJson(final Organization organization) {
+		
+		// !!! Please beware when changing this JSON representation of organizations
+		// because its structure is used in organizations.js !!!
+		
 		final JsonObject jsonOrganization = new JsonObject();
 		jsonOrganization.addProperty("id", organization.getId());
 		jsonOrganization.addProperty("shortName", organization.getShortName().getDefaultValue());
@@ -1118,6 +1122,13 @@ public class AdminResource {
 		jsonSource.addProperty("code", source.getCode());
 		jsonSource.addProperty("name", source.getName().getDefaultValue());
 		jsonSource.addProperty("link", source.getOrgLink());
+		if(null != source.getOrganization()) {
+			jsonSource.addProperty("organization_id", source.getOrganization().getId());
+			jsonSource.add("organization", organizationToJson(source.getOrganization()));
+		}
+		else {
+			jsonSource.addProperty("organization_id", "");
+		}
 		jsonSource.addProperty("text_id", source.getName().getId());
 		final List<Translation> translations = source.getName().getTranslations();
 		final JsonArray jsonTranslations = translationsToJson(translations);
@@ -1127,8 +1138,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/sources/submitCreate")
-	public Response createSource(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("link") final String link) {
-		curatedDataService.createSource(code, name, link);
+	public Response createSource(@FormParam("code") final String code, @FormParam("name") final String name, @FormParam("link") final String link, @FormParam("organization") final Long organization) {
+		curatedDataService.createSource(code, name, link, organization);
 		return Response.ok().build();
 	}
 
@@ -1141,8 +1152,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/sources/submitUpdate")
-	public Response updateSource(@FormParam("sourceId") final long sourceId, @FormParam("newName") final String newName, @FormParam("newLink") final String newLink) {
-		curatedDataService.updateSource(sourceId, newName, newLink);
+	public Response updateSource(@FormParam("sourceId") final long sourceId, @FormParam("newName") final String newName, @FormParam("newLink") final String newLink, @FormParam("newOrganization") final Long newOrganization) {
+		curatedDataService.updateSource(sourceId, newName, newLink, newOrganization);
 		return Response.ok().build();
 	}
 

@@ -47,12 +47,12 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, utilities) {
     return (indicatorType.valueType && selected.length) ? selected[0].text : 'Not set';
   };
 
-    // Show an indicator type's value type
+  // Show an indicator type's value type
   $scope.showUnit = function(indicatorName) {
-    var selected = $filter('filter')($scope.units, {
-      id : indicatorName.unit
-    });
-    return (indicatorName.unit && selected.length) ? selected[0].name : 'Not set';
+    var selected = utilities.findSomething($scope.units, "id", indicatorName.unit);
+    var result = (indicatorName.unit && selected.length) ? selected[0].name : 'Not set';
+    // console.log("Show unit - selected length [" + selected.length + "], indicatorName.name [" + indicatorName.name + "], unit id [" + indicatorName.unit + "], result id [" + selected[0].id + "]");
+    return result;
   };
 
   // Create an indicator type

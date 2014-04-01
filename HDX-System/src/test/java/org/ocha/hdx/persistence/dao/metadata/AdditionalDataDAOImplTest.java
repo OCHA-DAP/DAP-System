@@ -120,7 +120,7 @@ public class AdditionalDataDAOImplTest {
 	@Transactional
 	public final void testListAdditionalDataByIndicatorTypeAndSource() {
 		final Text src2Text = textDAO.createText("Source 2");
-		sourceDAO.createSource("test-src-code2", src2Text, "www.test2.com");
+		sourceDAO.createSource("test-src-code2", src2Text, "www.test2.com", null);
 		final Source source2 = sourceDAO.getSourceByCode("test-src-code2");
 
 		final Text indType2Text = textDAO.createText("Indicator Type 2");

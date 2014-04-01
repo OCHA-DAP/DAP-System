@@ -252,9 +252,10 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void createSource(final String code, final String defaultValue, final String link) {
+	public void createSource(final String code, final String defaultValue, final String link, final Long organization) {
 		final Text name = textDAO.createText(defaultValue);
-		sourceDAO.createSource(code, name, link);
+		final Organization organization_ = organizationDAO.getOrganizationById(organization);
+		sourceDAO.createSource(code, name, link, organization_);
 	}
 
 	@Override
@@ -269,8 +270,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void updateSource(final long sourceId, final String newName, final String newLink) {
-		sourceDAO.updateSource(sourceId, newName, newLink);
+	public void updateSource(final long sourceId, final String newName, final String newLink, final Long newOrganization) {
+		final Organization organization = organizationDAO.getOrganizationById(newOrganization);
+		sourceDAO.updateSource(sourceId, newName, newLink, organization);
 	}
 
 	@Override

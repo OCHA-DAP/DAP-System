@@ -78,4 +78,12 @@ public class Source {
 		this.orgLink = orgLink;
 	}
 
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
 }
