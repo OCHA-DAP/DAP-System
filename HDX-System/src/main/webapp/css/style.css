@@ -148,3 +148,11 @@ legend.test {
 .gray {
 	color: gray;
 }
+
+.td_value div {
+    height: 50px;
+    max-height: 200px;
+    width: auto;
+    max-width: 500px;
+    overflow: auto;
+}
