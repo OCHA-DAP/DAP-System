@@ -103,10 +103,12 @@ INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'Deaths per 1,0
 INSERT INTO hdx_unit(id, code, text_id) VALUES(nextval('hdx_unit_seq'),'deaths-per-1,000,000-people-per-year',currval('text_seq'));
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'), 'People affected per 1,000,000 people per year');
 INSERT INTO hdx_unit(id, code, text_id) VALUES(nextval('hdx_unit_seq'),'people-affected-per-1,000,000-people-per-year',currval('text_seq'));
+
 /* END hdx_unit*/
 
 /* indicator_type */
 SELECT 'Starting indicator_type' from text limit 1;
+/* END indicatory_type */
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'),'Percentage of population with access to electricity');
 INSERT INTO indicator_type(id, code, text_id, unit_id, value_type) SELECT nextval('indicator_type_seq'),'_Access to electricity (% of population)',currval('text_seq'),id,'NUMBER' from hdx_unit where code = 'percentage';
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'),'Percentage of children one year old immunized against measles');
@@ -295,11 +297,8 @@ INSERT INTO text(id, default_value) VALUES(nextval('text_seq'),'GNA Crisis Index
 INSERT INTO indicator_type(id, code, text_id, unit_id, value_type) SELECT nextval('indicator_type_seq'),'PVX020',currval('text_seq'),id,'NUMBER' from hdx_unit where code = 'index';
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'),'Incidence of Conflict');
 INSERT INTO indicator_type(id, code, text_id, unit_id, value_type) SELECT nextval('indicator_type_seq'),'PVX040',currval('text_seq'),id,'NUMBER' from hdx_unit where code = 'incidents';
-INSERT INTO text(id, default_value) VALUES(nextval('text_seq'),'Impact of natural disasters: number of deaths');
-INSERT INTO indicator_type(id, code, text_id, unit_id, value_type) SELECT nextval('indicator_type_seq'),'PVX060',currval('text_seq'),id,'NUMBER' from hdx_unit where code = 'deaths-per-1,000,000-people-per-year';
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'),'Impact of natural disasters: population affected (average per year/million)');
 INSERT INTO indicator_type(id, code, text_id, unit_id, value_type) SELECT nextval('indicator_type_seq'),'PVX070',currval('text_seq'),id,'NUMBER' from hdx_unit where code = 'people-affected-per-1,000,000-people-per-year';
-/* END indicatory_type */
 
 /* organisations */
 SELECT 'Starting organizations' from text limit 1;
@@ -364,6 +363,9 @@ INSERT INTO source_dictionary(importer,unnormalized_name, source_id) VALUES('SCR
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'm49');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'm49', currval('text_seq'));
 
+
+
+
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'unterm');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'unterm', currval('text_seq'));
 
@@ -400,8 +402,6 @@ INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'echo', curr
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'acled');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'acled', currval('text_seq'));
 
-INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'hdi-disaster');
-INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'hdi-disaster', currval('text_seq'));
 /* END sources */
 
 
