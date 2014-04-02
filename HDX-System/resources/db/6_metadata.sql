@@ -23,56 +23,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'More information, including rationale, interpretation, sources, data collection, comments, limitation, and gender equality issues can be found at http://mdgs.un.org/unsd/mi/wiki/4-3-Proportion-of-1-year-old-children-immunised-against-measles.ashx');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_Children 1 year old immunized against measles, percentage') AND lower(s.code)=lower('mdgs');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
 
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_Children 1 year old immunized against measles, percentage') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of people needing immediate assistance for shelter due to a disaster');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_emdat:no_homeless') AND lower(s.code)=lower('emdat');
@@ -151,56 +104,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://mdgs.un.org/unsd/mi/wiki/8-16-Internet-users-per-100-inhabitants.ashx');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_Internet users per 100 inhabitants') AND lower(s.code)=lower('mdgs');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
 
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_Internet users per 100 inhabitants') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Land area is a country''s total area, excluding area under inland water bodies, national claims to continental shelf, and exclusive economic zones. In most cases the definition of inland water bodies includes major rivers and lakes.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_Land area (sq. km)') AND lower(s.code)=lower('world-bank');
@@ -221,56 +127,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unterm.un.org/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_m49-name') AND lower(s.code)=lower('m49');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
 
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_m49-name') AND lower(s.code)=lower('m49');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Net official development assistance (ODA) per capita consists of disbursements of loans made on concessional terms (net of repayments of principal) and grants by official agencies of the members of the Development Assistance Committee (DAC), by multilateral institutions, and by non-DAC countries to promote economic development and welfare in countries and territories in the DAC list of ODA recipients; and is calculated by dividing net ODA received by the midyear population estimate. It includes loans with a grant element of at least 25 percent (calculated at a rate of discount of 10 percent). ');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_Net ODA received per capita (current US$)') AND lower(s.code)=lower('world-bank');
@@ -307,56 +166,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&SeriesId=640');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_Population undernourished, millions') AND lower(s.code)=lower('mdgs');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
 
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_Population undernourished, millions') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The proportion of the population below the minimum level of dietary energy consumption referred to as the prevalence of undernourishment, is the percentage of the population that is undernourished or food deprived.
 
@@ -367,56 +179,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://mdgs.un.org/unsd/mdg/SeriesDetail.aspx?srid=566&crid=');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_Population undernourished, percentage') AND lower(s.code)=lower('mdgs');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
 
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_Population undernourished, percentage') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Population, total refers to the total population.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_Population, total') AND lower(s.code)=lower('world-bank');
@@ -437,11 +202,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Humanitarian_Bulletin') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Humanitarian_Bulletin') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of ReliefWeb reports flagged with ocha_product: Humanitarian Dashboard');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Humanitarian_Dashboard') AND lower(s.code)=lower('reliefweb-api');
@@ -449,11 +212,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Humanitarian_Dashboard') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Humanitarian_Dashboard') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of ReliefWeb reports flagged with ocha_product: Humanitarian Snapshot');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Humanitarian_Snapshot') AND lower(s.code)=lower('reliefweb-api');
@@ -461,11 +222,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Humanitarian_Snapshot') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Humanitarian_Snapshot') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of ReliefWeb reports flagged with ocha_product: Infographic');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Infographic') AND lower(s.code)=lower('reliefweb-api');
@@ -473,11 +232,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Infographic') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Infographic') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of ReliefWeb reports flagged with ocha_product: Key Messages');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Key_Messages') AND lower(s.code)=lower('reliefweb-api');
@@ -485,11 +242,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Key_Messages') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Key_Messages') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of ReliefWeb reports flagged with ocha_product: Other');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Other') AND lower(s.code)=lower('reliefweb-api');
@@ -497,11 +252,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Other') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Other') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of ReliefWeb reports flagged with ocha_product: Press Release');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Press_Release') AND lower(s.code)=lower('reliefweb-api');
@@ -509,11 +262,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Press_Release') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Press_Release') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of ReliefWeb reports flagged with ocha_product: Press Review');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Press_Review') AND lower(s.code)=lower('reliefweb-api');
@@ -521,11 +272,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Press_Review') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Press_Review') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of ReliefWeb reports flagged with ocha_product: Reference Map');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Reference_Map') AND lower(s.code)=lower('reliefweb-api');
@@ -533,11 +282,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Reference_Map') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Reference_Map') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of ReliefWeb reports flagged with ocha_product: Situation Report');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Situation_Report') AND lower(s.code)=lower('reliefweb-api');
@@ -545,11 +292,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Situation_Report') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Situation_Report') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of ReliefWeb reports flagged with ocha_product: Statement/Speech');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Statement/Speech') AND lower(s.code)=lower('reliefweb-api');
@@ -557,11 +302,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Statement/Speech') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Statement/Speech') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of ReliefWeb reports flagged with ocha_product: Thematic Map');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Thematic_Map') AND lower(s.code)=lower('reliefweb-api');
@@ -569,11 +312,9 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://reliefweb.int/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Thematic_Map') AND lower(s.code)=lower('reliefweb-api');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'ReliefWeb, the humanitarian information project of the United Nations Office for the Coordination of Humanitarian Affairs, maintains this web space (the “Space”) as a courtesy to those (hereafter referred to as “Users”) who may choose to access the Space. The information presented herein is for informational purposes only. ReliefWeb grants permission to Users to visit the Space and to download and copy the information, documents and materials (collectively, “Materials”) from the Space for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Materials within the Space.
 
-(b) ReliefWeb administers this Space. All Material on this Space from United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Space do not necessarily represent the views of the United Nations or its Member States.');
+');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_reliefweb_Thematic_Map') AND lower(s.code)=lower('reliefweb-api');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'List of two letter codes (ISO alpha-2) and the three letter codes (ISO alpha-3) as well as the United Nations used numerical code M49 for countries, dependencies, and other areas.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_unterm:ISO Country alpha-2-code') AND lower(s.code)=lower('unterm');
@@ -581,56 +322,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unterm.un.org/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_unterm:ISO Country alpha-2-code') AND lower(s.code)=lower('unterm');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_unterm:ISO Country alpha-2-code') AND lower(s.code)=lower('unterm');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of deaths over a given period divided by the person-years lived by the population over that period. It is expressed as average annual number of deaths per 1,000 population.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_WPP2012_MORT_F02_CRUDE_DEATH_RATE') AND lower(s.code)=lower('esa-unpd-wpp2012');
@@ -638,56 +330,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://esa.un.org/wpp/Excel-Data/mortality.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_WPP2012_MORT_F02_CRUDE_DEATH_RATE') AND lower(s.code)=lower('esa-unpd-wpp2012');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('_WPP2012_MORT_F02_CRUDE_DEATH_RATE') AND lower(s.code)=lower('esa-unpd-wpp2012');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Wikipedia: geography');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CD010') AND lower(s.code)=lower('wikipedia');
@@ -695,11 +338,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 
 
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Part of our mission is to:
-Empower and Engage people around the world to collect and develop educational content and either publish it under a free license or dedicate it to the public domain.
-Disseminate this content effectively and globally, free of charge.
-
-You are free to:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'You are free to:
 Read and Print our articles and other media free of charge.
 Share and Reuse our articles and other media under free and open licenses.
 Contribute To and Edit our various sites or Projects.
@@ -721,11 +360,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 
 
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Part of our mission is to:
-Empower and Engage people around the world to collect and develop educational content and either publish it under a free license or dedicate it to the public domain.
-Disseminate this content effectively and globally, free of charge.
-
-You are free to:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'You are free to:
 Read and Print our articles and other media free of charge.
 Share and Reuse our articles and other media under free and open licenses.
 Contribute To and Edit our various sites or Projects.
@@ -747,11 +382,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 
 
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Part of our mission is to:
-Empower and Engage people around the world to collect and develop educational content and either publish it under a free license or dedicate it to the public domain.
-Disseminate this content effectively and globally, free of charge.
-
-You are free to:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'You are free to:
 Read and Print our articles and other media free of charge.
 Share and Reuse our articles and other media under free and open licenses.
 Contribute To and Edit our various sites or Projects.
@@ -773,11 +404,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 
 
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Part of our mission is to:
-Empower and Engage people around the world to collect and develop educational content and either publish it under a free license or dedicate it to the public domain.
-Disseminate this content effectively and globally, free of charge.
-
-You are free to:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'You are free to:
 Read and Print our articles and other media free of charge.
 Share and Reuse our articles and other media under free and open licenses.
 Contribute To and Edit our various sites or Projects.
@@ -799,11 +426,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 
 
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Part of our mission is to:
-Empower and Engage people around the world to collect and develop educational content and either publish it under a free license or dedicate it to the public domain.
-Disseminate this content effectively and globally, free of charge.
-
-You are free to:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'You are free to:
 Read and Print our articles and other media free of charge.
 Share and Reuse our articles and other media under free and open licenses.
 Contribute To and Edit our various sites or Projects.
@@ -825,11 +448,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 
 
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Part of our mission is to:
-Empower and Engage people around the world to collect and develop educational content and either publish it under a free license or dedicate it to the public domain.
-Disseminate this content effectively and globally, free of charge.
-
-You are free to:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'You are free to:
 Read and Print our articles and other media free of charge.
 Share and Reuse our articles and other media under free and open licenses.
 Contribute To and Edit our various sites or Projects.
@@ -851,11 +470,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 
 
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Part of our mission is to:
-Empower and Engage people around the world to collect and develop educational content and either publish it under a free license or dedicate it to the public domain.
-Disseminate this content effectively and globally, free of charge.
-
-You are free to:
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'You are free to:
 Read and Print our articles and other media free of charge.
 Share and Reuse our articles and other media under free and open licenses.
 Contribute To and Edit our various sites or Projects.
@@ -877,56 +492,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unterm.un.org/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG020') AND lower(s.code)=lower('unterm');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG020') AND lower(s.code)=lower('unterm');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat''s intranet. ');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG030') AND lower(s.code)=lower('unterm');
@@ -934,56 +500,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unterm.un.org/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG030') AND lower(s.code)=lower('unterm');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG030') AND lower(s.code)=lower('unterm');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'List of two letter codes (ISO alpha-2) and the three letter codes (ISO alpha-3) as well as the United Nations used numerical code M49 for countries, dependencies, and other areas.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG060') AND lower(s.code)=lower('unterm');
@@ -991,56 +508,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unterm.un.org/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG060') AND lower(s.code)=lower('unterm');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG060') AND lower(s.code)=lower('unterm');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'List of two letter codes (ISO alpha-2) and the three letter codes (ISO alpha-3) as well as the United Nations used numerical code M49 for countries, dependencies, and other areas.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG070') AND lower(s.code)=lower('unterm');
@@ -1048,56 +516,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unterm.un.org/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG070') AND lower(s.code)=lower('unterm');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG070') AND lower(s.code)=lower('unterm');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat''s intranet. ');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG080') AND lower(s.code)=lower('unterm');
@@ -1105,56 +524,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unterm.un.org/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG080') AND lower(s.code)=lower('unterm');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG080') AND lower(s.code)=lower('unterm');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat''s intranet. ');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG100') AND lower(s.code)=lower('unterm');
@@ -1162,56 +532,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unterm.un.org/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG100') AND lower(s.code)=lower('unterm');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG100') AND lower(s.code)=lower('unterm');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat''s intranet. ');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG120') AND lower(s.code)=lower('unterm');
@@ -1219,56 +540,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unterm.un.org/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG120') AND lower(s.code)=lower('unterm');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG120') AND lower(s.code)=lower('unterm');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat''s intranet. ');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG140') AND lower(s.code)=lower('unterm');
@@ -1276,56 +548,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unterm.un.org/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG140') AND lower(s.code)=lower('unterm');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG140') AND lower(s.code)=lower('unterm');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'For operational and analytical purposes, the World Bank’s main criterion for classifying economies is gross national income (GNI) per capita. In previous editions of our publications, this term was referred to as gross national product, or GNP. (Learn more about this change in terminology.) Based on its GNI per capita, every economy is classified as low income, middle income (subdivided into lower middle and upper middle), or high income. Other analytical groups based on geographic regions are also used.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG150') AND lower(s.code)=lower('worldbank-lending-groups');
@@ -1346,64 +569,15 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://en.wikipedia.org/wiki/AccuWeather');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG260') AND lower(s.code)=lower('accuweather');
-
-
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'5. Permitted Uses. You may download, view, copy and print Products incorporated in or accessed through this Site subject to the following: (1) the Products may be used solely for personal, informational, internal purposes and may not be re-distributed without the express written permission of AccuWeather; (2) the Products may not be modified or altered in any way; 3) any copyright or other proprietary notices must appear on all copied Products; and 4) certain Products on this Site may be subject to further use, modification, copying and/or dissemination restrictions which shall override this general grant to use the Products (please see the Notice Specific To Products Available On This Website). Access to and copying/distribution of original user content (i.e. such as from chat rooms, message/bulletin boards, photo gallery, feedback forums, etc.) shall be controlled by restrictions imposed by the originator of the content or by the Acceptable Use Policy. AccuWeather expressly reserves the right to refuse any materials for submission or upload by you or other users of this Site. Except as expressly provided herein, you may not use, download, upload, copy, print, display, perform, reproduce, publish, license, post, transmit, distribute or redistribute any information or Products from this Web site in whole or in part without the prior written permission of AccuWeather or its Providers. Requests to reprint or re-distribute Products and other materials accessed from this Website should be directed to the originator of the Products or materials. For AccuWeather Products, reprint and/or re-distribution requests should be sent to AccuWeather, Inc., 385 Science Park Road, State College, PA 16803, attn.: Contracts Administrator.');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG260') AND lower(s.code)=lower('accuweather');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'This database was compiled over the years in response to diverse and wide-ranging demands of United Nations language staff for terminology and nomenclature. It is being put on the Internet to facilitate the efforts of people around the world who participate in the work of the United Nations but do not have access to the Secretariat''s intranet. ');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG290') AND lower(s.code)=lower('unterm');
 
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unterm.un.org/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG290') AND lower(s.code)=lower('unterm');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CG290') AND lower(s.code)=lower('unterm');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'For a disaster to be entered into the database at least one of the following criteria must be fulfilled: Ten (10) or more people reported killed. Hundred (100) or more people reported affected. Declaration of a state of emergency. Call for international assistance.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('CH070') AND lower(s.code)=lower('emdat');
@@ -1460,64 +634,15 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://www.unicef.org/sowc01/tables/table3.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PCH090') AND lower(s.code)=lower('unicef-infobycountry');
-
-
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The UNICEF Web Site is provided by UNICEF for personal use and educational purposes only. Any other use, including reproduction or translation of anything more than a de minimis portion of the Content of the UNICEF Web Site, or any use other than for personal or educational purposes, requires the express prior written permission of UNICEF. Requests for permission should be sent to us using the copyright permission option on our feedback form, specifying full details of the proposed use. All Content of the UNICEF Web Site is protected by law including, as applicable, copyright laws.');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PCH090') AND lower(s.code)=lower('unicef-infobycountry');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Mobile cellular telephone subscriptions are subscriptions to a public mobile telephone service using cellular technology, which provide access to the public switched telephone network. Post-paid and prepaid subscriptions are included. ');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PCX051') AND lower(s.code)=lower('mdgs');
 
 
 
 
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PCX051') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Telephone lines are fixed telephone lines that connect a subscriber''s terminal equipment to the public switched telephone network and that have a port on a telephone exchange. Integrated services digital network channels ands fixed wireless subscribers are included.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PCX080') AND lower(s.code)=lower('mdgs');
@@ -1525,12 +650,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://data.worldbank.org/indicator/IT.MLT.MAIN.P2');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PCX080') AND lower(s.code)=lower('mdgs');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'You are free to copy, distribute, adapt, display or include the data in other products for commercial and noncommercial purposes at no cost subject to certain limitations summarized below.
-You must include attribution for the data you use in the manner indicated in the metadata included with the data.
-You must not claim or imply that The World Bank endorses your use of the data by or use The World Bank’s logo(s) or trademark(s) in conjunction with such use.
-Other parties may have ownership interests in some of the materials contained on The World Bank Web site. For example, we maintain a list of some specific data within the Datasets that you may not redistribute or reuse without first contacting the original content provider, as well as information regarding how to contact the original content provider. Before incorporating any data in other products, please check the list: Terms of use: Restricted Data
-The World Bank makes no warranties with respect to the data and you agree The World Bank shall not be liable to you in connection with your use of the data.
-This is only a summary of the Terms of Use for Datasets Listed in The World Bank Data Catalogue. Please read the actual agreement that controls your use of the Datasets, which is available here: Terms of use for datasets. Also see World Bank Terms and Conditions.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PCX080') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Mobile cellular telephone subscriptions are subscriptions to a public mobile telephone service using cellular technology, which provide access to the public switched telephone network. Post-paid and prepaid subscriptions are included. ');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PCX090') AND lower(s.code)=lower('world-bank');
@@ -1718,11 +838,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://esa.un.org/wpp/Excel-Data/population.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP010') AND lower(s.code)=lower('esa-unpd-wpp2012');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP010') AND lower(s.code)=lower('esa-unpd-wpp2012');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Average exponential rate of growth of the population over a given period.  It is calculated as ln(Pt/P0)/t where t is the length of the period. It is expressed as a percentage.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP050') AND lower(s.code)=lower('esa-unpd-wpp2012');
@@ -1730,11 +846,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://esa.un.org/wpp/Excel-Data/population.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP050') AND lower(s.code)=lower('esa-unpd-wpp2012');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP050') AND lower(s.code)=lower('esa-unpd-wpp2012');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Population growth (annual %) is the exponential rate of growth of midyear population from year t-1 to t, expressed as a percentage. Derived from total population. Population source: (1) United Nations Population Division. World Population Prospects, (2) United Nations Statistical Division. Population and Vital Statistics Report (various years), (3) Census reports and other statistical publications from national statistical offices, (4) Eurostat: Demographic Statistics, (5) Secretariat of the Pacific Community: Statistics and Demography Programme, and (6) U.S. Census Bureau: International Database.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP060') AND lower(s.code)=lower('world-bank');
@@ -1755,56 +867,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://esa.un.org/wpp/Excel-Data/population.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP070') AND lower(s.code)=lower('esa-unpd-wpp2012');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP070') AND lower(s.code)=lower('esa-unpd-wpp2012');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Population per square Kilometer.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP080') AND lower(s.code)=lower('esa-unpd-wpp2012');
@@ -1812,56 +875,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://esa.un.org/wpp/Excel-Data/population.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP080') AND lower(s.code)=lower('esa-unpd-wpp2012');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP080') AND lower(s.code)=lower('esa-unpd-wpp2012');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Population density is midyear population divided by land area in square kilometers. Population is based on the de facto definition of population, which counts all residents regardless of legal status or citizenship--except for refugees not permanently settled in the country of asylum, who are generally considered part of the population of their country of origin. Land area is a country''s total area, excluding area under inland water bodies, national claims to continental shelf, and exclusive economic zones. In most cases the definition of inland water bodies includes major rivers and lakes. Food and Agriculture Organization and World Bank population estimates.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP090') AND lower(s.code)=lower('world-bank');
@@ -1882,56 +896,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://esa.un.org/wpp/Excel-Data/population.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP100') AND lower(s.code)=lower('esa-unpd-wup2011');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP100') AND lower(s.code)=lower('esa-unpd-wup2011');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Population in urban agglomerations of more than one million is the percentage of a country''s population living in metropolitan areas that in 2000 had a population of more than one million people.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP110') AND lower(s.code)=lower('world-bank');
@@ -1939,8 +904,13 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://esa.un.org/wpp/Excel-Data/population.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP110') AND lower(s.code)=lower('world-bank');
-
-
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'You are free to copy, distribute, adapt, display or include the data in other products for commercial and noncommercial purposes at no cost subject to certain limitations summarized below.
+You must include attribution for the data you use in the manner indicated in the metadata included with the data.
+You must not claim or imply that The World Bank endorses your use of the data by or use The World Bank’s logo(s) or trademark(s) in conjunction with such use.
+Other parties may have ownership interests in some of the materials contained on The World Bank Web site. For example, we maintain a list of some specific data within the Datasets that you may not redistribute or reuse without first contacting the original content provider, as well as information regarding how to contact the original content provider. Before incorporating any data in other products, please check the list: Terms of use: Restricted Data
+The World Bank makes no warranties with respect to the data and you agree The World Bank shall not be liable to you in connection with your use of the data.
+This is only a summary of the Terms of Use for Datasets Listed in The World Bank Data Catalogue. Please read the actual agreement that controls your use of the Datasets, which is available here: Terms of use for datasets. Also see World Bank Terms and Conditions.');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PSP110') AND lower(s.code)=lower('world-bank');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Public expenditure on education as % of GDP is the total public expenditure (current and capital) on education expressed as a percentage of the Gross Domestic Product (GDP) in a given year. Public expenditure on education includes government spending on educational institutions (both public and private), education administration, and transfers/subsidies for private entities (students/households and other privates entities).');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVE010') AND lower(s.code)=lower('hdrstats');
 
@@ -1987,56 +957,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&SeriesId=589');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVE130') AND lower(s.code)=lower('mdgs');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVE130') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Estimates of per capita food supplies available for human consumption during the reference period in terms of quantity, caloric value, protein and fat content. Calorie supplies are reported in kilocalories (1 calorie = 4.19 kilojoules). Per capita supplies in terms of product weight are derived from the total supplies available for human consumption (i.e. Food) by dividing the quantities of Food by the total population actually partaking of the food supplies during the reference period, i.e. the present in-area (de facto) population within the present geographical boundaries of the country. In other words, nationals living abroad during the reference period are excluded, but foreigners living in the country are included. Adjustments are made wherever possible for part-time presence or absence, such as temporary migrants, tourists and refugees supported by special schemes (if it has not been possible to allow for the amounts provided by such schemes under imports). In almost all cases, the population figures used are the mid-year estimates published by the United Nations Population Division. Per capita supply figures shown in the commodity balances therefore represent only the average supply available for the population as a whole and do not necessarily indicate what is actually consumed by individuals. Even if they are taken as approximation to per capita consumption, it is important to note that the amount of food actually consumed may be lower than the quantity shown here, depending on the degree of losses of edible food and nutrients in the household, e.g. during storage, in preparation and cooking etc. In many cases commodities are not consumed in the primary form in which they are presented in the commodity balance, e.g. cereals enter the household mainly in processed form like flour, meal, husked or milled rice. To take this fact into account, the caloric value, the protein and fat content shown against primary commodities in the commodity balances have been derived by applying the appropriate food composition factors to the quantities of the processed commodities and not by multiplying the quantities shown in the commodity balance with the food composition factors relating to primary commodities.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVF020') AND lower(s.code)=lower('faostat3');
@@ -2044,64 +965,21 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://faostat3.fao.org/faostat-gateway/go/to/browse/C/*/E');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVF020') AND lower(s.code)=lower('faostat3');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Content on www.fao.org, its affiliated websites and specific pages (collectively the FAO website) is protected by copyright. To ensure wide dissemination of its information, FAO is committed to making its content freely available and encourages the use, reproduction and dissemination of the text, multimedia and data products presented. Except where otherwise indicated, content may be copied, printed and downloaded for private study, research and teaching purposes, or for use in non-commercial products or services, provided that appropriate acknowledgement of FAO as the source and copyright holder is given and that FAO''s endorsement of users'' views, products or services is not stated or implied in any way. FAO encourages unrestricted use of news releases provided on the FAO website, and no formal permission is required to reproduce these materials.
 
+All requests for translation and adaptation rights, and for resale and other commercial use rights should be addressed to copyright@fao.org or submitted via the online Licence Request Form when downloading.
 
+RECOMMENDED CITATION:
+
+[© FAO] [Year of publication] [Title of content] [Page number (for publications)] [Location on FAO website] [Date accessed and/or downloaded]');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVF020') AND lower(s.code)=lower('faostat3');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The average number of years of life expected by a hypothetical cohort of individuals who would be subject during all their lives to the mortality rates of a given period. It is expressed as years.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH010') AND lower(s.code)=lower('esa-unpd-wpp2012');
 
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://esa.un.org/wpp/Excel-Data/mortality.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH010') AND lower(s.code)=lower('esa-unpd-wpp2012');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH010') AND lower(s.code)=lower('esa-unpd-wpp2012');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of deaths over a given period. Refers to five-year periods running from 1 July to 30 June of the initial and final years. Data are presented in thousands.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH050') AND lower(s.code)=lower('esa-unpd-wpp2012');
@@ -2109,56 +987,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://esa.un.org/wpp/Excel-Data/mortality.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH050') AND lower(s.code)=lower('esa-unpd-wpp2012');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH050') AND lower(s.code)=lower('esa-unpd-wpp2012');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Adult mortality rate is the probability of dying between the ages of 15 and 60--that is, the probability of a 15-year-old dying before reaching age 60, if subject to current age-specific mortality rates between those ages.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH080') AND lower(s.code)=lower('world-bank');
@@ -2192,56 +1021,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://esa.un.org/wpp/Excel-Data/mortality.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH100') AND lower(s.code)=lower('esa-unpd-wpp2012');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH100') AND lower(s.code)=lower('esa-unpd-wpp2012');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Probability of dying between birth and exactly age 5, expressed per 1,000 live births. Source: Inter-agency Group for Child Mortality Estimation (UNICEF, WHO, UN Population Division and World Bank) 2012');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH120') AND lower(s.code)=lower('hdrstats');
@@ -2249,8 +1029,8 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'https://data.undp.org/dataset/Under-five-mortality-per-1-000-live-births-/a4ay-qce2');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH120') AND lower(s.code)=lower('hdrstats');
-
-
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The information in the various pages of the UNDP Web site is issued by the United Nations Development Programme for general distribution. The information presented is protected under the Berne Convention for the Protection of Literature and Artistic works, under other international conventions and under national laws on copyright and neighboring rights. Extracts of the information in the Web site may be reviewed, reproduced or translated for research or private study but not for sale or for use in conjunction with commercial purposes. Any use of information in the Web site should be accompanied by an acknowledgment of UNDP as the source, citing the uniform resource locator (URL) of the article. Reproduction or translation of substantial portions of the Web site, or any use other than for educational or other non-commercial purposes, require explicit, prior authorization in writing. Applications and enquiries should be addressed to the programme responsible for the page used.');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH120') AND lower(s.code)=lower('hdrstats');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The under-five mortality rate (U5MR) is the probability (expressed as a rate per 1,000 live births) of a child born in a specified year dying before reaching the age of five if subject to current age-specific mortality rates.
 
 A live birth is the complete expulsion or extraction from its mother of a product of conception, irrespective of the duration of the pregnancy, which, after such separation, breathes or shows any other evidence of life—such as beating of the heart, pulsation of the umbilical cord, or definite movement of voluntary muscles—whether or not the umbilical cord has been cut or the placenta is attached. Each product of such a birth is considered a live birth.');
@@ -2259,56 +1039,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&SeriesId=561');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH140') AND lower(s.code)=lower('mdgs');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH140') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Probability of dying between birth and exact age 1. It is expressed as average annual deaths per 1,000 births');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH150') AND lower(s.code)=lower('esa-unpd-wpp2012');
@@ -2316,72 +1047,23 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://esa.un.org/wpp/Excel-Data/mortality.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH150') AND lower(s.code)=lower('esa-unpd-wpp2012');
-
-
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH150') AND lower(s.code)=lower('esa-unpd-wpp2012');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Ratio of the number of maternal deaths to the number of live births in a given year, expressed per 100,000 live births. ');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH180') AND lower(s.code)=lower('hdrstats');
 
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'https://data.undp.org/dataset/Maternal-mortality-ratio-deaths-of-women-per-100-0/4gkx-mq89');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH180') AND lower(s.code)=lower('hdrstats');
-
-
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The information in the various pages of the UNDP Web site is issued by the United Nations Development Programme for general distribution. The information presented is protected under the Berne Convention for the Protection of Literature and Artistic works, under other international conventions and under national laws on copyright and neighboring rights. Extracts of the information in the Web site may be reviewed, reproduced or translated for research or private study but not for sale or for use in conjunction with commercial purposes. Any use of information in the Web site should be accompanied by an acknowledgment of UNDP as the source, citing the uniform resource locator (URL) of the article. Reproduction or translation of substantial portions of the Web site, or any use other than for educational or other non-commercial purposes, require explicit, prior authorization in writing. Applications and enquiries should be addressed to the programme responsible for the page used.');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH180') AND lower(s.code)=lower('hdrstats');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The maternal mortality ratio (MMR) is the ratio of the number of maternal deaths during a given time period per 100,000 live births during the same time-period. A maternal death refers to a female death from any cause related to or aggravated by pregnancy or its management (excluding accidental or incidental causes) during pregnancy and childbirth or within 42 days of termination of pregnancy, irrespective of the duration and site of the pregnancy.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH190') AND lower(s.code)=lower('mdgs');
 
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&SeriesId=553');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH190') AND lower(s.code)=lower('mdgs');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVH190') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Number of airports by country');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVL010') AND lower(s.code)=lower('worldaerodata');
@@ -2389,8 +1071,16 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://worldaerodata.com/');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVL010') AND lower(s.code)=lower('worldaerodata');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Copyright Notice
 
+NACO Terminal Procedure charts are produced by the FAA, and reside on their server. 
 
+DAFIF source data used to generate this site may carry some licensing restrictions. Contact NGA for further info. 
+
+Advertisements are copyright their respective owners. 
+
+All other parts of this site, including HTML, ©2014 WorldAeroData.com., all rights reserved. Redistribution of the contents of this site its present form, or in derivative works, is prohibited. ');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVL010') AND lower(s.code)=lower('worldaerodata');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Total road network includes motorways, highways, and main or national roads, secondary or regional roads, and all other roads in a country. A motorway is a road designed and built for motor traffic that separates the traffic flowing in opposite directions.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVL030') AND lower(s.code)=lower('world-bank');
 
@@ -2438,8 +1128,14 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://www.fao.org/docrep/005/Y4249E/y4249e06.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVN010') AND lower(s.code)=lower('fao-foodsec');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Content on www.fao.org, its affiliated websites and specific pages (collectively the FAO website) is protected by copyright. To ensure wide dissemination of its information, FAO is committed to making its content freely available and encourages the use, reproduction and dissemination of the text, multimedia and data products presented. Except where otherwise indicated, content may be copied, printed and downloaded for private study, research and teaching purposes, or for use in non-commercial products or services, provided that appropriate acknowledgement of FAO as the source and copyright holder is given and that FAO''s endorsement of users'' views, products or services is not stated or implied in any way. FAO encourages unrestricted use of news releases provided on the FAO website, and no formal permission is required to reproduce these materials.
 
+All requests for translation and adaptation rights, and for resale and other commercial use rights should be addressed to copyright@fao.org or submitted via the online Licence Request Form when downloading.
 
+RECOMMENDED CITATION:
+
+[© FAO] [Year of publication] [Title of content] [Page number (for publications)] [Location on FAO website] [Date accessed and/or downloaded]');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVN010') AND lower(s.code)=lower('fao-foodsec');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Prevalence of (moderately and severely) underweight children is the percentage of children aged 0-59 months whose weights for age are less than two standard deviations below the median weight for age of the international reference population. The international reference population, often referred to as the NCHS/WHO reference population, was formulated by the National Center for Health Statistics (NCHS) as a reference for the United States and later adopted by the World Health Organization (WHO).
 
 The NCHS/WHO reference standard represents the distribution of height and weight by age and sex in a well-nourished population. In a well-nourished population, 2.3 percent of children fall below minus two standard deviations.
@@ -2452,56 +1148,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&SeriesId=559');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVN050') AND lower(s.code)=lower('mdgs');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVN050') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The proportion of the population using an improved drinking water source, total, urban, and rural, is the percentage of the population who use any of the following types of water supply for drinking: piped water into dwelling, plot or yard; public tap/standpipe; borehole/tube well; protected dug well; protected spring; rainwater collection and bottled water (if a secondary available source is also improved). It does not include unprotected well, unprotected spring, water provided by carts with small tanks/drums, tanker truck-provided water and bottled water (if secondary source is not an improved source) or surface water taken directly from rivers, ponds, streams, lakes, dams, or irrigation channels. Definitions and a detailed description of these facilities can be found at the website of the WHO/UNICEF Joint Monitoring Programme for Water Supply and Sanitation at www.wssinfo.org.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVW010') AND lower(s.code)=lower('mdgs');
@@ -2509,56 +1156,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://unstats.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&SeriesId=665');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVW010') AND lower(s.code)=lower('mdgs');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVW010') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The proportion of the population using an improved sanitation facility, total, urban, rural, is the percentage of the population with access to facilities that hygienically separate human excreta from human contact. Improved facilities include flush/pour flush toilets or latrines connected to a sewer, -septic tank, or -pit, ventilated improved pit latrines, pit latrines with a slab or platform of any material which covers the pit entirely, except for the drop hole and composting toilets/latrines. Unimproved facilities include public or shared facilities of an otherwise acceptable type, flush/pour-flush toilets or latrines which discharge directly into an open sewer or ditch, pit latrines without a slab, bucket latrines, hanging toilets or latrines which directly discharge in water bodies or in the open and the practice of open defecation in the bush, field or bodies or water. Definitions and a detailed description of these facilities can be found at the website of the WHO/UNICEF Joint Monitoring Programme for Water Supply and Sanitation at www.wssinfo.org.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVW040') AND lower(s.code)=lower('mdgs');
@@ -2566,56 +1164,7 @@ INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_
 
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&SeriesId=668');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVW040') AND lower(s.code)=lower('mdgs');
-INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The use of this web site constitutes agreement with the following terms and conditions:
-
-(a) The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.
-
-(b) The United Nations administers this Site. All Material on this Site from the United Nations appears subject to the present Terms and Conditions.
-
-(c) Unless expressly stated otherwise, the findings, interpretations and conclusions expressed in the Materials on this Site are those of the various United Nations staff members, consultants and advisers to the United Nations Secretariat who prepared the work and do not necessarily represent the views of the United Nations or its Member States.
-
-Disclaimers
-
-Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of merchantability, fitness for a particular purpose and non-infringement. The United Nations specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The United Nations periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the United Nations be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations or its affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if the United Nations has been advised of the possibility of such damages.
-
-The User specifically acknowledges and agrees that the United Nations is not liable for any conduct of any User.
-
-This site may contain advice, opinions and statements of various information providers. The United Nations does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.
-
-As a condition of use of this Site, the User agrees to indemnify the United Nations and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.
-
-This Site may contain links and references to third-party web sites. The linked sites are not under the control of the United Nations, and the United Nations is not responsible for the content of any linked site or any link contained in a linked site. The United Nations provides these links only as a convenience, and the inclusion of a link or reference does not imply the endorsement of the linked site by the United Nations.
-
-If this Site contains bulletin boards, chat rooms, access to mailing lists or other message or communication facilities (collectively, “Forums”), the User agrees to use the Forums only to send and receive messages and materials that are proper and related to the particular Forum. By way of example and not as a limitation, the User agrees that when using a Forum, he or she shall not do any of the following: 
-(a) Defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others;
-
-(b) Publish, post, distribute or disseminate any defamatory, infringing, obscene, indecent or unlawful material or information;
-
-(c) Upload or attach files that contain software or other material protected by intellectual property laws (or by rights of privacy and publicity) unless the User owns or controls the rights thereto or has received all consents therefor as may be required by law;
-
-(d) Upload or attach files that contain viruses, corrupted files or any other similar software or programs that may damage the operation of another’s computer;
-
-(e) Delete any author attributions, legal notices or proprietary designations or labels in any file that is uploaded;
-
-(f) Falsify the origin or source of software or other material contained in a file that is uploaded;
-
-(g) Advertise or offer to sell any goods or services, or conduct or forward surveys, contests or chain letters, or download any file posted by another user of a Forum that the User knows, or reasonably should know, cannot be legally distributed in such manner.
-
-The User acknowledges that all Forums and discussion groups are public and not private communications. Further, the User acknowledges that chats, postings, conferences, e-mails and other communications by other Users are not endorsed by the United Nations, and that such communications shall not be considered to have been reviewed, screened or approved by the United Nations. The United Nations reserves the right to remove, for any reason and without notice, any content of the Forums received from Users, including, without limitation, e-mail and bulletin board postings.
-
-The boundaries and names shown and the designations used on the maps on this site do not imply official endorsement or acceptance by the United Nations.
-
-Preservation of immunities
-
-Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations, which are specifically reserved.
-
-General
-
-The United Nations reserves its exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The United Nations shall have no obligation to take the needs of any User into consideration in connection therewith.
-
-The United Nations reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.
-
-No waiver by the United Nations of any provision of these Terms and Conditions shall be binding except as set forth in writing and signed by its duly authorized representative.');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The United Nations maintains this web site (the “Site”) as a courtesy to those who may choose to access the Site (“Users”). The information presented herein is for informative purposes only. The United Nations grants permission to Users to visit the Site and to download and copy the information, documents and materials (collectively, “Materials”) from the Site for the User’s personal, non-commercial use, without any right to resell or redistribute them or to compile or create derivative works therefrom, subject to the terms and conditions outlined below, and also subject to more specific restrictions that may apply to specific Material within this Site.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVW040') AND lower(s.code)=lower('mdgs');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The GNA Final Index lists countries in ranking order. The GNA Vulnerability Index and the GNA Crisis Index are shown, as well as the various dimensions. Each dimension has a value that is the result of combining indicators. Note that all values are the result of ranking countries. If countries are in the top quartile (25%), they score 3; in the bottom quartile, they score 1; in the middle 2 quartiles, they score 2.  For the calculation methods see the Methodological notes on http://ec.europa.eu/echo/policies/strategy_en.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX010') AND lower(s.code)=lower('echo');
@@ -2623,16 +1172,28 @@ INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Index value is 
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'METHODOLOGY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX010') AND lower(s.code)=lower('echo');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://ec.europa.eu');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX010') AND lower(s.code)=lower('echo');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Copyright notice
 
+© European Union, 1995-2014 
 
+Reuse is authorised, provided the source is acknowledged. The reuse policy of the European Commission is implemented by a Decision of 12 December 2011  [728KB] . 
+
+The general principle of reuse can be subject to conditions which may be specified in individual copyright notices. Therefore users are advised to refer to the copyright notices of the individual websites maintained under Europa and of the individual documents. Reuse is not applicable to documents subject to intellectual property rights of third parties. ');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX010') AND lower(s.code)=lower('echo');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The GNA Final Index lists countries in ranking order. The GNA Vulnerability Index and the GNA Crisis Index are shown, as well as the various dimensions. Each dimension has a value that is the result of combining indicators. Note that all values are the result of ranking countries. If countries are in the top quartile (25%), they score 3; in the bottom quartile, they score 1; in the middle 2 quartiles, they score 2.  For the calculation methods see the Methodological notes on http://ec.europa.eu/echo/policies/strategy_en.htm');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX020') AND lower(s.code)=lower('echo');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Index value is taken directly from the source dataset.');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'METHODOLOGY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX020') AND lower(s.code)=lower('echo');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://ec.europa.eu');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX020') AND lower(s.code)=lower('echo');
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Copyright notice
 
+© European Union, 1995-2014 
 
+Reuse is authorised, provided the source is acknowledged. The reuse policy of the European Commission is implemented by a Decision of 12 December 2011  [728KB] . 
+
+The general principle of reuse can be subject to conditions which may be specified in individual copyright notices. Therefore users are advised to refer to the copyright notices of the individual websites maintained under Europa and of the individual documents. Reuse is not applicable to documents subject to intellectual property rights of third parties. ');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX020') AND lower(s.code)=lower('echo');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The Armed Conflict Location and Event Database (ACLED) project codes reported information on the exact location, date, and other characteristics of politically violent events in unstable and warring states. ACLED focuses specifically on: 
 - Tracking rebel, militia and government activity over time and space 
 - Locating rebel group bases, headquarters, strongholds and presence 
@@ -2648,15 +1209,22 @@ INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Total number of
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'METHODOLOGY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX040') AND lower(s.code)=lower('acled');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'http://www.acleddata.com');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'MORE_INFO',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX040') AND lower(s.code)=lower('acled');
-
-
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'If using ACLED data, please cite: Raleigh, Clionadh, Andrew Linke, Håvard Hegre and Joakim Karlsen. 2010. Introducing ACLED-Armed Conflict Location and Event Data. Journal of Peace Research 47(5) 1-10.');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX040') AND lower(s.code)=lower('acled');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Can''t find this series. Only 2010 in the scraped data. EM-DAT also provides this data');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX060') AND lower(s.code)=lower('hdi-disaster');
 
 
 
 
-
-
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The information in the various pages of the UNDP Web site is issued by the United Nations Development Programme for general distribution. The information presented is protected under the Berne Convention for the Protection of Literature and Artistic works, under other international conventions and under national laws on copyright and neighboring rights. Extracts of the information in the Web site may be reviewed, reproduced or translated for research or private study but not for sale or for use in conjunction with commercial purposes. Any use of information in the Web site should be accompanied by an acknowledgment of UNDP as the source, citing the uniform resource locator (URL) of the article. Reproduction or translation of substantial portions of the Web site, or any use other than for educational or other non-commercial purposes, require explicit, prior authorization in writing. Applications and enquiries should be addressed to the programme responsible for the page used.');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX060') AND lower(s.code)=lower('hdi-disaster');
 INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'Can''t find this series. Only 2010 in the scraped data. EM-DAT also provides this data');
 INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'DATASET_SUMMARY',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX070') AND lower(s.code)=lower('hdrstats');
+
+
+
+
+INSERT INTO text(id, default_value) VALUES (nextval('text_seq'),'The information in the various pages of the UNDP Web site is issued by the United Nations Development Programme for general distribution. The information presented is protected under the Berne Convention for the Protection of Literature and Artistic works, under other international conventions and under national laws on copyright and neighboring rights. Extracts of the information in the Web site may be reviewed, reproduced or translated for research or private study but not for sale or for use in conjunction with commercial purposes. Any use of information in the Web site should be accompanied by an acknowledgment of UNDP as the source, citing the uniform resource locator (URL) of the article. Reproduction or translation of substantial portions of the Web site, or any use other than for educational or other non-commercial purposes, require explicit, prior authorization in writing. Applications and enquiries should be addressed to the programme responsible for the page used.');
+INSERT INTO hdx_additional_data(id,indicator_type_id,source_id,entry_key, entry_value_text_id)  SELECT nextval('hdx_additional_data_seq'),t.id, s.id, 'TERMS_OF_USE',currval('text_seq') FROM indicator_type t, source s WHERE lower(t.code)=lower('PVX070') AND lower(s.code)=lower('hdrstats');
+
