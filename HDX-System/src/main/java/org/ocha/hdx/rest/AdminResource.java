@@ -774,7 +774,7 @@ public class AdminResource {
 		final int _totalNumber = allEntities.size();
 		int _howMuch = howMuch;
 		int _fromIndex = fromIndex;
-		if(0 == howMuch) {
+		if (0 == howMuch) {
 			_howMuch = allEntities.size();
 			_fromIndex = 0;
 		}
@@ -1017,10 +1017,10 @@ public class AdminResource {
 	}
 
 	private static JsonObject organizationToJson(final Organization organization) {
-		
+
 		// !!! Please beware when changing this JSON representation of organizations
 		// because its structure is used in organizations.js !!!
-		
+
 		final JsonObject jsonOrganization = new JsonObject();
 		jsonOrganization.addProperty("id", organization.getId());
 		jsonOrganization.addProperty("shortName", organization.getShortName().getDefaultValue());
@@ -1062,7 +1062,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/organizations/submitUpdate")
-	public Response updateOrganization(@FormParam("organizationId") final long organizationId, @FormParam("newShortName") final String newShortName, @FormParam("newFullName") final String newFullName, @FormParam("newLink") final String newLink) {
+	public Response updateOrganization(@FormParam("organizationId") final long organizationId, @FormParam("newShortName") final String newShortName,
+			@FormParam("newFullName") final String newFullName, @FormParam("newLink") final String newLink) {
 		curatedDataService.updateOrganization(organizationId, newShortName, newFullName, newLink);
 		return Response.ok().build();
 	}
@@ -1122,11 +1123,10 @@ public class AdminResource {
 		jsonSource.addProperty("code", source.getCode());
 		jsonSource.addProperty("name", source.getName().getDefaultValue());
 		jsonSource.addProperty("link", source.getOrgLink());
-		if(null != source.getOrganization()) {
+		if (null != source.getOrganization()) {
 			jsonSource.addProperty("organization_id", source.getOrganization().getId());
 			jsonSource.add("organization", organizationToJson(source.getOrganization()));
-		}
-		else {
+		} else {
 			jsonSource.addProperty("organization_id", "");
 		}
 		jsonSource.addProperty("text_id", source.getName().getId());
@@ -1152,7 +1152,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/sources/submitUpdate")
-	public Response updateSource(@FormParam("sourceId") final long sourceId, @FormParam("newName") final String newName, @FormParam("newLink") final String newLink, @FormParam("newOrganization") final Long newOrganization) {
+	public Response updateSource(@FormParam("sourceId") final long sourceId, @FormParam("newName") final String newName, @FormParam("newLink") final String newLink,
+			@FormParam("newOrganization") final Long newOrganization) {
 		curatedDataService.updateSource(sourceId, newName, newLink, newOrganization);
 		return Response.ok().build();
 	}
@@ -1283,7 +1284,7 @@ public class AdminResource {
 	public Response displayMetadata() {
 		return Response.ok(new Viewable("/admin/dataSeries")).build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/curated/metadataForIndicatorTypeAndSource/json")
@@ -1294,23 +1295,32 @@ public class AdminResource {
 			final JsonObject jsonAdditionalData = new JsonObject();
 			jsonAdditionalData.addProperty("entryKey", additionalData.getEntryKey().toString());
 			jsonAdditionalData.addProperty("entryValue", additionalData.getEntryValue().getDefaultValue());
+			jsonAdditionalData.add("translations", translationsToJson(additionalData.getEntryValue().getTranslations()));
 			jsonAdditionalData.addProperty("indicatorCode", additionalData.getIndicatorType().getCode());
 			jsonAdditionalData.addProperty("sourceCode", additionalData.getSource().getCode());
 			jsonArray.add(jsonAdditionalData);
 		}
 		return jsonArray.toString();
 	}
-	
+
 	@POST
 	@Path("/curated/metadataForIndicatorTypeAndSource/submitUpdate")
-	public Response updateMetadataForIndicatorTypeAndSource(@FormParam("which") final String which, @FormParam("data") final String data, @FormParam("indicatorTypeCode") final String indicatorTypeCode, @FormParam("sourceCode") final String sourceCode) throws Exception {
-		curatedDataService.updateMetadataForIndicatorTypeAndSource(which, data, indicatorTypeCode, sourceCode);
+	public Response updateMetadataForIndicatorTypeAndSource(@FormParam("which") final String which, @FormParam("data") final String data,
+			@FormParam("languageCode") final String languageCode, @FormParam("indicatorTypeCode") final String indicatorTypeCode, @FormParam("sourceCode") final String sourceCode) throws Exception {
+		curatedDataService.updateMetadataForIndicatorTypeAndSource(which, data, languageCode, indicatorTypeCode, sourceCode);
 		return Response.ok().build();
 	}
 
+	@POST
+	@Path("/curated/timeParametersForIndicatorTypeAndSource/submitUpdate")
+	public Response updateTimeParametersForIndicatorTypeAndSource(@FormParam("expectedTimeFormat") final String expectedTimeFormat,
+			@FormParam("interpretedStartTime") final String interpretedStartTime, @FormParam("interpretedEndTime") final String interpretedEndTime,
+			@FormParam("interpretedPeriodicity") final String interpretedPeriodicity, @FormParam("indicatorTypeCode") final String indicatorTypeCode, @FormParam("sourceCode") final String sourceCode)
+			throws Exception {
+		curatedDataService.updateTimeParametersForIndicatorTypeAndSource(expectedTimeFormat, interpretedStartTime, interpretedEndTime, interpretedPeriodicity, indicatorTypeCode, sourceCode);
+		return Response.ok().build();
+	}
 
-	
-	
 	/*
 	 * Dictionaries / regions management
 	 */
@@ -1562,6 +1572,4 @@ public class AdminResource {
 		return Response.ok(new Viewable("/admin/reportsIndicator")).build();
 	}
 
-	
-	
 }

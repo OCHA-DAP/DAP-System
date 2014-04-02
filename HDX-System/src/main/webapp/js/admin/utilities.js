@@ -48,8 +48,8 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
   }
 
   // Set the focus on the given field
-  function setFocus(fieldName) {
-    var theField = document.getElementById(fieldName);
+  function setFocus(fieldId) {
+    var theField = document.getElementById(fieldId);
     if (theField) {
       theField.focus();
     }

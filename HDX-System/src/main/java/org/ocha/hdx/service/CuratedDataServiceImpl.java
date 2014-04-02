@@ -37,6 +37,7 @@ import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.ocha.hdx.persistence.entity.i18n.Text;
+import org.ocha.hdx.persistence.entity.i18n.Translation;
 import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
 import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 import org.slf4j.Logger;
@@ -707,16 +708,69 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void updateMetadataForIndicatorTypeAndSource(final String which, final String data, final String indicatorTypeCode, final String sourceCode) {
+	public void updateMetadataForIndicatorTypeAndSource(final String which, final String data, final String languageCode, final String indicatorTypeCode, final String sourceCode) {
 		final EntryKey entryKey = EntryKey.valueOf(which);
 		final AdditionalData additionalData = additionalDataDAO.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
 		if (null == additionalData) {
 			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
 			final Source source = sourceDAO.getSourceByCode(sourceCode);
-			final Text text = textDAO.createText(data);
+			Text text = null;
+			if ("default".equals(languageCode)) {
+				text = textDAO.createText(data);
+			} else {
+				text = textDAO.createText("");
+				textDAO.createTranslationForText(text.getId(), languageCode, data);
+			}
 			additionalDataDAO.createAdditionalData(indicatorType, source, entryKey, text);
 		} else {
-			additionalDataDAO.updateAdditionalData(indicatorTypeCode, sourceCode, which, data);
+			if ("default".equals(languageCode)) {
+				additionalDataDAO.updateAdditionalData(indicatorTypeCode, sourceCode, which, data);
+			} else {
+				final List<Translation> translations = additionalData.getEntryValue().getTranslations();
+				if (null != translations) {
+					boolean found = false;
+					for (final Translation translation : translations) {
+						if (languageCode.equals(translation.getId().getLanguage().getCode())) {
+							textDAO.updateTranslation(additionalData.getEntryValue().getId(), languageCode, data);
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						textDAO.createTranslationForText(additionalData.getEntryValue().getId(), languageCode, data);
+					}
+				} else {
+					textDAO.createTranslationForText(additionalData.getEntryValue().getId(), languageCode, data);
+				}
+			}
+		}
+	}
+
+	/*
+	 * Time parameters.
+	 */
+
+	@Override
+	public void updateTimeParametersForIndicatorTypeAndSource(final String expectedTimeFormat, final String interpretedStartTime, final String interpretedEndTime, final String interpretedPeriodicity,
+			final String indicatorTypeCode, final String sourceCode) {
+		final Map<EntryKey, String> timeParameters = new HashMap<EntryKey, String>();
+		timeParameters.put(EntryKey.EXPECTED_TIME_FORMAT, expectedTimeFormat);
+		timeParameters.put(EntryKey.INTERPRETED_START_TIME, interpretedStartTime);
+		timeParameters.put(EntryKey.INTERPRETED_END_TIME, interpretedEndTime);
+		timeParameters.put(EntryKey.INTERPRETED_PERIODICITY, interpretedPeriodicity);
+		for (final EntryKey entryKey : timeParameters.keySet()) {
+			final String data = timeParameters.get(entryKey);
+			if ((null != data) && !"".equals(data)) {
+				final AdditionalData additionalData = additionalDataDAO.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
+				if (null == additionalData) {
+					final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
+					final Source source = sourceDAO.getSourceByCode(sourceCode);
+					final Text text = textDAO.createText(data);
+					additionalDataDAO.createAdditionalData(indicatorType, source, entryKey, text);
+				} else {
+					additionalDataDAO.updateAdditionalData(indicatorTypeCode, sourceCode, entryKey.toString(), data);
+				}
+			}
 		}
 	}
 }
