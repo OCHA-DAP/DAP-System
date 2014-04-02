@@ -167,7 +167,13 @@ public interface CuratedDataService {
 	 */
 	public List<AdditionalData> getMetadataForIndicatorTypeAndSource(String indicatorTypeCode, String sourceCode);
 
-	public void updateMetadataForIndicatorTypeAndSource(String which, String data, String indicatorTypeCode, String sourceCode);
+	public void updateMetadataForIndicatorTypeAndSource(String which, String data, String languageCode, String indicatorTypeCode, String sourceCode);
+
+	/*
+	 * Time parameters
+	 */
+	public void updateTimeParametersForIndicatorTypeAndSource(String expectedTimeFormat, String interpretedStartTime, String interpretedEndTime, String interpretedPeriodicity,
+			String indicatorTypeCode, String sourceCode);
 
 	/*
 	 * Region dictionaries

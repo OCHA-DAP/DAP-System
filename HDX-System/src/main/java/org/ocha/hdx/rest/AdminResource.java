@@ -1294,6 +1294,7 @@ public class AdminResource {
 			final JsonObject jsonAdditionalData = new JsonObject();
 			jsonAdditionalData.addProperty("entryKey", additionalData.getEntryKey().toString());
 			jsonAdditionalData.addProperty("entryValue", additionalData.getEntryValue().getDefaultValue());
+			jsonAdditionalData.add("translations", translationsToJson(additionalData.getEntryValue().getTranslations()));
 			jsonAdditionalData.addProperty("indicatorCode", additionalData.getIndicatorType().getCode());
 			jsonAdditionalData.addProperty("sourceCode", additionalData.getSource().getCode());
 			jsonArray.add(jsonAdditionalData);
@@ -1303,9 +1304,19 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/metadataForIndicatorTypeAndSource/submitUpdate")
-	public Response updateMetadataForIndicatorTypeAndSource(@FormParam("which") final String which, @FormParam("data") final String data,
+	public Response updateMetadataForIndicatorTypeAndSource(@FormParam("which") final String which, @FormParam("data") final String data, @FormParam("languageCode") final String languageCode,
 			@FormParam("indicatorTypeCode") final String indicatorTypeCode, @FormParam("sourceCode") final String sourceCode) throws Exception {
-		curatedDataService.updateMetadataForIndicatorTypeAndSource(which, data, indicatorTypeCode, sourceCode);
+		curatedDataService.updateMetadataForIndicatorTypeAndSource(which, data, languageCode, indicatorTypeCode, sourceCode);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/curated/timeParametersForIndicatorTypeAndSource/submitUpdate")
+	public Response updateTimeParametersForIndicatorTypeAndSource(@FormParam("expectedTimeFormat") final String expectedTimeFormat,
+			@FormParam("interpretedStartTime") final String interpretedStartTime, @FormParam("interpretedEndTime") final String interpretedEndTime,
+			@FormParam("interpretedPeriodicity") final String interpretedPeriodicity, @FormParam("indicatorTypeCode") final String indicatorTypeCode, @FormParam("sourceCode") final String sourceCode)
+			throws Exception {
+		curatedDataService.updateTimeParametersForIndicatorTypeAndSource(expectedTimeFormat, interpretedStartTime, interpretedEndTime, interpretedPeriodicity, indicatorTypeCode, sourceCode);
 		return Response.ok().build();
 	}
 

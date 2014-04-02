@@ -18,7 +18,9 @@ td {
 	*/
 	
 }
-
+h5 {
+	text-decoration: underline;
+}
 .menu ul {
 	list-style-type: none;
 	line-height: 26px;
@@ -157,6 +159,10 @@ legend.test {
 	border-right: 1px solid lightGray;
 	border-left: 1px solid lightGray;
 	border-bottom: 1px solid lightGray;
+}
+
+.metadata-tab {
+	height: 100%;	
 }
 
 search {

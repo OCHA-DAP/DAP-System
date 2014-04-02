@@ -22,7 +22,7 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 @Entity
 @Table(name = "hdx_additional_data")
@@ -30,14 +30,16 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
 public class AdditionalData {
 
 	public enum EntryKey {
-		METHODOLOGY("Methodology"), MORE_INFO("More info"), DATASET_SUMMARY("Dataset summary"), TERMS_OF_USE("Terms of use");
+		METHODOLOGY("Methodology"), MORE_INFO("More info"), DATASET_SUMMARY("Dataset summary"), TERMS_OF_USE("Terms of use"), EXPECTED_TIME_FORMAT("Expected time format"), INTERPRETED_START_TIME(
+				"Interpreted start time"), INTERPRETED_END_TIME("Interpreted end time"), INTERPRETED_PERIODICITY("Interpreted periodicity");
 		private String label;
 
 		private EntryKey(final String label) {
 			this.label = label;
 		}
+
 		public String getLabel() {
-			return this.label;
+			return label;
 		}
 	}
 
@@ -65,18 +67,19 @@ public class AdditionalData {
 	@ForeignKey(name = "fk_additional_data_to_name_text")
 	private Text entryValue;
 
-	public AdditionalData() {}
+	public AdditionalData() {
+	}
 
 	public AdditionalData(final IndicatorType type, final Source source, final EntryKey entryKey, final Text entryValue) {
 		super();
 		this.source = source;
-		this.indicatorType = type;
+		indicatorType = type;
 		this.entryKey = entryKey;
 		this.entryValue = entryValue;
 	}
 
 	public long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(final long id) {
@@ -84,7 +87,7 @@ public class AdditionalData {
 	}
 
 	public Source getSource() {
-		return this.source;
+		return source;
 	}
 
 	public void setSource(final Source source) {
@@ -92,7 +95,7 @@ public class AdditionalData {
 	}
 
 	public IndicatorType getIndicatorType() {
-		return this.indicatorType;
+		return indicatorType;
 	}
 
 	public void setIndicatorType(final IndicatorType indicatorType) {
@@ -100,7 +103,7 @@ public class AdditionalData {
 	}
 
 	public Text getEntryValue() {
-		return this.entryValue;
+		return entryValue;
 	}
 
 	public void setEntryValue(final Text entryValue) {
@@ -108,7 +111,7 @@ public class AdditionalData {
 	}
 
 	public EntryKey getEntryKey() {
-		return this.entryKey;
+		return entryKey;
 	}
 
 	public void setEntryKey(final EntryKey entryKey) {
