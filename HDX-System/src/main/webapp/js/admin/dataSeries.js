@@ -18,6 +18,7 @@ app
           $scope.resetView = function() {
             $scope.resetMetadata();
             $scope.resetTimeParameters();
+            $scope.resetValidationNotes();
           }
 
           // //////////////////////
@@ -26,6 +27,7 @@ app
 
           $scope.metadataAvailable = false;
           $scope.timeParametersAvailable = false;
+          $scope.validationNotesAvailable = false;
 
           // Reset the metadata part of the UI
           $scope.resetMetadata = function() {
@@ -38,6 +40,7 @@ app
             $scope.metadata.moreInfoTranslations = {};
             $scope.metadata.termsOfUse = "";
             $scope.metadata.termsOfUseTranslations = {};
+            $scope.validationNotes = "";
 
             // Cancel the forms
             if ($scope.datasetSummaryForm) {
@@ -56,12 +59,17 @@ app
               $scope.termsOfUseForm.$cancel();
               $scope.termsOfUseForm.$visible = false;
             }
+            if ($scope.validationNotesForm) {
+              $scope.validationNotesForm.$cancel();
+              $scope.validationNotesForm.$visible = false;
+            }
 
             // Empty the text areas
             $("#datasetSummary").empty();
             $("#methodology").empty();
             $("#moreInfo").empty();
             $("#termsOfUse").empty();
+            $("#validationNotes").empty();
 
             // Hide the tabs
             $scope.metadataAvailable = false;
@@ -101,6 +109,8 @@ app
                     $scope.timeParameters.interpretedEndTime = metadata_.entryValue;
                   } else if ("INTERPRETED_PERIODICITY" === metadata_.entryKey) {
                     $scope.timeParameters.interpretedPeriodicity = metadata_.entryValue;
+                  } else if ("VALIDATION_NOTES" === metadata_.entryKey) {
+                    $scope.validationNotes = metadata_.entryValue;
                   }
                 }
                 $scope.assignNewValues();
@@ -109,7 +119,12 @@ app
               if (which) {
                 if ("TIME_PARAMETERS" === which) {
                   $scope.metadataAvailable = false;
+                  $scope.validationNotesAvailable = false;
                   $scope.timeParametersAvailable = true;
+                } else if ("VALIDATION_NOTES" === which) {
+                  $scope.metadataAvailable = false;
+                  $scope.timeParametersAvailable = false;
+                  $scope.validationNotesAvailable = true;
                 } else {
                   $('#metadataTabs a[href="#' + which + '"]').tab('show')
                 }
@@ -166,6 +181,7 @@ app
           }
 
           // Copy the metadata from one text area to another
+          // Doesn't work at submit, so don't use it
           $scope.copyMetadata = function(which, from, to) {
             console.log("Copy metadata for [" + which + "] from [" + from + "] to [" + to + "]");
             switch (which) {
@@ -210,6 +226,10 @@ app
             }
           }
           
+          // Trying to enforce values in xeditable fields
+          // when copying value from one text area to another
+          // but to no avail when submitting...
+          // Used in other cases though.
           $scope.applyChange = function (data, which, languageCode) {
             // console.log("Apply change for [" + which + "], language [" + languageCode + "], data [" + data + "]");
             switch (which) {
@@ -245,6 +265,9 @@ app
                 $scope.metadata.termsOfUseTranslations[languageCode] = data;
               }
               break;
+            case 'VALIDATION_NOTES':
+                $scope.validationNotes = data;
+              break;
             default:
               break;
             }
@@ -265,6 +288,9 @@ app
               break;
             case 'TERMS_OF_USE':
               data = 'default' === languageCode ? $scope.metadata.termsOfUse : $scope.metadata.termsOfUseTranslations[languageCode];
+              break;
+            case 'VALIDATION_NOTES': // no i18n, so will be stored as Text.defaultValue in DB
+              data = $scope.validationNotes;
               break;
             default:
               break;
@@ -297,9 +323,9 @@ app
             console.log("Showing translation for [" + which + "] in language [" + languageCode + "]");
           }
 
-          // ////////////////////////// //
+          // //////////////////////////
           // Time parameters management
-          // ////////////////////////// //
+          // //////////////////////////
 
           // Reset the time parameters part of the UI
           $scope.resetTimeParameters = function() {
@@ -381,6 +407,18 @@ app
               alert("Unable to update time parameters !");
             };
             utilities.post(options);
+          }
+
+          // ////////////////////////////////////////
+          // Validation notes and comments management
+          // ////////////////////////////////////////
+
+          // Reset the validation notes part of the UI
+          $scope.resetValidationNotes = function() {
+            $scope.validationNotes = "";
+
+            // Hide the form
+            $scope.validationNotesAvailable = false;
           }
 
           // ///////////////////////////////////////////////////////

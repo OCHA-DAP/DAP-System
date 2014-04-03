@@ -773,4 +773,13 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			}
 		}
 	}
+
+	/*
+	 * Validation notes.
+	 */
+
+	@Override
+	public void updateValidationNotesForIndicatorTypeAndSource(final String validationNotes, final String indicatorTypeCode, final String sourceCode) {
+		updateMetadataForIndicatorTypeAndSource("VALIDATION_NOTES", validationNotes, "default", indicatorTypeCode, sourceCode);
+	}
 }

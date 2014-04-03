@@ -17,7 +17,7 @@
 	<jsp:include page="admin-menu.jsp" />
 	<div>
 		<h3>Data Series management</h3>
-		<div style="width: 400px; margin-bottom: 20px;">
+		<div style="width: 400px;">
 			<div class="form-group">
 				<label for="indicatorType">Indicator type</label> <select class="form-control" id="indicatorType" ng-model="indicatorType" ng-change="indicatorTypeSelect()"
 					ng-options="indicatorType as (indicatorType | showIndicatorType) for indicatorType in indicatorTypes" ng-class="default">
@@ -28,8 +28,11 @@
 					ng-options="source as (source | showSource) for source in sources" ng-class="default">
 				</select>
 			</div>
+		</div>
+		<div style="width: 800px; margin-bottom: 20px;">
 			<button class="btn btn-primary btn-custom-default" ng-click="showMetadata()" ng-disabled="sourceUnavailable">Show metadata</button>
 			<button class="btn btn-primary btn-custom-default" ng-click="showMetadata('TIME_PARAMETERS')" ng-disabled="sourceUnavailable">Show time parameters</button>
+			<button class="btn btn-primary btn-custom-default" ng-click="showMetadata('VALIDATION_NOTES')" ng-disabled="sourceUnavailable">Show validation notes and comments</button>
 		</div>
 
 		<div style="width: 800px;" ng-show="metadataAvailable">
@@ -47,12 +50,20 @@
 			<div class="tab-content" style="margin-bottom: 10px;">
 				<div class="tab-pane scrollable-tab-pane metadata-tab active" id="DATASET_SUMMARY">
 					<div>
-						<h5>Default value</h5>
-						<textarea editable-textarea="metadata.datasetSummary" onbeforesave="applyChange($data, 'DATASET_SUMMARY', 'default')" e-class="form-control" e-name="datasetSummary" e-id="datasetSummary" e-form="datasetSummaryForm_default" e-required e-rows="8" e-cols="125"
-							rows="8" cols="125" disabled style="padding: 5px;">{{
+						<div class="pull-left">
+							<h5 id="DATASET_SUMMARY_default">Default value</h5>
+						</div>
+						<div class="pull-right">
+							Go to
+							<span ng-repeat="alanguage in languages">
+								<a href="" ng-href="#DATASET_SUMMARY_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
+							</span>
+						</div>
+						<textarea editable-textarea="metadata.datasetSummary" onbeforesave="applyChange($data, 'DATASET_SUMMARY', 'default')" e-class="form-control" e-name="datasetSummary" e-id="datasetSummary"
+							e-form="datasetSummaryForm_default" e-required e-rows="8" e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
 						metadata.datasetSummary }} </textarea>
-						<form editable-form name="datasetSummaryForm_default" onbeforesave="updateMetadata('DATASET_SUMMARY', 'default')" style="margin-top: 10px;"
-							ng-show="datasetSummaryForm_default.$visible" class="form-buttons form-inline" shown="inserted == metadata">
+						<form editable-form name="datasetSummaryForm_default" onbeforesave="updateMetadata('DATASET_SUMMARY', 'default')" style="margin-top: 10px;" ng-show="datasetSummaryForm_default.$visible"
+							class="form-buttons form-inline" shown="inserted == metadata">
 							<button type="submit" ng-disabled="datasetSummaryForm_default.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 							<button type="button" ng-disabled="datasetSummaryForm_default.$waiting" ng-click="datasetSummaryForm_default.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 						</form>
@@ -61,12 +72,20 @@
 						</div>
 					</div>
 					<div ng-repeat="language in languages" style="margin-top: 30px;">
-						<h5>Translation : {{language.native_name}} ({{language.code}})</h5>
-						<textarea editable-textarea="metadata.datasetSummaryTranslations[language.code]" onbeforesave="applyChange($data, 'DATASET_SUMMARY', language.code)" e-class="form-control" e-name="datasetSummary_{{language.code}}" e-id="datasetSummary_{{language.code}}" e-form="datasetSummaryForm" e-rows="8"
-							e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
+						<div class="pull-left">
+							<h5 id="DATASET_SUMMARY_{{language.code}}">Translation : {{language.native_name}} ({{language.code}})</h5>
+						</div>
+						<div class="pull-right">
+							Go to <a href="" ng-href="#DATASET_SUMMARY_default" target="_self">default</a> or
+							<span ng-repeat="alanguage in languages | filter:filterLanguage(language)">
+								<a href="" ng-href="#DATASET_SUMMARY_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
+							</span>
+						</div>
+						<textarea editable-textarea="metadata.datasetSummaryTranslations[language.code]" onbeforesave="applyChange($data, 'DATASET_SUMMARY', language.code)" e-class="form-control"
+							e-name="datasetSummary_{{language.code}}" e-id="datasetSummary_{{language.code}}" e-form="datasetSummaryForm" e-rows="8" e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
 						metadata.datasetSummaryTranslations[language.code] }} </textarea>
-						<form editable-form name="datasetSummaryForm" onbeforesave="updateMetadata('DATASET_SUMMARY', language.code)" style="margin-top: 10px;"
-							ng-show="datasetSummaryForm.$visible" class="form-buttons form-inline" shown="inserted == metadata">
+						<form editable-form name="datasetSummaryForm" onbeforesave="updateMetadata('DATASET_SUMMARY', language.code)" style="margin-top: 10px;" ng-show="datasetSummaryForm.$visible"
+							class="form-buttons form-inline" shown="inserted == metadata">
 							<button type="submit" ng-disabled="datasetSummaryForm.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 							<button type="button" ng-disabled="datasetSummaryForm.$waiting" ng-click="datasetSummaryForm.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 							<!-- 
@@ -77,7 +96,7 @@
 								</span>)
 							</span>
  							-->
- 						</form>
+						</form>
 						<div class="buttons" ng-show="!datasetSummaryForm.$visible" style="margin-top: 10px;">
 							<button class="btn btn-primary btn-custom-default" ng-click="datasetSummaryForm.$show()">Edit</button>
 						</div>
@@ -85,12 +104,20 @@
 				</div>
 				<div class="tab-pane scrollable-tab-pane metadata-tab" id="METHODOLOGY">
 					<div>
-						<h5>Default value</h5>
-						<textarea editable-textarea="metadata.methodology" onbeforesave="applyChange($data, 'METHODOLOGY', 'default')" e-class="form-control" e-name="methodology" e-id="methodology" e-form="methodologyForm_default" e-required e-rows="8" e-cols="125"
-							rows="8" cols="125" disabled style="padding: 5px;">{{
+						<div class="pull-left">
+							<h5 id="METHODOLOGY_default">Default value</h5>
+						</div>
+						<div class="pull-right">
+							Go to
+							<span ng-repeat="alanguage in languages">
+								<a href="" ng-href="#METHODOLOGY_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
+							</span>
+						</div>
+						<textarea editable-textarea="metadata.methodology" onbeforesave="applyChange($data, 'METHODOLOGY', 'default')" e-class="form-control" e-name="methodology" e-id="methodology"
+							e-form="methodologyForm_default" e-required e-rows="8" e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
 						metadata.methodology }} </textarea>
-						<form editable-form name="methodologyForm_default" onbeforesave="updateMetadata('METHODOLOGY', 'default')" style="margin-top: 10px;"
-							ng-show="methodologyForm_default.$visible" class="form-buttons form-inline" shown="inserted == metadata">
+						<form editable-form name="methodologyForm_default" onbeforesave="updateMetadata('METHODOLOGY', 'default')" style="margin-top: 10px;" ng-show="methodologyForm_default.$visible"
+							class="form-buttons form-inline" shown="inserted == metadata">
 							<button type="submit" ng-disabled="methodologyForm_default.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 							<button type="button" ng-disabled="methodologyForm_default.$waiting" ng-click="methodologyForm_default.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 						</form>
@@ -99,12 +126,20 @@
 						</div>
 					</div>
 					<div ng-repeat="language in languages" style="margin-top: 30px;">
-						<h5>Translation : {{language.native_name}} ({{language.code}})</h5>
-						<textarea editable-textarea="metadata.methodologyTranslations[language.code]" onbeforesave="applyChange($data, 'METHODOLOGY', language.code)" e-class="form-control" e-name="methodology_{{language.code}}" e-id="methodology_{{language.code}}" e-form="methodologyForm" e-rows="8"
-							e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
+						<div class="pull-left">
+							<h5 id="METHODOLOGY_{{language.code}}">Translation : {{language.native_name}} ({{language.code}})</h5>
+						</div>
+						<div class="pull-right">
+							Go to <a href="" ng-href="#METHODOLOGY_default" target="_self">default</a> or
+							<span ng-repeat="alanguage in languages | filter:filterLanguage(language)">
+								<a href="" ng-href="#METHODOLOGY_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
+							</span>
+						</div>
+						<textarea editable-textarea="metadata.methodologyTranslations[language.code]" onbeforesave="applyChange($data, 'METHODOLOGY', language.code)" e-class="form-control"
+							e-name="methodology_{{language.code}}" e-id="methodology_{{language.code}}" e-form="methodologyForm" e-rows="8" e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
 						metadata.methodologyTranslations[language.code] }} </textarea>
-						<form editable-form name="methodologyForm" onbeforesave="updateMetadata('METHODOLOGY', language.code)" style="margin-top: 10px;"
-							ng-show="methodologyForm.$visible" class="form-buttons form-inline" shown="inserted == metadata">
+						<form editable-form name="methodologyForm" onbeforesave="updateMetadata('METHODOLOGY', language.code)" style="margin-top: 10px;" ng-show="methodologyForm.$visible"
+							class="form-buttons form-inline" shown="inserted == metadata">
 							<button type="submit" ng-disabled="methodologyForm.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 							<button type="button" ng-disabled="methodologyForm.$waiting" ng-click="methodologyForm.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 							<!-- 
@@ -115,7 +150,7 @@
 								</span>)
 							</span>
  							-->
- 						</form>
+						</form>
 						<div class="buttons" ng-show="!methodologyForm.$visible" style="margin-top: 10px;">
 							<button class="btn btn-primary btn-custom-default" ng-click="methodologyForm.$show()">Edit</button>
 						</div>
@@ -123,12 +158,20 @@
 				</div>
 				<div class="tab-pane scrollable-tab-pane metadata-tab" id="MORE_INFO">
 					<div>
-						<h5>Default value</h5>
-						<textarea editable-textarea="metadata.moreInfo" onbeforesave="applyChange($data, 'MORE_INFO', 'default')" e-class="form-control" e-name="moreInfo" e-id="moreInfo" e-form="moreInfoForm_default" e-required e-rows="8" e-cols="125"
-							rows="8" cols="125" disabled style="padding: 5px;">{{
+						<div class="pull-left">
+							<h5 id="MORE_INFO_default">Default value</h5>
+						</div>
+						<div class="pull-right">
+							Go to
+							<span ng-repeat="alanguage in languages">
+								<a href="" ng-href="#MORE_INFO_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
+							</span>
+						</div>
+						<textarea editable-textarea="metadata.moreInfo" onbeforesave="applyChange($data, 'MORE_INFO', 'default')" e-class="form-control" e-name="moreInfo" e-id="moreInfo" e-form="moreInfoForm_default"
+							e-required e-rows="8" e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
 						metadata.moreInfo }} </textarea>
-						<form editable-form name="moreInfoForm_default" onbeforesave="updateMetadata('MORE_INFO', 'default')" style="margin-top: 10px;"
-							ng-show="moreInfoForm_default.$visible" class="form-buttons form-inline" shown="inserted == metadata">
+						<form editable-form name="moreInfoForm_default" onbeforesave="updateMetadata('MORE_INFO', 'default')" style="margin-top: 10px;" ng-show="moreInfoForm_default.$visible"
+							class="form-buttons form-inline" shown="inserted == metadata">
 							<button type="submit" ng-disabled="moreInfoForm_default.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 							<button type="button" ng-disabled="moreInfoForm_default.$waiting" ng-click="moreInfoForm_default.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 						</form>
@@ -137,12 +180,20 @@
 						</div>
 					</div>
 					<div ng-repeat="language in languages" style="margin-top: 30px;">
-						<h5>Translation : {{language.native_name}} ({{language.code}})</h5>
-						<textarea editable-textarea="metadata.moreInfoTranslations[language.code]" onbeforesave="applyChange($data, 'MORE_INFO', language.code)" e-class="form-control" e-name="moreInfo_{{language.code}}" e-id="moreInfo_{{language.code}}" e-form="moreInfoForm" e-rows="8"
-							e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
+						<div class="pull-left">
+							<h5 id="MORE_INFO_{{language.code}}">Translation : {{language.native_name}} ({{language.code}})</h5>
+						</div>
+						<div class="pull-right">
+							Go to <a href="" ng-href="#MORE_INFO_default" target="_self">default</a> or
+							<span ng-repeat="alanguage in languages | filter:filterLanguage(language)">
+								<a href="" ng-href="#MORE_INFO_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
+							</span>
+						</div>
+						<textarea editable-textarea="metadata.moreInfoTranslations[language.code]" onbeforesave="applyChange($data, 'MORE_INFO', language.code)" e-class="form-control"
+							e-name="moreInfo_{{language.code}}" e-id="moreInfo_{{language.code}}" e-form="moreInfoForm" e-rows="8" e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
 						metadata.moreInfoTranslations[language.code] }} </textarea>
-						<form editable-form name="moreInfoForm" onbeforesave="updateMetadata('MORE_INFO', language.code)" style="margin-top: 10px;"
-							ng-show="moreInfoForm.$visible" class="form-buttons form-inline" shown="inserted == metadata">
+						<form editable-form name="moreInfoForm" onbeforesave="updateMetadata('MORE_INFO', language.code)" style="margin-top: 10px;" ng-show="moreInfoForm.$visible" class="form-buttons form-inline"
+							shown="inserted == metadata">
 							<button type="submit" ng-disabled="moreInfoForm.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 							<button type="button" ng-disabled="moreInfoForm.$waiting" ng-click="moreInfoForm.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 							<!-- 
@@ -153,7 +204,7 @@
 								</span>)
 							</span>
  							-->
- 						</form>
+						</form>
 						<div class="buttons" ng-show="!moreInfoForm.$visible" style="margin-top: 10px;">
 							<button class="btn btn-primary btn-custom-default" ng-click="moreInfoForm.$show()">Edit</button>
 						</div>
@@ -161,12 +212,20 @@
 				</div>
 				<div class="tab-pane scrollable-tab-pane metadata-tab" id="TERMS_OF_USE">
 					<div>
-						<h5>Default value</h5>
-						<textarea editable-textarea="metadata.termsOfUse" onbeforesave="applyChange($data, 'TERMS_OF_USE', 'default')" e-class="form-control" e-name="termsOfUse" e-id="termsOfUse" e-form="termsOfUseForm_default" e-required e-rows="8" e-cols="125"
-							rows="8" cols="125" disabled style="padding: 5px;">{{
+						<div class="pull-left">
+							<h5 id="TERMS_OF_USE_default">Default value</h5>
+						</div>
+						<div class="pull-right">
+							Go to
+							<span ng-repeat="alanguage in languages">
+								<a href="" ng-href="#TERMS_OF_USE_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
+							</span>
+						</div>
+						<textarea editable-textarea="metadata.termsOfUse" onbeforesave="applyChange($data, 'TERMS_OF_USE', 'default')" e-class="form-control" e-name="termsOfUse" e-id="termsOfUse"
+							e-form="termsOfUseForm_default" e-required e-rows="8" e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
 						metadata.termsOfUse }} </textarea>
-						<form editable-form name="termsOfUseForm_default" onbeforesave="updateMetadata('TERMS_OF_USE', 'default')" style="margin-top: 10px;"
-							ng-show="termsOfUseForm_default.$visible" class="form-buttons form-inline" shown="inserted == metadata">
+						<form editable-form name="termsOfUseForm_default" onbeforesave="updateMetadata('TERMS_OF_USE', 'default')" style="margin-top: 10px;" ng-show="termsOfUseForm_default.$visible"
+							class="form-buttons form-inline" shown="inserted == metadata">
 							<button type="submit" ng-disabled="termsOfUseForm_default.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 							<button type="button" ng-disabled="termsOfUseForm_default.$waiting" ng-click="termsOfUseForm_default.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 						</form>
@@ -174,13 +233,21 @@
 							<button class="btn btn-primary btn-custom-default" ng-click="termsOfUseForm_default.$show()">Edit</button>
 						</div>
 					</div>
-					<div ng-repeat="language in languages" style="margin-top: 30px;">
-						<h5>Translation : {{language.native_name}} ({{language.code}})</h5>
-						<textarea editable-textarea="metadata.termsOfUseTranslations[language.code]" onbeforesave="applyChange($data, 'TERMS_OF_USE', language.code)" e-class="form-control" e-name="termsOfUse_{{language.code}}" e-id="termsOfUse_{{language.code}}" e-form="termsOfUseForm" e-rows="8"
-							e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
+					<div ng-repeat="language in languages" style="margin-top: 30px;" id="{{language.code}}">
+						<div class="pull-left">
+							<h5 id="TERMS_OF_USE_{{language.code}}">Translation : {{language.native_name}} ({{language.code}})</h5>
+						</div>
+						<div class="pull-right">
+							Go to <a href="" ng-href="#TERMS_OF_USE_default" target="_self">default</a> or
+							<span ng-repeat="alanguage in languages | filter:filterLanguage(language)">
+								<a href="" ng-href="#TERMS_OF_USE_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
+							</span>
+						</div>
+						<textarea editable-textarea="metadata.termsOfUseTranslations[language.code]" onbeforesave="applyChange($data, 'TERMS_OF_USE', language.code)" e-class="form-control"
+							e-name="termsOfUse_{{language.code}}" e-id="termsOfUse_{{language.code}}" e-form="termsOfUseForm" e-rows="8" e-cols="125" rows="8" cols="125" disabled style="padding: 5px;">{{
 						metadata.termsOfUseTranslations[language.code] }} </textarea>
-						<form editable-form name="termsOfUseForm" onbeforesave="updateMetadata('TERMS_OF_USE', language.code)" style="margin-top: 10px;"
-							ng-show="termsOfUseForm.$visible" class="form-buttons form-inline" shown="inserted == metadata">
+						<form editable-form name="termsOfUseForm" onbeforesave="updateMetadata('TERMS_OF_USE', language.code)" style="margin-top: 10px;" ng-show="termsOfUseForm.$visible"
+							class="form-buttons form-inline" shown="inserted == metadata">
 							<button type="submit" ng-disabled="termsOfUseForm.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 							<button type="button" ng-disabled="termsOfUseForm.$waiting" ng-click="termsOfUseForm.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 							<!-- 
@@ -191,7 +258,7 @@
 								</span>)
 							</span>
  							-->
- 						</form>
+						</form>
 						<div class="buttons" ng-show="!termsOfUseForm.$visible" style="margin-top: 10px;">
 							<button class="btn btn-primary btn-custom-default" ng-click="termsOfUseForm.$show()">Edit</button>
 						</div>
@@ -229,6 +296,19 @@
 						</div>
 					</div>
 				</form>
+			</div>
+		</div>
+		<div style="width: 800px;" ng-show="validationNotesAvailable">
+			<h4>Validation notes and comments for indicator type [{{indicatorType.code}}] and source [{{source.code}}]</h4>
+			<textarea editable-textarea="validationNotes" onbeforesave="applyChange($data, 'VALIDATION_NOTES', language.code)" e-class="form-control" e-name="validationNotes" e-id="validationNotes" e-form="validationNotesForm" e-required e-rows="10" e-cols="120"
+				rows="10" cols="120" disabled style="padding: 5px;">{{ validationNotes }} </textarea>
+			<form editable-form name="validationNotesForm" onbeforesave="updateMetadata('VALIDATION_NOTES', 'default')" style="margin-top: 10px;" ng-show="validationNotesForm.$visible"
+				class="form-buttons form-inline" shown="inserted == metadata">
+				<button type="submit" ng-disabled="validationNotesForm.$waiting" class="btn btn-primary btn-custom-default">Save</button>
+				<button type="button" ng-disabled="validationNotesForm.$waiting" ng-click="validationNotesForm.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
+			</form>
+			<div class="buttons" ng-show="!validationNotesForm.$visible" style="margin-top: 10px;">
+				<button class="btn btn-primary btn-custom-default" ng-click="validationNotesForm.$show()">Edit</button>
 			</div>
 		</div>
 	</div>

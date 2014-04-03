@@ -31,7 +31,7 @@ public class AdditionalData {
 
 	public enum EntryKey {
 		METHODOLOGY("Methodology"), MORE_INFO("More info"), DATASET_SUMMARY("Dataset summary"), TERMS_OF_USE("Terms of use"), EXPECTED_TIME_FORMAT("Expected time format"), INTERPRETED_START_TIME(
-				"Interpreted start time"), INTERPRETED_END_TIME("Interpreted end time"), INTERPRETED_PERIODICITY("Interpreted periodicity");
+				"Interpreted start time"), INTERPRETED_END_TIME("Interpreted end time"), INTERPRETED_PERIODICITY("Interpreted periodicity"), VALIDATION_NOTES("Validation notes");
 		private String label;
 
 		private EntryKey(final String label) {

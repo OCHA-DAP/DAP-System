@@ -176,6 +176,11 @@ public interface CuratedDataService {
 			String indicatorTypeCode, String sourceCode);
 
 	/*
+	 * Validation notes
+	 */
+	public void updateValidationNotesForIndicatorTypeAndSource(String validationNotes, String indicatorTypeCode, String sourceCode);
+
+	/*
 	 * Region dictionaries
 	 */
 	public List<RegionDictionary> listRegionDictionaries();
