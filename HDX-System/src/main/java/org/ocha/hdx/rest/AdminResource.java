@@ -1320,6 +1320,14 @@ public class AdminResource {
 		return Response.ok().build();
 	}
 
+	@POST
+	@Path("/curated/validationNotesForIndicatorTypeAndSource/submitUpdate")
+	public Response updateValidationNotesForIndicatorTypeAndSource(@FormParam("validatioNotes") final String validationNotes, @FormParam("indicatorTypeCode") final String indicatorTypeCode, @FormParam("sourceCode") final String sourceCode)
+			throws Exception {
+		curatedDataService.updateValidationNotesForIndicatorTypeAndSource(validationNotes, indicatorTypeCode, sourceCode);
+		return Response.ok().build();
+	}
+
 	/*
 	 * Dictionaries / regions management
 	 */

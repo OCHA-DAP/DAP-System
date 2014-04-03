@@ -17,7 +17,7 @@
 	<jsp:include page="admin-menu.jsp" />
 	<div>
 		<h3>Data Series management</h3>
-		<div style="width: 400px; margin-bottom: 20px;">
+		<div style="width: 400px;">
 			<div class="form-group">
 				<label for="indicatorType">Indicator type</label> <select class="form-control" id="indicatorType" ng-model="indicatorType" ng-change="indicatorTypeSelect()"
 					ng-options="indicatorType as (indicatorType | showIndicatorType) for indicatorType in indicatorTypes" ng-class="default">
@@ -28,8 +28,11 @@
 					ng-options="source as (source | showSource) for source in sources" ng-class="default">
 				</select>
 			</div>
+		</div>
+		<div style="width: 800px; margin-bottom: 20px;">
 			<button class="btn btn-primary btn-custom-default" ng-click="showMetadata()" ng-disabled="sourceUnavailable">Show metadata</button>
 			<button class="btn btn-primary btn-custom-default" ng-click="showMetadata('TIME_PARAMETERS')" ng-disabled="sourceUnavailable">Show time parameters</button>
+			<button class="btn btn-primary btn-custom-default" ng-click="showMetadata('VALIDATION_NOTES')" ng-disabled="sourceUnavailable">Show validation notes and comments</button>
 		</div>
 
 		<div style="width: 800px;" ng-show="metadataAvailable">
@@ -73,8 +76,7 @@
 							<h5 id="DATASET_SUMMARY_{{language.code}}">Translation : {{language.native_name}} ({{language.code}})</h5>
 						</div>
 						<div class="pull-right">
-							Go to
-							<a href="" ng-href="#DATASET_SUMMARY_default" target="_self">default</a> or 
+							Go to <a href="" ng-href="#DATASET_SUMMARY_default" target="_self">default</a> or
 							<span ng-repeat="alanguage in languages | filter:filterLanguage(language)">
 								<a href="" ng-href="#DATASET_SUMMARY_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
 							</span>
@@ -128,8 +130,7 @@
 							<h5 id="METHODOLOGY_{{language.code}}">Translation : {{language.native_name}} ({{language.code}})</h5>
 						</div>
 						<div class="pull-right">
-							Go to
-							<a href="" ng-href="#METHODOLOGY_default" target="_self">default</a> or 
+							Go to <a href="" ng-href="#METHODOLOGY_default" target="_self">default</a> or
 							<span ng-repeat="alanguage in languages | filter:filterLanguage(language)">
 								<a href="" ng-href="#METHODOLOGY_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
 							</span>
@@ -183,8 +184,7 @@
 							<h5 id="MORE_INFO_{{language.code}}">Translation : {{language.native_name}} ({{language.code}})</h5>
 						</div>
 						<div class="pull-right">
-							Go to
-							<a href="" ng-href="#MORE_INFO_default" target="_self">default</a> or 
+							Go to <a href="" ng-href="#MORE_INFO_default" target="_self">default</a> or
 							<span ng-repeat="alanguage in languages | filter:filterLanguage(language)">
 								<a href="" ng-href="#MORE_INFO_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
 							</span>
@@ -238,8 +238,7 @@
 							<h5 id="TERMS_OF_USE_{{language.code}}">Translation : {{language.native_name}} ({{language.code}})</h5>
 						</div>
 						<div class="pull-right">
-							Go to
-							<a href="" ng-href="#TERMS_OF_USE_default" target="_self">default</a> or 
+							Go to <a href="" ng-href="#TERMS_OF_USE_default" target="_self">default</a> or
 							<span ng-repeat="alanguage in languages | filter:filterLanguage(language)">
 								<a href="" ng-href="#TERMS_OF_USE_{{alanguage.code}}" target="_self">{{alanguage.code}}</a>
 							</span>
@@ -297,6 +296,19 @@
 						</div>
 					</div>
 				</form>
+			</div>
+		</div>
+		<div style="width: 800px;" ng-show="validationNotesAvailable">
+			<h4>Validation notes and comments for indicator type [{{indicatorType.code}}] and source [{{source.code}}]</h4>
+			<textarea editable-textarea="validationNotes" onbeforesave="applyChange($data, 'VALIDATION_NOTES', language.code)" e-class="form-control" e-name="validationNotes" e-id="validationNotes" e-form="validationNotesForm" e-required e-rows="10" e-cols="120"
+				rows="10" cols="120" disabled style="padding: 5px;">{{ validationNotes }} </textarea>
+			<form editable-form name="validationNotesForm" onbeforesave="updateMetadata('VALIDATION_NOTES', 'default')" style="margin-top: 10px;" ng-show="validationNotesForm.$visible"
+				class="form-buttons form-inline" shown="inserted == metadata">
+				<button type="submit" ng-disabled="validationNotesForm.$waiting" class="btn btn-primary btn-custom-default">Save</button>
+				<button type="button" ng-disabled="validationNotesForm.$waiting" ng-click="validationNotesForm.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
+			</form>
+			<div class="buttons" ng-show="!validationNotesForm.$visible" style="margin-top: 10px;">
+				<button class="btn btn-primary btn-custom-default" ng-click="validationNotesForm.$show()">Edit</button>
 			</div>
 		</div>
 	</div>
