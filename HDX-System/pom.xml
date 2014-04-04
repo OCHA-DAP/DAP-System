@@ -4,12 +4,12 @@
   <groupId>org.ocha</groupId>
   <artifactId>hdx</artifactId>
   <packaging>war</packaging>
-  <version>1.0.0</version>
+  <version>0.2.0</version>
   <name>OCHA HDX webapp</name>
 
 
   <properties>
-  	<hdx.official.version>0.1Beta</hdx.official.version>
+  	<hdx.official.version>v0.2Beta (Warp Coil) -  ${project.version} </hdx.official.version>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
 
@@ -47,7 +47,7 @@
               <directory>src/main/webapp</directory>
               <includes>
                 <include>**/web.xml</include>
-                <include>**/admin-footer.jsp</include>
+                <include>**/admin-menu.jsp</include>
               </includes>
             </resource>
           </webResources>
