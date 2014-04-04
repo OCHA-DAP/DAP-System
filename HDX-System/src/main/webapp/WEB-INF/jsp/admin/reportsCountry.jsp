@@ -26,6 +26,7 @@
 				<div class="form-group">
 					<label for="reportFormat">Report format</label> <select class="form-control" id="reportFormat" ng-model="reportFormat">
 						<option selected="true">xlsx</option>
+						<option>csv</option>
 					</select>
 				</div>
 				<div class="form-group">
@@ -42,7 +43,8 @@
 					<label for="reportFileName">File name</label> <input type="text" class="form-control" id="reportFileName" ng-model="reportFileName" placeholder="Report file name...">
 
 				</div -->
-				<button type="button" class="btn btn-default" ng-click="createReport()">Create report</button>
+				<button type="button" class="btn btn-primary btn-custom-default" ng-click="createReport()">Create report</button>
+				<button type="button" class="btn btn-primary btn-custom-default" ng-click="createTXTReadme()">Create TXT Readme</button>
 				<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
 			</form>
 		</div>

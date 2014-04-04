@@ -37,7 +37,7 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 	}
 
 	@SuppressWarnings("unchecked")
-	protected XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData, final Map<String, ReportRow> data, final String sheetName) {
+	protected XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData, final Map<String, ReportRow> data, final String sheetName) throws Exception {
 		// TODO i18n, UT
 
 		// Create the sheet

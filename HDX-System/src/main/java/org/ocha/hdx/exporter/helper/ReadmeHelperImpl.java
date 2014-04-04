@@ -5,10 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ocha.hdx.exporter.Exporter_XLSX;
 import org.ocha.hdx.exporter.QueryData;
-import org.ocha.hdx.exporter.country.ExporterCountryReadme_XLSX;
-import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_XLSX;
+import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
 
 /**
  * Implementation of the helper interface for the readme parts of reports.
@@ -67,7 +66,7 @@ public class ReadmeHelperImpl implements ReadmeHelper {
 	/**
 	 * The readme descriptors for each type of exporter.
 	 */
-	private static final Map<Class<? extends Exporter_XLSX<? extends QueryData>>, List<ReadmeSentence>> DESCRIPTORS = new HashMap<Class<? extends Exporter_XLSX<? extends QueryData>>, List<ReadmeSentence>>();
+	private static final Map<Class<? extends QueryData>, List<ReadmeSentence>> DESCRIPTORS = new HashMap<Class<? extends QueryData>, List<ReadmeSentence>>();
 
 	public ReadmeHelperImpl() {
 		SENTENCES.add("This document is an extract of data compiled by automated extraction of data from a variety of online sources and manually compiled sources.");
@@ -104,8 +103,8 @@ public class ReadmeHelperImpl implements ReadmeHelper {
 		SENTENCES
 				.add("A description of any data processing performed by HDX in compiling the data.  If there is no information in this field, you can assume that the data has been pulled from the source using some form of script, has been validated against acceptable minimum and maxiumum values, and that the units have not changed from the source.  Additional processing will be described here. ");
 
-		DESCRIPTORS.put(ExporterCountryReadme_XLSX.class, getCountryReadme());
-		DESCRIPTORS.put(ExporterIndicatorReadme_XLSX.class, getIndicatorReadme());
+		DESCRIPTORS.put(ExporterCountryQueryData.class, getCountryReadme());
+		DESCRIPTORS.put(ExporterIndicatorQueryData.class, getIndicatorReadme());
 	}
 
 	/**
@@ -178,10 +177,10 @@ public class ReadmeHelperImpl implements ReadmeHelper {
 	}
 
 	/**
-	 * Get the readme descriptor for a given exporter.
+	 * Get the readme descriptor for a given query data.
 	 */
 	@Override
-	public List<ReadmeSentence> getReadme(final Class<? extends Exporter_XLSX<? extends QueryData>> clazz) {
+	public List<ReadmeSentence> getReadme(final Class<? extends QueryData> clazz) {
 		return DESCRIPTORS.get(clazz);
 	}
 }

@@ -19,10 +19,10 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
     code : "USA"
   });
   $scope.country = selected[0];
-  $scope.fromYear = 1950;
+  $scope.fromYear = 1990;
   $scope.toYear = 2014;
   $scope.reportFileName = selected[0].code;
-  $scope.reportFormat = "xlsx";
+  $scope.reportFormat = "csv";
   $scope.reportLanguage = $scope.languages[0];
   
   $scope.countrySelect = function() {
@@ -32,7 +32,12 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
   
   $scope.createReport = function() {
     // Sample http://localhost:8080/hdx/api/exporter/country/xlsx/BEL/fromYear/1998/toYear/2014/language/EN/Test.xlsx
-    window.location.href = hdxContextRoot + "/api/exporter/country/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
+    window.location.href = hdxContextRoot + "/api/exporter/country/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
+  } 
+  
+  $scope.createTXTReadme = function() {
+    // Sample http://localhost:8080/hdx/api/exporter/country/readme/BEL/language/EN/ReadMe.txt
+    window.location.href = hdxContextRoot + "/api/exporter/country/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/ReadMe.txt";
   } 
   
   //$scope.publishReport = function() {

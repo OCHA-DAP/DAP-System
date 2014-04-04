@@ -2,7 +2,6 @@ package org.ocha.hdx.exporter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.ocha.hdx.exporter.QueryData.CHANNEL_KEYS;
 import org.ocha.hdx.service.ExporterService;
@@ -22,13 +21,12 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractExporter<E, QD extends QueryData> implements Exporter<E, QD> {
 
 	private static Logger logger = LoggerFactory.getLogger(AbstractExporter.class);
-	
+
 	/**
-	 * The next exporter in the global export chain (if any).
-	 * If null, then the current exporter is the final exporter in the global export chain. 
+	 * The next exporter in the global export chain (if any). If null, then the current exporter is the final exporter in the global export chain.
 	 */
 	protected final Exporter<E, QD> exporter;
-	
+
 	/**
 	 * The service needed to perform the report generation.
 	 */
@@ -58,12 +56,13 @@ public abstract class AbstractExporter<E, QD extends QueryData> implements Expor
 
 	/**
 	 * Generate the report.
+	 * 
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public E export(final E incomingData, final QD queryData) {
+	public E export(final E incomingData, final QD queryData) throws Exception {
 		List<String> exporters = (List<String>) queryData.getChannelValue(CHANNEL_KEYS.EXPORTERS);
-		if(null == exporters) {
+		if (null == exporters) {
 			exporters = new ArrayList<String>();
 			queryData.setChannelValue(CHANNEL_KEYS.EXPORTERS, exporters);
 		}
