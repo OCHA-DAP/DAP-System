@@ -18,28 +18,29 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.service.ExporterService;
 
 /**
- * Abstract class for XLSX report generation.
- * This class should be implemented for every report needing an XLSX export.
+ * Abstract class for XLSX report generation. This class should be implemented for every report needing an XLSX export.
  * 
  * Exporters follow the Decorator pattern (see constructors).
  * 
  * @author bmichiels
- *
- * @param <QD> The information needed to query and gather the report data.
+ * 
+ * @param <QD>
+ *            The information needed to query and gather the report data.
  */
 public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExporter<XSSFWorkbook, QD> {
 
 	/**
-	 * This constructor is for the final exporter of a chain of exporters.
-	 * It propagates the exporter service to its predecessors for proper generation.
+	 * This constructor is for the final exporter of a chain of exporters. It propagates the exporter service to its predecessors for proper generation.
+	 * 
 	 * @param exporterService
 	 */
 	public Exporter_XLSX(final ExporterService exporterService) {
 		super(exporterService);
 	}
-	
+
 	/**
 	 * This constructor takes the following exporter in the global export chain.
+	 * 
 	 * @param exporter
 	 */
 	public Exporter_XLSX(final Exporter<XSSFWorkbook, QD> exporter) {
@@ -63,7 +64,7 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 	 */
 	protected static Font getHeaderFont(final Workbook workbook) {
 		final Font font = workbook.createFont();
-		font.setFontHeightInPoints((short)12);
+		font.setFontHeightInPoints((short) 12);
 		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		return font;
 	}
@@ -86,9 +87,7 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 	/* ***** */
 
 	/**
-	 * Create column header cells. 
-	 * Column headers are bold, vertically-bottom aligned, and horizontally centered.
-	 * Headers start at column 0.
+	 * Create column header cells. Column headers are bold, vertically-bottom aligned, and horizontally centered. Headers start at column 0.
 	 * 
 	 * @param wb
 	 *            the workbook
@@ -125,9 +124,7 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 	}
 
 	/**
-	 * Create row header cells. 
-	 * Row headers are bold, vertically-top aligned and left-aligned.
-	 * Headers start at row 0.
+	 * Create row header cells. Row headers are bold, vertically-top aligned and left-aligned. Headers start at row 0.
 	 * 
 	 * @param wb
 	 *            the workbook
@@ -164,9 +161,13 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 
 	/**
 	 * Create a simple cell.
-	 * @param row The row to create the cell into
-	 * @param columnIndex The column index to create the cell into
-	 * @param value The value to put in the cell 
+	 * 
+	 * @param row
+	 *            The row to create the cell into
+	 * @param columnIndex
+	 *            The column index to create the cell into
+	 * @param value
+	 *            The value to put in the cell
 	 * @return The newly created cell
 	 */
 	public static XSSFCell createCell(final XSSFRow row, final int columnIndex, final String value) {
@@ -177,9 +178,13 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 
 	/**
 	 * Create a numeric cell.
-	 * @param row The row to create the cell into
-	 * @param columnIndex The column index to create the cell into
-	 * @param value The value to put in the cell 
+	 * 
+	 * @param row
+	 *            The row to create the cell into
+	 * @param columnIndex
+	 *            The column index to create the cell into
+	 * @param value
+	 *            The value to put in the cell
 	 * @return The newly created cell
 	 */
 	public static XSSFCell createNumCell(final XSSFRow row, final int columnIndex, final Number value) {
@@ -192,10 +197,15 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 
 	/**
 	 * Create a URL cell.
-	 * @param row The row to create the cell into
-	 * @param columnIndex The column index to create the cell into
-	 * @param value The value to put in the cell 
-	 * @param address The actual link
+	 * 
+	 * @param row
+	 *            The row to create the cell into
+	 * @param columnIndex
+	 *            The column index to create the cell into
+	 * @param value
+	 *            The value to put in the cell
+	 * @param address
+	 *            The actual link
 	 * @return The newly created cell
 	 */
 	public static XSSFCell createUrlCell(final XSSFRow row, final int columnIndex, final String value, final String address) {
@@ -217,10 +227,15 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 
 	/**
 	 * Create a link cell (to another part in the same workbook).
-	 * @param row The row to create the cell into
-	 * @param columnIndex The column index to create the cell into
-	 * @param value The value to put in the cell 
-	 * @param address The actual link (e.g. "'Target sheet'!A1")
+	 * 
+	 * @param row
+	 *            The row to create the cell into
+	 * @param columnIndex
+	 *            The column index to create the cell into
+	 * @param value
+	 *            The value to put in the cell
+	 * @param address
+	 *            The actual link (e.g. "'Target sheet'!A1")
 	 * @return The newly created cell
 	 */
 	public static XSSFCell createLinkCell(final XSSFRow row, final int columnIndex, final String value, final String address) {
@@ -242,10 +257,15 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 
 	/**
 	 * Create a date cell.
-	 * @param row The row to create the cell into
-	 * @param columnIndex The column index to create the cell into
-	 * @param date The date to put in the cell 
-	 * @param format The date format
+	 * 
+	 * @param row
+	 *            The row to create the cell into
+	 * @param columnIndex
+	 *            The column index to create the cell into
+	 * @param date
+	 *            The date to put in the cell
+	 * @param format
+	 *            The date format
 	 * @return The newly created cell
 	 */
 	public static XSSFCell createDateCell(final XSSFRow row, final int columnIndex, final Date date, final String format) {
@@ -265,14 +285,10 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 	/* I/O */
 	/* *** */
 
-	public static void writeFile(final Workbook wb, final String path) {
+	public static void writeFile(final Workbook wb, final String path) throws IOException {
 		FileOutputStream fileOut;
-		try {
-			fileOut = new FileOutputStream(path);
-			wb.write(fileOut);
-			fileOut.close();
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
+		fileOut = new FileOutputStream(path);
+		wb.write(fileOut);
+		fileOut.close();
 	}
 }

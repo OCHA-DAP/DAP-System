@@ -28,14 +28,14 @@ public class ExporterIndicatorReadme_XLSX extends Exporter_XLSX<ExporterIndicato
 	}
 
 	@Override
-	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterIndicatorQueryData queryData) {
+	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterIndicatorQueryData queryData) throws Exception {
 		/* TODO i18n */
 
 		// Creating the sheet
 		final String safeName = WorkbookUtil.createSafeSheetName("Read me");
 		final XSSFSheet sheet = workbook.createSheet(safeName);
 		
-		final List<ReadmeSentence> list = queryData.getReadmeHelper().getReadme(this.getClass());
+		final List<ReadmeSentence> list = queryData.getReadmeHelper().getReadme(queryData.getClass());
 		for (int i = 0; i < list.size(); i++) {
 			final ReadmeSentence readmeSentence = list.get(i);
 			XSSFRow row = sheet.getRow(readmeSentence.getRow());
