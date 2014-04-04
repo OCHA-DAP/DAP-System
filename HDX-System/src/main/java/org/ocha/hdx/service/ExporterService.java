@@ -1,5 +1,7 @@
 package org.ocha.hdx.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +32,12 @@ public interface ExporterService {
 	/* **************** */
 	/* Country reports. */
 	/* **************** */
-	public XSSFWorkbook exportCountry_XLSX(String countryCode, Integer fromYear, Integer toYear, String language);
+	public XSSFWorkbook exportCountry_XLSX(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
 
+	public File exportCountry_CSV(String countryCode, Integer fromYear, Integer toYear, String language) throws IOException, Exception;
+
+	public File exportCountryReadMe_TXT(String countryCode, String language) throws Exception;
+	
 	/*
 	 *  Country overview
 	 */
@@ -58,7 +64,7 @@ public interface ExporterService {
 	/* ****************** */
 	/* Indicator reports. */
 	/* ****************** */
-	public XSSFWorkbook exportIndicator_XLSX(String indicatorTypeCode, String sourceCode, Long fromYear, Long toYear, String language);
+	public XSSFWorkbook exportIndicator_XLSX(String indicatorTypeCode, String sourceCode, Long fromYear, Long toYear, String language) throws Exception;
 
 	/*
 	 *  Indicator overview

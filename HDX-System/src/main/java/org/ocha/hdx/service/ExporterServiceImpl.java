@@ -1,5 +1,7 @@
 package org.ocha.hdx.service;
 
+import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,10 +11,12 @@ import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.country.ExporterCountry5Years_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryCapacity_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryCrisisHistory_XLSX;
+import org.ocha.hdx.exporter.country.ExporterCountryData_CSV;
 import org.ocha.hdx.exporter.country.ExporterCountryDefinitions_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOther_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
+import org.ocha.hdx.exporter.country.ExporterCountryReadme_TXT;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountrySocioEconomic_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryVulnerability_XLSX;
@@ -70,9 +74,10 @@ public class ExporterServiceImpl implements ExporterService {
 
 	/**
 	 * Export a country report as XLSX.
+	 * @throws Exception 
 	 */
 	@Override
-	public XSSFWorkbook exportCountry_XLSX(final String countryCode, final Integer fromYear, final Integer toYear, final String language) {
+	public XSSFWorkbook exportCountry_XLSX(final String countryCode, final Integer fromYear, final Integer toYear, final String language) throws Exception {
 		// Set the query data
 		final ExporterCountryQueryData queryData = new ExporterCountryQueryData();
 		queryData.setCountryCode(countryCode);
@@ -106,10 +111,64 @@ public class ExporterServiceImpl implements ExporterService {
 	}
 
 	/**
-	 * Export an indicator report as XLSX.
+	 * Export a country report as CSV.
+	 * @throws Exception 
 	 */
 	@Override
-	public XSSFWorkbook exportIndicator_XLSX(final String indicatorTypeCode, final String sourceCode, final Long fromYear, final Long toYear, final String language) {
+	public File exportCountry_CSV(final String countryCode, final Integer fromYear, final Integer toYear, final String language) throws Exception {
+		// Set the query data
+		final ExporterCountryQueryData queryData = new ExporterCountryQueryData();
+		queryData.setCountryCode(countryCode);
+		queryData.setFromYear(fromYear);
+		queryData.setToYear(toYear);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		// Country report contains :
+		// 1. Country (all data)
+
+		final Exporter<File, ExporterCountryQueryData> exporter = new ExporterCountryData_CSV(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("Country_" + new Date().getTime() + "_", ".csv");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
+	}
+
+	
+	/**
+	 * Export a country readme as TXT.
+	 * @throws Exception 
+	 */
+	@Override
+	public File exportCountryReadMe_TXT(final String countryCode, final String language) throws Exception {
+		// Set the query data
+		final ExporterCountryQueryData queryData = new ExporterCountryQueryData();
+		queryData.setCountryCode(countryCode);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		final Exporter<File, ExporterCountryQueryData> exporter = new ExporterCountryReadme_TXT(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("CountryReadme_" + new Date().getTime() + "_", ".txt");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
+	}
+	
+	
+	/**
+	 * Export an indicator report as XLSX.
+	 * @throws Exception 
+	 */
+	@Override
+	public XSSFWorkbook exportIndicator_XLSX(final String indicatorTypeCode, final String sourceCode, final Long fromYear, final Long toYear, final String language) throws Exception {
 		// Set the query data
 		final ExporterIndicatorQueryData queryData = new ExporterIndicatorQueryData();
 		queryData.setIndicatorTypeCode(indicatorTypeCode);
@@ -202,7 +261,7 @@ public class ExporterServiceImpl implements ExporterService {
 	@Override
 	public Map<String, ReportRow> getCountryCapacityData(final ExporterCountryQueryData queryData) {
 
-		final Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity = curatedDataService.listIndicatorsForCountryCrisisHistory(queryData.getCountryCode(),
+		final Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity = curatedDataService.listIndicatorsForCountryCapacity(queryData.getCountryCode(),
 				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
 
 		return convertCountryIndicatorsToReports(listIndicatorsForCountryCapacity);

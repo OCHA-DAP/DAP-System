@@ -18,8 +18,9 @@ public interface Exporter<E, QD extends QueryData> {
 	 * @param exporter The (partial) report generator.
 	 * @param queryData The data needed to perform the generation
 	 * @return
+	 * @throws Exception 
 	 */
-	public E export(final E exporter, QD queryData);
+	public E export(final E exporter, QD queryData) throws Exception;
 	
 	public ExporterService getExporterService();
 

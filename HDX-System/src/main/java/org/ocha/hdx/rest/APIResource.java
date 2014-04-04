@@ -1,5 +1,6 @@
 package org.ocha.hdx.rest;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -351,7 +352,7 @@ public class APIResource {
 	// //////////////////////
 
 	/**
-	 * Export a country-centric report.
+	 * Export a country-centric report in XLSX format.
 	 * 
 	 * @param countryCode
 	 *            The code of the country (e.g. BEL)
@@ -362,18 +363,62 @@ public class APIResource {
 	 * @param language
 	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
 	 * @return A XSSF workbook containing the data as requested
+	 * @throws Exception
 	 */
 	@GET
 	@Path("/exporter/country/xlsx/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.xlsx")
 	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	@PermitAll
 	public XSSFWorkbook exportCountry_XLSX(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
-			@PathParam("language") final String language) {
+			@PathParam("language") final String language) throws Exception {
 		return exporterService.exportCountry_XLSX(countryCode, fromYear, toYear, language);
 	}
 
 	/**
-	 * Export an indicator-centric report.
+	 * Export a country-centric report in CSV format.
+	 * 
+	 * @param countryCode
+	 *            The code of the country (e.g. BEL)
+	 * @param fromYear
+	 *            The year from which the data will be collected (e.g. 1998), inclusive
+	 * @param toYear
+	 *            The year to which the data will be collected (e.g. 2014), inclusive
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A CSV File containing the data as requested
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/country/csv/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.csv")
+	@Produces("application/ms-excel")
+	// TODO Check this
+	@PermitAll
+	public File exportCountry_CSV(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
+			@PathParam("language") final String language) throws Exception {
+		return exporterService.exportCountry_CSV(countryCode, fromYear, toYear, language);
+	}
+
+	/**
+	 * Export a country-centric ReadMe in TXT format.
+	 * 
+	 * @param countryCode
+	 *            The code of the country (e.g. BEL)
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A TXT File containing the ReadMe
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/country/readme/{countryCode}/language/{language}/ReadMe.txt")
+	@Produces("text/plain")
+	// TODO Check this
+	@PermitAll
+	public File exportCountryReadMe_TXT(@PathParam("countryCode") final String countryCode, @PathParam("language") final String language) throws Exception {
+		return exporterService.exportCountryReadMe_TXT(countryCode, language);
+	}
+
+	/**
+	 * Export an indicator-centric report in XLSX format.
 	 * 
 	 * @param indicatorTypeCode
 	 *            The code of the indicator (e.g. PVF020)
@@ -384,13 +429,14 @@ public class APIResource {
 	 * @param language
 	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
 	 * @return A XSSF workbook containing the data as requested
+	 * @throws Exception
 	 */
 	@GET
 	@Path("/exporter/indicator/xlsx/{indicatorTypeCode}/source/{sourceCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.xlsx")
 	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	@PermitAll
 	public XSSFWorkbook exportIndicator_XLSX(@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("sourceCode") final String sourceCode,
-			@PathParam("fromYear") final Long fromYear, @PathParam("toYear") final Long toYear, @PathParam("language") final String language) {
+			@PathParam("fromYear") final Long fromYear, @PathParam("toYear") final Long toYear, @PathParam("language") final String language) throws Exception {
 		return exporterService.exportIndicator_XLSX(indicatorTypeCode, sourceCode, fromYear, toYear, language);
 	}
 

@@ -34,7 +34,7 @@ public abstract class AbstractExporterIndicator_XLSX extends Exporter_XLSX<Expor
 		super(exporterService);
 	}
 
-	protected XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterIndicatorQueryData queryData, final Map<Long, Map<String, IndicatorData>> data, final String sheetName) {
+	protected XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterIndicatorQueryData queryData, final Map<Long, Map<String, IndicatorData>> data, final String sheetName) throws Exception {
 		// TODO i18n, UT
 
 		// Create the sheet

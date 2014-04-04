@@ -27,7 +27,7 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 	}
 
 	@Override
-	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) {
+	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) throws Exception {
 
 		final List<Object[]> data = exporterService.getCountryOverviewData(queryData);
 

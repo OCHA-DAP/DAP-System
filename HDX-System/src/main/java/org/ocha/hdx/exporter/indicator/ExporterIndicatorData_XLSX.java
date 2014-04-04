@@ -24,7 +24,7 @@ public class ExporterIndicatorData_XLSX extends AbstractExporterIndicator_XLSX {
 	}
 
 	@Override
-	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterIndicatorQueryData queryData) {
+	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterIndicatorQueryData queryData) throws Exception {
 		final Map<Long, Map<String, IndicatorData>> data = exporterService.getIndicatorDataData(queryData);
 		return export(workbook, queryData, data, "Data");
 	}

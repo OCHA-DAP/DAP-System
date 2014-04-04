@@ -112,7 +112,7 @@ public class ExporterServiceImplTest {
 
 	@Test
 	@Ignore
-	public void testExportCountry_XLSX() throws FileNotFoundException, IOException {
+	public void testExportCountry_XLSX() throws Exception {
 		final XSSFWorkbook exportCountry_XLSX = exporterService.exportCountry_XLSX("USA", 2005, 2010, "En");
 		exportCountry_XLSX.write(new FileOutputStream(new File("C:\\Users\\seustachi\\Desktop\\USA.xlsx")));
 	}

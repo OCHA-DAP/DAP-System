@@ -32,7 +32,7 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) {
+	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) throws Exception {
 
 		final TreeSet<String[]> indicatorTypes = new TreeSet<String[]>(new Comparator<String[]>() {
 			@Override
