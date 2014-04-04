@@ -83,6 +83,5 @@
 			<p>Users : {{ users | json }}</p>
 		</pre>
 	</div>
-	
 </body>
 </html>

@@ -57,6 +57,5 @@
 		<p>Indicator types : {{ indicatorTypes | json }}</p>
 	</pre>
 	</div>
-	
 </body>
 </html>

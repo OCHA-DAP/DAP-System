@@ -18,6 +18,5 @@
 			<li class="${entry.status}">${entry.status}:${entry.message}</li>
 		</c:forEach>
 	</ul>
-	
 </body>
 </html>
