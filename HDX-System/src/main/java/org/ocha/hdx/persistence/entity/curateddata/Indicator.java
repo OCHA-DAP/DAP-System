@@ -20,27 +20,26 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 
 /**
- *
+ * 
  * @author Samuel Eustachi
  * @author David Megginson
- *
- *         a table listing specific values for indicators, with references to the {@link org.ocha.hdx.persistence.entity.curateddata.Entity}
- *         table for the associated entity, to the {@link Source} table for the data source, and to the {@link IndicatorType} table for the
- *         specific indicator in question. This table will hold most of the data in the repository, and is expected to grow eventually into
- *         the millions of rows (or more).
- *
- *
- *         The main prupose of this table is to contain the curated data. However, some columns represent some technical metadata used by
- *         the application
- *
+ * 
+ *         a table listing specific values for indicators, with references to the {@link org.ocha.hdx.persistence.entity.curateddata.Entity} table for the associated entity, to the {@link Source}
+ *         table for the data source, and to the {@link IndicatorType} table for the specific indicator in question. This table will hold most of the data in the repository, and is expected to grow
+ *         eventually into the millions of rows (or more).
+ * 
+ * 
+ *         The main prupose of this table is to contain the curated data. However, some columns represent some technical metadata used by the application
+ * 
  *         {@link Indicator#importFromCKAN}
- *
+ * 
  *         {@link Indicator#initialValue}
- *
- *
+ * 
+ * 
  */
 @Entity
 @Table(name = "hdx_indicator", uniqueConstraints = @UniqueConstraint(columnNames = { "source_id", "entity_id", "type_id", "start_time", "periodicity" }))
@@ -52,16 +51,17 @@ public class Indicator {
 
 		private static final Map<String, Periodicity> map;
 		static {
-			final HashMap<String, Periodicity>tempMap	= new HashMap<String, Indicator.Periodicity>();
+			final HashMap<String, Periodicity> tempMap = new HashMap<String, Indicator.Periodicity>();
 			for (final Periodicity periodicity : Periodicity.values()) {
 				tempMap.put(periodicity.getCode(), periodicity);
 			}
-			map		= Collections.unmodifiableMap(tempMap);
+			map = Collections.unmodifiableMap(tempMap);
 		}
+
 		public static Periodicity findPeriodicityByCode(final String code) {
-			String tempCode	= code;
-			if ( tempCode.startsWith("1") ) {
-				tempCode	= tempCode.substring(1);
+			String tempCode = code;
+			if (tempCode.startsWith("1")) {
+				tempCode = tempCode.substring(1);
 			}
 			return map.get(tempCode);
 		}
@@ -71,7 +71,6 @@ public class Indicator {
 		private Periodicity(final String code) {
 			this.code = code;
 		}
-
 
 		public String getCode() {
 			return this.code;
@@ -110,14 +109,7 @@ public class Indicator {
 	private Periodicity periodicity;
 
 	/**
-	 * Storing the initial value as represented in the resource before import. For troubleshooting
-	 */
-	@Column(name = "initial_value", nullable = false, updatable = false)
-	private String initialValue;
-
-	/**
-	 * Must not be confused with {@link Indicator#source} This is a metadata, a link to a resource from which the data originated. Initially
-	 * used for source links from ScraperWiki data.
+	 * Must not be confused with {@link Indicator#source} This is a metadata, a link to a resource from which the data originated. Initially used for source links from ScraperWiki data.
 	 */
 	@Column(name = "source_link", nullable = true, updatable = true)
 	private String sourceLink;
@@ -135,6 +127,9 @@ public class Indicator {
 
 	@Embedded
 	private IndicatorValue value;
+
+	@Embedded
+	private final IndicatorImportConfig indicatorImportConfig = new IndicatorImportConfig();
 
 	public long getId() {
 		return this.id;
@@ -192,14 +187,6 @@ public class Indicator {
 		this.periodicity = periodicity;
 	}
 
-	public String getInitialValue() {
-		return this.initialValue;
-	}
-
-	public void setInitialValue(final String initialValue) {
-		this.initialValue = initialValue;
-	}
-
 	public ImportFromCKAN getImportFromCKAN() {
 		return this.importFromCKAN;
 	}
@@ -224,10 +211,46 @@ public class Indicator {
 		this.sourceLink = sourceLink;
 	}
 
+	public IndicatorImportConfig getIndicatorImportConfig() {
+		return indicatorImportConfig;
+	}
+
+	public void setInitialValue(final String initialValue) {
+		indicatorImportConfig.setInitialValue(initialValue);
+	}
+
+	public void setLowerBoundary(final double lowerBoundary) {
+		indicatorImportConfig.setLowerBoundary(lowerBoundary);
+	}
+
+	public void setUpperBoundary(final double upperBoundary) {
+		indicatorImportConfig.setUpperBoundary(upperBoundary);
+	}
+
+	public void setMultiplier(final double multiplier) {
+		indicatorImportConfig.setMultiplier(multiplier);
+	}
+
+	public void setExpectedTimeFormat(final String expectedTimeFormat) {
+		indicatorImportConfig.setExpectedTimeFormat(expectedTimeFormat);
+	}
+
+	public void setInterpretedTimeFormat(final String interpretedTimeFormat) {
+		indicatorImportConfig.setInterpretedTimeFormat(interpretedTimeFormat);
+	}
+
+	public void setValidationStatus(final ValidationStatus validationStatus) {
+		indicatorImportConfig.setValidationStatus(validationStatus);
+	}
+
+	public void setValidationMessage(final String validationMessage) {
+		indicatorImportConfig.setValidationMessage(validationMessage);
+	}
+
 	@Override
 	public String toString() {
 		return "Indicator [id=" + this.id + ", source=" + this.source.getCode() + ", entity=" + this.entity.getCode() + ", type=" + this.type.getCode() + ", start=" + this.start + ", end=" + this.end
-				+ ", periodicity=" + this.periodicity + ", initialValue=" + this.initialValue + ", sourceLink=" + this.sourceLink + ", value=" + this.value + "]";
+				+ ", periodicity=" + this.periodicity + ", sourceLink=" + this.sourceLink + ", value=" + this.value + "]";
 	}
 
 }

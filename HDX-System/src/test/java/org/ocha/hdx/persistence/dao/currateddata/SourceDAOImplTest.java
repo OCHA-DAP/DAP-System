@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
@@ -61,14 +62,14 @@ public class SourceDAOImplTest {
 
 	@Test
 	public void testListSources() {
-		
+
 		try {
 			sourceDAO.getSourceByCode("CodeFromUnitTest");
 			Assert.fail("Should have raised a NoResultException");
 		} catch (final NoResultException e) {
 			// expected
 		}
-		
+
 		Assert.assertEquals(0, sourceDAO.listSources().size());
 
 		final Text text = textDAO.createText("World Bank");
@@ -82,7 +83,6 @@ public class SourceDAOImplTest {
 		Assert.assertEquals("www.test.com", wbSource.getOrgLink());
 		Assert.assertEquals(organization.getId(), wbSource.getOrganization().getId());
 		Assert.assertEquals(1, sourceDAO.listSources().size());
-		
 
 		final Text text2 = textDAO.createText("Test source");
 		sourceDAO.createSource("TS", text2, "www.testsource.com", organization);
@@ -90,15 +90,15 @@ public class SourceDAOImplTest {
 
 		final Text uText = textDAO.createText("Test unit");
 		final Unit unit = unitDAO.createUnit("UC", uText);
-		
+
 		final Text itText = textDAO.createText("Test indicator type");
 		indicatorTypeDAO.createIndicatorType("ITC1", itText, unit, IndicatorType.ValueType.STRING);
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode("ITC1");
-		
+
 		final Text etText = textDAO.createText("Test entity type");
 		entityTypeDAO.createEntityType("ETC", etText);
 		final EntityType entityType = entityTypeDAO.getEntityTypeByCode("ETC");
-		
+
 		final Text eText = textDAO.createText("Test entity");
 		entityDAO.createEntity("EC", eText, entityType);
 		final Entity entity = entityDAO.getEntityByCodeAndType("EC", entityType.getCode());
@@ -107,18 +107,18 @@ public class SourceDAOImplTest {
 		Assert.assertEquals(0, listSourcesForIndicatorType.size());
 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord("resourceId", "revisionId", new Date());
-		indicatorDAO.createIndicator(wbSource, entity, indicatorType, new Date(), null, Periodicity.YEAR, new IndicatorValue("IV1"), "IVI", "sourceLink", importFromCKAN);
-		
+		indicatorDAO.createIndicator(wbSource, entity, indicatorType, new Date(), null, Periodicity.YEAR, new IndicatorValue("IV1"), "IVI", ValidationStatus.SUCCESS, "sourceLink", importFromCKAN);
+
 		listSourcesForIndicatorType = sourceDAO.listSourcesForIndicatorType(indicatorType.getCode());
 		Assert.assertEquals(1, listSourcesForIndicatorType.size());
-		
-		indicatorDAO.createIndicator(tsSource, entity, indicatorType, new Date(), null, Periodicity.YEAR, new IndicatorValue("IV1"), "IVI", "sourceLink", importFromCKAN);
-		
+
+		indicatorDAO.createIndicator(tsSource, entity, indicatorType, new Date(), null, Periodicity.YEAR, new IndicatorValue("IV1"), "IVI", ValidationStatus.SUCCESS, "sourceLink", importFromCKAN);
+
 		listSourcesForIndicatorType = sourceDAO.listSourcesForIndicatorType(indicatorType.getCode());
 		Assert.assertEquals(2, listSourcesForIndicatorType.size());
-		
+
 		indicatorDAO.deleteAllIndicators();
-		
+
 		listSourcesForIndicatorType = sourceDAO.listSourcesForIndicatorType(indicatorType.getCode());
 		Assert.assertEquals(0, listSourcesForIndicatorType.size());
 
@@ -137,7 +137,7 @@ public class SourceDAOImplTest {
 		sourceDAO.deleteSourceByCode("TS");
 		textDAO.deleteText(tsSource.getName().getId());
 		Assert.assertEquals(1, sourceDAO.listSources().size());
-		
+
 		sourceDAO.deleteSourceByCode("WB");
 		textDAO.deleteText(wbSource.getName().getId());
 		Assert.assertEquals(0, sourceDAO.listSources().size());

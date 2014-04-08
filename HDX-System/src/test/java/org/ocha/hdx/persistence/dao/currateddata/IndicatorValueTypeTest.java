@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.hdx.IntegrationTestSetUpAndTearDown;
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
@@ -95,16 +96,19 @@ public class IndicatorValueTypeTest {
 		final Date date2013Feb = dateTime2012.plusYears(1).plusMonths(1).toDate();
 		final Date date2014 = dateTime2012.plusYears(2).toDate();
 
-		this.indicatorDAO.createIndicator(sourceWB, russia, perCapitaGdp, date2013, date2013Feb, Periodicity.MONTH, new IndicatorValue(10000.0), "10000$", "http://www.example.com", importFromCKAN);
+		this.indicatorDAO.createIndicator(sourceWB, russia, perCapitaGdp, date2013, date2013Feb, Periodicity.MONTH, new IndicatorValue(10000.0), "10000$", ValidationStatus.SUCCESS,
+				"http://www.example.com", importFromCKAN);
 
-		this.indicatorDAO.createIndicator(sourceAcled, russia, perCapitaGdp, date2013, date2014, Periodicity.YEAR, new IndicatorValue(9000.0), "9000$", "http://www.example.com", importFromCKAN);
+		this.indicatorDAO.createIndicator(sourceAcled, russia, perCapitaGdp, date2013, date2014, Periodicity.YEAR, new IndicatorValue(9000.0), "9000$", ValidationStatus.SUCCESS,
+				"http://www.example.com", importFromCKAN);
 
-		this.indicatorDAO.createIndicator(sourceAcled, luxembourg, perCapitaGdp, date2013, date2014, Periodicity.YEAR, new IndicatorValue(100000.0), "100000$", "http://www.example.com",
-				importFromCKAN);
+		this.indicatorDAO.createIndicator(sourceAcled, luxembourg, perCapitaGdp, date2013, date2014, Periodicity.YEAR, new IndicatorValue(100000.0), "100000$", ValidationStatus.SUCCESS,
+				"http://www.example.com", importFromCKAN);
 		this.indicatorDAO.createIndicator(sourceAcled, luxembourg, perCapitaGdp, dateTime2012.plusDays(1).toDate(), dateTime2012.plusDays(2).toDate(), Periodicity.DAY, new IndicatorValue(273.97),
-				"237.97$ per day", "http://www.example.com", importFromCKAN);
+				"237.97$ per day", ValidationStatus.SUCCESS, "http://www.example.com", importFromCKAN);
 
-		this.indicatorDAO.createIndicator(sourceWB, russia, pvx040, date2013, date2014, Periodicity.YEAR, new IndicatorValue(273.97), "237.97$ per day", "http://www.example.com", importFromCKAN2);
+		this.indicatorDAO.createIndicator(sourceWB, russia, pvx040, date2013, date2014, Periodicity.YEAR, new IndicatorValue(273.97), "237.97$ per day", ValidationStatus.SUCCESS,
+				"http://www.example.com", importFromCKAN2);
 
 		final Text strType = this.textDAO.createText("strType");
 		final Text txtType = this.textDAO.createText("txtType");
@@ -139,16 +143,16 @@ public class IndicatorValueTypeTest {
 		final Date dateTimeInd = new Date();
 
 		this.indicatorDAO.createIndicator(sourceAcled, russia, txtIndType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(txtInd), "TextInitialValuelorepipsulumTextInitialValue",
-				"http://www.example.com", importFromCKAN);
+				ValidationStatus.SUCCESS, "http://www.example.com", importFromCKAN);
 
 		this.indicatorDAO.createIndicator(sourceAcled, russia, strIndType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(strInd), "StringInitialValuelorepipsulumStringInitialValue",
-				"http://www.example.com", importFromCKAN);
+				ValidationStatus.SUCCESS, "http://www.example.com", importFromCKAN);
 
 		this.indicatorDAO.createIndicator(sourceAcled, russia, dateIndType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(dateInd, ValueType.DATE), "DATElorepipsulum",
-				"http://www.example.com", importFromCKAN);
+				ValidationStatus.SUCCESS, "http://www.example.com", importFromCKAN);
 
 		this.indicatorDAO.createIndicator(sourceAcled, russia, dateTimeIndType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(dateTimeInd, ValueType.DATETIME), "DATETIMElorepipsulum",
-				"http://www.example.com", importFromCKAN);
+				ValidationStatus.SUCCESS, "http://www.example.com", importFromCKAN);
 		List<Indicator> listLastIndicators = this.indicatorDAO.listLastIndicators(20);
 		final List<Long> ids = new ArrayList<Long>();
 		for (final Indicator item : listLastIndicators) {

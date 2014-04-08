@@ -2,6 +2,7 @@ package org.ocha.hdx.importer;
 
 import java.util.Date;
 
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 
@@ -16,6 +17,7 @@ public class PreparedIndicator {
 	private Periodicity periodicity;
 	private IndicatorValue value;
 	private String initialValue;
+	private ValidationStatus validationStatus;
 	private String sourceLink;
 
 	public String getSourceCode() {
@@ -90,6 +92,14 @@ public class PreparedIndicator {
 		this.initialValue = initialValue;
 	}
 
+	public ValidationStatus getValidationStatus() {
+		return validationStatus;
+	}
+
+	public void setValidationStatus(final ValidationStatus validationStatus) {
+		this.validationStatus = validationStatus;
+	}
+
 	public String getSourceLink() {
 		return sourceLink;
 	}
@@ -101,6 +111,8 @@ public class PreparedIndicator {
 	@Override
 	public String toString() {
 		return "PreparedIndicator [sourceCode=" + sourceCode + ", entityCode=" + entityCode + ", entityTypeCode=" + entityTypeCode + ", indicatorTypeCode=" + indicatorTypeCode + ", start=" + start
-				+ ", end=" + end + ", periodicity=" + periodicity + ", value=" + value + ", initialValue=" + initialValue + "]";
+				+ ", end=" + end + ", periodicity=" + periodicity + ", value=" + value + ", initialValue=" + initialValue + ", validationStatus=" + validationStatus + ", sourceLink=" + sourceLink
+				+ "]";
 	}
+
 }

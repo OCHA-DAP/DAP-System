@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.hdx.IntegrationTestSetUpAndTearDown;
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
@@ -91,30 +92,34 @@ public class IndicatorDAOImplTest {
 		final Date date2014 = dateTime2012.plusYears(2).toDate();
 
 		try {
-			indicatorDAO.createIndicator(sourceWB, russia, perCapitaGdp, date2013, date2014, Periodicity.YEAR, new IndicatorValue(10000.0), "10000$", "http://www.example.com", importFromCKAN);
+			indicatorDAO.createIndicator(sourceWB, russia, perCapitaGdp, date2013, date2014, Periodicity.YEAR, new IndicatorValue(10000.0), "10000$", ValidationStatus.SUCCESS,
+					"http://www.example.com", importFromCKAN);
 			Assert.fail("Should not be possible to add the same value twice, multiple column constraint not enforced");
 		} catch (final PersistenceException e) {
 			// Expected behavior () caused by a ConstraintViolationException
 		}
 
 		// Should be able to add a very similar indicator, with just another Periodicity
-		indicatorDAO.createIndicator(sourceWB, russia, perCapitaGdp, date2013, date2013Feb, Periodicity.MONTH, new IndicatorValue(10000.0), "10000$", "http://www.example.com", importFromCKAN);
+		indicatorDAO.createIndicator(sourceWB, russia, perCapitaGdp, date2013, date2013Feb, Periodicity.MONTH, new IndicatorValue(10000.0), "10000$", ValidationStatus.SUCCESS,
+				"http://www.example.com", importFromCKAN);
 
-		indicatorDAO.createIndicator(sourceAcled, russia, perCapitaGdp, date2013, date2014, Periodicity.YEAR, new IndicatorValue(9000.0), "9000$", "http://www.example.com", importFromCKAN);
+		indicatorDAO.createIndicator(sourceAcled, russia, perCapitaGdp, date2013, date2014, Periodicity.YEAR, new IndicatorValue(9000.0), "9000$", ValidationStatus.SUCCESS, "http://www.example.com",
+				importFromCKAN);
 		Assert.assertEquals(4, indicatorDAO.listLastIndicators(100).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null).size());
 		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(Periodicity.YEAR, "country", "RUS", "per-capita-gdp").size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp", null).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorTypes(2013, "WB", indicatorTypesOnlyPerCapita).size());
 
-		indicatorDAO.createIndicator(sourceAcled, luxembourg, perCapitaGdp, date2013, date2014, Periodicity.YEAR, new IndicatorValue(100000.0), "100000$", "http://www.example.com", importFromCKAN);
+		indicatorDAO.createIndicator(sourceAcled, luxembourg, perCapitaGdp, date2013, date2014, Periodicity.YEAR, new IndicatorValue(100000.0), "100000$", ValidationStatus.SUCCESS,
+				"http://www.example.com", importFromCKAN);
 		Assert.assertEquals(5, indicatorDAO.listLastIndicators(100).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null).size());
 		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(Periodicity.YEAR, "country", "RUS", "per-capita-gdp").size());
 		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "acled", "per-capita-gdp", null).size());
 
 		indicatorDAO.createIndicator(sourceAcled, luxembourg, perCapitaGdp, dateTime2012.plusDays(1).toDate(), dateTime2012.plusDays(2).toDate(), Periodicity.DAY, new IndicatorValue(273.97),
-				"237.97$ per day", "http://www.example.com", importFromCKAN);
+				"237.97$ per day", ValidationStatus.SUCCESS, "http://www.example.com", importFromCKAN);
 
 		Assert.assertEquals(6, indicatorDAO.listLastIndicators(100).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null).size());
@@ -122,15 +127,15 @@ public class IndicatorDAOImplTest {
 		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "acled", "per-capita-gdp", null).size());
 
 		indicatorDAO.createIndicator(sourceAcled, luxembourg, perCapitaGdp, dateTime2012.plusDays(2).toDate(), dateTime2012.plusDays(3).toDate(), Periodicity.DAY, new IndicatorValue(273.97),
-				"237.97$ per day", "http://www.example.com", importFromCKAN2);
+				"237.97$ per day", ValidationStatus.SUCCESS, "http://www.example.com", importFromCKAN2);
 
 		Assert.assertEquals(7, indicatorDAO.listLastIndicators(100).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null).size());
 		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(Periodicity.YEAR, "country", "RUS", "per-capita-gdp").size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp", null).size());
 
-		indicatorDAO
-				.createIndicator(sourceWB, luxembourg, perCapitaGdp, date2012, date2013, Periodicity.YEAR, new IndicatorValue(273.97), "237.97$ per day", "http://www.example.com", importFromCKAN2);
+		indicatorDAO.createIndicator(sourceWB, luxembourg, perCapitaGdp, date2012, date2013, Periodicity.YEAR, new IndicatorValue(273.97), "237.97$ per day", ValidationStatus.SUCCESS,
+				"http://www.example.com", importFromCKAN2);
 
 		Assert.assertEquals(8, indicatorDAO.listLastIndicators(100).size());
 		Assert.assertEquals(2, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null).size());
@@ -138,7 +143,8 @@ public class IndicatorDAOImplTest {
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp", null).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2012, "WB", "per-capita-gdp", null).size());
 
-		indicatorDAO.createIndicator(sourceWB, russia, perCapitaGdp, date2012, date2013, Periodicity.YEAR, new IndicatorValue(273.97), "237.97$ per day", "http://www.example.com", importFromCKAN2);
+		indicatorDAO.createIndicator(sourceWB, russia, perCapitaGdp, date2012, date2013, Periodicity.YEAR, new IndicatorValue(273.97), "237.97$ per day", ValidationStatus.SUCCESS,
+				"http://www.example.com", importFromCKAN2);
 
 		Assert.assertEquals(9, indicatorDAO.listLastIndicators(100).size());
 		Assert.assertEquals(3, indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null).size());
@@ -149,7 +155,8 @@ public class IndicatorDAOImplTest {
 
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorTypes(2013, "WB", indicatorTypesOnlyPerCapita).size());
 
-		indicatorDAO.createIndicator(sourceWB, russia, pvx040, date2013, date2014, Periodicity.YEAR, new IndicatorValue(273.97), "237.97$ per day", "http://www.example.com", importFromCKAN2);
+		indicatorDAO.createIndicator(sourceWB, russia, pvx040, date2013, date2014, Periodicity.YEAR, new IndicatorValue(273.97), "237.97$ per day", ValidationStatus.SUCCESS, "http://www.example.com",
+				importFromCKAN2);
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorTypes(2013, "WB", indicatorTypesOnlyPerCapita).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "per-capita-gdp", null).size());
 		Assert.assertEquals(1, indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(2013, "WB", "PVX040", null).size());
@@ -255,10 +262,9 @@ public class IndicatorDAOImplTest {
 		Assert.assertEquals(2, minMaxDatesForCountryIndicators.size());
 		Assert.assertEquals(new Integer(2008), minMaxDatesForCountryIndicators.get("MIN"));
 		Assert.assertEquals(new Integer(2009), minMaxDatesForCountryIndicators.get("MAX"));
-		
+
 		integrationTestSetUpAndTearDown.tearDownDataForCountryCrisisHistory();
 	}
-
 
 	@Test
 	public void testIndicatorTypeOverview() {

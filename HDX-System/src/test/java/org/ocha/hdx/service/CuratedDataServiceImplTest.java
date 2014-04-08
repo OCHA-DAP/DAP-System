@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.hdx.IntegrationTestSetUpAndTearDown;
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
@@ -103,7 +104,8 @@ public class CuratedDataServiceImplTest {
 		final Date date2013 = dateTime2013.toDate();
 		final Date date2014 = dateTime2013.plusYears(1).toDate();
 
-		indicatorDAO.createIndicator(sourceAcled, russia, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(9000.0), "9000$", "http://www.example.com", importFromCKAN);
+		indicatorDAO.createIndicator(sourceAcled, russia, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(9000.0), "9000$", ValidationStatus.SUCCESS, "http://www.example.com",
+				importFromCKAN);
 
 		{
 			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null);
@@ -119,7 +121,8 @@ public class CuratedDataServiceImplTest {
 			Assert.assertEquals(1, dataTable.getNumberOfRows());
 		}
 
-		indicatorDAO.createIndicator(sourceAcled, luxembourg, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(100000.0), "100000$", "http://www.example.com", importFromCKAN);
+		indicatorDAO.createIndicator(sourceAcled, luxembourg, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(100000.0), "100000$", ValidationStatus.SUCCESS,
+				"http://www.example.com", importFromCKAN);
 
 		{
 			final DataTable dataTable = curatedDataService.listIndicatorsByPeriodicityAndSourceAndIndicatorType(Periodicity.YEAR, "WB", "per-capita-gdp", null);

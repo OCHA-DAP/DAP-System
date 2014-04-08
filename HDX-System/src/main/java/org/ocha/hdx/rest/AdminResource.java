@@ -1193,7 +1193,7 @@ public class AdminResource {
 			jsonIndicator.addProperty("endDate", gson.toJson(indicator.getEnd()));
 			jsonIndicator.addProperty("periodicity", gson.toJson(indicator.getPeriodicity()));
 			jsonIndicator.addProperty("value", gson.toJson(indicator.getValue().toString()));
-			jsonIndicator.addProperty("initialValue", indicator.getInitialValue());
+			jsonIndicator.addProperty("initialValue", indicator.getIndicatorImportConfig().getInitialValue());
 			jsonIndicator.addProperty("importFromCkan", gson.toJson(indicator.getImportFromCKAN()));
 			jsonIndicators.add(jsonIndicator);
 		}
@@ -1322,8 +1322,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/validationNotesForIndicatorTypeAndSource/submitUpdate")
-	public Response updateValidationNotesForIndicatorTypeAndSource(@FormParam("validatioNotes") final String validationNotes, @FormParam("indicatorTypeCode") final String indicatorTypeCode, @FormParam("sourceCode") final String sourceCode)
-			throws Exception {
+	public Response updateValidationNotesForIndicatorTypeAndSource(@FormParam("validatioNotes") final String validationNotes, @FormParam("indicatorTypeCode") final String indicatorTypeCode,
+			@FormParam("sourceCode") final String sourceCode) throws Exception {
 		curatedDataService.updateValidationNotesForIndicatorTypeAndSource(validationNotes, indicatorTypeCode, sourceCode);
 		return Response.ok().build();
 	}

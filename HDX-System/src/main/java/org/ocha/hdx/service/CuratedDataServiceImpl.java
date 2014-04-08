@@ -10,6 +10,7 @@ import java.util.Map;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.TimeRange;
 import org.ocha.hdx.model.api.CellDescriptor;
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
@@ -310,7 +311,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.getDummyImport();
 
-		indicatorDAO.createIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, sourceLink, importFromCKAN);
+		indicatorDAO.createIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, ValidationStatus.SUCCESS, sourceLink, importFromCKAN);
 
 	}
 
@@ -322,7 +323,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(preparedIndicator.getIndicatorTypeCode());
 
 		indicatorDAO.createIndicator(source, entity, indicatorType, preparedIndicator.getStart(), preparedIndicator.getEnd(), preparedIndicator.getPeriodicity(), preparedIndicator.getValue(),
-				preparedIndicator.getInitialValue(), preparedIndicator.getSourceLink(), importFromCKAN);
+				preparedIndicator.getInitialValue(), preparedIndicator.getValidationStatus(), preparedIndicator.getSourceLink(), importFromCKAN);
 
 	}
 
@@ -331,7 +332,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	public void createIndicator(final Indicator indicator, final ImportFromCKAN importFromCKAN) {
 
 		indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(), indicator.getValue(),
-				indicator.getInitialValue(), indicator.getSourceLink(), importFromCKAN);
+				indicator.getIndicatorImportConfig().getInitialValue(), indicator.getIndicatorImportConfig().getValidationStatus(), indicator.getSourceLink(), importFromCKAN);
 
 	}
 

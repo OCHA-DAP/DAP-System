@@ -17,6 +17,7 @@ import javax.persistence.TypedQuery;
 
 import org.joda.time.DateTime;
 import org.ocha.hdx.importer.TimeRange;
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
@@ -45,7 +46,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	@Transactional
 	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
-			final String initialValue, final String sourceLink, final ImportFromCKAN importFromCKAN) {
+			final String initialValue, final ValidationStatus validationStatus, final String sourceLink, final ImportFromCKAN importFromCKAN) {
 
 		final Indicator indicator = new Indicator();
 		indicator.setSource(source);
@@ -56,6 +57,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		indicator.setPeriodicity(periodicity);
 		indicator.setValue(value);
 		indicator.setInitialValue(initialValue);
+		indicator.setValidationStatus(validationStatus);
 		indicator.setSourceLink(sourceLink);
 		indicator.setImportFromCKAN(importFromCKAN);
 		em.persist(indicator);
@@ -399,9 +401,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public Object[] getIndicatorTypeOverview(final String indicatorTypeCode, final String sourceCode, final String languageCode) {
 		// TODO i18n
-		final Query query = em
-				.createQuery(
-						"SELECT i.type.code, i.type.name.defaultValue, i.source.code, i.value, i.source.name.defaultValue from Indicator i WHERE i.type.code = :code and ")
+		final Query query = em.createQuery("SELECT i.type.code, i.type.name.defaultValue, i.source.code, i.value, i.source.name.defaultValue from Indicator i WHERE i.type.code = :code and ")
 				.setParameter("code", indicatorTypeCode).setMaxResults(1);
 		Object[] queryResult = null;
 		try {

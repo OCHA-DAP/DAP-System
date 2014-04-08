@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
@@ -17,7 +18,7 @@ public interface IndicatorDAO {
 	public List<Indicator> listLastIndicators(final int limit);
 
 	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
-			final String initialValue, final String sourceLink, final ImportFromCKAN importFromCKAN);
+			final String initialValue, final ValidationStatus validationStatus, final String sourceLink, final ImportFromCKAN importFromCKAN);
 
 	/**
 	 * 
@@ -150,14 +151,14 @@ public interface IndicatorDAO {
 	 *            The list of indicators
 	 * @param sourcesList
 	 *            The list of sources
-	 * @return A map with ("MIN" => the earliest date available for this country and at least one of the indicator-source couples) and ("MAX" => the latest date available for this country and at least one of
-	 *         the indicator-source couples)
+	 * @return A map with ("MIN" => the earliest date available for this country and at least one of the indicator-source couples) and ("MAX" => the latest date available for this country and at least
+	 *         one of the indicator-source couples)
 	 */
 	public Map<String, Integer> getMinMaxDatesForCountryIndicators(String countryCode, String[] indicatorsList, String[] sourcesList);
 
-
 	/**
 	 * Data for indicator-centric overview.
+	 * 
 	 * @param indicatorTypeCode
 	 * @param sourceCode
 	 * @param languageCode

@@ -6,6 +6,7 @@ import javax.persistence.PersistenceException;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
@@ -94,7 +95,8 @@ public class IntegrationTestSetUpAndTearDown {
 		final Date date2014 = dateTime2013.plusYears(1).toDate();
 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord("anyResourceId", "anyRevisionId", new Date());
-		indicatorDAO.createIndicator(sourceWB, russia, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(10000.0), "10000$", "http:www.example.com", importFromCKAN);
+		indicatorDAO.createIndicator(sourceWB, russia, indicatorType, date2013, date2014, Periodicity.YEAR, new IndicatorValue(10000.0), "10000$", ValidationStatus.SUCCESS, "http:www.example.com",
+				importFromCKAN);
 
 		/*
 		 * Reports
@@ -118,7 +120,7 @@ public class IntegrationTestSetUpAndTearDown {
 
 		// Indicator
 		final IndicatorValue indicatorValue = new IndicatorValue(170d);
-		indicatorDAO.createIndicator(sourceM49, colombia, cg060, new Date(), null, Indicator.Periodicity.YEAR, indicatorValue, "0", null, importFromCKAN);
+		indicatorDAO.createIndicator(sourceM49, colombia, cg060, new Date(), null, Indicator.Periodicity.YEAR, indicatorValue, "0", ValidationStatus.SUCCESS, null, importFromCKAN);
 
 	}
 
@@ -166,8 +168,8 @@ public class IntegrationTestSetUpAndTearDown {
 		final Date date2013 = dateTime2013.toDate();
 		final Date date2014 = dateTime2013.plusYears(1).toDate();
 
-		indicatorDAO.createIndicator(sourceWB, usa, indicatorTypeCD010, date2013, date2014, Periodicity.YEAR, new IndicatorValue("Url for Usa"), "Url for Usa", "http:www.example.com",
-				importFromCKANDAO.listImportsFromCKAN().get(0));
+		indicatorDAO.createIndicator(sourceWB, usa, indicatorTypeCD010, date2013, date2014, Periodicity.YEAR, new IndicatorValue("Url for Usa"), "Url for Usa", ValidationStatus.SUCCESS,
+				"http:www.example.com", importFromCKANDAO.listImportsFromCKAN().get(0));
 
 	}
 
@@ -215,11 +217,11 @@ public class IntegrationTestSetUpAndTearDown {
 		final Date date2009 = dateTime2008.plusYears(1).toDate();
 		final Date date2010 = dateTime2008.plusYears(2).toDate();
 
-		indicatorDAO.createIndicator(sourceEmdat, usa, indicatorTypeCH070, date2008, date2009, Periodicity.YEAR, new IndicatorValue(5.0), "5", "www.disasters.com", importFromCKANDAO
-				.listImportsFromCKAN().get(0));
+		indicatorDAO.createIndicator(sourceEmdat, usa, indicatorTypeCH070, date2008, date2009, Periodicity.YEAR, new IndicatorValue(5.0), "5", ValidationStatus.SUCCESS, "www.disasters.com",
+				importFromCKANDAO.listImportsFromCKAN().get(0));
 
-		indicatorDAO.createIndicator(sourceEmdat, usa, indicatorTypeCH080, date2009, date2010, Periodicity.YEAR, new IndicatorValue(1000.0), "5", "www.disasters.com", importFromCKANDAO
-				.listImportsFromCKAN().get(0));
+		indicatorDAO.createIndicator(sourceEmdat, usa, indicatorTypeCH080, date2009, date2010, Periodicity.YEAR, new IndicatorValue(1000.0), "1000", ValidationStatus.SUCCESS, "www.disasters.com",
+				importFromCKANDAO.listImportsFromCKAN().get(0));
 
 		final Text extracted = textDAO.createText("Extracted from 1st hand sources");
 		additionalDataDAO.createAdditionalData(indicatorTypeCH080, sourceEmdat, EntryKey.DATASET_SUMMARY, extracted);
@@ -282,8 +284,8 @@ public class IntegrationTestSetUpAndTearDown {
 		final Date date2008 = dateTime2008.toDate();
 		final Date date2013 = dateTime2008.plusYears(5).toDate();
 
-		indicatorDAO.createIndicator(sourceesaunpdWPP2012, usa, indicatorTypeF02, date2008, date2013, Periodicity.FIVE_YEARS, new IndicatorValue(5.0), "5", "www.disasters.com", importFromCKANDAO
-				.listImportsFromCKAN().get(0));
+		indicatorDAO.createIndicator(sourceesaunpdWPP2012, usa, indicatorTypeF02, date2008, date2013, Periodicity.FIVE_YEARS, new IndicatorValue(5.0), "5", ValidationStatus.SUCCESS,
+				"www.disasters.com", importFromCKANDAO.listImportsFromCKAN().get(0));
 
 		final Text extracted = textDAO.createText("Average for 5 years");
 		additionalDataDAO.createAdditionalData(indicatorTypeF02, sourceesaunpdWPP2012, EntryKey.DATASET_SUMMARY, extracted);
