@@ -323,7 +323,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(preparedIndicator.getIndicatorTypeCode());
 
 		indicatorDAO.createIndicator(source, entity, indicatorType, preparedIndicator.getStart(), preparedIndicator.getEnd(), preparedIndicator.getPeriodicity(), preparedIndicator.getValue(),
-				preparedIndicator.getInitialValue(), preparedIndicator.getValidationStatus(), preparedIndicator.getSourceLink(), importFromCKAN);
+				preparedIndicator.getIndicatorImportConfig().getInitialValue(), preparedIndicator.getIndicatorImportConfig().getValidationStatus(), preparedIndicator.getSourceLink(), importFromCKAN);
 
 	}
 

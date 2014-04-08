@@ -27,8 +27,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 
- * Sample implementation of the {@link AbstractValidatingImporter} that has the same functionality as {@link ScraperImporter} plus the
- * validation part
+ * Sample implementation of the {@link AbstractValidatingImporter} that has the same functionality as {@link ScraperImporter} plus the validation part
  * 
  * @author alexandru-m-g
  * 
@@ -116,7 +115,7 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 		preparedIndicator.setEnd(transformer.getEndDate(values));
 		preparedIndicator.setPeriodicity(transformer.getPeriodicity(values));
 		preparedIndicator.setValue(transformer.getValue(values));
-		preparedIndicator.setInitialValue(transformer.getInitialValue(values));
+		preparedIndicator.setIndicatorImportConfig(transformer.getIndicatorImportConfig(values));
 
 		return preparedIndicator;
 

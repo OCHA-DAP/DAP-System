@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorImportConfig;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.ocha.hdx.service.IndicatorCreationService;
@@ -31,7 +33,7 @@ public class ScraperImporter implements HDXWithCountryListImporter {
 	public ScraperImporter(final List<SourceDictionary> sourceDictionaries, final IndicatorCreationService indicatorCreationService) {
 		super();
 
-		this.indicatorCreationService	= indicatorCreationService;
+		this.indicatorCreationService = indicatorCreationService;
 
 		if (sourceDictionaries != null) {
 			for (final SourceDictionary sourceDictionary : sourceDictionaries) {
@@ -136,26 +138,26 @@ public class ScraperImporter implements HDXWithCountryListImporter {
 						preparedIndicator.setValue(new IndicatorValue(valueAsDouble));
 					}
 
-					preparedIndicator.setInitialValue(values[4]);
+					preparedIndicator.setIndicatorImportConfig(new IndicatorImportConfig(values[4], ValidationStatus.SUCCESS));
 
 					preparedIndicators.add(preparedIndicator);
 				}
 			}
-			this.preparedData	=  new PreparedData(true, preparedIndicators);
+			this.preparedData = new PreparedData(true, preparedIndicators);
 		} catch (final Exception e) {
 			logger.debug(e.toString(), e);
-			this.preparedData	= new PreparedData(false, null);
+			this.preparedData = new PreparedData(false, null);
 		}
 
 		return this.preparedData;
-		}
+	}
 
 	@Override
 	public List<Indicator> transformToFinalFormat() {
-		final List<Indicator> list	= new ArrayList<Indicator>();
+		final List<Indicator> list = new ArrayList<Indicator>();
 		for (final PreparedIndicator preparedIndicator : this.preparedData.getIndicatorsToImport()) {
 			try {
-				final Indicator indicator	= this.indicatorCreationService.createIndicator(preparedIndicator);
+				final Indicator indicator = this.indicatorCreationService.createIndicator(preparedIndicator);
 				list.add(indicator);
 			} catch (final Exception e) {
 				logger.debug(String.format("Error trying to create preparedIndicator : %s", preparedIndicator.toString()));

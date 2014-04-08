@@ -8,11 +8,12 @@ import java.util.Map;
 
 import org.ocha.hdx.persistence.entity.configs.AbstractConfigEntry;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorImportConfig;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 public abstract class AbstractColumnsTransformer {
 
@@ -25,15 +26,22 @@ public abstract class AbstractColumnsTransformer {
 		this.indConfig = indConfig;
 	}
 
-	public abstract Date getStartDate( String [] line ) ;
-	public abstract Date getEndDate( String [] line ) ;
-	public abstract Periodicity getPeriodicity( String [] line ) ;
-	public abstract String getInitialValue( String [] line ) ;
-	public abstract IndicatorValue getValue( String [] line ) ;
-	public abstract String getSourceCode( String [] line ) ;
-	public abstract String getEntityCode( String [] line ) ;
-	public abstract String getEntityTypeCode( String [] line ) ;
-	public abstract String getIndicatorTypeCode( String [] line ) ;
+	public abstract Date getStartDate(String[] line);
+
+	public abstract Date getEndDate(String[] line);
+
+	public abstract Periodicity getPeriodicity(String[] line);
+
+	public abstract IndicatorValue getValue(String[] line);
+
+	public abstract String getSourceCode(String[] line);
+
+	public abstract String getEntityCode(String[] line);
+
+	public abstract String getEntityTypeCode(String[] line);
+
+	public abstract String getIndicatorTypeCode(String[] line);
+
+	public abstract IndicatorImportConfig getIndicatorImportConfig(String[] line);
 
 }
-

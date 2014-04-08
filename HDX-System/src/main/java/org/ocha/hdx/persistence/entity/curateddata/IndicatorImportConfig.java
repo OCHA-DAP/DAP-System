@@ -46,6 +46,16 @@ public class IndicatorImportConfig {
 	@Column(name = "validation_message", nullable = true, updatable = false)
 	private String validationMessage;
 
+	public IndicatorImportConfig(final String initialValue, final ValidationStatus validationStatus) {
+		super();
+		this.initialValue = initialValue;
+		this.validationStatus = validationStatus;
+	}
+
+	public IndicatorImportConfig() {
+		super();
+	}
+
 	public String getInitialValue() {
 		return this.initialValue;
 	}

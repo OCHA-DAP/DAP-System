@@ -2,8 +2,8 @@ package org.ocha.hdx.importer;
 
 import java.util.Date;
 
-import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorImportConfig;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 
 public class PreparedIndicator {
@@ -16,8 +16,7 @@ public class PreparedIndicator {
 	private Date end;
 	private Periodicity periodicity;
 	private IndicatorValue value;
-	private String initialValue;
-	private ValidationStatus validationStatus;
+	private IndicatorImportConfig indicatorImportConfig;
 	private String sourceLink;
 
 	public String getSourceCode() {
@@ -84,20 +83,12 @@ public class PreparedIndicator {
 		this.value = value;
 	}
 
-	public String getInitialValue() {
-		return initialValue;
+	public IndicatorImportConfig getIndicatorImportConfig() {
+		return indicatorImportConfig;
 	}
 
-	public void setInitialValue(final String initialValue) {
-		this.initialValue = initialValue;
-	}
-
-	public ValidationStatus getValidationStatus() {
-		return validationStatus;
-	}
-
-	public void setValidationStatus(final ValidationStatus validationStatus) {
-		this.validationStatus = validationStatus;
+	public void setIndicatorImportConfig(final IndicatorImportConfig indicatorImportConfig) {
+		this.indicatorImportConfig = indicatorImportConfig;
 	}
 
 	public String getSourceLink() {
@@ -111,8 +102,7 @@ public class PreparedIndicator {
 	@Override
 	public String toString() {
 		return "PreparedIndicator [sourceCode=" + sourceCode + ", entityCode=" + entityCode + ", entityTypeCode=" + entityTypeCode + ", indicatorTypeCode=" + indicatorTypeCode + ", start=" + start
-				+ ", end=" + end + ", periodicity=" + periodicity + ", value=" + value + ", initialValue=" + initialValue + ", validationStatus=" + validationStatus + ", sourceLink=" + sourceLink
-				+ "]";
+				+ ", end=" + end + ", periodicity=" + periodicity + ", value=" + value + ", indicatorImportConfig=" + indicatorImportConfig + ", sourceLink=" + sourceLink + "]";
 	}
 
 }

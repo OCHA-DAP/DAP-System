@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 
@@ -42,7 +42,7 @@ public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.ocha.hdx.service.IndicatorCreationService#createIndicator(org.ocha.hdx.importer.PreparedIndicator)
 	 */
 	@Override
@@ -59,7 +59,7 @@ public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 		indicator.setEnd(preparedIndicator.getEnd());
 		indicator.setPeriodicity(preparedIndicator.getPeriodicity());
 		indicator.setValue(preparedIndicator.getValue());
-		indicator.setInitialValue(preparedIndicator.getInitialValue());
+		indicator.setIndicatorImportConfig(preparedIndicator.getIndicatorImportConfig());
 		indicator.setSourceLink(preparedIndicator.getSourceLink());
 
 		return indicator;
@@ -73,15 +73,13 @@ public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 			final IndicatorType indicatorType = this.indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
 			final Source source = this.sourceDAO.getSourceByCode(sourceCode);
 
-
 			final ValueType valueType = indicatorType.getValueType();
 			if (valueType != null) {
 				final IndicatorResourceConfigEntry computedConigEntry = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.INDICATOR_VALUE_TYPE.getLabel(),
 						valueType.getLabel(), source, indicatorType);
 				list.add(computedConigEntry);
 			}
-		}
-		catch (final NoResultException e) {
+		} catch (final NoResultException e) {
 			logger.warn(String.format("For type '%s' and source '%s' there was a problem in getting the hibernate entities from the database. Missing ?", indicatorTypeCode, sourceCode));
 		}
 		return list;

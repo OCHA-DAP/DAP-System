@@ -14,8 +14,10 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.ocha.hdx.config.ConfigurationConstants;
 import org.ocha.hdx.config.ConfigurationConstants.MultiplicationValues;
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.configs.AbstractConfigEntry;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorImportConfig;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.slf4j.Logger;
@@ -23,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
@@ -137,15 +139,15 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 				final String period = matcher.group(PERIODICITY_GROUP);
 				if (period == null) {
-					this.yearLength	= 1;
+					this.yearLength = 1;
 				} else {
 					try {
-						this.yearLength	= Integer.parseInt(period);
+						this.yearLength = Integer.parseInt(period);
 					} catch (final NumberFormatException e) {
 						throw new IllegalArgumentException("Wrong pattern for expected time: " + expectedTimeFormatEntry.getEntryValue(), e);
 					}
 				}
-				this.periodicity	= Periodicity.findPeriodicityByCode(this.yearLength+"Y");
+				this.periodicity = Periodicity.findPeriodicityByCode(this.yearLength + "Y");
 
 				if (this.periodicity == null) {
 					throw new IllegalArgumentException("Specified periodicity doesn't exist in Periodicity enum: " + this.yearLength + "Y");
@@ -162,12 +164,12 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	}
 
 	private void discoverMultiplication(final Map<String, AbstractConfigEntry> indConfig) {
-		this.multiplyBy	= 1;
+		this.multiplyBy = 1;
 		final AbstractConfigEntry multiplicationEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.MULTIPLICATION.getLabel());
-		if ( multiplicationEntry != null ) {
-			final MultiplicationValues value 	= MultiplicationValues.findByLabel(multiplicationEntry.getEntryValue());
-			if ( value != null ) {
-				this.multiplyBy	= value.getFactor();
+		if (multiplicationEntry != null) {
+			final MultiplicationValues value = MultiplicationValues.findByLabel(multiplicationEntry.getEntryValue());
+			if (value != null) {
+				this.multiplyBy = value.getFactor();
 			}
 		}
 	}
@@ -180,8 +182,8 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 			final Matcher matcher = ACTUAL_TIME_PATTERN_COMPILED.matcher(actualDateStr);
 			if (matcher.matches()) {
 				final int year = Integer.parseInt(matcher.group(YEAR_GROUP));
-				final String readDataPeriodicityStr	= matcher.group(PERIOD_YEAR_GROUP);
-				this.compareReadDataPeriodicity(readDataPeriodicityStr, line );
+				final String readDataPeriodicityStr = matcher.group(PERIOD_YEAR_GROUP);
+				this.compareReadDataPeriodicity(readDataPeriodicityStr, line);
 
 				localDate = new LocalDate(year + this.offset, this.month, this.day);
 			} else {
@@ -200,14 +202,14 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		return localDate.toDate();
 	}
 
-	private void compareReadDataPeriodicity(final String readDataPeriodicityStr, final String [] line) {
-		if ( readDataPeriodicityStr != null ) {
+	private void compareReadDataPeriodicity(final String readDataPeriodicityStr, final String[] line) {
+		if (readDataPeriodicityStr != null) {
 			try {
-				final Integer yearPeriod	= Integer.parseInt(readDataPeriodicityStr);
-				final Periodicity tempPeriodicity	= Periodicity.findPeriodicityByCode(yearPeriod + "Y");
-				if ( !tempPeriodicity.equals(this.periodicity) ) {
-					logger.warn(String.format("Periodicity different in read values compared to metadata. Read: %s, metadata: %s. For line: %s",
-							tempPeriodicity, this.periodicity, Arrays.toString(line)));
+				final Integer yearPeriod = Integer.parseInt(readDataPeriodicityStr);
+				final Periodicity tempPeriodicity = Periodicity.findPeriodicityByCode(yearPeriod + "Y");
+				if (!tempPeriodicity.equals(this.periodicity)) {
+					logger.warn(String.format("Periodicity different in read values compared to metadata. Read: %s, metadata: %s. For line: %s", tempPeriodicity, this.periodicity,
+							Arrays.toString(line)));
 				}
 			} catch (final NumberFormatException e) {
 				logger.error(e.getMessage());
@@ -242,9 +244,15 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		return this.periodicity;
 	}
 
+	// @Override
+	// public String getInitialValue(final String[] line) {
+	// return line[4];
+	// }
+
 	@Override
-	public String getInitialValue(final String[] line) {
-		return line[4];
+	public IndicatorImportConfig getIndicatorImportConfig(final String[] line) {
+		// FIXME this should not be mocked to get only the initialValue, but more
+		return new IndicatorImportConfig(line[4], ValidationStatus.SUCCESS);
 	}
 
 	@Override

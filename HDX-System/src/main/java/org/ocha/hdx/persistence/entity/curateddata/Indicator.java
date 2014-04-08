@@ -129,7 +129,7 @@ public class Indicator {
 	private IndicatorValue value;
 
 	@Embedded
-	private final IndicatorImportConfig indicatorImportConfig = new IndicatorImportConfig();
+	private IndicatorImportConfig indicatorImportConfig = new IndicatorImportConfig();
 
 	public long getId() {
 		return this.id;
@@ -213,6 +213,10 @@ public class Indicator {
 
 	public IndicatorImportConfig getIndicatorImportConfig() {
 		return indicatorImportConfig;
+	}
+
+	public void setIndicatorImportConfig(final IndicatorImportConfig indicatorImportConfig) {
+		this.indicatorImportConfig = indicatorImportConfig;
 	}
 
 	public void setInitialValue(final String initialValue) {
