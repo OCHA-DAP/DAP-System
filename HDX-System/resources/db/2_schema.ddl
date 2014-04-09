@@ -219,7 +219,7 @@
         multiplier float8,
         upper_boundary float8,
         validation_message varchar(255),
-        validation_status int4 not null,
+        validation_status varchar(255) not null,
         periodicity varchar(255) not null,
         source_link varchar(255),
         start_time timestamp not null,
