@@ -7,10 +7,10 @@ import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
 import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
 
 /**
- * A mapping of data coming from the database to a structure more easy 
- * to use for the report generation. 
+ * A mapping of data coming from the database to a structure more easy to use for the report generation.
+ * 
  * @author seustachi
- *
+ * 
  */
 public class ReportRow {
 
@@ -99,5 +99,11 @@ public class ReportRow {
 
 	public int getMaxYear() {
 		return maxYear;
+	}
+
+	@Override
+	public String toString() {
+		return "ReportRow [indicatorTypeCode=" + indicatorTypeCode + ", indicatorName=" + indicatorName + ", sourceCode=" + sourceCode + ", unit=" + unit + ", minYear=" + minYear + ", maxYear="
+				+ maxYear + ", metadata=" + metadata + ", valuesForYears=" + valuesForYears + "]";
 	}
 }

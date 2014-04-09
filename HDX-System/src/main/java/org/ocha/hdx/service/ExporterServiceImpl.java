@@ -67,14 +67,14 @@ public class ExporterServiceImpl implements ExporterService {
 		return curatedDataService.listIndicatorsForCountryOverview(countryCode, languageCode);
 	}
 
-
 	/* ******* */
 	/* Exports */
 	/* ******* */
 
 	/**
 	 * Export a country report as XLSX.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	@Override
 	public XSSFWorkbook exportCountry_XLSX(final String countryCode, final Integer fromYear, final Integer toYear, final String language) throws Exception {
@@ -97,8 +97,9 @@ public class ExporterServiceImpl implements ExporterService {
 		// 7. Country - 5-years data
 		// 8. Read me
 
-		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryReadme_XLSX(new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(new ExporterCountrySocioEconomic_XLSX(
-				new ExporterCountryVulnerability_XLSX(new ExporterCountryCapacity_XLSX(new ExporterCountryOther_XLSX(new ExporterCountry5Years_XLSX(new ExporterCountryDefinitions_XLSX(this)))))))));
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryReadme_XLSX(new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(
+				new ExporterCountrySocioEconomic_XLSX(new ExporterCountryVulnerability_XLSX(new ExporterCountryCapacity_XLSX(new ExporterCountryOther_XLSX(new ExporterCountry5Years_XLSX(
+						new ExporterCountryDefinitions_XLSX(this)))))))));
 
 		// final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> countryExporter = new ExporterIndicatorTypeOverview_XLSX(this);
 
@@ -112,7 +113,8 @@ public class ExporterServiceImpl implements ExporterService {
 
 	/**
 	 * Export a country report as CSV.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	@Override
 	public File exportCountry_CSV(final String countryCode, final Integer fromYear, final Integer toYear, final String language) throws Exception {
@@ -138,10 +140,10 @@ public class ExporterServiceImpl implements ExporterService {
 		return file;
 	}
 
-	
 	/**
 	 * Export a country readme as TXT.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	@Override
 	public File exportCountryReadMe_TXT(final String countryCode, final String language) throws Exception {
@@ -161,11 +163,11 @@ public class ExporterServiceImpl implements ExporterService {
 		// Return the workbook
 		return file;
 	}
-	
-	
+
 	/**
 	 * Export an indicator report as XLSX.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	@Override
 	public XSSFWorkbook exportIndicator_XLSX(final String indicatorTypeCode, final String sourceCode, final Long fromYear, final Long toYear, final String language) throws Exception {
@@ -193,7 +195,6 @@ public class ExporterServiceImpl implements ExporterService {
 		return workbook;
 	}
 
-	
 	/* **************** */
 	/* Country reports. */
 	/* **************** */
@@ -261,8 +262,8 @@ public class ExporterServiceImpl implements ExporterService {
 	@Override
 	public Map<String, ReportRow> getCountryCapacityData(final ExporterCountryQueryData queryData) {
 
-		final Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity = curatedDataService.listIndicatorsForCountryCapacity(queryData.getCountryCode(),
-				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
+		final Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity = curatedDataService.listIndicatorsForCountryCapacity(queryData.getCountryCode(), Integer.valueOf(queryData.getFromYear()),
+				Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
 
 		return convertCountryIndicatorsToReports(listIndicatorsForCountryCapacity);
 
@@ -283,6 +284,7 @@ public class ExporterServiceImpl implements ExporterService {
 
 	/**
 	 * Convert a list of country indicators to report rows.
+	 * 
 	 * @param listOfIndicators
 	 * @return
 	 */
@@ -326,7 +328,6 @@ public class ExporterServiceImpl implements ExporterService {
 		return reportRows;
 	}
 
-	
 	/* ****************** */
 	/* Indicator reports. */
 	/* ****************** */
@@ -346,22 +347,22 @@ public class ExporterServiceImpl implements ExporterService {
 	 */
 	@Override
 	public Map<Long, Map<String, IndicatorData>> getIndicatorDataData(final ExporterIndicatorQueryData queryData) {
-		if(queryData.getToYear().equals(new Long(0l))) {
+		if (queryData.getToYear().equals(new Long(0l))) {
 			queryData.setToYear(Long.MAX_VALUE);
 		}
-		final Map<Long, Map<String, IndicatorData>> result = indicatorDataDAO.getIndicatorData(queryData.getIndicatorTypeCode(), queryData.getSourceCode(), queryData.getFromYear(), queryData.getToYear());
+		final Map<Long, Map<String, IndicatorData>> result = indicatorDataDAO.getIndicatorData(queryData.getIndicatorTypeCode(), queryData.getSourceCode(), queryData.getFromYear(),
+				queryData.getToYear());
 		return result;
 		/*
-		final Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory = curatedDataService.listIndicatorsForCountryCrisisHistory(queryData.getIndicatorTypeCode(),
-				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
-
-		return convertCountryIndicatorsToReports(listIndicatorsForCountryCrisisHistory);
-		*/
+		 * final Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory = curatedDataService.listIndicatorsForCountryCrisisHistory(queryData.getIndicatorTypeCode(),
+		 * Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
+		 * 
+		 * return convertCountryIndicatorsToReports(listIndicatorsForCountryCrisisHistory);
+		 */
 	}
 
-	
 	/* ********* */
 	/* Utilities */
 	/* ********* */
-	
+
 }

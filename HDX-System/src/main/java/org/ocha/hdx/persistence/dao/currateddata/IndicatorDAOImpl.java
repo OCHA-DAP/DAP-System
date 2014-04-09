@@ -281,7 +281,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public Map<Integer, List<Object[]>> list5YearsIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 		final String[] indicatorsList = new String[] { "_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "PSP050", "PVH010", "PVH050", "PVH100", "PVH150" };
-		final String[] sourcesList = new String[] { "esa-unpd-WPP2012", "esa-unpd-WPP2012", "esa-unpd-WPP2012", "esa-unpd-WPP2012", "esa-unpd-WPP2012", "esa-unpd-WPP2012" };
+		final String[] sourcesList = new String[] { "esa-unpd-wpp2012", "esa-unpd-wpp2012", "esa-unpd-wpp2012", "esa-unpd-wpp2012", "esa-unpd-wpp2012", "esa-unpd-wpp2012" };
 
 		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.FIVE_YEARS);
 	}
