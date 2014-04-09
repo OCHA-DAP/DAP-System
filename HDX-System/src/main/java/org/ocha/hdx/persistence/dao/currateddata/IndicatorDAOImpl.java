@@ -184,8 +184,8 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
 		// List of indicators relevant for country - overview. TODO Externalize ?
-		final String[] indicatorsList = new String[] { "CD010", "CD030", "CD050", "CD070", "CD080", "CD090", "CG020", "CG030", "CG060", "CG070", "CG080", "CG100", "CG120", "CG140", "CG150", "CG260",
-				"CG290", "_m49-name", "_unterm:ISO Country alpha-2-code" };
+		final String[] indicatorsList = new String[] { "CD010", "CD030", "CD050", "CD060", "CD070", "CD080", "CD090", "CG020", "CG030", "CG060", "CG070", "CG080", "CG100", "CG120", "CG140", "CG150",
+				"CG260", "CG290", "_m49-name", "_unterm:ISO Country alpha-2-code" };
 
 		final List<Object[]> result = new ArrayList<Object[]>();
 		for (final String indicator : indicatorsList) {
