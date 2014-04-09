@@ -176,3 +176,11 @@ search {
 	max-width: 500px;
 	overflow: auto;
 }
+
+.navbar{
+	position : fixed;
+	width : 100%;
+}
+.placeholder-under-menu{
+	height: 50px;
+}

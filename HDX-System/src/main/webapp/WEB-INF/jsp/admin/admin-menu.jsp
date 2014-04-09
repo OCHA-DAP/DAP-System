@@ -88,3 +88,4 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 	</div>
 	<!-- /.navbar-collapse -->
 </nav>
+<div class="placeholder-under-menu"></div>
