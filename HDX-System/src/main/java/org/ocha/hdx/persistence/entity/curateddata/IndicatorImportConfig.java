@@ -17,15 +17,15 @@ public class IndicatorImportConfig {
 	private String initialValue;
 
 	@Column(name = "lower_boundary", nullable = true, updatable = false)
-	private double lowerBoundary;
+	private Double lowerBoundary;
 	@Column(name = "upper_boundary", nullable = true, updatable = false)
-	private double upperBoundary;
+	private Double upperBoundary;
 
 	/**
 	 * very likely to be something like 1000, but could also be a float (conversion, currencies ....)
 	 */
 	@Column(name = "multiplier", nullable = true, updatable = false)
-	private double multiplier;
+	private Double multiplier;
 
 	/**
 	 * sample : YYYY
