@@ -858,7 +858,9 @@ public class AdminResource {
 	@POST
 	@Path("/curated/entities/submitCreate")
 	public Response createEntity(@FormParam("entityTypeCode") final String entityTypeCode, @FormParam("code") final String code, @FormParam("name") final String name) {
+		logger.debug(String.format("Entering createEntity with params code : %s,  name %s, entityTypeCode : %s", code, name, entityTypeCode));
 		curatedDataService.createEntity(code, name, entityTypeCode);
+		logger.debug("Create entity successful, about to return ok");
 		return Response.ok().build();
 	}
 

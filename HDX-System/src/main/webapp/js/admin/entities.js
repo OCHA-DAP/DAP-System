@@ -115,7 +115,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
       return "At least some info should be provided.";
     }
     var entityType = data.entityType;
-    if (null === type) {
+    if (null === entityType) {
       utilities.setFocus('newResource_entityType');
       return "Entity type cannot be empty.";
     }

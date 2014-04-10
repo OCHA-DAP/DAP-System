@@ -1,5 +1,7 @@
 package org.ocha.hdx.persistence.dao.currateddata;
 
+import javax.persistence.PersistenceException;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -92,8 +94,10 @@ public class EntityDAOImplTest {
 
 		final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
 
-		final Text russia = textDAO.createText("Russia");
-		entityDAO.createEntity("RU", russia, country);
+		{
+			final Text russia = textDAO.createText("Russia");
+			entityDAO.createEntity("RU", russia, country);
+		}
 
 		final Entity entityForCode = entityDAO.getEntityByCodeAndType("RU", "country");
 		Assert.assertEquals("Russia", entityForCode.getName().getDefaultValue());
@@ -101,6 +105,22 @@ public class EntityDAOImplTest {
 
 		final Entity entityById = entityDAO.getEntityById(entityForCode.getId());
 		Assert.assertEquals("Russia", entityById.getName().getDefaultValue());
+
+		try {
+			final Text russia = textDAO.createText("Russia");
+			entityDAO.createEntity("RU", russia, country);
+			Assert.fail("Should not be able to create a second entity with the same code");
+		} catch (final PersistenceException e) {
+		}
+
+		try {
+			final Text russia = textDAO.createText("Russia2");
+			entityDAO.createEntity("RU ", russia, country);
+			Assert.fail("Should not be able to create a second entity with the same code");
+		} catch (final PersistenceException e) {
+		}
+
+		Assert.assertEquals(1, entityDAO.listEntities().size());
 
 		logger.info("Testing delete entity...");
 		entityDAO.deleteEntityByCodeAndType("RU", "country");
