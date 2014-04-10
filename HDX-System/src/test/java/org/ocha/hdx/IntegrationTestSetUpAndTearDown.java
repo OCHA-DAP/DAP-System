@@ -273,11 +273,11 @@ public class IntegrationTestSetUpAndTearDown {
 
 		indicatorTypeDAO.createIndicatorType("_WPP2012_MORT_F02_CRUDE_DEATH_RATE", nod, uno, ValueType.NUMBER);
 
-		final Text esaunpdWPP2012 = textDAO.createText("esa-unpd-WPP2012");
-		sourceDAO.createSource("esa-unpd-WPP2012", esaunpdWPP2012, "www.test.com", null);
+		final Text esaunpdWPP2012 = textDAO.createText("esa-unpd-wpp2012");
+		sourceDAO.createSource("esa-unpd-wpp2012", esaunpdWPP2012, "www.test.com", null);
 
 		final Entity usa = entityDAO.getEntityByCodeAndType("USA", "country");
-		final Source sourceesaunpdWPP2012 = sourceDAO.getSourceByCode("esa-unpd-WPP2012");
+		final Source sourceesaunpdWPP2012 = sourceDAO.getSourceByCode("esa-unpd-wpp2012");
 		final IndicatorType indicatorTypeF02 = indicatorTypeDAO.getIndicatorTypeByCode("_WPP2012_MORT_F02_CRUDE_DEATH_RATE");
 
 		final DateTime dateTime2008 = new DateTime(2008, 1, 1, 0, 0);
@@ -293,7 +293,7 @@ public class IntegrationTestSetUpAndTearDown {
 
 	public void tearDownDataForCountry5Years() {
 		final AdditionalData additionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey = additionalDataDAO.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(
-				"_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "esa-unpd-WPP2012", EntryKey.DATASET_SUMMARY);
+				"_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "esa-unpd-wpp2012", EntryKey.DATASET_SUMMARY);
 		additionalDataDAO.deleteAdditionalData(additionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey.getId());
 		indicatorDAO.deleteAllIndicators();
 
@@ -305,7 +305,7 @@ public class IntegrationTestSetUpAndTearDown {
 
 		indicatorTypeDAO.deleteIndicatorTypeByCode("_WPP2012_MORT_F02_CRUDE_DEATH_RATE");
 
-		sourceDAO.deleteSourceByCode("esa-unpd-WPP2012");
+		sourceDAO.deleteSourceByCode("esa-unpd-wpp2012");
 
 		try {
 			unitDAO.deleteUnit(unitDAO.getUnitByCode("uno").getId());

@@ -185,7 +185,7 @@ public class IndicatorDAOImplTest {
 
 		{
 			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("USA", "FR");
-			Assert.assertEquals(19, listIndicatorsForCountryOverview.size());
+			Assert.assertEquals(20, listIndicatorsForCountryOverview.size());
 			final Object[] element = listIndicatorsForCountryOverview.get(0);
 			Assert.assertEquals(5, element.length);
 			Assert.assertEquals("CD010", element[0]);
@@ -196,7 +196,7 @@ public class IndicatorDAOImplTest {
 
 		{
 			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("COL", "FR");
-			Assert.assertEquals(19, listIndicatorsForCountryOverview.size());
+			Assert.assertEquals(20, listIndicatorsForCountryOverview.size());
 			final Object[] element = listIndicatorsForCountryOverview.get(0);
 			Assert.assertEquals(1, element.length);
 			Assert.assertEquals("CD010", element[0]);
@@ -272,7 +272,7 @@ public class IndicatorDAOImplTest {
 
 		{
 			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("USA", "FR");
-			Assert.assertEquals(19, listIndicatorsForCountryOverview.size());
+			Assert.assertEquals(20, listIndicatorsForCountryOverview.size());
 			final Object[] element = listIndicatorsForCountryOverview.get(0);
 			Assert.assertEquals(5, element.length);
 			Assert.assertEquals("CD010", element[0]);
@@ -283,7 +283,7 @@ public class IndicatorDAOImplTest {
 
 		{
 			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("COL", "FR");
-			Assert.assertEquals(19, listIndicatorsForCountryOverview.size());
+			Assert.assertEquals(20, listIndicatorsForCountryOverview.size());
 			final Object[] element = listIndicatorsForCountryOverview.get(0);
 			Assert.assertEquals(1, element.length);
 			Assert.assertEquals("CD010", element[0]);
