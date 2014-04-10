@@ -364,7 +364,8 @@ public class HDXServiceImpl implements HDXService {
 	List<String> getDatasetNamesFromQuery(final String apiKey) {
 		final String jsonResult = this.performHttpGET(this.urlBaseForDatasetsList, apiKey);
 		if (jsonResult == null) {
-			return null;
+			log.warn(String.format("Got null result from %s", this.urlBaseForDatasetsList));
+			return new ArrayList<String>();
 		} else {
 			final DatasetListV3DTO returnedValue = GSONBuilderWrapper.getGSON().fromJson(jsonResult, DatasetListV3DTO.class);
 			return returnedValue.getResult();
