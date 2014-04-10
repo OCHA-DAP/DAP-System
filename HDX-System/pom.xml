@@ -8,7 +8,10 @@
 
 
   <properties>
+    <timestamp>${maven.build.timestamp}</timestamp>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
     <hdx.official.version>v0.2Beta (Warp Coil) - ${project.version} </hdx.official.version>
+    <hdx.build.date>Build date : ${timestamp} </hdx.build.date>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
 
