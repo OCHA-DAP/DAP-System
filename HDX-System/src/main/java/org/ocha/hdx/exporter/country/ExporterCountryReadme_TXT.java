@@ -37,25 +37,26 @@ public class ExporterCountryReadme_TXT extends Exporter_File<ExporterCountryQuer
 			if ((null != previousSentence) && (sentence.getRow() == previousSentence.getRow())) {
 				final int index = content.size() - 1;
 				final String line = content.get(index) + " : " + sentence.getSentence();
-				content.set(index, line); 
-				
+				content.set(index, line);
+
 			} else {
 				final String line = sentence.getSentence();
 				content.add(line);
 			}
 			previousSentence = sentence;
 		}
-		
+
 		content.add("");
 		content.add("");
 		content.add("");
+		content.add("COUNTRY OVERVIEW");
 
 		// The overview data
 		final List<Object[]> overviewData = exporterService.getCountryOverviewData(queryData);
 		for (final Object[] objects : overviewData) {
-			content.add(objects[0] + " : " + objects[1]);
+			content.add(objects[1] + " : " + objects[2]);
 		}
-		
+
 		// Write the file
 		writeTXTFile(content, file);
 
