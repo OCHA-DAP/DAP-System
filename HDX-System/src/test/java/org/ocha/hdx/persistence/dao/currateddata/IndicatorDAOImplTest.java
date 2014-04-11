@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.hdx.IntegrationTestSetUpAndTearDown;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
@@ -258,7 +259,11 @@ public class IndicatorDAOImplTest {
 
 		integrationTestSetUpAndTearDown.setUpDataForCountryCrisisHistory();
 
-		final Map<String, Integer> minMaxDatesForCountryIndicators = indicatorDAO.getMinMaxDatesForCountryIndicators("USA", new String[] { "CH070", "CH080" }, new String[] { "emdat", "emdat" });
+		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
+		dataSeries.add(new DataSerie("CH070", "emdat"));
+		dataSeries.add(new DataSerie("CH080", "emdat"));
+
+		final Map<String, Integer> minMaxDatesForCountryIndicators = indicatorDAO.getMinMaxDatesForCountryIndicators("USA", dataSeries);
 		Assert.assertEquals(2, minMaxDatesForCountryIndicators.size());
 		Assert.assertEquals(new Integer(2008), minMaxDatesForCountryIndicators.get("MIN"));
 		Assert.assertEquals(new Integer(2009), minMaxDatesForCountryIndicators.get("MAX"));

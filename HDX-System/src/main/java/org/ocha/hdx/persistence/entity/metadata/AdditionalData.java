@@ -73,7 +73,7 @@ public class AdditionalData {
 	public AdditionalData(final IndicatorType type, final Source source, final EntryKey entryKey, final Text entryValue) {
 		super();
 		this.source = source;
-		indicatorType = type;
+		this.indicatorType = type;
 		this.entryKey = entryKey;
 		this.entryValue = entryValue;
 	}

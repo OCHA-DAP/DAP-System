@@ -17,6 +17,7 @@ import javax.persistence.TypedQuery;
 
 import org.joda.time.DateTime;
 import org.ocha.hdx.importer.TimeRange;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
@@ -214,10 +215,15 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 
 		// List of indicators relevant for country - crisis history. Each indicator type has an associated source here TODO Externalize ?
-		final String[] indicatorsList = new String[] { "CH070", "CH080", "CH090", "CH100" };
-		final String[] sourcesList = new String[] { "emdat", "emdat", "emdat", "emdat" };
 
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.YEAR);
+		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
+
+		dataSeries.add(new DataSerie("CH070", "emdat"));
+		dataSeries.add(new DataSerie("CH080", "emdat"));
+		dataSeries.add(new DataSerie("CH090", "emdat"));
+		dataSeries.add(new DataSerie("CH100", "emdat"));
+
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
 	}
 
 	/*
@@ -226,11 +232,22 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountrySocioEconomic(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 		// List of indicators relevant for country - socio-economic. Each indicator type has an associated source here TODO Externalize ?
-		final String[] indicatorsList = new String[] { "PSE030", "PSE090", "PSE120", "PSE130", "PSP080", "PSE140", "PSE150", "PSE200", "PSP010", "PSP060", "PSP090", "PSP110" };
-		final String[] sourcesList = new String[] { "world-bank", "world-bank", "world-bank", "world-bank", "esa-unpd-wpp2012", "world-bank", "world-bank", "world-bank", "esa-unpd-wpp2012",
-				"world-bank", "world-bank", "world-bank" };
 
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.YEAR);
+		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
+		dataSeries.add(new DataSerie("PSE030", "world-bank"));
+		dataSeries.add(new DataSerie("PSE090", "world-bank"));
+		dataSeries.add(new DataSerie("PSE120", "world-bank"));
+		dataSeries.add(new DataSerie("PSE130", "world-bank"));
+		dataSeries.add(new DataSerie("PSP080", "esa-unpd-wpp2012"));
+		dataSeries.add(new DataSerie("PSE140", "world-bank"));
+		dataSeries.add(new DataSerie("PSE150", "world-bank"));
+		dataSeries.add(new DataSerie("PSE200", "world-bank"));
+		dataSeries.add(new DataSerie("PSP010", "esa-unpd-wpp2012"));
+		dataSeries.add(new DataSerie("PSP060", "world-bank"));
+		dataSeries.add(new DataSerie("PSP090", "world-bank"));
+		dataSeries.add(new DataSerie("PSP110", "world-bank"));
+
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
 	}
 
 	/*
@@ -239,10 +256,16 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 		// List of indicators relevant for country - vulnerability. Each indicator type has an associated source here TODO Externalize ?
-		final String[] indicatorsList = new String[] { "PVE130", "PVF020", "PVH140", "PVL040", "PVN010", "PVW010", "PVW040" };
-		final String[] sourcesList = new String[] { "mdgs", "faostat3", "mdgs", "world-bank", "fao-foodsec", "mdgs", "mdgs" };
+		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
+		dataSeries.add(new DataSerie("PVE130", "mdgs"));
+		dataSeries.add(new DataSerie("PVF020", "faostat3"));
+		dataSeries.add(new DataSerie("PVH140", "mdgs"));
+		dataSeries.add(new DataSerie("PVL040", "world-bank"));
+		dataSeries.add(new DataSerie("PVN010", "fao-foodsec"));
+		dataSeries.add(new DataSerie("PVW010", "mdgs"));
+		dataSeries.add(new DataSerie("PVW040", "mdgs"));
 
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.YEAR);
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
 	}
 
 	/*
@@ -251,10 +274,14 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 		// List of indicators relevant for country - capacity. Each indicator type has an associated source here TODO Externalize ?
-		final String[] indicatorsList = new String[] { "PCX051", "PCX080", "PCX090", "PCX100" };
-		final String[] sourcesList = new String[] { "mdgs", "mdgs", "world-bank", "world-bank" };
 
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.YEAR);
+		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
+		dataSeries.add(new DataSerie("PCX051", "mdgs"));
+		dataSeries.add(new DataSerie("PCX080", "mdgs"));
+		dataSeries.add(new DataSerie("PCX090", "world-bank"));
+		dataSeries.add(new DataSerie("PCX100", "world-bank"));
+
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
 	}
 
 	/*
@@ -263,16 +290,35 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 		// List of indicators relevant for country - other. Each indicator type has an associated source here TODO Externalize ?
-		final String[] indicatorsList = new String[] { "_Children 1 year old immunized against measles, percentage", "_emdat:no_homeless", "_emdat:no_injured", "_emdat:total_affected",
-				"_GNI, PPP (current international $)", "_Internet users per 100 inhabitants", "_Land area (sq. km)", "_Net ODA received per capita (current US$)", "_Number of infant deaths",
-				"_Population, total", "_Population undernourished, millions", "_Population undernourished, percentage", "_reliefweb_Humanitarian_Bulletin", "_reliefweb_Humanitarian_Dashboard",
-				"_reliefweb_Humanitarian_Snapshot", "_reliefweb_Infographic", "_reliefweb_Key_Messages", "_reliefweb_Other", "_reliefweb_Press_Release", "_reliefweb_Press_Review",
-				"_reliefweb_Reference_Map", "_reliefweb_Situation_Report", "_reliefweb_Statement/Speech", "_reliefweb_Thematic_Map" };
-		final String[] sourcesList = new String[] { "mdgs", "emdat", "emdat", "emdat", "world-bank", "mdgs", "world-bank", "world-bank", "world-bank", "world-bank", "mdgs", "mdgs", "reliefweb-api",
-				"reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api", "reliefweb-api",
-				"reliefweb-api" };
 
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.YEAR);
+		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
+		dataSeries.add(new DataSerie("_Children 1 year old immunized against measles, percentage", "mdgs"));
+		dataSeries.add(new DataSerie("_emdat:no_homeless", "emdat"));
+		dataSeries.add(new DataSerie("_emdat:no_injured", "emdat"));
+		dataSeries.add(new DataSerie("_emdat:total_affected", "emdat"));
+		dataSeries.add(new DataSerie("_GNI, PPP (current international $)", "world-bank"));
+		dataSeries.add(new DataSerie("_Internet users per 100 inhabitants", "mdgs"));
+		dataSeries.add(new DataSerie("_Land area (sq. km)", "world-bank"));
+		dataSeries.add(new DataSerie("_Net ODA received per capita (current US$)", "world-bank"));
+		dataSeries.add(new DataSerie("_Number of infant deaths", "world-bank"));
+
+		dataSeries.add(new DataSerie("_Population, total", "world-bank"));
+		dataSeries.add(new DataSerie("_Population undernourished, millions", "mdgs"));
+		dataSeries.add(new DataSerie("_Population undernourished, percentage", "mdgs"));
+		dataSeries.add(new DataSerie("_reliefweb_Humanitarian_Bulletin", "reliefweb-api"));
+		dataSeries.add(new DataSerie("_reliefweb_Humanitarian_Dashboard", "reliefweb-api"));
+		dataSeries.add(new DataSerie("_reliefweb_Humanitarian_Snapshot", "reliefweb-api"));
+		dataSeries.add(new DataSerie("_reliefweb_Infographic", "reliefweb-api"));
+		dataSeries.add(new DataSerie("_reliefweb_Key_Messages", "reliefweb-api"));
+		dataSeries.add(new DataSerie("_reliefweb_Other", "reliefweb-api"));
+		dataSeries.add(new DataSerie("_reliefweb_Press_Release", "reliefweb-api"));
+		dataSeries.add(new DataSerie("_reliefweb_Press_Review", "reliefweb-api"));
+		dataSeries.add(new DataSerie("_reliefweb_Reference_Map", "reliefweb-api"));
+		dataSeries.add(new DataSerie("_reliefweb_Situation_Report", "reliefweb-api"));
+		dataSeries.add(new DataSerie("_reliefweb_Statement/Speech", "reliefweb-api"));
+		dataSeries.add(new DataSerie("_reliefweb_Thematic_Map", "reliefweb-api"));
+
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
 	}
 
 	/*
@@ -280,17 +326,22 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 */
 	@Override
 	public Map<Integer, List<Object[]>> list5YearsIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		final String[] indicatorsList = new String[] { "_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "PSP050", "PVH010", "PVH050", "PVH100", "PVH150" };
-		final String[] sourcesList = new String[] { "esa-unpd-wpp2012", "esa-unpd-wpp2012", "esa-unpd-wpp2012", "esa-unpd-wpp2012", "esa-unpd-wpp2012", "esa-unpd-wpp2012" };
+		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
+		dataSeries.add(new DataSerie("_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "esa-unpd-wpp2012"));
+		dataSeries.add(new DataSerie("PSP050", "esa-unpd-wpp2012"));
+		dataSeries.add(new DataSerie("PVH010", "esa-unpd-wpp2012"));
+		dataSeries.add(new DataSerie("PVH050", "esa-unpd-wpp2012"));
+		dataSeries.add(new DataSerie("PVH100", "esa-unpd-wpp2012"));
+		dataSeries.add(new DataSerie("PVH150", "esa-unpd-wpp2012"));
 
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, indicatorsList, sourcesList, languageCode, Periodicity.FIVE_YEARS);
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.FIVE_YEARS);
 	}
 
 	/*
 	 * Generic method to get indicators for a given country.
 	 */
-	private Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String[] indicatorsList, final String[] sourcesList,
-			final String languageCode, final Periodicity periodicity) {
+	private Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final List<DataSerie> dataSeries, final String languageCode,
+			final Periodicity periodicity) {
 		int fromYear_ = fromYear;
 		int toYear_ = toYear;
 
@@ -298,7 +349,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		Map<String, Integer> minMax = null;
 		if (0 == fromYear) {
 			// Find the earliest year available
-			minMax = getMinMaxDatesForCountryIndicators(countryCode, indicatorsList, sourcesList);
+			minMax = getMinMaxDatesForCountryIndicators(countryCode, dataSeries);
 			fromYear_ = minMax.get("MIN");
 		}
 
@@ -306,7 +357,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		if (0 == toYear) {
 			// Find the latest year available
 			if (null == minMax) {
-				minMax = getMinMaxDatesForCountryIndicators(countryCode, indicatorsList, sourcesList);
+				minMax = getMinMaxDatesForCountryIndicators(countryCode, dataSeries);
 			}
 			toYear_ = minMax.get("MAX");
 		}
@@ -315,15 +366,18 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		for (int year = fromYear_; year <= toYear_; year++) {
 			final DateTime yearAsDate = new DateTime(year, 1, 1, 0, 0);
 			final List<Object[]> yearResult = new ArrayList<Object[]>();
-			for (int i = 0; i < indicatorsList.length; i++) {
-				final String indicator = indicatorsList[i];
-				final String sourceCode = sourcesList[i];
+			for (int i = 0; i < dataSeries.size(); i++) {
+
+				final DataSerie dataSerie = dataSeries.get(i);
+				final String indicatorCode = dataSerie.getIndicatorCode();
+				final String sourceCode = dataSerie.getSourceCode();
+
 				// FIXME this should be possible to run only one query per indicator, with several results, one per year. Only if there is one and only one result per year, no updates
 				final Query query = em
 						.createQuery(
 								"SELECT i.type.code, i.type.name.defaultValue, i.type.unit.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.source.code = :sourceCode "
 										+ "AND i.entity.code = :countryCode AND i.periodicity = :periodicity and i.start = :start").setParameter("isCountry", "country")
-						.setParameter("code", indicator).setParameter("sourceCode", sourceCode).setParameter("countryCode", countryCode).setParameter("periodicity", periodicity)
+						.setParameter("code", indicatorCode).setParameter("sourceCode", sourceCode).setParameter("countryCode", countryCode).setParameter("periodicity", periodicity)
 						.setParameter("start", yearAsDate.toDate());
 				Object[] queryResult = null;
 				try {
@@ -331,7 +385,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 				} catch (final NoResultException e) {
 					// It is possible that no value exists for the given indicator.
 					// So we just put the indicator in the result.
-					queryResult = new Object[] { indicator };
+					queryResult = new Object[] { indicatorCode };
 				}
 				yearResult.add(queryResult);
 			}
@@ -344,11 +398,11 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 * For a given country and list of indicators, find the earliest and latest years of information available.
 	 */
 	@Override
-	public Map<String, Integer> getMinMaxDatesForCountryIndicators(final String countryCode, final String[] indicatorsList, final String[] sourcesList) {
+	public Map<String, Integer> getMinMaxDatesForCountryIndicators(final String countryCode, final List<DataSerie> dataSeries) {
 		String query_ = "SELECT MIN(i.start), MAX(i.start) from Indicator i WHERE i.entity.type.code = :isCountry AND i.entity.code = :countryCode AND i.periodicity = :periodicity AND (";
-		for (int i = 0; i < indicatorsList.length; i++) {
+		for (int i = 0; i < dataSeries.size(); i++) {
 			query_ += "(i.source.code = :sourceCode_" + i + " AND i.type.code = :code_" + i + ")";
-			if (i < (indicatorsList.length - 1)) {
+			if (i < (dataSeries.size() - 1)) {
 				query_ += " OR ";
 			}
 		}
@@ -361,10 +415,11 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		query.setParameter("countryCode", countryCode);
 		query.setParameter("periodicity", Periodicity.YEAR);
 
-		for (int i = 0; i < indicatorsList.length; i++) {
-			final String indicator = indicatorsList[i];
-			final String sourceCode = sourcesList[i];
-			query.setParameter("code_" + i, indicator);
+		for (int i = 0; i < dataSeries.size(); i++) {
+			final DataSerie dataSerie = dataSeries.get(i);
+			final String indicatorCode = dataSerie.getIndicatorCode();
+			final String sourceCode = dataSerie.getSourceCode();
+			query.setParameter("code_" + i, indicatorCode);
 			query.setParameter("sourceCode_" + i, sourceCode);
 		}
 		Object[] queryResult = null;

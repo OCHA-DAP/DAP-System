@@ -50,11 +50,11 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 		/* TODO i18n */
 
 		// Creating the sheet
-		final String safeName = WorkbookUtil.createSafeSheetName("Definitions");
+		final String safeName = WorkbookUtil.createSafeSheetName("Indicators definitions");
 		final XSSFSheet sheet = workbook.createSheet(safeName);
 
 		// Assign the headers to the title row
-		final String[] headers = { "Indicator type", "Definition" };
+		final String[] headers = { "Indicator type", "Definition", "Source dataset" };
 		createColumnHeaderCells(sheet, headers);
 
 		// Fill with the data

@@ -48,7 +48,6 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		final ArrayList<Object> headers = new ArrayList<Object>();
 		headers.add("Indicator ID");
 		headers.add("Indicator name");
-		headers.add("Source dataset");
 		headers.add("Units");
 		headers.add("Dataset summary");
 		headers.add("More Info");
@@ -93,7 +92,7 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 
 			createLinkCell(row, 0, reportRow.getIndicatorTypeCode(), "'Definitions'!A1");
 			createCell(row, 1, reportRow.getIndicatorName());
-			createCell(row, 2, reportRow.getSourceCode());
+			// createCell(row, 2, reportRow.getSourceCode());
 			createCell(row, 3, reportRow.getUnit());
 
 			// Keep track of the indicator types processed
