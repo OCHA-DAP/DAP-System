@@ -53,6 +53,8 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 		final String safeName = WorkbookUtil.createSafeSheetName("Indicators definitions");
 		final XSSFSheet sheet = workbook.createSheet(safeName);
 
+		workbook.setSheetOrder(safeName, 1);
+
 		// Assign the headers to the title row
 		final String[] headers = { "Indicator type", "Definition", "Source dataset" };
 		createColumnHeaderCells(sheet, headers);
