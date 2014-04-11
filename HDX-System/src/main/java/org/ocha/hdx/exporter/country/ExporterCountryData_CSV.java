@@ -10,7 +10,7 @@ import java.util.Map;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_File;
 import org.ocha.hdx.exporter.helper.ReportRow;
-import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
 import org.ocha.hdx.service.ExporterService;
 
 /**
@@ -93,7 +93,7 @@ public class ExporterCountryData_CSV extends Exporter_File<ExporterCountryQueryD
 		// Number of columns
 		final int dataSize = headers.size();
 
-		// We represent the content as a List of arrays, 
+		// We represent the content as a List of arrays,
 		// each array being a line in the final CSV file.
 		final List<String[]> content = new ArrayList<String[]>();
 
@@ -131,15 +131,16 @@ public class ExporterCountryData_CSV extends Exporter_File<ExporterCountryQueryD
 				content.add(row);
 			}
 		}
-		
+
 		// Write the file
-		writeCSVFile(content, ",",  file);
-		
+		writeCSVFile(content, ",", file);
+
 		return file;
 	}
 
 	/**
 	 * Avoid null values in CSV content
+	 * 
 	 * @param row
 	 */
 	private static void initRow(final String[] row) {

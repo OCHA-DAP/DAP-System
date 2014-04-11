@@ -46,7 +46,7 @@ import org.ocha.hdx.persistence.entity.i18n.Language;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.i18n.Translation;
 import org.ocha.hdx.persistence.entity.i18n.Translation.Id;
-import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
 import org.ocha.hdx.rest.helper.DisplayIndicatorTypeDictionaries;
 import org.ocha.hdx.rest.helper.DisplayIndicators;
 import org.ocha.hdx.rest.helper.DisplayRegionDictionaries;
@@ -1290,16 +1290,16 @@ public class AdminResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/curated/metadataForIndicatorTypeAndSource/json")
 	public String getMetadataForIndicatorTypeAndSource(@QueryParam("indicatorTypeCode") final String indicatorTypeCode, @QueryParam("sourceCode") final String sourceCode) throws TypeMismatchException {
-		final List<AdditionalData> metadataForIndicatorTypeAndSource = curatedDataService.getMetadataForIndicatorTypeAndSource(indicatorTypeCode, sourceCode);
+		final List<DataSerieMetadata> metadataForIndicatorTypeAndSource = curatedDataService.getMetadataForIndicatorTypeAndSource(indicatorTypeCode, sourceCode);
 		final JsonArray jsonArray = new JsonArray();
-		for (final AdditionalData additionalData : metadataForIndicatorTypeAndSource) {
-			final JsonObject jsonAdditionalData = new JsonObject();
-			jsonAdditionalData.addProperty("entryKey", additionalData.getEntryKey().toString());
-			jsonAdditionalData.addProperty("entryValue", additionalData.getEntryValue().getDefaultValue());
-			jsonAdditionalData.add("translations", translationsToJson(additionalData.getEntryValue().getTranslations()));
-			jsonAdditionalData.addProperty("indicatorCode", additionalData.getIndicatorType().getCode());
-			jsonAdditionalData.addProperty("sourceCode", additionalData.getSource().getCode());
-			jsonArray.add(jsonAdditionalData);
+		for (final DataSerieMetadata dataSerieMetadata : metadataForIndicatorTypeAndSource) {
+			final JsonObject jsonDataSerieMetadata = new JsonObject();
+			jsonDataSerieMetadata.addProperty("entryKey", dataSerieMetadata.getEntryKey().toString());
+			jsonDataSerieMetadata.addProperty("entryValue", dataSerieMetadata.getEntryValue().getDefaultValue());
+			jsonDataSerieMetadata.add("translations", translationsToJson(dataSerieMetadata.getEntryValue().getTranslations()));
+			jsonDataSerieMetadata.addProperty("indicatorCode", dataSerieMetadata.getIndicatorType().getCode());
+			jsonDataSerieMetadata.addProperty("sourceCode", dataSerieMetadata.getSource().getCode());
+			jsonArray.add(jsonDataSerieMetadata);
 		}
 		return jsonArray.toString();
 	}

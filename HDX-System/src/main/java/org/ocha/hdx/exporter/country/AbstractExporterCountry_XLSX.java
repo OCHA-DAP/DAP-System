@@ -14,7 +14,7 @@ import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_XLSX;
 import org.ocha.hdx.exporter.QueryData.CHANNEL_KEYS;
 import org.ocha.hdx.exporter.helper.ReportRow;
-import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
 import org.ocha.hdx.service.ExporterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

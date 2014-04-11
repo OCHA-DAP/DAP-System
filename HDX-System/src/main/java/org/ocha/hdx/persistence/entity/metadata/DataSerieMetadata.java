@@ -25,14 +25,14 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
  * 
  */
 @Entity
-@Table(name = "hdx_additional_data")
-@SequenceGenerator(name = "hdx_additional_data_seq", sequenceName = "hdx_additional_data_seq")
-public class AdditionalData {
+@Table(name = "hdx_dataserie_metadata")
+@SequenceGenerator(name = "hdx_dataserie_metadata_seq", sequenceName = "hdx_dataserie_metadata_seq")
+public class DataSerieMetadata {
 
 	public enum EntryKey {
 		METHODOLOGY("Methodology"), MORE_INFO("More info"), DATASET_SUMMARY("Dataset summary"), TERMS_OF_USE("Terms of use"), EXPECTED_TIME_FORMAT("Expected time format"), INTERPRETED_START_TIME(
 				"Interpreted start time"), INTERPRETED_END_TIME("Interpreted end time"), INTERPRETED_PERIODICITY("Interpreted periodicity"), VALIDATION_NOTES("Validation notes");
-		private String label;
+		private final String label;
 
 		private EntryKey(final String label) {
 			this.label = label;
@@ -44,7 +44,7 @@ public class AdditionalData {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "hdx_additional_data_seq")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "hdx_dataserie_metadata_seq")
 	@Column(name = "id", nullable = false)
 	private long id;
 
@@ -67,10 +67,10 @@ public class AdditionalData {
 	@ForeignKey(name = "fk_additional_data_to_name_text")
 	private Text entryValue;
 
-	public AdditionalData() {
+	public DataSerieMetadata() {
 	}
 
-	public AdditionalData(final IndicatorType type, final Source source, final EntryKey entryKey, final Text entryValue) {
+	public DataSerieMetadata(final IndicatorType type, final Source source, final EntryKey entryKey, final Text entryValue) {
 		super();
 		this.source = source;
 		this.indicatorType = type;

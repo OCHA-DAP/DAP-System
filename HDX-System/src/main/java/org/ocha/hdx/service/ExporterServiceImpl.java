@@ -26,12 +26,12 @@ import org.ocha.hdx.exporter.indicator.ExporterIndicatorData_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeOverview_XLSX;
-import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAO;
+import org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAO;
 import org.ocha.hdx.persistence.dao.view.IndicatorDataDAO;
 import org.ocha.hdx.persistence.dao.view.IndicatorTypeOverviewDAO;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
-import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
-import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
 import org.ocha.hdx.persistence.entity.view.IndicatorData;
 import org.ocha.hdx.persistence.entity.view.IndicatorTypeOverview;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class ExporterServiceImpl implements ExporterService {
 	private CuratedDataService curatedDataService;
 
 	@Autowired
-	private AdditionalDataDAO additionalDataDAO;
+	private DataSerieMetadataDAO dataSerieMetadataDAO;
 
 	@Autowired
 	private IndicatorTypeOverviewDAO indicatorTypeOverviewDAO;
@@ -303,19 +303,20 @@ public class ExporterServiceImpl implements ExporterService {
 						final String sourceCode = record[5].toString();
 						final ReportRow row = new ReportRow(indicatorTypeCode, record[1].toString(), sourceCode, record[2].toString());
 
-						final AdditionalData datasetSummary = additionalDataDAO.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.DATASET_SUMMARY);
+						final DataSerieMetadata datasetSummary = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode,
+								EntryKey.DATASET_SUMMARY);
 						final String datasetSummaryAsString = datasetSummary != null ? datasetSummary.getEntryValue().getDefaultValue() : "";
 						row.addMetadata(EntryKey.DATASET_SUMMARY, datasetSummaryAsString);
 
-						final AdditionalData methodology = additionalDataDAO.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.METHODOLOGY);
+						final DataSerieMetadata methodology = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.METHODOLOGY);
 						final String methodologyAsString = methodology != null ? methodology.getEntryValue().getDefaultValue() : "";
 						row.addMetadata(EntryKey.METHODOLOGY, methodologyAsString);
 
-						final AdditionalData moreInfo = additionalDataDAO.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.MORE_INFO);
+						final DataSerieMetadata moreInfo = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.MORE_INFO);
 						final String moreInfoAsString = moreInfo != null ? moreInfo.getEntryValue().getDefaultValue() : "";
 						row.addMetadata(EntryKey.MORE_INFO, moreInfoAsString);
 
-						final AdditionalData termsOfUse = additionalDataDAO.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.TERMS_OF_USE);
+						final DataSerieMetadata termsOfUse = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.TERMS_OF_USE);
 						final String termsOfUseAsString = termsOfUse != null ? termsOfUse.getEntryValue().getDefaultValue() : "";
 						row.addMetadata(EntryKey.TERMS_OF_USE, termsOfUseAsString);
 

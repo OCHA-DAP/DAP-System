@@ -3,8 +3,8 @@ package org.ocha.hdx.exporter.helper;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
-import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
 
 /**
  * A mapping of data coming from the database to a structure more easy to use for the report generation.
@@ -22,7 +22,7 @@ public class ReportRow {
 	private int maxYear = Integer.MIN_VALUE;
 
 	/**
-	 * Metadata from AdditionalData
+	 * Metadata from DataSerieMetadata
 	 */
 	private final Map<EntryKey, String> metadata;
 
@@ -37,7 +37,7 @@ public class ReportRow {
 		this.indicatorName = indicatorName;
 		this.sourceCode = sourceCode;
 		this.unit = unit;
-		metadata = new HashMap<AdditionalData.EntryKey, String>();
+		metadata = new HashMap<DataSerieMetadata.EntryKey, String>();
 		valuesForYears = new HashMap<Integer, String>();
 	}
 

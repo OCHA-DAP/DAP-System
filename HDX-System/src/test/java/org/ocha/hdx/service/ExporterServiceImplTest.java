@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
 import org.ocha.hdx.IntegrationTestSetUpAndTearDown;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.exporter.helper.ReportRow;
-import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

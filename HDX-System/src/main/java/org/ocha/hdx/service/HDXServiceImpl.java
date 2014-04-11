@@ -38,7 +38,7 @@ import org.ocha.hdx.persistence.dao.ckan.CKANResourceDAO;
 import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.dao.i18n.LanguageDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
-import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAO;
+import org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAO;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
@@ -113,7 +113,7 @@ public class HDXServiceImpl implements HDXService {
 	private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	@Autowired
-	private AdditionalDataDAO additionalDataDAO;
+	private DataSerieMetadataDAO dataSerieMetadataDAO;
 
 	@Override
 	public boolean addResourceToCKANDataset(final String packageId, final String resourceUrl, final String name) {

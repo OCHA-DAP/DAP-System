@@ -23,7 +23,7 @@ import org.ocha.hdx.persistence.dao.dictionary.IndicatorTypeDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.RegionDictionaryDAO;
 import org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
-import org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAO;
+import org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.EntityType;
@@ -39,8 +39,8 @@ import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.i18n.Translation;
-import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
-import org.ocha.hdx.persistence.entity.metadata.AdditionalData.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +94,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	private UnitDAO unitDAO;
 
 	@Autowired
-	private AdditionalDataDAO additionalDataDAO;
+	private DataSerieMetadataDAO dataSerieMetadataDAO;
 
 	/*
 	 * Entity types
@@ -703,16 +703,16 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	/* Metadata */
 
 	@Override
-	public List<AdditionalData> getMetadataForIndicatorTypeAndSource(final String indicatorTypeCode, final String sourceCode) {
-		return additionalDataDAO.listAdditionalDataByIndicatorTypeCodeAndSourceCode(indicatorTypeCode, sourceCode);
+	public List<DataSerieMetadata> getMetadataForIndicatorTypeAndSource(final String indicatorTypeCode, final String sourceCode) {
+		return dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(indicatorTypeCode, sourceCode);
 
 	}
 
 	@Override
 	public void updateMetadataForIndicatorTypeAndSource(final String which, final String data, final String languageCode, final String indicatorTypeCode, final String sourceCode) {
 		final EntryKey entryKey = EntryKey.valueOf(which);
-		final AdditionalData additionalData = additionalDataDAO.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
-		if (null == additionalData) {
+		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
+		if (null == dataSerieMetadata) {
 			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
 			final Source source = sourceDAO.getSourceByCode(sourceCode);
 			Text text = null;
@@ -722,26 +722,26 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 				text = textDAO.createText("");
 				textDAO.createTranslationForText(text.getId(), languageCode, data);
 			}
-			additionalDataDAO.createAdditionalData(indicatorType, source, entryKey, text);
+			dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, entryKey, text);
 		} else {
 			if ("default".equals(languageCode)) {
-				additionalDataDAO.updateAdditionalData(indicatorTypeCode, sourceCode, which, data);
+				dataSerieMetadataDAO.updateDataSerieMetadata(indicatorTypeCode, sourceCode, which, data);
 			} else {
-				final List<Translation> translations = additionalData.getEntryValue().getTranslations();
+				final List<Translation> translations = dataSerieMetadata.getEntryValue().getTranslations();
 				if (null != translations) {
 					boolean found = false;
 					for (final Translation translation : translations) {
 						if (languageCode.equals(translation.getId().getLanguage().getCode())) {
-							textDAO.updateTranslation(additionalData.getEntryValue().getId(), languageCode, data);
+							textDAO.updateTranslation(dataSerieMetadata.getEntryValue().getId(), languageCode, data);
 							found = true;
 							break;
 						}
 					}
 					if (!found) {
-						textDAO.createTranslationForText(additionalData.getEntryValue().getId(), languageCode, data);
+						textDAO.createTranslationForText(dataSerieMetadata.getEntryValue().getId(), languageCode, data);
 					}
 				} else {
-					textDAO.createTranslationForText(additionalData.getEntryValue().getId(), languageCode, data);
+					textDAO.createTranslationForText(dataSerieMetadata.getEntryValue().getId(), languageCode, data);
 				}
 			}
 		}
@@ -762,14 +762,14 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		for (final EntryKey entryKey : timeParameters.keySet()) {
 			final String data = timeParameters.get(entryKey);
 			if ((null != data) && !"".equals(data)) {
-				final AdditionalData additionalData = additionalDataDAO.getAdditionalDataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
-				if (null == additionalData) {
+				final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
+				if (null == dataSerieMetadata) {
 					final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
 					final Source source = sourceDAO.getSourceByCode(sourceCode);
 					final Text text = textDAO.createText(data);
-					additionalDataDAO.createAdditionalData(indicatorType, source, entryKey, text);
+					dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, entryKey, text);
 				} else {
-					additionalDataDAO.updateAdditionalData(indicatorTypeCode, sourceCode, entryKey.toString(), data);
+					dataSerieMetadataDAO.updateDataSerieMetadata(indicatorTypeCode, sourceCode, entryKey.toString(), data);
 				}
 			}
 		}

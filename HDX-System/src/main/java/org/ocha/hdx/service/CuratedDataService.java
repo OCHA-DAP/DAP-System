@@ -18,7 +18,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
-import org.ocha.hdx.persistence.entity.metadata.AdditionalData;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
 
 import com.google.visualization.datasource.base.TypeMismatchException;
 import com.google.visualization.datasource.datatable.DataTable;
@@ -165,7 +165,7 @@ public interface CuratedDataService {
 	/*
 	 * Metadata
 	 */
-	public List<AdditionalData> getMetadataForIndicatorTypeAndSource(String indicatorTypeCode, String sourceCode);
+	public List<DataSerieMetadata> getMetadataForIndicatorTypeAndSource(String indicatorTypeCode, String sourceCode);
 
 	public void updateMetadataForIndicatorTypeAndSource(String which, String data, String languageCode, String indicatorTypeCode, String sourceCode);
 
@@ -251,6 +251,5 @@ public interface CuratedDataService {
 
 	// Indicator overview
 	public Object[] getIndicatorTypeOverview(String indicatorTypeCode, String sourceCode, String language);
-
 
 }

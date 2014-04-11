@@ -28,7 +28,7 @@
   <bean id="indicatorTypeDictionaryDAO" class="org.ocha.hdx.persistence.dao.dictionary.IndicatorTypeDictionaryDAOImpl" />
   <bean id="organizationDAO" class="org.ocha.hdx.persistence.dao.currateddata.OrganizationDAOImpl" />
   <bean id="resourceConfigurationDAO" class="org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAOImpl" />
-  <bean id="additionalDataDao" class="org.ocha.hdx.persistence.dao.metadata.AdditionalDataDAOImpl" />
+  <bean id="dataSerieMetadataDao" class="org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAOImpl" />
   
   <!-- Views -->
   <bean id="indicatorTypeOverviewDAO" class="org.ocha.hdx.persistence.dao.view.IndicatorTypeOverviewDAOImpl" />
