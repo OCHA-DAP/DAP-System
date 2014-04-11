@@ -49,12 +49,12 @@ public class DataSerieMetadata {
 	private long id;
 
 	@ManyToOne
-	@ForeignKey(name = "fk_additional_data_to_source")
+	@ForeignKey(name = "fk__dataserie_metadata_to_source")
 	@JoinColumn(name = "source_id", nullable = false)
 	private Source source;
 
 	@ManyToOne
-	@ForeignKey(name = "fk_additional_data_to_indicator_type")
+	@ForeignKey(name = "fk__dataserie_metadata_to_indicator_type")
 	@JoinColumn(name = "indicator_type_id", nullable = false)
 	private IndicatorType indicatorType;
 
@@ -64,7 +64,7 @@ public class DataSerieMetadata {
 
 	@ManyToOne
 	@JoinColumn(name = "entry_value_text_id")
-	@ForeignKey(name = "fk_additional_data_to_name_text")
+	@ForeignKey(name = "fk__dataserie_metadata_to_name_text")
 	private Text entryValue;
 
 	public DataSerieMetadata() {

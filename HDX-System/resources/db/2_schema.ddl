@@ -11,14 +11,14 @@
     alter table entity_type 
         drop constraint fk_entity_type_to_name_text;
 
-    alter table hdx_additional_data 
-        drop constraint fk_additional_data_to_source;
+    alter table hdx_dataserie_metadata 
+        drop constraint fk__dataserie_metadata_to_source;
 
-    alter table hdx_additional_data 
-        drop constraint fk_additional_data_to_indicator_type;
+    alter table hdx_dataserie_metadata 
+        drop constraint fk__dataserie_metadata_to_indicator_type;
 
-    alter table hdx_additional_data 
-        drop constraint fk_additional_data_to_name_text;
+    alter table hdx_dataserie_metadata 
+        drop constraint fk__dataserie_metadata_to_name_text;
 
     alter table hdx_indicator 
         drop constraint fk_indicator_to_source;
@@ -91,7 +91,7 @@
 
     drop table entity_type;
 
-    drop table hdx_additional_data;
+    drop table hdx_dataserie_metadata;
 
     drop table hdx_indicator;
 
@@ -129,7 +129,7 @@
 
     drop sequence entity_type_seq;
 
-    drop sequence hdx_additional_data_seq;
+    drop sequence hdx_dataserie_metadata_seq;
 
     drop sequence hdx_unit_seq;
 
@@ -200,7 +200,7 @@
         primary key (id)
     );
 
-    create table hdx_additional_data (
+    create table hdx_dataserie_metadata (
         id int8 not null,
         entry_key varchar(255) not null,
         entry_value_text_id int8,
@@ -257,6 +257,7 @@
         role varchar(255),
         primary key (id)
     );
+
 
     create table import_from_ckan (
         id int8 not null,
@@ -369,18 +370,18 @@
         foreign key (text_id) 
         references text;
 
-    alter table hdx_additional_data 
-        add constraint fk_additional_data_to_source 
+    alter table hdx_dataserie_metadata 
+        add constraint fk__dataserie_metadata_to_source 
         foreign key (source_id) 
         references source;
 
-    alter table hdx_additional_data 
-        add constraint fk_additional_data_to_indicator_type 
+    alter table hdx_dataserie_metadata 
+        add constraint fk__dataserie_metadata_to_indicator_type 
         foreign key (indicator_type_id) 
         references indicator_type;
 
-    alter table hdx_additional_data 
-        add constraint fk_additional_data_to_name_text 
+    alter table hdx_dataserie_metadata 
+        add constraint fk__dataserie_metadata_to_name_text 
         foreign key (entry_value_text_id) 
         references text;
 
@@ -499,7 +500,7 @@
 
     create sequence entity_type_seq;
 
-    create sequence hdx_additional_data_seq;
+    create sequence hdx_dataserie_metadata_seq;
 
     create sequence hdx_unit_seq;
 
