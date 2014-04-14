@@ -9,15 +9,12 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 
@@ -26,7 +23,7 @@ import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 public class CKANResource {
 
 	public enum WorkflowState {
-		DETECTED_NEW, DETECTED_REVISION, OUTDATED, DOWNLOADED, CONFIGURED, TECH_EVALUATION_SUCCESS, TECH_EVALUATION_FAIL, IMPORT_SUCCESS, IMPORT_FAIL;
+		DETECTED_NEW, DETECTED_REVISION, OUTDATED, DOWNLOADED, CONFIGURED, FILE_PRE_VALIDATION_SUCCESS, FILE_PRE_VALIDATION_FAIL, IMPORT_SUCCESS, IMPORT_FAIL;
 	}
 
 	@Embeddable
@@ -159,9 +156,9 @@ public class CKANResource {
 	@Column(name = "importer", nullable = true, updatable = true)
 	@Enumerated(EnumType.STRING)
 	private CKANDataset.Type importer;
-	
-	@ManyToOne(optional=true)
-	@JoinColumn(name = "resource_configuration_id", nullable=true)
+
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "resource_configuration_id", nullable = true)
 	@ForeignKey(name = "fk_ckan_resource_to_resource_config")
 	private ResourceConfiguration resourceConfiguration;
 
@@ -285,9 +282,8 @@ public class CKANResource {
 		return resourceConfiguration;
 	}
 
-	public void setResourceConfiguration(ResourceConfiguration resourceConfiguration) {
+	public void setResourceConfiguration(final ResourceConfiguration resourceConfiguration) {
 		this.resourceConfiguration = resourceConfiguration;
 	}
 
-	
 }

@@ -14,9 +14,9 @@ public interface WorkflowService {
 
 	public boolean flagCKANResourceAsDownloaded(final String id, final String revision_id);
 
-	public boolean flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final ValidationReport report);
+	public boolean flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final ValidationReport report);
 
-	public boolean flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final ValidationReport report);
+	public boolean flagCKANResourceAsFilePreValidationFail(final String id, final String revision_id, final ValidationReport report);
 
 	public boolean flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type evaluator, final ValidationReport report);
 

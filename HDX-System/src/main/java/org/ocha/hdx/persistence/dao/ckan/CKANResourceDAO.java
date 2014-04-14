@@ -14,30 +14,30 @@ public interface CKANResourceDAO {
 
 	/**
 	 * Flags the given record as Downloaded
-	 *
+	 * 
 	 * @param id
 	 * @param revision_id
 	 */
 	public void flagCKANResourceAsDownloaded(final String id, final String revision_id);
 
 	/**
-	 * Flags the given record as Tech Evaluation Success and stores which evaluator triggered the success
-	 *
+	 * Flags the given record as FILE_PRE_VALIDATION_SUCCESS and stores which evaluator triggered the success
+	 * 
 	 * @param id
 	 * @param revision_id
 	 */
-	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final ValidationReport report);
+	public void flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final ValidationReport report);
 
 	/**
-	 * Flags the given record as Tech Evaluation Fail and stores which evaluator triggered the failure
-	 *
+	 * Flags the given record as FILE_PRE_VALIDATION_FAIL and stores which evaluator triggered the failure
+	 * 
 	 * @param id
 	 * @param revision_id
 	 */
-	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final ValidationReport report);
+	public void flagCKANResourceAsFilePreValidationFail(final String id, final String revision_id, final ValidationReport report);
 
 	/**
-	 *
+	 * 
 	 * @param id
 	 * @param revision_id
 	 * @param evaluator
@@ -48,13 +48,13 @@ public interface CKANResourceDAO {
 
 	/**
 	 * Flags the given record as Outdated
-	 *
+	 * 
 	 * @param id
 	 * @param revision_id
 	 */
 	public void flagCKANResourceAsOutdated(final String id, final String revision_id);
 
-	public void flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration );
+	public void flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration);
 
 	public CKANResource getCKANResource(final String id, final String revision_id);
 

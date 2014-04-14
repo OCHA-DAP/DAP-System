@@ -190,7 +190,7 @@ public class HDXServiceImplTest {
 			hdxService.evaluateFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 
 			final CKANResource firstResourceAfterEvaluation = ckanResourceDAO.getCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
-			Assert.assertEquals(WorkflowState.TECH_EVALUATION_SUCCESS, firstResourceAfterEvaluation.getWorkflowState());
+			Assert.assertEquals(WorkflowState.FILE_PRE_VALIDATION_SUCCESS, firstResourceAfterEvaluation.getWorkflowState());
 
 			hdxService.transformAndImportDataFromFileForCKANResource(firstResource.getId().getId(), firstResource.getId().getRevision_id());
 
@@ -210,14 +210,14 @@ public class HDXServiceImplTest {
 			hdxService.evaluateFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 
 			final CKANResource secondResourceAfterEvaluation = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
-			Assert.assertEquals(WorkflowState.TECH_EVALUATION_FAIL, secondResourceAfterEvaluation.getWorkflowState());
+			Assert.assertEquals(WorkflowState.FILE_PRE_VALIDATION_FAIL, secondResourceAfterEvaluation.getWorkflowState());
 
 			hdxService.transformAndImportDataFromFileForCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
 
-			// we should still be in TECH_EVALUATION_FAIL, as the workflow
-			// cannot go from TECH_EVALUATION_FAIL to IMPORT_XXX
+			// we should still be in FILE_PRE_VALIDATION_FAIL, as the workflow
+			// cannot go from FILE_PRE_VALIDATION_FAIL to IMPORT_XXX
 			final CKANResource secondResourceAfterImport = ckanResourceDAO.getCKANResource(secondResource.getId().getId(), secondResource.getId().getRevision_id());
-			Assert.assertEquals(WorkflowState.TECH_EVALUATION_FAIL, secondResourceAfterImport.getWorkflowState());
+			Assert.assertEquals(WorkflowState.FILE_PRE_VALIDATION_FAIL, secondResourceAfterImport.getWorkflowState());
 		}
 
 	}

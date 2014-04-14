@@ -747,32 +747,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		}
 	}
 
-	/*
-	 * Time parameters.
-	 */
-
 	@Override
-	public void updateTimeParametersForIndicatorTypeAndSource(final String expectedTimeFormat, final String interpretedStartTime, final String interpretedEndTime, final String interpretedPeriodicity,
-			final String indicatorTypeCode, final String sourceCode) {
-		final Map<EntryKey, String> timeParameters = new HashMap<EntryKey, String>();
-		timeParameters.put(EntryKey.EXPECTED_TIME_FORMAT, expectedTimeFormat);
-		timeParameters.put(EntryKey.INTERPRETED_START_TIME, interpretedStartTime);
-		timeParameters.put(EntryKey.INTERPRETED_END_TIME, interpretedEndTime);
-		timeParameters.put(EntryKey.INTERPRETED_PERIODICITY, interpretedPeriodicity);
-		for (final EntryKey entryKey : timeParameters.keySet()) {
-			final String data = timeParameters.get(entryKey);
-			if ((null != data) && !"".equals(data)) {
-				final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
-				if (null == dataSerieMetadata) {
-					final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
-					final Source source = sourceDAO.getSourceByCode(sourceCode);
-					final Text text = textDAO.createText(data);
-					dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, entryKey, text);
-				} else {
-					dataSerieMetadataDAO.updateDataSerieMetadata(indicatorTypeCode, sourceCode, entryKey.toString(), data);
-				}
-			}
-		}
+	public void updateValidatorsForDataSeries() {
+		// TODO
 	}
 
 	/*

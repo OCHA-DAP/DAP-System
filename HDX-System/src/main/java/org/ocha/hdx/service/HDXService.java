@@ -53,7 +53,7 @@ public interface HDXService {
 
 	/**
 	 * 
-	 * evaluate the file associated to the given id / revision and flags the record as {@link WorkflowState#TECH_EVALUTATION_SUCCESS} or {@link WorkflowState#TECH_EVALUTATION_FAIL}
+	 * evaluate the file associated to the given id / revision and flags the record as {@link WorkflowState#FILE_PRE_VALIDATION_SUCCESS} or {@link WorkflowState#FILE_PRE_VALIDATION_FAIL}
 	 * 
 	 * The record must be in a Workflow State allowing evaluation
 	 */

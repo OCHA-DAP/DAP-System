@@ -36,15 +36,14 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 		ckanResource.setDetectionDate(new Date());
 		ckanResource.setDownloadDate(null);
 		ckanResource.setResourceConfiguration(null);
-		
 
 		em.persist(ckanResource);
 
 	}
 
 	/**
-	 * a new (id,revision_id) can be a brand new resource or a revision of an existing resource revisions of a resource will have a distinct
-	 * revision_id, but will share the same id So we want to know if there is already a ckan resource with the given ID
+	 * a new (id,revision_id) can be a brand new resource or a revision of an existing resource revisions of a resource will have a distinct revision_id, but will share the same id So we want to know
+	 * if there is already a ckan resource with the given ID
 	 */
 	private boolean ckanResourceExists(final String id) {
 		return !listCKANResourceRevisions(id).isEmpty();
@@ -57,7 +56,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 		ckanResourceToFlag.setWorkflowState(WorkflowState.DOWNLOADED);
 		ckanResourceToFlag.setDownloadDate(new Date());
 	}
-	
+
 	@Override
 	@Transactional
 	public void flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration) {
@@ -68,9 +67,9 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 
 	@Override
 	@Transactional
-	public void flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final ValidationReport report) {
+	public void flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
-		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUATION_SUCCESS);
+		ckanResourceToFlag.setWorkflowState(WorkflowState.FILE_PRE_VALIDATION_SUCCESS);
 		ckanResourceToFlag.setEvaluationDate(new Date());
 		ckanResourceToFlag.setEvaluator(report.getValidator());
 		ckanResourceToFlag.setValidationReport(report);
@@ -78,9 +77,9 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 
 	@Override
 	@Transactional
-	public void flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final ValidationReport report) {
+	public void flagCKANResourceAsFilePreValidationFail(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
-		ckanResourceToFlag.setWorkflowState(WorkflowState.TECH_EVALUATION_FAIL);
+		ckanResourceToFlag.setWorkflowState(WorkflowState.FILE_PRE_VALIDATION_FAIL);
 		ckanResourceToFlag.setEvaluationDate(new Date());
 		ckanResourceToFlag.setEvaluator(report.getValidator());
 		ckanResourceToFlag.setValidationReport(report);
@@ -117,7 +116,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional(readOnly = true)
 	public CKANResource getCKANResource(final String id, final String revision_id) {
-		CKANResource ret	=  em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		final CKANResource ret = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 		return ret;
 	}
 

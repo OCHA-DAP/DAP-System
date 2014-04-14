@@ -172,8 +172,7 @@ public interface CuratedDataService {
 	/*
 	 * Time parameters
 	 */
-	public void updateTimeParametersForIndicatorTypeAndSource(String expectedTimeFormat, String interpretedStartTime, String interpretedEndTime, String interpretedPeriodicity,
-			String indicatorTypeCode, String sourceCode);
+	public void updateValidatorsForDataSeries();
 
 	/*
 	 * Validation notes

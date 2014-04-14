@@ -228,9 +228,9 @@ public class HDXServiceImpl implements HDXService {
 		final ValidationReport report = this.fileEvaluatorAndExtractor.evaluateResource(destinationFile, type);
 
 		if (report.isNotInError()) {
-			this.workflowService.flagCKANResourceAsTechEvaluationSuccess(id, revision_id, report);
+			this.workflowService.flagCKANResourceAsFilePreValidationSuccess(id, revision_id, report);
 		} else {
-			this.workflowService.flagCKANResourceAsTechEvaluationFail(id, revision_id, report);
+			this.workflowService.flagCKANResourceAsFilePreValidationFail(id, revision_id, report);
 			this.mailService.sendMailForResourceEvaluationFailure(id, revision_id, report);
 		}
 

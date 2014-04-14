@@ -31,7 +31,7 @@
 		</div>
 		<div style="width: 800px; margin-bottom: 20px;">
 			<button class="btn btn-primary btn-custom-default" ng-click="showMetadata()" ng-disabled="sourceUnavailable">Show metadata</button>
-			<button class="btn btn-primary btn-custom-default" ng-click="showMetadata('TIME_PARAMETERS')" ng-disabled="sourceUnavailable">Show time parameters</button>
+			<button class="btn btn-primary btn-custom-default" ng-click="showMetadata('CURATED_DATA_VALIDATORS')" ng-disabled="sourceUnavailable">Show curated data validators</button>
 			<button class="btn btn-primary btn-custom-default" ng-click="showMetadata('VALIDATION_NOTES')" ng-disabled="sourceUnavailable">Show validation notes and comments</button>
 		</div>
 

@@ -101,14 +101,6 @@ app
                   } else if ("TERMS_OF_USE" === metadata_.entryKey) {
                     $scope.metadata.termsOfUse = metadata_.entryValue;
                     $scope.processTranslations(metadata_.entryKey, metadata_.translations);
-                  } else if ("EXPECTED_TIME_FORMAT" === metadata_.entryKey) {
-                    $scope.timeParameters.expectedTimeFormat = metadata_.entryValue;
-                  } else if ("INTERPRETED_START_TIME" === metadata_.entryKey) {
-                    $scope.timeParameters.interpretedStartTime = metadata_.entryValue;
-                  } else if ("INTERPRETED_END_TIME" === metadata_.entryKey) {
-                    $scope.timeParameters.interpretedEndTime = metadata_.entryValue;
-                  } else if ("INTERPRETED_PERIODICITY" === metadata_.entryKey) {
-                    $scope.timeParameters.interpretedPeriodicity = metadata_.entryValue;
                   } else if ("VALIDATION_NOTES" === metadata_.entryKey) {
                     $scope.validationNotes = metadata_.entryValue;
                   }
@@ -117,7 +109,7 @@ app
               }
               $scope.metadataAvailable = true;
               if (which) {
-                if ("TIME_PARAMETERS" === which) {
+                if ("CURATED_DATA_VALIDATORS" === which) {
                   $scope.metadataAvailable = false;
                   $scope.validationNotesAvailable = false;
                   $scope.timeParametersAvailable = true;
@@ -365,49 +357,50 @@ app
             }
           }
 
-          // Update the time parameters
-          $scope.updateTimeParameters = function() {
-            if (!$scope.newValuesTimeParameters
-                || null === $scope.newValuesTimeParameters
-                || ((!$scope.newValuesTimeParameters.expectedTimeFormat || null === $scope.newValuesTimeParameters.expectedTimeFormat || "" === $scope.newValuesTimeParameters.expectedTimeFormat)
-                    && (!$scope.newValuesTimeParameters.interpretedStartTime || null === $scope.newValuesTimeParameters.interpretedStartTime || "" === $scope.newValuesTimeParameters.interpretedStartTime)
-                    && (!$scope.newValuesTimeParameters.interpretedEndTime || null === $scope.newValuesTimeParameters.interpretedEndTime || "" === $scope.newValuesTimeParameters.interpretedEndTime) && (!$scope.newValuesTimeParameters.interpretedPeriodicity
-                    || null === $scope.newValuesTimeParameters.interpretedPeriodicity || "" === $scope.newValuesTimeParameters.interpretedPeriodicity))) {
-              alert("Please at least fill some info.");
-              utilities.setFocus("expectedTimeFormat");
-              return;
-            }
-            if (!$scope.newValuesTimeParameters.expectedTimeFormat || null === $scope.newValuesTimeParameters.expectedTimeFormat) {
-              $scope.newValuesTimeParameters.expectedTimeFormat = "";
-            }
-            if (!$scope.newValuesTimeParameters.interpretedStartTime || null === $scope.newValuesTimeParameters.interpretedStartTime) {
-              $scope.newValuesTimeParameters.interpretedStartTime = "";
-            }
-            if (!$scope.newValuesTimeParameters.interpretedEndTime || null === $scope.newValuesTimeParameters.interpretedEndTime) {
-              $scope.newValuesTimeParameters.interpretedEndTime = "";
-            }
-            if (!$scope.newValuesTimeParameters.interpretedPeriodicity || null === $scope.newValuesTimeParameters.interpretedPeriodicity) {
-              $scope.newValuesTimeParameters.interpretedPeriodicity = "";
-            }
-            var options = {};
-            options.params = {
-              expectedTimeFormat : $scope.newValuesTimeParameters.expectedTimeFormat,
-              interpretedStartTime : $scope.newValuesTimeParameters.interpretedStartTime,
-              interpretedEndTime : $scope.newValuesTimeParameters.interpretedEndTime,
-              interpretedPeriodicity : $scope.newValuesTimeParameters.interpretedPeriodicity,
-              indicatorTypeCode : $scope.indicatorType.code,
-              sourceCode : $scope.source.code
-            };
-            options.url = "/admin/curated/timeParametersForIndicatorTypeAndSource/submitUpdate";
-            options.successCallback = function() {
-              $scope.showMetadata("TIME_PARAMETERS");
-              $scope.showEditTimeParameters(false);
-            };
-            options.errorCallback = function() {
-              alert("Unable to update time parameters !");
-            };
-            utilities.post(options);
-          }
+          // Update the Validation for DataSeries
+          
+//          $scope.updateTimeParameters = function() {
+//            if (!$scope.newValuesTimeParameters
+//                || null === $scope.newValuesTimeParameters
+//                || ((!$scope.newValuesTimeParameters.expectedTimeFormat || null === $scope.newValuesTimeParameters.expectedTimeFormat || "" === $scope.newValuesTimeParameters.expectedTimeFormat)
+//                    && (!$scope.newValuesTimeParameters.interpretedStartTime || null === $scope.newValuesTimeParameters.interpretedStartTime || "" === $scope.newValuesTimeParameters.interpretedStartTime)
+//                    && (!$scope.newValuesTimeParameters.interpretedEndTime || null === $scope.newValuesTimeParameters.interpretedEndTime || "" === $scope.newValuesTimeParameters.interpretedEndTime) && (!$scope.newValuesTimeParameters.interpretedPeriodicity
+//                    || null === $scope.newValuesTimeParameters.interpretedPeriodicity || "" === $scope.newValuesTimeParameters.interpretedPeriodicity))) {
+//              alert("Please at least fill some info.");
+//              utilities.setFocus("expectedTimeFormat");
+//              return;
+//            }
+//            if (!$scope.newValuesTimeParameters.expectedTimeFormat || null === $scope.newValuesTimeParameters.expectedTimeFormat) {
+//              $scope.newValuesTimeParameters.expectedTimeFormat = "";
+//            }
+//            if (!$scope.newValuesTimeParameters.interpretedStartTime || null === $scope.newValuesTimeParameters.interpretedStartTime) {
+//              $scope.newValuesTimeParameters.interpretedStartTime = "";
+//            }
+//            if (!$scope.newValuesTimeParameters.interpretedEndTime || null === $scope.newValuesTimeParameters.interpretedEndTime) {
+//              $scope.newValuesTimeParameters.interpretedEndTime = "";
+//            }
+//            if (!$scope.newValuesTimeParameters.interpretedPeriodicity || null === $scope.newValuesTimeParameters.interpretedPeriodicity) {
+//              $scope.newValuesTimeParameters.interpretedPeriodicity = "";
+//            }
+//            var options = {};
+//            options.params = {
+//              expectedTimeFormat : $scope.newValuesTimeParameters.expectedTimeFormat,
+//              interpretedStartTime : $scope.newValuesTimeParameters.interpretedStartTime,
+//              interpretedEndTime : $scope.newValuesTimeParameters.interpretedEndTime,
+//              interpretedPeriodicity : $scope.newValuesTimeParameters.interpretedPeriodicity,
+//              indicatorTypeCode : $scope.indicatorType.code,
+//              sourceCode : $scope.source.code
+//            };
+//            options.url = "/admin/curated/timeParametersForIndicatorTypeAndSource/submitUpdate";
+//            options.successCallback = function() {
+//              $scope.showMetadata("TIME_PARAMETERS");
+//              $scope.showEditTimeParameters(false);
+//            };
+//            options.errorCallback = function() {
+//              alert("Unable to update time parameters !");
+//            };
+//            utilities.post(options);
+//          }
 
           // ////////////////////////////////////////
           // Validation notes and comments management

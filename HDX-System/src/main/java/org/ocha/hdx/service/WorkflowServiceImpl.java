@@ -23,8 +23,8 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Autowired
 	private CKANResourceDAO resourceDAO;
-	
-	@Autowired 
+
+	@Autowired
 	private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	private boolean isTransitionPossible(final WorkflowState from, final WorkflowState to) {
@@ -66,7 +66,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
@@ -79,10 +79,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	@Override
-	public boolean flagCKANResourceAsTechEvaluationSuccess(final String id, final String revision_id, final ValidationReport report) {
+	public boolean flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		if (nextStateIsPossible(res, WorkflowState.TECH_EVALUATION_SUCCESS)) {
-			resourceDAO.flagCKANResourceAsTechEvaluationSuccess(id, revision_id, report);
+		if (nextStateIsPossible(res, WorkflowState.FILE_PRE_VALIDATION_SUCCESS)) {
+			resourceDAO.flagCKANResourceAsFilePreValidationSuccess(id, revision_id, report);
 			return true;
 		} else {
 			return false;
@@ -90,10 +90,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	@Override
-	public boolean flagCKANResourceAsTechEvaluationFail(final String id, final String revision_id, final ValidationReport report) {
+	public boolean flagCKANResourceAsFilePreValidationFail(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		if (nextStateIsPossible(res, WorkflowState.TECH_EVALUATION_FAIL)) {
-			resourceDAO.flagCKANResourceAsTechEvaluationFail(id, revision_id, report);
+		if (nextStateIsPossible(res, WorkflowState.FILE_PRE_VALIDATION_FAIL)) {
+			resourceDAO.flagCKANResourceAsFilePreValidationFail(id, revision_id, report);
 			return true;
 		} else {
 			return false;
@@ -121,5 +121,5 @@ public class WorkflowServiceImpl implements WorkflowService {
 			return false;
 		}
 	}
-	
+
 }

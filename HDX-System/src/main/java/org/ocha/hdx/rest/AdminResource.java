@@ -1313,16 +1313,6 @@ public class AdminResource {
 	}
 
 	@POST
-	@Path("/curated/timeParametersForIndicatorTypeAndSource/submitUpdate")
-	public Response updateTimeParametersForIndicatorTypeAndSource(@FormParam("expectedTimeFormat") final String expectedTimeFormat,
-			@FormParam("interpretedStartTime") final String interpretedStartTime, @FormParam("interpretedEndTime") final String interpretedEndTime,
-			@FormParam("interpretedPeriodicity") final String interpretedPeriodicity, @FormParam("indicatorTypeCode") final String indicatorTypeCode, @FormParam("sourceCode") final String sourceCode)
-			throws Exception {
-		curatedDataService.updateTimeParametersForIndicatorTypeAndSource(expectedTimeFormat, interpretedStartTime, interpretedEndTime, interpretedPeriodicity, indicatorTypeCode, sourceCode);
-		return Response.ok().build();
-	}
-
-	@POST
 	@Path("/curated/validationNotesForIndicatorTypeAndSource/submitUpdate")
 	public Response updateValidationNotesForIndicatorTypeAndSource(@FormParam("validatioNotes") final String validationNotes, @FormParam("indicatorTypeCode") final String indicatorTypeCode,
 			@FormParam("sourceCode") final String sourceCode) throws Exception {
