@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -145,7 +146,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 	 */
 	@Override
 	public PreparedData prepareDataForImport(final File file) {
-		final List<PreparedIndicator> preparedIndicators = new ArrayList<>();
+		final List<PreparedIndicator> preparedIndicators = new LinkedList<>();
 		final File valueFile = this.findValueFile(file);
 
 
@@ -183,6 +184,8 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 		} else {
 			for (final IValidator validator : validators) {
 				final Response response = validator.validate(indicator);
+				validator.populateImportConfig(indicator.getIndicatorImportConfig(), response);
+
 				if (!this.verifyResponse(response)) {
 					ret = false;
 				}

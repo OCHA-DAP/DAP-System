@@ -332,7 +332,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	public void createIndicator(final Indicator indicator, final ImportFromCKAN importFromCKAN) {
 
 		indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(), indicator.getValue(),
-				indicator.getIndicatorImportConfig().getInitialValue(), indicator.getIndicatorImportConfig().getValidationStatus(), indicator.getSourceLink(), importFromCKAN);
+				indicator.getIndicatorImportConfig(), indicator.getSourceLink(), importFromCKAN);
 
 	}
 

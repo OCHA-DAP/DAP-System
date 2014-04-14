@@ -10,6 +10,7 @@ import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorImportConfig;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
@@ -21,8 +22,11 @@ public interface IndicatorDAO {
 	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
 			final String initialValue, final ValidationStatus validationStatus, final String sourceLink, final ImportFromCKAN importFromCKAN);
 
+	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
+			final IndicatorImportConfig indicatorImportConfig, final String sourceLink, final ImportFromCKAN importFromCKAN);
+
 	/**
-	 * 
+	 *
 	 * @param countryCodes
 	 *            optional filter to only get some countries (cannot deal other entityTypes yet)
 	 */
@@ -32,7 +36,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * periodicity is implicitely YEAR
-	 * 
+	 *
 	 * @param year
 	 * @param sourceCode
 	 * @param indicatorTypeCode
@@ -41,7 +45,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * periodicity is implicitely YEAR
-	 * 
+	 *
 	 * @param year
 	 * @param sourceCode
 	 * @param indicatorTypeCode
@@ -50,7 +54,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - overview.
-	 * 
+	 *
 	 * @param countryCode
 	 * @param languageCode
 	 */
@@ -58,7 +62,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - crisis history.
-	 * 
+	 *
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
@@ -69,7 +73,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - vulnerability.
-	 * 
+	 *
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
@@ -82,7 +86,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - socio-economic.
-	 * 
+	 *
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
@@ -93,7 +97,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - capacity.
-	 * 
+	 *
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
@@ -104,7 +108,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - other.
-	 * 
+	 *
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
@@ -126,26 +130,26 @@ public interface IndicatorDAO {
 
 	/**
 	 * Based on the existing indicators
-	 * 
+	 *
 	 * @param year
 	 * @param indicatorTypeCode
-	 * 
+	 *
 	 * @return the list of sources for which there is ar least one matching record in Indicators (Year, IndicatorType)
 	 */
 	public List<String> getExistingSourcesCodesForYearAndIndicatorType(final int year, final String indicatorTypeCode);
 
 	/**
 	 * Based on the existing indicators
-	 * 
+	 *
 	 * @param indicatorTypeCode
-	 * 
+	 *
 	 * @return the list of sources for which there is ar least one matching record in Indicators (IndicatorType)
 	 */
 	public List<String> getExistingSourcesCodesForIndicatorType(final String indicatorTypeCode);
 
 	/**
 	 * Get the min and max dates for a given country, and a set of indicator-source couples.
-	 * 
+	 *
 	 * @param countryCode
 	 *            The country code
 	 * @param indicatorsList
@@ -159,7 +163,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Data for indicator-centric overview.
-	 * 
+	 *
 	 * @param indicatorTypeCode
 	 * @param sourceCode
 	 * @param languageCode

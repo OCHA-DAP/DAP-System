@@ -13,7 +13,7 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 public abstract class AbstractColumnsTransformer {
 
@@ -43,5 +43,7 @@ public abstract class AbstractColumnsTransformer {
 	public abstract String getIndicatorTypeCode(String[] line);
 
 	public abstract IndicatorImportConfig getIndicatorImportConfig(String[] line);
+
+	public abstract String getInitialValue(String[] line);
 
 }

@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,11 +26,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * Sample implementation of the {@link AbstractValidatingImporter} that has the same functionality as {@link ScraperImporter} plus the validation part
- * 
+ *
  * @author alexandru-m-g
- * 
+ *
  */
 public class ScraperValidatingImporter extends AbstractValidatingImporter {
 
@@ -154,7 +154,7 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 
 	@Override
 	public List<Indicator> transformToFinalFormat() {
-		final List<Indicator> list = new ArrayList<Indicator>();
+		final List<Indicator> list = new LinkedList<Indicator>();
 		for (final PreparedIndicator preparedIndicator : this.preparedData.getIndicatorsToImport()) {
 			try {
 				final Indicator indicator = this.indicatorCreationService.createIndicator(preparedIndicator);

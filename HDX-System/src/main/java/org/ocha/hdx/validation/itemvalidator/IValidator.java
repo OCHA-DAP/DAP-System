@@ -5,6 +5,7 @@ package org.ocha.hdx.validation.itemvalidator;
 
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorImportConfig;
 import org.ocha.hdx.validation.Response;
 
 /**
@@ -25,4 +26,6 @@ public interface IValidator {
 	 */
 
 	Response validate(Indicator indicator);
+
+	void populateImportConfig(final IndicatorImportConfig importConfig, final Response response);
 }
