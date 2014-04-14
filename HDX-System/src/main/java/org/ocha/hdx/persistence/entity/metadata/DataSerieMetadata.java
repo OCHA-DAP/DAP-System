@@ -30,8 +30,7 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
 public class DataSerieMetadata {
 
 	public enum EntryKey {
-		METHODOLOGY("Methodology"), MORE_INFO("More info"), DATASET_SUMMARY("Dataset summary"), TERMS_OF_USE("Terms of use"), EXPECTED_TIME_FORMAT("Expected time format"), INTERPRETED_START_TIME(
-				"Interpreted start time"), INTERPRETED_END_TIME("Interpreted end time"), INTERPRETED_PERIODICITY("Interpreted periodicity"), VALIDATION_NOTES("Validation notes");
+		METHODOLOGY("Methodology"), MORE_INFO("More info"), DATASET_SUMMARY("Dataset summary"), TERMS_OF_USE("Terms of use"), VALIDATION_NOTES("Validation notes");
 		private final String label;
 
 		private EntryKey(final String label) {
