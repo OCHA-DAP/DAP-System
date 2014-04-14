@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
@@ -51,6 +51,8 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	private final Map<String, String> sourcesMap;
 
+	private OriginalConfiguration originalConfig;
+
 	private Periodicity periodicity;
 	private int yearLength;
 	private DateTimeFormatter dateTimeFormat;
@@ -58,8 +60,6 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	private int offset;
 	private int day;
 	private int month;
-
-	private double multiplyBy;
 
 	private final String valueType;
 
@@ -76,15 +76,44 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 			this.valueType = null;
 		}
 
+		this.discoverOriginalConfiguration();
+
 		this.discoverPeriodicity(indConfig);
 
 		if (this.typeOfDate != null) {
 			this.discoverExpectedStartTime(indConfig);
 		}
 
-		this.discoverMultiplication(indConfig);
+	}
+
+
+	private void discoverOriginalConfiguration() {
+
+		this.originalConfig		= new OriginalConfiguration();
+
+		final AbstractConfigEntry expectedTimeFormatEntry =
+				this.indConfig.get(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel());
+		if ( expectedTimeFormatEntry != null ) {
+			this.originalConfig.setExpectedTimeFormat( expectedTimeFormatEntry.getEntryValue() );
+		}
+
+		final AbstractConfigEntry expectedStartTimeFormatEntry =
+				this.indConfig.get(ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel());
+		if ( expectedStartTimeFormatEntry != null ) {
+			this.originalConfig.setExpectedStartTimeFormat( expectedStartTimeFormatEntry.getEntryValue() );
+		}
+
+		final AbstractConfigEntry multiplicationEntry =
+				this.indConfig.get(ConfigurationConstants.IndicatorConfiguration.MULTIPLICATION.getLabel());
+		if (multiplicationEntry != null) {
+			final MultiplicationValues value = MultiplicationValues.findByLabel(multiplicationEntry.getEntryValue());
+			if (value != null) {
+				this.originalConfig.setMultiplier(value.getFactor());
+			}
+		}
 
 	}
+
 
 	/**
 	 * @param indConfig
@@ -93,10 +122,9 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		this.offset = 0;
 		this.day = 1;
 		this.month = 1;
-		final AbstractConfigEntry expectedStartTimeFormatEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel());
 		final Pattern expectedStartTimeFormatPattern = Pattern.compile(EXPECTED_START_TIME_PATTERN);
 
-		final Matcher matcher = expectedStartTimeFormatPattern.matcher(expectedStartTimeFormatEntry.getEntryValue());
+		final Matcher matcher = expectedStartTimeFormatPattern.matcher(this.originalConfig.getExpectedStartTimeFormat());
 		if (matcher.matches()) {
 			final String sign = matcher.group(SIGN_GROUP);
 			final String offset = matcher.group(OFFSET_GROUP);
@@ -116,7 +144,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 					this.month = Integer.parseInt(month);
 				}
 			} catch (final NumberFormatException e) {
-				logger.warn("Something wrong with the following expected start time format: " + expectedStartTimeFormatEntry.getEntryValue());
+				logger.warn("Something wrong with the following expected start time format: " + this.originalConfig.getExpectedStartTimeFormat());
 			}
 
 		}
@@ -126,15 +154,14 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	 * @param indConfig
 	 */
 	private void discoverPeriodicity(final Map<String, AbstractConfigEntry> indConfig) {
-		final AbstractConfigEntry expectedTimeFormatEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel());
-		if (expectedTimeFormatEntry == null || NO_DATE.equals(expectedTimeFormatEntry.getEntryValue())) {
+		if ( this.originalConfig.getExpectedTimeFormat() == null || NO_DATE.equals(this.originalConfig.getExpectedTimeFormat()) ) {
 			this.dateTimeFormat = null;
 			this.periodicity = Periodicity.NONE;
 			this.typeOfDate = null;
 		} else {
 			final Pattern expectedTimeFormatPattern = Pattern.compile(EXPECTED_TIME_PATTERN);
 
-			final Matcher matcher = expectedTimeFormatPattern.matcher(expectedTimeFormatEntry.getEntryValue());
+			final Matcher matcher = expectedTimeFormatPattern.matcher( this.originalConfig.getExpectedTimeFormat() );
 			if (matcher.matches()) {
 
 				final String period = matcher.group(PERIODICITY_GROUP);
@@ -144,7 +171,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 					try {
 						this.yearLength = Integer.parseInt(period);
 					} catch (final NumberFormatException e) {
-						throw new IllegalArgumentException("Wrong pattern for expected time: " + expectedTimeFormatEntry.getEntryValue(), e);
+						throw new IllegalArgumentException("Wrong pattern for expected time: " + this.originalConfig.getExpectedTimeFormat(), e);
 					}
 				}
 				this.periodicity = Periodicity.findPeriodicityByCode(this.yearLength + "Y");
@@ -156,20 +183,9 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 				this.typeOfDate = TYPE_OF_DATE.YEAR;
 
 			} else {
-				this.dateTimeFormat = DateTimeFormat.forPattern(expectedTimeFormatEntry.getEntryValue());
+				this.dateTimeFormat = DateTimeFormat.forPattern(this.originalConfig.getExpectedTimeFormat());
 				this.periodicity = Periodicity.NONE;
 				this.typeOfDate = TYPE_OF_DATE.FULL_DATE;
-			}
-		}
-	}
-
-	private void discoverMultiplication(final Map<String, AbstractConfigEntry> indConfig) {
-		this.multiplyBy = 1;
-		final AbstractConfigEntry multiplicationEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.MULTIPLICATION.getLabel());
-		if (multiplicationEntry != null) {
-			final MultiplicationValues value = MultiplicationValues.findByLabel(multiplicationEntry.getEntryValue());
-			if (value != null) {
-				this.multiplyBy = value.getFactor();
 			}
 		}
 	}
@@ -251,19 +267,22 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	@Override
 	public IndicatorImportConfig getIndicatorImportConfig(final String[] line) {
-		// FIXME this should not be mocked to get only the initialValue, but more
-		return new IndicatorImportConfig(line[4], ValidationStatus.SUCCESS);
+
+		return new IndicatorImportConfig( this.getInitialValue(line), this.originalConfig.getMinValue(), this.originalConfig.getMaxValue(),
+				this.originalConfig.getMultiplier(), this.originalConfig.getExpectedTimeFormat(),
+				this.originalConfig.getExpectedStartTimeFormat(), ValidationStatus.SUCCESS);
 	}
 
 	@Override
 	public IndicatorValue getValue(final String[] line) {
-		final String value = line[4];
+		final String value = this.getInitialValue(line);
+
+		final Double multiplicity		= this.originalConfig.getMultiplier();
+
 		if (ValueType.NUMBER.getLabel().equals(this.valueType) || this.valueType == null) {
 			final Double valueAsDouble = Double.parseDouble(value);
-			// FIXME we should deal about units later, here for
-			// population we must X1000
-			if (this.multiplyBy > 1) {
-				return new IndicatorValue(valueAsDouble * this.multiplyBy);
+			if ( multiplicity !=null && multiplicity > 1) {
+				return new IndicatorValue(valueAsDouble * multiplicity);
 			} else {
 				return new IndicatorValue(valueAsDouble);
 			}
@@ -296,8 +315,58 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		return line[2];
 	}
 
+
+	@Override
+	public String getInitialValue(final String[] line) {
+		return line[4];
+	}
+
+
+
 	private enum TYPE_OF_DATE {
 		YEAR, FULL_DATE
+	}
+
+
+	private class OriginalConfiguration {
+
+		private String expectedTimeFormat;
+		private String expectedStartTimeFormat;
+		private Double multiplier;
+		private Double minValue;
+		private Double maxValue;
+
+		public String getExpectedTimeFormat() {
+			return this.expectedTimeFormat;
+		}
+		public void setExpectedTimeFormat(final String expectedTimeFormat) {
+			this.expectedTimeFormat = expectedTimeFormat;
+		}
+		public String getExpectedStartTimeFormat() {
+			return this.expectedStartTimeFormat;
+		}
+		public void setExpectedStartTimeFormat(final String expectedStartTimeFormat) {
+			this.expectedStartTimeFormat = expectedStartTimeFormat;
+		}
+		public Double getMultiplier() {
+			return this.multiplier;
+		}
+		public void setMultiplier(final Double multiplier) {
+			this.multiplier = multiplier;
+		}
+		public Double getMinValue() {
+			return this.minValue;
+		}
+		public void setMinValue(final Double minValue) {
+			this.minValue = minValue;
+		}
+		public Double getMaxValue() {
+			return this.maxValue;
+		}
+		public void setMaxValue(final Double maxValue) {
+			this.maxValue = maxValue;
+		}
+
 	}
 
 }

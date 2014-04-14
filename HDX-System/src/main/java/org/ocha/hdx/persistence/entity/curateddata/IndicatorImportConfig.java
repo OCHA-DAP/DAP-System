@@ -46,10 +46,23 @@ public class IndicatorImportConfig {
 	@Column(name = "validation_message", nullable = true, updatable = false)
 	private String validationMessage;
 
-	public IndicatorImportConfig(final String initialValue, final ValidationStatus validationStatus) {
+
+
+	public IndicatorImportConfig(final String initialValue, final Double lowerBoundary, final Double upperBoundary,
+			final Double multiplier, final String expectedTimeFormat,
+			final String interpretedTimeFormat, final ValidationStatus validationStatus) {
 		super();
 		this.initialValue = initialValue;
+		this.lowerBoundary = lowerBoundary;
+		this.upperBoundary = upperBoundary;
+		this.multiplier = multiplier;
+		this.expectedTimeFormat = expectedTimeFormat;
+		this.interpretedTimeFormat = interpretedTimeFormat;
 		this.validationStatus = validationStatus;
+	}
+
+	public IndicatorImportConfig(final String initialValue, final ValidationStatus validationStatus) {
+		this(initialValue, null, null, null, null, null, validationStatus);
 	}
 
 	public IndicatorImportConfig() {
@@ -65,7 +78,7 @@ public class IndicatorImportConfig {
 	}
 
 	public double getLowerBoundary() {
-		return lowerBoundary;
+		return this.lowerBoundary;
 	}
 
 	public void setLowerBoundary(final double lowerBoundary) {
@@ -73,7 +86,7 @@ public class IndicatorImportConfig {
 	}
 
 	public double getUpperBoundary() {
-		return upperBoundary;
+		return this.upperBoundary;
 	}
 
 	public void setUpperBoundary(final double upperBoundary) {
@@ -81,7 +94,7 @@ public class IndicatorImportConfig {
 	}
 
 	public double getMultiplier() {
-		return multiplier;
+		return this.multiplier;
 	}
 
 	public void setMultiplier(final double multiplier) {
@@ -89,7 +102,7 @@ public class IndicatorImportConfig {
 	}
 
 	public String getExpectedTimeFormat() {
-		return expectedTimeFormat;
+		return this.expectedTimeFormat;
 	}
 
 	public void setExpectedTimeFormat(final String expectedTimeFormat) {
@@ -97,7 +110,7 @@ public class IndicatorImportConfig {
 	}
 
 	public String getInterpretedTimeFormat() {
-		return interpretedTimeFormat;
+		return this.interpretedTimeFormat;
 	}
 
 	public void setInterpretedTimeFormat(final String interpretedTimeFormat) {
@@ -105,7 +118,7 @@ public class IndicatorImportConfig {
 	}
 
 	public ValidationStatus getValidationStatus() {
-		return validationStatus;
+		return this.validationStatus;
 	}
 
 	public void setValidationStatus(final ValidationStatus validationStatus) {
@@ -113,7 +126,7 @@ public class IndicatorImportConfig {
 	}
 
 	public String getValidationMessage() {
-		return validationMessage;
+		return this.validationMessage;
 	}
 
 	public void setValidationMessage(final String validationMessage) {

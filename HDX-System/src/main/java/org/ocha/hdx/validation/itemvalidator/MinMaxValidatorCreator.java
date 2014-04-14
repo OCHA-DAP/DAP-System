@@ -13,17 +13,22 @@ import org.ocha.hdx.config.ConfigurationConstants;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.configs.AbstractConfigEntry;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorImportConfig;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.validation.Response;
 import org.ocha.hdx.validation.exception.WrongParametersForValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 @Component
 public class MinMaxValidatorCreator implements IValidatorCreator {
+
+	private static Logger logger = LoggerFactory.getLogger(MinMaxValidator.class);
 
 	public static final String NAME = "Min/Max Validator";
 
@@ -61,9 +66,9 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @see IValidator#validate(Indicator)
-		 * 
+		 *
 		 */
 		@Override
 		public Response validate(final Indicator indicator) throws WrongParametersForValidationException {
@@ -138,6 +143,46 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 		private void populateErrorResponse(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response, final Indicator indicator) {
 			response.setDescription(String.format("Value is not between %s and %s for %s", minValueEntry.getEntryValue(), maxValueEntry.getEntryValue(), indicator.toString()));
 			response.setStatus(ValidationStatus.ERROR);
+		}
+
+		/**
+		 * @param indicator
+		 * @param ret
+		 * @param response
+		 * @return
+		 */
+		@Override
+		public void populateImportConfig(final IndicatorImportConfig importConfig, final Response response) {
+			/* Populate the indicator's importConfig details with validation result */
+			importConfig.setValidationStatus(response.getStatus() );
+			if ( !ValidationStatus.SUCCESS.equals(response.getStatus()) ) {
+				if ( importConfig.getValidationMessage() == null ) {
+					importConfig.setValidationMessage( response.getDescription() );
+				} else {
+					importConfig.setValidationMessage( importConfig.getValidationMessage() + " -- "  + response.getDescription());
+				}
+			}
+
+			importConfig.setUpperBoundary( this.discoverNumericConfig(this.maxValueEntry) );
+			importConfig.setLowerBoundary( this.discoverNumericConfig(this.minValueEntry) );
+
+		}
+		/**
+		 *
+		 */
+		private Double discoverNumericConfig(final AbstractConfigEntry entry) {
+
+			try {
+				if ( entry != null && entry.getEntryValue() != null ) {
+					return Double.parseDouble(entry.getEntryValue());
+				}
+			} catch (final NumberFormatException e) {
+				logger.error(
+						String.format("Couldn't parse double %s value %s",
+								entry.getEntryKey(), entry.getEntryValue())
+					);
+			}
+			return null;
 		}
 	}
 
