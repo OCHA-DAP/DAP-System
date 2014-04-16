@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.3.0.201307091516-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.4.0.201310051539-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -14,7 +14,6 @@
 		<config>src/main/resources/ctx-jobs.xml</config>
 		<config>src/test/resources/ctx-persistence-test.xml</config>
 		<config>src/main/resources/ctx-persistence.xml</config>
-		<config>src/main/resources/ctx-rest.xml</config>
 		<config>src/main/resources/ctx-service.xml</config>
 	</configs>
 	<configSets>
