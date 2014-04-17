@@ -62,7 +62,7 @@ public class ScraperValidatingImporterTest {
 
 		final PreparedData preparedData = scraperImporter.prepareDataForImport(csvValueFile);
 		Assert.assertTrue(preparedData.isSuccess());
-		Assert.assertEquals(50081, preparedData.getIndicatorsToImport().size());
+		Assert.assertEquals(14030, preparedData.getIndicatorsToImport().size());
 
 		for (final PreparedIndicator preparedIndicator : preparedData.getIndicatorsToImport()) {
 			if (preparedIndicator.getSourceCode().equals("WB")) {
