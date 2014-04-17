@@ -107,7 +107,7 @@ public class ScraperColumnsTransformerTest {
 				ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel(), "YYYY(-1)-20-11") {
 		});
 
-		final ScraperColumnsTransformer transformer = new ScraperColumnsTransformer(null, indConfig, null);
+		final ScraperColumnsTransformer transformer = new ScraperColumnsTransformer("dummyKey", null, indConfig, null);
 
 		final String[] line = { "", "", "", "1995/P5Y" };
 		final Date startDate = transformer.getStartDate(line);
@@ -133,7 +133,7 @@ public class ScraperColumnsTransformerTest {
 				ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel(), "dd-MM-yyyy") {
 		});
 
-		final ScraperColumnsTransformer transformer = new ScraperColumnsTransformer(null, indConfig, null);
+		final ScraperColumnsTransformer transformer = new ScraperColumnsTransformer("dummyKey", null, indConfig, null);
 
 		final String[] line = { "", "", "", "13-02-2013" };
 		final Date startDate = transformer.getStartDate(line);

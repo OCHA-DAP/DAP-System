@@ -20,10 +20,17 @@ public abstract class AbstractColumnsTransformer {
 	protected final Map<String, AbstractConfigEntry> generalConfig;
 	protected final Map<String, AbstractConfigEntry> indConfig;
 
+	protected boolean disabled;
+
 	public AbstractColumnsTransformer(final Map<String, AbstractConfigEntry> generalConfig, final Map<String, AbstractConfigEntry> indConfig) {
 		super();
 		this.generalConfig = generalConfig;
 		this.indConfig = indConfig;
+		this.disabled = false;
+	}
+
+	public boolean isDisabled() {
+		return this.disabled;
 	}
 
 	public abstract Date getStartDate(String[] line);
