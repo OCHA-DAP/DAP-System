@@ -1,155 +1,72 @@
+    drop table if exists ckan_dataset;
 
-    alter table ckan_resource 
-        drop constraint fk_ckan_resource_to_resource_config;
+    drop table if exists ckan_resource;
 
-    alter table entity 
-        drop constraint fk_entity_to_type;
+    drop table if exists hdx_dataserie_metadata;
 
-    alter table entity 
-        drop constraint fk_entity_to_name_text;
+    drop table if exists hdx_indicator;
 
-    alter table entity_type 
-        drop constraint fk_entity_type_to_name_text;
+    drop table if exists hdx_translation;
 
-    alter table hdx_dataserie_metadata 
-        drop constraint fk__dataserie_metadata_to_source;
+    drop table if exists hdx_user;
 
-    alter table hdx_dataserie_metadata 
-        drop constraint fk__dataserie_metadata_to_indicator_type;
+    drop table if exists import_from_ckan;
 
-    alter table hdx_dataserie_metadata 
-        drop constraint fk__dataserie_metadata_to_name_text;
+    drop table if exists indicator_resource_config_entry;
 
-    alter table hdx_indicator 
-        drop constraint fk_indicator_to_source;
+    drop table if exists indicator_type_dictionary;
 
-    alter table hdx_indicator 
-        drop constraint fk_indicator_to_entity;
+    drop table if exists language;
 
-    alter table hdx_indicator 
-        drop constraint fk_import_from_ckan;
+    drop table if exists region_dictionary;
 
-    alter table hdx_indicator 
-        drop constraint fk_indicator_value_to_text;
+    drop table if exists resource_config_entry;
 
-    alter table hdx_indicator 
-        drop constraint fk_indicator_to_type;
+    drop table if exists resource_configuration;
 
-    alter table hdx_translation 
-        drop constraint fk_translation_to_text;
+    drop table if exists source_dictionary;
 
-    alter table hdx_translation 
-        drop constraint fk_translation_to_language;
+    drop table if exists source;
 
-    alter table hdx_unit 
-        drop constraint fk_entity_to_name_text;
+    drop table if exists entity;
 
-    alter table indicator_resource_config_entry 
-        drop constraint fk_ind_resource_config_map_to_source;
+    drop table if exists entity_type;
 
-    alter table indicator_resource_config_entry 
-        drop constraint fk_ind_resource_config_map_to_indicator_type;
+    drop table if exists indicator_type;
 
-    alter table indicator_resource_config_entry 
-        drop constraint fk_ind_resource_config_map_to_parent;
+    drop table if exists organisation;
 
-    alter table indicator_type 
-        drop constraint fk_indicator_type_to_name_text;
+    drop table if exists hdx_unit;
 
-    alter table indicator_type 
-        drop constraint fk_indicator_type_to_unit;
+    drop table if exists text;
 
-    alter table indicator_type_dictionary 
-        drop constraint fk_indicator_type_dictionary_to_indicator_type;
 
-    alter table organisation 
-        drop constraint fk_full_name_to_text;
+    drop sequence if exists entity_seq;
 
-    alter table organisation 
-        drop constraint fk_short_name_to_text;
+    drop sequence if exists entity_type_seq;
 
-    alter table region_dictionary 
-        drop constraint fk_region_dictionary_to_entity;
+    drop sequence if exists hdx_dataserie_metadata_seq;
 
-    alter table resource_config_entry 
-        drop constraint fk_resource_config_map_to_parent;
+    drop sequence if exists hdx_unit_seq;
 
-    alter table source 
-        drop constraint fk_source_to_name_text;
+    drop sequence if exists import_from_ckan_seq;
 
-    alter table source 
-        drop constraint fk_source_to_organisation;
+    drop sequence if exists indicator_resource_config_entry_seq;
 
-    alter table source_dictionary 
-        drop constraint fk_source_dictionary_to_source;
+    drop sequence if exists indicator_seq;
 
-    drop table ckan_dataset;
+    drop sequence if exists indicator_type_seq;
 
-    drop table ckan_resource;
+    drop sequence if exists organisation_seq;
 
-    drop table entity;
+    drop sequence if exists resource_config_entry_seq;
 
-    drop table entity_type;
+    drop sequence if exists resource_configuration_seq;
 
-    drop table hdx_dataserie_metadata;
+    drop sequence if exists source_seq;
 
-    drop table hdx_indicator;
+    drop sequence if exists text_seq;
 
-    drop table hdx_translation;
-
-    drop table hdx_unit;
-
-    drop table hdx_user;
-
-    drop table import_from_ckan;
-
-    drop table indicator_resource_config_entry;
-
-    drop table indicator_type;
-
-    drop table indicator_type_dictionary;
-
-    drop table language;
-
-    drop table organisation;
-
-    drop table region_dictionary;
-
-    drop table resource_config_entry;
-
-    drop table resource_configuration;
-
-    drop table source;
-
-    drop table source_dictionary;
-
-    drop table text;
-
-    drop sequence entity_seq;
-
-    drop sequence entity_type_seq;
-
-    drop sequence hdx_dataserie_metadata_seq;
-
-    drop sequence hdx_unit_seq;
-
-    drop sequence import_from_ckan_seq;
-
-    drop sequence indicator_resource_config_entry_seq;
-
-    drop sequence indicator_seq;
-
-    drop sequence indicator_type_seq;
-
-    drop sequence organisation_seq;
-
-    drop sequence resource_config_entry_seq;
-
-    drop sequence resource_configuration_seq;
-
-    drop sequence source_seq;
-
-    drop sequence text_seq;
 
     create table ckan_dataset (
         name varchar(255) not null,
