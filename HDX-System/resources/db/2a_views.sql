@@ -1,7 +1,3 @@
-DROP VIEW hdx_view_report_indicator_data;
-DROP VIEW hdx_view_report_indicator_type_overview;
-DROP VIEW hdx_view_additional_data_text ;
-
 CREATE OR REPLACE VIEW 
 	hdx_view_additional_data_text 
 AS SELECT 
@@ -11,7 +7,7 @@ AS SELECT
     ad.indicator_type_id,
     ad.source_id,
     t.default_value
-   FROM hdx_additional_data ad,
+   FROM hdx_dataserie_metadata ad,
     text t
   WHERE ad.entry_value_text_id = t.id;
 
