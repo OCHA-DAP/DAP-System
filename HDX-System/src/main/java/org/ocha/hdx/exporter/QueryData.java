@@ -18,7 +18,7 @@ public abstract class QueryData {
 	 */
 	public enum CHANNEL_KEYS {
 		EXPORTERS,
-		INDICATOR_TYPES
+		DATA_SERIES
 	}
 
 	/**

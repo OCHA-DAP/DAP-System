@@ -1,6 +1,5 @@
 package org.ocha.hdx.exporter.country;
 
-import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -11,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_XLSX;
 import org.ocha.hdx.exporter.QueryData.CHANNEL_KEYS;
+import org.ocha.hdx.exporter.country.ExporterCountryQueryData.DataSerieInSheet;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.service.ExporterService;
 
@@ -34,18 +34,9 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 	@SuppressWarnings("unchecked")
 	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) throws Exception {
 
-		final TreeSet<String[]> indicatorTypes = new TreeSet<String[]>(new Comparator<String[]>() {
-			@Override
-			public int compare(final String[] o1, final String[] o2) {
-				if (o1[0].equals(o2[0])) {
-					return o1[1].compareTo(o2[1]);
-				} else {
-					return o1[0].compareTo(o2[0]);
-				}
-			}
-		});
+		final TreeSet<DataSerieInSheet> dataSeries = new TreeSet<DataSerieInSheet>();
 
-		indicatorTypes.addAll((Set<String[]>) queryData.getChannelValue(CHANNEL_KEYS.INDICATOR_TYPES));
+		dataSeries.addAll((Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES));
 
 		/* TODO i18n */
 
@@ -61,16 +52,16 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 
 		// Fill with the data
 		int rowIndex = 0;
-		for (final String[] indicatorTypeCode : indicatorTypes) {
+		for (final DataSerieInSheet dataSerie : dataSeries) {
 
 			// Create the row (not overwriting the headers :-) )
 			final XSSFRow row = sheet.createRow(++rowIndex);
 
 			// Indicator type
-			createLinkCell(row, 0, indicatorTypeCode[0], "'" + indicatorTypeCode[1] + "'!A1");
+			createLinkCell(row, 0, dataSerie.getDataSerie().getIndicatorCode(), "'" + dataSerie.getSheetName() + "'!A1");
 
 			// Definition
-			final IndicatorType indicatorType = exporterService.getIndicatorTypeByCode(indicatorTypeCode[0]);
+			final IndicatorType indicatorType = exporterService.getIndicatorTypeByCode(dataSerie.getDataSerie().getIndicatorCode());
 			createCell(row, 1, indicatorType.getName().getDefaultValue());
 		}
 

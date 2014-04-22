@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_XLSX;
 import org.ocha.hdx.exporter.QueryData.CHANNEL_KEYS;
+import org.ocha.hdx.exporter.country.ExporterCountryQueryData.DataSerieInSheet;
 import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.ocha.hdx.service.ExporterService;
@@ -132,10 +133,10 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		}
 
 		// Show processed indicator types so far
-		final Set<String[]> indicatorTypes = (Set<String[]>) queryData.getChannelValue(CHANNEL_KEYS.INDICATOR_TYPES);
+		final Set<DataSerieInSheet> dataSerieInSheets = (Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES);
 		logger.debug("Indicators type after " + this.getClass().getName() + " : ");
-		for (final String[] indicatorType : indicatorTypes) {
-			logger.debug("\t" + indicatorType[0] + " => " + indicatorType[1]);
+		for (final DataSerieInSheet dataSerieInSheet : dataSerieInSheets) {
+			logger.debug("\t" + dataSerieInSheet.getDataSerie().getIndicatorCode() + " => " + dataSerieInSheet.getSheetName());
 		}
 
 		return super.export(workbook, queryData);
@@ -144,12 +145,13 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 
 	private static void trackIndicatorTypes(final ExporterCountryQueryData queryData, final ReportRow reportRow, final String sheetName) {
 		@SuppressWarnings("unchecked")
-		Set<String[]> indicatorTypes = (Set<String[]>) queryData.getChannelValue(CHANNEL_KEYS.INDICATOR_TYPES);
+		Set<DataSerieInSheet> indicatorTypes = (Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES);
 		if (null == indicatorTypes) {
-			indicatorTypes = new HashSet<String[]>();
-			queryData.setChannelValue(CHANNEL_KEYS.INDICATOR_TYPES, indicatorTypes);
+			indicatorTypes = new HashSet<DataSerieInSheet>();
+			queryData.setChannelValue(CHANNEL_KEYS.DATA_SERIES, indicatorTypes);
 		}
-		indicatorTypes.add(new String[] { reportRow.getIndicatorTypeCode(), sheetName });
+		final DataSerieInSheet dataSerieInSheet = queryData.new DataSerieInSheet(reportRow.getIndicatorTypeCode(), reportRow.getSourceCode(), sheetName);
+		indicatorTypes.add(dataSerieInSheet);
 	}
 
 	// private static void createDatasetSummaryCell(final ReportRow reportRow, final short position, final XSSFRow row) {
