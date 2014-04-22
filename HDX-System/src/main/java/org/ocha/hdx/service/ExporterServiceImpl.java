@@ -35,6 +35,7 @@ import org.ocha.hdx.persistence.dao.view.IndicatorTypeOverviewDAO;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.ocha.hdx.persistence.entity.view.IndicatorData;
 import org.ocha.hdx.persistence.entity.view.IndicatorTypeOverview;
 import org.slf4j.Logger;
@@ -327,8 +328,39 @@ public class ExporterServiceImpl implements ExporterService {
 
 						final List<DataSerieMetadata> results = getMetadataForDataSerie(new DataSerie(indicatorTypeCode, sourceCode));
 
+						DataSerieMetadata methodologyMetadata = null;
+						DataSerieMetadata moreInfoMetadata = null;
+						DataSerieMetadata datasetSummaryMetadata = null;
+						DataSerieMetadata termOfUseMetadata = null;
 						for (final DataSerieMetadata dataSerieMetadata : results) {
-							row.addMetadata(dataSerieMetadata.getEntryKey(), dataSerieMetadata.getEntryValue().getDefaultValue());
+							switch (dataSerieMetadata.getEntryKey()) {
+							case METHODOLOGY:
+								methodologyMetadata = dataSerieMetadata;
+								break;
+							case MORE_INFO:
+								moreInfoMetadata = dataSerieMetadata;
+								break;
+							case DATASET_SUMMARY:
+								datasetSummaryMetadata = dataSerieMetadata;
+								break;
+							case TERMS_OF_USE:
+								termOfUseMetadata = dataSerieMetadata;
+								break;
+
+							default:
+								break;
+							}
+							final String methodologyMetadataAsString = methodologyMetadata != null ? methodologyMetadata.getEntryValue().getDefaultValue() : "";
+							row.addMetadata(MetadataName.METHODOLOGY, methodologyMetadataAsString);
+
+							final String moreInfoMetadataAsString = moreInfoMetadata != null ? moreInfoMetadata.getEntryValue().getDefaultValue() : "";
+							row.addMetadata(MetadataName.MORE_INFO, moreInfoMetadataAsString);
+
+							final String datasetSummaryMetadataAsString = datasetSummaryMetadata != null ? datasetSummaryMetadata.getEntryValue().getDefaultValue() : "";
+							row.addMetadata(MetadataName.DATASET_SUMMARY, datasetSummaryMetadataAsString);
+
+							final String termOfUseMetadataAsString = termOfUseMetadata != null ? termOfUseMetadata.getEntryValue().getDefaultValue() : "";
+							row.addMetadata(MetadataName.TERMS_OF_USE, termOfUseMetadataAsString);
 
 						}
 
