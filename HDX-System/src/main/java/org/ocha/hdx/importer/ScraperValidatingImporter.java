@@ -107,27 +107,20 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 		final Map<String, AbstractConfigEntry> indConfigMap = indTypeInfoHolder.getIndicatorEntries();
 
 		final AbstractColumnsTransformer transformer = this.generateColumnsTransformer(key, indConfigMap, preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
+		if ( !transformer.isDisabled() ) {
 
-		preparedIndicator.setEntityCode(transformer.getEntityCode(values));
-		preparedIndicator.setEntityTypeCode(transformer.getEntityTypeCode(values));
+			preparedIndicator.setEntityCode(transformer.getEntityCode(values));
+			preparedIndicator.setEntityTypeCode(transformer.getEntityTypeCode(values));
 
-		preparedIndicator.setStart(transformer.getStartDate(values));
-		preparedIndicator.setEnd(transformer.getEndDate(values));
-		preparedIndicator.setPeriodicity(transformer.getPeriodicity(values));
-		preparedIndicator.setValue(transformer.getValue(values));
-		preparedIndicator.setIndicatorImportConfig(transformer.getIndicatorImportConfig(values));
+			preparedIndicator.setStart(transformer.getStartDate(values));
+			preparedIndicator.setEnd(transformer.getEndDate(values));
+			preparedIndicator.setPeriodicity(transformer.getPeriodicity(values));
+			preparedIndicator.setValue(transformer.getValue(values));
+			preparedIndicator.setIndicatorImportConfig(transformer.getIndicatorImportConfig(values));
 
-		return preparedIndicator;
-
-		// else {
-		// if ( !indTypeInfoHolder.isErrorDisplayed() ) {
-		// indTypeInfoHolder.setErrorDisplayed(true);
-		// logger.warn( String.format("No configuration found for ind type %s and source %s",
-		// preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()) );
-		// }
-		//
-		// return null;
-		// }
+			return preparedIndicator;
+		}
+		return null;
 
 	}
 
@@ -136,7 +129,8 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 	 * @param indConfigMap
 	 * @return
 	 */
-	private AbstractColumnsTransformer generateColumnsTransformer(final String key, final Map<String, AbstractConfigEntry> indConfigMap, final String indTypeCode, final String sourceCode) {
+	private AbstractColumnsTransformer generateColumnsTransformer(final String key, final Map<String, AbstractConfigEntry> indConfigMap,
+			final String indTypeCode, final String sourceCode) {
 		AbstractColumnsTransformer transformer = this.colTransformers.get(key);
 		if (transformer == null) {
 			final List<IndicatorResourceConfigEntry> embeddedConfigs = this.indicatorCreationService.findEmbeddedConfigs(indTypeCode, sourceCode);
@@ -146,7 +140,7 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 					indConfigMap.put(indicatorResourceConfigEntry.getEntryKey(), indicatorResourceConfigEntry);
 				}
 			}
-			transformer = new ScraperColumnsTransformer(this.resourceEntriesMap, indConfigMap, this.sourcesMap);
+			transformer = new ScraperColumnsTransformer(key, this.resourceEntriesMap, indConfigMap, this.sourcesMap);
 			this.colTransformers.put(key, transformer);
 		}
 		return transformer;

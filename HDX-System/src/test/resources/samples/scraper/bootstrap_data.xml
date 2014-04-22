@@ -1279,4 +1279,17 @@
   <indicator_resource_config_entry id="205" entry_key="Multiplication" entry_value="thousands" indicator_type_id="40" resource_configuration_id="1" source_id="3"/>
   <indicator_resource_config_entry id="206" entry_key="Multiplication" entry_value="thousands" indicator_type_id="59" resource_configuration_id="1" source_id="7"/>
   <indicator_resource_config_entry id="207" entry_key="Multiplication" entry_value="thousands" indicator_type_id="75" resource_configuration_id="1" source_id="7"/>
+  <indicator_resource_config_entry id="208" entry_key="Expected time format" entry_value="none" indicator_type_id="7" resource_configuration_id="1" source_id="19"/>
+  <indicator_resource_config_entry id="209" entry_key="Expected time format" entry_value="none" indicator_type_id="28" resource_configuration_id="1" source_id="5"/>
+  <indicator_resource_config_entry id="210" entry_key="Expected time format" entry_value="none" indicator_type_id="66" resource_configuration_id="1" source_id="19"/>
+  <indicator_resource_config_entry id="211" entry_key="Expected time format" entry_value="none" indicator_type_id="54" resource_configuration_id="1" source_id="19"/>
+  <indicator_resource_config_entry id="212" entry_key="Expected time format" entry_value="none" indicator_type_id="58" resource_configuration_id="1" source_id="19"/>
+  <indicator_resource_config_entry id="213" entry_key="Expected time format" entry_value="none" indicator_type_id="67" resource_configuration_id="1" source_id="19"/>
+  <indicator_resource_config_entry id="214" entry_key="Expected time format" entry_value="none" indicator_type_id="68" resource_configuration_id="1" source_id="19"/>
+  <indicator_resource_config_entry id="215" entry_key="Expected time format" entry_value="none" indicator_type_id="70" resource_configuration_id="1" source_id="19"/>
+  <indicator_resource_config_entry id="216" entry_key="Expected time format" entry_value="none" indicator_type_id="71" resource_configuration_id="1" source_id="19"/>
+  <indicator_resource_config_entry id="217" entry_key="Expected time format" entry_value="none" indicator_type_id="79" resource_configuration_id="1" source_id="19"/>
+  <indicator_resource_config_entry id="218" entry_key="Expected time format" entry_value="none" indicator_type_id="82" resource_configuration_id="1" source_id="19"/>
+  <indicator_resource_config_entry id="219" entry_key="Expected time format" entry_value="none" indicator_type_id="49" resource_configuration_id="1" source_id="19"/>
+  <indicator_resource_config_entry id="220" entry_key="Expected time format" entry_value="none" indicator_type_id="14" resource_configuration_id="1" source_id="2"/>
 </dataset>

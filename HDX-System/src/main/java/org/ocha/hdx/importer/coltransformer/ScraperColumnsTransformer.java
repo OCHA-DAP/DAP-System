@@ -49,6 +49,8 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	public static final int PERIOD_YEAR_GROUP = 3;
 	public static final Pattern ACTUAL_TIME_PATTERN_COMPILED = Pattern.compile(ACTUAL_DATE_PATTERN);
 
+	private final String dataseriesKey;
+
 	private final Map<String, String> sourcesMap;
 
 	private OriginalConfiguration originalConfig;
@@ -65,8 +67,11 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	private TYPE_OF_DATE typeOfDate;
 
-	public ScraperColumnsTransformer(final Map<String, AbstractConfigEntry> generalConfig, final Map<String, AbstractConfigEntry> indConfig, final Map<String, String> sourcesMap) {
+
+	public ScraperColumnsTransformer(final String dataseriesKey, final Map<String, AbstractConfigEntry> generalConfig,
+			final Map<String, AbstractConfigEntry> indConfig, final Map<String, String> sourcesMap) {
 		super(generalConfig, indConfig);
+		this.dataseriesKey	= dataseriesKey;
 		this.sourcesMap = sourcesMap;
 
 		final AbstractConfigEntry valueTypeEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.INDICATOR_VALUE_TYPE.getLabel());
@@ -95,6 +100,11 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 				this.indConfig.get(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel());
 		if ( expectedTimeFormatEntry != null ) {
 			this.originalConfig.setExpectedTimeFormat( expectedTimeFormatEntry.getEntryValue() );
+		}
+		else {
+			this.disabled	= true;
+			logger.warn("Missing expected time format configuration for dataseries: " + this.dataseriesKey);
+			System.out.println("Missing expected time format configuration for dataseries: " + this.dataseriesKey);
 		}
 
 		final AbstractConfigEntry expectedStartTimeFormatEntry =
