@@ -76,7 +76,7 @@ public class ExporterCountryQueryData extends QueryData {
 		this.readmeHelper = readmeHelper;
 	}
 
-	public class DataSerieInSheet {
+	public class DataSerieInSheet implements Comparable<DataSerieInSheet> {
 		private final DataSerie dataSerie;
 		private final String sheetName;
 
@@ -136,6 +136,16 @@ public class ExporterCountryQueryData extends QueryData {
 
 		private ExporterCountryQueryData getOuterType() {
 			return ExporterCountryQueryData.this;
+		}
+
+		@Override
+		public int compareTo(final DataSerieInSheet o) {
+			final int dataSerieComparison = this.dataSerie.compareTo(o.dataSerie);
+			if (dataSerieComparison != 0) {
+				return dataSerieComparison;
+			} else {
+				return this.sheetName.compareTo(o.sheetName);
+			}
 		}
 
 	}

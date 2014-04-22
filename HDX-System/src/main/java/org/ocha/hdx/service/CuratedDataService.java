@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.ocha.hdx.importer.PreparedIndicator;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.EntityType;
@@ -165,7 +166,7 @@ public interface CuratedDataService {
 	/*
 	 * Metadata
 	 */
-	public List<DataSerieMetadata> getMetadataForIndicatorTypeAndSource(String indicatorTypeCode, String sourceCode);
+	public List<DataSerieMetadata> getMetadataForDataSerie(final DataSerie dataSerie);
 
 	public void updateMetadataForIndicatorTypeAndSource(String which, String data, String languageCode, String indicatorTypeCode, String sourceCode);
 

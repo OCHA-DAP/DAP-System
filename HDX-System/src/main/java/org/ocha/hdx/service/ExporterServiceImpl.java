@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.NoResultException;
+
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.country.ExporterCountry5Years_XLSX;
@@ -26,17 +28,22 @@ import org.ocha.hdx.exporter.indicator.ExporterIndicatorData_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeOverview_XLSX;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAO;
 import org.ocha.hdx.persistence.dao.view.IndicatorDataDAO;
 import org.ocha.hdx.persistence.dao.view.IndicatorTypeOverviewDAO;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
+import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
-import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.ocha.hdx.persistence.entity.view.IndicatorData;
 import org.ocha.hdx.persistence.entity.view.IndicatorTypeOverview;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ExporterServiceImpl implements ExporterService {
+
+	private static Logger logger = LoggerFactory.getLogger(ExporterServiceImpl.class);
 
 	@Autowired
 	private CuratedDataService curatedDataService;
@@ -60,6 +67,21 @@ public class ExporterServiceImpl implements ExporterService {
 	@Override
 	public IndicatorType getIndicatorTypeByCode(final String code) {
 		return curatedDataService.getIndicatorTypeByCode(code);
+	}
+
+	@Override
+	public Source getSourceByCode(final String code) {
+		try {
+			return curatedDataService.getSourceByCode(code);
+		} catch (final NoResultException e) {
+			logger.debug(String.format("Could not find Source from SourceCode : %s", code));
+			return null;
+		}
+	}
+
+	@Override
+	public List<DataSerieMetadata> getMetadataForDataSerie(final DataSerie dataSerie) {
+		return curatedDataService.getMetadataForDataSerie(dataSerie);
 	}
 
 	@Override
@@ -303,22 +325,12 @@ public class ExporterServiceImpl implements ExporterService {
 						final String sourceCode = record[5].toString();
 						final ReportRow row = new ReportRow(indicatorTypeCode, record[1].toString(), sourceCode, record[2].toString());
 
-						final DataSerieMetadata datasetSummary = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode,
-								MetadataName.DATASET_SUMMARY);
-						final String datasetSummaryAsString = datasetSummary != null ? datasetSummary.getEntryValue().getDefaultValue() : "";
-						row.addMetadata(MetadataName.DATASET_SUMMARY, datasetSummaryAsString);
+						final List<DataSerieMetadata> results = getMetadataForDataSerie(new DataSerie(indicatorTypeCode, sourceCode));
 
-						final DataSerieMetadata methodology = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, MetadataName.METHODOLOGY);
-						final String methodologyAsString = methodology != null ? methodology.getEntryValue().getDefaultValue() : "";
-						row.addMetadata(MetadataName.METHODOLOGY, methodologyAsString);
+						for (final DataSerieMetadata dataSerieMetadata : results) {
+							row.addMetadata(dataSerieMetadata.getEntryKey(), dataSerieMetadata.getEntryValue().getDefaultValue());
 
-						final DataSerieMetadata moreInfo = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, MetadataName.MORE_INFO);
-						final String moreInfoAsString = moreInfo != null ? moreInfo.getEntryValue().getDefaultValue() : "";
-						row.addMetadata(MetadataName.MORE_INFO, moreInfoAsString);
-
-						final DataSerieMetadata termsOfUse = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, MetadataName.TERMS_OF_USE);
-						final String termsOfUseAsString = termsOfUse != null ? termsOfUse.getEntryValue().getDefaultValue() : "";
-						row.addMetadata(MetadataName.TERMS_OF_USE, termsOfUseAsString);
+						}
 
 						row.addValue(key, record[3].toString());
 						reportRows.put(indicatorTypeCode, row);

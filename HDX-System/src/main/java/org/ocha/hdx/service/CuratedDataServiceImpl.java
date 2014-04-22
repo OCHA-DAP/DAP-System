@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.TimeRange;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.api.CellDescriptor;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
@@ -703,8 +704,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	/* Metadata */
 
 	@Override
-	public List<DataSerieMetadata> getMetadataForIndicatorTypeAndSource(final String indicatorTypeCode, final String sourceCode) {
-		return dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(indicatorTypeCode, sourceCode);
+	public List<DataSerieMetadata> getMetadataForDataSerie(final DataSerie dataSerie) {
+		return dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(dataSerie);
 
 	}
 

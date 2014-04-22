@@ -25,6 +25,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.hdx.config.ConfigurationConstants.GeneralConfiguration;
 import org.ocha.hdx.config.ConfigurationConstants.IndicatorConfiguration;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
@@ -1290,7 +1291,8 @@ public class AdminResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/curated/metadataForIndicatorTypeAndSource/json")
 	public String getMetadataForIndicatorTypeAndSource(@QueryParam("indicatorTypeCode") final String indicatorTypeCode, @QueryParam("sourceCode") final String sourceCode) throws TypeMismatchException {
-		final List<DataSerieMetadata> metadataForIndicatorTypeAndSource = curatedDataService.getMetadataForIndicatorTypeAndSource(indicatorTypeCode, sourceCode);
+		final DataSerie dataSerie = new DataSerie(indicatorTypeCode, sourceCode);
+		final List<DataSerieMetadata> metadataForIndicatorTypeAndSource = curatedDataService.getMetadataForDataSerie(dataSerie);
 		final JsonArray jsonArray = new JsonArray();
 		for (final DataSerieMetadata dataSerieMetadata : metadataForIndicatorTypeAndSource) {
 			final JsonObject jsonDataSerieMetadata = new JsonObject();

@@ -1,5 +1,7 @@
 package org.ocha.hdx.exporter.country;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -12,6 +14,8 @@ import org.ocha.hdx.exporter.Exporter_XLSX;
 import org.ocha.hdx.exporter.QueryData.CHANNEL_KEYS;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData.DataSerieInSheet;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
+import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
 import org.ocha.hdx.service.ExporterService;
 
 /**
@@ -47,7 +51,14 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 		workbook.setSheetOrder(safeName, 1);
 
 		// Assign the headers to the title row
-		final String[] headers = { "Indicator type", "Definition", "Source dataset" };
+		final ArrayList<Object> headers = new ArrayList<Object>();
+		headers.add("Indicator type");
+		headers.add("Definition");
+		headers.add("Source dataset");
+		headers.add("Dataset summary");
+		headers.add("More Info");
+		headers.add("Terms of Use");
+		headers.add("HDX Methodology");
 		createColumnHeaderCells(sheet, headers);
 
 		// Fill with the data
@@ -63,11 +74,44 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 			// Definition
 			final IndicatorType indicatorType = exporterService.getIndicatorTypeByCode(dataSerie.getDataSerie().getIndicatorCode());
 			createCell(row, 1, indicatorType.getName().getDefaultValue());
+
+			if (dataSerie.getDataSerie().getSourceCode() != null && !dataSerie.getDataSerie().getSourceCode().isEmpty()) {
+				final Source source = exporterService.getSourceByCode(dataSerie.getDataSerie().getSourceCode());
+				if (source != null) {
+					createCell(row, 2, source.getName().getDefaultValue());
+				}
+			}
+
+			final List<DataSerieMetadata> results = exporterService.getMetadataForDataSerie(dataSerie.getDataSerie());
+			for (final DataSerieMetadata dataSerieMetadata : results) {
+				switch (dataSerieMetadata.getEntryKey()) {
+				case DATASET_SUMMARY:
+					createCell(row, 3, dataSerieMetadata.getEntryValue().getDefaultValue());
+					break;
+
+				case MORE_INFO:
+					createCell(row, 4, dataSerieMetadata.getEntryValue().getDefaultValue());
+					break;
+				case TERMS_OF_USE:
+					createCell(row, 5, dataSerieMetadata.getEntryValue().getDefaultValue());
+					break;
+				case METHODOLOGY:
+					createCell(row, 6, dataSerieMetadata.getEntryValue().getDefaultValue());
+					break;
+				default:
+					break;
+				}
+			}
+
 		}
 
-		// Auto size the columns, except columns A and C, which have a fixed width
-		for (int i = 0; i < headers.length; i++) {
-			sheet.autoSizeColumn(i);
+		// Auto size the columns, except DATASET_SUMMARY, which have a fixed width
+		for (int i = 0; i < headers.size(); i++) {
+			if (i > 2) {
+				sheet.setColumnWidth(i, 20000);
+			} else {
+				sheet.autoSizeColumn(i);
+			}
 		}
 
 		return super.export(workbook, queryData);

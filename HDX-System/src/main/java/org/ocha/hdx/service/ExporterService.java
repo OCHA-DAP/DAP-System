@@ -9,7 +9,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
+import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
 import org.ocha.hdx.persistence.entity.view.IndicatorData;
 import org.ocha.hdx.persistence.entity.view.IndicatorTypeOverview;
 
@@ -29,6 +32,10 @@ public interface ExporterService {
 
 	public IndicatorType getIndicatorTypeByCode(final String code);
 
+	public Source getSourceByCode(final String code);
+
+	public List<DataSerieMetadata> getMetadataForDataSerie(final DataSerie dataSerie);
+
 	/* **************** */
 	/* Country reports. */
 	/* **************** */
@@ -37,9 +44,9 @@ public interface ExporterService {
 	public File exportCountry_CSV(String countryCode, Integer fromYear, Integer toYear, String language) throws IOException, Exception;
 
 	public File exportCountryReadMe_TXT(String countryCode, String language) throws Exception;
-	
+
 	/*
-	 *  Country overview
+	 * Country overview
 	 */
 	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData);
 
@@ -67,7 +74,7 @@ public interface ExporterService {
 	public XSSFWorkbook exportIndicator_XLSX(String indicatorTypeCode, String sourceCode, Long fromYear, Long toYear, String language) throws Exception;
 
 	/*
-	 *  Indicator overview
+	 * Indicator overview
 	 */
 	public IndicatorTypeOverview getIndicatorTypeOverviewData(ExporterIndicatorQueryData queryData);
 

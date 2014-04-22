@@ -7,6 +7,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.i18n.Text;
@@ -35,7 +36,9 @@ public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
 	}
 
 	@Override
-	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(final String indicatorTypeCode, final String sourceCode) {
+	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(final DataSerie dataSerie) {
+		final String indicatorTypeCode = dataSerie.getIndicatorCode();
+		final String sourceCode = dataSerie.getSourceCode();
 		final TypedQuery<DataSerieMetadata> query = em.createQuery("SELECT ad FROM DataSerieMetadata ad WHERE ad.indicatorType.code=:indicatorTypeCode AND ad.source.code=:sourceCode",
 				DataSerieMetadata.class);
 		query.setParameter("indicatorTypeCode", indicatorTypeCode);

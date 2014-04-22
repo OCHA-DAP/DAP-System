@@ -5,6 +5,7 @@ package org.ocha.hdx.persistence.dao.metadata;
 
 import java.util.List;
 
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.i18n.Text;
@@ -20,7 +21,7 @@ public interface DataSerieMetadataDAO {
 
 	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeIdAndSourceId(long indicatorTypeId, long sourceId);
 
-	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(String indicatorTypeCode, String sourceCode);
+	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(final DataSerie dataSerie);
 
 	public DataSerieMetadata createDataSerieMetadata(IndicatorType type, Source source, MetadataName key, Text value);
 

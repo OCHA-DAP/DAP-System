@@ -15,7 +15,6 @@ import org.ocha.hdx.exporter.Exporter_XLSX;
 import org.ocha.hdx.exporter.QueryData.CHANNEL_KEYS;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData.DataSerieInSheet;
 import org.ocha.hdx.exporter.helper.ReportRow;
-import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.ocha.hdx.service.ExporterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,10 +49,6 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		headers.add("Indicator ID");
 		headers.add("Indicator name");
 		headers.add("Units");
-		headers.add("Dataset summary");
-		headers.add("More Info");
-		headers.add("Terms of Use");
-		headers.add("HDX Methodology");
 
 		// Retrieve years from the data, as specifying 0 for fromYear/toYear in the queryData allows for earliest/latest data available.
 		int fromYear = Integer.MAX_VALUE;
@@ -100,10 +95,10 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 			trackIndicatorTypes(queryData, reportRow, sheetName);
 
 			// createDatasetSummaryCell(reportRow, 4, row);
-			createCell(row, 4, reportRow.getMetadata().get(MetadataName.DATASET_SUMMARY));
-			createCell(row, 5, reportRow.getMetadata().get(MetadataName.MORE_INFO));
-			createCell(row, 6, reportRow.getMetadata().get(MetadataName.TERMS_OF_USE));
-			createCell(row, 7, reportRow.getMetadata().get(MetadataName.METHODOLOGY));
+			// createCell(row, 4, reportRow.getMetadata().get(MetadataName.DATASET_SUMMARY));
+			// createCell(row, 5, reportRow.getMetadata().get(MetadataName.MORE_INFO));
+			// createCell(row, 6, reportRow.getMetadata().get(MetadataName.TERMS_OF_USE));
+			// createCell(row, 7, reportRow.getMetadata().get(MetadataName.METHODOLOGY));
 
 			for (int year = fromYear; year <= toYear; year++) {
 				final int columnIndex = yearToColum.get(year);
@@ -125,8 +120,6 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		for (int i = 0; i < (headers.size() + data.keySet().size()); i++) {
 			if (0 == i) {
 				sheet.setColumnWidth(i, 3000);
-			} else if (4 == i) {
-				sheet.setColumnWidth(i, 20000);
 			} else {
 				sheet.autoSizeColumn(i);
 			}

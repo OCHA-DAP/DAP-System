@@ -14,6 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
 import org.ocha.hdx.persistence.dao.currateddata.UnitDAO;
@@ -156,7 +157,7 @@ public class DataSerieMetadataDAOImplTest {
 			assertEquals("Dummy Value " + realIndex, dataSerieMetadata.getEntryValue().getDefaultValue());
 		}
 
-		final List<DataSerieMetadata> modifiedList2 = dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(indicatorType2.getCode(), source2.getCode());
+		final List<DataSerieMetadata> modifiedList2 = dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(new DataSerie(indicatorType2.getCode(), source2.getCode()));
 
 		assertEquals(NUM_OF_ITEMS / 2, modifiedList2.size());
 		for (int i = 0; i < modifiedList2.size(); i++) {
