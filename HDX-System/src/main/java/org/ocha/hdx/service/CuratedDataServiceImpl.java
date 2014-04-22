@@ -40,7 +40,7 @@ import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.i18n.Translation;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
-import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -710,7 +710,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public void updateMetadataForIndicatorTypeAndSource(final String which, final String data, final String languageCode, final String indicatorTypeCode, final String sourceCode) {
-		final EntryKey entryKey = EntryKey.valueOf(which);
+		final MetadataName entryKey = MetadataName.valueOf(which);
 		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
 		if (null == dataSerieMetadata) {
 			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);

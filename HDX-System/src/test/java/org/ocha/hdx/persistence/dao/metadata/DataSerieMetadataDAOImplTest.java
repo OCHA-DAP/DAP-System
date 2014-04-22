@@ -24,7 +24,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
-import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.ocha.hdx.validation.util.DummyEntityCreatorWrapper;
 import org.ocha.hdx.validation.util.DummyEntityCreatorWrapper.DummyEntityCreator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +93,7 @@ public class DataSerieMetadataDAOImplTest {
 		for (int i = 0; i < NUM_OF_ITEMS; i++) {
 			final Text text = textDAO.createText("Dummy Value " + i);
 
-			final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, EntryKey.METHODOLOGY, text);
+			final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, MetadataName.METHODOLOGY, text);
 		}
 
 		final List<DataSerieMetadata> modifiedList = dataSerieMetadataDAO.listDataSerieMetadata();
@@ -104,7 +104,7 @@ public class DataSerieMetadataDAOImplTest {
 
 			assertEquals(source.getCode(), dataSerieMetadata.getSource().getCode());
 			assertEquals(indicatorType.getCode(), dataSerieMetadata.getIndicatorType().getCode());
-			assertEquals(EntryKey.METHODOLOGY, dataSerieMetadata.getEntryKey());
+			assertEquals(MetadataName.METHODOLOGY, dataSerieMetadata.getEntryKey());
 			assertEquals("Dummy Value " + i, dataSerieMetadata.getEntryValue().getDefaultValue());
 		}
 		for (final DataSerieMetadata dataSerieMetadata : modifiedList) {
@@ -137,9 +137,9 @@ public class DataSerieMetadataDAOImplTest {
 		for (int i = 0; i < NUM_OF_ITEMS; i++) {
 			final Text text = textDAO.createText("Dummy Value " + i);
 			if ((i % 2) == 0) {
-				dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, EntryKey.METHODOLOGY, text);
+				dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, MetadataName.METHODOLOGY, text);
 			} else {
-				dataSerieMetadataDAO.createDataSerieMetadata(indicatorType2, source2, EntryKey.METHODOLOGY, text);
+				dataSerieMetadataDAO.createDataSerieMetadata(indicatorType2, source2, MetadataName.METHODOLOGY, text);
 			}
 		}
 
@@ -152,7 +152,7 @@ public class DataSerieMetadataDAOImplTest {
 
 			assertEquals(source2.getCode(), dataSerieMetadata.getSource().getCode());
 			assertEquals(indicatorType2.getCode(), dataSerieMetadata.getIndicatorType().getCode());
-			assertEquals(EntryKey.METHODOLOGY, dataSerieMetadata.getEntryKey());
+			assertEquals(MetadataName.METHODOLOGY, dataSerieMetadata.getEntryKey());
 			assertEquals("Dummy Value " + realIndex, dataSerieMetadata.getEntryValue().getDefaultValue());
 		}
 
@@ -165,7 +165,7 @@ public class DataSerieMetadataDAOImplTest {
 
 			assertEquals(source2.getCode(), dataSerieMetadata.getSource().getCode());
 			assertEquals(indicatorType2.getCode(), dataSerieMetadata.getIndicatorType().getCode());
-			assertEquals(EntryKey.METHODOLOGY, dataSerieMetadata.getEntryKey());
+			assertEquals(MetadataName.METHODOLOGY, dataSerieMetadata.getEntryKey());
 			assertEquals("Dummy Value " + realIndex, dataSerieMetadata.getEntryValue().getDefaultValue());
 		}
 
@@ -183,14 +183,14 @@ public class DataSerieMetadataDAOImplTest {
 
 	/**
 	 * Test method for
-	 * {@link org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAOImpl#createDataSerieMetadata(org.ocha.hdx.persistence.entity.curateddata.IndicatorType, org.ocha.hdx.persistence.entity.curateddata.Source, org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey, org.ocha.hdx.persistence.entity.i18n.Text)}
+	 * {@link org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAOImpl#createDataSerieMetadata(org.ocha.hdx.persistence.entity.curateddata.IndicatorType, org.ocha.hdx.persistence.entity.curateddata.Source, org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName, org.ocha.hdx.persistence.entity.i18n.Text)}
 	 * .
 	 */
 	@Test
 	@Transactional
 	public final void testCreateDataSerieMetadata() {
 		final Text text = textDAO.createText("Dummy Value");
-		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, EntryKey.METHODOLOGY, text);
+		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, MetadataName.METHODOLOGY, text);
 		assertTrue(dataSerieMetadata.getId() > 0);
 
 		final DataSerieMetadata dbDataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataById(dataSerieMetadata.getId());
@@ -198,7 +198,7 @@ public class DataSerieMetadataDAOImplTest {
 
 		assertEquals(source.getCode(), dbDataSerieMetadata.getSource().getCode());
 		assertEquals(indicatorType.getCode(), dbDataSerieMetadata.getIndicatorType().getCode());
-		assertEquals(EntryKey.METHODOLOGY, dbDataSerieMetadata.getEntryKey());
+		assertEquals(MetadataName.METHODOLOGY, dbDataSerieMetadata.getEntryKey());
 		assertEquals("Dummy Value", dbDataSerieMetadata.getEntryValue().getDefaultValue());
 
 		dataSerieMetadataDAO.deleteDataSerieMetadata(dbDataSerieMetadata.getId());
@@ -216,7 +216,7 @@ public class DataSerieMetadataDAOImplTest {
 	@Transactional
 	public final void testDeleteDataSerieMetadata() {
 		final Text text = textDAO.createText("Dummy Value");
-		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, EntryKey.METHODOLOGY, text);
+		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, MetadataName.METHODOLOGY, text);
 		assertTrue(dataSerieMetadata.getId() > 0);
 
 		final DataSerieMetadata dbDataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataById(dataSerieMetadata.getId());
@@ -224,7 +224,7 @@ public class DataSerieMetadataDAOImplTest {
 
 		assertEquals(source.getCode(), dbDataSerieMetadata.getSource().getCode());
 		assertEquals(indicatorType.getCode(), dbDataSerieMetadata.getIndicatorType().getCode());
-		assertEquals(EntryKey.METHODOLOGY, dbDataSerieMetadata.getEntryKey());
+		assertEquals(MetadataName.METHODOLOGY, dbDataSerieMetadata.getEntryKey());
 		assertEquals("Dummy Value", dbDataSerieMetadata.getEntryValue().getDefaultValue());
 
 		dataSerieMetadataDAO.deleteDataSerieMetadata(dbDataSerieMetadata.getId());
@@ -240,7 +240,7 @@ public class DataSerieMetadataDAOImplTest {
 	@Transactional
 	public final void testUpdateDataSerieMetadata() {
 		final Text text = textDAO.createText("Dummy Value");
-		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, EntryKey.METHODOLOGY, text);
+		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, MetadataName.METHODOLOGY, text);
 		assertTrue(dataSerieMetadata.getId() > 0);
 
 		final DataSerieMetadata dbDataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataById(dataSerieMetadata.getId());
@@ -248,7 +248,7 @@ public class DataSerieMetadataDAOImplTest {
 
 		assertEquals(source.getCode(), dbDataSerieMetadata.getSource().getCode());
 		assertEquals(indicatorType.getCode(), dbDataSerieMetadata.getIndicatorType().getCode());
-		assertEquals(EntryKey.METHODOLOGY, dbDataSerieMetadata.getEntryKey());
+		assertEquals(MetadataName.METHODOLOGY, dbDataSerieMetadata.getEntryKey());
 		assertEquals("Dummy Value", dbDataSerieMetadata.getEntryValue().getDefaultValue());
 
 		final Text text2 = textDAO.createText("Dummy Value 2");

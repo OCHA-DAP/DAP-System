@@ -11,7 +11,7 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
-import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.springframework.transaction.annotation.Transactional;
 
 public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
@@ -45,7 +45,7 @@ public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
 
 	@Override
 	@Transactional
-	public DataSerieMetadata createDataSerieMetadata(final IndicatorType type, final Source source, final EntryKey key, final Text value) {
+	public DataSerieMetadata createDataSerieMetadata(final IndicatorType type, final Source source, final MetadataName key, final Text value) {
 		final DataSerieMetadata dataSerieMetadata = new DataSerieMetadata(type, source, key, value);
 		em.persist(dataSerieMetadata);
 		return dataSerieMetadata;
@@ -76,13 +76,13 @@ public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
 	@Override
 	@Transactional
 	public DataSerieMetadata updateDataSerieMetadata(final String indicatorTypeCode, final String sourceCode, final String entryKey, final String defaultValue) {
-		final DataSerieMetadata dataSerieMetadata = getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, EntryKey.valueOf(entryKey));
+		final DataSerieMetadata dataSerieMetadata = getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, MetadataName.valueOf(entryKey));
 		dataSerieMetadata.getEntryValue().setDefaultValue(defaultValue);
 		return dataSerieMetadata;
 	}
 
 	@Override
-	public DataSerieMetadata getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(final String indicatorTypeCode, final String sourceCode, final EntryKey entryKey) {
+	public DataSerieMetadata getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(final String indicatorTypeCode, final String sourceCode, final MetadataName entryKey) {
 		final TypedQuery<DataSerieMetadata> query = em.createQuery(
 				"SELECT ad FROM DataSerieMetadata ad WHERE ad.indicatorType.code=:indicatorTypeCode AND ad.source.code=:sourceCode AND ad.entryKey = :entryKey", DataSerieMetadata.class);
 		query.setParameter("indicatorTypeCode", indicatorTypeCode);

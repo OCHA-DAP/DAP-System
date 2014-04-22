@@ -27,7 +27,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
-import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.ocha.hdx.service.CuratedDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -224,18 +224,18 @@ public class IntegrationTestSetUpAndTearDown {
 				importFromCKANDAO.listImportsFromCKAN().get(0));
 
 		final Text extracted = textDAO.createText("Extracted from 1st hand sources");
-		dataSerieMetadataDAO.createDataSerieMetadata(indicatorTypeCH080, sourceEmdat, EntryKey.DATASET_SUMMARY, extracted);
+		dataSerieMetadataDAO.createDataSerieMetadata(indicatorTypeCH080, sourceEmdat, MetadataName.DATASET_SUMMARY, extracted);
 
 		final Text moreInfo = textDAO.createText("http://mdgs.un.org/unsd/mdg/Metadata.aspx?IndicatorId=0&SeriesId=589");
-		dataSerieMetadataDAO.createDataSerieMetadata(indicatorTypeCH080, sourceEmdat, EntryKey.MORE_INFO, moreInfo);
+		dataSerieMetadataDAO.createDataSerieMetadata(indicatorTypeCH080, sourceEmdat, MetadataName.MORE_INFO, moreInfo);
 
 	}
 
 	public void tearDownDataForCountryCrisisHistory() {
-		final DataSerieMetadata datasetSummary = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey("CH080", "emdat", EntryKey.DATASET_SUMMARY);
+		final DataSerieMetadata datasetSummary = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey("CH080", "emdat", MetadataName.DATASET_SUMMARY);
 		dataSerieMetadataDAO.deleteDataSerieMetadata(datasetSummary.getId());
 
-		final DataSerieMetadata moreInfo = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey("CH080", "emdat", EntryKey.MORE_INFO);
+		final DataSerieMetadata moreInfo = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey("CH080", "emdat", MetadataName.MORE_INFO);
 		dataSerieMetadataDAO.deleteDataSerieMetadata(moreInfo.getId());
 
 		indicatorDAO.deleteAllIndicators();
@@ -288,12 +288,12 @@ public class IntegrationTestSetUpAndTearDown {
 				"www.disasters.com", importFromCKANDAO.listImportsFromCKAN().get(0));
 
 		final Text extracted = textDAO.createText("Average for 5 years");
-		dataSerieMetadataDAO.createDataSerieMetadata(indicatorTypeF02, sourceesaunpdWPP2012, EntryKey.DATASET_SUMMARY, extracted);
+		dataSerieMetadataDAO.createDataSerieMetadata(indicatorTypeF02, sourceesaunpdWPP2012, MetadataName.DATASET_SUMMARY, extracted);
 	}
 
 	public void tearDownDataForCountry5Years() {
 		final DataSerieMetadata dataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(
-				"_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "esa-unpd-wpp2012", EntryKey.DATASET_SUMMARY);
+				"_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "esa-unpd-wpp2012", MetadataName.DATASET_SUMMARY);
 		dataSerieMetadataDAO.deleteDataSerieMetadata(dataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey.getId());
 		indicatorDAO.deleteAllIndicators();
 

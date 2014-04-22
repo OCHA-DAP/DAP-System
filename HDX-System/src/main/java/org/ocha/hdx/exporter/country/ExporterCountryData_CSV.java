@@ -10,7 +10,7 @@ import java.util.Map;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_File;
 import org.ocha.hdx.exporter.helper.ReportRow;
-import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.ocha.hdx.service.ExporterService;
 
 /**
@@ -114,10 +114,10 @@ public class ExporterCountryData_CSV extends Exporter_File<ExporterCountryQueryD
 				row[2] = reportRow.getSourceCode();
 				row[3] = reportRow.getUnit();
 
-				row[4] = reportRow.getMetadata().get(EntryKey.DATASET_SUMMARY);
-				row[5] = reportRow.getMetadata().get(EntryKey.MORE_INFO);
-				row[6] = reportRow.getMetadata().get(EntryKey.TERMS_OF_USE);
-				row[7] = reportRow.getMetadata().get(EntryKey.METHODOLOGY);
+				row[4] = reportRow.getMetadata().get(MetadataName.DATASET_SUMMARY);
+				row[5] = reportRow.getMetadata().get(MetadataName.MORE_INFO);
+				row[6] = reportRow.getMetadata().get(MetadataName.TERMS_OF_USE);
+				row[7] = reportRow.getMetadata().get(MetadataName.METHODOLOGY);
 
 				for (int year = fromYear; year <= toYear; year++) {
 					final int columnIndex = yearToColum.get(year);

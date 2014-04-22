@@ -14,7 +14,7 @@ import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_XLSX;
 import org.ocha.hdx.exporter.QueryData.CHANNEL_KEYS;
 import org.ocha.hdx.exporter.helper.ReportRow;
-import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.ocha.hdx.service.ExporterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,10 +99,10 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 			trackIndicatorTypes(queryData, reportRow, sheetName);
 
 			// createDatasetSummaryCell(reportRow, 4, row);
-			createCell(row, 4, reportRow.getMetadata().get(EntryKey.DATASET_SUMMARY));
-			createCell(row, 5, reportRow.getMetadata().get(EntryKey.MORE_INFO));
-			createCell(row, 6, reportRow.getMetadata().get(EntryKey.TERMS_OF_USE));
-			createCell(row, 7, reportRow.getMetadata().get(EntryKey.METHODOLOGY));
+			createCell(row, 4, reportRow.getMetadata().get(MetadataName.DATASET_SUMMARY));
+			createCell(row, 5, reportRow.getMetadata().get(MetadataName.MORE_INFO));
+			createCell(row, 6, reportRow.getMetadata().get(MetadataName.TERMS_OF_USE));
+			createCell(row, 7, reportRow.getMetadata().get(MetadataName.METHODOLOGY));
 
 			for (int year = fromYear; year <= toYear; year++) {
 				final int columnIndex = yearToColum.get(year);

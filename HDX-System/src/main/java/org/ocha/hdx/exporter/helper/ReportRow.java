@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
-import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 
 /**
  * A mapping of data coming from the database to a structure more easy to use for the report generation.
@@ -24,7 +24,7 @@ public class ReportRow {
 	/**
 	 * Metadata from DataSerieMetadata
 	 */
-	private final Map<EntryKey, String> metadata;
+	private final Map<MetadataName, String> metadata;
 
 	/**
 	 * Values for years.
@@ -37,7 +37,7 @@ public class ReportRow {
 		this.indicatorName = indicatorName;
 		this.sourceCode = sourceCode;
 		this.unit = unit;
-		metadata = new HashMap<DataSerieMetadata.EntryKey, String>();
+		metadata = new HashMap<DataSerieMetadata.MetadataName, String>();
 		valuesForYears = new HashMap<Integer, String>();
 	}
 
@@ -57,11 +57,11 @@ public class ReportRow {
 		return unit;
 	}
 
-	public Map<EntryKey, String> getMetadata() {
+	public Map<MetadataName, String> getMetadata() {
 		return metadata;
 	}
 
-	public void addMetadata(final EntryKey key, final String value) {
+	public void addMetadata(final MetadataName key, final String value) {
 		metadata.put(key, value);
 	}
 

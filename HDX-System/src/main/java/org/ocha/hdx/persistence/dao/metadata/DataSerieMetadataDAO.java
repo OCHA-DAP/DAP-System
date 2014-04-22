@@ -9,7 +9,7 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
-import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.EntryKey;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 
 /**
  * @author alexandru-m-g
@@ -22,7 +22,7 @@ public interface DataSerieMetadataDAO {
 
 	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(String indicatorTypeCode, String sourceCode);
 
-	public DataSerieMetadata createDataSerieMetadata(IndicatorType type, Source source, EntryKey key, Text value);
+	public DataSerieMetadata createDataSerieMetadata(IndicatorType type, Source source, MetadataName key, Text value);
 
 	public void deleteDataSerieMetadata(long id);
 
@@ -32,5 +32,5 @@ public interface DataSerieMetadataDAO {
 
 	public DataSerieMetadata getDataSerieMetadataById(long id);
 
-	public DataSerieMetadata getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(final String indicatorTypeCode, final String sourceCode, final EntryKey entryKey);
+	public DataSerieMetadata getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(final String indicatorTypeCode, final String sourceCode, final MetadataName entryKey);
 }

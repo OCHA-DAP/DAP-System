@@ -29,11 +29,24 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
 @SequenceGenerator(name = "hdx_dataserie_metadata_seq", sequenceName = "hdx_dataserie_metadata_seq")
 public class DataSerieMetadata {
 
-	public enum EntryKey {
+	public enum MetadataName {
 		METHODOLOGY("Methodology"), MORE_INFO("More info"), DATASET_SUMMARY("Dataset summary"), TERMS_OF_USE("Terms of use"), VALIDATION_NOTES("Validation notes");
 		private final String label;
 
-		private EntryKey(final String label) {
+		private MetadataName(final String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+	}
+
+	public enum DataSeriesValidation {
+		MIN_BOUNDARY("Min Boundary"), MAX_BOUNDARY("Max Boundary");
+		private final String label;
+
+		private DataSeriesValidation(final String label) {
 			this.label = label;
 		}
 
@@ -59,7 +72,7 @@ public class DataSerieMetadata {
 
 	@Column(name = "entry_key", nullable = false, updatable = false)
 	@Enumerated(EnumType.STRING)
-	private EntryKey entryKey;
+	private MetadataName entryKey;
 
 	@ManyToOne
 	@JoinColumn(name = "entry_value_text_id")
@@ -69,7 +82,7 @@ public class DataSerieMetadata {
 	public DataSerieMetadata() {
 	}
 
-	public DataSerieMetadata(final IndicatorType type, final Source source, final EntryKey entryKey, final Text entryValue) {
+	public DataSerieMetadata(final IndicatorType type, final Source source, final MetadataName entryKey, final Text entryValue) {
 		super();
 		this.source = source;
 		this.indicatorType = type;
@@ -109,11 +122,11 @@ public class DataSerieMetadata {
 		this.entryValue = entryValue;
 	}
 
-	public EntryKey getEntryKey() {
+	public MetadataName getEntryKey() {
 		return entryKey;
 	}
 
-	public void setEntryKey(final EntryKey entryKey) {
+	public void setEntryKey(final MetadataName entryKey) {
 		this.entryKey = entryKey;
 	}
 
