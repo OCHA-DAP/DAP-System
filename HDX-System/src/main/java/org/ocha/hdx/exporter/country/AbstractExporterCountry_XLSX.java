@@ -113,7 +113,7 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 
 		// Freeze the headers
 		// Freeze the 2 first columns
-		sheet.createFreezePane(2, 1, 2, 1);
+		sheet.createFreezePane(3, 1, 3, 1);
 
 		// Auto size the columns
 		// Except Indicator ID and Dataset summary which is fixed
