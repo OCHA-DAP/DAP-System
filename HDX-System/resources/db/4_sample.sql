@@ -358,7 +358,7 @@ INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'emdat');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'emdat', currval('text_seq'));
 
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'HDRStats');
-INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'hdrstats', currval('text_seq'));
+INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'data.undp.org', currval('text_seq'));
 INSERT INTO source_dictionary(importer,unnormalized_name, source_id) VALUES('SCRAPER_VALIDATING','HDRStats',currval('source_seq'));
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'm49');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'm49', currval('text_seq'));
