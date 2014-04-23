@@ -10,12 +10,12 @@
 <jsp:include page="css-includes.jsp" />
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="dataSeries" />
-	<jsp:param name="needs" value="languages,indicatorTypes,periodicities" />
+	<jsp:param name="needs" value="languages,indicatorTypes,periodicities,dataValidators" />
 </jsp:include>
 </head>
 <body ng-controller="DataSeriesCtrl">
 	<jsp:include page="admin-menu.jsp" />
-	<div>
+	<div id="content">
 		<h3>Data Series management</h3>
 		<div style="width: 400px;">
 			<div class="form-group">
@@ -266,42 +266,63 @@
 				</div>
 			</div>
 		</div>
-		<div style="width: 800px;" ng-show="timeParametersAvailable">
-			<h4>Time parameters for indicator type [{{indicatorType.code}}] and source [{{source.code}}]</h4>
-			<div style="width: 400px;" class="css-form">
-				<form novalidate name="timeParametersForm" class="css-form">
-					<div class="form-group">
-						<label for="expectedTimeFormat">Expected time format</label> <input ng-disabled="!editTimeParameters" type="text" class="form-control" placeholder="Expected time format..."
-							ng-model="newValuesTimeParameters.expectedTimeFormat" name="expectedTimeFormat" id="expectedTimeFormat" />
-					</div>
-					<div class="form-group">
-						<label for="interpretedStartTime">Interpreted start time</label> <input ng-disabled="!editTimeParameters" type="text" class="form-control" placeholder="Interpreted start time..."
-							ng-model="newValuesTimeParameters.interpretedStartTime" id="interpretedStartTime" />
-					</div>
-					<div class="form-group">
-						<label for="interpretedEndTime">Interpreted end time</label> <input ng-disabled="!editTimeParameters" type="text" class="form-control" placeholder="Interpreted end time..."
-							ng-model="newValuesTimeParameters.interpretedEndTime" id="interpretedEndTime" />
-					</div>
-					<div class="form-group">
-						<label for="interpretedEndTime">Interpreted periodicity</label> <select class="form-control" ng-disabled="!editTimeParameters" ng-model="newValuesTimeParameters.interpretedPeriodicity"
-							name="interpretedPeriodicity" id="interpretedPeriodicity" ng-options="p.value as p.text for p in periodicities"></select>
-					</div>
-					<div>
-						<div ng-show="editTimeParameters" class="form-buttons form-inline">
-							<button type="submit" ng-disabled="rowform.$waiting" ng-click="updateTimeParameters()" class="btn btn-primary btn-custom-default">Save</button>
-							<button type="button" ng-disabled="rowform.$waiting" ng-click="showEditTimeParameters(false)" class="btn btn-default btn-custom-cancel">Cancel</button>
-						</div>
-						<div class="buttons" ng-show="!editTimeParameters">
-							<button class="btn btn-primary btn-custom-default" ng-click="showEditTimeParameters(true)">Edit</button>
-						</div>
-					</div>
-				</form>
+		<div style="width: 800px;" ng-show="dataValidatorsAvailable">
+			<h4>Data validators for indicator type [{{indicatorType.code}}] and source [{{source.code}}]</h4>
+			<div style="width: 800px;" class="css-form">
+				<div>
+					<h5>Add data validator</h5>
+					<form novalidate name="createDataValidatorForm" class="css-form">
+						<table class="table table-bordered table-hover table-condensed">
+							<tr style="font-weight: bold">
+								<td style="width: 30%">Validator</td>
+								<td style="width: 50%">Value</td>
+								<td style="width: 20%">Action</td>
+							</tr>
+							<tr>
+								<td><select class="form-control" id="dataValidatorNewResource_name" ng-disabled="!enableAddDataValidatorForm" ng-model="dataValidatorNewResource.name" ng-options="dv.name for dv in dataValidators | filter:filterDataValidator" ng-class="default" required></select></td>
+								<td><input type="text" class="form-control" placeholder="Value" id="dataValidatorNewResource_value" ng-disabled="!enableAddDataValidatorForm" ng-model="dataValidatorNewResource.value" required /></td>
+								<td style="white-space: nowrap">
+									<button class="btn btn-primary btn-custom-default" ng-disabled="!enableAddDataValidatorForm" ng-click="createDataValidator(dataValidatorNewResource)">Add</button>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<h5>Data validators</h5>
+				<div>
+					<table class="table table-bordered table-hover table-condensed">
+						<tr style="font-weight: bold">
+							<td style="width: 30%"><a href="" ng-click="dataValidatorPredicate='name'; reverse=!reverse">Validator</a> <columnsearch param="search.name"></columnsearch></td>
+							<td style="width: 50%"><a href="" ng-click="dataValidatorPredicate='value'; reverse=!reverse">Value</a> <columnsearch param="search.value"></columnsearch></td>
+							<td style="width: 20%">Action</td>
+						</tr>
+						<tr ng-repeat="dataValidator in metadata.dataValidators | filter:search | orderBy:dataValidatorPredicate:reverse">
+							<td>
+								<!-- non editable name --> <span e-name="name" e-form="rowform"> {{ dataValidator.name }} </span>
+							</td>
+							<td>
+								<!-- editable value --> <span editable-text="dataValidator.value" e-class="form-control" e-name="value" e-id="value" e-form="rowform" e-required> {{ dataValidator.value }} </span>
+							</td>
+							<td style="white-space: nowrap">
+								<!-- form -->
+								<form editable-form name="rowform" onbeforesave="updateDataValidator($data, dataValidator.name)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == dataValidator">
+									<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
+									<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
+								</form>
+								<div class="buttons" ng-show="!rowform.$visible">
+									<button class="btn btn-primary btn-custom-default" ng-click="rowform.$show()">Edit</button>
+									<button class="btn btn-danger btn-custom-danger" ng-click="deleteDataValidator(dataValidator.id)">Delete</button>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
 		<div style="width: 800px;" ng-show="validationNotesAvailable">
 			<h4>Validation notes and comments for indicator type [{{indicatorType.code}}] and source [{{source.code}}]</h4>
-			<textarea editable-textarea="validationNotes" onbeforesave="applyChange($data, 'VALIDATION_NOTES', language.code)" e-class="form-control" e-name="validationNotes" e-id="validationNotes" e-form="validationNotesForm" e-required e-rows="10" e-cols="120"
-				rows="10" cols="120" disabled style="padding: 5px;">{{ validationNotes }} </textarea>
+			<textarea editable-textarea="validationNotes" onbeforesave="applyChange($data, 'VALIDATION_NOTES', language.code)" e-class="form-control" e-name="validationNotes" e-id="validationNotes"
+				e-form="validationNotesForm" e-required e-rows="10" e-cols="120" rows="10" cols="120" disabled style="padding: 5px;">{{ validationNotes }} </textarea>
 			<form editable-form name="validationNotesForm" onbeforesave="updateMetadata('VALIDATION_NOTES', 'default')" style="margin-top: 10px;" ng-show="validationNotesForm.$visible"
 				class="form-buttons form-inline" shown="inserted == metadata">
 				<button type="submit" ng-disabled="validationNotesForm.$waiting" class="btn btn-primary btn-custom-default">Save</button>
@@ -316,7 +337,9 @@
 		<h3>Test zone</h3>
 		<pre>
 		<p>Metadata : {{ metadata | json }}</p>
-		<p>Time parameters : {{ timeParameters | json }}</p>
+		<p>Data validators : {{ dataValidators | json }}</p>
+		<p>Updated data validator name : {{ updatedDataValidatorName }}</p>
+		<p>Updated data validator value : {{ updatedDataValidatorValue }}</p>
 		<p>Periodicities : {{ periodicities | json }}</p>
 		<p>Languages : {{ languages | json }}</p>
 		<p>Indicator types : {{ indicatorTypes | json }}</p>

@@ -13,7 +13,7 @@
 </head>
 <body ng-controller="DatasetsCtrl">
 	<jsp:include page="admin-menu.jsp" />
-	<div>
+	<div id="content">
 		<h3>List of datasets in CKAN</h3>
 		<table class="table table-bordered table-hover table-condensed">
 			<tr>

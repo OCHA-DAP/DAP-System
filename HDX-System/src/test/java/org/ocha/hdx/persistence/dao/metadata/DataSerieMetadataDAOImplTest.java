@@ -26,6 +26,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataType;
 import org.ocha.hdx.validation.util.DummyEntityCreatorWrapper;
 import org.ocha.hdx.validation.util.DummyEntityCreatorWrapper.DummyEntityCreator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,8 +159,11 @@ public class DataSerieMetadataDAOImplTest {
 		}
 
 		final List<DataSerieMetadata> modifiedList2 = dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(new DataSerie(indicatorType2.getCode(), source2.getCode()));
+		final List<DataSerieMetadata> validatorsList = dataSerieMetadataDAO.listDataSerieDataValidatorsByIndicatorTypeCodeAndSourceCode(new DataSerie(indicatorType2.getCode(), source2.getCode()));
 
 		assertEquals(NUM_OF_ITEMS / 2, modifiedList2.size());
+		assertEquals(0, validatorsList.size());
+
 		for (int i = 0; i < modifiedList2.size(); i++) {
 			final int realIndex = (2 * i) + 1;
 			final DataSerieMetadata dataSerieMetadata = modifiedList2.get(i);
@@ -168,6 +172,24 @@ public class DataSerieMetadataDAOImplTest {
 			assertEquals(indicatorType2.getCode(), dataSerieMetadata.getIndicatorType().getCode());
 			assertEquals(MetadataName.METHODOLOGY, dataSerieMetadata.getEntryKey());
 			assertEquals("Dummy Value " + realIndex, dataSerieMetadata.getEntryValue().getDefaultValue());
+		}
+
+		for (int i = 0; i < NUM_OF_ITEMS; i++) {
+			final Text text = textDAO.createText("Dummy Value " + i);
+			if ((i % 2) == 0) {
+				dataSerieMetadataDAO.createDataSerieMetadata(indicatorType2, source2, MetadataName.MAX_BOUNDARY, text);
+			} else {
+				dataSerieMetadataDAO.createDataSerieMetadata(indicatorType2, source2, MetadataName.MIN_BOUNDARY, text);
+			}
+		}
+
+		final List<DataSerieMetadata> validatorsList2 = dataSerieMetadataDAO.listDataSerieDataValidatorsByIndicatorTypeCodeAndSourceCode(new DataSerie(indicatorType2.getCode(), source2.getCode()));
+		for (int i = 0; i < validatorsList2.size(); i++) {
+			final DataSerieMetadata dataSerieMetadata = validatorsList2.get(i);
+
+			assertEquals(source2.getCode(), dataSerieMetadata.getSource().getCode());
+			assertEquals(indicatorType2.getCode(), dataSerieMetadata.getIndicatorType().getCode());
+			assertEquals(MetadataType.VALIDATOR, dataSerieMetadata.getEntryKey().getType());
 		}
 
 		for (final DataSerieMetadata dataSerieMetadata : dataSerieMetadataDAO.listDataSerieMetadata()) {

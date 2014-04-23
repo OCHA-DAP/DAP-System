@@ -14,7 +14,7 @@
 </head>
 <body ng-controller="ResourcesCtrl">
 	<jsp:include page="admin-menu.jsp" />
-	<div>
+	<div id="content">
 		<h3>Detected CKAN Resources</h3>
 
 		<table class="table table-bordered table-hover table-condensed">

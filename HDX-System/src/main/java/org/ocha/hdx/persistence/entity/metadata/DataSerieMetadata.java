@@ -3,6 +3,9 @@
  */
 package org.ocha.hdx.persistence.entity.metadata;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -29,29 +32,37 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
 @SequenceGenerator(name = "hdx_dataserie_metadata_seq", sequenceName = "hdx_dataserie_metadata_seq")
 public class DataSerieMetadata {
 
-	public enum MetadataName {
-		METHODOLOGY("Methodology"), MORE_INFO("More info"), DATASET_SUMMARY("Dataset summary"), TERMS_OF_USE("Terms of use"), VALIDATION_NOTES("Validation notes");
-		private final String label;
-
-		private MetadataName(final String label) {
-			this.label = label;
-		}
-
-		public String getLabel() {
-			return label;
-		}
+	public enum MetadataType {
+		METADATA, NOTE, VALIDATOR
 	}
 
-	public enum DataSeriesValidation {
-		MIN_BOUNDARY("Min Boundary"), MAX_BOUNDARY("Max Boundary");
+	public enum MetadataName {
+		METHODOLOGY("Methodology", MetadataType.METADATA), MORE_INFO("More info", MetadataType.METADATA), DATASET_SUMMARY("Dataset summary", MetadataType.METADATA), TERMS_OF_USE("Terms of use", MetadataType.METADATA), VALIDATION_NOTES(
+				"Validation notes", MetadataType.NOTE), MIN_BOUNDARY("Min Boundary", MetadataType.VALIDATOR), MAX_BOUNDARY("Max Boundary", MetadataType.VALIDATOR);
 		private final String label;
+		private final MetadataType type;
 
-		private DataSeriesValidation(final String label) {
+		private MetadataName(final String label, final MetadataType type) {
 			this.label = label;
+			this.type = type;
 		}
 
 		public String getLabel() {
 			return label;
+		}
+
+		public MetadataType getType() {
+			return type;
+		}
+
+		public static List<MetadataName> getByType(final MetadataType type_) {
+			final List<MetadataName> result = new ArrayList<DataSerieMetadata.MetadataName>();
+			for (final MetadataName metadataName : values()) {
+				if (type_.equals(metadataName.getType())) {
+					result.add(metadataName);
+				}
+			}
+			return result;
 		}
 	}
 
@@ -85,7 +96,7 @@ public class DataSerieMetadata {
 	public DataSerieMetadata(final IndicatorType type, final Source source, final MetadataName entryKey, final Text entryValue) {
 		super();
 		this.source = source;
-		this.indicatorType = type;
+		indicatorType = type;
 		this.entryKey = entryKey;
 		this.entryValue = entryValue;
 	}
@@ -130,4 +141,8 @@ public class DataSerieMetadata {
 		this.entryKey = entryKey;
 	}
 
+	@Override
+	public String toString() {
+		return "DataSerieMetadata [id=" + id + ", source=" + source.getName().getDefaultValue() + ", indicatorType=" + indicatorType.getName().getDefaultValue() + ", entryKey= label:" + entryKey.getLabel() + ", type:" + entryKey.getType().name() + ", entryValue=" + entryValue + "]";
+	}
 }

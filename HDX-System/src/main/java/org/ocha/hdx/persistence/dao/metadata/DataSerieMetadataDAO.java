@@ -23,6 +23,8 @@ public interface DataSerieMetadataDAO {
 
 	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(final DataSerie dataSerie);
 
+	public List<DataSerieMetadata> listDataSerieDataValidatorsByIndicatorTypeCodeAndSourceCode(final DataSerie dataSerie);
+
 	public DataSerieMetadata createDataSerieMetadata(IndicatorType type, Source source, MetadataName key, Text value);
 
 	public void deleteDataSerieMetadata(long id);

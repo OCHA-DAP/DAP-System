@@ -13,7 +13,7 @@
 </head>
 <body ng-controller="DatasetCtrl">
 	<jsp:include page="admin-menu.jsp" />
-	<div>
+	<div id="content">
 		<h3>Content of dataset :</h3>
 		<c:if test="${it.success}">
 	${it.result.license_title}

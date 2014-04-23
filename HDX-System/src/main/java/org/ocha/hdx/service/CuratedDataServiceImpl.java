@@ -749,8 +749,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void updateValidatorsForDataSeries() {
-		// TODO
+	public void deleteMetadata(final Long id) {
+		dataSerieMetadataDAO.deleteDataSerieMetadata(id);
 	}
 
 	/*

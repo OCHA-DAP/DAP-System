@@ -140,8 +140,8 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, utilities) {
     $scope.createResourceForm.$setPristine();
   };
 
-  // Update a indicatorType
-  // ===============
+  // Update an indicatorType
+  // =======================
   $scope.updateIndicatorType = function(data, id) {
     var params = {};
     angular.extend(params, {

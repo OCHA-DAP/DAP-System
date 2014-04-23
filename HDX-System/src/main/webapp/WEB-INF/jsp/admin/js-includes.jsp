@@ -45,6 +45,15 @@
 <%
 	} // End if(needs.contains("columnsearch")) {
 
+	if(needs.contains("dataValidators")) {
+%>
+<script src="${ctx}/admin/curated/dataValidators/json?var=data_dataValidators"></script>
+<script>
+	appData['dataValidators'] = data_dataValidators;
+</script>
+<%
+	} // End if(needs.contains("sources")) {
+
 	if(needs.contains("sources")) {
 %>
 <script src="${ctx}/admin/curated/sources/json?var=data_sources"></script>

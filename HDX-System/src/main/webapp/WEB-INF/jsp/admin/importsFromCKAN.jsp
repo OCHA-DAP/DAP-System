@@ -14,7 +14,7 @@
 </head>
 <body ng-controller="ImportsFromCKANCtrl">
 	<jsp:include page="admin-menu.jsp" />
-	<div>
+	<div id="content">
 		<h3>Delete an import and all the associated indicators</h3>
 		<div>
 			<form method="POST" action="./delete" class="css-form" role="form">

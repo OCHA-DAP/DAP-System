@@ -170,10 +170,7 @@ public interface CuratedDataService {
 
 	public void updateMetadataForIndicatorTypeAndSource(String which, String data, String languageCode, String indicatorTypeCode, String sourceCode);
 
-	/*
-	 * Time parameters
-	 */
-	public void updateValidatorsForDataSeries();
+	public void deleteMetadata(Long id);
 
 	/*
 	 * Validation notes

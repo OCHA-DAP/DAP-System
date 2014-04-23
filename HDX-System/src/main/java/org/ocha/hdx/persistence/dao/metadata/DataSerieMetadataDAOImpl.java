@@ -13,6 +13,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataType;
 import org.springframework.transaction.annotation.Transactional;
 
 public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
@@ -43,6 +44,18 @@ public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
 				DataSerieMetadata.class);
 		query.setParameter("indicatorTypeCode", indicatorTypeCode);
 		query.setParameter("sourceCode", sourceCode);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<DataSerieMetadata> listDataSerieDataValidatorsByIndicatorTypeCodeAndSourceCode(final DataSerie dataSerie) {
+		final String indicatorTypeCode = dataSerie.getIndicatorCode();
+		final String sourceCode = dataSerie.getSourceCode();
+		final TypedQuery<DataSerieMetadata> query = em.createQuery(
+				"SELECT ad FROM DataSerieMetadata ad WHERE ad.indicatorType.code=:indicatorTypeCode AND ad.source.code=:sourceCode AND ad.entryKey IN :validators", DataSerieMetadata.class);
+		query.setParameter("indicatorTypeCode", indicatorTypeCode);
+		query.setParameter("sourceCode", sourceCode);
+		query.setParameter("validators", MetadataName.getByType(MetadataType.VALIDATOR));
 		return query.getResultList();
 	}
 
