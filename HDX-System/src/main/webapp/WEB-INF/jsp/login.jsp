@@ -15,7 +15,7 @@
   });
 </script>
 </head>
-<body>
+<body style="padding: 10px;">
 	<nav class="navbar navbar-default" role="navigation" ng-controller="MenuCtrl">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">

@@ -14,7 +14,7 @@
 </head>
 <body ng-controller="TestCtrl">
 	<jsp:include page="admin-menu.jsp" />
-	<div>
+	<div id="content">
 		<h3>Test page</h3>
 		<div class="form-group">
 			<label for="resource">Resource</label> <select class="form-control" ng-model="which" ng-options="a.name for a in available"

@@ -22,6 +22,8 @@ public interface DataSerieMetadataDAO {
 
 	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(String indicatorTypeCode, String sourceCode);
 
+	public List<DataSerieMetadata> listDataSerieDataValidatorsByIndicatorTypeCodeAndSourceCode(String indicatorTypeCode, String sourceCode);
+
 	public DataSerieMetadata createDataSerieMetadata(IndicatorType type, Source source, MetadataName key, Text value);
 
 	public void deleteDataSerieMetadata(long id);

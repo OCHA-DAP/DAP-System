@@ -47,6 +47,8 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.i18n.Translation;
 import org.ocha.hdx.persistence.entity.i18n.Translation.Id;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataType;
 import org.ocha.hdx.rest.helper.DisplayIndicatorTypeDictionaries;
 import org.ocha.hdx.rest.helper.DisplayIndicators;
 import org.ocha.hdx.rest.helper.DisplayRegionDictionaries;
@@ -1294,7 +1296,9 @@ public class AdminResource {
 		final JsonArray jsonArray = new JsonArray();
 		for (final DataSerieMetadata dataSerieMetadata : metadataForIndicatorTypeAndSource) {
 			final JsonObject jsonDataSerieMetadata = new JsonObject();
+			jsonDataSerieMetadata.addProperty("id", dataSerieMetadata.getId());
 			jsonDataSerieMetadata.addProperty("entryKey", dataSerieMetadata.getEntryKey().toString());
+			jsonDataSerieMetadata.addProperty("entryType", dataSerieMetadata.getEntryKey().getType().toString());
 			jsonDataSerieMetadata.addProperty("entryValue", dataSerieMetadata.getEntryValue().getDefaultValue());
 			jsonDataSerieMetadata.add("translations", translationsToJson(dataSerieMetadata.getEntryValue().getTranslations()));
 			jsonDataSerieMetadata.addProperty("indicatorCode", dataSerieMetadata.getIndicatorType().getCode());
@@ -1317,6 +1321,35 @@ public class AdminResource {
 	public Response updateValidationNotesForIndicatorTypeAndSource(@FormParam("validatioNotes") final String validationNotes, @FormParam("indicatorTypeCode") final String indicatorTypeCode,
 			@FormParam("sourceCode") final String sourceCode) throws Exception {
 		curatedDataService.updateValidationNotesForIndicatorTypeAndSource(validationNotes, indicatorTypeCode, sourceCode);
+		return Response.ok().build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/curated/dataValidators/json")
+	public static String getDataValidators(@QueryParam("var") final String var) throws TypeMismatchException {
+
+		String result = "";
+
+		final List<MetadataName> dataValidators = MetadataName.getByType(MetadataType.VALIDATOR);
+		final JsonArray jsonArray = new JsonArray();
+		for (final MetadataName dataValidator : dataValidators) {
+			final JsonObject jsonDataValidator = new JsonObject();
+			jsonDataValidator.addProperty("name", dataValidator.name());
+			jsonDataValidator.addProperty("label", dataValidator.getLabel());
+			jsonDataValidator.addProperty("type", dataValidator.getType().name());
+			jsonArray.add(jsonDataValidator);
+		}
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
+	}
+
+	@POST
+	@Path("/curated/dataValidators/submitDelete")
+	public Response deleteDataValidator(@FormParam("id") final Long id) throws Exception {
+		curatedDataService.deleteMetadata(id);
 		return Response.ok().build();
 	}
 

@@ -14,7 +14,7 @@
 </head>
 <body ng-controller="SourceDictionariesCtrl">
 	<jsp:include page="admin-menu.jsp" />
-	<div>
+	<div id="content">
 		<h3>Add a new Source Dictionary</h3>
 		<div>
 			<form novalidate name="createResourceForm" class="css-form">

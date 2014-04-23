@@ -16,6 +16,7 @@
 </head>
 <body ng-controller="EditResourceConfigurationCtrl">
 	<jsp:include page="admin-menu.jsp" />
+	<div id="content">
 		<h3>Resource Configuration Identification</h3>
 		<div style="width:50%">
 			<table class="table table-bordered table-hover table-condensed"> 
@@ -180,6 +181,7 @@
 				</tr>
 			</table>
 		</div>
+	</div>
 	<div ng-show="showTestZone">
 		<h3>Test zone</h3>
 		<pre>

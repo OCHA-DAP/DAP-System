@@ -14,7 +14,7 @@
 </head>
 <body ng-controller="RegionDictionariesCtrl">
 	<jsp:include page="admin-menu.jsp" />
-	<div>
+	<div id="content">
 		<h3>Add a new Region Dictionary</h3>
 		<div>
 			<form novalidate name="createResourceForm" class="css-form">

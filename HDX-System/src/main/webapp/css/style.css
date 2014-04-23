@@ -2,8 +2,10 @@
 Global CSS settings
 */
 body {
+	/*
 	padding: 10px;
 	margin: 10px 0 10px 0;
+	*/
 }
 /*
 Old settings
@@ -177,10 +179,17 @@ search {
 	overflow: auto;
 }
 
-.navbar{
+#content {
+	margin-top: 70px;
+	padding-top: 1px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+#menu {
+	margin-top: -70px;
 	position : fixed;
 	width : 100%;
-}
-.placeholder-under-menu{
-	height: 50px;
+	padding: 10px;
+	background-color: white;
+	z-index: 10;
 }

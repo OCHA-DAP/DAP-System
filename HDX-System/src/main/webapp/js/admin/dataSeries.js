@@ -10,6 +10,7 @@ app
             $scope.indicatorTypes = appData['indicatorTypes'];
             $scope.languages = appData['languages'];
             $scope.periodicities = appData['periodicities'];
+            $scope.dataValidators = appData['dataValidators'];
           }
           $scope.resources();
 
@@ -17,7 +18,7 @@ app
 
           $scope.resetView = function() {
             $scope.resetMetadata();
-            $scope.resetTimeParameters();
+            $scope.resetDataValidators();
             $scope.resetValidationNotes();
           }
 
@@ -26,7 +27,7 @@ app
           // //////////////////////
 
           $scope.metadataAvailable = false;
-          $scope.timeParametersAvailable = false;
+          $scope.dataValidatorsAvailable = false;
           $scope.validationNotesAvailable = false;
 
           // Reset the metadata part of the UI
@@ -41,6 +42,7 @@ app
             $scope.metadata.termsOfUse = "";
             $scope.metadata.termsOfUseTranslations = {};
             $scope.validationNotes = "";
+            $scope.metadata.dataValidators = [];
 
             // Cancel the forms
             if ($scope.datasetSummaryForm) {
@@ -62,6 +64,12 @@ app
             if ($scope.validationNotesForm) {
               $scope.validationNotesForm.$cancel();
               $scope.validationNotesForm.$visible = false;
+            }
+            if ($scope.dataValidatorsForm) {
+              /*
+              $scope.dataValidatorsForm.$cancel();
+              $scope.dataValidatorsForm.$visible = false;
+              */
             }
 
             // Empty the text areas
@@ -101,21 +109,26 @@ app
                   } else if ("TERMS_OF_USE" === metadata_.entryKey) {
                     $scope.metadata.termsOfUse = metadata_.entryValue;
                     $scope.processTranslations(metadata_.entryKey, metadata_.translations);
+                  } else if ("VALIDATOR" === metadata_.entryType) { // Special handling for data validators
+                    $scope.metadata.dataValidators.push({
+                      "id" : metadata_.id,
+                      "name" : metadata_.entryKey,
+                      "value" : metadata_.entryValue,
+                    });
                   } else if ("VALIDATION_NOTES" === metadata_.entryKey) {
                     $scope.validationNotes = metadata_.entryValue;
                   }
                 }
-                $scope.assignNewValues();
               }
               $scope.metadataAvailable = true;
               if (which) {
                 if ("CURATED_DATA_VALIDATORS" === which) {
                   $scope.metadataAvailable = false;
                   $scope.validationNotesAvailable = false;
-                  $scope.timeParametersAvailable = true;
+                  $scope.dataValidatorsAvailable = true;
                 } else if ("VALIDATION_NOTES" === which) {
                   $scope.metadataAvailable = false;
-                  $scope.timeParametersAvailable = false;
+                  $scope.dataValidatorsAvailable = false;
                   $scope.validationNotesAvailable = true;
                 } else {
                   $('#metadataTabs a[href="#' + which + '"]').tab('show')
@@ -268,6 +281,7 @@ app
           // Update the metadata
           $scope.updateMetadata = function(which, languageCode) {
             var data = "";
+            var which_ = which;
             switch (which) {
             case 'DATASET_SUMMARY':
               data = 'default' === languageCode ? $scope.metadata.datasetSummary : $scope.metadata.datasetSummaryTranslations[languageCode];
@@ -281,7 +295,14 @@ app
             case 'TERMS_OF_USE':
               data = 'default' === languageCode ? $scope.metadata.termsOfUse : $scope.metadata.termsOfUseTranslations[languageCode];
               break;
+            case 'CURATED_DATA_VALIDATORS': 
+              which_ = $scope.updatedDataValidatorName;
+              data = $scope.updatedDataValidatorValue;
+              break;
             case 'VALIDATION_NOTES': // no i18n, so will be stored as Text.defaultValue in DB
+              data = $scope.validationNotes;
+              break;
+            case '': // no i18n, so will be stored as Text.defaultValue in DB
               data = $scope.validationNotes;
               break;
             default:
@@ -292,7 +313,7 @@ app
             
             var options = {};
             options.params = {
-              which : which,
+              which : which_,
               data : data,
               languageCode : languageCode,
               indicatorTypeCode : $scope.indicatorType.code,
@@ -316,91 +337,139 @@ app
           }
 
           // //////////////////////////
-          // Time parameters management
+          // Data validators management
           // //////////////////////////
 
-          // Reset the time parameters part of the UI
-          $scope.resetTimeParameters = function() {
-            $scope.timeParameters = {};
-            $scope.timeParameters.expectedTimeFormat = "";
-            $scope.timeParameters.interpretedStartTime = "";
-            $scope.timeParameters.interpretedEndTime = "";
-            $scope.timeParameters.interpretedPeriodicity = "";
+          // The new data validator
+          $scope.dataValidatorNewResource;
+          
+          // The new data validator sort management
+          $scope.dataValidatorPredicate = 'name';
 
-            $scope.assignNewValues();
+          // Reset the data validators part of the UI
+          $scope.resetDataValidators = function() {
+            $scope.metadata.dataValidators = [];
 
             // Hide the form
-            $scope.timeParametersAvailable = false;
-            $scope.editTimeParameters = false;
+            $scope.dataValidatorsAvailable = false;
           }
-
-          $scope.assignNewValues = function() {
-            // Time parameters new values
-            $scope.newValuesTimeParameters = {};
-            $scope.newValuesTimeParameters.expectedTimeFormat = $scope.timeParameters.expectedTimeFormat;
-            $scope.newValuesTimeParameters.interpretedStartTime = $scope.timeParameters.interpretedStartTime;
-            $scope.newValuesTimeParameters.interpretedEndTime = $scope.timeParameters.interpretedEndTime;
-            $scope.newValuesTimeParameters.interpretedPeriodicity = $scope.timeParameters.interpretedPeriodicity;
-          }
-
-          $scope.showEditTimeParameters = function(mode) {
-            $scope.editTimeParameters = mode;
-            if (!mode) {
-              $scope.newValuesTimeParameters.expectedTimeFormat = $scope.timeParameters.expectedTimeFormat;
-              $scope.newValuesTimeParameters.interpretedStartTime = $scope.timeParameters.interpretedStartTime;
-              $scope.newValuesTimeParameters.interpretedEndTime = $scope.timeParameters.interpretedEndTime;
-              $scope.newValuesTimeParameters.interpretedPeriodicity = $scope.timeParameters.interpretedPeriodicity;
-            } else {
-              setTimeout(function() {
-                utilities.setFocus("expectedTimeFormat"); // Not working if we don't wait a bit
-              }, (50));
-            }
-          }
-
-          // Update the Validation for DataSeries
           
-//          $scope.updateTimeParameters = function() {
-//            if (!$scope.newValuesTimeParameters
-//                || null === $scope.newValuesTimeParameters
-//                || ((!$scope.newValuesTimeParameters.expectedTimeFormat || null === $scope.newValuesTimeParameters.expectedTimeFormat || "" === $scope.newValuesTimeParameters.expectedTimeFormat)
-//                    && (!$scope.newValuesTimeParameters.interpretedStartTime || null === $scope.newValuesTimeParameters.interpretedStartTime || "" === $scope.newValuesTimeParameters.interpretedStartTime)
-//                    && (!$scope.newValuesTimeParameters.interpretedEndTime || null === $scope.newValuesTimeParameters.interpretedEndTime || "" === $scope.newValuesTimeParameters.interpretedEndTime) && (!$scope.newValuesTimeParameters.interpretedPeriodicity
-//                    || null === $scope.newValuesTimeParameters.interpretedPeriodicity || "" === $scope.newValuesTimeParameters.interpretedPeriodicity))) {
-//              alert("Please at least fill some info.");
-//              utilities.setFocus("expectedTimeFormat");
-//              return;
-//            }
-//            if (!$scope.newValuesTimeParameters.expectedTimeFormat || null === $scope.newValuesTimeParameters.expectedTimeFormat) {
-//              $scope.newValuesTimeParameters.expectedTimeFormat = "";
-//            }
-//            if (!$scope.newValuesTimeParameters.interpretedStartTime || null === $scope.newValuesTimeParameters.interpretedStartTime) {
-//              $scope.newValuesTimeParameters.interpretedStartTime = "";
-//            }
-//            if (!$scope.newValuesTimeParameters.interpretedEndTime || null === $scope.newValuesTimeParameters.interpretedEndTime) {
-//              $scope.newValuesTimeParameters.interpretedEndTime = "";
-//            }
-//            if (!$scope.newValuesTimeParameters.interpretedPeriodicity || null === $scope.newValuesTimeParameters.interpretedPeriodicity) {
-//              $scope.newValuesTimeParameters.interpretedPeriodicity = "";
-//            }
-//            var options = {};
-//            options.params = {
-//              expectedTimeFormat : $scope.newValuesTimeParameters.expectedTimeFormat,
-//              interpretedStartTime : $scope.newValuesTimeParameters.interpretedStartTime,
-//              interpretedEndTime : $scope.newValuesTimeParameters.interpretedEndTime,
-//              interpretedPeriodicity : $scope.newValuesTimeParameters.interpretedPeriodicity,
-//              indicatorTypeCode : $scope.indicatorType.code,
-//              sourceCode : $scope.source.code
-//            };
-//            options.url = "/admin/curated/timeParametersForIndicatorTypeAndSource/submitUpdate";
-//            options.successCallback = function() {
-//              $scope.showMetadata("TIME_PARAMETERS");
-//              $scope.showEditTimeParameters(false);
-//            };
-//            options.errorCallback = function() {
-//              alert("Unable to update time parameters !");
-//            };
-//            utilities.post(options);
-//          }
+          $scope.enableAddDataValidatorForm = false;
+          $scope.filterDataValidator = function(v) {
+            var found = false;
+            if(v && $scope.metadata && $scope.metadata.dataValidators) {
+              for (var i = 0; i < $scope.metadata.dataValidators.length; i++) {
+                var dv = $scope.metadata.dataValidators[i];
+                if(dv.name === v.name) {
+                  found = true;
+                  break;
+                }
+              }
+            }
+            $scope.enableAddDataValidatorForm = !found;
+            return !found;
+          }
+
+          // Create a data validator
+          // =======================
+          $scope.createDataValidator = function(data) {
+            var params = {};
+            if (data && data.name && data.name.name) {
+              angular.extend(params, {
+                "which" : data.name.name
+              });
+            }
+            if (data && data.value) {
+              angular.extend(params, {
+                "data" : data.value
+              });
+            }
+            angular.extend(params, {
+              "languageCode" : "default"
+            });
+            angular.extend(params, {
+              "indicatorTypeCode" : $scope.indicatorType.code
+            });
+            angular.extend(params, {
+              "sourceCode" : $scope.source.code
+            });
+            
+            return utilities.createResource({
+              validate : $scope.checkCreateDataValidatorForm,
+              data : data,
+              params : params,
+              url : '/admin/curated/metadataForIndicatorTypeAndSource/submitUpdate',
+              successCallback : function() {
+                $scope.resetNewDataValidator();
+                $scope.resetCreateDataValidatorForm();
+                $scope.showMetadata("CURATED_DATA_VALIDATORS");
+              },
+              errorCallback : function() {
+                alert("Data validator creation threw an error. Maybe this data validator already exists. No data validator has been created.");
+              }
+            });
+          };
+
+          // Check that the new data validator is complete
+          $scope.checkCreateDataValidatorForm = function(data) {
+            if (!data) {
+              utilities.setFocus('dataValidatorNewResource_code');
+              return "At least some info should be provided.";
+            }
+            var name = data.name;
+            if (!name || null === name || '' === name) {
+              utilities.setFocus('dataValidatorNewResource_name');
+              return "Name cannot be empty.";
+            }
+            var value = data.value;
+            if ('' === value || null === value) {
+              utilities.setFocus('dataValidatorNewResource_value');
+              return "Value cannot be empty.";
+            }
+            return "OK";
+          };
+
+          // Reset the new data validator
+          $scope.resetNewDataValidator = function() {
+            if (!$scope.dataValidatorNewResource) {
+              $scope.dataValidatorNewResource = {};
+            }
+            $scope.dataValidatorNewResource.name = "";
+            $scope.dataValidatorNewResource.value = "";
+          };
+
+          // Reset the create resource form
+          $scope.resetCreateDataValidatorForm = function() {
+            $scope.createDataValidatorForm.$setPristine();
+          };
+
+          // Special handling for data validators update
+          $scope.updatedDataValidatorName = "";
+          $scope.updatedDataValidatorValue = "";
+          $scope.updateDataValidator = function(data, dataValidatorName) {
+            $scope.updatedDataValidatorName = dataValidatorName;
+            $scope.updatedDataValidatorValue = data.value;
+            $scope.updateMetadata("CURATED_DATA_VALIDATORS", "default");
+            $scope.updatedDataValidatorName = "";
+            $scope.updatedDataValidatorValue = "";
+          }
+          
+          // Delete a data validator
+          $scope.deleteDataValidator = function(id) {
+            return utilities.deleteResource({
+              params : {
+                "id" : id
+              },
+              url : '/admin/curated/dataValidators/submitDelete',
+              successCallback : function() {
+                $scope.showMetadata("CURATED_DATA_VALIDATORS");
+                // $scope.$apply();
+              },
+              errorCallback : function() {
+                alert("Data validator deletion threw an error. No data validator has been deleted.");
+              }
+            });
+          }
 
           // ////////////////////////////////////////
           // Validation notes and comments management
