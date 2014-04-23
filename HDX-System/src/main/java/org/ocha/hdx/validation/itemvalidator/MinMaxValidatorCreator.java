@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.joda.time.ReadablePartial;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.ocha.hdx.config.ConfigurationConstants;
@@ -50,14 +51,90 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 		private final AbstractConfigEntry minValueEntry;
 		private final AbstractConfigEntry maxValueEntry;
 
+		boolean minValIsUsable=false;
+		boolean maxValIsUsable=false;
+
+		private IComparableHelper<Double> numericHelper;
+		private IComparableHelper<ReadablePartial> dateHelper;
+		private IComparableHelper<ReadablePartial> datetimeHelper;
+
+
 		public MinMaxValidator(final Map<String, AbstractConfigEntry> generalConfig, final Map<String, AbstractConfigEntry> indConfig) {
 
 			this.minValueEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel());
 			this.maxValueEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel());
 
-			if (this.minValueEntry == null || this.maxValueEntry == null) {
-				throw new WrongParametersForValidationException("Min value and Max value cannot be null");
+			if ( this.minValueEntry != null && this.minValueEntry.getEntryValue() != null
+					&& !this.minValueEntry.getEntryValue().trim().isEmpty() ) {
+				this.minValIsUsable	= true;
 			}
+
+			if ( this.maxValueEntry != null && this.maxValueEntry.getEntryValue() != null
+					&& !this.maxValueEntry.getEntryValue().trim().isEmpty() ) {
+				this.maxValIsUsable	= true;
+			}
+
+			this.numericHelper	= new IComparableHelper<Double>() {
+				@Override
+				public Comparable<Double> transform(final String string) {
+					try{
+						return Double.parseDouble(string);
+					} catch (final NumberFormatException e) {
+						throw new WrongParametersForValidationException(e);
+					}
+				}
+
+				@Override
+				public Comparable<Double> getValueFromIndicator(final Indicator indicator) {
+					return indicator.getValue().getNumberValue();
+				}
+			};
+
+			this.dateHelper	= new IComparableHelper<ReadablePartial>() {
+
+				@Override
+				public Comparable<ReadablePartial> transform(final String string) {
+					try{
+						return LocalDate.parse(string, DATE_FORMATTER);
+					}
+					catch(final IllegalArgumentException e) {
+						throw new WrongParametersForValidationException(e);
+					}
+				}
+
+				@Override
+				public Comparable<ReadablePartial> getValueFromIndicator(final Indicator indicator) {
+					try{
+						return new LocalDate(indicator.getValue().getDateValue());
+					}
+					catch( final IllegalArgumentException e) {
+						throw new WrongParametersForValidationException(e);
+					}
+				}
+			};
+
+			this.datetimeHelper	= new IComparableHelper<ReadablePartial>() {
+
+				@Override
+				public Comparable<ReadablePartial> transform(final String string) {
+					try{
+						return LocalDateTime.parse(string, DATE_TIME_FORMATTER);
+					}
+					catch(final IllegalArgumentException e) {
+						throw new WrongParametersForValidationException(e);
+					}
+				}
+
+				@Override
+				public Comparable<ReadablePartial> getValueFromIndicator(final Indicator indicator) {
+					try{
+						return new LocalDateTime(indicator.getValue().getDateValue());
+					}
+					catch( final IllegalArgumentException e) {
+						throw new WrongParametersForValidationException(e);
+					}
+				}
+			};
 		}
 
 		@Override
@@ -85,64 +162,62 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 
 			} else if (value.getDatetimeValue() != null) {
 
-				this.checkDateTime(this.minValueEntry, this.maxValueEntry, response, indicator);
+				this.check(this.minValueEntry, this.maxValueEntry, response, indicator, this.datetimeHelper);
 
 			} else if (value.getDateValue() != null) {
-				this.checkDate(this.minValueEntry, this.maxValueEntry, response, indicator);
+				this.check(this.minValueEntry, this.maxValueEntry, response, indicator, this.dateHelper);
 
 			} else if (value.getNumberValue() != null) {
-				this.checkNumber(this.minValueEntry, this.maxValueEntry, response, indicator);
+				this.check(this.minValueEntry, this.maxValueEntry, response, indicator, this.numericHelper);
 			}
 
 			return response;
 		}
 
-		private void checkNumber(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response, final Indicator indicator)
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		private void check(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response,
+				final Indicator indicator, final IComparableHelper<? extends Object> comparableHelper)
 				throws WrongParametersForValidationException {
-			try {
-				final Double doubleValue = indicator.getValue().getNumberValue();
-				final Double min = Double.parseDouble(minValueEntry.getEntryValue());
-				final Double max = Double.parseDouble(maxValueEntry.getEntryValue());
-				if (min <= doubleValue && doubleValue <= max) {
-					response.setDescription("Success");
-					response.setStatus(ValidationStatus.SUCCESS);
-				} else {
-					this.populateErrorResponse(minValueEntry, maxValueEntry, response, indicator);
+
+			/*
+			 * If we don't need to check for one of the boundaries then we assume the test
+			 * passes for that specific boundary
+			 */
+			boolean minCheckPass	= !this.minValIsUsable ;
+			boolean maxCheckPass	= !this.maxValIsUsable ;
+
+			final Comparable indValue = comparableHelper.getValueFromIndicator(indicator);
+			if ( this.minValIsUsable ) {
+				final Comparable min = comparableHelper.transform(minValueEntry.getEntryValue());
+				if (min.compareTo(indValue) <= 0 ) {
+					minCheckPass	= true;
 				}
-			} catch (final NumberFormatException e) {
-				throw new WrongParametersForValidationException(e);
 			}
-		}
 
-		private void checkDate(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response, final Indicator indicator) {
-			final LocalDate localDate = new LocalDate(indicator.getValue().getDateValue());
+			if ( this.maxValIsUsable ) {
+				final Comparable max = comparableHelper.transform(maxValueEntry.getEntryValue());
+				if (max.compareTo(indValue) >= 0 ) {
+					maxCheckPass	= true;
+				}
 
-			final LocalDate minDate = LocalDate.parse(minValueEntry.getEntryValue(), DATE_FORMATTER);
-			final LocalDate maxDate = LocalDate.parse(maxValueEntry.getEntryValue(), DATE_FORMATTER);
-			if (minDate.compareTo(localDate) <= 0 && maxDate.compareTo(localDate) >= 0) {
-				response.setDescription("Success");
-				response.setStatus(ValidationStatus.SUCCESS);
+			}
+
+			if ( minCheckPass && maxCheckPass ) {
+				this.populateSuccessResponse(response);
 			} else {
 				this.populateErrorResponse(minValueEntry, maxValueEntry, response, indicator);
 			}
-		}
 
-		private void checkDateTime(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response, final Indicator indicator) {
-			final LocalDateTime localDateTime = new LocalDateTime(indicator.getValue().getDatetimeValue());
-
-			final LocalDateTime minDateTime = LocalDateTime.parse(minValueEntry.getEntryValue(), DATE_TIME_FORMATTER);
-			final LocalDateTime maxDateTime = LocalDateTime.parse(maxValueEntry.getEntryValue(), DATE_TIME_FORMATTER);
-			if (minDateTime.compareTo(localDateTime) <= 0 && maxDateTime.compareTo(localDateTime) >= 0) {
-				response.setDescription("Success");
-				response.setStatus(ValidationStatus.SUCCESS);
-			} else {
-				this.populateErrorResponse(minValueEntry, maxValueEntry, response, indicator);
-			}
 		}
 
 		private void populateErrorResponse(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response, final Indicator indicator) {
 			response.setDescription(String.format("Value is not between %s and %s for %s", minValueEntry.getEntryValue(), maxValueEntry.getEntryValue(), indicator.toString()));
 			response.setStatus(ValidationStatus.ERROR);
+		}
+
+		private void populateSuccessResponse(final Response response) {
+			response.setDescription("Success");
+			response.setStatus(ValidationStatus.SUCCESS);
 		}
 
 		/**
@@ -184,6 +259,17 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 			}
 			return null;
 		}
+
+		@Override
+		public boolean useable() {
+			return this.minValIsUsable || this.maxValIsUsable;
+
+		}
+	}
+
+	private interface IComparableHelper<T extends Object> {
+		Comparable<T> transform(String string);
+		Comparable<T> getValueFromIndicator(Indicator indicator);
 	}
 
 }

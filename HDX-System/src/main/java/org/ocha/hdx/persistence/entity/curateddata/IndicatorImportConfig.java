@@ -81,7 +81,7 @@ public class IndicatorImportConfig {
 		return this.lowerBoundary;
 	}
 
-	public void setLowerBoundary(final double lowerBoundary) {
+	public void setLowerBoundary(final Double lowerBoundary) {
 		this.lowerBoundary = lowerBoundary;
 	}
 
@@ -89,7 +89,7 @@ public class IndicatorImportConfig {
 		return this.upperBoundary;
 	}
 
-	public void setUpperBoundary(final double upperBoundary) {
+	public void setUpperBoundary(final Double upperBoundary) {
 		this.upperBoundary = upperBoundary;
 	}
 
@@ -97,7 +97,7 @@ public class IndicatorImportConfig {
 		return this.multiplier;
 	}
 
-	public void setMultiplier(final double multiplier) {
+	public void setMultiplier(final Double multiplier) {
 		this.multiplier = multiplier;
 	}
 

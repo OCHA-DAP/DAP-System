@@ -28,4 +28,10 @@ public interface IValidator {
 	Response validate(Indicator indicator);
 
 	void populateImportConfig(final IndicatorImportConfig importConfig, final Response response);
+
+	/**
+	 *
+	 * @return true if it has all the necessary configuration data to run the validation
+	 */
+	boolean useable();
 }

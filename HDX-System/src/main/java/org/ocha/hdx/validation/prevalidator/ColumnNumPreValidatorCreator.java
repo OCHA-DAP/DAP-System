@@ -33,13 +33,11 @@ public class ColumnNumPreValidatorCreator implements IPreValidatorCreator {
 
 	public class ColumnNumPreValidator implements IPreValidator {
 
-		private int numOfAllowedCols;
+		private int numOfAllowedCols	= -1;
 
 		public ColumnNumPreValidator(final Map<String, AbstractConfigEntry> generalConfig) {
 			final AbstractConfigEntry numOfColumnsAllowedEntry = generalConfig.get(ConfigurationConstants.GeneralConfiguration.MIN_NUM_OF_COLUMNS.getLabel());
-			if (numOfColumnsAllowedEntry == null) {
-				throw new WrongParametersForValidationException("NUM_OF_ALLOWED_COLUMNS config value cannot be null");
-			} else {
+			if (numOfColumnsAllowedEntry != null) {
 				try {
 					this.numOfAllowedCols = Integer.parseInt(numOfColumnsAllowedEntry.getEntryValue());
 				} catch (final NumberFormatException e) {
@@ -56,7 +54,7 @@ public class ColumnNumPreValidatorCreator implements IPreValidatorCreator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.ocha.hdx.validation.prevalidator.IPreValidator#validate(java.lang.String[], java.util.Map)
 		 */
 		@Override
@@ -75,6 +73,11 @@ public class ColumnNumPreValidatorCreator implements IPreValidatorCreator {
 				response.setStatus(ValidationStatus.SUCCESS);
 			}
 			return response;
+		}
+
+		@Override
+		public boolean useable() {
+			return this.numOfAllowedCols > 0;
 		}
 
 	}

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 @Component
 public class AllowedIndicatorTypesValidatorCreator implements IPreValidatorCreator {
@@ -26,7 +26,7 @@ public class AllowedIndicatorTypesValidatorCreator implements IPreValidatorCreat
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.ocha.hdx.validation.prevalidator.IPreValidator#getPreValidatorName()
 	 */
 	@Override
@@ -45,9 +45,7 @@ public class AllowedIndicatorTypesValidatorCreator implements IPreValidatorCreat
 
 		public AllowedIndicatorTypesValidator(final Map<String, AbstractConfigEntry> generalConfig) {
 			final AbstractConfigEntry allowedIndicatorTypesEntry = generalConfig.get(ConfigurationConstants.GeneralConfiguration.ALLOWED_INDICATOR_TYPES.getLabel());
-			if (allowedIndicatorTypesEntry == null) {
-				throw new WrongParametersForValidationException("Non configuration found for key ALLOWED_INDICATOR_TYPES");
-			} else {
+			if (allowedIndicatorTypesEntry != null) {
 				final String[] types = allowedIndicatorTypesEntry.getEntryValue().split(ConfigurationConstants.SEPARATOR);
 				if (types != null && types.length > 0) {
 					for (final String type : types) {
@@ -79,6 +77,11 @@ public class AllowedIndicatorTypesValidatorCreator implements IPreValidatorCreat
 			}
 
 			return response;
+		}
+
+		@Override
+		public boolean useable() {
+			return this.allowedTypesSet.size() > 0;
 		}
 
 	}
