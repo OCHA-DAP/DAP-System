@@ -53,8 +53,12 @@ public abstract class Exporter_File<QD extends QueryData> extends AbstractExport
 		for (final String[] line : content) {
 			for (final Iterator<String> iterator = Arrays.asList(line).iterator(); iterator.hasNext();) {
 				final String cell = iterator.next();
-				final String escaped = StringEscapeUtils.escapeCsv(cell);
-				writer.write(escaped);
+				if (cell != null) {
+					final String escaped = StringEscapeUtils.escapeCsv(cell);
+					writer.write(escaped);
+				} else {
+					writer.write("");
+				}
 				if (iterator.hasNext()) {
 					writer.write(separator);
 				}
