@@ -11,7 +11,6 @@ import org.ocha.hdx.config.DummyConfigurationCreator;
 import org.ocha.hdx.importer.HDXWithCountryListImporter;
 import org.ocha.hdx.importer.PreparedData;
 import org.ocha.hdx.importer.PreparedIndicator;
-import org.ocha.hdx.importer.ScraperImporter;
 import org.ocha.hdx.importer.ScraperValidatingImporter;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.model.validation.ValidationStatus;
@@ -71,8 +70,6 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		case DUMMY:
 			return new DummyValidator().evaluateFile(file);
 		case SCRAPER_VALIDATING:
-
-		case SCRAPER:
 			final ValidationReport validationReport = new ScraperValidator().evaluateFile(file);
 			// since we're using the same validator for both types, we're setting the correct type afterwards
 			validationReport.setValidator(type);
@@ -94,10 +91,6 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		switch (type) {
 		case DUMMY:
 			preparedData = this.defaultImportFail(file);
-			break;
-		case SCRAPER:
-			importer = new ScraperImporter(this.sourceDictionaryDAO.getSourceDictionariesByImporter("scraper"), this.indicatorCreationService);
-			preparedData = this.prepareDataForImport(file, importer);
 			break;
 		case SCRAPER_VALIDATING:
 			importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByImporter(CKANDataset.Type.SCRAPER_VALIDATING.toString()), config, this.validatorCreators,
@@ -145,7 +138,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	}
 
 	private ValidationReport defaultValidationFail(final File file) {
-		final ValidationReport report = new ValidationReport(CKANDataset.Type.SCRAPER);
+		final ValidationReport report = new ValidationReport(CKANDataset.Type.DUMMY);
 
 		report.addEntry(ValidationStatus.ERROR, "Mocked evaluator, always failing");
 		return report;

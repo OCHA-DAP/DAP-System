@@ -20,15 +20,14 @@ public class CKANDataset {
 	 * 
 	 *         IGNORED : a data manager flagged this as ignored, the dataset resource won't be processed
 	 * 
-	 *         TO_BE_CURATED : all resources from this dataset will be curated (using processor (validator, importer...) according to
-	 *         CKANDataset#Type )
+	 *         TO_BE_CURATED : all resources from this dataset will be curated (using processor (validator, importer...) according to CKANDataset#Type )
 	 */
 	public enum Status {
 		PENDING, TO_BE_CURATED, IGNORED;
 	}
 
 	public enum Type {
-		SCRAPER_VALIDATING, SCRAPER, DUMMY;
+		SCRAPER_VALIDATING, DUMMY;
 	}
 
 	@Id
