@@ -3,10 +3,7 @@
  */
 package org.ocha.hdx.validation.prevalidator;
 
-import java.util.Map;
-
 import org.ocha.hdx.model.validation.ValidationStatus;
-import org.ocha.hdx.persistence.entity.configs.AbstractConfigEntry;
 import org.ocha.hdx.validation.Response;
 
 /**
@@ -27,4 +24,11 @@ public interface IPreValidator {
 	Response validate(String[] line);
 
 	String getPreValidatorName();
+
+	/**
+	 *
+	 * @return true if it has all the necessary configuration data to run the validation
+	 */
+	boolean useable();
+
 }

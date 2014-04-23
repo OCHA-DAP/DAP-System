@@ -35,3 +35,5 @@ alter table hdx_dataserie_metadata
         drop constraint fk_additional_data_to_name_text;
         
 UPDATE source SET code = 'data.undp.org' WHERE code='hdrstats';
+DELETE FROM resource_config_entry WHERE entry_key='Pre-validators';
+DELETE FROM indicator_resource_config_entry WHERE entry_key='Validators';

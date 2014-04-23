@@ -12,7 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.ocha.hdx.config.ConfigurationConstants;
 import org.ocha.hdx.importer.helper.IndicatorTypeInformationHolder;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.model.validation.ValidationStatus;
@@ -56,7 +55,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 	/**
 	 * All existing pre-validators. The key is the pre-validator's name.
 	 */
-	private Map<String, IPreValidator> preValidatorsMap;
+	//private Map<String, IPreValidator> preValidatorsMap;
 
 	private final List<IPreValidator> preValidators;
 
@@ -67,6 +66,8 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 	public AbstractValidatingImporter(final ResourceConfiguration resourceConfiguration, final List<IValidatorCreator> validatorCreators, final List<IPreValidatorCreator> preValidatorCreators,
 			final ValidationReport report) {
 		super();
+		this.preValidators	= new ArrayList<IPreValidator>();
+
 		this.report = report;
 		if (resourceConfiguration != null) {
 			if (resourceConfiguration.getGeneralConfigEntries() != null) {
@@ -92,17 +93,18 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 		}
 
 		if (preValidatorCreators != null && preValidatorCreators.size() > 0) {
-			this.preValidatorsMap = new HashMap<String, IPreValidator>();
 			for (final IPreValidatorCreator preValidatorCreator : preValidatorCreators) {
-				try {
-					this.preValidatorsMap.put(preValidatorCreator.getPreValidatorName(), preValidatorCreator.create(this.resourceEntriesMap));
-				} catch (final WrongParametersForValidationException e) {
-					logger.info(String.format("Pre-validator %s won't run because the necessary config is missing: %s", preValidatorCreator.getPreValidatorName(), e.getMessage()));
+				final IPreValidator preValidator 	= preValidatorCreator.create(this.resourceEntriesMap);
+				if ( preValidator.useable() ) {
+					this.preValidators.add(preValidator);
+				}
+				else{
+					logger.info(String.format("Pre-validator %s won't run because the necessary config is missing", preValidatorCreator.getPreValidatorName()) );
 				}
 			}
 		}
 
-		this.preValidators = this.findPreValidators();
+		//this.preValidators = this.findPreValidators();
 	}
 
 	private void generateIndicatorEntriesMap(final ResourceConfiguration resourceConfiguration) {
@@ -183,11 +185,13 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 			// logger.warn("No validators found for " + indicator);
 		} else {
 			for (final IValidator validator : validators) {
-				final Response response = validator.validate(indicator);
-				validator.populateImportConfig(indicator.getIndicatorImportConfig(), response);
+				if (validator.useable() ) {
+					final Response response = validator.validate(indicator);
+					validator.populateImportConfig(indicator.getIndicatorImportConfig(), response);
 
-				if (!this.verifyResponse(response)) {
-					ret = false;
+					if (!this.verifyResponse(response)) {
+						ret = false;
+					}
 				}
 
 			}
@@ -210,22 +214,22 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 		}
 	}
 
-	protected List<IPreValidator> findPreValidators() {
-		final List<IPreValidator> retList = new ArrayList<IPreValidator>();
-		final AbstractConfigEntry entry = this.resourceEntriesMap.get(ConfigurationConstants.GeneralConfiguration.PREVALIDATORS.getLabel());
-		if (entry != null) {
-			final String[] preValidatorNames = entry.getEntryValue().split(ConfigurationConstants.SEPARATOR);
-			if (preValidatorNames != null) {
-				for (final String name : preValidatorNames) {
-					final IPreValidator preValidator = this.preValidatorsMap.get(name);
-					if (preValidator != null) {
-						retList.add(preValidator);
-					}
-				}
-			}
-		}
-		return retList;
-	}
+//	protected List<IPreValidator> findPreValidators() {
+//		final List<IPreValidator> retList = new ArrayList<IPreValidator>();
+//		final AbstractConfigEntry entry = this.resourceEntriesMap.get(ConfigurationConstants.GeneralConfiguration.PREVALIDATORS.getLabel());
+//		if (entry != null) {
+//			final String[] preValidatorNames = entry.getEntryValue().split(ConfigurationConstants.SEPARATOR);
+//			if (preValidatorNames != null) {
+//				for (final String name : preValidatorNames) {
+//					final IPreValidator preValidator = this.preValidatorsMap.get(name);
+//					if (preValidator != null) {
+//						retList.add(preValidator);
+//					}
+//				}
+//			}
+//		}
+//		return retList;
+//	}
 
 	protected List<IValidator> findValidators(final Indicator indicator) {
 		final boolean sourceCodeNotEmpty = indicator.getSource() != null && indicator.getSource().getCode() != null;
@@ -255,31 +259,19 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 			 */
 			final Map<String, AbstractConfigEntry> indConfigMap = indTypeInfoHolder.getIndicatorEntries();
 			if (indConfigMap != null) {
-				final AbstractConfigEntry validatorsEntry = indConfigMap.get(ConfigurationConstants.IndicatorConfiguration.VALIDATORS.getLabel());
 
-				/*
-				 * If there are validators configured to run, instantiate them
-				 */
-				if (validatorsEntry != null && validatorsEntry.getEntryValue() != null) {
-					final String[] validatorNames = validatorsEntry.getEntryValue().split(ConfigurationConstants.SEPARATOR);
-					if (validatorNames != null) {
-						for (final String name : validatorNames) {
-							final IValidatorCreator validatorCreator = this.validatorCreatorsMap.get(name);
-							if (validatorCreator != null) {
-								try {
-									cachedValidatorList.add(validatorCreator.create(this.resourceEntriesMap, indConfigMap));
-								} catch (final WrongParametersForValidationException e) {
-									logger.info(String.format("Validator %s won't run for indicator type %s and source %s because the necessary config is missing: %s", indTypeCode, sourceCode,
-											validatorCreator.getValidatorName(), e.getMessage()));
-								}
-							} else {
-								logger.warn("No validator found for name " + name);
-							}
+				for (final IValidatorCreator validatorCreator : this.validatorCreatorsMap.values()) {
+					if (validatorCreator != null) {
+						try {
+							final IValidator validator = validatorCreator.create(this.resourceEntriesMap, indConfigMap);
+							cachedValidatorList.add(validator);
+						} catch (final WrongParametersForValidationException e) {
+							logger.info(String.format("Validator %s won't run for indicator type %s and source %s because the necessary config is missing: %s",
+									indTypeCode, sourceCode, validatorCreator.getValidatorName(), e.getMessage()));
 						}
 					}
-				} else {
-					logger.warn("No validators configured for this ind type and source pair: " + indAndSrcCode);
 				}
+
 			} else {
 				logger.warn("No configuration found for this ind type and source pair:" + indAndSrcCode);
 			}

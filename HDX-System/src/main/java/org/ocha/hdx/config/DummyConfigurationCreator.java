@@ -13,15 +13,12 @@ import org.ocha.hdx.persistence.entity.configs.ResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
-import org.ocha.hdx.validation.itemvalidator.MinMaxValidatorCreator;
-import org.ocha.hdx.validation.prevalidator.AllowedIndicatorTypesValidatorCreator;
-import org.ocha.hdx.validation.prevalidator.ColumnNumPreValidatorCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 @Component
 public class DummyConfigurationCreator {
@@ -62,14 +59,14 @@ public class DummyConfigurationCreator {
 
 		final Set<ResourceConfigEntry> entries = new HashSet<ResourceConfigEntry>();
 
-		final ResourceConfigEntry entry1 = new ResourceConfigEntry(ConfigurationConstants.GeneralConfiguration.PREVALIDATORS.getLabel(), ColumnNumPreValidatorCreator.NAME
-				+ ConfigurationConstants.SEPARATOR + AllowedIndicatorTypesValidatorCreator.NAME);
+		//final ResourceConfigEntry entry1 = new ResourceConfigEntry(ConfigurationConstants.GeneralConfiguration.PREVALIDATORS.getLabel(), ColumnNumPreValidatorCreator.NAME
+		//		+ ConfigurationConstants.SEPARATOR + AllowedIndicatorTypesValidatorCreator.NAME);
 		final ResourceConfigEntry entry2 = new ResourceConfigEntry(ConfigurationConstants.GeneralConfiguration.MIN_NUM_OF_COLUMNS.getLabel(), "6");
 		final ResourceConfigEntry entry3 = new ResourceConfigEntry(ConfigurationConstants.GeneralConfiguration.ALLOWED_INDICATOR_TYPES.getLabel(), PVX040 + ConfigurationConstants.SEPARATOR + PSP080
 				+ ConfigurationConstants.SEPARATOR + PSE030 + ConfigurationConstants.SEPARATOR + PCX051 + ConfigurationConstants.SEPARATOR + PVF020 + ConfigurationConstants.SEPARATOR + PSP010
 				+ ConfigurationConstants.SEPARATOR + _EMDAT_TOTAL_AFFECTED);
 
-		entries.add(entry1);
+		//entries.add(entry1);
 		entries.add(entry2);
 		entries.add(entry3);
 
@@ -86,14 +83,14 @@ public class DummyConfigurationCreator {
 		final IndicatorResourceConfigEntry entry1 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel(), "24000", source, type);
 		final IndicatorResourceConfigEntry entry2 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel(), "0.022", source, type);
 
-		final IndicatorResourceConfigEntry entry3 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.VALIDATORS.getLabel(), MinMaxValidatorCreator.NAME, source, type);
+		//final IndicatorResourceConfigEntry entry3 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.VALIDATORS.getLabel(), MinMaxValidatorCreator.NAME, source, type);
 
 		final IndicatorResourceConfigEntry entry4 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel(), "YYYY", source, type);
 		final IndicatorResourceConfigEntry entry5 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel(), "YYYY-01-01", source, type);
 
 		entries.add(entry1);
 		entries.add(entry2);
-		entries.add(entry3);
+		//entries.add(entry3);
 		entries.add(entry4);
 		entries.add(entry5);
 

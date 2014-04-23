@@ -156,6 +156,7 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 					list.add(indicator);
 				}
 			} catch (final Exception e) {
+				e.printStackTrace();
 				logger.debug(String.format("Error trying to create preparedIndicator : %s", preparedIndicator.toString()));
 			}
 		}

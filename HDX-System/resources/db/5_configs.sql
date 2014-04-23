@@ -6,7 +6,7 @@ ALTER SEQUENCE resource_configuration_seq RESTART WITH 2;
 */
 /* General configurations */
 INSERT INTO resource_config_entry(id,resource_configuration_id,entry_key,entry_value)
-	VALUES(nextval('resource_config_entry_seq'),currval('resource_configuration_seq'),'Pre-validators','Number of columns validator&&Allowed Indicator Types'),
+	VALUES
 	(nextval('resource_config_entry_seq'),currval('resource_configuration_seq'),'Minimum number of columns','6'),
 	(nextval('resource_config_entry_seq'),currval('resource_configuration_seq'),'Allowed indicator type codes',	'_Access to electricity (% of population)&&_Children 1 year old immunized against measles, percentage&&_emdat:no_homeless&&_emdat:no_injured&&_emdat:total_affected&&_GNI, PPP (current international $)&&_HDR:68606&&_International migrant stock (% of population)&&_Internet users per 100 inhabitants&&_Land area (sq. km)&&_m49-name&&_Net ODA received per capita (current US$)&&_Number of infant deaths&&_Population undernourished, millions&&_Population undernourished, percentage&&_Population, total&&_unterm:ISO Country alpha-2-code&&_WPP2012_MORT_F02_CRUDE_DEATH_RATE&&CD010&&CD030&&CD050&&CD060&&CD070&&CD080&&CD090&&CG020&&CG030&&CG060&&CG070&&CG080&&CG100&&CG120&&CG140&&CG150&&CG260&&CG290&&CH070&&CH080&&CH090&&CH100&&PCH090&&PCX051&&PCX080&&PCX090&&PCX100&&PCX130&&PSE030&&PSE090&&PSE110&&PSE120&&PSE130&&PSE140&&PSE150&&PSE160&&PSE170&&PSE200&&PSE210&&PSE220&&PSP010&&PSP050&&PSP060&&PSP070&&PSP080&&PSP090&&PSP100&&PSP110&&PVE010&&PVE030&&PVE040&&PVE110&&PVE120&&PVE130&&PVF020&&PVH010&&PVH050&&PVH080&&PVH090&&PVH100&&PVH120&&PVH140&&PVH150&&PVH180&&PVH190&&PVL010&&PVL030&&PVL040&&PVN010&&PVN050&&PVW010&&PVW040&&PVX010&&PVX020&&PVX040&&PVX060&&PVX070');
 

@@ -4,8 +4,8 @@
 package org.ocha.hdx.validation.itemvalidator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +29,6 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.service.IndicatorCreationService;
 import org.ocha.hdx.validation.Response;
-import org.ocha.hdx.validation.exception.WrongParametersForValidationException;
 import org.ocha.hdx.validation.util.DummyEntityCreatorWrapper;
 import org.ocha.hdx.validation.util.DummyEntityCreatorWrapper.DummyEntityCreator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
@@ -116,13 +115,13 @@ public class MinMaxValidatorTest {
 		final Response responseError = minMaxValidator.validate(indicator);
 		assertEquals(ValidationStatus.ERROR, responseError.getStatus());
 
+		indConfig.remove(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel());
+		final IValidator minMaxValidator2 = this.minMaxValidatorCreator.create(generalConfig, indConfig);
+		assertTrue("Validator should work even with just one boundary", minMaxValidator2.useable());
+
 		indConfig.remove(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel());
-		try {
-			final IValidator minMaxValidator2 = this.minMaxValidatorCreator.create(generalConfig, indConfig);
-			fail("If a configuration parameter is missing it needs to raise an exception");
-		} catch (final WrongParametersForValidationException e) {
-			assertTrue(true);
-		}
+		final IValidator minMaxValidator3 = this.minMaxValidatorCreator.create(generalConfig, indConfig);
+		assertFalse("Validator shouldn't work without any boundaries specified", minMaxValidator3.useable() );
 
 	}
 
