@@ -354,7 +354,7 @@ app
             $scope.dataValidatorsAvailable = false;
           }
           
-          $scope.enableAddDataValidatorForm = false;
+          $scope.enableAddDataValidatorForm = true;
           $scope.filterDataValidator = function(v) {
             var found = false;
             if(v && $scope.metadata && $scope.metadata.dataValidators) {

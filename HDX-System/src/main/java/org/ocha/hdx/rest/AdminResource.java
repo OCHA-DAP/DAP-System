@@ -81,6 +81,19 @@ public class AdminResource {
 	private CuratedDataService curatedDataService;
 
 	/*
+	 * Utilities
+	 */
+
+	/**
+	 * Remove the quotes around a String
+	 * @param str
+	 * @return
+	 */
+	private static String unquote(final String str) {
+		return str.replaceAll("^\"|\"$", "");
+	}
+
+	/*
 	 * Users management
 	 */
 	@GET
@@ -1186,19 +1199,19 @@ public class AdminResource {
 	public String getIndicators() throws TypeMismatchException {
 		final List<Indicator> listIndicators = curatedDataService.listLastIndicators(100);
 		final JsonArray jsonIndicators = new JsonArray();
-		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		for (final Indicator indicator : listIndicators) {
 			final JsonObject jsonIndicator = new JsonObject();
 			jsonIndicator.addProperty("id", indicator.getId());
 			jsonIndicator.add("source", sourceToJson(indicator.getSource()));
 			jsonIndicator.add("indicatorType", indicatorTypeToJson(indicator.getType()));
-			jsonIndicator.addProperty("valueType", gson.toJson(indicator.getType().getValueType()));
-			jsonIndicator.addProperty("startDate", gson.toJson(indicator.getStart()));
-			jsonIndicator.addProperty("endDate", gson.toJson(indicator.getEnd()));
-			jsonIndicator.addProperty("periodicity", gson.toJson(indicator.getPeriodicity()));
-			jsonIndicator.addProperty("value", gson.toJson(indicator.getValue().toString()));
+			jsonIndicator.addProperty("valueType", unquote(gson.toJson(indicator.getType().getValueType())));
+			jsonIndicator.addProperty("startDate", unquote(gson.toJson(indicator.getStart())));
+			jsonIndicator.addProperty("endDate", unquote(gson.toJson(indicator.getEnd())));
+			jsonIndicator.addProperty("periodicity", unquote(gson.toJson(indicator.getPeriodicity())));
+			jsonIndicator.addProperty("value", unquote(gson.toJson(indicator.getValue().toString())));
 			jsonIndicator.addProperty("initialValue", indicator.getIndicatorImportConfig().getInitialValue());
-			jsonIndicator.addProperty("importFromCkan", gson.toJson(indicator.getImportFromCKAN()));
+			jsonIndicator.addProperty("importFromCkan", unquote(gson.toJson(indicator.getImportFromCKAN())));
 			jsonIndicators.add(jsonIndicator);
 		}
 		return jsonIndicators.toString();
