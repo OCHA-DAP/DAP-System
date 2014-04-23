@@ -180,6 +180,7 @@ search {
 .navbar{
 	position : fixed;
 	width : 100%;
+    z-index: 1030; /* fix for navbar dropdown getting under content */
 }
 .placeholder-under-menu{
 	height: 50px;

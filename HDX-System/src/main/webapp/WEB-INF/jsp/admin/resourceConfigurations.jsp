@@ -16,7 +16,7 @@
 <body ng-controller="ResourceConfigurationsCtrl">
 	<jsp:include page="admin-menu.jsp" />
 	<div>
-		<h3>Add Resource Configuration</h3>
+		<h3>Add Import Configuration</h3>
 		<form novalidate name="createResourceForm" class="css-form">
 			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
@@ -32,7 +32,7 @@
 			</table>
 		</form>
 	</div>
-	<h3>Resource Configurations</h3>
+	<h3>Import Configurations</h3>
 	<div>
 		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">

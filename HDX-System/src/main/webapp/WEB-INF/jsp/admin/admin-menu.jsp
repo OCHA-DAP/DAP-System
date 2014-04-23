@@ -72,7 +72,7 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 				<ul class="dropdown-menu">
 					<li ng-class="{ active: isActive('${ctx}/admin/misc/users') }"><a href="${ctx}/admin/misc/users/">Manage users</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/misc/languages') }"><a href="${ctx}/admin/misc/languages/">Manage languages</a></li>
-					<li ng-class="{ active: isActive('${ctx}/admin/misc/configurations') }"><a href="${ctx}/admin/misc/configurations/">Manage configurations</a></li>
+					<li ng-class="{ active: isActive('${ctx}/admin/misc/configurations') }"><a href="${ctx}/admin/misc/configurations/">Import Configuration</a></li>
 					<li ng-class="{ active: isActive('${ctx}/admin/misc/test') }"><a href="${ctx}/admin/misc/test/">Test</a></li>
 					<li class="divider"></li>
 					<li ng-class="{ active: showTestZone }">
