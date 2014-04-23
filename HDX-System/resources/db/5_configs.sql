@@ -43,10 +43,10 @@ INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicat
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Min Value','0' FROM indicator_type type,source src WHERE lower(type.code)=lower('_GNI, PPP (current international $)') AND lower(src.code)=lower('world-bank');
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('_HDR:68606') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('_HDR:68606') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Min Value','0' FROM indicator_type type,source src WHERE lower(type.code)=lower('_HDR:68606') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Max Value','1' FROM indicator_type type,source src WHERE lower(type.code)=lower('_HDR:68606') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('_HDR:68606') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('_HDR:68606') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Min Value','0' FROM indicator_type type,source src WHERE lower(type.code)=lower('_HDR:68606') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Max Value','1' FROM indicator_type type,source src WHERE lower(type.code)=lower('_HDR:68606') AND lower(src.code)=lower('data.undp.org');
 
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('_International migrant stock (% of population)') AND lower(src.code)=lower('world-bank');
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('_International migrant stock (% of population)') AND lower(src.code)=lower('world-bank');
@@ -313,8 +313,8 @@ INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicat
 
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE110') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE110') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE110') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE110') AND lower(src.code)=lower('data.undp.org');
 
 
 
@@ -338,8 +338,8 @@ INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicat
 
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE160') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE160') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE160') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE160') AND lower(src.code)=lower('data.undp.org');
 
 
 
@@ -358,8 +358,8 @@ INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicat
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Min Value','0' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE210') AND lower(src.code)=lower('world-bank');
 INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Max Value','100' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE210') AND lower(src.code)=lower('world-bank');
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE220') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE220') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE220') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PSE220') AND lower(src.code)=lower('data.undp.org');
 
 
 
@@ -403,28 +403,28 @@ INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicat
 
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE010') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE010') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE010') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE010') AND lower(src.code)=lower('data.undp.org');
 
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE030') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE030') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE030') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE030') AND lower(src.code)=lower('data.undp.org');
 
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE040') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE040') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE040') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE040') AND lower(src.code)=lower('data.undp.org');
 
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE110') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE110') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE110') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE110') AND lower(src.code)=lower('data.undp.org');
 
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE120') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE120') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE120') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVE120') AND lower(src.code)=lower('data.undp.org');
 
 
 
@@ -463,8 +463,8 @@ INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicat
 
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVH120') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVH120') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVH120') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVH120') AND lower(src.code)=lower('data.undp.org');
 
 
 
@@ -478,8 +478,8 @@ INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicat
 
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVH180') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVH180') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVH180') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVH180') AND lower(src.code)=lower('data.undp.org');
 
 
 
@@ -543,8 +543,8 @@ INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicat
 
 
 
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVX070') AND lower(src.code)=lower('hdrstats');
-INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVX070') AND lower(src.code)=lower('hdrstats');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected time format','YYYY' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVX070') AND lower(src.code)=lower('data.undp.org');
+INSERT INTO indicator_resource_config_entry(id,resource_configuration_id,indicator_type_id,source_id,entry_key,entry_value) SELECT nextval('indicator_resource_config_entry_seq'),currval('resource_configuration_seq'),type.id,src.id,'Expected start time format','YYYY-01-01' FROM indicator_type type,source src WHERE lower(type.code)=lower('PVX070') AND lower(src.code)=lower('data.undp.org');
 
 SELECT 'END indicator_resource_config_entry' from text limit 0;
 
