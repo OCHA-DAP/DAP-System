@@ -3,9 +3,7 @@ package org.ocha.hdx.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.FormParam;
@@ -20,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import com.google.gson.*;
 import org.glassfish.jersey.server.mvc.Viewable;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -40,6 +39,7 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Organization;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
+import org.ocha.hdx.persistence.entity.dictionary.AbstractDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 import org.ocha.hdx.persistence.entity.i18n.Language;
@@ -58,10 +58,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.visualization.datasource.base.TypeMismatchException;
 
 @RolesAllowed("admin")
@@ -748,6 +744,7 @@ public class AdminResource {
 			final JsonObject jsonEntity = new JsonObject();
 			jsonEntity.addProperty("id", entity.getId());
 			jsonEntity.addProperty("entityType", entity.getType().getId());
+            jsonEntity.addProperty("entityTypeName", entity.getType().getName().getDefaultValue());
 			jsonEntity.addProperty("code", entity.getCode());
 			jsonEntity.addProperty("name", entity.getName().getDefaultValue());
 			jsonEntity.addProperty("text_id", entity.getName().getId());
@@ -1333,17 +1330,20 @@ public class AdminResource {
 		return Response.ok(new Viewable("/admin/regionDictionaries", displayRegionDictionaries)).build();
 	}
 
-	@POST
-	@Path("/dictionaries/regions")
-	public Response createRegionDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entity") final long entity) {
-		curatedDataService.createRegionDictionary(unnormalizedName, importer, entity);
-		return displayRegionDictionariesList();
-	}
+//	@POST
+//	@Path("/dictionaries/regions")
+//	public Response createRegionDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entity") final long entity) {
+//		curatedDataService.createRegionDictionary(unnormalizedName, importer, entity);
+//		return displayRegionDictionariesList();
+//	}
 
 	@POST
 	@Path("/dictionaries/regions/submitCreate")
-	public Response createRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("entityId") final long entityId) {
-		curatedDataService.createRegionDictionary(unnormalizedName, importer, entityId);
+	public Response createRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName,
+                                           @FormParam("importer") final String importer,
+                                           @FormParam("entityId") final long entityId,
+                                           @FormParam("configId") final long configId) {
+		curatedDataService.createRegionDictionary(unnormalizedName, importer, entityId, configId);
 		return Response.ok().build();
 	}
 
@@ -1351,11 +1351,69 @@ public class AdminResource {
 	@Path("/dictionaries/regions/submitDelete")
 	public Response deleteRegionDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
-		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer);
+		final RegionDictionary regionDictionary = new RegionDictionary(unnormalizedName, importer, null, null);
 		curatedDataService.deleteRegionDictionary(regionDictionary);
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/regions/").build();
 		return Response.seeOther(newURI).build();
 	}
+
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/dictionaries/{which}/{configId}/json")
+    public String getRegions(@QueryParam("var") final String var, @PathParam("which") final String which,
+                             @PathParam("configId") final String configId) throws TypeMismatchException {
+
+        String result = "";
+
+        final List<? extends AbstractDictionary> dictionaries;
+
+        switch (which){
+            case "regions":
+                dictionaries = curatedDataService.listRegionDictionaries(Long.parseLong(configId));
+                break;
+            case "sources":
+                dictionaries = curatedDataService.listSourceDictionaries(Long.parseLong(configId));
+                break;
+            case "indicatorTypes":
+                dictionaries = curatedDataService.listIndicatorTypeDictionaries(Long.parseLong(configId));
+                break;
+            default:
+                dictionaries = null;
+        }
+
+        final JsonArray jsonArray = new JsonArray();
+
+        for (final AbstractDictionary rd : dictionaries) {
+            JsonObject element = rd.toJSON();
+            jsonArray.add(element);
+        }
+        if ((null != var) && !"".equals(var)) {
+            result = "var " + var + " = ";
+        }
+        result += jsonArray.toString();
+        return result;
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/importers/json")
+    public String getImporters(@QueryParam("var") final String var) throws TypeMismatchException {
+        String result = "";
+
+        final JsonArray jsonArray = new JsonArray();
+        List<CKANDataset.Type> importers = Arrays.asList(CKANDataset.Type.values());
+        for (CKANDataset.Type i: importers){
+            JsonObject e = new JsonObject();
+            e.addProperty("name", i.toString());
+            jsonArray.add(e);
+        }
+        if ((null != var) && !"".equals(var)) {
+            result = "var " + var + " = ";
+        }
+        result += jsonArray.toString();
+        return result;
+    }
 
 	/*
 	 * Dictionaries / sources management
@@ -1370,17 +1428,20 @@ public class AdminResource {
 		return Response.ok(new Viewable("/admin/sourceDictionaries", displaySourceDictionaries)).build();
 	}
 
-	@POST
-	@Path("/dictionaries/sources")
-	public Response createSourceDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("source") final long source) {
-		curatedDataService.createSourceDictionary(unnormalizedName, importer, source);
-		return displaySourceDictionariesList();
-	}
+//	@POST
+//	@Path("/dictionaries/sources")
+//	public Response createSourceDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("source") final long source) {
+//		curatedDataService.createSourceDictionary(unnormalizedName, importer, source);
+//		return displaySourceDictionariesList();
+//	}
 
 	@POST
 	@Path("/dictionaries/sources/submitCreate")
-	public Response createSourceDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @FormParam("sourceId") final long sourceId) {
-		curatedDataService.createSourceDictionary(unnormalizedName, importer, sourceId);
+	public Response createSourceDictionary(@FormParam("unnormalizedName") final String unnormalizedName,
+                                           @FormParam("importer") final String importer,
+                                           @FormParam("sourceId") final long sourceId,
+                                           @FormParam("configId") final long configId) {
+		curatedDataService.createSourceDictionary(unnormalizedName, importer, sourceId, configId);
 		return Response.ok().build();
 	}
 
@@ -1406,19 +1467,21 @@ public class AdminResource {
 		return Response.ok(new Viewable("/admin/indicatorTypeDictionaries", displayIndicatorTypeDictionaries)).build();
 	}
 
-	@POST
-	@Path("/dictionaries/indicatorTypes")
-	public Response createIndicatorTypeDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer,
-			@FormParam("indicatorType") final long indicatorType) {
-		curatedDataService.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
-		return displayIndicatorTypeDictionariesList();
-	}
+//	@POST
+//	@Path("/dictionaries/indicatorTypes")
+//	public Response createIndicatorTypeDictionaryEntry(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer,
+//			@FormParam("indicatorType") final long indicatorType) {
+//		curatedDataService.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
+//		return displayIndicatorTypeDictionariesList();
+//	}
 
 	@POST
 	@Path("/dictionaries/indicatorTypes/submitCreate")
-	public Response createIndicatorTypesDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer,
-			@FormParam("indicatorTypeId") final long indicatorTypeId) {
-		curatedDataService.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorTypeId);
+	public Response createIndicatorTypesDictionary(@FormParam("unnormalizedName") final String unnormalizedName,
+                                                   @FormParam("importer") final String importer,
+			                                       @FormParam("indicatorTypeId") final long indicatorTypeId,
+                                                   @FormParam("configId") final long configId) {
+		curatedDataService.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorTypeId, configId);
 		return Response.ok().build();
 	}
 
@@ -1426,7 +1489,7 @@ public class AdminResource {
 	@Path("/dictionaries/indicatorTypes/submitDelete")
 	public Response deleteIndicatorTypeDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("importer") final String importer, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
-		final IndicatorTypeDictionary indicatorTypeDictionary = new IndicatorTypeDictionary(unnormalizedName, importer);
+		final IndicatorTypeDictionary indicatorTypeDictionary = new IndicatorTypeDictionary(unnormalizedName, importer, null, null);
 		curatedDataService.deleteIndicatorTypeDictionary(indicatorTypeDictionary);
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/indicatorTypes/").build();
 		return Response.seeOther(newURI).build();

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,15 +17,20 @@ public class SourceDictionaryDAOImpl implements SourceDictionaryDAO {
 	private EntityManager em;
 
 	@Override
-	public List<SourceDictionary> listSourceDictionaries() {
-		final TypedQuery<SourceDictionary> query = em.createQuery("SELECT sd FROM SourceDictionary sd ORDER BY sd.id", SourceDictionary.class);
+	public List<SourceDictionary> listSourceDictionaries(final Long configId) {
+        String qlString = "SELECT sd FROM SourceDictionary sd";
+        if (configId != null)
+            qlString += " WHERE sd.configuration = " + configId;
+        qlString += " ORDER BY sd.id";
+
+        final TypedQuery<SourceDictionary> query = em.createQuery(qlString, SourceDictionary.class);
 		return query.getResultList();
 	}
 
 	@Override
 	@Transactional
-	public void createSourceDictionary(final String unnormalizedName, final String importer, final Source source) {
-		final SourceDictionary sourceDictionary = new SourceDictionary(unnormalizedName, importer, source);
+	public void createSourceDictionary(final String unnormalizedName, final String importer, final Source source, final ResourceConfiguration configuration) {
+		final SourceDictionary sourceDictionary = new SourceDictionary(unnormalizedName, importer, source, configuration);
 		em.persist(sourceDictionary);
 	}
 
@@ -37,7 +43,7 @@ public class SourceDictionaryDAOImpl implements SourceDictionaryDAO {
 	@Override
 	@Transactional
 	public void deleteSourceDictionary(final String unnormalizedName, final String importer) {
-		final SourceDictionary sourceDictionary = new SourceDictionary(unnormalizedName, importer, null);
+		final SourceDictionary sourceDictionary = new SourceDictionary(unnormalizedName, importer, null, null);
 		em.remove(em.contains(sourceDictionary) ? sourceDictionary : em.merge(sourceDictionary));
 	}
 

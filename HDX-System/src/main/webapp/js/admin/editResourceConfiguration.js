@@ -1,3 +1,8 @@
+function getRESTParameter(sep, suffix) {
+    var partialString = window.location.href.split(sep)[1];
+    var id = partialString.split(suffix)[0];
+    return id;
+}
 app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http, $rootScope, utilities) {
 
   // ////////////////////
@@ -22,12 +27,6 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
   }
   $scope.loadResourceConfiguration();
 
-  function getRESTParameter(sep, suffix) {
-    var partialString = window.location.href.split(sep)[1];
-    var id = partialString.split(suffix)[0];
-    return id;
-  }
-  	
   	$scope.updateRC = function(data, id) {
 	    return utilities.updateResource({
 	      validate : $scope.checkRCUpdateForm,
@@ -357,5 +356,324 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
       return ic.srcId || 'Not set';
     }
   };
+
+});
+
+app.controller('RegionDictionariesCtrl', function($scope, utilities) {
+    $scope.loadRegionDictionaire = function() {
+        var id = getRESTParameter("/id/", "/");
+        return utilities.loadResource($scope, 'regionDictionaries', '/admin/dictionaries/regions/'+ id +'/json');
+    };
+    $scope.loadRegionDictionaire();
+
+    $scope.resources = function() {
+        $scope.regionDictionaries = appData['regionDictionaries'];
+        $scope.entities = appData['entities'];
+        $scope.importers = appData['importers'];
+    };
+    $scope.resources();
+
+    $scope.resetNewResource = function() {
+        var id = getRESTParameter("/id/", "/");
+        $scope.newResource = {};
+        $scope.newResource.importer = "SCRAPER_VALIDATING";
+        $scope.newResource.configId = id;
+    };
+
+    // The new dictionary
+    $scope.resetNewResource();
+
+    // Create a new dictionary
+    $scope.createDictionary = function(data) {
+        var params = {};
+        if (data && data.entityId) {
+            angular.extend(params, {
+                "entityId" : data.entityId
+            });
+        }
+        if (data && data.unnormalizedName) {
+            angular.extend(params, {
+                "unnormalizedName" : data.unnormalizedName
+            });
+        }
+        if (data && data.importer) {
+            angular.extend(params, {
+                "importer" : data.importer
+            });
+        }
+        if (data && data.configId) {
+            angular.extend(params, {
+                "configId" : data.configId
+            });
+        }
+        return utilities.createResource({
+            validate : $scope.checkCreateForm,
+            data : data,
+            params : params,
+            url : '/admin/dictionaries/regions/submitCreate',
+            successCallback : function() {
+                $scope.resetNewResource();
+                $scope.loadRegionDictionaire();
+            },
+            errorCallback : function() {
+                alert("Dictionary creation threw an error. Maybe this dictionary already exists. No dictionary has been created.");
+                $scope.loadRegionDictionaire();
+            }
+        });
+    };
+
+    $scope.deleteDictionary = function(importer, unn) {
+        return utilities.deleteResource({
+            params: {
+                "importer": importer,
+                "unnormalizedName": unn
+            },
+            url: '/admin/dictionaries/regions/submitDelete',
+            successCallback: $scope.loadRegionDictionaire,
+            errorCallback: function () {
+                alert("Configuration deletion threw an error. Maybe this configuration is used in some translation. No configuration has been deleted.");
+            }
+        });
+    };
+
+    // Check that the new dictionary is complete
+    $scope.checkCreateForm = function(data) {
+        if (!data) {
+            utilities.setFocus('newResource_entityId');
+            return "At least some info should be provided.";
+        }
+        var entityId = data.entityId;
+        if (!entityId || null === entityId || '' === entityId) {
+            utilities.setFocus('newResource_entityId');
+            return "Entity cannot be empty.";
+        }
+        var unnormalizedName = data.unnormalizedName;
+        if (!unnormalizedName || null === unnormalizedName || '' === unnormalizedName) {
+            utilities.setFocus('newResource_unnormalizedName');
+            return "Unnormalized name cannot be empty.";
+        }
+        var importer = data.importer;
+        if (!importer || null === importer || '' === importer) {
+            utilities.setFocus('newResource_importer');
+            return "Importer cannot be empty.";
+        }
+        return "OK";
+    };
+
+});
+
+app.controller('SourceDictionariesCtrl', function($scope, utilities) {
+    $scope.loadSourceDictionaire = function() {
+        var id = getRESTParameter("/id/", "/");
+        return utilities.loadResource($scope, 'sourceDictionaries', '/admin/dictionaries/sources/' + id + '/json');
+    };
+    $scope.loadSourceDictionaire();
+
+    $scope.resources = function() {
+        $scope.sourceDictionaries = appData['sourceDictionaries'];
+        $scope.sources = appData['sources'];
+        $scope.importers = appData['importers'];
+    };
+    $scope.resources();
+
+    $scope.resetNewResource = function() {
+        var id = getRESTParameter("/id/", "/");
+        $scope.newResource = {};
+        $scope.newResource.importer = "SCRAPER_VALIDATING";
+        $scope.newResource.configId = id;
+    };
+
+    // The new dictionary
+    $scope.resetNewResource();
+
+
+
+    // The new dictionary
+    $scope.newResource;
+
+    // Create a new dictionary
+    $scope.createDictionary = function(data) {
+        var params = {};
+        if (data && data.sourceId) {
+            angular.extend(params, {
+                "sourceId" : data.sourceId
+            });
+        }
+        if (data && data.unnormalizedName) {
+            angular.extend(params, {
+                "unnormalizedName" : data.unnormalizedName
+            });
+        }
+        if (data && data.importer) {
+            angular.extend(params, {
+                "importer" : data.importer
+            });
+        }
+        if (data && data.configId) {
+            angular.extend(params, {
+                "configId" : data.configId
+            });
+        }
+
+        return utilities.createResource({
+            validate : $scope.checkCreateForm,
+            data : data,
+            params : params,
+            url : '/admin/dictionaries/sources/submitCreate',
+            successCallback : function() {
+                $scope.resetNewResource();
+                $scope.loadSourceDictionaire();
+            },
+            errorCallback : function() {
+                alert("Dictionary creation threw an error. Maybe this dictionary already exists. No dictionary has been created.");
+                $scope.loadSourceDictionaire();
+            }
+        });
+    };
+
+    $scope.deleteDictionary = function(importer, unn) {
+        return utilities.deleteResource({
+            params: {
+                "importer": importer,
+                "unnormalizedName": unn
+            },
+            url: '/admin/dictionaries/sources/submitDelete',
+            successCallback: $scope.loadSourceDictionaire,
+            errorCallback: function () {
+                alert("Configuration deletion threw an error. Maybe this configuration is used in some translation. No configuration has been deleted.");
+            }
+        });
+    };
+
+    // Check that the new dictionary is complete
+    $scope.checkCreateForm = function(data) {
+        if (!data) {
+            utilities.setFocus('newResource_sourceId');
+            return "At least some info should be provided.";
+        }
+        var sourceId = data.sourceId;
+        if (!sourceId || null === sourceId || '' === sourceId) {
+            utilities.setFocus('newResource_sourceId');
+            return "Source cannot be empty.";
+        }
+        var unnormalizedName = data.unnormalizedName;
+        if (!unnormalizedName || null === unnormalizedName || '' === unnormalizedName) {
+            utilities.setFocus('newResource_unnormalizedName');
+            return "Unnormalized name cannot be empty.";
+        }
+        var importer = data.importer;
+        if (!importer || null === importer || '' === importer) {
+            utilities.setFocus('newResource_importer');
+            return "Importer cannot be empty.";
+        }
+        return "OK";
+    };
+
+});
+
+app.controller('IndicatorTypeDictionariesCtrl', function($scope, utilities) {
+    $scope.loadIndicatorTypeDictionaire = function() {
+        var id = getRESTParameter("/id/", "/");
+        return utilities.loadResource($scope, 'indicatorTypeDictionaries', '/admin/dictionaries/indicatorTypes/' + id + '/json');
+    };
+    $scope.loadIndicatorTypeDictionaire();
+
+    $scope.resources = function() {
+        $scope.indicatorTypeDictionaries = appData['indicatorTypeDictionaries'];
+        $scope.indicatorTypes = appData['indicatorTypes'];
+        $scope.importers = appData['importers'];
+    };
+    $scope.resources();
+
+    $scope.resetNewResource = function() {
+        var id = getRESTParameter("/id/", "/");
+        $scope.newResource = {};
+        $scope.newResource.importer = "SCRAPER_VALIDATING";
+        $scope.newResource.configId = id;
+    };
+
+    // The new dictionary
+    $scope.resetNewResource();
+
+    // The new dictionary
+    $scope.newResource;
+
+    // Create a new dictionary
+    $scope.createDictionary = function(data) {
+        var params = {};
+        if (data && data.indicatorTypeId) {
+            angular.extend(params, {
+                "indicatorTypeId" : data.indicatorTypeId
+            });
+        }
+        if (data && data.unnormalizedName) {
+            angular.extend(params, {
+                "unnormalizedName" : data.unnormalizedName
+            });
+        }
+        if (data && data.importer) {
+            angular.extend(params, {
+                "importer" : data.importer
+            });
+        }
+        if (data && data.configId) {
+            angular.extend(params, {
+                "configId" : data.configId
+            });
+        }
+
+        return utilities.createResource({
+            validate : $scope.checkCreateForm,
+            data : data,
+            params : params,
+            url : '/admin/dictionaries/indicatorTypes/submitCreate',
+            successCallback : function() {
+                $scope.resetNewResource();
+                $scope.loadIndicatorTypeDictionaire();
+            },
+            errorCallback : function() {
+                alert("Dictionary creation threw an error. Maybe this dictionary already exists. No dictionary has been created.");
+                $scope.loadIndicatorTypeDictionaire();
+            }
+        });
+    };
+
+    $scope.deleteDictionary = function(importer, unn) {
+        return utilities.deleteResource({
+            params: {
+                "importer": importer,
+                "unnormalizedName": unn
+            },
+            url: '/admin/dictionaries/indicatorTypes/submitDelete',
+            successCallback: $scope.loadIndicatorTypeDictionaire,
+            errorCallback: function () {
+                alert("Configuration deletion threw an error. Maybe this configuration is used in some translation. No configuration has been deleted.");
+            }
+        });
+    };
+
+    // Check that the new dictionary is complete
+    $scope.checkCreateForm = function(data) {
+        if (!data) {
+            utilities.setFocus('newResource_indicatorTypeId');
+            return "At least some info should be provided.";
+        }
+        var indicatorTypeId = data.indicatorTypeId;
+        if (!indicatorTypeId || null === indicatorTypeId || '' === indicatorTypeId) {
+            utilities.setFocus('newResource_indicatorTypeId');
+            return "Indicator type cannot be empty.";
+        }
+        var unnormalizedName = data.unnormalizedName;
+        if (!unnormalizedName || null === unnormalizedName || '' === unnormalizedName) {
+            utilities.setFocus('newResource_unnormalizedName');
+            return "Unnormalized name cannot be empty.";
+        }
+        var importer = data.importer;
+        if (!importer || null === importer || '' === importer) {
+            utilities.setFocus('newResource_importer');
+            return "Importer cannot be empty.";
+        }
+        return "OK";
+    };
 
 });

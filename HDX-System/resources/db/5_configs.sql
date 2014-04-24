@@ -1,5 +1,7 @@
 /* The parent configuration entity */
-INSERT INTO resource_configuration(id, name) VALUES(nextval('resource_configuration_seq'),'Sample Scraper Config');
+/* creation moved into 4_sample.sql since dictionaries are depending on it now */
+ALTER SEQUENCE resource_configuration_seq RESTART WITH 1;
+SELECT nextval('resource_configuration_seq');
 
 /*
 ALTER SEQUENCE resource_configuration_seq RESTART WITH 2;

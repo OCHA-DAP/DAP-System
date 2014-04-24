@@ -12,6 +12,7 @@ import org.ocha.hdx.importer.TimeRange;
 import org.ocha.hdx.model.api.CellDescriptor;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
+import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO;
@@ -25,6 +26,7 @@ import org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.EntityType;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
@@ -95,6 +97,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private DataSerieMetadataDAO dataSerieMetadataDAO;
+
+    @Autowired
+    private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	/*
 	 * Entity types
@@ -560,13 +565,19 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<RegionDictionary> listRegionDictionaries() {
-		return regionDictionaryDAO.listRegionDictionaries();
+		return regionDictionaryDAO.listRegionDictionaries(null);
 	}
 
-	@Override
-	public void createRegionDictionary(final String unnormalizedName, final String importer, final long entityId) {
+    @Override
+    public List<RegionDictionary> listRegionDictionaries(long configId) {
+        return regionDictionaryDAO.listRegionDictionaries(configId);
+    }
+
+    @Override
+	public void createRegionDictionary(final String unnormalizedName, final String importer, final long entityId, final long configId) {
 		final Entity entity = entityDAO.getEntityById(entityId);
-		regionDictionaryDAO.createRegionDictionary(unnormalizedName, importer, entity);
+        final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
+        regionDictionaryDAO.createRegionDictionary(unnormalizedName, importer, entity, config);
 	}
 
 	@Override
@@ -579,13 +590,19 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<SourceDictionary> listSourceDictionaries() {
-		return sourceDictionaryDAO.listSourceDictionaries();
+		return sourceDictionaryDAO.listSourceDictionaries(null);
 	}
 
-	@Override
-	public void createSourceDictionary(final String unnormalizedName, final String importer, final long sourceId) {
+    @Override
+    public List<SourceDictionary> listSourceDictionaries(long configId) {
+        return sourceDictionaryDAO.listSourceDictionaries(configId);
+    }
+
+    @Override
+	public void createSourceDictionary(final String unnormalizedName, final String importer, final long sourceId, final long configId) {
 		final Source source = sourceDAO.getSourceById(sourceId);
-		sourceDictionaryDAO.createSourceDictionary(unnormalizedName, importer, source);
+        final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
+		sourceDictionaryDAO.createSourceDictionary(unnormalizedName, importer, source, config);
 
 	}
 
@@ -599,13 +616,19 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries() {
-		return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries();
+		return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries(null);
 	}
 
-	@Override
-	public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorTypeId) {
+    @Override
+    public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(long configId) {
+        return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries(configId);
+    }
+
+    @Override
+	public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorTypeId, final long configId) {
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeById(indicatorTypeId);
-		indicatorTypeDictionaryDAO.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorType);
+        final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
+		indicatorTypeDictionaryDAO.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorType, config);
 	}
 
 	@Override

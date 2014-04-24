@@ -5,7 +5,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gson.JsonObject;
 import org.hibernate.annotations.ForeignKey;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 
 @Entity
@@ -21,13 +23,9 @@ public class IndicatorTypeDictionary extends AbstractDictionary {
 		return indicatorType;
 	}
 
-	public IndicatorTypeDictionary(final String unnormalizedName, final String importer, final IndicatorType indicatorType) {
-		super(unnormalizedName, importer);
+	public IndicatorTypeDictionary(final String unnormalizedName, final String importer, final IndicatorType indicatorType, final ResourceConfiguration configuration) {
+		super(unnormalizedName, importer, configuration);
 		this.indicatorType = indicatorType;
-	}
-
-	public IndicatorTypeDictionary(final String unnormalizedName, final String importer) {
-		super(unnormalizedName, importer);
 	}
 
 	public IndicatorTypeDictionary() {
@@ -35,5 +33,12 @@ public class IndicatorTypeDictionary extends AbstractDictionary {
 		this.indicatorType = null;
 
 	}
+
+    @Override
+    public JsonObject toJSON() {
+        JsonObject element = super.toJSON();
+        element.addProperty("indicatorTypeName", getIndicatorType().getName().getDefaultValue());
+        return element;
+    }
 
 }

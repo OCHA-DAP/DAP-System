@@ -8,8 +8,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.ocha.hdx.persistence.entity.i18n.Text;
@@ -30,6 +32,9 @@ public class SourceDictionaryDAOImplTest {
 	@Autowired
 	private SourceDAO sourceDAO;
 
+    @Autowired
+    private ResourceConfigurationDAO resourceConfigurationDAO;
+
 	@Before
 	public void setUp() {
 		final Text wb = textDAO.createText("World Bank");
@@ -48,34 +53,37 @@ public class SourceDictionaryDAOImplTest {
 
 	@Test
 	public void testSourceDictionaries() {
-		List<SourceDictionary> sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries();
+		List<SourceDictionary> sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
 		Assert.assertEquals(0, sourceDictionaryList.size());
+
+
+        ResourceConfiguration configuration = resourceConfigurationDAO.createResourceConfiguration("Test Configuration", null, null);
 
 		final Source sourceWB = sourceDAO.getSourceByCode("WB");
 
-		sourceDictionaryDAO.createSourceDictionary("World Bank", "scraper", sourceWB);
-		sourceDictionaryDAO.createSourceDictionary("World B.", "another", sourceWB);
+		sourceDictionaryDAO.createSourceDictionary("World Bank", "scraper", sourceWB, configuration);
+		sourceDictionaryDAO.createSourceDictionary("World B.", "another", sourceWB, configuration);
 
-		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries();
+		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
 		Assert.assertEquals(2, sourceDictionaryList.size());
 		Assert.assertEquals(1, sourceDictionaryDAO.getSourceDictionariesByImporter("scraper").size());
 
 		// delete a SourceDictionary by object
 		final SourceDictionary sourceDictionaryToDelete = sourceDictionaryList.get(0);
 		sourceDictionaryDAO.deleteSourceDictionary(sourceDictionaryToDelete);
-		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries();
+		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
 		Assert.assertEquals("After deletion, there should be 1 SourceDictionaries in the table.", 1, sourceDictionaryList.size());
 
 		// add this back to avoid breaking the next test
-		sourceDictionaryDAO.createSourceDictionary(sourceDictionaryToDelete.getId().getUnnormalizedName(), sourceDictionaryToDelete.getId().getImporter(), sourceDictionaryToDelete.getSource());
-		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries();
+		sourceDictionaryDAO.createSourceDictionary(sourceDictionaryToDelete.getId().getUnnormalizedName(), sourceDictionaryToDelete.getId().getImporter(), sourceDictionaryToDelete.getSource(), configuration);
+		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
 		Assert.assertEquals("source_dictionary table should now have 2 entries", 2, sourceDictionaryList.size());
 
 		// delete a specific SourceDictionary by unique fields
 		final String unnormalizedName = sourceDictionaryToDelete.getId().getUnnormalizedName();
 		final String importer = sourceDictionaryToDelete.getId().getImporter();
 		sourceDictionaryDAO.deleteSourceDictionary(unnormalizedName, importer);
-		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries();
+		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
 		Assert.assertEquals("After deletion, there should be 1 SourceDictionaries in the table.", 1, sourceDictionaryList.size());
 	}
 }

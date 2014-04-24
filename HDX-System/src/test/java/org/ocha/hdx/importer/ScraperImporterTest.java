@@ -35,7 +35,7 @@ public class ScraperImporterTest {
 			final Source wb = new Source();
 			wb.setCode("WB");
 			final List<SourceDictionary> dictionaries = new ArrayList<>();
-			dictionaries.add(new SourceDictionary("\"World Bank\"", "scraper", wb));
+			dictionaries.add(new SourceDictionary("\"World Bank\"", "scraper", wb, null));
 			final ScraperImporter scraperImporter = new ScraperImporter(dictionaries, null);
 
 			final File csvValueFile = new ClassPathResource("samples/scraper/csv.zip").getFile();
