@@ -5,7 +5,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.FormParam;
@@ -523,14 +525,18 @@ public class AdminResource {
 	@GET
 	@Path("/status/datasets/")
 	public Response getCKANDatasetsStatus() {
-		return Response.ok(new Viewable("/admin/datasets", hdxService.listCKANDatasets())).build();
+		final Map<String, Object> jspElement		= new HashMap<String, Object>();
+		jspElement.put("configs", this.hdxService.listConfigurations() );
+		jspElement.put("datasets", this.hdxService.listCKANDatasets() );
+		return Response.ok(new Viewable("/admin/datasets", jspElement )).build();
 	}
 
 	@POST
 	@Path("/status/datasets/flagDatasetAsToBeCurated")
-	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type, @Context final UriInfo uriInfo)
+	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type,
+			@FormParam("configuration") final long configuration, @Context final UriInfo uriInfo)
 			throws URISyntaxException {
-		hdxService.flagDatasetAsToBeCurated(datasetName, type);
+		this.hdxService.flagDatasetAsToBeCurated(datasetName, type, configuration);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 		return Response.seeOther(newURI).build();

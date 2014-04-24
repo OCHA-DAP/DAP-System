@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.http.HttpEntity;
@@ -121,7 +122,7 @@ public class HDXServiceImpl implements HDXService {
 		resourceCreateQuery.setPackage_id(packageId);
 		resourceCreateQuery.setUrl(resourceUrl);
 		resourceCreateQuery.setName(name);
-		final String result = this.performHttpPOST(this.urlBaseForResourceCreation, technicalAPIKey, GSONBuilderWrapper.getGSON().toJson(resourceCreateQuery));
+		final String result = this.performHttpPOST(this.urlBaseForResourceCreation, this.technicalAPIKey, GSONBuilderWrapper.getGSON().toJson(resourceCreateQuery));
 		final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
 
 		log.debug(res.toString());
@@ -131,7 +132,7 @@ public class HDXServiceImpl implements HDXService {
 
 	@Override
 	public boolean addResourceToCKANDataset(final String packageId, final File file) {
-		final String result = this.performHttpPOSTMultipart(this.urlBaseForResourceCreation, technicalAPIKey, packageId, file);
+		final String result = this.performHttpPOSTMultipart(this.urlBaseForResourceCreation, this.technicalAPIKey, packageId, file);
 		final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
 
 		return res.get("success").getAsBoolean();
@@ -147,9 +148,10 @@ public class HDXServiceImpl implements HDXService {
 	@Transactional
 	public void checkForNewCKANResources() {
 		final List<String> datasetList = this.getDatasetNamesFromQuery(this.technicalAPIKey);
-		final List<String> datasetToBeCurated = this.datasetDAO.listToBeCuratedCKANDatasets();
+		final Map<String, CKANDataset> datasetToBeCuratedMap = this.datasetDAO.listToBeCuratedCKANDatasets();
 		for (final String datasetName : datasetList) {
-			if (datasetToBeCurated.contains(datasetName)) {
+			final CKANDataset ckanDataset		= datasetToBeCuratedMap.get(datasetName);
+			if ( ckanDataset != null ) {
 				final DatasetV3WrapperDTO dataset = this.getDatasetDTOFromQueryV3(datasetName, this.technicalAPIKey);
 				final List<Resource> resources = dataset.getResult().getResources();
 				for (final Resource resource : resources) {
@@ -166,7 +168,7 @@ public class HDXServiceImpl implements HDXService {
 						}
 
 						this.resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName, dataset.getResult()
-								.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp());
+								.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
 					}
 				}
 			}
@@ -185,8 +187,10 @@ public class HDXServiceImpl implements HDXService {
 	}
 
 	@Override
-	public void flagDatasetAsToBeCurated(final String datasetName, final Type type) {
-		this.datasetDAO.flagDatasetAsToBeCurated(datasetName, type);
+	public void flagDatasetAsToBeCurated(final String datasetName, final Type type, final long configurationId) {
+		final ResourceConfiguration configuration	=
+				this.resourceConfigurationDAO.getResourceConfigurationById(configurationId);
+		this.datasetDAO.flagDatasetAsToBeCurated(datasetName, type, configuration);
 	}
 
 	@Override
@@ -208,14 +212,6 @@ public class HDXServiceImpl implements HDXService {
 		final boolean success = this.performDownload(url, destinationFile);
 		if (!success) {
 			throw new RuntimeException("Failed downloading the given resource");
-		}
-
-		/**
-		 * FIXME , the configuration is HARDCODED because there's no UI for this yet
-		 */
-		else {
-			final ResourceConfiguration configuration = this.resourceConfigurationDAO.getResourceConfigurationById(1);
-			this.workflowService.flagCKANResourceAsConfigured(id, revision_id, configuration);
 		}
 
 	}
@@ -256,7 +252,7 @@ public class HDXServiceImpl implements HDXService {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if the file was successfully downloaded
 	 */
 	private boolean performDownload(final URL url, final File destinationFile) throws IOException {
@@ -316,11 +312,11 @@ public class HDXServiceImpl implements HDXService {
 	}
 
 	/**
-	 * 
+	 *
 	 * The url might change, while ids cannot, so it is best to get the url from the api (just in time), and never store it
-	 * 
+	 *
 	 * Up to now, this requires a very inefficient browsing of the whole tree of datasets and resources
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	private URL getResourceURLFromAPI(final String id, final String revision_id) throws MalformedURLException {
@@ -486,7 +482,7 @@ public class HDXServiceImpl implements HDXService {
 
 	/**
 	 * In order to evaluate a file, we must know its type (to use the appropriate evaluator The Type is defined on the Dataset level)
-	 * 
+	 *
 	 */
 	private Type getTypeForFile(final String id, final String revision_id) {
 		final CKANResource ckanResource = this.resourceDAO.getCKANResource(id, revision_id);

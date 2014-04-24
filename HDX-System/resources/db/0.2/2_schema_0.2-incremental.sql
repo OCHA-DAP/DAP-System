@@ -37,3 +37,10 @@ alter table hdx_dataserie_metadata
 UPDATE source SET code = 'data.undp.org' WHERE code='hdrstats';
 DELETE FROM resource_config_entry WHERE entry_key='Pre-validators';
 DELETE FROM indicator_resource_config_entry WHERE entry_key='Validators';
+
+/* adding configurations to datasets*/
+ALTER TABLE ckan_dataset ADD COLUMN configuration_id int8;
+alter table ckan_dataset 
+        add constraint fk_ckan_dataset_to_resource_config 
+        foreign key (configuration_id) 
+        references resource_configuration;
