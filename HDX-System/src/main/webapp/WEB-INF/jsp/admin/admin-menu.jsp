@@ -46,10 +46,10 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 				<li class="dropdown" ng-class="{ active: importConfigurationsActive }"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Import configurations <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li ng-class="{ active: isActive('${ctx}/admin/misc/configurations', 'importConfigurations') }"><a href="${ctx}/admin/misc/configurations/">Manage configurations</a></li>
-						<li class="divider"></li>
+						<!-- li class="divider"></li>
 						<li ng-class="{ active: isActive('${ctx}/admin/dictionaries/regions', 'importConfigurations') }"><a href="${ctx}/admin/dictionaries/regions/">Region dictionaries</a></li>
 						<li ng-class="{ active: isActive('${ctx}/admin/dictionaries/sources', 'importConfigurations') }"><a href="${ctx}/admin/dictionaries/sources/">Source dictionaries</a></li>
-						<li ng-class="{ active: isActive('${ctx}/admin/dictionaries/indicatorTypes', 'importConfigurations') }"><a href="${ctx}/admin/dictionaries/indicatorTypes/">Indicator Type dictionaries</a></li>
+						<li ng-class="{ active: isActive('${ctx}/admin/dictionaries/indicatorTypes', 'importConfigurations') }"><a href="${ctx}/admin/dictionaries/indicatorTypes/">Indicator Type dictionaries</a></li -->
 					</ul></li>
 			</ul>
 			<ul class="nav navbar-nav">
