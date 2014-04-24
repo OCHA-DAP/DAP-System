@@ -7,6 +7,7 @@ import java.util.Map;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.EntityType;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
@@ -182,7 +183,9 @@ public interface CuratedDataService {
 	 */
 	public List<RegionDictionary> listRegionDictionaries();
 
-	public void createRegionDictionary(final String unnormalizedName, final String importer, final long entityId);
+    public List<RegionDictionary> listRegionDictionaries(final long configId);
+
+	public void createRegionDictionary(final String unnormalizedName, final String importer, final long entityId, final long configurationId);
 
 	public void deleteRegionDictionary(RegionDictionary regionDictionary);
 
@@ -191,7 +194,9 @@ public interface CuratedDataService {
 	 */
 	public List<SourceDictionary> listSourceDictionaries();
 
-	public void createSourceDictionary(final String unnormalizedName, final String importer, final long sourceId);
+    public List<SourceDictionary> listSourceDictionaries(final long configId);
+
+    public void createSourceDictionary(final String unnormalizedName, final String importer, final long sourceId, final long configurationId);
 
 	public void deleteSourceDictionary(String unnormalizedName, String importer);
 
@@ -200,7 +205,9 @@ public interface CuratedDataService {
 	 */
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries();
 
-	public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorType);
+    public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(final long configId);
+
+    public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorType, final long configurationId);
 
 	public void createIndicator(Indicator indicator, ImportFromCKAN importFromCKAN);
 

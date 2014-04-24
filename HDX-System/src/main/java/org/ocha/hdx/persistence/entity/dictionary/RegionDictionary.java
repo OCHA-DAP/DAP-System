@@ -5,7 +5,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gson.JsonObject;
 import org.hibernate.annotations.ForeignKey;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 
 @Entity
 @Table(name = "region_dictionary")
@@ -20,8 +22,8 @@ public class RegionDictionary extends AbstractDictionary {
 		this.entity = entity;
 	}
 
-	public RegionDictionary(final String unnormalizedName, final String importer, final org.ocha.hdx.persistence.entity.curateddata.Entity entity) {
-		super(unnormalizedName, importer);
+	public RegionDictionary(final String unnormalizedName, final String importer, final org.ocha.hdx.persistence.entity.curateddata.Entity entity, final ResourceConfiguration configuration) {
+		super(unnormalizedName, importer, configuration);
 		this.entity = entity;
 	}
 
@@ -31,9 +33,13 @@ public class RegionDictionary extends AbstractDictionary {
 
 	}
 
-	public RegionDictionary(final String unnormalizedName, final String importer) {
-		super(unnormalizedName, importer);
-	}
+    @Override
+    public JsonObject toJSON() {
+        JsonObject element = super.toJSON();
+        element.addProperty("entityName", getEntity().getName().getDefaultValue());
+        element.addProperty("entityType", getEntity().getType().getName().getDefaultValue());
+        return element;
+    }
 
 	public org.ocha.hdx.persistence.entity.curateddata.Entity getEntity() {
 		return entity;

@@ -8,10 +8,7 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 			</button>
 			<span class="navbar-brand">HDX / admin</span>
 		</div>
@@ -24,10 +21,10 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 						<li ng-class="{ active: isActive('${ctx}/admin/status/datasets', 'status') }"><a href="${ctx}/admin/status/datasets/">Detected CKAN datasets</a></li>
 						<li ng-class="{ active: isActive('${ctx}/admin/status/resources', 'status') }"><a href="${ctx}/admin/status/resources/">Detected CKAN resources</a></li>
 						<li class="divider"></li>
-						<li ng-class="{ active: isActive('${ctx}/admin/status/manuallyTriggerDatasetsDetection', 'status') }"><a href="${ctx}/admin/status/manuallyTriggerDatasetsDetection">Manually trigger datasets
-								detection</a></li>
-						<li ng-class="{ active: isActive('${ctx}/admin/status/manuallyTriggerResourcesDetection', 'status') }"><a href="${ctx}/admin/status/manuallyTriggerResourcesDetection">Manually trigger resources
-								detection</a></li>
+						<li ng-class="{ active: isActive('${ctx}/admin/status/manuallyTriggerDatasetsDetection', 'status') }"><a href="${ctx}/admin/status/manuallyTriggerDatasetsDetection">Manually trigger
+								datasets detection</a></li>
+						<li ng-class="{ active: isActive('${ctx}/admin/status/manuallyTriggerResourcesDetection', 'status') }"><a href="${ctx}/admin/status/manuallyTriggerResourcesDetection">Manually trigger
+								resources detection</a></li>
 					</ul></li>
 			</ul>
 			<ul class="nav navbar-nav">
@@ -79,7 +76,9 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 						<li class="divider"></li>
 						<li ng-class="{ active: showTestZone }">
 							<div class="checkbox" style="margin-left: 20px;">
-								<label> <input type="checkbox" ng-click="toggleTestZone()"> Show test zone
+								<label>
+									<input type="checkbox" ng-click="toggleTestZone()">
+									Show test zone
 								</label>
 							</div>
 						</li>

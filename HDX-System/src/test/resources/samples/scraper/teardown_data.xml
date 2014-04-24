@@ -1,8 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
+  <resource_configuration />
   <language />
   <text />
- 
+
   
   <hdx_translation />
   <organisation />
@@ -18,7 +19,6 @@
   <entity_type />
   
   <entity />
-  <resource_configuration />
-  <resource_config_entry /> 
+  <resource_config_entry />
   <indicator_resource_config_entry />
 </dataset>

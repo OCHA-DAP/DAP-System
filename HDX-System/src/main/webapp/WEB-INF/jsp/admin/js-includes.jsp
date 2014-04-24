@@ -131,15 +131,39 @@
 </script>
 <%
 	} // End if(needs.contains("indicatorTypes")) {
-	if(needs.contains("resourceConfigurations")) {
+    if(needs.contains("resourceConfigurations")) {
 %>
 <script src="${ctx}/admin/misc/configurations/json?var=data_resourceConfigurations"></script>
 <script>
-  appData['resourceConfigurations'] = data_resourceConfigurations;
+    appData['resourceConfigurations'] = data_resourceConfigurations;
 </script>
 
 <%
-	} // End if(needs.contains("resourceConfigurations")) {
+    } // End if(needs.contains("resourceConfigurations")) {
+    if(needs.contains("regionDictionaries")) {
+%>
+<script src="${ctx}/admin/dictionaries/regions/json?var=data_regionDictionaries"></script>
+<script>
+    appData['regionDictionaries'] = data_regionDictionaries;
+</script>
+<%
+    } // End if(needs.contains("regionDictionaries")) {
+    if(needs.contains("sourceDictionaries")) {
+%>
+<script src="${ctx}/admin/dictionaries/sources/json?var=data_sourceDictionaries"></script>
+<script>
+    appData['sourceDictionaries'] = data_sourceDictionaries;
+</script>
+<%
+    } // End if(needs.contains("sourceDictionaries")) {
+    if(needs.contains("indicatorTypeDictionaries")) {
+%>
+<script src="${ctx}/admin/dictionaries/indicatorTypes/json?var=data_indicatorTypeDictionaries"></script>
+<script>
+    appData['indicatorTypeDictionaries'] = data_indicatorTypeDictionaries;
+</script>
+<%
+    } // End if(needs.contains("indicatorTypeDictionaries")) {
 	if(needs.contains("entities")) {
 %>
 <script src="${ctx}/admin/curated/entities/json?var=data_entities"></script>
@@ -148,6 +172,14 @@
 </script>
 <%
 	} // End if(needs.contains("entities")) {
+    if(needs.contains("importers")) {
+%>
+<script src="${ctx}/admin/importers/json?var=data_importers"></script>
+<script>
+    appData['importers'] = data_importers;
+</script>
+<%
+    } // End if(needs.contains("importers")) {
 	} // End if (null != needsRequest && !"".equals(needsRequest)) {
 %>
 <script>

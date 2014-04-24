@@ -346,11 +346,15 @@ INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'WAD');
 INSERT INTO organisation(id, org_link, full_name_id, short_name_id) SELECT nextval('organisation_seq'),'http://worldaerodata.com/', currval('text_seq')-1, currval('text_seq');
 /* END organisations */
 
+/* The parent configuration entity */
+INSERT INTO resource_configuration(id, name) VALUES(nextval('resource_configuration_seq'),'Sample Scraper Config');
+
+
 /* sources */
 SELECT 'Starting sources' from text limit 1;
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'World Bank');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'world-bank', currval('text_seq'));
-INSERT INTO source_dictionary(importer,unnormalized_name, source_id) VALUES('SCRAPER_VALIDATING','World Bank',currval('source_seq'));
+INSERT INTO source_dictionary(importer,unnormalized_name, source_id, configuration_id) VALUES('SCRAPER_VALIDATING','World Bank',currval('source_seq'), 1);
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'mdgs');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'mdgs', currval('text_seq'));
 
@@ -359,7 +363,7 @@ INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'emdat', cur
 
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'HDRStats');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'data.undp.org', currval('text_seq'));
-INSERT INTO source_dictionary(importer,unnormalized_name, source_id) VALUES('SCRAPER_VALIDATING','HDRStats',currval('source_seq'));
+INSERT INTO source_dictionary(importer,unnormalized_name, source_id, configuration_id) VALUES('SCRAPER_VALIDATING','HDRStats',currval('source_seq'), 1);
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'm49');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'm49', currval('text_seq'));
 
@@ -371,7 +375,7 @@ INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'unterm', cu
 
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'esa-unpd-WPP2012');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'esa-unpd-wpp2012', currval('text_seq'));
-INSERT INTO source_dictionary(importer,unnormalized_name, source_id) VALUES('SCRAPER_VALIDATING','esa-unpd-WPP2012',currval('source_seq'));
+INSERT INTO source_dictionary(importer,unnormalized_name, source_id, configuration_id) VALUES('SCRAPER_VALIDATING','esa-unpd-WPP2012',currval('source_seq'), 1);
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'wikipedia');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'wikipedia', currval('text_seq'));
 
@@ -386,7 +390,7 @@ INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'unicef-info
 
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'esa-unpd-WUP2011');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'esa-unpd-wup2011', currval('text_seq'));
-INSERT INTO source_dictionary(importer,unnormalized_name, source_id) VALUES('SCRAPER_VALIDATING','esa-unpd-WUP2011',currval('source_seq'));
+INSERT INTO source_dictionary(importer,unnormalized_name, source_id, configuration_id) VALUES('SCRAPER_VALIDATING','esa-unpd-WUP2011',currval('source_seq'), 1);
 INSERT INTO text(id, default_value) VALUES(nextval('text_seq'), 'faostat3');
 INSERT INTO source(id, code, text_id) VALUES(nextval('source_seq'), 'faostat3', currval('text_seq'));
 

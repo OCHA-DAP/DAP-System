@@ -1,11 +1,12 @@
 package org.ocha.hdx.persistence.entity.dictionary;
 
+import com.google.gson.JsonObject;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
+
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class AbstractDictionary {
@@ -73,14 +74,27 @@ public abstract class AbstractDictionary {
 	@EmbeddedId
 	private final Id id = new Id();
 
-	public Id getId() {
+    @ManyToOne
+    @JoinColumn(name = "configuration_id", nullable = false)
+    private ResourceConfiguration configuration;
+
+    public Id getId() {
 		return id;
 	}
 
-	public AbstractDictionary(final String unnormalizedName, final String importer) {
+    public ResourceConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(ResourceConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    public AbstractDictionary(final String unnormalizedName, final String importer, final ResourceConfiguration configuration) {
 		super();
 		this.id.unnormalizedName = unnormalizedName;
 		this.id.importer = importer;
+        this.configuration = configuration;
 	}
 
 	public AbstractDictionary() {
@@ -88,5 +102,12 @@ public abstract class AbstractDictionary {
 		this.id.unnormalizedName = null;
 		this.id.importer = null;
 	}
+
+    public JsonObject toJSON(){
+        final JsonObject element = new JsonObject();
+        element.addProperty("importer", getId().getImporter());
+        element.addProperty("unnormalizedName", getId().getUnnormalizedName());
+        return element;
+    }
 
 }
