@@ -43,9 +43,42 @@
 					<label for="reportFileName">File name</label> <input type="text" class="form-control" id="reportFileName" ng-model="reportFileName" placeholder="Report file name...">
 
 				</div -->
+				<div>
 				<button type="button" class="btn btn-primary btn-custom-default" ng-click="createReport()">Create report</button>
 				<button type="button" class="btn btn-primary btn-custom-default" ng-click="createTXTReadme()">Create TXT Readme</button>
 				<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
+				<br/>
+				</div>
+				
+				<div class="form-group">
+					<label for="reportGroup">CKAN Country (Group)</label>
+					<select class="form-control" id="ckanGroupId" ng-model="ckanGroupModel" 
+							ng-options="ckanGroup.name for ckanGroup in ckanGroups" ng-class="default"
+							ng-change="groupSelect(ckanGroupModel)"
+							ng-disabled="!grpLoaded">
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="reportDataset">CKAN Dataset</label> 
+					<select class="form-control" id="ckanDatasetId" ng-model="ckanDatasetModel" 
+							ng-options="ckanDataset.name for ckanDataset in ckanDatasets" ng-class="default"
+							ng-change="datasetSelect(ckanDatasetModel)"
+							ng-disabled="!datasetLoaded">
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="reportResource">CKAN Resource</label> 
+					<select class="form-control" id="ckanResourceId" ng-model="ckanResourceModel" 
+							ng-options="ckanResource.name for ckanResource in ckanResources" ng-class="default"
+							ng-change="resourceSelect(ckanResourceModel)"
+							ng-disabled="!resourceLoaded">
+							<option>--Add as new resource--</option>
+							
+					</select>
+				</div>
+				<button type="button" class="btn btn-primary btn-custom-default" ng-click="savePublish()" ng-disabled="!saveBtn">
+					Save & Publish
+				</button>
 			</form>
 		</div>
 	</div>

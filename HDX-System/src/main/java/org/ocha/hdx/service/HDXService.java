@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import org.ocha.hdx.dto.apiv3.DatasetV3DTO;
 import org.ocha.hdx.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.hdx.dto.apiv3.GroupV3DTO;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
@@ -28,7 +30,7 @@ public interface HDXService {
 
 	/**
 	 * will try to get all the resources from CKAN instance first datasets and then resources
-	 *
+	 * 
 	 * Il some resources are new, will register a CKANResource in HDX db with {@link WorkflowState#Detected}
 	 */
 	public void checkForNewCKANResources();
@@ -37,6 +39,12 @@ public interface HDXService {
 
 	public List<CKANDataset> listCKANDatasets();
 
+	public List<GroupV3DTO> getCKANGroups(final List<String> groups);
+
+	public DatasetV3DTO getDatasetContent(final String name);
+
+	public List<String> getCKANGroupNames();
+
 	public CKANResource getCKANResource(final String id, final String revision_id);
 
 	public void flagDatasetAsToBeCurated(final String datasetName, final Type type, final long configurationId);
@@ -44,33 +52,32 @@ public interface HDXService {
 	public void flagDatasetAsIgnored(final String datasetName);
 
 	/**
-	 *
+	 * 
 	 * downloads the file associated to the given id / revision and flags the record as {@link WorkflowState#DOWNLOADED}
-	 *
+	 * 
 	 * The record must be in a Workflow State allowing download
 	 */
 	public void downloadFileForCKANResource(final String id, final String revision_id) throws IOException;
 
 	/**
-	 *
+	 * 
 	 * evaluate the file associated to the given id / revision and flags the record as {@link WorkflowState#FILE_PRE_VALIDATION_SUCCESS} or {@link WorkflowState#FILE_PRE_VALIDATION_FAIL}
-	 *
+	 * 
 	 * The record must be in a Workflow State allowing evaluation
 	 */
 	public void evaluateFileForCKANResource(final String id, final String revision_id) throws IOException;
 
 	/**
-	 *
+	 * 
 	 * Performs the required transformation and import data from the file associated to the given id / revision and flags the record as {@link WorkflowState#IMPORT_SUCCESS} or
 	 * {@link WorkflowState#IMPORT_FAIL}
-	 *
-	 * The record must be in a Workflow State allowing transformationAndImport
+	 * 
 	 */
 	public void transformAndImportDataFromFileForCKANResource(final String id, final String revision_id);
 
 	/**
 	 * return the list of the Datasets Performing the query on behalf of the user
-	 *
+	 * 
 	 * @param userId
 	 *            id of the user performing the query
 	 */
@@ -78,7 +85,7 @@ public interface HDXService {
 
 	/**
 	 * uses the CKAN api V3 fetchs the content of the given dataset Performing the query on behalf of the user
-	 *
+	 * 
 	 * @param userId
 	 *            id of the user performing the query
 	 * @param datasetName

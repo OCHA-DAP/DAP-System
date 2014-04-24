@@ -3,6 +3,7 @@ package org.ocha.hdx.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +28,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.hdx.config.ConfigurationConstants.GeneralConfiguration;
 import org.ocha.hdx.config.ConfigurationConstants.IndicatorConfiguration;
+import org.ocha.hdx.dto.apiv3.DatasetV3DTO;
+import org.ocha.hdx.dto.apiv3.GroupV3DTO;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
@@ -89,6 +92,7 @@ public class AdminResource {
 
 	/**
 	 * Remove the quotes around a String
+	 * 
 	 * @param str
 	 * @return
 	 */
@@ -264,7 +268,6 @@ public class AdminResource {
 	@POST
 	@Path("/misc/configurations/submitCreate")
 	public Response createResourceConfiguration(@FormParam("name") final String rcName) throws Exception {
-		// TODO Perform validation
 		hdxService.createResourceConfiguration(rcName);
 		return Response.ok().build();
 	}
@@ -525,17 +528,16 @@ public class AdminResource {
 	@GET
 	@Path("/status/datasets/")
 	public Response getCKANDatasetsStatus() {
-		final Map<String, Object> jspElement		= new HashMap<String, Object>();
-		jspElement.put("configs", this.hdxService.listConfigurations() );
-		jspElement.put("datasets", this.hdxService.listCKANDatasets() );
-		return Response.ok(new Viewable("/admin/datasets", jspElement )).build();
+		final Map<String, Object> jspElement = new HashMap<String, Object>();
+		jspElement.put("configs", this.hdxService.listConfigurations());
+		jspElement.put("datasets", this.hdxService.listCKANDatasets());
+		return Response.ok(new Viewable("/admin/datasets", jspElement)).build();
 	}
 
 	@POST
 	@Path("/status/datasets/flagDatasetAsToBeCurated")
-	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type,
-			@FormParam("configuration") final long configuration, @Context final UriInfo uriInfo)
-			throws URISyntaxException {
+	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type, @FormParam("configuration") final long configuration,
+			@Context final UriInfo uriInfo) throws URISyntaxException {
 		this.hdxService.flagDatasetAsToBeCurated(datasetName, type, configuration);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
@@ -1505,7 +1507,96 @@ public class AdminResource {
 	@Path("/reports/country")
 	@SuppressWarnings("static-method")
 	public Response displayCountryReports() {
+		// final List<String> grpList = hdxService.getCKANGroupNames();
+
+		// final List<GroupV3DTO> ckanGroups = hdxService.getCKANGroups(grpList);
 		return Response.ok(new Viewable("/admin/reportsCountry")).build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/misc/groups/json")
+	public String getGroups(@QueryParam("var") final String var) throws TypeMismatchException {
+		String result = "";
+		final List<String> grpList = hdxService.getCKANGroupNames();
+		final List<GroupV3DTO> ckanGroups = hdxService.getCKANGroups(grpList);
+		final JsonArray jsonArray = new JsonArray();
+		for (final GroupV3DTO grp : ckanGroups) {
+			final JsonObject element = new JsonObject();
+			element.addProperty("id", grp.getId());
+			element.addProperty("name", grp.getDisplay_name());
+			jsonArray.add(element);
+		}
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		result += jsonArray.toString();
+		return result;
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/misc/groups/id/{id}/json")
+	public String groupShow(@QueryParam("var") final String var, @PathParam("id") final String id) throws TypeMismatchException {
+		String result = "";
+		final List<String> grpList = new ArrayList<String>();
+		grpList.add(id);
+		final List<GroupV3DTO> ckanGroups = hdxService.getCKANGroups(grpList);
+
+		final JsonArray jsonArray = new JsonArray();
+		if (ckanGroups != null && ckanGroups.size() > 0) {
+			final GroupV3DTO grp = ckanGroups.get(0);
+			for (final DatasetV3DTO dts : grp.getPackages()) {
+				final JsonObject element = new JsonObject();
+				element.addProperty("id", dts.getId());
+				element.addProperty("name", dts.getName());
+				element.addProperty("title", dts.getTitle());
+				jsonArray.add(element);
+			}
+			if ((null != var) && !"".equals(var)) {
+				result = "var " + var + " = ";
+			}
+			result += jsonArray.toString();
+		}
+
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param var
+	 * @param id
+	 * @return Gets the resources of a dataset
+	 * @throws TypeMismatchException
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/misc/resources/id/{id}/json")
+	public String getResourcesByDatasetID(@QueryParam("var") final String var, @PathParam("id") final String id) throws TypeMismatchException {
+		String result = "";
+		final List<String> grpList = new ArrayList<String>();
+		grpList.add(id);
+		final DatasetV3DTO dataset = hdxService.getDatasetContent(id);
+
+		final JsonArray jsonArray = new JsonArray();
+		// JsonObject element = new JsonObject();
+		// element.addProperty("id", -1);
+		// element.addProperty("name", "--Add as new resource--");
+		// element.addProperty("url", "new resource");
+		// jsonArray.add(element);
+		for (final DatasetV3DTO.Resource res : dataset.getResources()) {
+			final JsonObject element = new JsonObject();
+			element.addProperty("id", res.getId());
+			element.addProperty("name", res.getName());
+			element.addProperty("url", res.getUrl());
+			jsonArray.add(element);
+		}
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		result += jsonArray.toString();
+
+		return result;
 	}
 
 	/* Indicator */
