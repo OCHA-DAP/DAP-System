@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import org.ocha.hdx.dto.apiv3.DatasetV3DTO;
 import org.ocha.hdx.dto.apiv3.DatasetV3WrapperDTO;
+import org.ocha.hdx.dto.apiv3.GroupV3DTO;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
@@ -37,6 +39,12 @@ public interface HDXService {
 
 	public List<CKANDataset> listCKANDatasets();
 
+	public List<GroupV3DTO> getCKANGroups(final List<String> groups);
+
+	public DatasetV3DTO getDatasetContent(final String name);
+
+	public List<String> getCKANGroupNames();
+
 	public CKANResource getCKANResource(final String id, final String revision_id);
 
 	public void flagDatasetAsToBeCurated(final String datasetName, final Type type);
@@ -53,7 +61,8 @@ public interface HDXService {
 
 	/**
 	 * 
-	 * evaluate the file associated to the given id / revision and flags the record as {@link WorkflowState#FILE_PRE_VALIDATION_SUCCESS} or {@link WorkflowState#FILE_PRE_VALIDATION_FAIL}
+	 * evaluate the file associated to the given id / revision and flags the record as {@link WorkflowState#FILE_PRE_VALIDATION_SUCCESS} or
+	 * {@link WorkflowState#FILE_PRE_VALIDATION_FAIL}
 	 * 
 	 * The record must be in a Workflow State allowing evaluation
 	 */
@@ -61,8 +70,8 @@ public interface HDXService {
 
 	/**
 	 * 
-	 * Performs the required transformation and import data from the file associated to the given id / revision and flags the record as {@link WorkflowState#IMPORT_SUCCESS} or
-	 * {@link WorkflowState#IMPORT_FAIL}
+	 * Performs the required transformation and import data from the file associated to the given id / revision and flags the record as
+	 * {@link WorkflowState#IMPORT_SUCCESS} or {@link WorkflowState#IMPORT_FAIL}
 	 * 
 	 * The record must be in a Workflow State allowing transformationAndImport
 	 */

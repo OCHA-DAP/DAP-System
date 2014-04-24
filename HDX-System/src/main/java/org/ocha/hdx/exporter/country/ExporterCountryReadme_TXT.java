@@ -52,9 +52,17 @@ public class ExporterCountryReadme_TXT extends Exporter_File<ExporterCountryQuer
 		content.add("COUNTRY OVERVIEW");
 
 		// The overview data
-		final List<Object[]> overviewData = exporterService.getCountryOverviewData(queryData);
-		for (final Object[] objects : overviewData) {
-			content.add(objects[1] + " : " + objects[2]);
+		final List<Object[]> overviewData = this.exporterService.getCountryOverviewData(queryData);
+		try {
+			for (final Object[] objects : overviewData) {
+				if (objects.length > 1) {
+					content.add((objects[1] != null ? objects[1] : " ") + " : " + (objects[2] != null ? objects[2] : " "));
+				}
+			}
+
+		} catch (final Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		// Write the file

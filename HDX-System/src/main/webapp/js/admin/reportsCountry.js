@@ -8,6 +8,13 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
       entityType : 1
     });
     $scope.languages = appData['languages'];
+    $scope.grpLoaded = false;
+    $scope.datasetLoaded = false;
+    $scope.resourceLoaded = false;
+    $scope.saveBtn = false;
+    utilities.loadResource($scope, 'ckanGroups', '/admin/misc/groups/json', function() {
+       $scope.grpLoaded=true;
+    });
   }
   $scope.resources();
 
@@ -39,6 +46,40 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
     // Sample http://localhost:8080/hdx/api/exporter/country/readme/BEL/language/EN/ReadMe.txt
     window.location.href = hdxContextRoot + "/api/exporter/country/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/ReadMe.txt";
   } 
+  
+  
+  $scope.groupSelect = function(data) {
+	  $scope.datasetLoaded=false;
+	  $scope.resourceLoaded=false;
+	  $scope.saveBtn = false;
+	  var id=data.id;
+	  var url = "/admin/misc/groups/id/"+id+"/json";
+	  utilities.loadResource($scope, 'ckanDatasets', url, function() {
+	        $scope.datasetLoaded=true;
+	        $scope.resourceLoaded=false;
+	  });
+  } 
+  
+  $scope.datasetSelect = function(data) {
+	  $scope.resourceLoaded=false;
+	  $scope.saveBtn = false;
+	  var id=data.id;
+	  var url = "/admin/misc/resources/id/"+id+"/json";
+	  utilities.loadResource($scope, 'ckanResources', url, function() {
+		  $scope.resourceLoaded=true;
+		  $scope.saveBtn = true;
+	  });
+  } 
+  
+  $scope.resourceSelect = function(data) {
+	  $scope.saveBtn = true;
+  } 
+  
+  $scope.savePublish = function(data) {
+	  alert("save");
+  } 
+  
+  
   
   //$scope.publishReport = function() {
 	    
