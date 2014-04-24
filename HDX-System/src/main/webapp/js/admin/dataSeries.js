@@ -366,7 +366,7 @@ app
                 }
               }
             }
-            $scope.enableAddDataValidatorForm = !found;
+            // $scope.enableAddDataValidatorForm = !found; <-- not always working...
             return !found;
           }
 
