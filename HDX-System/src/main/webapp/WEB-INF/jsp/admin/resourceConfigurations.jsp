@@ -22,28 +22,15 @@
 			<form novalidate name="createResourceForm" class="css-form">
 				<table class="table table-bordered table-hover table-condensed">
 					<tr style="font-weight: bold">
-						<td style="width: 20%">
-							<a href="" ng-click="predicate='id'; reverse=!reverse">Id 
-						</td>
-						<td style="width: 60%">
-							<a href="" ng-click="predicate='name'; reverse=!reverse">Name 
-						</td>
+						<td style="width: 80%">Name</td>
 						<td style="width: 20%">Action</td>
 					</tr>
-					<tr ng-repeat="rc in resourceConfigurations | orderBy:predicate:reverse">
+					<tr>
 						<td>
-							<!-- non editable code  -->
-							<span> {{ rc.id }} </span>
-						</td>
-						<td>
-							<!-- editable native name  -->
-							<span> {{ rc.name }} </span>
+							<input type="text" class="form-control" placeholder="Name" id="newResource_name" ng-model="newResource.name" required />
 						</td>
 						<td style="white-space: nowrap">
-							<div class="buttons" ng-show="!rowform.$visible">
-								<button class="btn btn-primary btn-custom-default" ng-click="editRC(rc.id)">Edit</button>
-								<button class="btn btn-danger btn-custom-danger" ng-click="deleteRC(rc.id)">Delete</button>
-							</div>
+							<button class="btn btn-primary btn-custom-default" ng-click="createRC(newResource)">Add</button>
 						</td>
 					</tr>
 				</table>
