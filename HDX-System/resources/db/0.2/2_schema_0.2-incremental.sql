@@ -35,3 +35,7 @@ alter table hdx_dataserie_metadata
         drop constraint fk_additional_data_to_name_text;
         
 UPDATE source SET code = 'data.undp.org' WHERE code='hdrstats';
+
+update source_dictionary set configuration_id=1;
+update indicator_type_dictionary set configuration_id=1;
+update region_dictionary set configuration_id=1;
