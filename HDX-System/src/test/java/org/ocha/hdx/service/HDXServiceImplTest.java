@@ -123,7 +123,7 @@ public class HDXServiceImplTest {
 		Assert.assertTrue(ckanDatasetDAO.listCKANDatasets().size() > 0);
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
-			hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER_VALIDATING);
+			hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER_VALIDATING, 0);
 		}
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.TO_BE_CURATED, ckandDataset.getStatus());
@@ -137,7 +137,7 @@ public class HDXServiceImplTest {
 		hdxService.checkForNewCKANDatasets();
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
-			hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER_VALIDATING);
+			hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER_VALIDATING, 0);
 		}
 
 		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
@@ -168,7 +168,7 @@ public class HDXServiceImplTest {
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
 			if (!ckandDataset.getName().equals("nope")) {
-				hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.DUMMY);
+				hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.DUMMY, 0);
 			}
 		}
 

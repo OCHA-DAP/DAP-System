@@ -77,6 +77,7 @@
         status varchar(255) not null,
         title varchar(255) not null,
         type varchar(255),
+        configuration_id int8,
         primary key (name)
     );
 
@@ -266,6 +267,11 @@
         default_value text not null,
         primary key (id)
     );
+    
+    alter table ckan_dataset 
+        add constraint fk_ckan_dataset_to_resource_config 
+        foreign key (configuration_id) 
+        references resource_configuration;
 
     alter table ckan_resource 
         add constraint fk_ckan_resource_to_resource_config 

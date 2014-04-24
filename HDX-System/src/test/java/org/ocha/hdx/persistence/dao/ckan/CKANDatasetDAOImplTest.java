@@ -63,8 +63,8 @@ public class CKANDatasetDAOImplTest {
 			Assert.assertEquals(0, ckanDatasetDAO.listToBeCuratedCKANDatasets().size());
 		}
 
-		ckanDatasetDAO.flagDatasetAsToBeCurated("TestA", CKANDataset.Type.DUMMY);
-		ckanDatasetDAO.flagDatasetAsToBeCurated("TestB", CKANDataset.Type.SCRAPER_VALIDATING);
+		ckanDatasetDAO.flagDatasetAsToBeCurated("TestA", CKANDataset.Type.DUMMY, null);
+		ckanDatasetDAO.flagDatasetAsToBeCurated("TestB", CKANDataset.Type.SCRAPER_VALIDATING, null);
 		ckanDatasetDAO.flagDatasetAsIgnored("TestC");
 
 		{

@@ -5,21 +5,26 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ForeignKey;
+import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 
 @Entity
 @Table(name = "ckan_dataset")
 public class CKANDataset {
 
 	/**
-	 * 
+	 *
 	 * @author Samuel Eustachi
-	 * 
-	 * 
+	 *
+	 *
 	 *         PENDING : initial Status, the dataset resource won't be processed
-	 * 
+	 *
 	 *         IGNORED : a data manager flagged this as ignored, the dataset resource won't be processed
-	 * 
+	 *
 	 *         TO_BE_CURATED : all resources from this dataset will be curated (using processor (validator, importer...) according to CKANDataset#Type )
 	 */
 	public enum Status {
@@ -53,7 +58,7 @@ public class CKANDataset {
 	private String title;
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(final String title) {
@@ -64,8 +69,13 @@ public class CKANDataset {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "configuration_id", nullable = true)
+	@ForeignKey(name="fk_ckan_dataset_to_resource_config")
+	private ResourceConfiguration configuration;
+
 	public Status getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public void setStatus(final Status status) {
@@ -77,7 +87,7 @@ public class CKANDataset {
 	private Type type;
 
 	public Type getType() {
-		return type;
+		return this.type;
 	}
 
 	public void setType(final Type type) {
@@ -85,7 +95,7 @@ public class CKANDataset {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	@Column(name = "maintainer", nullable = true, updatable = true)
@@ -98,19 +108,29 @@ public class CKANDataset {
 	private String author_email;
 
 	public String getMaintainer() {
-		return maintainer;
+		return this.maintainer;
 	}
 
 	public String getMaintainer_email() {
-		return maintainer_email;
+		return this.maintainer_email;
 	}
 
 	public String getAuthor() {
-		return author;
+		return this.author;
 	}
 
 	public String getAuthor_email() {
-		return author_email;
+		return this.author_email;
 	}
+
+	public ResourceConfiguration getConfiguration() {
+		return this.configuration;
+	}
+
+	public void setConfiguration(final ResourceConfiguration configuration) {
+		this.configuration = configuration;
+	}
+
+
 
 }

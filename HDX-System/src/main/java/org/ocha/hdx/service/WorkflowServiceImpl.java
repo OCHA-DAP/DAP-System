@@ -67,6 +67,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 		}
 	}
 
+	@Deprecated
 	@Override
 	public boolean flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);

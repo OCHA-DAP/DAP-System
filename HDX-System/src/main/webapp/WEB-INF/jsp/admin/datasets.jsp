@@ -19,22 +19,33 @@
 			<tr>
 				<th><!-- a href="" ng-click="predicate='title'; reverse=!reverse" -->Title (name)<!-- /a --></th>
 				<th><!-- a href="" ng-click="predicate='status'; reverse=!reverse" -->Status<!-- /a --></th>
-				<th><!-- a href="" ng-click="predicate='type'; reverse=!reverse" -->Type<!-- /a --></th>
+				<th><!-- a href="" ng-click="predicate='config'; reverse=!reverse" -->Config<!-- /a --></th>
 				<th>Choose a type and flag as to be curated</th>
 				<th>Ignore a dataset</th>
 			</tr>
 
-			<c:forEach var="dataset" items="${it}">
+			<c:forEach var="dataset" items="${it.datasets}">
 				<tr>
 					<td>${dataset.title}(${dataset.name})</td>
 					<td>${dataset.status}</td>
-					<td>${dataset.type}</td>
+					<td>${dataset.configuration.name}</td>
 					<td>
 						<form method="POST" action="flagDatasetAsToBeCurated">
-							<input type="hidden" name="datasetName" value="${dataset.name}" /> <select name="type">
-								<option value="SCRAPER_VALIDATING" selected="selected">SCRAPER_VALIDATING</option>
-								<option value="DUMMY">DUMMY</option>
-							</select> <input type="submit" value="flag for curation" />
+							<input type="hidden" name="datasetName" value="${dataset.name}" />
+							<input type="hidden" name="type" value="SCRAPER_VALIDATING" />
+							<select name="configuration">
+								<c:forEach var="config" items="${it.configs}">
+									<c:choose>
+										<c:when test="${ not empty dataset.configuration and config.id == dataset.configuration.id }">
+											<option value="${config.id}" selected="selected">${config.name}</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${config.id}">${config.name}</option>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</select>
+							<input type="submit" value="flag for curation" />
 						</form>
 					</td>
 					<td>

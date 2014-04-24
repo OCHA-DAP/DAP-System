@@ -22,7 +22,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional
 	public void newCKANResourceDetected(final String id, final String revision_id, final String name, final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
-			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp) {
+			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp, final ResourceConfiguration configuration) {
 		final CKANResource ckanResource = new CKANResource(id, revision_id, !ckanResourceExists(id), parentDataset_name);
 		if (name != null) {
 			ckanResource.setName(name);
@@ -35,7 +35,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 		ckanResource.setParentDataset_revision_timestamp(parentDataset_revision_timestamp);
 		ckanResource.setDetectionDate(new Date());
 		ckanResource.setDownloadDate(null);
-		ckanResource.setResourceConfiguration(null);
+		ckanResource.setResourceConfiguration(configuration);
 
 		em.persist(ckanResource);
 

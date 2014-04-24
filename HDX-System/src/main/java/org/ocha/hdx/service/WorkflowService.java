@@ -22,6 +22,11 @@ public interface WorkflowService {
 
 	public boolean flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type evaluator, final ValidationReport report);
 
+	/**
+	 * @deprecated the resource should be configured from the first moment when it gets created and saved into the database.
+	 * It takes the configuration from the dataset
+	 */
+	@Deprecated
 	public boolean flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration);
 
 }
