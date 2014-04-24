@@ -35,6 +35,7 @@ alter table hdx_dataserie_metadata
         drop constraint fk_additional_data_to_name_text;
         
 UPDATE source SET code = 'data.undp.org' WHERE code='hdrstats';
+<<<<<<< HEAD
 DELETE FROM resource_config_entry WHERE entry_key='Pre-validators';
 DELETE FROM indicator_resource_config_entry WHERE entry_key='Validators';
 
@@ -44,3 +45,9 @@ alter table ckan_dataset
         add constraint fk_ckan_dataset_to_resource_config 
         foreign key (configuration_id) 
         references resource_configuration;
+=======
+
+update source_dictionary set configuration_id=1;
+update indicator_type_dictionary set configuration_id=1;
+update region_dictionary set configuration_id=1;
+>>>>>>> origin/importerConfiguration

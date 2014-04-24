@@ -193,6 +193,3 @@ search {
 	background-color: white;
     z-index: 1030; /* fix for navbar dropdown getting under content */
 }
-.placeholder-under-menu{
-	height: 50px;
-}

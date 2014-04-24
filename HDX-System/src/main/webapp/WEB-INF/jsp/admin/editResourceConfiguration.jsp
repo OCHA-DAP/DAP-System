@@ -17,8 +17,7 @@
 	<jsp:include page="admin-menu.jsp" />
 
 
-	<br />
-	<div class="">
+	<div id="content">
 		<div class="row">
 			<div class="col-sm-2">
 				<ul class="nav nav-pills nav-stacked">
@@ -88,10 +87,10 @@
 						<table class="table table-bordered table-hover table-condensed">
 							<tr style="font-weight: bold">
 								<td style="width: 20%">
-									<a href="" ng-click="predicate='key'; reverse=!reverse">Key
+									<a href="" ng-click="predicate='key'; reverse=!reverse">Key 
 								</td>
 								<td style="width: 60%">
-									<a href="" ng-click="predicate='value'; reverse=!reverse">Value
+									<a href="" ng-click="predicate='value'; reverse=!reverse">Value 
 								</td>
 								<td style="width: 20%">Action</td>
 							</tr>
@@ -155,16 +154,16 @@
 						<table class="table table-bordered table-hover table-condensed">
 							<tr style="font-weight: bold">
 								<td style="width: auto">
-									<a href="" ng-click="predicate='indType'; reverse=!reverse">Indicator Type
+									<a href="" ng-click="predicate='indType'; reverse=!reverse">Indicator Type 
 								</td>
 								<td style="width: auto">
-									<a href="" ng-click="predicate='src'; reverse=!reverse">Source
+									<a href="" ng-click="predicate='src'; reverse=!reverse">Source 
 								</td>
 								<td style="width: auto">
-									<a href="" ng-click="predicate='key'; reverse=!reverse">Indicator Configuration
+									<a href="" ng-click="predicate='key'; reverse=!reverse">Indicator Configuration 
 								</td>
 								<td style="width: auto">
-									<a href="" ng-click="predicate='value'; reverse=!reverse">Value
+									<a href="" ng-click="predicate='value'; reverse=!reverse">Value 
 								</td>
 								<td style="width: auto">Action</td>
 							</tr>
