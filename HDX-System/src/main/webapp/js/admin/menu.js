@@ -8,14 +8,25 @@ if (typeof app != 'undefined') {
       $rootScope.showTestZone = !$rootScope.showTestZone;
     }
 
-    // Highlight the active menu item
-    $scope.isActive = function(viewLocation) {
+    // Highlight the active menu and  menu item
+    $scope.statusActive = false;
+    $scope.curatedDataActive = false;
+    $scope.importConfigurationsActive = false;
+    $scope.reportsActive = false;
+    $scope.adminActive = false;
+
+      // Highlight the active menu item
+    $scope.isActive = function(viewLocation, which) {
       var s = false;
       // var thePath = $location.path(); <-- does not work ???
       var thePath = window.location.href;
-      // console.log("The path : [" + thePath + "]");
       if (thePath.indexOf(viewLocation) != -1) {
         s = true;
+        $scope.statusActive = "status" === which;
+        $scope.curatedDataActive = "curatedData" === which;
+        $scope.importConfigurationsActive = "importConfigurations" === which;
+        $scope.reportsActive = "reports" === which;
+        $scope.adminActive = "admin" === which;
       }
       return s;
     };
