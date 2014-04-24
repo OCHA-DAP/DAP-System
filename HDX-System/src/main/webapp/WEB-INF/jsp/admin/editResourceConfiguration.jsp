@@ -15,9 +15,8 @@
 </head>
 <body ng-controller="EditResourceConfigurationCtrl">
 	<jsp:include page="admin-menu.jsp" />
-
-
 	<div id="content">
+		<div style="height:25px;"></div><!-- TODO FIXME -->
 		<div class="row">
 			<div class="col-sm-2">
 				<ul class="nav nav-pills nav-stacked">
