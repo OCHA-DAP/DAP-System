@@ -83,8 +83,8 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 							</div>
 						</li>
 						<li class="divider"></li>
-						<li ng-class="{ active: false }">${hdx.official.version}</li>
-						<li ng-class="{ active: false }">${hdx.build.date}</li>
+						<li ng-class="{ active: false }"><a>${hdx.official.version}</a></li>
+						<li ng-class="{ active: false }"><a>${hdx.build.date}</a></li>
 					</ul></li>
 			</ul>
 		</div>
