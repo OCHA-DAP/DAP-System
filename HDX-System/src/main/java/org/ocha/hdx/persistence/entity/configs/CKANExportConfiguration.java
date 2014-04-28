@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,11 +15,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+//FIXME see how we plan to use this
 /**
  * @author dan
  * 
  */
-@Entity
+// @Entity
 @Table(name = "ckan_export_configuration")
 @SequenceGenerator(name = "ckan_export_configuration_seq", sequenceName = "ckan_export_configuration_seq")
 public class CKANExportConfiguration {
