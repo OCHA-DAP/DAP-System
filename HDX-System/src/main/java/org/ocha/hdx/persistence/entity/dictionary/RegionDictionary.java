@@ -5,13 +5,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.google.gson.JsonObject;
 import org.hibernate.annotations.ForeignKey;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 
+import com.google.gson.JsonObject;
+
 @Entity
 @Table(name = "region_dictionary")
-public class RegionDictionary extends AbstractDictionary {
+public class RegionDictionary {
 
 	@ManyToOne
 	@ForeignKey(name = "fk_region_dictionary_to_entity")
@@ -33,13 +34,13 @@ public class RegionDictionary extends AbstractDictionary {
 
 	}
 
-    @Override
-    public JsonObject toJSON() {
-        JsonObject element = super.toJSON();
-        element.addProperty("entityName", getEntity().getName().getDefaultValue());
-        element.addProperty("entityType", getEntity().getType().getName().getDefaultValue());
-        return element;
-    }
+	@Override
+	public JsonObject toJSON() {
+		final JsonObject element = super.toJSON();
+		element.addProperty("entityName", getEntity().getName().getDefaultValue());
+		element.addProperty("entityType", getEntity().getType().getName().getDefaultValue());
+		return element;
+	}
 
 	public org.ocha.hdx.persistence.entity.curateddata.Entity getEntity() {
 		return entity;

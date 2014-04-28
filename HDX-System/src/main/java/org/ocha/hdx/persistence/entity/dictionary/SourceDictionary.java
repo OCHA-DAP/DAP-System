@@ -36,7 +36,6 @@ public class SourceDictionary {
 	}
 
 	public SourceDictionary(final String unnormalizedName, final String importer, final Source source, final ResourceConfiguration configuration) {
-		super(unnormalizedName, importer, configuration);
 		this.source = source;
 	}
 
