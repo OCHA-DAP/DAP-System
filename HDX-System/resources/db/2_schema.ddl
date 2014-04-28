@@ -1,4 +1,7 @@
 
+    alter table ckan_dataset 
+        drop constraint fk_ckan_dataset_to_resource_config;
+
     alter table ckan_resource 
         drop constraint fk_ckan_resource_to_resource_config;
 
@@ -396,7 +399,7 @@
         default_value text not null,
         primary key (id)
     );
-    
+
     alter table ckan_dataset 
         add constraint fk_ckan_dataset_to_resource_config 
         foreign key (configuration_id) 
@@ -540,8 +543,6 @@
         add constraint fk_resource_config_map_to_parent 
         foreign key (resource_configuration_id) 
         references resource_configuration;
-
-    create index nameIndex on resource_configuration (name);
 
     alter table source 
         add constraint fk_source_to_name_text 
