@@ -54,12 +54,12 @@
 						<span> {{ rc.id }} </span>
 					</td>
 					<td>
-						<!-- editable native name  -->
+						<!-- non editable native name  -->
 						<span> {{ rc.name }} </span>
 					</td>
 					<td style="white-space: nowrap">
 						<div class="buttons" ng-show="!rowform.$visible">
-							<button class="btn btn-primary btn-custom-default" ng-click="editRC(rc.id)">Edit</button>
+							<button class="btn btn-primary btn-custom-default" ng-click="editRC(rc.id)">Configure</button>
 							<button class="btn btn-danger btn-custom-danger" ng-click="deleteRC(rc.id)">Delete</button>
 						</div>
 					</td>
