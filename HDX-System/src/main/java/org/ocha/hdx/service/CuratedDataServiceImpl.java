@@ -566,12 +566,12 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<RegionDictionary> listRegionDictionaries() {
-		return regionDictionaryDAO.listRegionDictionaries(null);
+		return regionDictionaryDAO.listRegionDictionaries();
 	}
 
 	@Override
 	public List<RegionDictionary> listRegionDictionaries(final long configId) {
-		return regionDictionaryDAO.listRegionDictionaries(configId);
+		return regionDictionaryDAO.getRegionDictionariesByResourceConfiguration(resourceConfigurationDAO.getResourceConfigurationById(configId));
 	}
 
 	@Override
@@ -591,12 +591,12 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<SourceDictionary> listSourceDictionaries() {
-		return sourceDictionaryDAO.listSourceDictionaries(null);
+		return sourceDictionaryDAO.listSourceDictionaries();
 	}
 
 	@Override
 	public List<SourceDictionary> listSourceDictionaries(final long configId) {
-		return sourceDictionaryDAO.listSourceDictionaries(configId);
+		return sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(resourceConfigurationDAO.getResourceConfigurationById(configId));
 	}
 
 	@Override
@@ -612,12 +612,12 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries() {
-		return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries(null);
+		return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries();
 	}
 
 	@Override
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(final long configId) {
-		return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries(configId);
+		return indicatorTypeDictionaryDAO.getIndicatorTypeDictionariesByResourceConfiguration(resourceConfigurationDAO.getResourceConfigurationById(configId));
 	}
 
 	@Override

@@ -17,11 +17,8 @@ public class RegionDictionaryDAOImpl implements RegionDictionaryDAO {
 	private EntityManager em;
 
 	@Override
-	public List<RegionDictionary> listRegionDictionaries(final Long configId) {
-		String qlString = "SELECT rd FROM RegionDictionary rd";
-		if (configId != null)
-			qlString += " WHERE rd.configuration = " + configId;
-		qlString += " ORDER BY rd.id";
+	public List<RegionDictionary> listRegionDictionaries() {
+		final String qlString = "SELECT rd FROM RegionDictionary rd ORDER BY rd.id";
 
 		final TypedQuery<RegionDictionary> query = em.createQuery(qlString, RegionDictionary.class);
 		return query.getResultList();
@@ -38,5 +35,12 @@ public class RegionDictionaryDAOImpl implements RegionDictionaryDAO {
 	@Transactional
 	public void deleteRegionDictionary(final RegionDictionary regionDictionary) {
 		em.remove(em.contains(regionDictionary) ? regionDictionary : em.merge(regionDictionary));
+	}
+
+	@Override
+	public List<RegionDictionary> getRegionDictionariesByResourceConfiguration(final ResourceConfiguration resourceConfiguration) {
+		final TypedQuery<RegionDictionary> query = em.createQuery("SELECT rd FROM RegionDictionary rd WHERE rd.resourceConfiguration = :resourceConfiguration ORDER BY rd.id", RegionDictionary.class)
+				.setParameter("resourceConfiguration", resourceConfiguration);
+		return query.getResultList();
 	}
 }

@@ -17,11 +17,8 @@ public class IndicatorTypeDictionaryDAOImpl implements IndicatorTypeDictionaryDA
 	private EntityManager em;
 
 	@Override
-	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(final Long configId) {
-		String qlString = "SELECT itd FROM IndicatorTypeDictionary itd";
-		if (configId != null)
-			qlString += " WHERE itd.configuration = " + configId;
-		qlString += " ORDER BY itd.id";
+	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries() {
+		final String qlString = "SELECT itd FROM IndicatorTypeDictionary itd ORDER BY itd.id";
 
 		final TypedQuery<IndicatorTypeDictionary> query = em.createQuery(qlString, IndicatorTypeDictionary.class);
 		return query.getResultList();
@@ -39,6 +36,13 @@ public class IndicatorTypeDictionaryDAOImpl implements IndicatorTypeDictionaryDA
 	public void deleteIndicatorTypeDictionary(final IndicatorTypeDictionary indicatorTypeDictionary) {
 		em.remove(em.contains(indicatorTypeDictionary) ? indicatorTypeDictionary : em.merge(indicatorTypeDictionary));
 
+	}
+
+	@Override
+	public List<IndicatorTypeDictionary> getIndicatorTypeDictionariesByResourceConfiguration(final ResourceConfiguration resourceConfiguration) {
+		final TypedQuery<IndicatorTypeDictionary> query = em.createQuery("SELECT itd FROM IndicatorTypeDictionary itd WHERE itd.resourceConfiguration = :resourceConfiguration ORDER BY itd.id",
+				IndicatorTypeDictionary.class).setParameter("resourceConfiguration", resourceConfiguration);
+		return query.getResultList();
 	}
 
 }

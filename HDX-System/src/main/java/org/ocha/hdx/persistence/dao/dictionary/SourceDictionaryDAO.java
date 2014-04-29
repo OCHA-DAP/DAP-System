@@ -8,7 +8,7 @@ import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 
 public interface SourceDictionaryDAO {
 
-	public List<SourceDictionary> listSourceDictionaries(final Long configId);
+	public List<SourceDictionary> listSourceDictionaries();
 
 	public void createSourceDictionary(final ResourceConfiguration resourceConfiguration, final Source source, final String unnormalizedName);
 

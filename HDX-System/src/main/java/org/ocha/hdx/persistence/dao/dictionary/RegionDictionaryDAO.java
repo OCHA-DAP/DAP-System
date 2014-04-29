@@ -8,10 +8,12 @@ import org.ocha.hdx.persistence.entity.dictionary.RegionDictionary;
 
 public interface RegionDictionaryDAO {
 
-	public List<RegionDictionary> listRegionDictionaries(final Long configId);
+	public List<RegionDictionary> listRegionDictionaries();
 
 	public void createRegionDictionary(final ResourceConfiguration resourceConfiguration, final Entity entity, final String unnormalizedName);
 
 	public void deleteRegionDictionary(final RegionDictionary regionDictionary);
+
+	public List<RegionDictionary> getRegionDictionariesByResourceConfiguration(final ResourceConfiguration resourceConfiguration);
 
 }

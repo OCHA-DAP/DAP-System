@@ -17,11 +17,8 @@ public class SourceDictionaryDAOImpl implements SourceDictionaryDAO {
 	private EntityManager em;
 
 	@Override
-	public List<SourceDictionary> listSourceDictionaries(final Long configId) {
-		String qlString = "SELECT sd FROM SourceDictionary sd";
-		if (configId != null)
-			qlString += " WHERE sd.configuration = " + configId;
-		qlString += " ORDER BY sd.id";
+	public List<SourceDictionary> listSourceDictionaries() {
+		final String qlString = "SELECT sd FROM SourceDictionary sd ORDER BY sd.id";
 
 		final TypedQuery<SourceDictionary> query = em.createQuery(qlString, SourceDictionary.class);
 		return query.getResultList();

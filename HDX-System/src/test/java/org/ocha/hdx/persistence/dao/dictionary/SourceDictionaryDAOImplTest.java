@@ -53,7 +53,7 @@ public class SourceDictionaryDAOImplTest {
 
 	@Test
 	public void testSourceDictionaries() {
-		List<SourceDictionary> sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
+		List<SourceDictionary> sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries();
 		Assert.assertEquals(0, sourceDictionaryList.size());
 
 		final ResourceConfiguration configuration = resourceConfigurationDAO.createResourceConfiguration("Test Configuration", null, null);
@@ -63,14 +63,14 @@ public class SourceDictionaryDAOImplTest {
 		sourceDictionaryDAO.createSourceDictionary(configuration, sourceWB, "World Bank");
 		sourceDictionaryDAO.createSourceDictionary(configuration, sourceWB, "World B.");
 
-		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
+		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries();
 		Assert.assertEquals(2, sourceDictionaryList.size());
 		Assert.assertEquals(2, sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(configuration).size());
 
 		// delete a SourceDictionary by object
 		final SourceDictionary sourceDictionaryToDelete = sourceDictionaryList.get(0);
 		sourceDictionaryDAO.deleteSourceDictionary(sourceDictionaryToDelete);
-		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
+		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries();
 		Assert.assertEquals("After deletion, there should be 1 SourceDictionaries in the table.", 1, sourceDictionaryList.size());
 	}
 }

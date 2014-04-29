@@ -376,7 +376,6 @@ app.controller('RegionDictionariesCtrl', function($scope, utilities) {
     $scope.resetNewResource = function() {
         var id = getRESTParameter("/id/", "/");
         $scope.newResource = {};
-        $scope.newResource.importer = "SCRAPER_VALIDATING";
         $scope.newResource.configId = id;
     };
 
@@ -394,11 +393,6 @@ app.controller('RegionDictionariesCtrl', function($scope, utilities) {
         if (data && data.unnormalizedName) {
             angular.extend(params, {
                 "unnormalizedName" : data.unnormalizedName
-            });
-        }
-        if (data && data.importer) {
-            angular.extend(params, {
-                "importer" : data.importer
             });
         }
         if (data && data.configId) {

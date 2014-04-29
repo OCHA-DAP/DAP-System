@@ -70,7 +70,7 @@ public class RegionDictionaryDAOImplTest {
 	@After
 	public void tearDown() {
 
-		for (final RegionDictionary rd : regionDictionaryDAO.listRegionDictionaries(null)) {
+		for (final RegionDictionary rd : regionDictionaryDAO.listRegionDictionaries()) {
 			regionDictionaryDAO.deleteRegionDictionary(rd);
 		}
 
@@ -103,20 +103,20 @@ public class RegionDictionaryDAOImplTest {
 		// TODO Try adding the same RegionDictionary again (currently fails with org.springframework.dao.DataIntegrityViolationException)
 		// regionDictionaryDAO.addRegionDictionary("Fooléndia", "Test", foolandia);
 
-		List<RegionDictionary> regionDictionaryList = regionDictionaryDAO.listRegionDictionaries(null);
+		List<RegionDictionary> regionDictionaryList = regionDictionaryDAO.listRegionDictionaries();
 		assertEquals("region_dictionary table should have 4 entries", 4, regionDictionaryList.size());
 
 		assertNotNull(regionDictionaryList.get(0).getUnnormalizedName()); // TODO What else could we do with the ID?
 
 		// add another entity from the ones constructed above
 		regionDictionaryDAO.createRegionDictionary(configuration, crisis1, "Another unnormalized name");
-		regionDictionaryList = regionDictionaryDAO.listRegionDictionaries(null);
+		regionDictionaryList = regionDictionaryDAO.listRegionDictionaries();
 		assertEquals("region_dictionary table should now have 5 entries", 5, regionDictionaryList.size());
 
 		// delete a RegionDictionary by object
 		final RegionDictionary regionDictionaryToDelete = regionDictionaryList.get(0);
 		regionDictionaryDAO.deleteRegionDictionary(regionDictionaryToDelete);
-		regionDictionaryList = regionDictionaryDAO.listRegionDictionaries(null);
+		regionDictionaryList = regionDictionaryDAO.listRegionDictionaries();
 		assertEquals("After deletion, there should be 4 RegionDictionaries in the table.", 4, regionDictionaryList.size());
 		// TODO Should try to get the deleted RD and make sure it fails.
 	}

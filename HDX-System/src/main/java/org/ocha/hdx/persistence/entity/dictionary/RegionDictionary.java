@@ -70,7 +70,8 @@ public class RegionDictionary implements JSONable {
 		final JsonObject element = new JsonObject();
 		element.addProperty("resourceConfiguration", getResourceConfiguration().getName());
 		element.addProperty("unnormalizedName", getUnnormalizedName());
-		element.addProperty("entity", getEntity().getName().getDefaultValue());
+		element.addProperty("entityName", getEntity().getName().getDefaultValue());
+		element.addProperty("entityType", getEntity().getType().getName().getDefaultValue());
 		return element;
 	}
 

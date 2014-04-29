@@ -8,10 +8,12 @@ import org.ocha.hdx.persistence.entity.dictionary.IndicatorTypeDictionary;
 
 public interface IndicatorTypeDictionaryDAO {
 
-	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(final Long configId);
+	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries();
 
 	public void createIndicatorTypeDictionary(final ResourceConfiguration resourceConfiguration, final IndicatorType indicatorType, final String unnormalizedName);
 
 	public void deleteIndicatorTypeDictionary(final IndicatorTypeDictionary indicatorTypeDictionary);
+
+	public List<IndicatorTypeDictionary> getIndicatorTypeDictionariesByResourceConfiguration(final ResourceConfiguration resourceConfiguration);
 
 }
