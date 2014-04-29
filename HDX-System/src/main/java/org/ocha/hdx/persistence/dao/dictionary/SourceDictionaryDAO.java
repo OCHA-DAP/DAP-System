@@ -14,6 +14,8 @@ public interface SourceDictionaryDAO {
 
 	public void deleteSourceDictionary(final SourceDictionary sourceDictionary);
 
+	public void deleteSourceDictionary(final long id);
+
 	public List<SourceDictionary> getSourceDictionariesByResourceConfiguration(final ResourceConfiguration resourceConfiguration);
 
 	/**

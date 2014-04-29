@@ -14,6 +14,8 @@ public interface RegionDictionaryDAO {
 
 	public void deleteRegionDictionary(final RegionDictionary regionDictionary);
 
+	public void deleteRegionDictionary(final long id);
+
 	public List<RegionDictionary> getRegionDictionariesByResourceConfiguration(final ResourceConfiguration resourceConfiguration);
 
 }

@@ -161,15 +161,12 @@
 								<tr style="font-weight: bold">
 									<td style="width: auto">Entity</td>
 									<td style="width: auto">Unnormalized Name</td>
-									<!-- td style="width: auto">Importer</td -->
 									<td style="width: auto">Action</td>
 								</tr>
 								<tr>
 									<td><select class="form-control" id="newResource_entity" ng-model="newResource.entityId" ng-options="entity.id as entity.entityTypeName+'/'+entity.name for entity in entities"
 										ng-class="default" required></select></td>
 									<td><input type="text" class="form-control" placeholder="Value" id="newResource_unnormalizedName" ng-model="newResource.unnormalizedName" required /></td>
-									<!-- td><select class="form-control" id="newResource_importer" ng-model="newResource.importer" ng-options="importer.name as importer.name for importer in importers" ng-class="default"
-										required></select></td -->
 									<td style="white-space: nowrap">
 										<button class="btn btn-primary btn-custom-default" ng-click="createDictionary(newResource)">Add</button>
 									</td>
@@ -181,17 +178,15 @@
 							<tr>
 								<th>Entity Type</th>
 								<th>Entity name</th>
-								<!-- th>Importer</th -->
 								<th>Unnormalized Name</th>
 								<th>Action</th>
 							</tr>
 							<tr ng-repeat="rd in regionDictionaries ">
 								<td>{{ rd.entityType }}</td>
 								<td>{{ rd.entityName }}</td>
-								<!-- td>{{ rd.importer }}</td -->
 								<td>{{ rd.unnormalizedName }}</td>
 								<td>
-									<button class="btn btn-danger btn-custom-danger" ng-click="deleteDictionary(rd.importer,rd.unnormalizedName)">Delete</button>
+									<button class="btn btn-danger btn-custom-danger" ng-click="deleteDictionary(rd.id)">Delete</button>
 								</td>
 							</tr>
 						</table>
@@ -210,8 +205,6 @@
 								<tr>
 									<td><select class="form-control" id="newResource_source" ng-model="newResource.sourceId" ng-options="source.id as source.code for source in sources" ng-class="default"></select></td>
 									<td><input type="text" class="form-control" placeholder="Value" id="newResource_unnormalizedName" ng-model="newResource.unnormalizedName" required /></td>
-									<!-- td><select class="form-control" id="newResource_importer" ng-model="newResource.importer" ng-options="importer.name as importer.name for importer in importers" ng-class="default"
-										required></select></td -->
 									<td style="white-space: nowrap">
 										<button class="btn btn-primary btn-custom-default" ng-click="createDictionary(newResource)">Add</button>
 									</td>
@@ -222,16 +215,14 @@
 						<table class="table table-bordered table-hover table-condensed">
 							<tr>
 								<th>Source name</th>
-								<!-- th>Importer</th -->
 								<th>Unnormalized Name</th>
 								<th>Action</th>
 							</tr>
 							<tr ng-repeat="sd in sourceDictionaries ">
 								<td>{{ sd.sourceName }}</td>
-								<!-- td>{{ sd.importer }}</td -->
 								<td>{{ sd.unnormalizedName }}</td>
 								<td>
-									<button class="btn btn-danger btn-custom-danger" ng-click="deleteDictionary(sd.importer,sd.unnormalizedName)">Delete</button>
+									<button class="btn btn-danger btn-custom-danger" ng-click="deleteDictionary(sd.id)">Delete</button>
 								</td>
 							</tr>
 						</table>
@@ -249,8 +240,6 @@
 								<tr>
 									<td><select class="form-control" id="newResource_source" ng-model="newResource.indicatorTypeId" ng-options="it.id as it.name for it in indicatorTypes" ng-class="default"></select></td>
 									<td><input type="text" class="form-control" placeholder="Value" id="" ng-model="newResource.unnormalizedName" required /></td>
-									<!-- td><select class="form-control" id="newResource_importer" ng-model="newResource.importer" ng-options="importer.name as importer.name for importer in importers" ng-class="default"
-										required></select></td -->
 									<td style="white-space: nowrap">
 										<button class="btn btn-primary btn-custom-default" ng-click="createDictionary(newResource)">Add</button>
 									</td>
@@ -261,16 +250,14 @@
 						<table class="table table-bordered table-hover table-condensed">
 							<tr>
 								<th>Indicator Type name</th>
-								<!-- th>Importer</th -->
 								<th>Unnormalized Name</th>
 								<th>Action</th>
 							</tr>
 							<tr ng-repeat="itd in indicatorTypeDictionaries ">
 								<td>{{ itd.indicatorTypeName }}</td>
-								<!-- td>{{ itd.importer }}</td -->
 								<td>{{ itd.unnormalizedName }}</td>
 								<td>
-									<button class="btn btn-danger btn-custom-danger" ng-click="deleteDictionary(itd.importer,itd.unnormalizedName)">Delete</button>
+									<button class="btn btn-danger btn-custom-danger" ng-click="deleteDictionary(itd.id)">Delete</button>
 								</td>
 							</tr>
 						</table>

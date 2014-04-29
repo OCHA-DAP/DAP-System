@@ -582,8 +582,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void deleteRegionDictionary(final RegionDictionary regionDictionary) {
-		regionDictionaryDAO.deleteRegionDictionary(regionDictionary);
+	public void deleteRegionDictionary(final long id) {
+		regionDictionaryDAO.deleteRegionDictionary(id);
 	}
 
 	/*
@@ -604,7 +604,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		final Source source = sourceDAO.getSourceById(sourceId);
 		final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
 		sourceDictionaryDAO.createSourceDictionary(config, source, unnormalizedName);
+	}
 
+	@Override
+	public void deleteSourceDictionary(final long id) {
+		sourceDictionaryDAO.deleteSourceDictionary(id);
 	}
 
 	/*
@@ -628,8 +632,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void deleteIndicatorTypeDictionary(final IndicatorTypeDictionary indicatorTypeDictionary) {
-		indicatorTypeDictionaryDAO.deleteIndicatorTypeDictionary(indicatorTypeDictionary);
+	public void deleteIndicatorTypeDictionary(final long id) {
+		indicatorTypeDictionaryDAO.deleteIndicatorTypeDictionary(id);
 
 	}
 
@@ -779,4 +783,5 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	public void updateValidationNotesForIndicatorTypeAndSource(final String validationNotes, final String indicatorTypeCode, final String sourceCode) {
 		updateMetadataForIndicatorTypeAndSource("VALIDATION_NOTES", validationNotes, "default", indicatorTypeCode, sourceCode);
 	}
+
 }

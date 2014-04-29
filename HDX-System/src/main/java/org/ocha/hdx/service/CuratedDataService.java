@@ -186,7 +186,7 @@ public interface CuratedDataService {
 
 	public void createRegionDictionary(final long configId, final long entityId, final String unnormalizedName);
 
-	public void deleteRegionDictionary(RegionDictionary regionDictionary);
+	public void deleteRegionDictionary(long id);
 
 	/*
 	 * Source dictionaries
@@ -196,6 +196,8 @@ public interface CuratedDataService {
 	public List<SourceDictionary> listSourceDictionaries(final long configId);
 
 	public void createSourceDictionary(final long configId, final long sourceId, final String unnormalizedName);
+
+	public void deleteSourceDictionary(long id);
 
 	/*
 	 * Indicator type dictionaries
@@ -208,7 +210,7 @@ public interface CuratedDataService {
 
 	public void createIndicator(Indicator indicator, ImportFromCKAN importFromCKAN);
 
-	public void deleteIndicatorTypeDictionary(IndicatorTypeDictionary indicatorTypeDictionary);
+	public void deleteIndicatorTypeDictionary(long id);
 
 	/**
 	 * Units

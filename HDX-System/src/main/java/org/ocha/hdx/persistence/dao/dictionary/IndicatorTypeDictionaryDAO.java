@@ -14,6 +14,8 @@ public interface IndicatorTypeDictionaryDAO {
 
 	public void deleteIndicatorTypeDictionary(final IndicatorTypeDictionary indicatorTypeDictionary);
 
+	public void deleteIndicatorTypeDictionary(final long id);
+
 	public List<IndicatorTypeDictionary> getIndicatorTypeDictionariesByResourceConfiguration(final ResourceConfiguration resourceConfiguration);
 
 }

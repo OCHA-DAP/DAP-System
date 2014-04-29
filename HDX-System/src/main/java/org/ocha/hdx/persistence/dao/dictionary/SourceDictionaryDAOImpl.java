@@ -50,4 +50,10 @@ public class SourceDictionaryDAOImpl implements SourceDictionaryDAO {
 		em.createQuery("DELETE FROM SourceDictionary").executeUpdate();
 	}
 
+	@Override
+	@Transactional
+	public void deleteSourceDictionary(final long id) {
+		deleteSourceDictionary(em.find(SourceDictionary.class, id));
+	}
+
 }

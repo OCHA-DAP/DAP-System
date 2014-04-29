@@ -45,4 +45,10 @@ public class IndicatorTypeDictionaryDAOImpl implements IndicatorTypeDictionaryDA
 		return query.getResultList();
 	}
 
+	@Override
+	@Transactional
+	public void deleteIndicatorTypeDictionary(final long id) {
+		deleteIndicatorTypeDictionary(em.find(IndicatorTypeDictionary.class, id));
+	}
+
 }

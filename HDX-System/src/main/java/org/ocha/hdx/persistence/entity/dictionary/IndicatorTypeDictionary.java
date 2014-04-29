@@ -69,6 +69,7 @@ public class IndicatorTypeDictionary implements JSONable {
 	@Override
 	public JsonObject toJSON() {
 		final JsonObject element = new JsonObject();
+		element.addProperty("id", id);
 		element.addProperty("resourceConfiguration", getResourceConfiguration().getName());
 		element.addProperty("unnormalizedName", getUnnormalizedName());
 		element.addProperty("indicatorTypeName", getIndicatorType().getName().getDefaultValue());

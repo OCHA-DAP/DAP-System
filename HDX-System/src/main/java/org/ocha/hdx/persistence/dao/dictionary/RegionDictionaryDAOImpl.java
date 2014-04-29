@@ -43,4 +43,11 @@ public class RegionDictionaryDAOImpl implements RegionDictionaryDAO {
 				.setParameter("resourceConfiguration", resourceConfiguration);
 		return query.getResultList();
 	}
+
+	@Override
+	@Transactional
+	public void deleteRegionDictionary(final long id) {
+		deleteRegionDictionary(em.find(RegionDictionary.class, id));
+
+	}
 }

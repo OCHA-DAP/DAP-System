@@ -1395,6 +1395,14 @@ public class AdminResource {
 		return Response.ok().build();
 	}
 
+	@POST
+	@Path("/dictionaries/regions/submitDelete")
+	public Response deleteRegionDictionary(@FormParam("id") final long id) throws URISyntaxException {
+		curatedDataService.deleteRegionDictionary(id);
+		// final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/regions/").build();
+		return Response.ok().build();
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/dictionaries/{which}/{configId}/json")
@@ -1471,6 +1479,14 @@ public class AdminResource {
 		return Response.ok().build();
 	}
 
+	@POST
+	@Path("/dictionaries/sources/submitDelete")
+	public Response deleteSourceDictionary(@FormParam("id") final long id) throws URISyntaxException {
+		curatedDataService.deleteSourceDictionary(id);
+		// final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/sources/").build();
+		return Response.ok().build();
+	}
+
 	/*
 	 * Dictionaries / indicator types management
 	 */
@@ -1489,6 +1505,14 @@ public class AdminResource {
 	public Response createIndicatorTypesDictionary(@FormParam("unnormalizedName") final String unnormalizedName, @FormParam("indicatorTypeId") final long indicatorTypeId,
 			@FormParam("configId") final long configId) {
 		curatedDataService.createIndicatorTypeDictionary(configId, indicatorTypeId, unnormalizedName);
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/dictionaries/indicatorTypes/submitDelete")
+	public Response deleteIndicatorTypeDictionary(@FormParam("id") final long id) throws URISyntaxException {
+		curatedDataService.deleteIndicatorTypeDictionary(id);
+		// final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/dictionaries/indicatorTypes/").build();
 		return Response.ok().build();
 	}
 

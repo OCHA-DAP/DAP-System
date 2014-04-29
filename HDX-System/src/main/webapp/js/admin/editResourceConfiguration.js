@@ -416,11 +416,10 @@ app.controller('RegionDictionariesCtrl', function($scope, utilities) {
         });
     };
 
-    $scope.deleteDictionary = function(importer, unn) {
+    $scope.deleteDictionary = function(id) {
         return utilities.deleteResource({
             params: {
-                "importer": importer,
-                "unnormalizedName": unn
+                "id": id
             },
             url: '/admin/dictionaries/regions/submitDelete',
             successCallback: $scope.loadRegionDictionaire,
@@ -446,11 +445,6 @@ app.controller('RegionDictionariesCtrl', function($scope, utilities) {
             utilities.setFocus('newResource_unnormalizedName');
             return "Unnormalized name cannot be empty.";
         }
-        var importer = data.importer;
-        if (!importer || null === importer || '' === importer) {
-            utilities.setFocus('newResource_importer');
-            return "Importer cannot be empty.";
-        }
         return "OK";
     };
 
@@ -473,7 +467,6 @@ app.controller('SourceDictionariesCtrl', function($scope, utilities) {
     $scope.resetNewResource = function() {
         var id = getRESTParameter("/id/", "/");
         $scope.newResource = {};
-        $scope.newResource.importer = "SCRAPER_VALIDATING";
         $scope.newResource.configId = id;
     };
 
@@ -498,11 +491,6 @@ app.controller('SourceDictionariesCtrl', function($scope, utilities) {
                 "unnormalizedName" : data.unnormalizedName
             });
         }
-        if (data && data.importer) {
-            angular.extend(params, {
-                "importer" : data.importer
-            });
-        }
         if (data && data.configId) {
             angular.extend(params, {
                 "configId" : data.configId
@@ -525,11 +513,10 @@ app.controller('SourceDictionariesCtrl', function($scope, utilities) {
         });
     };
 
-    $scope.deleteDictionary = function(importer, unn) {
+    $scope.deleteDictionary = function(id) {
         return utilities.deleteResource({
             params: {
-                "importer": importer,
-                "unnormalizedName": unn
+            	"id": id
             },
             url: '/admin/dictionaries/sources/submitDelete',
             successCallback: $scope.loadSourceDictionaire,
@@ -555,11 +542,6 @@ app.controller('SourceDictionariesCtrl', function($scope, utilities) {
             utilities.setFocus('newResource_unnormalizedName');
             return "Unnormalized name cannot be empty.";
         }
-        var importer = data.importer;
-        if (!importer || null === importer || '' === importer) {
-            utilities.setFocus('newResource_importer');
-            return "Importer cannot be empty.";
-        }
         return "OK";
     };
 
@@ -582,7 +564,6 @@ app.controller('IndicatorTypeDictionariesCtrl', function($scope, utilities) {
     $scope.resetNewResource = function() {
         var id = getRESTParameter("/id/", "/");
         $scope.newResource = {};
-        $scope.newResource.importer = "SCRAPER_VALIDATING";
         $scope.newResource.configId = id;
     };
 
@@ -603,11 +584,6 @@ app.controller('IndicatorTypeDictionariesCtrl', function($scope, utilities) {
         if (data && data.unnormalizedName) {
             angular.extend(params, {
                 "unnormalizedName" : data.unnormalizedName
-            });
-        }
-        if (data && data.importer) {
-            angular.extend(params, {
-                "importer" : data.importer
             });
         }
         if (data && data.configId) {
@@ -632,11 +608,10 @@ app.controller('IndicatorTypeDictionariesCtrl', function($scope, utilities) {
         });
     };
 
-    $scope.deleteDictionary = function(importer, unn) {
+    $scope.deleteDictionary = function(id) {
         return utilities.deleteResource({
             params: {
-                "importer": importer,
-                "unnormalizedName": unn
+            	"id": id
             },
             url: '/admin/dictionaries/indicatorTypes/submitDelete',
             successCallback: $scope.loadIndicatorTypeDictionaire,
@@ -661,11 +636,6 @@ app.controller('IndicatorTypeDictionariesCtrl', function($scope, utilities) {
         if (!unnormalizedName || null === unnormalizedName || '' === unnormalizedName) {
             utilities.setFocus('newResource_unnormalizedName');
             return "Unnormalized name cannot be empty.";
-        }
-        var importer = data.importer;
-        if (!importer || null === importer || '' === importer) {
-            utilities.setFocus('newResource_importer');
-            return "Importer cannot be empty.";
         }
         return "OK";
     };
