@@ -25,6 +25,8 @@ import org.ocha.hdx.exporter.country.ExporterCountryVulnerability_XLSX;
 import org.ocha.hdx.exporter.helper.ReadmeHelper;
 import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorData_XLSX;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorMetadataQueryData;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorMetadata_CSV;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeOverview_XLSX;
@@ -404,6 +406,32 @@ public class ExporterServiceImpl implements ExporterService {
 		 * 
 		 * return convertCountryIndicatorsToReports(listIndicatorsForCountryCrisisHistory);
 		 */
+	}
+
+	@Override
+	public File exportIndicatorMetadata_CSV(final String indicatorTypeCode, final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorMetadataQueryData queryData = new ExporterIndicatorMetadataQueryData();
+		queryData.setIndicatorTypeCode(indicatorTypeCode);
+		queryData.setLanguage(language);
+
+		// Define the exporter
+		// Indicator metadata contains :
+		// 1. Metadata (all data)
+
+		final Exporter<File, ExporterIndicatorMetadataQueryData> exporter = new ExporterIndicatorMetadata_CSV(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("IndicatorMetadata_" + new Date().getTime() + "_", ".csv");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
+	}
+
+	@Override
+	public List<DataSerieMetadata> getIndicatorMetadataData(final ExporterIndicatorMetadataQueryData queryData) {
+		return dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCode(queryData.getIndicatorTypeCode());
 	}
 
 	/* ********* */

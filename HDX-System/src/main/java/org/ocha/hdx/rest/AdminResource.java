@@ -530,8 +530,8 @@ public class AdminResource {
 	@Path("/status/datasets/")
 	public Response getCKANDatasetsStatus() {
 		final Map<String, Object> jspElement = new HashMap<String, Object>();
-		jspElement.put("configs", this.hdxService.listConfigurations());
-		jspElement.put("datasets", this.hdxService.listCKANDatasets());
+		jspElement.put("configs", hdxService.listConfigurations());
+		jspElement.put("datasets", hdxService.listCKANDatasets());
 		return Response.ok(new Viewable("/admin/datasets", jspElement)).build();
 	}
 
@@ -539,7 +539,7 @@ public class AdminResource {
 	@Path("/status/datasets/flagDatasetAsToBeCurated")
 	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type, @FormParam("configuration") final long configuration,
 			@Context final UriInfo uriInfo) throws URISyntaxException {
-		this.hdxService.flagDatasetAsToBeCurated(datasetName, type, configuration);
+		hdxService.flagDatasetAsToBeCurated(datasetName, type, configuration);
 
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
 		return Response.seeOther(newURI).build();
@@ -1604,7 +1604,7 @@ public class AdminResource {
 		final List<GroupV3DTO> ckanGroups = hdxService.getCKANGroups(grpList);
 
 		final JsonArray jsonArray = new JsonArray();
-		if (ckanGroups != null && ckanGroups.size() > 0) {
+		if ((ckanGroups != null) && (ckanGroups.size() > 0)) {
 			final GroupV3DTO grp = ckanGroups.get(0);
 			for (final DatasetV3DTO dts : grp.getPackages()) {
 				final JsonObject element = new JsonObject();
@@ -1665,6 +1665,14 @@ public class AdminResource {
 	@SuppressWarnings("static-method")
 	public Response displayIndicatorReports() {
 		return Response.ok(new Viewable("/admin/reportsIndicator")).build();
+	}
+
+	/* Indicator metadata */
+	@GET
+	@Path("/reports/indicatorMetadata")
+	@SuppressWarnings("static-method")
+	public Response displayIndicatorMetadataReports() {
+		return Response.ok(new Viewable("/admin/reportsIndicatorMetadata")).build();
 	}
 
 }

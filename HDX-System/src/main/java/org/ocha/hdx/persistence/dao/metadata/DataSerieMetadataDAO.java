@@ -23,6 +23,8 @@ public interface DataSerieMetadataDAO {
 
 	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(final DataSerie dataSerie);
 
+	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeCode(String indicatorTypeCode);
+
 	public List<DataSerieMetadata> listDataSerieDataValidatorsByIndicatorTypeCodeAndSourceCode(final DataSerie dataSerie);
 
 	public DataSerieMetadata createDataSerieMetadata(IndicatorType type, Source source, MetadataName key, Text value);
@@ -36,4 +38,5 @@ public interface DataSerieMetadataDAO {
 	public DataSerieMetadata getDataSerieMetadataById(long id);
 
 	public DataSerieMetadata getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(final String indicatorTypeCode, final String sourceCode, final MetadataName entryKey);
+
 }

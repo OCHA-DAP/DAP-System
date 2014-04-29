@@ -137,15 +137,4 @@ public class ExporterCountryData_CSV extends Exporter_File<ExporterCountryQueryD
 
 		return file;
 	}
-
-	/**
-	 * Avoid null values in CSV content
-	 * 
-	 * @param row
-	 */
-	private static void initRow(final String[] row) {
-		for (int i = 0; i < row.length; i++) {
-			row[i] = "";
-		}
-	}
 }

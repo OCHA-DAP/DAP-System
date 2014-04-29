@@ -440,4 +440,22 @@ public class APIResource {
 		return exporterService.exportIndicator_XLSX(indicatorTypeCode, sourceCode, fromYear, toYear, language);
 	}
 
+	/**
+	 * Export an indicator metadata report in CSV format.
+	 * 
+	 * @param indicatorTypeCode
+	 *            The code of the indicator (e.g. PVF020)
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A CSV file containing the data as requested
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/indicatorMetadata/csv/{indicatorTypeCode}/language/{language}/{filename}.csv")
+	@Produces("application/ms-excel")
+	@PermitAll
+	public File exportIndicatorMetadata_CSV(@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("language") final String language) throws Exception {
+		return exporterService.exportIndicatorMetadata_CSV(indicatorTypeCode, language);
+	}
+
 }

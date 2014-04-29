@@ -50,7 +50,7 @@
 				<br/>
 				</div>
 				
-				<div class="form-group">
+				<div class="form-group" style="margin-top: 30px;">
 					<label for="reportGroup">CKAN Country (Group)</label>
 					<select class="form-control" id="ckanGroupId" ng-model="ckanGroupModel" 
 							ng-options="ckanGroup.name for ckanGroup in ckanGroups" ng-class="default"

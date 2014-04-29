@@ -48,6 +48,14 @@ public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
 	}
 
 	@Override
+	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeCode(final String indicatorTypeCode) {
+		final TypedQuery<DataSerieMetadata> query = em.createQuery("SELECT ad FROM DataSerieMetadata ad WHERE ad.indicatorType.code=:indicatorTypeCode",
+				DataSerieMetadata.class);
+		query.setParameter("indicatorTypeCode", indicatorTypeCode);
+		return query.getResultList();
+	}
+
+	@Override
 	public List<DataSerieMetadata> listDataSerieDataValidatorsByIndicatorTypeCodeAndSourceCode(final DataSerie dataSerie) {
 		final String indicatorTypeCode = dataSerie.getIndicatorCode();
 		final String sourceCode = dataSerie.getSourceCode();
