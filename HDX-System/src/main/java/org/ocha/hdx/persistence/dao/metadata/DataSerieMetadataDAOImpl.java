@@ -49,8 +49,7 @@ public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
 
 	@Override
 	public List<DataSerieMetadata> listDataSerieMetadataByIndicatorTypeCode(final String indicatorTypeCode) {
-		final TypedQuery<DataSerieMetadata> query = em.createQuery("SELECT ad FROM DataSerieMetadata ad WHERE ad.indicatorType.code=:indicatorTypeCode",
-				DataSerieMetadata.class);
+		final TypedQuery<DataSerieMetadata> query = em.createQuery("SELECT ad FROM DataSerieMetadata ad WHERE ad.indicatorType.code=:indicatorTypeCode", DataSerieMetadata.class);
 		query.setParameter("indicatorTypeCode", indicatorTypeCode);
 		return query.getResultList();
 	}
@@ -74,6 +73,11 @@ public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
 		em.persist(dataSerieMetadata);
 		return dataSerieMetadata;
 
+	}
+
+	@Override
+	public DataSerieMetadata initializeDataSerie(final IndicatorType type, final Source source) {
+		return createDataSerieMetadata(type, source, MetadataName.DATASET_SUMMARY, new Text(""));
 	}
 
 	@Override
@@ -118,4 +122,5 @@ public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
 			return null;
 		}
 	}
+
 }

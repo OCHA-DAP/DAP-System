@@ -29,6 +29,15 @@ public interface DataSerieMetadataDAO {
 
 	public DataSerieMetadata createDataSerieMetadata(IndicatorType type, Source source, MetadataName key, Text value);
 
+	/**
+	 * creates an empty DATASET_SUMMARY to initialize a DataSerie
+	 * 
+	 * @param type
+	 * @param source
+	 * @return
+	 */
+	public DataSerieMetadata initializeDataSerie(IndicatorType type, Source source);
+
 	public void deleteDataSerieMetadata(long id);
 
 	public DataSerieMetadata updateDataSerieMetadata(long id, Text value);
