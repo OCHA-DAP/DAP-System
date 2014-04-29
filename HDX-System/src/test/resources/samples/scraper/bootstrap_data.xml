@@ -678,14 +678,14 @@
   <source id="17" code="acled" text_id="428"/>
   <source id="18" code="hdi-disaster" text_id="429"/>
   <source id="19" code="data.undp.org" text_id="430"/>
-  <source_dictionary importer="scraper" unnormalized_name="&quot;World Bank&quot;" source_id="1" configuration_id="1"/>
-  <source_dictionary importer="scraper-validator" unnormalized_name="World Bank" source_id="1" configuration_id="1"/>
-  <source_dictionary importer="scraper" unnormalized_name="HDRStats" source_id="4" configuration_id="1"/>
-  <source_dictionary importer="scraper-validator" unnormalized_name="HDRStats" source_id="4" configuration_id="1"/>
-  <source_dictionary importer="scraper" unnormalized_name="esa-unpd-WPP2012" source_id="7" configuration_id="1"/>
-  <source_dictionary importer="scraper-validator" unnormalized_name="esa-unpd-WPP2012" source_id="7" configuration_id="1"/>
-  <source_dictionary importer="scraper" unnormalized_name="esa-unpd-WUP2011" source_id="12" configuration_id="1"/>
-  <source_dictionary importer="scraper-validator" unnormalized_name="esa-unpd-WUP2011" source_id="12" configuration_id="1"/>
+  <source_dictionary unnormalized_name="&quot;World Bank&quot;" source_id="1" resource_configuration_id="1"/>
+  <source_dictionary unnormalized_name="World Bank" source_id="1" resource_configuration_id="1"/>
+  <source_dictionary unnormalized_name="HDRStats" source_id="4" resource_configuration_id="1"/>
+  <source_dictionary unnormalized_name="HDRStats" source_id="4" resource_configuration_id="1"/>
+  <source_dictionary unnormalized_name="esa-unpd-WPP2012" source_id="7" resource_configuration_id="1"/>
+  <source_dictionary unnormalized_name="esa-unpd-WPP2012" source_id="7" resource_configuration_id="1"/>
+  <source_dictionary unnormalized_name="esa-unpd-WUP2011" source_id="12" resource_configuration_id="1"/>
+  <source_dictionary unnormalized_name="esa-unpd-WUP2011" source_id="12" resource_configuration_id="1"/>
   <hdx_unit id="1" code="%-of-population" text_id="244"/>
   <hdx_unit id="2" code="percentage" text_id="245"/>
   <hdx_unit id="3" code="number-of-people" text_id="246"/>

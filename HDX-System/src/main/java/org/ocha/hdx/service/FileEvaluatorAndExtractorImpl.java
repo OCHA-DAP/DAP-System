@@ -93,8 +93,8 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			preparedData = this.defaultImportFail(file);
 			break;
 		case SCRAPER_VALIDATING:
-			importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByImporter(CKANDataset.Type.SCRAPER_VALIDATING.toString()), config, this.validatorCreators,
-					this.preValidatorCreators, report, this.indicatorCreationService);
+			importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(config), config, this.validatorCreators, this.preValidatorCreators, report,
+					this.indicatorCreationService);
 			preparedData = this.prepareDataForImport(file, importer);
 			break;
 		default:

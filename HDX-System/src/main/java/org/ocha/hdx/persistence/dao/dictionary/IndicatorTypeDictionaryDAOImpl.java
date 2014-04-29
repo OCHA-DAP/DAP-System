@@ -18,33 +18,25 @@ public class IndicatorTypeDictionaryDAOImpl implements IndicatorTypeDictionaryDA
 
 	@Override
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(final Long configId) {
-        String qlString = "SELECT itd FROM IndicatorTypeDictionary itd";
-        if (configId != null)
-            qlString += " WHERE itd.configuration = " + configId;
-        qlString += " ORDER BY itd.id";
+		String qlString = "SELECT itd FROM IndicatorTypeDictionary itd";
+		if (configId != null)
+			qlString += " WHERE itd.configuration = " + configId;
+		qlString += " ORDER BY itd.id";
 
-        final TypedQuery<IndicatorTypeDictionary> query = em.createQuery(qlString, IndicatorTypeDictionary.class);
+		final TypedQuery<IndicatorTypeDictionary> query = em.createQuery(qlString, IndicatorTypeDictionary.class);
 		return query.getResultList();
 	}
 
 	@Override
 	@Transactional
-	public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final IndicatorType indicatorType, final ResourceConfiguration configuration) {
-		final IndicatorTypeDictionary indicatorTypeDictionary = new IndicatorTypeDictionary(unnormalizedName, importer, indicatorType, configuration);
+	public void createIndicatorTypeDictionary(final ResourceConfiguration resourceConfiguration, final IndicatorType indicatorType, final String unnormalizedName) {
+		final IndicatorTypeDictionary indicatorTypeDictionary = new IndicatorTypeDictionary(resourceConfiguration, indicatorType, unnormalizedName);
 		em.persist(indicatorTypeDictionary);
 	}
 
 	@Override
 	@Transactional
 	public void deleteIndicatorTypeDictionary(final IndicatorTypeDictionary indicatorTypeDictionary) {
-		em.remove(em.contains(indicatorTypeDictionary) ? indicatorTypeDictionary : em.merge(indicatorTypeDictionary));
-
-	}
-
-	@Override
-	@Transactional
-	public void deleteIndicatorTypeDictionary(final String unnormalizedName, final String importer) {
-		final IndicatorTypeDictionary indicatorTypeDictionary = new IndicatorTypeDictionary(unnormalizedName, importer, null, null);
 		em.remove(em.contains(indicatorTypeDictionary) ? indicatorTypeDictionary : em.merge(indicatorTypeDictionary));
 
 	}

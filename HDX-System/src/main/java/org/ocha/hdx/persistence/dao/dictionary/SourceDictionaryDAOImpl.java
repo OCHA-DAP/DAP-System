@@ -18,19 +18,19 @@ public class SourceDictionaryDAOImpl implements SourceDictionaryDAO {
 
 	@Override
 	public List<SourceDictionary> listSourceDictionaries(final Long configId) {
-        String qlString = "SELECT sd FROM SourceDictionary sd";
-        if (configId != null)
-            qlString += " WHERE sd.configuration = " + configId;
-        qlString += " ORDER BY sd.id";
+		String qlString = "SELECT sd FROM SourceDictionary sd";
+		if (configId != null)
+			qlString += " WHERE sd.configuration = " + configId;
+		qlString += " ORDER BY sd.id";
 
-        final TypedQuery<SourceDictionary> query = em.createQuery(qlString, SourceDictionary.class);
+		final TypedQuery<SourceDictionary> query = em.createQuery(qlString, SourceDictionary.class);
 		return query.getResultList();
 	}
 
 	@Override
 	@Transactional
-	public void createSourceDictionary(final String unnormalizedName, final String importer, final Source source, final ResourceConfiguration configuration) {
-		final SourceDictionary sourceDictionary = new SourceDictionary(unnormalizedName, importer, source, configuration);
+	public void createSourceDictionary(final ResourceConfiguration resourceConfiguration, final Source source, final String unnormalizedName) {
+		final SourceDictionary sourceDictionary = new SourceDictionary(resourceConfiguration, source, unnormalizedName);
 		em.persist(sourceDictionary);
 	}
 
@@ -41,16 +41,9 @@ public class SourceDictionaryDAOImpl implements SourceDictionaryDAO {
 	}
 
 	@Override
-	@Transactional
-	public void deleteSourceDictionary(final String unnormalizedName, final String importer) {
-		final SourceDictionary sourceDictionary = new SourceDictionary(unnormalizedName, importer, null, null);
-		em.remove(em.contains(sourceDictionary) ? sourceDictionary : em.merge(sourceDictionary));
-	}
-
-	@Override
-	public List<SourceDictionary> getSourceDictionariesByImporter(final String importer) {
-		final TypedQuery<SourceDictionary> query = em.createQuery("SELECT sd FROM SourceDictionary sd WHERE sd.id.importer = :importer ORDER BY sd.id", SourceDictionary.class).setParameter(
-				"importer", importer);
+	public List<SourceDictionary> getSourceDictionariesByResourceConfiguration(final ResourceConfiguration resourceConfiguration) {
+		final TypedQuery<SourceDictionary> query = em.createQuery("SELECT sd FROM SourceDictionary sd WHERE sd.resourceConfiguration = :resourceConfiguration ORDER BY sd.id", SourceDictionary.class)
+				.setParameter("resourceConfiguration", resourceConfiguration);
 		return query.getResultList();
 	}
 
