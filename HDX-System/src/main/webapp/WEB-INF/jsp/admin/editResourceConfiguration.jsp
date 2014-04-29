@@ -10,7 +10,7 @@
 <jsp:include page="css-includes.jsp" />
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="editResourceConfiguration" />
-	<jsp:param name="needs" value="sources,indicatorTypes,entities,importers" />
+	<jsp:param name="needs" value="sources,indicatorTypes,entities,importers,chosen" />
 </jsp:include>
 </head>
 <body ng-controller="EditResourceConfigurationCtrl">
@@ -33,65 +33,58 @@
 				<div class="tab-content">
 					<div class="tab-pane active" id="mainconfig">
 						<h4>Configuration name</h4>
-						<!-- editable native name  -->
-						<p editable-text="editResourceConfiguration.name" e-class="form-control" e-name="name" e-form="ercform" e-required> {{ editResourceConfiguration.name }} </p>
+						<!-- editable config name  -->
+						<input class="form-control" disabled type="text" style="width: 300px;" e-style="width:300px;" editable-text="editResourceConfiguration.name" e-class="form-control" e-name="name" e-form="ercform"
+							value="{{ editResourceConfiguration.name }}" e-required></input>
 						<form editable-form name="ercform" onbeforesave="updateRC($data, editResourceConfiguration.id)" ng-show="ercform.$visible" class="form-buttons form-inline"
 							shown="inserted == editResourceConfiguration && ercFormVisibility" style="margin-top: 10px;">
 							<button type="submit" ng-disabled="ercform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
 							<button type="button" ng-disabled="ercform.$waiting" ng-click="ercform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 						</form>
-						<div class="buttons" ng-show="!ercform.$visible" style="margin-top: 24px;">
+						<div class="buttons" ng-show="!ercform.$visible" style="margin-top: 10px;">
 							<button class="btn btn-primary btn-custom-default" ng-click="ercform.$show()">Edit</button>
 						</div>
 					</div>
 					<div class="tab-pane" id="file">
-						<h4>Add File pre-validation</h4>
-						<form novalidate name="createGeneralResourceForm" class="css-form">
-							<table class="table table-bordered table-hover table-condensed">
-								<tr style="font-weight: bold">
-									<td style="width: 30%">Pre-validator</td>
-									<td style="width: 50%">Value</td>
-									<td style="width: 20%">Action</td>
-								</tr>
-								<tr>
-									<td><select class="form-control" id="newGenRC_key" ng-model="newGenRC.key" ng-options="generalResource.key for generalResource in editResourceConfiguration.availableGenConfs"
-										ng-class="default"></select></td>
-									<td><input type="text" class="form-control" placeholder="Value" id="newGenRC_value" ng-model="newGenRC.value" required /></td>
-									<td style="white-space: nowrap">
-										<button class="btn btn-primary btn-custom-default" ng-click="addGC(newGenRC,editResourceConfiguration)">Add</button>
-									</td>
-								</tr>
-							</table>
+						<h4>Minimum number of columns</h4>
+						<!-- editable number of columns -->
+						<input class="form-control" disabled type="text" style="width: 300px;" e-style="width:300px;" editable-text="minimumNumberOfColumns" e-class="form-control" e-name="minimumNumberOfColumns"
+							e-form="minimumNumberOfColumnsForm" value="{{ minimumNumberOfColumns }}"></input>
+						<form editable-form name="minimumNumberOfColumnsForm" onbeforesave="updateGC($data.minimumNumberOfColumns, minimumNumberOfColumnsKey, minimumNumberOfColumnsId)"
+							ng-show="minimumNumberOfColumnsForm.$visible" class="form-buttons form-inline" shown="inserted == editResourceConfiguration && minimumNumberOfColumnsFormVisibility" style="margin-top: 10px;">
+							<button type="submit" ng-disabled="minimumNumberOfColumnsForm.$waiting" class="btn btn-primary btn-custom-default">Save</button>
+							<button type="button" ng-disabled="minimumNumberOfColumnsForm.$waiting" ng-click="minimumNumberOfColumnsForm.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
 						</form>
-						<h4>File pre-validations</h4>
-						<table class="table table-bordered table-hover table-condensed">
-							<tr style="font-weight: bold">
-								<td style="width: 30%"><a href="" ng-click="predicate='key'; reverse=!reverse">Pre-validator</td>
-								<td style="width: 50%"><a href="" ng-click="predicate='value'; reverse=!reverse">Value</td>
-								<td style="width: 20%">Action</td>
-							</tr>
-							<tr ng-repeat="gc in editResourceConfiguration.generalConfigurations | orderBy:predicate:reverse">
-								<td>
-									<!-- non editable code  --> <span e-name="key" e-form="gcform"> {{ gc.key }} </span>
-								</td>
-								<td class="td_value">
-									<div>
-										<!-- editable native name  -->
-										<text-area editable-textarea="gc.value" e-class="form-control" e-name="value" e-form="gcform"  e-rows="8" e-cols="125" rows="8" cols="125" disabled style="padding: 5px;"> {{ gc.value }} </text-area>
-									</div>
-								</td>
-								<td style="white-space: nowrap">
-									<form editable-form name="gcform" onbeforesave="updateGC($data, gc)" ng-show="gcform.$visible" class="form-buttons form-inline" shown="inserted == gc">
-										<button type="submit" ng-disabled="gcform.$waiting" class="btn btn-primary btn-custom-default">Save</button>
-										<button type="button" ng-disabled="gcform.$waiting" ng-click="gcform.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
-									</form>
-									<div class="buttons" ng-show="!gcform.$visible">
-										<button class="btn btn-primary btn-custom-default" ng-click="gcform.$show()">Edit</button>
-										<button class="btn btn-danger btn-custom-danger" ng-click="deleteGC(editResourceConfiguration.id,gc.id)">Delete</button>
-									</div>
-								</td>
-							</tr>
-						</table>
+						<div class="buttons" ng-show="!minimumNumberOfColumnsForm.$visible" style="margin-top: 10px;">
+							<button class="btn btn-primary btn-custom-default" ng-click="minimumNumberOfColumnsForm.$show()">Edit</button>
+						</div>
+
+						<h4 style="margin-top: 36px;">Indicator type codes</h4>
+						<!-- editable indicator type codes -->
+						<!-- input class="form-control" disabled type="text" style="width: 300px;" e-style="width:300px;" editable-text="allowedIndicatorTypeCodes" e-class="form-control" e-name="allowedIndicatorTypeCodes"
+							e-form="allowedIndicatorTypeCodesForm" value="{{ allowedIndicatorTypeCodes }}"></input>
+						<form editable-form name="allowedIndicatorTypeCodesForm" onbeforesave="updateGC($data.allowedIndicatorTypeCodes, allowedIndicatorTypeCodesKey, allowedIndicatorTypeCodesId)"
+							ng-show="allowedIndicatorTypeCodesForm.$visible" class="form-buttons form-inline" shown="inserted == editResourceConfiguration && allowedIndicatorTypeCodesFormVisibility"
+							style="margin-top: 10px;">
+							<button type="submit" ng-disabled="allowedIndicatorTypeCodesForm.$waiting" class="btn btn-primary btn-custom-default">Save</button>
+							<button type="button" ng-disabled="allowedIndicatorTypeCodesForm.$waiting" ng-click="allowedIndicatorTypeCodesForm.$cancel()" class="btn btn-default btn-custom-cancel">Cancel</button>
+						</form>
+						<div class="buttons" ng-show="!allowedIndicatorTypeCodesForm.$visible" style="margin-top: 10px;">
+							<button class="btn btn-primary btn-custom-default" ng-click="allowedIndicatorTypeCodesForm.$show()">Edit</button>
+						</div -->
+						<div class="pull-left" style="width: 200px;">
+							<h5>Available</h5>
+							<select class="form-control" id="itFrom" ng-model="availableIndicatorTypeCodesSelected" ng-options="indicatorType.code for indicatorType in editResourceConfiguration.indicatorTypes | filter:filterAvailableITC | orderBy:'code'" ng-class="default" multiple size="10"></select>
+						</div>
+						<div class="pull-left" style="width: 100px; text-align: center; padding-top: 50px;">
+							<button class="btn btn-primary btn-custom-default" ng-disabled="0 === availableIndicatorTypeCodesSelected.length" ng-click="move('right')">&#8594;</button>
+							<br>
+							<button class="btn btn-primary btn-custom-default" ng-disabled="0 === allowedIndicatorTypeCodesSelected.length" ng-click="move('left')" style="margin-top: 24px;">&#8592;</button>
+						</div>
+						<div class="pull-left" style="width: 200px;">
+							<h5>Allowed</h5>
+							<select class="form-control" id="itTo" ng-model="allowedIndicatorTypeCodesSelected" ng-options="indicatorType for indicatorType in allowedIndicatorTypeCodes | orderBy:''" ng-class="default" multiple size="10"></select>
+						</div>
 					</div>
 					<div class="tab-pane" id="dataseries">
 						<h4>Add Data Series Configuration</h4>
@@ -285,6 +278,8 @@
 	<div ng-show="showTestZone">
 		<h3>Test zone</h3>
 		<pre>
+		<p>AllowedIndicatorTypeCodesSelected : {{ allowedIndicatorTypeCodesSelected }}</p>
+		<p>AvailableIndicatorTypeCodesSelected : {{ availableIndicatorTypeCodesSelected }}</p>
 		<p>EditResourceConfiguration : {{ editResourceConfiguration | json }}</p>
 	</pre>
 	</div>
