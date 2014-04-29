@@ -732,8 +732,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void updateMetadataForIndicatorTypeAndSource(final String which, final String data, final String languageCode, final String indicatorTypeCode, final String sourceCode) {
-		final MetadataName entryKey = MetadataName.valueOf(which);
+	public void updateMetadataForIndicatorTypeAndSource(final MetadataName entryKey, final String data, final String languageCode, final String indicatorTypeCode, final String sourceCode) {
 		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
 		if (null == dataSerieMetadata) {
 			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
@@ -748,7 +747,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, entryKey, text);
 		} else {
 			if ("default".equals(languageCode)) {
-				dataSerieMetadataDAO.updateDataSerieMetadata(indicatorTypeCode, sourceCode, which, data);
+				dataSerieMetadataDAO.updateDataSerieMetadata(indicatorTypeCode, sourceCode, entryKey, data);
 			} else {
 				final List<Translation> translations = dataSerieMetadata.getEntryValue().getTranslations();
 				if (null != translations) {
@@ -781,7 +780,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public void updateValidationNotesForIndicatorTypeAndSource(final String validationNotes, final String indicatorTypeCode, final String sourceCode) {
-		updateMetadataForIndicatorTypeAndSource("VALIDATION_NOTES", validationNotes, "default", indicatorTypeCode, sourceCode);
+		updateMetadataForIndicatorTypeAndSource(MetadataName.VALIDATION_NOTES, validationNotes, "default", indicatorTypeCode, sourceCode);
 	}
 
 }

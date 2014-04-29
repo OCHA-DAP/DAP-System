@@ -1333,9 +1333,9 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/metadataForIndicatorTypeAndSource/submitUpdate")
-	public Response updateMetadataForIndicatorTypeAndSource(@FormParam("which") final String which, @FormParam("data") final String data, @FormParam("languageCode") final String languageCode,
-			@FormParam("indicatorTypeCode") final String indicatorTypeCode, @FormParam("sourceCode") final String sourceCode) throws Exception {
-		curatedDataService.updateMetadataForIndicatorTypeAndSource(which, data, languageCode, indicatorTypeCode, sourceCode);
+	public Response updateMetadataForIndicatorTypeAndSource(@FormParam("which") final MetadataName entryKey, @FormParam("data") final String data,
+			@FormParam("languageCode") final String languageCode, @FormParam("indicatorTypeCode") final String indicatorTypeCode, @FormParam("sourceCode") final String sourceCode) throws Exception {
+		curatedDataService.updateMetadataForIndicatorTypeAndSource(entryKey, data, languageCode, indicatorTypeCode, sourceCode);
 		return Response.ok().build();
 	}
 

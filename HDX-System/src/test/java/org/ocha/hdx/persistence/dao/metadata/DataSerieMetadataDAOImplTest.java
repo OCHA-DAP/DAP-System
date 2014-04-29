@@ -313,8 +313,8 @@ public class DataSerieMetadataDAOImplTest {
 		assertNotNull(modifiedDataSerieMetadata);
 		assertEquals("Dummy Value 2", modifiedDataSerieMetadata.getEntryValue().getDefaultValue());
 
-		dataSerieMetadataDAO.updateDataSerieMetadata(modifiedDataSerieMetadata.getIndicatorType().getCode(), modifiedDataSerieMetadata.getSource().getCode(), modifiedDataSerieMetadata.getEntryKey()
-				.toString(), "Dummy Value 3");
+		dataSerieMetadataDAO.updateDataSerieMetadata(modifiedDataSerieMetadata.getIndicatorType().getCode(), modifiedDataSerieMetadata.getSource().getCode(), modifiedDataSerieMetadata.getEntryKey(),
+				"Dummy Value 3");
 		final DataSerieMetadata remodifiedDataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataById(modifiedDataSerieMetadata.getId());
 		assertNotNull(remodifiedDataSerieMetadata);
 		assertEquals(modifiedDataSerieMetadata.getId(), remodifiedDataSerieMetadata.getId());

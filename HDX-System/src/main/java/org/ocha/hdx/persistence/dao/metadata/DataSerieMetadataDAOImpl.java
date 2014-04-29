@@ -103,8 +103,8 @@ public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
 
 	@Override
 	@Transactional
-	public DataSerieMetadata updateDataSerieMetadata(final String indicatorTypeCode, final String sourceCode, final String entryKey, final String defaultValue) {
-		final DataSerieMetadata dataSerieMetadata = getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, MetadataName.valueOf(entryKey));
+	public DataSerieMetadata updateDataSerieMetadata(final String indicatorTypeCode, final String sourceCode, final MetadataName entryKey, final String defaultValue) {
+		final DataSerieMetadata dataSerieMetadata = getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
 		dataSerieMetadata.getEntryValue().setDefaultValue(defaultValue);
 		return dataSerieMetadata;
 	}

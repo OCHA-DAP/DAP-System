@@ -42,7 +42,7 @@ public interface DataSerieMetadataDAO {
 
 	public DataSerieMetadata updateDataSerieMetadata(long id, Text value);
 
-	public DataSerieMetadata updateDataSerieMetadata(String indicatorTypeCode, String sourceCode, String entryKey, String defaultValue);
+	public DataSerieMetadata updateDataSerieMetadata(String indicatorTypeCode, String sourceCode, MetadataName entryKey, String defaultValue);
 
 	public DataSerieMetadata getDataSerieMetadataById(long id);
 
