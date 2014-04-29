@@ -10,7 +10,7 @@
 <jsp:include page="css-includes.jsp" />
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="editResourceConfiguration" />
-	<jsp:param name="needs" value="sources,indicatorTypes,entities,importers,chosen" />
+	<jsp:param name="needs" value="sources,indicatorTypes,entities,importers" />
 </jsp:include>
 </head>
 <body ng-controller="EditResourceConfigurationCtrl">
