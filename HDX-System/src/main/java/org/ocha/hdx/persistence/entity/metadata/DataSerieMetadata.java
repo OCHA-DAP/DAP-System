@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
@@ -28,7 +29,7 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
  * 
  */
 @Entity
-@Table(name = "hdx_dataserie_metadata")
+@Table(name = "hdx_dataserie_metadata", uniqueConstraints = @UniqueConstraint(columnNames = { "source_id", "indicator_type_id", "entry_key" }))
 @SequenceGenerator(name = "hdx_dataserie_metadata_seq", sequenceName = "hdx_dataserie_metadata_seq")
 public class DataSerieMetadata {
 
@@ -37,8 +38,9 @@ public class DataSerieMetadata {
 	}
 
 	public enum MetadataName {
-		METHODOLOGY("Methodology", MetadataType.METADATA), MORE_INFO("More info", MetadataType.METADATA), DATASET_SUMMARY("Dataset summary", MetadataType.METADATA), TERMS_OF_USE("Terms of use", MetadataType.METADATA), VALIDATION_NOTES(
-				"Validation notes", MetadataType.NOTE), MIN_BOUNDARY("Min Boundary", MetadataType.VALIDATOR), MAX_BOUNDARY("Max Boundary", MetadataType.VALIDATOR);
+		METHODOLOGY("Methodology", MetadataType.METADATA), MORE_INFO("More info", MetadataType.METADATA), DATASET_SUMMARY("Dataset summary", MetadataType.METADATA), TERMS_OF_USE("Terms of use",
+				MetadataType.METADATA), VALIDATION_NOTES("Validation notes", MetadataType.NOTE), MIN_BOUNDARY("Min Boundary", MetadataType.VALIDATOR), MAX_BOUNDARY("Max Boundary",
+				MetadataType.VALIDATOR);
 		private final String label;
 		private final MetadataType type;
 
@@ -143,6 +145,7 @@ public class DataSerieMetadata {
 
 	@Override
 	public String toString() {
-		return "DataSerieMetadata [id=" + id + ", source=" + source.getName().getDefaultValue() + ", indicatorType=" + indicatorType.getName().getDefaultValue() + ", entryKey= label:" + entryKey.getLabel() + ", type:" + entryKey.getType().name() + ", entryValue=" + entryValue + "]";
+		return "DataSerieMetadata [id=" + id + ", source=" + source.getName().getDefaultValue() + ", indicatorType=" + indicatorType.getName().getDefaultValue() + ", entryKey= label:"
+				+ entryKey.getLabel() + ", type:" + entryKey.getType().name() + ", entryValue=" + entryValue + "]";
 	}
 }

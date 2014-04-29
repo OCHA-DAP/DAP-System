@@ -10,13 +10,11 @@ public interface SourceDictionaryDAO {
 
 	public List<SourceDictionary> listSourceDictionaries(final Long configId);
 
-	public void createSourceDictionary(final String unnormalizedName, final String importer, final Source source, final ResourceConfiguration configuration);
+	public void createSourceDictionary(final ResourceConfiguration resourceConfiguration, final Source source, final String unnormalizedName);
 
 	public void deleteSourceDictionary(final SourceDictionary sourceDictionary);
 
-	public void deleteSourceDictionary(String unnormalizedName, String importer);
-
-	public List<SourceDictionary> getSourceDictionariesByImporter(final String importer);
+	public List<SourceDictionary> getSourceDictionariesByResourceConfiguration(final ResourceConfiguration resourceConfiguration);
 
 	/**
 	 * very likely to be used by the unit tests only

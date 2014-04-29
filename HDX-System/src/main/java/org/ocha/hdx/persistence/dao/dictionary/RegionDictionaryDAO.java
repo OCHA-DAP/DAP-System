@@ -10,10 +10,8 @@ public interface RegionDictionaryDAO {
 
 	public List<RegionDictionary> listRegionDictionaries(final Long configId);
 
-	public void createRegionDictionary(final String unnormalizedName, final String importer, final Entity entity, final ResourceConfiguration configuration);
+	public void createRegionDictionary(final ResourceConfiguration resourceConfiguration, final Entity entity, final String unnormalizedName);
 
 	public void deleteRegionDictionary(final RegionDictionary regionDictionary);
-
-	public void deleteRegionDictionary(String unnormalizedName, String importer);
 
 }

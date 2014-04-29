@@ -7,7 +7,6 @@ import java.util.Map;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
-import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.EntityType;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
@@ -183,9 +182,9 @@ public interface CuratedDataService {
 	 */
 	public List<RegionDictionary> listRegionDictionaries();
 
-    public List<RegionDictionary> listRegionDictionaries(final long configId);
+	public List<RegionDictionary> listRegionDictionaries(final long configId);
 
-	public void createRegionDictionary(final String unnormalizedName, final String importer, final long entityId, final long configurationId);
+	public void createRegionDictionary(final long configId, final long entityId, final String unnormalizedName);
 
 	public void deleteRegionDictionary(RegionDictionary regionDictionary);
 
@@ -194,20 +193,18 @@ public interface CuratedDataService {
 	 */
 	public List<SourceDictionary> listSourceDictionaries();
 
-    public List<SourceDictionary> listSourceDictionaries(final long configId);
+	public List<SourceDictionary> listSourceDictionaries(final long configId);
 
-    public void createSourceDictionary(final String unnormalizedName, final String importer, final long sourceId, final long configurationId);
-
-	public void deleteSourceDictionary(String unnormalizedName, String importer);
+	public void createSourceDictionary(final long configId, final long sourceId, final String unnormalizedName);
 
 	/*
 	 * Indicator type dictionaries
 	 */
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries();
 
-    public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(final long configId);
+	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(final long configId);
 
-    public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorType, final long configurationId);
+	public void createIndicatorTypeDictionary(final long configId, final long indicatorTypeId, final String unnormalizedName);
 
 	public void createIndicator(Indicator indicator, ImportFromCKAN importFromCKAN);
 

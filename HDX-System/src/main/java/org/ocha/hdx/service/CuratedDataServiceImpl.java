@@ -99,8 +99,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Autowired
 	private DataSerieMetadataDAO dataSerieMetadataDAO;
 
-    @Autowired
-    private ResourceConfigurationDAO resourceConfigurationDAO;
+	@Autowired
+	private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	/*
 	 * Entity types
@@ -569,16 +569,16 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return regionDictionaryDAO.listRegionDictionaries(null);
 	}
 
-    @Override
-    public List<RegionDictionary> listRegionDictionaries(long configId) {
-        return regionDictionaryDAO.listRegionDictionaries(configId);
-    }
+	@Override
+	public List<RegionDictionary> listRegionDictionaries(final long configId) {
+		return regionDictionaryDAO.listRegionDictionaries(configId);
+	}
 
-    @Override
-	public void createRegionDictionary(final String unnormalizedName, final String importer, final long entityId, final long configId) {
+	@Override
+	public void createRegionDictionary(final long configId, final long entityId, final String unnormalizedName) {
 		final Entity entity = entityDAO.getEntityById(entityId);
-        final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
-        regionDictionaryDAO.createRegionDictionary(unnormalizedName, importer, entity, config);
+		final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
+		regionDictionaryDAO.createRegionDictionary(config, entity, unnormalizedName);
 	}
 
 	@Override
@@ -594,22 +594,17 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return sourceDictionaryDAO.listSourceDictionaries(null);
 	}
 
-    @Override
-    public List<SourceDictionary> listSourceDictionaries(long configId) {
-        return sourceDictionaryDAO.listSourceDictionaries(configId);
-    }
-
-    @Override
-	public void createSourceDictionary(final String unnormalizedName, final String importer, final long sourceId, final long configId) {
-		final Source source = sourceDAO.getSourceById(sourceId);
-        final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
-		sourceDictionaryDAO.createSourceDictionary(unnormalizedName, importer, source, config);
-
+	@Override
+	public List<SourceDictionary> listSourceDictionaries(final long configId) {
+		return sourceDictionaryDAO.listSourceDictionaries(configId);
 	}
 
 	@Override
-	public void deleteSourceDictionary(final String unnormalizedName, final String importer) {
-		sourceDictionaryDAO.deleteSourceDictionary(unnormalizedName, importer);
+	public void createSourceDictionary(final long configId, final long sourceId, final String unnormalizedName) {
+		final Source source = sourceDAO.getSourceById(sourceId);
+		final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
+		sourceDictionaryDAO.createSourceDictionary(config, source, unnormalizedName);
+
 	}
 
 	/*
@@ -620,16 +615,16 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries(null);
 	}
 
-    @Override
-    public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(long configId) {
-        return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries(configId);
-    }
+	@Override
+	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(final long configId) {
+		return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries(configId);
+	}
 
-    @Override
-	public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final long indicatorTypeId, final long configId) {
+	@Override
+	public void createIndicatorTypeDictionary(final long configId, final long indicatorTypeId, final String unnormalizedName) {
 		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeById(indicatorTypeId);
-        final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
-		indicatorTypeDictionaryDAO.createIndicatorTypeDictionary(unnormalizedName, importer, indicatorType, config);
+		final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
+		indicatorTypeDictionaryDAO.createIndicatorTypeDictionary(config, indicatorType, unnormalizedName);
 	}
 
 	@Override

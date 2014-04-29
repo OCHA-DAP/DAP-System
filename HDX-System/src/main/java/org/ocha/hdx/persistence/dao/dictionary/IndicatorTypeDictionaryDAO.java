@@ -10,10 +10,8 @@ public interface IndicatorTypeDictionaryDAO {
 
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(final Long configId);
 
-	public void createIndicatorTypeDictionary(final String unnormalizedName, final String importer, final IndicatorType indicatorType, final ResourceConfiguration configuration);
+	public void createIndicatorTypeDictionary(final ResourceConfiguration resourceConfiguration, final IndicatorType indicatorType, final String unnormalizedName);
 
 	public void deleteIndicatorTypeDictionary(final IndicatorTypeDictionary indicatorTypeDictionary);
-
-	public void deleteIndicatorTypeDictionary(String unnormalizedName, String importer);
 
 }

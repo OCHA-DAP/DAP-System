@@ -32,8 +32,8 @@ public class SourceDictionaryDAOImplTest {
 	@Autowired
 	private SourceDAO sourceDAO;
 
-    @Autowired
-    private ResourceConfigurationDAO resourceConfigurationDAO;
+	@Autowired
+	private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	@Before
 	public void setUp() {
@@ -56,33 +56,20 @@ public class SourceDictionaryDAOImplTest {
 		List<SourceDictionary> sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
 		Assert.assertEquals(0, sourceDictionaryList.size());
 
-
-        ResourceConfiguration configuration = resourceConfigurationDAO.createResourceConfiguration("Test Configuration", null, null);
+		final ResourceConfiguration configuration = resourceConfigurationDAO.createResourceConfiguration("Test Configuration", null, null);
 
 		final Source sourceWB = sourceDAO.getSourceByCode("WB");
 
-		sourceDictionaryDAO.createSourceDictionary("World Bank", "scraper", sourceWB, configuration);
-		sourceDictionaryDAO.createSourceDictionary("World B.", "another", sourceWB, configuration);
+		sourceDictionaryDAO.createSourceDictionary(configuration, sourceWB, "World Bank");
+		sourceDictionaryDAO.createSourceDictionary(configuration, sourceWB, "World B.");
 
 		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
 		Assert.assertEquals(2, sourceDictionaryList.size());
-		Assert.assertEquals(1, sourceDictionaryDAO.getSourceDictionariesByImporter("scraper").size());
+		Assert.assertEquals(2, sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(configuration).size());
 
 		// delete a SourceDictionary by object
 		final SourceDictionary sourceDictionaryToDelete = sourceDictionaryList.get(0);
 		sourceDictionaryDAO.deleteSourceDictionary(sourceDictionaryToDelete);
-		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
-		Assert.assertEquals("After deletion, there should be 1 SourceDictionaries in the table.", 1, sourceDictionaryList.size());
-
-		// add this back to avoid breaking the next test
-		sourceDictionaryDAO.createSourceDictionary(sourceDictionaryToDelete.getId().getUnnormalizedName(), sourceDictionaryToDelete.getId().getImporter(), sourceDictionaryToDelete.getSource(), configuration);
-		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
-		Assert.assertEquals("source_dictionary table should now have 2 entries", 2, sourceDictionaryList.size());
-
-		// delete a specific SourceDictionary by unique fields
-		final String unnormalizedName = sourceDictionaryToDelete.getId().getUnnormalizedName();
-		final String importer = sourceDictionaryToDelete.getId().getImporter();
-		sourceDictionaryDAO.deleteSourceDictionary(unnormalizedName, importer);
 		sourceDictionaryList = sourceDictionaryDAO.listSourceDictionaries(null);
 		Assert.assertEquals("After deletion, there should be 1 SourceDictionaries in the table.", 1, sourceDictionaryList.size());
 	}

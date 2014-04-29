@@ -26,11 +26,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 
  * Sample implementation of the {@link AbstractValidatingImporter} that has the same functionality as {@link ScraperImporter} plus the validation part
- *
+ * 
  * @author alexandru-m-g
- *
+ * 
  */
 public class ScraperValidatingImporter extends AbstractValidatingImporter {
 
@@ -55,7 +55,7 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 
 		if (sourceDictionaries != null) {
 			for (final SourceDictionary sourceDictionary : sourceDictionaries) {
-				this.sourcesMap.put(sourceDictionary.getId().getUnnormalizedName(), sourceDictionary.getSource().getCode());
+				this.sourcesMap.put(sourceDictionary.getUnnormalizedName(), sourceDictionary.getSource().getCode());
 			}
 		}
 	}
@@ -107,7 +107,7 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 		final Map<String, AbstractConfigEntry> indConfigMap = indTypeInfoHolder.getIndicatorEntries();
 
 		final AbstractColumnsTransformer transformer = this.generateColumnsTransformer(key, indConfigMap, preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
-		if ( !transformer.isDisabled() ) {
+		if (!transformer.isDisabled()) {
 
 			preparedIndicator.setEntityCode(transformer.getEntityCode(values));
 			preparedIndicator.setEntityTypeCode(transformer.getEntityTypeCode(values));
@@ -129,8 +129,7 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 	 * @param indConfigMap
 	 * @return
 	 */
-	private AbstractColumnsTransformer generateColumnsTransformer(final String key, final Map<String, AbstractConfigEntry> indConfigMap,
-			final String indTypeCode, final String sourceCode) {
+	private AbstractColumnsTransformer generateColumnsTransformer(final String key, final Map<String, AbstractConfigEntry> indConfigMap, final String indTypeCode, final String sourceCode) {
 		AbstractColumnsTransformer transformer = this.colTransformers.get(key);
 		if (transformer == null) {
 			final List<IndicatorResourceConfigEntry> embeddedConfigs = this.indicatorCreationService.findEmbeddedConfigs(indTypeCode, sourceCode);

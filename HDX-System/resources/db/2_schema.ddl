@@ -1,4 +1,7 @@
 
+    alter table ckan_dataset 
+        drop constraint fk_ckan_dataset_to_resource_config;
+
     alter table ckan_resource 
         drop constraint fk_ckan_resource_to_resource_config;
 
@@ -63,7 +66,7 @@
         drop constraint fk_indicator_type_dictionary_to_indicator_type;
 
     alter table indicator_type_dictionary 
-        drop constraint FK9096648B437B47C;
+        drop constraint fk_indicator_type_dictionary_to_config;
 
     alter table organisation 
         drop constraint fk_full_name_to_text;
@@ -75,7 +78,7 @@
         drop constraint fk_region_dictionary_to_entity;
 
     alter table region_dictionary 
-        drop constraint FKCA197EC1437B47C;
+        drop constraint fk_region_dictionary_to_config;
 
     alter table resource_config_entry 
         drop constraint fk_resource_config_map_to_parent;
@@ -90,7 +93,7 @@
         drop constraint fk_source_dictionary_to_source;
 
     alter table source_dictionary 
-        drop constraint FK51DECF3A437B47C;
+        drop constraint fk_source_dictionary_to_config;
 
     drop table ckan_dataset;
 
@@ -152,13 +155,19 @@
 
     drop sequence indicator_seq;
 
+    drop sequence indicator_type_dictionary_seq;
+
     drop sequence indicator_type_seq;
 
     drop sequence organisation_seq;
 
+    drop sequence region_dictionary_seq;
+
     drop sequence resource_config_entry_seq;
 
     drop sequence resource_configuration_seq;
+
+    drop sequence source_dictionary_seq;
 
     drop sequence source_seq;
 
@@ -220,7 +229,8 @@
         entry_value_text_id int8,
         indicator_type_id int8 not null,
         source_id int8 not null,
-        primary key (id)
+        primary key (id),
+        unique (source_id, indicator_type_id, entry_key)
     );
 
     create table hdx_indicator (
@@ -331,11 +341,11 @@
     );
 
     create table indicator_type_dictionary (
-        importer varchar(255) not null,
+        id int8 not null,
         unnormalized_name varchar(255) not null,
-        configuration_id int8 not null,
         indicator_type_id int8 not null,
-        primary key (importer, unnormalized_name)
+        resource_configuration_id int8 not null,
+        primary key (id)
     );
 
     create table language (
@@ -353,11 +363,11 @@
     );
 
     create table region_dictionary (
-        importer varchar(255) not null,
+        id int8 not null,
         unnormalized_name varchar(255) not null,
-        configuration_id int8 not null,
         entity_id int8 not null,
-        primary key (importer, unnormalized_name)
+        resource_configuration_id int8 not null,
+        primary key (id)
     );
 
     create table resource_config_entry (
@@ -384,11 +394,11 @@
     );
 
     create table source_dictionary (
-        importer varchar(255) not null,
+        id int8 not null,
         unnormalized_name varchar(255) not null,
-        configuration_id int8 not null,
+        resource_configuration_id int8 not null,
         source_id int8 not null,
-        primary key (importer, unnormalized_name)
+        primary key (id)
     );
 
     create table text (
@@ -396,7 +406,7 @@
         default_value text not null,
         primary key (id)
     );
-    
+
     alter table ckan_dataset 
         add constraint fk_ckan_dataset_to_resource_config 
         foreign key (configuration_id) 
@@ -510,8 +520,8 @@
         references indicator_type;
 
     alter table indicator_type_dictionary 
-        add constraint FK9096648B437B47C 
-        foreign key (configuration_id) 
+        add constraint fk_indicator_type_dictionary_to_config 
+        foreign key (resource_configuration_id) 
         references resource_configuration;
 
     alter table organisation 
@@ -530,8 +540,8 @@
         references entity;
 
     alter table region_dictionary 
-        add constraint FKCA197EC1437B47C 
-        foreign key (configuration_id) 
+        add constraint fk_region_dictionary_to_config 
+        foreign key (resource_configuration_id) 
         references resource_configuration;
 
     create index resource_config_entry_index on resource_config_entry (entry_key);
@@ -559,8 +569,8 @@
         references source;
 
     alter table source_dictionary 
-        add constraint FK51DECF3A437B47C 
-        foreign key (configuration_id) 
+        add constraint fk_source_dictionary_to_config 
+        foreign key (resource_configuration_id) 
         references resource_configuration;
 
     create sequence entity_seq;
@@ -577,13 +587,19 @@
 
     create sequence indicator_seq;
 
+    create sequence indicator_type_dictionary_seq;
+
     create sequence indicator_type_seq;
 
     create sequence organisation_seq;
 
+    create sequence region_dictionary_seq;
+
     create sequence resource_config_entry_seq;
 
     create sequence resource_configuration_seq;
+
+    create sequence source_dictionary_seq;
 
     create sequence source_seq;
 
