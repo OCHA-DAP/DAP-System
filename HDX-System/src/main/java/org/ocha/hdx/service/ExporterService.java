@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorMetadataQueryData;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
@@ -85,5 +86,12 @@ public interface ExporterService {
 	 * @return a map of the rows we can expect in the report.
 	 */
 	public Map<Long, Map<String, IndicatorData>> getIndicatorDataData(ExporterIndicatorQueryData queryData);
+
+	/*
+	 * Indicator metadata
+	 */
+	public File exportIndicatorMetadata_CSV(String indicatorTypeCode, String language) throws Exception;
+
+	public List<DataSerieMetadata> getIndicatorMetadataData(ExporterIndicatorMetadataQueryData queryData);
 
 }

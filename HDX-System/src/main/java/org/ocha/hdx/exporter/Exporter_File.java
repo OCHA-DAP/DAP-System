@@ -83,4 +83,15 @@ public abstract class Exporter_File<QD extends QueryData> extends AbstractExport
 		}
 		writer.close();
 	}
+
+	/**
+	 * Avoid null values in File content
+	 * 
+	 * @param row
+	 */
+	protected static void initRow(final String[] row) {
+		for (int i = 0; i < row.length; i++) {
+			row[i] = "";
+		}
+	}
 }

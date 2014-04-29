@@ -95,7 +95,7 @@ public class DataSerieMetadataDAOImplTest {
 		for (int i = 0; i < NUM_OF_ITEMS; i++) {
 			final Text text = textDAO.createText("Dummy Value " + i);
 
-			final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, MetadataName.METHODOLOGY, text);
+			dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, MetadataName.METHODOLOGY, text);
 		}
 
 		final List<DataSerieMetadata> modifiedList = dataSerieMetadataDAO.listDataSerieMetadata();
@@ -110,6 +110,68 @@ public class DataSerieMetadataDAOImplTest {
 			assertEquals("Dummy Value " + i, dataSerieMetadata.getEntryValue().getDefaultValue());
 		}
 		for (final DataSerieMetadata dataSerieMetadata : modifiedList) {
+			dataSerieMetadataDAO.deleteDataSerieMetadata(dataSerieMetadata.getId());
+		}
+		assertEquals(0, dataSerieMetadataDAO.listDataSerieMetadata().size());
+	}
+
+	/**
+	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAOImpl#listDataSerieMetadataByIndicatorTypeCode()}.
+	 */
+	@Test
+	@Transactional
+	public final void testListDataSerieMetadataByIndicatorTypeCode() {
+
+		final List<DataSerieMetadata> initialList = dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCode(indicatorType.getCode());
+		assertEquals(0, initialList.size());
+
+		for (int i = 0; i < NUM_OF_ITEMS; i++) {
+			final Text text = textDAO.createText("Dummy Value " + i);
+
+			dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, MetadataName.METHODOLOGY, text);
+		}
+
+		final List<DataSerieMetadata> modifiedList = dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCode(indicatorType.getCode());
+
+		assertEquals(NUM_OF_ITEMS, modifiedList.size());
+		for (int i = 0; i < modifiedList.size(); i++) {
+			final DataSerieMetadata dataSerieMetadata = modifiedList.get(i);
+
+			assertEquals(source.getCode(), dataSerieMetadata.getSource().getCode());
+			assertEquals(indicatorType.getCode(), dataSerieMetadata.getIndicatorType().getCode());
+			assertEquals(MetadataName.METHODOLOGY, dataSerieMetadata.getEntryKey());
+			assertEquals("Dummy Value " + i, dataSerieMetadata.getEntryValue().getDefaultValue());
+		}
+
+		final Text src2Text = textDAO.createText("Source 2");
+		sourceDAO.createSource("test-src-code2", src2Text, "www.test2.com", null);
+		final Source source2 = sourceDAO.getSourceByCode("test-src-code2");
+
+		for (int i = 0; i < NUM_OF_ITEMS; i++) {
+			final Text text = textDAO.createText("Dummy Value " + i);
+			dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source2, MetadataName.METHODOLOGY, text);
+		}
+
+		final List<DataSerieMetadata> modifiedList2 = dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCode(indicatorType.getCode());
+
+		assertEquals(NUM_OF_ITEMS * 2, modifiedList2.size());
+		int countSource = 0;
+		int countSource2 = 0;
+		for (int i = 0; i < modifiedList2.size(); i++) {
+			final DataSerieMetadata dataSerieMetadata = modifiedList2.get(i);
+
+			if (source.getCode().equals(dataSerieMetadata.getSource().getCode())) {
+				++countSource;
+			} else if (source2.getCode().equals(dataSerieMetadata.getSource().getCode())) {
+				++countSource2;
+			}
+			assertEquals(indicatorType.getCode(), dataSerieMetadata.getIndicatorType().getCode());
+			assertEquals(MetadataName.METHODOLOGY, dataSerieMetadata.getEntryKey());
+		}
+		assertEquals(NUM_OF_ITEMS, countSource);
+		assertEquals(NUM_OF_ITEMS, countSource2);
+
+		for (final DataSerieMetadata dataSerieMetadata : modifiedList2) {
 			dataSerieMetadataDAO.deleteDataSerieMetadata(dataSerieMetadata.getId());
 		}
 		assertEquals(0, dataSerieMetadataDAO.listDataSerieMetadata().size());
