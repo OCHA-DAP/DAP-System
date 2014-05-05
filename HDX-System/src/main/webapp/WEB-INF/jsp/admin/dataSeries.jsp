@@ -10,23 +10,63 @@
 <jsp:include page="css-includes.jsp" />
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="dataSeries" />
-	<jsp:param name="needs" value="languages,indicatorTypes,periodicities,dataValidators" />
+	<jsp:param name="needs" value="languages,indicatorTypes,sources,periodicities,dataValidators" />
 </jsp:include>
 </head>
 <body ng-controller="DataSeriesCtrl">
 	<jsp:include page="admin-menu.jsp" />
+	<div class="modal fade" id="createDataSeriesModal" tabindex="-1" role="dialog" aria-labelledby="createDataSeriesModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="createDataSeriesModalLabel">Create a Data Series</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="source">Please choose a source to associate with indicator type {{indicatorType.code}} ({{indicatorType.name}})</label> <select class="form-control" id="sourceForDataSeries" ng-model="sourceForDataSeries" ng-options="s.code for s in filteredSources = (sources | filter:filterDataSeriesSources)" ng-class="default" ng-init="sourceForDataSeries=((filteredSources && 0 < filteredSources.length) ? filteredSources[0] : {})">
+						</select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary" ng-click="createDataSeries()">Create</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="dataSeriesCreatedModal" tabindex="-1" role="dialog" aria-labelledby="dataSeriesCreatedModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="dataSeriesCreatedModalLabel">Data Series created</h4>
+				</div>
+				<div class="modal-body">
+					<span>Data Series created for indicator type <b>{{indicatorType.code}}</b> ({{indicatorType.name}}) with source <b>{{source.code}}</b> ({{source.name}}).</span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" ng-click="editDataSeries()">Edit metadata</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="content">
 		<h3>Data Series management</h3>
-		<div style="width: 400px;">
+		<div style="width: 600px;">
 			<div class="form-group">
-				<label for="indicatorType">Indicator type</label> <select class="form-control" id="indicatorType" ng-model="indicatorType" ng-change="indicatorTypeSelect()"
+				<label for="indicatorType">Indicator type</label><select class="form-control" id="indicatorType" ng-model="indicatorType" ng-change="indicatorTypeSelect()"
 					ng-options="indicatorType as (indicatorType | showIndicatorType) for indicatorType in indicatorTypes" ng-class="default">
 				</select>
 			</div>
 			<div class="form-group">
 				<label for="source">Source</label> <select class="form-control" id="source" ng-disabled="sourceUnavailable" ng-model="source" ng-change="sourceSelect()"
-					ng-options="source as (source | showSource) for source in sources" ng-class="default">
+					ng-options="s as (s | showSource) for s in sourcesForIndicatorType" ng-class="default">
 				</select>
+				<div style="font-size: smaller; margin-top: 6px; margin-left: 6px;">
+					No source for this indicator type or you want to add a new one ? <a href="#" data-toggle="modal" data-target="#createDataSeriesModal">Create a data series</a>
+				</div>
 			</div>
 		</div>
 		<div style="width: 800px; margin-bottom: 20px;">
@@ -279,8 +319,10 @@
 								<td style="width: 20%">Action</td>
 							</tr>
 							<tr>
-								<td><select class="form-control" id="dataValidatorNewResource_name" ng-disabled="!enableAddDataValidatorForm" ng-model="dataValidatorNewResource.name" ng-options="dv.name for dv in dataValidators | filter:filterDataValidator" ng-class="default" required></select></td>
-								<td><input type="text" class="form-control" placeholder="Value" id="dataValidatorNewResource_value" ng-disabled="!enableAddDataValidatorForm" ng-model="dataValidatorNewResource.value" required /></td>
+								<td><select class="form-control" id="dataValidatorNewResource_name" ng-disabled="!enableAddDataValidatorForm" ng-model="dataValidatorNewResource.name"
+									ng-options="dv.name for dv in dataValidators | filter:filterDataValidator" ng-class="default" required></select></td>
+								<td><input type="text" class="form-control" placeholder="Value" id="dataValidatorNewResource_value" ng-disabled="!enableAddDataValidatorForm" ng-model="dataValidatorNewResource.value"
+									required /></td>
 								<td style="white-space: nowrap">
 									<button class="btn btn-primary btn-custom-default" ng-disabled="!enableAddDataValidatorForm" ng-click="createDataValidator(dataValidatorNewResource)">Add</button>
 								</td>
@@ -336,6 +378,7 @@
 	<div ng-show="showTestZone">
 		<h3>Test zone</h3>
 		<pre>
+		<p>Source : {{ source | json }}</p>
 		<p>Metadata : {{ metadata | json }}</p>
 		<p>Data validators : {{ dataValidators | json }}</p>
 		<p>Updated data validator name : {{ updatedDataValidatorName }}</p>
@@ -343,6 +386,7 @@
 		<p>Periodicities : {{ periodicities | json }}</p>
 		<p>Languages : {{ languages | json }}</p>
 		<p>Indicator types : {{ indicatorTypes | json }}</p>
+		<p>Sources for indicator type : {{ sourcesForIndicatorType | json }}</p>
 		<p>Sources : {{ sources | json }}</p>
 	</pre>
 	</div>

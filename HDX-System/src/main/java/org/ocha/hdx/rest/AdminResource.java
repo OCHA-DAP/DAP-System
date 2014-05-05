@@ -5,6 +5,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1129,7 +1131,21 @@ public class AdminResource {
 
 		String result = "";
 
-		final List<Source> listSources = curatedDataService.listSourcesForIndicatorType(indicatorTypeCode);
+		// final List<Source> listSources = curatedDataService.listSourcesForIndicatorType(indicatorTypeCode);
+		final List<DataSerieMetadata> metadataForIndicatorTypeCode = curatedDataService.getMetadataForIndicatorTypeCode(indicatorTypeCode);
+		final List<Source> listSources = new ArrayList<Source>();
+		for (final DataSerieMetadata dataSerieMetadata : metadataForIndicatorTypeCode) {
+			if(!listSources.contains(dataSerieMetadata.getSource())) {
+				listSources.add(dataSerieMetadata.getSource());
+			}
+		}
+		Collections.sort(listSources, new Comparator<Source>() {
+			@Override
+			public int compare(final Source o1, final Source o2) {
+				return o1.getCode().compareTo(o2.getCode());
+			}
+		});
+		
 		final JsonArray jsonArray = new JsonArray();
 		for (final Source source : listSources) {
 			final JsonObject jsonSource = sourceToJson(source);

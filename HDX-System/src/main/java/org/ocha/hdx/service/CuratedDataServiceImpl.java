@@ -732,6 +732,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
+	public List<DataSerieMetadata> getMetadataForIndicatorTypeCode(final String indicatorTypeCode) {
+		return dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCode(indicatorTypeCode);
+	}
+
+	@Override
 	public void updateMetadataForIndicatorTypeAndSource(final MetadataName entryKey, final String data, final String languageCode, final String indicatorTypeCode, final String sourceCode) {
 		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
 		if (null == dataSerieMetadata) {

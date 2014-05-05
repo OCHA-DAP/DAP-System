@@ -51,7 +51,7 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
   $scope.move = function(which) {
     switch (which) {
     case 'right':
-      console.log("Adding " + $scope.availableIndicatorTypeCodesSelected);
+      // console.log("Adding " + $scope.availableIndicatorTypeCodesSelected);
       while(0 < $scope.availableIndicatorTypeCodesSelected.length) {
         var it = $scope.availableIndicatorTypeCodesSelected.pop();
         // Add to db
@@ -61,7 +61,7 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
       break;
     
     case 'left': 
-      console.log("Removing " + $scope.allowedIndicatorTypeCodesSelected);
+      // console.log("Removing " + $scope.allowedIndicatorTypeCodesSelected);
       while(0 < $scope.allowedIndicatorTypeCodesSelected.length) {
         var code = $scope.allowedIndicatorTypeCodesSelected.pop();
         // Remove from db 

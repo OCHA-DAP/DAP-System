@@ -169,6 +169,8 @@ public interface CuratedDataService {
 	 */
 	public List<DataSerieMetadata> getMetadataForDataSerie(final DataSerie dataSerie);
 
+	public List<DataSerieMetadata> getMetadataForIndicatorTypeCode(String indicatorTypeCode);
+
 	public void updateMetadataForIndicatorTypeAndSource(MetadataName entryKey, String data, String languageCode, String indicatorTypeCode, String sourceCode);
 
 	public void deleteMetadata(Long id);
