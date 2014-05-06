@@ -26,7 +26,7 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
   $scope.minimumNumberOfColumns = 0;
   $scope.allowedIndicatorTypeCodesId = 0;
   $scope.allowedIndicatorTypeCodesKey = "";
-  $scope.allowedIndicatorTypeCodes = null;
+  $scope.allowedIndicatorTypeCodes = [];
   $scope.allowedIndicatorTypeCodesSelected = [];
   $scope.availableIndicatorTypeCodesSelected = [];
   $scope.processResourceConfiguration = function() {

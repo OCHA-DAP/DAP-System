@@ -1,5 +1,6 @@
 package org.ocha.hdx.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -729,6 +730,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	public List<DataSerieMetadata> getMetadataForDataSerie(final DataSerie dataSerie) {
 		return dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(dataSerie);
 
+	}
+
+	@Override
+	public Map<String, Timestamp> getMinMaxDatesForDataSeries(final DataSerie dataSeries) {
+		return indicatorDAO.getMinMaxDatesForDataSeries(dataSeries);
 	}
 
 	@Override
