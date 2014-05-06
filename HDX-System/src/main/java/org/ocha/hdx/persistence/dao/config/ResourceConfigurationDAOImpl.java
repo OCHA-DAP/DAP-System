@@ -43,7 +43,7 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 	 */
 	@Override
 	public List<ResourceConfiguration> listResourceConfigurations() {
-		final TypedQuery<ResourceConfiguration> query = this.em.createQuery("SELECT rc FROM ResourceConfiguration rc ORDER BY rc.id", ResourceConfiguration.class);
+		final TypedQuery<ResourceConfiguration> query = em.createQuery("SELECT rc FROM ResourceConfiguration rc ORDER BY rc.id", ResourceConfiguration.class);
 
 		return query.getResultList();
 	}
@@ -55,17 +55,17 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 	 */
 	@Override
 	public ResourceConfiguration getResourceConfigurationById(final long id) {
-		return this.em.find(ResourceConfiguration.class, id);
+		return em.find(ResourceConfiguration.class, id);
 	}
 
 	@Override
 	public ResourceConfigEntry getResourceConfigEntryById(final long id) {
-		return this.em.find(ResourceConfigEntry.class, id);
+		return em.find(ResourceConfigEntry.class, id);
 	}
 
 	@Override
 	public IndicatorResourceConfigEntry getIndicatorResourceConfigEntryById(final long id) {
-		return this.em.find(IndicatorResourceConfigEntry.class, id);
+		return em.find(IndicatorResourceConfigEntry.class, id);
 	}
 
 	/*
@@ -77,7 +77,7 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 	@Transactional
 	public void deleteResourceConfiguration(final long id) {
 		final ResourceConfiguration resourceConfiguration = getResourceConfigurationById(id);
-		this.em.remove(resourceConfiguration);
+		em.remove(resourceConfiguration);
 
 	}
 
@@ -97,6 +97,19 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 				entry.setParentConfiguration(resourceConfiguration);
 			}
 		}
+		else {
+			// Should be enums
+			final Set<ResourceConfigEntry> configSet = new HashSet<ResourceConfigEntry>();
+			resourceConfiguration.setGeneralConfigEntries(configSet);
+
+			final ResourceConfigEntry min = new ResourceConfigEntry("Minimum number of columns", "0");
+			min.setParentConfiguration(resourceConfiguration);
+			configSet.add(min);
+			final ResourceConfigEntry allow = new ResourceConfigEntry("Allowed indicator type codes", "");
+			allow.setParentConfiguration(resourceConfiguration);
+			configSet.add(allow);
+			
+		}
 
 		if (indicatorConfigSet != null) {
 			for (final IndicatorResourceConfigEntry entry : indicatorConfigSet) {
@@ -104,7 +117,7 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 			}
 		}
 
-		this.em.persist(resourceConfiguration);
+		em.persist(resourceConfiguration);
 
 		return resourceConfiguration;
 	}
@@ -119,8 +132,8 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 	@Transactional
 	public void updateResourceConfiguration(final long id, final String name, final Set<ResourceConfigEntry> generalConfigSet, final Set<IndicatorResourceConfigEntry> indicatorConfigSet) {
 
-		final ResourceConfiguration resourceConfiguration = this.getResourceConfigurationById(id);
-		if (name != null && name.length() > 0) {
+		final ResourceConfiguration resourceConfiguration = getResourceConfigurationById(id);
+		if ((name != null) && (name.length() > 0)) {
 			resourceConfiguration.setName(name);
 		}
 		if (generalConfigSet != null) {
@@ -145,29 +158,31 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 	@Transactional
 	// if GC configuration exists it will be replaced.
 	public void addGeneralConfiguration(final long id, final String key, final String value) {
-		final ResourceConfiguration rc = this.getResourceConfigurationById(id);
-		if (rc.getGeneralConfigEntries() == null)
+		final ResourceConfiguration rc = getResourceConfigurationById(id);
+		if (rc.getGeneralConfigEntries() == null) {
 			rc.setGeneralConfigEntries(new HashSet<ResourceConfigEntry>());
+		}
 		final ResourceConfigEntry rce = new ResourceConfigEntry(key, value);
 		rce.setParentConfiguration(rc);
-		this.em.persist(rce);
+		em.persist(rce);
 		rc.getGeneralConfigEntries().add(rce);
 	}
 
 	@Override
 	@Transactional
 	public void deleteGeneralConfiguration(final long rcID, final long id) {
-		final ResourceConfiguration rc = this.getResourceConfigurationById(rcID);
-		final ResourceConfigEntry rce = this.getResourceConfigEntryById(id);
-		if (rc.getGeneralConfigEntries().contains(rce))
+		final ResourceConfiguration rc = getResourceConfigurationById(rcID);
+		final ResourceConfigEntry rce = getResourceConfigEntryById(id);
+		if (rc.getGeneralConfigEntries().contains(rce)) {
 			rc.getGeneralConfigEntries().remove(rce);
-		this.em.remove(rce);
+		}
+		em.remove(rce);
 	}
 
 	@Override
 	@Transactional
 	public void updateGeneralConfiguration(final long id, final String key, final String value) {
-		final ResourceConfigEntry rce = this.getResourceConfigEntryById(id);
+		final ResourceConfigEntry rce = getResourceConfigEntryById(id);
 		rce.setEntryKey(key);
 		rce.setEntryValue(value);
 	}
@@ -175,35 +190,37 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 	@Override
 	@Transactional
 	public void addIndicatorConfiguration(final long rcID, final long indTypeID, final long srcID, final String key, final String value) {
-		final ResourceConfiguration rc = this.getResourceConfigurationById(rcID);
-		final Source source = this.sourceDAO.getSourceById(srcID);
-		final IndicatorType indType = this.indicatorTypeDAO.getIndicatorTypeById(indTypeID);
+		final ResourceConfiguration rc = getResourceConfigurationById(rcID);
+		final Source source = sourceDAO.getSourceById(srcID);
+		final IndicatorType indType = indicatorTypeDAO.getIndicatorTypeById(indTypeID);
 		final IndicatorResourceConfigEntry irce = new IndicatorResourceConfigEntry(key, value, source, indType);
 
-		if (rc.getIndicatorConfigEntries() == null)
+		if (rc.getIndicatorConfigEntries() == null) {
 			rc.setIndicatorConfigEntries(new HashSet<IndicatorResourceConfigEntry>());
+		}
 
 		irce.setParentConfiguration(rc);
-		this.em.persist(irce);
+		em.persist(irce);
 		rc.getIndicatorConfigEntries().add(irce);
 	}
 
 	@Override
 	@Transactional
 	public void deleteIndicatorConfiguration(final long rcID, final long id) {
-		final ResourceConfiguration rc = this.getResourceConfigurationById(rcID);
-		final IndicatorResourceConfigEntry irce = this.getIndicatorResourceConfigEntryById(id);
-		if (rc.getIndicatorConfigEntries().contains(irce))
+		final ResourceConfiguration rc = getResourceConfigurationById(rcID);
+		final IndicatorResourceConfigEntry irce = getIndicatorResourceConfigEntryById(id);
+		if (rc.getIndicatorConfigEntries().contains(irce)) {
 			rc.getIndicatorConfigEntries().remove(irce);
-		this.em.remove(irce);
+		}
+		em.remove(irce);
 	}
 
 	@Override
 	@Transactional
 	public void updateIndicatorConfiguration(final long id, final long indTypeID, final long srcID, final String key, final String value) {
-		final IndicatorResourceConfigEntry irce = this.getIndicatorResourceConfigEntryById(id);
-		final Source source = this.sourceDAO.getSourceById(srcID);
-		final IndicatorType indType = this.indicatorTypeDAO.getIndicatorTypeById(indTypeID);
+		final IndicatorResourceConfigEntry irce = getIndicatorResourceConfigEntryById(id);
+		final Source source = sourceDAO.getSourceById(srcID);
+		final IndicatorType indType = indicatorTypeDAO.getIndicatorTypeById(indTypeID);
 
 		irce.setSource(source);
 		irce.setIndicatorType(indType);

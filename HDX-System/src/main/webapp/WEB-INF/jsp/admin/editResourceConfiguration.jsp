@@ -91,16 +91,16 @@
 						<form novalidate name="createIndicatorResourceForm" class="css-form">
 							<table class="table table-bordered table-hover table-condensed">
 								<tr style="font-weight: bold">
-									<td style="width: auto">Indicator Type</td>
-									<td style="width: auto">Source</td>
-									<td style="width: auto">Indicator Configuration</td>
-									<td style="width: auto">Value</td>
-									<td style="width: auto">Action</td>
+									<td style="width: 20%">Indicator Type</td>
+									<td style="width: 20%">Source</td>
+									<td style="width: 20%">Indicator Configuration</td>
+									<td style="width: 20%">Value</td>
+									<td style="width: 20%">Action</td>
 								</tr>
 								<tr>
-									<td><select class="form-control" id="newIndRC_indTypeCode" ng-model="newIndRC.indTypeCode" ng-options="indicatorType.code for indicatorType in editResourceConfiguration.indicatorTypes"
-										ng-class="default"></select></td>
-									<td><select class="form-control" id="newIndRC_sourceCode" ng-model="newIndRC.sourceCode" ng-options="source.code for source in editResourceConfiguration.sources" ng-class="default"></select>
+									<td><select class="form-control" id="newIndRC_indTypeCode" ng-model="dataSeriesIndicatorTypeCode" ng-options="indicatorType for indicatorType in allowedIndicatorTypeCodes"
+										ng-class="default" ng-change="dataSeriesIndicatorTypeSelect()"></select></td>
+									<td><select class="form-control" id="newIndRC_sourceCode" ng-model="newIndRC.sourceCode" ng-options="source.code for source in dataSeriesSources" ng-disabled="!dataSeriesSourcesAvailable" ng-class="default"></select>
 									</td>
 									<td><select class="form-control" id="newIndRC_indConfKey" ng-model="newIndRC.key"
 										ng-options="indicatorConfiguration.key for indicatorConfiguration in editResourceConfiguration.availableIndConfs" ng-class="default"></select></td>
@@ -114,17 +114,15 @@
 						<h4>List of Data Series Configurations</h4>
 						<table class="table table-bordered table-hover table-condensed">
 							<tr style="font-weight: bold">
-								<td style="width: auto"><a href="" ng-click="predicate='indType'; reverse=!reverse">Indicator Type </td>
-								<td style="width: auto"><a href="" ng-click="predicate='src'; reverse=!reverse">Source </td>
-								<td style="width: auto"><a href="" ng-click="predicate='key'; reverse=!reverse">Indicator Configuration </td>
-								<td style="width: auto"><a href="" ng-click="predicate='value'; reverse=!reverse">Value </td>
-								<td style="width: auto">Action</td>
+								<td style="width: 20%"><a href="" ng-click="predicate='indType'; reverse=!reverse">Indicator Type </td>
+								<td style="width: 20%"><a href="" ng-click="predicate='src'; reverse=!reverse">Source </td>
+								<td style="width: 20%"><a href="" ng-click="predicate='key'; reverse=!reverse">Indicator Configuration </td>
+								<td style="width: 20%"><a href="" ng-click="predicate='value'; reverse=!reverse">Value </td>
+								<td style="width: 20%">Action</td>
 							</tr>
 							<tr ng-repeat="ic in editResourceConfiguration.indicatorConfigurations | orderBy:predicate:reverse">
-								<td><span editable-select="ic.indTypeId" e-class="form-control" e-name="indType" e-id="indType" e-form="icform"
-										e-ng-options="v.id as v.code for v in editResourceConfiguration.indicatorTypes" e-required> {{ showIndicatorType(ic) }} </span></td>
-								<td><span editable-select="ic.srcId" e-class="form-control" e-name="src" e-id="src" e-form="icform" e-ng-options="v.id as v.code for v in editResourceConfiguration.sources"> {{
-										showSources(ic) }} </span></td>
+								<td><span e-class="form-control" e-name="indType" e-id="indType" e-form="icform"> {{ showIndicatorType(ic) }} </span></td>
+								<td><span e-class="form-control" e-name="src" e-id="src" e-form="icform"> {{ showSources(ic) }} </span></td>
 								<td>
 									<!-- non editable code  --> <span e-name="key" e-form="icform"> {{ ic.key }} </span>
 								</td>
