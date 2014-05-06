@@ -2,6 +2,7 @@ package org.ocha.hdx.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,8 @@ public interface ExporterService {
 	public Source getSourceByCode(final String code);
 
 	public List<DataSerieMetadata> getMetadataForDataSerie(final DataSerie dataSerie);
+
+	public Map<String, Timestamp> getMinMaxDatesForDataSeries(final DataSerie dataSeries);
 
 	/* **************** */
 	/* Country reports. */

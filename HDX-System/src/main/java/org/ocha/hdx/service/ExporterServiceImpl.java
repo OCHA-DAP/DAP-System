@@ -1,6 +1,7 @@
 package org.ocha.hdx.service;
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -85,6 +86,11 @@ public class ExporterServiceImpl implements ExporterService {
 	@Override
 	public List<DataSerieMetadata> getMetadataForDataSerie(final DataSerie dataSerie) {
 		return curatedDataService.getMetadataForDataSerie(dataSerie);
+	}
+
+	@Override
+	public Map<String, Timestamp> getMinMaxDatesForDataSeries(final DataSerie dataSeries) {
+		return curatedDataService.getMinMaxDatesForDataSeries(dataSeries);
 	}
 
 	@Override

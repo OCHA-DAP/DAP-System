@@ -1,5 +1,6 @@
 package org.ocha.hdx.service;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -169,6 +170,8 @@ public interface CuratedDataService {
 	 */
 	public List<DataSerieMetadata> getMetadataForDataSerie(final DataSerie dataSerie);
 
+	public Map<String, Timestamp> getMinMaxDatesForDataSeries(DataSerie dataSeries);
+
 	public List<DataSerieMetadata> getMetadataForIndicatorTypeCode(String indicatorTypeCode);
 
 	public void updateMetadataForIndicatorTypeAndSource(MetadataName entryKey, String data, String languageCode, String indicatorTypeCode, String sourceCode);
@@ -257,5 +260,6 @@ public interface CuratedDataService {
 
 	// Indicator overview
 	public Object[] getIndicatorTypeOverview(String indicatorTypeCode, String sourceCode, String language);
+
 
 }

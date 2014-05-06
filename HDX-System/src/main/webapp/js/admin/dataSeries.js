@@ -334,7 +334,7 @@ app.controller('DataSeriesCtrl', function($scope, $filter, $http, $timeout, util
   $scope.updateMetadata = function(which, languageCode) {
     var data = "";
     var which_ = which;
-    sourceCode_: $scope.source.code;
+    var sourceCode_ = $scope.source.code;
 
     switch (which) {
     case 'DATASET_SUMMARY':
