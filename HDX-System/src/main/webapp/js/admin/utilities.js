@@ -2,6 +2,7 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
 
   // Available functions
   return {
+    endsWith : endsWith,
     showMessage : showMessage,
     findSomething : findSomething,
     encodeParams : encodeParams,
@@ -14,6 +15,11 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
     updateResource : updateResource,
     deleteResource : deleteResource
   };
+
+  // Test if a given string ends with the given suffix
+  function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+  }
 
   // Show a message
   function showMessage(message) {

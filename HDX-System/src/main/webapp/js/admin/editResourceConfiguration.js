@@ -52,17 +52,16 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
     switch (which) {
     case 'right':
       // console.log("Adding " + $scope.availableIndicatorTypeCodesSelected);
-      while(0 < $scope.availableIndicatorTypeCodesSelected.length) {
+      while (0 < $scope.availableIndicatorTypeCodesSelected.length) {
         var it = $scope.availableIndicatorTypeCodesSelected.pop();
         // Add to db
         $scope.allowedIndicatorTypeCodes.splice(0, 0, it.code);
       }
-      $scope.updateGC($scope.allowedIndicatorTypeCodes.join("&&"), $scope.allowedIndicatorTypeCodesKey, $scope.allowedIndicatorTypeCodesId);
       break;
-    
-    case 'left': 
+
+    case 'left':
       // console.log("Removing " + $scope.allowedIndicatorTypeCodesSelected);
-      while(0 < $scope.allowedIndicatorTypeCodesSelected.length) {
+      while (0 < $scope.allowedIndicatorTypeCodesSelected.length) {
         var code = $scope.allowedIndicatorTypeCodesSelected.pop();
         // Remove from db 
         var index = $scope.allowedIndicatorTypeCodes.indexOf(code);
@@ -70,12 +69,18 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
           $scope.allowedIndicatorTypeCodes.splice(index, 1);
         }
       }
-      $scope.updateGC($scope.allowedIndicatorTypeCodes.join("&&"), $scope.allowedIndicatorTypeCodesKey, $scope.allowedIndicatorTypeCodesId);
       break;
-    
+
     default:
       break;
     }
+
+    var joined = $scope.allowedIndicatorTypeCodes.join("&&");
+    if(utilities.endsWith(joined, "&&")) {
+      joined = joined.substring(0, joined.length-2);
+    }
+    console.log("[" + joined + "]");
+    $scope.updateGC(joined, $scope.allowedIndicatorTypeCodesKey, $scope.allowedIndicatorTypeCodesId);
   }
 
   $scope.filterAvailableITC = function(it) {
@@ -165,7 +170,41 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
   };
 
   // Indicator Resource Configuration
+  
+  // Find available sources for the selected indicator type
+  $scope.dataSeriesSourcesAvailable = false;
+  $scope.dataSeriesSources = [];
+  $scope.dataSeriesIndicatorTypeCode = "";
+  $scope.dataSeriesIndicatorTypeSelect = function() {
+    if(!$scope.newIndRC || !$scope.newIndRC.indTypeCode) {
+      $scope.resetIndicatorNewConfiguration();
+    }
+    var found = utilities.findSomething($scope.indicatorTypes, "code", $scope.dataSeriesIndicatorTypeCode);
+    $scope.newIndRC.indTypeCode = found && 1 === found.length ? found[0] : {};
+    $scope.loadSourcesForIndicatorType();
+  }
 
+  // Load the sources available for the current selected indicator type.
+  $scope.loadSourcesForIndicatorType = function() {
+    return $http.get(hdxContextRoot + '/admin/curated/sourcesForIndicatorType/json', {
+      params : {
+        indicatorTypeCode: $scope.newIndRC.indTypeCode.code
+      }
+    }).success(function(data, status, headers, config) {
+      $scope.dataSeriesSources = data;
+      $scope.dataSeriesSourcesAvailable = false;
+      if($scope.dataSeriesSources && 0 < $scope.dataSeriesSources.length) {
+        $scope.newIndRC.sourceCode = $scope.dataSeriesSources[0];
+        $scope.dataSeriesSourcesAvailable = true;
+      }
+    }).error(function(data, status, headers, config) {
+      $scope.dataSeriesSourcesAvailable = false;
+    });
+  }
+  
+  
+  
+  
   // add an Indicator Resource Configuration
   $scope.addIndicatorRC = function(data, rc) {
 
@@ -239,7 +278,7 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
   };
 
   $scope.resetIndicatorNewConfiguration = function() {
-    if (!$scope.newGenRC) {
+    if (!$scope.newIndRC) {
       $scope.newIndRC = {};
     }
     $scope.newIndRC.indTypeCode = "";
@@ -274,8 +313,8 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
       data : data,
       params : {
         "id" : ic.id,
-        "indTypeId" : data.indType,
-        "sourceId" : data.src,
+        "indTypeId" : ic.indTypeId,
+        "sourceId" : ic.srcId,
         "key" : ic.key,
         "value" : data.value
       },
@@ -293,7 +332,7 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
   //Check that the updated configuration is valid
   $scope.checkUpdateIndicatorForm = function(data) {
     if (!data) {
-      utilities.setFocus('newIndRC_key');
+      utilities.setFocus('newIndRC_value');
       return "At least some info should be provided.";
     }
     //    var key = data.key;
@@ -306,6 +345,7 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
       utilities.setFocus('newIndRC_value');
       return "Value cannot be empty.";
     }
+    /*
     var itc = data.indType;
     if (!itc || null === itc || '' === itc) {
       utilities.setFocus('newIndRC_indTypeCode');
@@ -316,6 +356,7 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
       utilities.setFocus('newIndRC_sourceCode');
       return "Source cannot be empty.";
     }
+    */
     return "OK";
   };
 
@@ -380,7 +421,7 @@ app.controller('RegionDictionariesCtrl', function($scope, utilities) {
         "unnormalizedName" : data.unnormalizedName
       });
     }
-   
+
     if (data && data.configId) {
       angular.extend(params, {
         "configId" : data.configId
@@ -405,7 +446,7 @@ app.controller('RegionDictionariesCtrl', function($scope, utilities) {
   $scope.deleteDictionary = function(id) {
     return utilities.deleteResource({
       params : {
-    	  "id": id
+        "id" : id
       },
       url : '/admin/dictionaries/regions/submitDelete',
       successCallback : $scope.loadRegionDictionaire,
@@ -431,7 +472,7 @@ app.controller('RegionDictionariesCtrl', function($scope, utilities) {
       utilities.setFocus('newResource_unnormalizedName');
       return "Unnormalized name cannot be empty.";
     }
-    
+
     return "OK";
   };
 
@@ -475,7 +516,7 @@ app.controller('SourceDictionariesCtrl', function($scope, utilities) {
         "unnormalizedName" : data.unnormalizedName
       });
     }
-    
+
     if (data && data.configId) {
       angular.extend(params, {
         "configId" : data.configId
@@ -501,7 +542,7 @@ app.controller('SourceDictionariesCtrl', function($scope, utilities) {
   $scope.deleteDictionary = function(id) {
     return utilities.deleteResource({
       params : {
-    	  "id": id
+        "id" : id
       },
       url : '/admin/dictionaries/sources/submitDelete',
       successCallback : $scope.loadSourceDictionaire,
@@ -570,7 +611,7 @@ app.controller('IndicatorTypeDictionariesCtrl', function($scope, utilities) {
         "unnormalizedName" : data.unnormalizedName
       });
     }
-    
+
     if (data && data.configId) {
       angular.extend(params, {
         "configId" : data.configId
@@ -596,7 +637,7 @@ app.controller('IndicatorTypeDictionariesCtrl', function($scope, utilities) {
   $scope.deleteDictionary = function(id) {
     return utilities.deleteResource({
       params : {
-    	  "id": id
+        "id" : id
       },
       url : '/admin/dictionaries/indicatorTypes/submitDelete',
       successCallback : $scope.loadIndicatorTypeDictionaire,
@@ -622,7 +663,7 @@ app.controller('IndicatorTypeDictionariesCtrl', function($scope, utilities) {
       utilities.setFocus('newResource_unnormalizedName');
       return "Unnormalized name cannot be empty.";
     }
-   
+
     return "OK";
   };
 
