@@ -1,5 +1,6 @@
 package org.ocha.hdx.persistence.dao.currateddata;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public interface IndicatorDAO {
 			final IndicatorImportConfig indicatorImportConfig, final String sourceLink, final ImportFromCKAN importFromCKAN);
 
 	/**
-	 *
+	 * 
 	 * @param countryCodes
 	 *            optional filter to only get some countries (cannot deal other entityTypes yet)
 	 */
@@ -36,7 +37,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * periodicity is implicitely YEAR
-	 *
+	 * 
 	 * @param year
 	 * @param sourceCode
 	 * @param indicatorTypeCode
@@ -45,7 +46,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * periodicity is implicitely YEAR
-	 *
+	 * 
 	 * @param year
 	 * @param sourceCode
 	 * @param indicatorTypeCode
@@ -54,7 +55,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - overview.
-	 *
+	 * 
 	 * @param countryCode
 	 * @param languageCode
 	 */
@@ -62,7 +63,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - crisis history.
-	 *
+	 * 
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
@@ -73,7 +74,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - vulnerability.
-	 *
+	 * 
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
@@ -86,7 +87,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - socio-economic.
-	 *
+	 * 
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
@@ -97,7 +98,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - capacity.
-	 *
+	 * 
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
@@ -108,7 +109,7 @@ public interface IndicatorDAO {
 
 	/**
 	 * Indicators for the country - other.
-	 *
+	 * 
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
@@ -130,26 +131,26 @@ public interface IndicatorDAO {
 
 	/**
 	 * Based on the existing indicators
-	 *
+	 * 
 	 * @param year
 	 * @param indicatorTypeCode
-	 *
+	 * 
 	 * @return the list of sources for which there is ar least one matching record in Indicators (Year, IndicatorType)
 	 */
 	public List<String> getExistingSourcesCodesForYearAndIndicatorType(final int year, final String indicatorTypeCode);
 
 	/**
 	 * Based on the existing indicators
-	 *
+	 * 
 	 * @param indicatorTypeCode
-	 *
+	 * 
 	 * @return the list of sources for which there is ar least one matching record in Indicators (IndicatorType)
 	 */
 	public List<String> getExistingSourcesCodesForIndicatorType(final String indicatorTypeCode);
 
 	/**
 	 * Get the min and max dates for a given country, and a set of indicator-source couples.
-	 *
+	 * 
 	 * @param countryCode
 	 *            The country code
 	 * @param indicatorsList
@@ -162,8 +163,17 @@ public interface IndicatorDAO {
 	public Map<String, Integer> getMinMaxDatesForCountryIndicators(String countryCode, final List<DataSerie> dataSeries);
 
 	/**
+	 * For a given data series, find the earliest and latest date of information available.
+	 * 
+	 * @param dataSeries
+	 *            The data series to consider
+	 * @return A map with ("MIN" => the earliest date available for this data series) and ("MAX" => the latest date available for this data series)
+	 */
+	public Map<String, Timestamp> getMinMaxDatesForDataSeries(DataSerie dataSeries);
+
+	/**
 	 * Data for indicator-centric overview.
-	 *
+	 * 
 	 * @param indicatorTypeCode
 	 * @param sourceCode
 	 * @param languageCode
