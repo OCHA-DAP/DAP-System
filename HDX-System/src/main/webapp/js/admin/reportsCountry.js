@@ -23,13 +23,13 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
   // //////////////////////////
 
   var selected = $filter('filter')($scope.entities, {
-    code : "AFG"
+    code : "USA"
   });
   $scope.country = selected[0];
   $scope.fromYear = 1990;
   $scope.toYear = 2014;
   $scope.reportFileName = "";
-  $scope.reportFormat = "csv";
+  $scope.reportFormat = "xlsx";
   $scope.reportLanguage = $scope.languages[0];
 
   $scope.countrySelect = function() {

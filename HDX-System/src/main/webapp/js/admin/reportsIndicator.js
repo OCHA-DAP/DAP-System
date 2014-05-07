@@ -16,20 +16,19 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
   // On indicator type selection, 
   // reload the sources available for this indicator type.
   $scope.indicatorTypeSelect = function() {
-    $scope.reportFileName = $scope.indicatorType.code + "_baseline";
     $scope.loadSources();
   }
-  
+
   // Load the sources available for the current selected indicator type.
   $scope.loadSources = function() {
     return $http.get(hdxContextRoot + '/admin/curated/sourcesForIndicatorType/json', {
       params : {
-        indicatorTypeCode: $scope.indicatorType.code
+        indicatorTypeCode : $scope.indicatorType.code
       }
     }).success(function(data, status, headers, config) {
       $scope.sources = data;
       $scope.sourceUnavailable = true;
-      if($scope.sources && 0 < $scope.sources.length) {
+      if ($scope.sources && 0 < $scope.sources.length) {
         $scope.source = $scope.sources[0];
         $scope.sourceUnavailable = false;
       }
@@ -37,7 +36,7 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
       $scope.sourceUnavailable = true;
     });
   }
-  
+
   // Display the default indicator type and other values.
   var selected = $filter('filter')($scope.indicatorTypes, {
     code : "PVF020"
@@ -45,16 +44,30 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
   $scope.indicatorType = selected[0];
   $scope.fromYear = 1998;
   $scope.toYear = 2014;
-  $scope.reportFileName = selected[0].code;
+  $scope.reportFileName = "";
   $scope.reportFormat = "xlsx";
   $scope.reportLanguage = $scope.languages[0];
-  
+
   $scope.sourceUnavailable = true;
-    
+
   $scope.indicatorTypeSelect();
-  
-  $scope.createReport = function() {
-    // Sample http://localhost:8080/hdx/api/indicator/country/xlsx/PVF020/fromYear/1998/toYear/2014/language/EN/Test.xlsx
-    window.location.href = hdxContextRoot + "/api/exporter/indicator/" + $scope.reportFormat + "/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
-  } 
+
+  $scope.createReport = function(which) {
+    switch (which) {
+    case 'SW':
+      $scope.reportFileName = $scope.indicatorType.code + "_baseline";
+      window.location.href = hdxContextRoot + "/api/exporter/indicator/" + $scope.reportFormat + "/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/fromYear/" + $scope.fromYear
+          + "/toYear/" + $scope.toYear + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
+      break;
+
+    case 'RW':
+      $scope.reportFileName = "Reliefweb";
+      window.location.href = hdxContextRoot + "/api/exporter/indicatorRW/" + $scope.reportFormat + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
+          + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
+      break;
+
+    default:
+      break;
+    }
+  }
 });
