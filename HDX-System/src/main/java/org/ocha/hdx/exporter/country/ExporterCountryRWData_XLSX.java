@@ -13,13 +13,13 @@ import org.ocha.hdx.service.ExporterService;
  * @author bmichiels
  * 
  */
-public class ExporterCountryRW_XLSX extends AbstractExporterCountryRW_XLSX {
+public class ExporterCountryRWData_XLSX extends AbstractExporterCountryRW_XLSX {
 
-	public ExporterCountryRW_XLSX(final ExporterService exporterService) {
+	public ExporterCountryRWData_XLSX(final ExporterService exporterService) {
 		super(exporterService);
 	}
 
-	public ExporterCountryRW_XLSX(final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter) {
+	public ExporterCountryRWData_XLSX(final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter) {
 		super(exporter);
 	}
 

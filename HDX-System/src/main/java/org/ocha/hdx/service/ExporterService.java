@@ -42,14 +42,20 @@ public interface ExporterService {
 	/* **************** */
 	/* Country reports. */
 	/* **************** */
+
+	// SW 
 	
 	public XSSFWorkbook exportCountry_XLSX(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
-
-	public XSSFWorkbook exportCountryRW_XLSX(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
 
 	public File exportCountry_CSV(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
 
 	public File exportCountryReadMe_TXT(String countryCode, String language) throws Exception;
+
+	// RW 
+
+	public XSSFWorkbook exportCountryRW_XLSX(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
+
+	public File exportCountryRW_CSV(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
 
 	/*
 	 * Country overview

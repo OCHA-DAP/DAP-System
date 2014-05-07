@@ -19,7 +19,8 @@ import org.ocha.hdx.exporter.country.ExporterCountryDefinitions_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOther_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
-import org.ocha.hdx.exporter.country.ExporterCountryRW_XLSX;
+import org.ocha.hdx.exporter.country.ExporterCountryRWData_CSV;
+import org.ocha.hdx.exporter.country.ExporterCountryRWData_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_TXT;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountrySocioEconomic_XLSX;
@@ -103,6 +104,8 @@ public class ExporterServiceImpl implements ExporterService {
 	/* Exports */
 	/* ******* */
 
+	// SW
+	
 	/**
 	 * Export a country report as XLSX.
 	 * 
@@ -132,37 +135,6 @@ public class ExporterServiceImpl implements ExporterService {
 		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryReadme_XLSX(new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(
 				new ExporterCountrySocioEconomic_XLSX(new ExporterCountryVulnerability_XLSX(new ExporterCountryCapacity_XLSX(new ExporterCountryOther_XLSX(new ExporterCountry5Years_XLSX(
 						new ExporterCountryDefinitions_XLSX(this)))))))));
-
-		// final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> countryExporter = new ExporterIndicatorTypeOverview_XLSX(this);
-
-		// Export the data in a new workbook
-		final XSSFWorkbook workbook = new XSSFWorkbook();
-		exporter.export(workbook, queryData);
-
-		// Return the workbook
-		return workbook;
-	}
-
-	/**
-	 * Export a country RW report as XLSX.
-	 * 
-	 * @throws Exception
-	 */
-	@Override
-	public XSSFWorkbook exportCountryRW_XLSX(final String countryCode, final Integer fromYear, final Integer toYear, final String language) throws Exception {
-		// Set the query data NOTE We use the same query data as for the SW country exporter, as the parameters are the same ; see later if we have to change this
-		final ExporterCountryQueryData queryData = new ExporterCountryQueryData();
-		queryData.setCountryCode(countryCode);
-		queryData.setFromYear(fromYear);
-		queryData.setToYear(toYear);
-		queryData.setLanguage(language);
-		queryData.setReadmeHelper(readmeHelper);
-
-		// Define the exporter
-		// Country report contains :
-		// 1. ReliefWeb data
-
-		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryRW_XLSX(this);
 
 		// final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> countryExporter = new ExporterIndicatorTypeOverview_XLSX(this);
 
@@ -221,6 +193,68 @@ public class ExporterServiceImpl implements ExporterService {
 
 		// Export the data in a new file
 		final File file = File.createTempFile("CountryReadme_" + new Date().getTime() + "_", ".txt");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
+	}
+
+	// RW 
+	
+	/**
+	 * Export a country RW report as XLSX.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public XSSFWorkbook exportCountryRW_XLSX(final String countryCode, final Integer fromYear, final Integer toYear, final String language) throws Exception {
+		// Set the query data NOTE We use the same query data as for the SW country exporter, as the parameters are the same ; see later if we have to change this
+		final ExporterCountryQueryData queryData = new ExporterCountryQueryData();
+		queryData.setCountryCode(countryCode);
+		queryData.setFromYear(fromYear);
+		queryData.setToYear(toYear);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		// Country report contains :
+		// 1. ReliefWeb data
+
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryRWData_XLSX(this);
+
+		// final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> countryExporter = new ExporterIndicatorTypeOverview_XLSX(this);
+
+		// Export the data in a new workbook
+		final XSSFWorkbook workbook = new XSSFWorkbook();
+		exporter.export(workbook, queryData);
+
+		// Return the workbook
+		return workbook;
+	}
+
+	/**
+	 * Export a country report as CSV.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public File exportCountryRW_CSV(final String countryCode, final Integer fromYear, final Integer toYear, final String language) throws Exception {
+		// Set the query data
+		final ExporterCountryQueryData queryData = new ExporterCountryQueryData();
+		queryData.setCountryCode(countryCode);
+		queryData.setFromYear(fromYear);
+		queryData.setToYear(toYear);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		// Country report contains :
+		// 1. Country (all data)
+
+		final Exporter<File, ExporterCountryQueryData> exporter = new ExporterCountryRWData_CSV(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("Country_" + new Date().getTime() + "_", ".csv");
 		exporter.export(file, queryData);
 
 		// Return the workbook
