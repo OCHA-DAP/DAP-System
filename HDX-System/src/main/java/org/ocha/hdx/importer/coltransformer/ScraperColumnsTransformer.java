@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
@@ -67,11 +67,10 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	private TYPE_OF_DATE typeOfDate;
 
-
-	public ScraperColumnsTransformer(final String dataseriesKey, final Map<String, AbstractConfigEntry> generalConfig,
-			final Map<String, AbstractConfigEntry> indConfig, final Map<String, String> sourcesMap) {
+	public ScraperColumnsTransformer(final String dataseriesKey, final Map<String, AbstractConfigEntry> generalConfig, final Map<String, AbstractConfigEntry> indConfig,
+			final Map<String, String> sourcesMap) {
 		super(generalConfig, indConfig);
-		this.dataseriesKey	= dataseriesKey;
+		this.dataseriesKey = dataseriesKey;
 		this.sourcesMap = sourcesMap;
 
 		final AbstractConfigEntry valueTypeEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.INDICATOR_VALUE_TYPE.getLabel());
@@ -91,30 +90,24 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 
 	}
 
-
 	private void discoverOriginalConfiguration() {
 
-		this.originalConfig		= new OriginalConfiguration();
+		this.originalConfig = new OriginalConfiguration();
 
-		final AbstractConfigEntry expectedTimeFormatEntry =
-				this.indConfig.get(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel());
-		if ( expectedTimeFormatEntry != null ) {
-			this.originalConfig.setExpectedTimeFormat( expectedTimeFormatEntry.getEntryValue() );
-		}
-		else {
-			this.disabled	= true;
-			logger.warn("Missing expected time format configuration for dataseries: " + this.dataseriesKey);
-			System.out.println("Missing expected time format configuration for dataseries: " + this.dataseriesKey);
+		final AbstractConfigEntry expectedTimeFormatEntry = this.indConfig.get(ConfigurationConstants.IndicatorConfiguration.EXPECTED_TIME_FORMAT.getLabel());
+		if (expectedTimeFormatEntry != null) {
+			this.originalConfig.setExpectedTimeFormat(expectedTimeFormatEntry.getEntryValue());
+		} else {
+			this.disabled = true;
+			logger.debug("Missing expected time format configuration for dataseries: " + this.dataseriesKey);
 		}
 
-		final AbstractConfigEntry expectedStartTimeFormatEntry =
-				this.indConfig.get(ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel());
-		if ( expectedStartTimeFormatEntry != null ) {
-			this.originalConfig.setExpectedStartTimeFormat( expectedStartTimeFormatEntry.getEntryValue() );
+		final AbstractConfigEntry expectedStartTimeFormatEntry = this.indConfig.get(ConfigurationConstants.IndicatorConfiguration.EXPECTED_START_TIME_FORMAT.getLabel());
+		if (expectedStartTimeFormatEntry != null) {
+			this.originalConfig.setExpectedStartTimeFormat(expectedStartTimeFormatEntry.getEntryValue());
 		}
 
-		final AbstractConfigEntry multiplicationEntry =
-				this.indConfig.get(ConfigurationConstants.IndicatorConfiguration.MULTIPLICATION.getLabel());
+		final AbstractConfigEntry multiplicationEntry = this.indConfig.get(ConfigurationConstants.IndicatorConfiguration.MULTIPLICATION.getLabel());
 		if (multiplicationEntry != null) {
 			final MultiplicationValues value = MultiplicationValues.findByLabel(multiplicationEntry.getEntryValue());
 			if (value != null) {
@@ -123,7 +116,6 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		}
 
 	}
-
 
 	/**
 	 * @param indConfig
@@ -154,7 +146,8 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 					this.month = Integer.parseInt(month);
 				}
 			} catch (final NumberFormatException e) {
-				logger.warn("Something wrong with the following expected start time format: " + this.originalConfig.getExpectedStartTimeFormat());
+				final String message = String.format("Something wrong with the following expected start time format: %s", this.originalConfig.getExpectedStartTimeFormat());
+				logger.debug(message, e);
 			}
 
 		}
@@ -164,14 +157,14 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	 * @param indConfig
 	 */
 	private void discoverPeriodicity(final Map<String, AbstractConfigEntry> indConfig) {
-		if ( this.originalConfig.getExpectedTimeFormat() == null || NO_DATE.equals(this.originalConfig.getExpectedTimeFormat()) ) {
+		if (this.originalConfig.getExpectedTimeFormat() == null || NO_DATE.equals(this.originalConfig.getExpectedTimeFormat())) {
 			this.dateTimeFormat = null;
 			this.periodicity = Periodicity.NONE;
 			this.typeOfDate = null;
 		} else {
 			final Pattern expectedTimeFormatPattern = Pattern.compile(EXPECTED_TIME_PATTERN);
 
-			final Matcher matcher = expectedTimeFormatPattern.matcher( this.originalConfig.getExpectedTimeFormat() );
+			final Matcher matcher = expectedTimeFormatPattern.matcher(this.originalConfig.getExpectedTimeFormat());
 			if (matcher.matches()) {
 
 				final String period = matcher.group(PERIODICITY_GROUP);
@@ -219,7 +212,7 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 			try {
 				localDate = LocalDate.parse(actualDateStr, this.dateTimeFormat);
 			} catch (final IllegalArgumentException e) {
-				logger.warn(String.format("Couldn't parse date '%s' with format '%s' for indicator entry: %s ", actualDateStr, this.dateTimeFormat.toString(), Arrays.toString(line)));
+				logger.debug(String.format("Couldn't parse date '%s' with format '%s' for indicator entry: %s ", actualDateStr, this.dateTimeFormat.toString(), Arrays.toString(line)));
 				throw e;
 			}
 		} else {
@@ -234,11 +227,11 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 				final Integer yearPeriod = Integer.parseInt(readDataPeriodicityStr);
 				final Periodicity tempPeriodicity = Periodicity.findPeriodicityByCode(yearPeriod + "Y");
 				if (!tempPeriodicity.equals(this.periodicity)) {
-					logger.warn(String.format("Periodicity different in read values compared to metadata. Read: %s, metadata: %s. For line: %s", tempPeriodicity, this.periodicity,
+					logger.debug(String.format("Periodicity different in read values compared to metadata. Read: %s, metadata: %s. For line: %s", tempPeriodicity, this.periodicity,
 							Arrays.toString(line)));
 				}
 			} catch (final NumberFormatException e) {
-				logger.error(e.getMessage());
+				logger.error(e.getMessage(), e);
 			}
 		}
 
@@ -278,20 +271,19 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 	@Override
 	public IndicatorImportConfig getIndicatorImportConfig(final String[] line) {
 
-		return new IndicatorImportConfig( this.getInitialValue(line), this.originalConfig.getMinValue(), this.originalConfig.getMaxValue(),
-				this.originalConfig.getMultiplier(), this.originalConfig.getExpectedTimeFormat(),
-				this.originalConfig.getExpectedStartTimeFormat(), ValidationStatus.SUCCESS);
+		return new IndicatorImportConfig(this.getInitialValue(line), this.originalConfig.getMinValue(), this.originalConfig.getMaxValue(), this.originalConfig.getMultiplier(),
+				this.originalConfig.getExpectedTimeFormat(), this.originalConfig.getExpectedStartTimeFormat(), ValidationStatus.SUCCESS);
 	}
 
 	@Override
 	public IndicatorValue getValue(final String[] line) {
 		final String value = this.getInitialValue(line);
 
-		final Double multiplicity		= this.originalConfig.getMultiplier();
+		final Double multiplicity = this.originalConfig.getMultiplier();
 
 		if (ValueType.NUMBER.getLabel().equals(this.valueType) || this.valueType == null) {
 			final Double valueAsDouble = Double.parseDouble(value);
-			if ( multiplicity !=null && multiplicity > 1) {
+			if (multiplicity != null && multiplicity > 1) {
 				return new IndicatorValue(valueAsDouble * multiplicity);
 			} else {
 				return new IndicatorValue(valueAsDouble);
@@ -325,18 +317,14 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		return line[2];
 	}
 
-
 	@Override
 	public String getInitialValue(final String[] line) {
 		return line[4];
 	}
 
-
-
 	private enum TYPE_OF_DATE {
 		YEAR, FULL_DATE
 	}
-
 
 	private class OriginalConfiguration {
 
@@ -349,30 +337,39 @@ public class ScraperColumnsTransformer extends AbstractColumnsTransformer {
 		public String getExpectedTimeFormat() {
 			return this.expectedTimeFormat;
 		}
+
 		public void setExpectedTimeFormat(final String expectedTimeFormat) {
 			this.expectedTimeFormat = expectedTimeFormat;
 		}
+
 		public String getExpectedStartTimeFormat() {
 			return this.expectedStartTimeFormat;
 		}
+
 		public void setExpectedStartTimeFormat(final String expectedStartTimeFormat) {
 			this.expectedStartTimeFormat = expectedStartTimeFormat;
 		}
+
 		public Double getMultiplier() {
 			return this.multiplier;
 		}
+
 		public void setMultiplier(final Double multiplier) {
 			this.multiplier = multiplier;
 		}
+
 		public Double getMinValue() {
 			return this.minValue;
 		}
+
 		public void setMinValue(final Double minValue) {
 			this.minValue = minValue;
 		}
+
 		public Double getMaxValue() {
 			return this.maxValue;
 		}
+
 		public void setMaxValue(final Double maxValue) {
 			this.maxValue = maxValue;
 		}
