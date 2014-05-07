@@ -101,8 +101,11 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			preparedData = this.defaultImportFail(file);
 		}
 		if (preparedData.isSuccess()) {
+			logger.info(String.format("Import successful, about to persist %d values", preparedData.getIndicatorsToImport().size()));
 			final List<Indicator> indicators = importer.transformToFinalFormat();
 			this.saveReadIndicatorsToDatabase(indicators, resourceId, revisionId);
+		} else {
+			logger.info("Import failed");
 		}
 
 		return preparedData.isSuccess();
