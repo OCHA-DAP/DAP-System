@@ -469,6 +469,29 @@ public class APIResource {
 		return exporterService.exportCountryRW_XLSX(countryCode, fromYear, toYear, language);
 	}
 
+	/**
+	 * Export a country-centric RW report in CSV format.
+	 * 
+	 * @param countryCode
+	 *            The code of the country (e.g. BEL)
+	 * @param fromYear
+	 *            The year from which the data will be collected (e.g. 1998), inclusive
+	 * @param toYear
+	 *            The year to which the data will be collected (e.g. 2014), inclusive
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A CSV File containing the data as requested
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/countryRW/csv/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.csv")
+	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	@PermitAll
+	public File exportCountryRW_CSV(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
+			@PathParam("language") final String language) throws Exception {
+		return exporterService.exportCountryRW_CSV(countryCode, fromYear, toYear, language);
+	}
+
 	// Others
 	// //////
 	
