@@ -287,6 +287,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 			final Response response = preValidator.validate(values);
 			if (!this.verifyResponse(response)) {
 				ret = false;
+				logger.debug(String.format("Pre-validation error. Message :  %s", response.getDescription()));
 			}
 		}
 		return ret;
