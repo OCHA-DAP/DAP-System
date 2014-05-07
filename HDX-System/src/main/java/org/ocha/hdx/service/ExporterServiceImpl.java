@@ -21,6 +21,7 @@ import org.ocha.hdx.exporter.country.ExporterCountryOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.exporter.country.ExporterCountryRWData_CSV;
 import org.ocha.hdx.exporter.country.ExporterCountryRWData_XLSX;
+import org.ocha.hdx.exporter.country.ExporterCountryRWOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_TXT;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountrySocioEconomic_XLSX;
@@ -31,8 +32,11 @@ import org.ocha.hdx.exporter.indicator.ExporterIndicatorData_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorMetadataQueryData;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorMetadata_CSV;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorRW001_XLSX;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorRW002_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeOverview_XLSX;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeRWOverview_XLSX;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAO;
 import org.ocha.hdx.persistence.dao.view.IndicatorDataDAO;
@@ -105,7 +109,7 @@ public class ExporterServiceImpl implements ExporterService {
 	/* ******* */
 
 	// SW
-	
+
 	/**
 	 * Export a country report as XLSX.
 	 * 
@@ -122,16 +126,6 @@ public class ExporterServiceImpl implements ExporterService {
 		queryData.setReadmeHelper(readmeHelper);
 
 		// Define the exporter
-		// Country report contains :
-		// 1. Country overview
-		// 2. Country crisis history
-		// 3. Country socio-economic
-		// 4. Country vulnerability
-		// 5. Country capacity
-		// 6. Country - other
-		// 7. Country - 5-years data
-		// 8. Read me
-
 		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryReadme_XLSX(new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(
 				new ExporterCountrySocioEconomic_XLSX(new ExporterCountryVulnerability_XLSX(new ExporterCountryCapacity_XLSX(new ExporterCountryOther_XLSX(new ExporterCountry5Years_XLSX(
 						new ExporterCountryDefinitions_XLSX(this)))))))));
@@ -200,7 +194,7 @@ public class ExporterServiceImpl implements ExporterService {
 	}
 
 	// RW 
-	
+
 	/**
 	 * Export a country RW report as XLSX.
 	 * 
@@ -217,10 +211,7 @@ public class ExporterServiceImpl implements ExporterService {
 		queryData.setReadmeHelper(readmeHelper);
 
 		// Define the exporter
-		// Country report contains :
-		// 1. ReliefWeb data
-
-		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryRWData_XLSX(this);
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryReadme_XLSX(new ExporterCountryRWOverview_XLSX(new ExporterCountryRWData_XLSX(new ExporterCountryDefinitions_XLSX(this))));
 
 		// final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> countryExporter = new ExporterIndicatorTypeOverview_XLSX(this);
 
@@ -233,7 +224,7 @@ public class ExporterServiceImpl implements ExporterService {
 	}
 
 	/**
-	 * Export a country report as CSV.
+	 * Export a RW country report as CSV.
 	 * 
 	 * @throws Exception
 	 */
@@ -292,6 +283,32 @@ public class ExporterServiceImpl implements ExporterService {
 		return workbook;
 	}
 
+	@Override
+	public XSSFWorkbook exportIndicatorRW_XLSX(final Long fromYear, final Long toYear, final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorQueryData queryData = new ExporterIndicatorQueryData();
+		queryData.setFromYear(fromYear);
+		queryData.setToYear(toYear);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		// Indicator report contains :
+		// 1. Read me
+		// 2. Overview
+		// 3. Indicator data for RW001
+		// 3. Indicator data for RW002
+		final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_XLSX(new ExporterIndicatorTypeRWOverview_XLSX(new ExporterIndicatorRW002_XLSX(
+				new ExporterIndicatorRW001_XLSX(this))));
+
+		// Export the data in a new workbook
+		final XSSFWorkbook workbook = new XSSFWorkbook();
+		exporter.export(workbook, queryData);
+
+		// Return the workbook
+		return workbook;
+	}
+
 	/* **************** */
 	/* Country reports. */
 	/* **************** */
@@ -302,6 +319,10 @@ public class ExporterServiceImpl implements ExporterService {
 	@Override
 	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData) {
 		return curatedDataService.listIndicatorsForCountryOverview(queryData.getCountryCode(), queryData.getLanguage());
+	}
+	@Override
+	public List<Object[]> getCountryRWOverviewData(final ExporterCountryQueryData queryData) {
+		return curatedDataService.listIndicatorsForCountryRWOverview(queryData.getCountryCode(), queryData.getLanguage());
 	}
 
 	/**

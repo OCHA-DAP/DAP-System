@@ -219,6 +219,35 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	}
 
 	/*
+	 * List of indicators for a country RW - overview.
+	 * TODO Factorize with previous
+	 */
+	@Override
+	public List<Object[]> listIndicatorsForCountryRWOverview(final String countryCode, final String languageCode) {
+		// List of indicators relevant for country RW - overview. TODO Externalize ?
+		final String[] indicatorsList = new String[] { "RW001", "RW002" };
+
+		final List<Object[]> result = new ArrayList<Object[]>();
+		for (final String indicator : indicatorsList) {
+			// TODO i18n
+			final Query query = em
+					.createQuery(
+							"SELECT i.type.code, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.entity.code = :countryCode")
+					.setParameter("isCountry", "country").setParameter("code", indicator).setParameter("countryCode", countryCode).setMaxResults(1);
+			Object[] queryResult = null;
+			try {
+				queryResult = (Object[]) query.getSingleResult();
+			} catch (final NoResultException e) {
+				// It is possible that no value exists for the given indicator.
+				// So we just put the indicator in the result.
+				queryResult = new Object[] { indicator };
+			}
+			result.add(queryResult);
+		}
+		return result;
+	}
+
+	/*
 	 * List of indicators for a country - crisis history.
 	 */
 	@Override
