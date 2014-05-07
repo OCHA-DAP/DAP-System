@@ -60,6 +60,7 @@ public interface IndicatorDAO {
 	 * @param languageCode
 	 */
 	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
+	public List<Object[]> listIndicatorsForCountryRWOverview(String countryCode, String languageCode);
 
 	/**
 	 * Indicators for the country - crisis history.

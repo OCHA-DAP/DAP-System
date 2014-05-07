@@ -239,6 +239,7 @@ public interface CuratedDataService {
 
 	// Country overview
 	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
+	public List<Object[]> listIndicatorsForCountryRWOverview(String countryCode, String languageCode);
 
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(String countryCode, int fromYear, int toYear, String languageCode);
 

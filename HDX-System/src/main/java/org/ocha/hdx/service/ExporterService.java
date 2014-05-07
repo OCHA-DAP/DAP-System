@@ -61,6 +61,7 @@ public interface ExporterService {
 	 * Country overview
 	 */
 	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData);
+	public List<Object[]> getCountryRWOverviewData(ExporterCountryQueryData queryData);
 
 	/**
 	 * Only the rows with actual data are added in the returned result.
@@ -87,6 +88,8 @@ public interface ExporterService {
 	/* ****************** */
 	public XSSFWorkbook exportIndicator_XLSX(String indicatorTypeCode, String sourceCode, Long fromYear, Long toYear, String language) throws Exception;
 
+	public XSSFWorkbook exportIndicatorRW_XLSX(Long fromYear, Long toYear, String language) throws Exception;
+
 	/*
 	 * Indicator overview
 	 */
@@ -106,5 +109,6 @@ public interface ExporterService {
 	public File exportIndicatorMetadata_CSV(String indicatorTypeCode, String language) throws Exception;
 
 	public List<DataSerieMetadata> getIndicatorMetadataData(ExporterIndicatorMetadataQueryData queryData);
+
 
 }

@@ -40,7 +40,9 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 
 		final TreeSet<DataSerieInSheet> dataSeries = new TreeSet<DataSerieInSheet>();
 
-		dataSeries.addAll((Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES));
+		if (null != queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES)) {
+			dataSeries.addAll((Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES));
+		}
 
 		/* TODO i18n */
 
@@ -75,7 +77,7 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 			final IndicatorType indicatorType = exporterService.getIndicatorTypeByCode(dataSerie.getDataSerie().getIndicatorCode());
 			createCell(row, 1, indicatorType.getName().getDefaultValue());
 
-			if (dataSerie.getDataSerie().getSourceCode() != null && !dataSerie.getDataSerie().getSourceCode().isEmpty()) {
+			if ((dataSerie.getDataSerie().getSourceCode() != null) && !dataSerie.getDataSerie().getSourceCode().isEmpty()) {
 				final Source source = exporterService.getSourceByCode(dataSerie.getDataSerie().getSourceCode());
 				if (source != null) {
 					createCell(row, 2, source.getName().getDefaultValue());

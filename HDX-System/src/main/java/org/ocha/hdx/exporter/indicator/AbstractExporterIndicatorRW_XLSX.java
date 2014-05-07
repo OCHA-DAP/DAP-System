@@ -16,21 +16,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Abstract exporter for all SW indicator-centric sheets (except overview).
- * Currently there is only one indicator-centric data sheet.
- * Keeping this, should another sheet be developed.
+ * Abstract exporter for all RW indicator-centric sheets.
  *
  * @author bmichiels
  */
-public abstract class AbstractExporterIndicator_XLSX extends Exporter_XLSX<ExporterIndicatorQueryData> {
+public abstract class AbstractExporterIndicatorRW_XLSX extends Exporter_XLSX<ExporterIndicatorQueryData> {
 
-	private static Logger logger = LoggerFactory.getLogger(AbstractExporterIndicator_XLSX.class);
+	private static Logger logger = LoggerFactory.getLogger(AbstractExporterIndicatorRW_XLSX.class);
+	
+	private String RWIndicatorTypeCode;
+	private final String RWSourceCode = "RW";
 
-	public AbstractExporterIndicator_XLSX(final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter) {
+	public AbstractExporterIndicatorRW_XLSX(final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter) {
 		super(exporter);
 	}
 
-	public AbstractExporterIndicator_XLSX(final ExporterService exporterService) {
+	public AbstractExporterIndicatorRW_XLSX(final ExporterService exporterService) {
 		super(exporterService);
 	}
 
@@ -131,5 +132,17 @@ public abstract class AbstractExporterIndicator_XLSX extends Exporter_XLSX<Expor
 			sheet.autoSizeColumn(i);
 		}
 		return super.export(workbook, queryData);
+	}
+
+	public String getRWIndicatorTypeCode() {
+		return RWIndicatorTypeCode;
+	}
+
+	public void setRWIndicatorTypeCode(final String rWIndicatorTypeCode) {
+		RWIndicatorTypeCode = rWIndicatorTypeCode;
+	}
+
+	public String getRWSourceCode() {
+		return RWSourceCode;
 	}
 }
