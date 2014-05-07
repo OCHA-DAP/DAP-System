@@ -256,10 +256,13 @@ public interface CuratedDataService {
 	// Country other
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(String countryCode, int fromYear, int toYear, String languageCode);
 
+	// Country RW
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryRW(String countryCode, int fromYear, int toYear, String language);
+
+	
 	/* Indicator reports */
 
 	// Indicator overview
 	public Object[] getIndicatorTypeOverview(String indicatorTypeCode, String sourceCode, String language);
-
 
 }

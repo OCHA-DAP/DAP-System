@@ -332,6 +332,20 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	}
 
 	/*
+	 * List of indicators for a country - RW.
+	 */
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryRW(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		// List of indicators relevant for country - RW. Each indicator type has an associated source here TODO Externalize ?
+
+		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
+		dataSeries.add(new DataSerie("RW002", "RW"));
+		dataSeries.add(new DataSerie("RW001", "RW"));
+
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
+	}
+
+	/*
 	 * List of indicators for a country - 5-years data.
 	 */
 	@Override

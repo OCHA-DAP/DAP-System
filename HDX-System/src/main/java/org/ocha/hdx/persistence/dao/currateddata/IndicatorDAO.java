@@ -119,6 +119,17 @@ public interface IndicatorDAO {
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(String countryCode, int fromYear, int toYear, String languageCode);
 
 	/**
+	 * Indicators for the country - RW.
+	 * 
+	 * @param countryCode
+	 * @param fromYear
+	 * @param toYear
+	 * @param languageCode
+	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
+	 */
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryRW(String countryCode, int fromYear, int toYear, String languageCode);
+
+	/**
 	 * very likely to be used by the unit tests only
 	 */
 	public void deleteAllIndicators();

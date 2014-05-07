@@ -1,7 +1,6 @@
 package org.ocha.hdx.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +42,12 @@ public interface ExporterService {
 	/* **************** */
 	/* Country reports. */
 	/* **************** */
+	
 	public XSSFWorkbook exportCountry_XLSX(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
 
-	public File exportCountry_CSV(String countryCode, Integer fromYear, Integer toYear, String language) throws IOException, Exception;
+	public XSSFWorkbook exportCountryRW_XLSX(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
+
+	public File exportCountry_CSV(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
 
 	public File exportCountryReadMe_TXT(String countryCode, String language) throws Exception;
 
@@ -71,6 +73,8 @@ public interface ExporterService {
 	public Map<String, ReportRow> getCountryOtherData(ExporterCountryQueryData queryData);
 
 	public Map<String, ReportRow> getCountry5YearsData(ExporterCountryQueryData queryData);
+
+	public Map<String, ReportRow> getCountryRWData(ExporterCountryQueryData queryData);
 
 	/* ****************** */
 	/* Indicator reports. */

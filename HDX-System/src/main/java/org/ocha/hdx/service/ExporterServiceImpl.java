@@ -19,6 +19,7 @@ import org.ocha.hdx.exporter.country.ExporterCountryDefinitions_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOther_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
+import org.ocha.hdx.exporter.country.ExporterCountryRW_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_TXT;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountrySocioEconomic_XLSX;
@@ -131,6 +132,37 @@ public class ExporterServiceImpl implements ExporterService {
 		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryReadme_XLSX(new ExporterCountryOverview_XLSX(new ExporterCountryCrisisHistory_XLSX(
 				new ExporterCountrySocioEconomic_XLSX(new ExporterCountryVulnerability_XLSX(new ExporterCountryCapacity_XLSX(new ExporterCountryOther_XLSX(new ExporterCountry5Years_XLSX(
 						new ExporterCountryDefinitions_XLSX(this)))))))));
+
+		// final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> countryExporter = new ExporterIndicatorTypeOverview_XLSX(this);
+
+		// Export the data in a new workbook
+		final XSSFWorkbook workbook = new XSSFWorkbook();
+		exporter.export(workbook, queryData);
+
+		// Return the workbook
+		return workbook;
+	}
+
+	/**
+	 * Export a country RW report as XLSX.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public XSSFWorkbook exportCountryRW_XLSX(final String countryCode, final Integer fromYear, final Integer toYear, final String language) throws Exception {
+		// Set the query data NOTE We use the same query data as for the SW country exporter, as the parameters are the same ; see later if we have to change this
+		final ExporterCountryQueryData queryData = new ExporterCountryQueryData();
+		queryData.setCountryCode(countryCode);
+		queryData.setFromYear(fromYear);
+		queryData.setToYear(toYear);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		// Country report contains :
+		// 1. ReliefWeb data
+
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryRW_XLSX(this);
 
 		// final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> countryExporter = new ExporterIndicatorTypeOverview_XLSX(this);
 
@@ -311,6 +343,18 @@ public class ExporterServiceImpl implements ExporterService {
 
 		return convertCountryIndicatorsToReports(listIndicatorsForCountryOther);
 
+	}
+
+	/**
+	 * Country - RW.
+	 */
+	@Override
+	public Map<String, ReportRow> getCountryRWData(final ExporterCountryQueryData queryData) {
+
+		final Map<Integer, List<Object[]>> listIndicatorsForCountryRW = curatedDataService.listIndicatorsForCountryRW(queryData.getCountryCode(), Integer.valueOf(queryData.getFromYear()),
+				Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
+
+		return convertCountryIndicatorsToReports(listIndicatorsForCountryRW);
 	}
 
 	/**
