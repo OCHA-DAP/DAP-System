@@ -716,6 +716,12 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return indicatorDAO.listIndicatorsForCountryOther(countryCode, fromYear, toYear, languageCode);
 	}
 
+	// Country RW
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryRW(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		return indicatorDAO.listIndicatorsForCountryRW(countryCode, fromYear, toYear, languageCode);
+	}
+
 	/* Indicators */
 
 	// Indicator overview

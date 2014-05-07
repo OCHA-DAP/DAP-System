@@ -17,68 +17,66 @@
 	<jsp:include page="admin-menu.jsp" />
 	<div id="content">
 		<h3>Country-centric reports</h3>
-		<div style="width: 300px;">
+		<div>
 			<form role="form" class="css-form">
-				<div class="form-group">
-					<label for="country">Country</label> <select class="form-control" id="country" ng-model="country" ng-change="countrySelect()" ng-options="country.code for country in entities " ng-class="default">
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="reportFormat">Report format</label> <select class="form-control" id="reportFormat" ng-model="reportFormat">
-						<option selected="true">xlsx</option>
-						<option>csv</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="fromYear">From year</label> <input type="number" class="form-control" id="fromYear" ng-model="fromYear" placeholder="From year...">
-				</div>
-				<div class="form-group">
-					<label for="toYear">To year</label> <input type="number" class="form-control" id="toYear" ng-model="toYear" placeholder="To year...">
-				</div>
-				<div class="form-group">
-					<label for="reportLanguage">Language</label> <select class="form-control" id="reportLanguage" ng-model="reportLanguage" ng-options="language.code for language in languages" ng-class="default">
-					</select>
-				</div>
-				<!-- div class="form-group">
+				<div style="width: 300px;">
+					<div class="form-group">
+						<label for="country">Country</label> <select class="form-control" id="country" ng-model="country" ng-change="countrySelect()" ng-options="country.code for country in entities "
+							ng-class="default">
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="reportFormat">Report format</label> <select class="form-control" id="reportFormat" ng-model="reportFormat">
+							<option selected="true">xlsx</option>
+							<option>csv</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="fromYear">From year</label> <input type="number" class="form-control" id="fromYear" ng-model="fromYear" placeholder="From year...">
+					</div>
+					<div class="form-group">
+						<label for="toYear">To year</label> <input type="number" class="form-control" id="toYear" ng-model="toYear" placeholder="To year...">
+					</div>
+					<div class="form-group">
+						<label for="reportLanguage">Language</label> <select class="form-control" id="reportLanguage" ng-model="reportLanguage" ng-options="language.code for language in languages" ng-class="default">
+						</select>
+					</div>
+					<!-- div class="form-group">
 					<label for="reportFileName">File name</label> <input type="text" class="form-control" id="reportFileName" ng-model="reportFileName" placeholder="Report file name...">
 
 				</div -->
-				<div>
-				<button type="button" class="btn btn-primary btn-custom-default" ng-click="createReport()">Create report</button>
-				<button type="button" class="btn btn-primary btn-custom-default" ng-click="createTXTReadme()">Create TXT Readme</button>
-				<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
-				<br/>
 				</div>
-				
-				<div class="form-group" style="margin-top: 30px;">
-					<label for="reportGroup">CKAN Country (Group)</label>
-					<select class="form-control" id="ckanGroupId" ng-model="ckanGroupModel" 
-							ng-options="ckanGroup.name for ckanGroup in ckanGroups" ng-class="default"
-							ng-change="groupSelect(ckanGroupModel)"
-							ng-disabled="!grpLoaded">
-					</select>
+				<div style="width: 800px;">
+					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createReport('SW')">Create SW report</button>
+					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createTXTReadme('SW')">Create SW TXT Readme</button>
+					<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
 				</div>
-				<div class="form-group">
-					<label for="reportDataset">CKAN Dataset</label> 
-					<select class="form-control" id="ckanDatasetId" ng-model="ckanDatasetModel" 
-							ng-options="ckanDataset.name for ckanDataset in ckanDatasets" ng-class="default"
-							ng-change="datasetSelect(ckanDatasetModel)"
-							ng-disabled="!datasetLoaded">
-					</select>
+				<div style="width: 800px; margin-top: 12px;">
+					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createReport('RW')">Create RW report</button>
+					<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
+					<br />
 				</div>
-				<div class="form-group">
-					<label for="reportResource">CKAN Resource</label> 
-					<select class="form-control" id="ckanResourceId" ng-model="ckanResourceModel" 
-							ng-options="ckanResource.name for ckanResource in ckanResources" ng-class="default"
-							ng-change="resourceSelect(ckanResourceModel)"
-							ng-disabled="!resourceLoaded">
+
+				<div style="width: 300px;">
+					<div class="form-group" style="margin-top: 30px;">
+						<label for="reportGroup">CKAN Country (Group)</label> <select class="form-control" id="ckanGroupId" ng-model="ckanGroupModel" ng-options="ckanGroup.name for ckanGroup in ckanGroups"
+							ng-class="default" ng-change="groupSelect(ckanGroupModel)" ng-disabled="!grpLoaded">
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="reportDataset">CKAN Dataset</label> <select class="form-control" id="ckanDatasetId" ng-model="ckanDatasetModel" ng-options="ckanDataset.name for ckanDataset in ckanDatasets"
+							ng-class="default" ng-change="datasetSelect(ckanDatasetModel)" ng-disabled="!datasetLoaded">
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="reportResource">CKAN Resource</label> <select class="form-control" id="ckanResourceId" ng-model="ckanResourceModel" ng-options="ckanResource.name for ckanResource in ckanResources"
+							ng-class="default" ng-change="resourceSelect(ckanResourceModel)" ng-disabled="!resourceLoaded">
 							<option>--Add as new resource--</option>
-							
-					</select>
+
+						</select>
+					</div>
+					<button type="button" class="btn btn-primary btn-custom-default" ng-click="savePublish()" ng-disabled="!saveBtn">Save & Publish</button>
 				</div>
-				<button type="button" class="btn btn-primary btn-custom-default" ng-click="savePublish()" ng-disabled="!saveBtn">
-					Save & Publish
-				</button>
 			</form>
 		</div>
 	</div>

@@ -351,6 +351,9 @@ public class APIResource {
 	// Export functionalities
 	// //////////////////////
 
+	// SW reports 
+	// //////////
+	
 	/**
 	 * Export a country-centric report in XLSX format.
 	 * 
@@ -440,6 +443,35 @@ public class APIResource {
 		return exporterService.exportIndicator_XLSX(indicatorTypeCode, sourceCode, fromYear, toYear, language);
 	}
 
+	// RW reports
+	// //////////
+	
+	/**
+	 * Export a country-centric RW report in XLSX format.
+	 * 
+	 * @param countryCode
+	 *            The code of the country (e.g. BEL)
+	 * @param fromYear
+	 *            The year from which the data will be collected (e.g. 1998), inclusive
+	 * @param toYear
+	 *            The year to which the data will be collected (e.g. 2014), inclusive
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A XSSF workbook containing the data as requested
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/countryRW/xlsx/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.xlsx")
+	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	@PermitAll
+	public XSSFWorkbook exportCountryRW_XLSX(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
+			@PathParam("language") final String language) throws Exception {
+		return exporterService.exportCountryRW_XLSX(countryCode, fromYear, toYear, language);
+	}
+
+	// Others
+	// //////
+	
 	/**
 	 * Export an indicator metadata report in CSV format.
 	 * 
