@@ -17,8 +17,9 @@
 	<jsp:include page="admin-menu.jsp" />
 	<div id="content">
 		<h3>Indicator-centric reports</h3>
-		<div style="width: 300px;">
+		<div>
 			<form role="form" class="css-form">
+				<div style="width: 300px;">
 				<div class="form-group">
 					<label for="indicatorType">Indicator type (not used for RW reports)</label> <select class="form-control" id="indicatorType" ng-model="indicatorType" ng-change="indicatorTypeSelect()" ng-options="indicatorType.code for indicatorType in indicatorTypes" ng-class="default">
 					</select>
@@ -45,8 +46,17 @@
 				<!-- div class="form-group">
 					<label for="reportFileName">File name</label> <input type="text" class="form-control" id="reportFileName" ng-model="reportFileName" placeholder="Report file name...">
 				</div -->
-				<button type="button" class="btn btn-primary btn-custom-default" ng-disabled="sourceUnavailable" ng-click="createReport('SW')">Create SW report</button>
+				</div>
+				<div style="width: 800px;">
+				<button type="button" class="btn btn-primary btn-custom-default" ng-disabled="sourceUnavailable" ng-click="createReport('SW')">Create report</button>
+					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createTXTReadme('SW')">Create TXT Readme</button>
+					<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
+				</div>
+				<div style="width: 800px; margin-top: 12px;">
 				<button type="button" class="btn btn-primary btn-custom-default" ng-disabled="sourceUnavailable" ng-click="createReport('RW')">Create RW report</button>
+					<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
+					<br />
+				</div>
 				<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
 			</form>
 		</div>

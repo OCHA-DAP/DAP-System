@@ -281,6 +281,39 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 		return cell;
 	}
 
+	/* ********* */
+	/* Utilities */
+	/* ********* */
+
+	/**
+	 * Check if a String represents an Integer
+	 * @param str The String to check
+	 * @return True if the given String represents an Integer, false otherwise
+	 */
+	public static boolean isInteger(final String str) {
+		if (str == null) {
+			return false;
+		}
+		final int length = str.length();
+		if (length == 0) {
+			return false;
+		}
+		int i = 0;
+		if (str.charAt(0) == '-') {
+			if (length == 1) {
+				return false;
+			}
+			i = 1;
+		}
+		for (; i < length; i++) {
+			final char c = str.charAt(i);
+			if ((c <= '/') || (c >= ':')) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	/* *** */
 	/* I/O */
 	/* *** */

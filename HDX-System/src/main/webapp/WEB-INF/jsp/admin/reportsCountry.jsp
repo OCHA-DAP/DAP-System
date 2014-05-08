@@ -49,11 +49,10 @@
 				<div style="width: 800px;">
 					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createReport('SW')">Create SW report</button>
 					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createTXTReadme('SW')">Create SW TXT Readme</button>
-					<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
 				</div>
 				<div style="width: 800px; margin-top: 12px;">
 					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createReport('RW')">Create RW report</button>
-					<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
+					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createTXTReadme('RW')">Create RW TXT Readme</button>
 					<br />
 				</div>
 

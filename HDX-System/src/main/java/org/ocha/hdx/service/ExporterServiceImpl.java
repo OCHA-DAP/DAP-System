@@ -22,6 +22,7 @@ import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.exporter.country.ExporterCountryRWData_CSV;
 import org.ocha.hdx.exporter.country.ExporterCountryRWData_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryRWOverview_XLSX;
+import org.ocha.hdx.exporter.country.ExporterCountryRWReadme_TXT;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_TXT;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountrySocioEconomic_XLSX;
@@ -34,6 +35,7 @@ import org.ocha.hdx.exporter.indicator.ExporterIndicatorMetadata_CSV;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorRW001_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorRW002_XLSX;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_TXT;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeOverview_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeRWOverview_XLSX;
@@ -253,6 +255,30 @@ public class ExporterServiceImpl implements ExporterService {
 	}
 
 	/**
+	 * Export a country RW readme as TXT.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public File exportCountryRWReadMe_TXT(final String countryCode, final String language) throws Exception {
+		// Set the query data
+		final ExporterCountryQueryData queryData = new ExporterCountryQueryData();
+		queryData.setCountryCode(countryCode);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		final Exporter<File, ExporterCountryQueryData> exporter = new ExporterCountryRWReadme_TXT(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("CountryRWReadme_" + new Date().getTime() + "_", ".txt");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
+	}
+
+	/**
 	 * Export an indicator report as XLSX.
 	 * 
 	 * @throws Exception
@@ -281,6 +307,31 @@ public class ExporterServiceImpl implements ExporterService {
 
 		// Return the workbook
 		return workbook;
+	}
+
+	/**
+	 * Export an indicator type readme as TXT.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public File exportIndicatorReadMe_TXT(final String indicatorTypeCode, final String sourceCode, final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorQueryData queryData = new ExporterIndicatorQueryData();
+		queryData.setIndicatorTypeCode(indicatorTypeCode);
+		queryData.setSourceCode(sourceCode);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		final Exporter<File, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_TXT(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("IndicatorReadme_" + new Date().getTime() + "_", ".txt");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
 	}
 
 	@Override
@@ -430,7 +481,7 @@ public class ExporterServiceImpl implements ExporterService {
 						reportRows.get(indicatorTypeCode).addValue(key, record[3].toString());
 						// add a value
 					} else {
-						final String sourceCode = record[5].toString();
+						final String sourceCode = record[6].toString();
 						final ReportRow row = new ReportRow(indicatorTypeCode, record[1].toString(), sourceCode, record[2].toString());
 
 						final List<DataSerieMetadata> results = getMetadataForDataSerie(new DataSerie(indicatorTypeCode, sourceCode));

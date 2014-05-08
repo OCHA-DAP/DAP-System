@@ -70,4 +70,15 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
       break;
     }
   }
+
+  $scope.createTXTReadme = function(which) {
+    switch (which) {
+    case 'SW':
+      window.location.href = hdxContextRoot + "/api/exporter/indicator/readme/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/language/" + $scope.reportLanguage.code + "/ReadMe.txt";
+      break;
+
+    default:
+      break;
+    }
+  }
 });
