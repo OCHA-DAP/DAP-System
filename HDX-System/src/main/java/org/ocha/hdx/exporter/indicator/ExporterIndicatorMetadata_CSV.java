@@ -22,8 +22,8 @@ import org.ocha.hdx.service.ExporterService;
  * 
  */
 public class ExporterIndicatorMetadata_CSV extends Exporter_File<ExporterIndicatorMetadataQueryData> {
-	
-	public static final SimpleDateFormat SDF_01 = new SimpleDateFormat("yyyy.MM.dd");
+
+	public static final SimpleDateFormat SDF_01 = new SimpleDateFormat("yyyy");
 
 	public ExporterIndicatorMetadata_CSV(final ExporterService exporterService) {
 		super(exporterService);
@@ -64,10 +64,10 @@ public class ExporterIndicatorMetadata_CSV extends Exporter_File<ExporterIndicat
 		final String[] headerLine = headers.toArray(new String[] {});
 		content.add(headerLine);
 
-		// There is only one row of data by source
+		// Rows are unique per indicator type / source
 		final Map<String, String[]> rows = new HashMap<String, String[]>();
 		for (final DataSerieMetadata data : indicatorMetadataData) {
-			final String code = data.getSource().getCode();
+			final String code = getCode(data);
 			if (!rows.keySet().contains(code)) {
 				final String[] row = new String[dataSize];
 				initRow(row);
@@ -79,17 +79,18 @@ public class ExporterIndicatorMetadata_CSV extends Exporter_File<ExporterIndicat
 		// Fill the data
 		for (final DataSerieMetadata data : indicatorMetadataData) {
 
-			final String[] row = rows.get(data.getSource().getCode());
+			final String[] row = rows.get(getCode(data));
+
 			row[0] = data.getIndicatorType().getCode();
 			row[1] = data.getIndicatorType().getName().getDefaultValue();
 			row[2] = data.getSource().getCode();
 			row[3] = data.getSource().getName().getDefaultValue();
 			row[4] = data.getIndicatorType().getUnit().getCode();
 			row[5] = data.getIndicatorType().getUnit().getName().getDefaultValue();
-			
+
 			final Map<String, Timestamp> minMaxDatesForDataSeries = getExporterService().getMinMaxDatesForDataSeries(new DataSerie(data.getIndicatorType().getCode(), data.getSource().getCode()));
-			row[8] = null == minMaxDatesForDataSeries.get("MIN") ? "" : SDF_01.format(minMaxDatesForDataSeries.get("MIN")); 
-			row[9] = null == minMaxDatesForDataSeries.get("MAX") ? "" : SDF_01.format(minMaxDatesForDataSeries.get("MAX")); 
+			row[8] = null == minMaxDatesForDataSeries.get("MIN") ? "" : SDF_01.format(minMaxDatesForDataSeries.get("MIN"));
+			row[9] = null == minMaxDatesForDataSeries.get("MAX") ? "" : SDF_01.format(minMaxDatesForDataSeries.get("MAX"));
 
 			switch (data.getEntryKey()) {
 			case DATASET_SUMMARY:
@@ -117,5 +118,11 @@ public class ExporterIndicatorMetadata_CSV extends Exporter_File<ExporterIndicat
 		writeCSVFile(content, ",", file);
 
 		return file;
+	}
+
+	private static String getCode(final DataSerieMetadata data) {
+		final String indicatorTypeCode = data.getIndicatorType().getCode();
+		final String sourceCode = data.getSource().getCode();
+		return indicatorTypeCode.hashCode() + "&&" + sourceCode.hashCode();
 	}
 }

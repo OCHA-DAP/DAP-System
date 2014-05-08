@@ -516,6 +516,22 @@ public class APIResource {
 	// //////
 	
 	/**
+	 * Export all indicator metadata report in CSV format.
+	 * 
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A CSV file containing the data as requested
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/indicatorAllMetadata/csv/language/{language}/{filename}.csv")
+	@Produces("application/ms-excel")
+	@PermitAll
+	public File exportIndicatorAllMetadata_CSV(@PathParam("language") final String language) throws Exception {
+		return exporterService.exportIndicatorAllMetadata_CSV(language);
+	}
+	
+	/**
 	 * Export an indicator metadata report in CSV format.
 	 * 
 	 * @param indicatorTypeCode

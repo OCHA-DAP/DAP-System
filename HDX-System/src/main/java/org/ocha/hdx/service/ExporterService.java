@@ -106,6 +106,8 @@ public interface ExporterService {
 	/*
 	 * Indicator metadata
 	 */
+	public File exportIndicatorAllMetadata_CSV(String language) throws Exception;
+
 	public File exportIndicatorMetadata_CSV(String indicatorTypeCode, String language) throws Exception;
 
 	public List<DataSerieMetadata> getIndicatorMetadataData(ExporterIndicatorMetadataQueryData queryData);

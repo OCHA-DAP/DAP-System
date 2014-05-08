@@ -16,7 +16,6 @@ app.controller('ReportsIndicatorMetadataCtrl', function($scope, $filter, $http, 
   // On indicator type selection, 
   // set the file name accordingly.
   $scope.indicatorTypeSelect = function() {
-    $scope.reportFileName = $scope.indicatorType.code + "_metadata";
   }
   
   // Display the default indicator type and other values.
@@ -32,7 +31,13 @@ app.controller('ReportsIndicatorMetadataCtrl', function($scope, $filter, $http, 
   
   $scope.indicatorTypeSelect();
   
+  $scope.createReportForAll = function() {
+    $scope.reportFileName = "AllIndicatorTypes_metadata";
+    window.location.href = hdxContextRoot + "/api/exporter/indicatorAllMetadata/" + $scope.reportFormat + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".csv";
+  } 
+  
   $scope.createReport = function() {
+    $scope.reportFileName = $scope.indicatorType.code + "_metadata";
     // Sample http://localhost:8080/hdx/api/indicator/country/xlsx/PVF020/fromYear/1998/toYear/2014/language/EN/Test.xlsx
     window.location.href = hdxContextRoot + "/api/exporter/indicatorMetadata/" + $scope.reportFormat + "/" + $scope.indicatorType.code + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".csv";
   } 
