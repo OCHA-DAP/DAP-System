@@ -57,6 +57,8 @@ public interface ExporterService {
 
 	public File exportCountryRW_CSV(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
 
+	public File exportCountryRWReadMe_TXT(String countryCode, String language) throws Exception;
+
 	/*
 	 * Country overview
 	 */
@@ -87,6 +89,8 @@ public interface ExporterService {
 	/* Indicator reports. */
 	/* ****************** */
 	public XSSFWorkbook exportIndicator_XLSX(String indicatorTypeCode, String sourceCode, Long fromYear, Long toYear, String language) throws Exception;
+
+	public File exportIndicatorReadMe_TXT(String indicatorTypeCode, String sourceCode, String language) throws Exception;
 
 	public XSSFWorkbook exportIndicatorRW_XLSX(Long fromYear, Long toYear, String language) throws Exception;
 

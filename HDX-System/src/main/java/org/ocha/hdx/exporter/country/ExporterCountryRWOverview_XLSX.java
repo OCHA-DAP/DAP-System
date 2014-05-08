@@ -79,7 +79,7 @@ public class ExporterCountryRWOverview_XLSX extends Exporter_XLSX<ExporterCountr
 				final Object object = element[3];
 				createCell(row, 3, object.toString());
 				*/
-				
+
 				// "Source dataset"
 				createCell(row, 3, element[4].toString());
 			}

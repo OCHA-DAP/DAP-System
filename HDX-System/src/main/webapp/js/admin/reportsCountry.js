@@ -62,6 +62,10 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
       // Sample http://localhost:8080/hdx/api/exporter/country/readme/BEL/language/EN/ReadMe.txt
       window.location.href = hdxContextRoot + "/api/exporter/country/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/ReadMe.txt";
       break;
+    case 'RW':
+      // Sample http://localhost:8080/hdx/api/exporter/country/readme/BEL/language/EN/ReadMe.txt
+      window.location.href = hdxContextRoot + "/api/exporter/countryRW/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/ReadMe.txt";
+      break;
 
     default:
       break;

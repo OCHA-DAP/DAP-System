@@ -443,6 +443,25 @@ public class APIResource {
 		return exporterService.exportIndicator_XLSX(indicatorTypeCode, sourceCode, fromYear, toYear, language);
 	}
 
+	/**
+	 * Export an indicator-centric ReadMe in TXT format.
+	 * 
+	 * @param indicatorTypeCode
+	 *            The code of the indicator type (e.g. PVF020)
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A TXT File containing the ReadMe
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/indicator/readme/{indicatorTypeCode}/source/{sourceCode}/language/{language}/ReadMe.txt")
+	@Produces("text/plain")
+	// TODO Check this
+	@PermitAll
+	public File exportIndicatorReadMe_TXT(@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("sourceCode") final String sourceCode, @PathParam("language") final String language) throws Exception {
+		return exporterService.exportIndicatorReadMe_TXT(indicatorTypeCode, sourceCode, language);
+	}
+
 	// RW reports
 	// //////////
 	
@@ -490,6 +509,25 @@ public class APIResource {
 	public File exportCountryRW_CSV(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
 			@PathParam("language") final String language) throws Exception {
 		return exporterService.exportCountryRW_CSV(countryCode, fromYear, toYear, language);
+	}
+
+	/**
+	 * Export a country-centric RW ReadMe in TXT format.
+	 * 
+	 * @param countryCode
+	 *            The code of the country (e.g. BEL)
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A TXT File containing the ReadMe
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/countryRW/readme/{countryCode}/language/{language}/ReadMe.txt")
+	@Produces("text/plain")
+	// TODO Check this
+	@PermitAll
+	public File exportCountryRWReadMe_TXT(@PathParam("countryCode") final String countryCode, @PathParam("language") final String language) throws Exception {
+		return exporterService.exportCountryRWReadMe_TXT(countryCode, language);
 	}
 
 	/**
