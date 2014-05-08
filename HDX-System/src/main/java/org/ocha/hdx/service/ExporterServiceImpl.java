@@ -514,6 +514,27 @@ public class ExporterServiceImpl implements ExporterService {
 	}
 
 	@Override
+	public File exportIndicatorAllMetadata_CSV(final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorMetadataQueryData queryData = new ExporterIndicatorMetadataQueryData();
+		queryData.setIndicatorTypeCode(null);
+		queryData.setLanguage(language);
+
+		// Define the exporter
+		// Indicator metadata contains :
+		// 1. Metadata (all data)
+
+		final Exporter<File, ExporterIndicatorMetadataQueryData> exporter = new ExporterIndicatorMetadata_CSV(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("IndicatorAllMetadata_" + new Date().getTime() + "_", ".csv");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
+	}
+
+	@Override
 	public File exportIndicatorMetadata_CSV(final String indicatorTypeCode, final String language) throws Exception {
 		// Set the query data
 		final ExporterIndicatorMetadataQueryData queryData = new ExporterIndicatorMetadataQueryData();
