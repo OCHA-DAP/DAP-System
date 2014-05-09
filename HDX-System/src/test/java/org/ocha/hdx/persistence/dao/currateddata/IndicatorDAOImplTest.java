@@ -231,7 +231,7 @@ public class IndicatorDAOImplTest {
 
 		final List<Object[]> results2008 = listIndicatorsForCountryCrisisHistory.get(new Integer(2008));
 		Assert.assertEquals(4, results2008.size());
-		Assert.assertEquals(6, results2008.get(0).length);
+		Assert.assertEquals(7, results2008.get(0).length);
 		Assert.assertEquals(1, results2008.get(1).length);
 		Assert.assertEquals("CH070", results2008.get(0)[0]);
 		Assert.assertEquals("Number of disasters", results2008.get(0)[1]);
@@ -242,7 +242,7 @@ public class IndicatorDAOImplTest {
 		final List<Object[]> results2009 = listIndicatorsForCountryCrisisHistory.get(new Integer(2009));
 		Assert.assertEquals(4, results2009.size());
 		Assert.assertEquals(1, results2009.get(0).length);
-		Assert.assertEquals(6, results2009.get(1).length);
+		Assert.assertEquals(7, results2009.get(1).length);
 		Assert.assertEquals("CH070", results2009.get(0)[0]);
 		Assert.assertEquals("CH080", results2009.get(1)[0]);
 		Assert.assertEquals("People killed in disasters", results2009.get(1)[1]);
