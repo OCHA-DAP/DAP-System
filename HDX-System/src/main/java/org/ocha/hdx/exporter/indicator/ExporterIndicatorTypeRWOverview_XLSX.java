@@ -1,5 +1,7 @@
 package org.ocha.hdx.exporter.indicator;
 
+import javax.persistence.NoResultException;
+
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -31,10 +33,20 @@ public class ExporterIndicatorTypeRWOverview_XLSX extends Exporter_XLSX<Exporter
 		queryData.setSourceCode("RW");
 
 		queryData.setIndicatorTypeCode("RW001");
-		final IndicatorTypeOverview dataRW001 = exporterService.getIndicatorTypeOverviewData(queryData);
-		
+		IndicatorTypeOverview dataRW001 = null;
+		try {
+			dataRW001 = exporterService.getIndicatorTypeOverviewData(queryData);
+		} catch (final NoResultException e) {
+			// Nothing to do
+		}
+
 		queryData.setIndicatorTypeCode("RW002");
-		final IndicatorTypeOverview dataRW002 = exporterService.getIndicatorTypeOverviewData(queryData);
+		IndicatorTypeOverview dataRW002 = null;
+		try {
+			dataRW002 = exporterService.getIndicatorTypeOverviewData(queryData);
+		} catch (final NoResultException e) {
+			// Nothing to do
+		}
 
 		/* TODO i18n */
 
@@ -49,36 +61,36 @@ public class ExporterIndicatorTypeRWOverview_XLSX extends Exporter_XLSX<Exporter
 		// Get the rows (should have been created at header creation time)
 		// and set the value
 		final XSSFRow row0 = sheet.getRow(0);
-		createCell(row0, 1, dataRW001.getIndicatorTypeCode());
-		createCell(row0, 2, dataRW002.getIndicatorTypeCode());
+		createCell(row0, 1, null == dataRW001 ? "" : dataRW001.getIndicatorTypeCode());
+		createCell(row0, 2, null == dataRW002 ? "" : dataRW002.getIndicatorTypeCode());
 
 		final XSSFRow row1 = sheet.getRow(1);
-		createCell(row1, 1, dataRW001.getIndicatorTypeDefaultValue());
-		createCell(row1, 2, dataRW002.getIndicatorTypeDefaultValue());
+		createCell(row1, 1, null == dataRW001 ? "" : dataRW001.getIndicatorTypeDefaultValue());
+		createCell(row1, 2, null == dataRW002 ? "" : dataRW002.getIndicatorTypeDefaultValue());
 
 		final XSSFRow row2 = sheet.getRow(2);
-		createCell(row2, 1, dataRW001.getSourceDefaultValue());
-		createCell(row2, 2, dataRW002.getSourceDefaultValue());
+		createCell(row2, 1, null == dataRW001 ? "" : dataRW001.getSourceDefaultValue());
+		createCell(row2, 2, null == dataRW002 ? "" : dataRW002.getSourceDefaultValue());
 
 		final XSSFRow row3 = sheet.getRow(3);
-		createCell(row3, 1, dataRW001.getUnitDefaultValue());
-		createCell(row3, 2, dataRW002.getUnitDefaultValue());
+		createCell(row3, 1, null == dataRW001 ? "" : dataRW001.getUnitDefaultValue());
+		createCell(row3, 2, null == dataRW002 ? "" : dataRW002.getUnitDefaultValue());
 
 		final XSSFRow row4 = sheet.getRow(4);
-		createCell(row4, 1, dataRW001.getDataSummaryDefaultValue());
-		createCell(row4, 2, dataRW002.getDataSummaryDefaultValue());
+		createCell(row4, 1, null == dataRW001 ? "" : dataRW001.getDataSummaryDefaultValue());
+		createCell(row4, 2, null == dataRW002 ? "" : dataRW002.getDataSummaryDefaultValue());
 
 		final XSSFRow row5 = sheet.getRow(5);
-		createCell(row5, 1, dataRW001.getMoreInfoDefaultValue());
-		createCell(row5, 2, dataRW002.getMoreInfoDefaultValue());
+		createCell(row5, 1, null == dataRW001 ? "" : dataRW001.getMoreInfoDefaultValue());
+		createCell(row5, 2, null == dataRW002 ? "" : dataRW002.getMoreInfoDefaultValue());
 
 		final XSSFRow row6 = sheet.getRow(6);
-		createCell(row6, 1, dataRW001.getTermsOfUseDefaultValue());
-		createCell(row6, 2, dataRW002.getTermsOfUseDefaultValue());
+		createCell(row6, 1, null == dataRW001 ? "" : dataRW001.getTermsOfUseDefaultValue());
+		createCell(row6, 2, null == dataRW002 ? "" : dataRW002.getTermsOfUseDefaultValue());
 
 		final XSSFRow row7 = sheet.getRow(7);
-		createCell(row7, 1, dataRW001.getMethodologyDefaultValue());
-		createCell(row7, 2, dataRW002.getMethodologyDefaultValue());
+		createCell(row7, 1, null == dataRW001 ? "" : dataRW001.getMethodologyDefaultValue());
+		createCell(row7, 2, null == dataRW002 ? "" : dataRW002.getMethodologyDefaultValue());
 
 		// Auto size the columns
 		sheet.autoSizeColumn(0);

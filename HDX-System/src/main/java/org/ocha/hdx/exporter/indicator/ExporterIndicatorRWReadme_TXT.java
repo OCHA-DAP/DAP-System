@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_File;
 import org.ocha.hdx.exporter.helper.ReadmeHelperImpl.ReadmeSentence;
@@ -60,19 +62,26 @@ public class ExporterIndicatorRWReadme_TXT extends Exporter_File<ExporterIndicat
 
 		for (final String rwIndicator : RWIndicatorTypes) {
 			queryData.setIndicatorTypeCode(rwIndicator);
-			
-			final IndicatorTypeOverview overviewData = exporterService.getIndicatorTypeOverviewData(queryData);
 
-			content.add("");
-			content.add("Indicator ID : " + (null == overviewData.getIndicatorTypeCode() ? "" : overviewData.getIndicatorTypeCode()));
-			content.add("Indicator name : " + (null == overviewData.getIndicatorTypeDefaultValue() ? "" : overviewData.getIndicatorTypeDefaultValue()));
-			content.add("Source dataset : " + (null == overviewData.getSourceDefaultValue() ? "" : overviewData.getSourceDefaultValue()));
-			content.add("Units : " + (null == overviewData.getUnitDefaultValue() ? "" : overviewData.getUnitDefaultValue()));
-			content.add("Data summary : " + (null == overviewData.getDataSummaryDefaultValue() ? "" : overviewData.getDataSummaryDefaultValue()));
-			content.add("More info : " + (null == overviewData.getMoreInfoDefaultValue() ? "" : overviewData.getMoreInfoDefaultValue()));
-			content.add("Terms of use : " + (null == overviewData.getTermsOfUseDefaultValue() ? "" : overviewData.getTermsOfUseDefaultValue()));
-			content.add("HDX methodology : " + (null == overviewData.getMethodologyDefaultValue() ? "" : overviewData.getMethodologyDefaultValue()));
+			IndicatorTypeOverview overviewData = null;
+			try {
+				overviewData = exporterService.getIndicatorTypeOverviewData(queryData);
+			} catch (final NoResultException e) {
+				// Nothing to do
+			}
 
+			if (null != overviewData) {
+
+				content.add("");
+				content.add("Indicator ID : " + (null == overviewData.getIndicatorTypeCode() ? "" : overviewData.getIndicatorTypeCode()));
+				content.add("Indicator name : " + (null == overviewData.getIndicatorTypeDefaultValue() ? "" : overviewData.getIndicatorTypeDefaultValue()));
+				content.add("Source dataset : " + (null == overviewData.getSourceDefaultValue() ? "" : overviewData.getSourceDefaultValue()));
+				content.add("Units : " + (null == overviewData.getUnitDefaultValue() ? "" : overviewData.getUnitDefaultValue()));
+				content.add("Data summary : " + (null == overviewData.getDataSummaryDefaultValue() ? "" : overviewData.getDataSummaryDefaultValue()));
+				content.add("More info : " + (null == overviewData.getMoreInfoDefaultValue() ? "" : overviewData.getMoreInfoDefaultValue()));
+				content.add("Terms of use : " + (null == overviewData.getTermsOfUseDefaultValue() ? "" : overviewData.getTermsOfUseDefaultValue()));
+				content.add("HDX methodology : " + (null == overviewData.getMethodologyDefaultValue() ? "" : overviewData.getMethodologyDefaultValue()));
+			}
 		}
 
 		// Write the file

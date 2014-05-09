@@ -412,7 +412,7 @@ public class APIResource {
 	 * @throws Exception
 	 */
 	@GET
-	@Path("/exporter/country/readme/{countryCode}/language/{language}/ReadMe.txt")
+	@Path("/exporter/country/readme/{countryCode}/language/{language}/{filename}.txt")
 	@Produces("text/plain")
 	// TODO Check this
 	@PermitAll
@@ -454,7 +454,7 @@ public class APIResource {
 	 * @throws Exception
 	 */
 	@GET
-	@Path("/exporter/indicator/readme/{indicatorTypeCode}/source/{sourceCode}/language/{language}/ReadMe.txt")
+	@Path("/exporter/indicator/readme/{indicatorTypeCode}/source/{sourceCode}/language/{language}/{filename}.txt")
 	@Produces("text/plain")
 	// TODO Check this
 	@PermitAll
@@ -522,7 +522,7 @@ public class APIResource {
 	 * @throws Exception
 	 */
 	@GET
-	@Path("/exporter/countryRW/readme/{countryCode}/language/{language}/ReadMe.txt")
+	@Path("/exporter/countryRW/readme/{countryCode}/language/{language}/{filename}.txt")
 	@Produces("text/plain")
 	// TODO Check this
 	@PermitAll
@@ -559,7 +559,7 @@ public class APIResource {
 	 * @throws Exception
 	 */
 	@GET
-	@Path("/exporter/indicatorRW/readme/language/{language}/ReadMe.txt")
+	@Path("/exporter/indicatorRW/readme/language/{language}/{filename}.txt")
 	@Produces("text/plain")
 	// TODO Check this
 	@PermitAll

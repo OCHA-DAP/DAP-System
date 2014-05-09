@@ -59,7 +59,7 @@ public class ExporterIndicatorReadme_TXT extends Exporter_File<ExporterIndicator
 		try {
 			overviewData = exporterService.getIndicatorTypeOverviewData(queryData);
 		} catch (final NoResultException e) {
-			// TODO: handle exception
+			// Nothing to do
 		}
 
 		if (null != overviewData) {

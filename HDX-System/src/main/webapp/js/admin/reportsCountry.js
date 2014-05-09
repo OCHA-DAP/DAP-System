@@ -39,13 +39,13 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
   $scope.createReport = function(which) {
     switch (which) {
     case 'SW':
-      $scope.reportFileName = $scope.country.code + "_baseline";
+      $scope.reportFileName = $scope.country.code + "_Baseline";
       // Sample http://localhost:8080/hdx/api/exporter/country/xlsx/BEL/fromYear/1998/toYear/2014/language/EN/Test.xlsx
       window.location.href = hdxContextRoot + "/api/exporter/country/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
           + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
       break;
     case 'RW':
-      $scope.reportFileName = $scope.country.code + "_reliefweb";
+      $scope.reportFileName = $scope.country.code + "_RW";
       // Sample http://localhost:8080/hdx/api/exporter/country/xlsx/BEL/fromYear/1998/toYear/2014/language/EN/Test.xlsx
       window.location.href = hdxContextRoot + "/api/exporter/countryRW/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
           + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
@@ -60,11 +60,11 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
     switch (which) {
     case 'SW':
       // Sample http://localhost:8080/hdx/api/exporter/country/readme/BEL/language/EN/ReadMe.txt
-      window.location.href = hdxContextRoot + "/api/exporter/country/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/ReadMe.txt";
+      window.location.href = hdxContextRoot + "/api/exporter/country/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/" + $scope.country.code + "_Readme.txt";
       break;
     case 'RW':
       // Sample http://localhost:8080/hdx/api/exporter/country/readme/BEL/language/EN/ReadMe.txt
-      window.location.href = hdxContextRoot + "/api/exporter/countryRW/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/ReadMe.txt";
+      window.location.href = hdxContextRoot + "/api/exporter/countryRW/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/" + $scope.country.code + "_Readme.txt";
       break;
 
     default:

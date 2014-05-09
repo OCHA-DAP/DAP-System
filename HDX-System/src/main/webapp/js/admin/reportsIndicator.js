@@ -55,13 +55,13 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
   $scope.createReport = function(which) {
     switch (which) {
     case 'SW':
-      $scope.reportFileName = $scope.indicatorType.code + "_baseline";
+      $scope.reportFileName = $scope.indicatorType.code + "_Baseline";
       window.location.href = hdxContextRoot + "/api/exporter/indicator/" + $scope.reportFormat + "/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/fromYear/" + $scope.fromYear
           + "/toYear/" + $scope.toYear + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
       break;
 
     case 'RW':
-      $scope.reportFileName = "Reliefweb";
+      $scope.reportFileName = "RW";
       window.location.href = hdxContextRoot + "/api/exporter/indicatorRW/" + $scope.reportFormat + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
           + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
       break;
@@ -74,11 +74,11 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
   $scope.createTXTReadme = function(which) {
     switch (which) {
     case 'SW':
-      window.location.href = hdxContextRoot + "/api/exporter/indicator/readme/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/language/" + $scope.reportLanguage.code + "/ReadMe.txt";
+      window.location.href = hdxContextRoot + "/api/exporter/indicator/readme/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/language/" + $scope.reportLanguage.code + "/" + $scope.indicatorType.code + "_Readme.txt";
       break;
 
     case 'RW':
-      window.location.href = hdxContextRoot + "/api/exporter/indicatorRW/readme/language/" + $scope.reportLanguage.code + "/ReadMe.txt";
+      window.location.href = hdxContextRoot + "/api/exporter/indicatorRW/readme/language/" + $scope.reportLanguage.code + "/" + $scope.indicatorType.code + "_Readme.txt";
       break;
 
     default:
