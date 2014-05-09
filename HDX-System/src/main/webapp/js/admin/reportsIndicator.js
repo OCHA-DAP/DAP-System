@@ -77,6 +77,10 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
       window.location.href = hdxContextRoot + "/api/exporter/indicator/readme/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/language/" + $scope.reportLanguage.code + "/ReadMe.txt";
       break;
 
+    case 'RW':
+      window.location.href = hdxContextRoot + "/api/exporter/indicatorRW/readme/language/" + $scope.reportLanguage.code + "/ReadMe.txt";
+      break;
+
     default:
       break;
     }

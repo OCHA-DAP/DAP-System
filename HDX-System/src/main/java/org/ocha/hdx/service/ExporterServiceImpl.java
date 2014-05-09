@@ -35,6 +35,7 @@ import org.ocha.hdx.exporter.indicator.ExporterIndicatorMetadata_CSV;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorRW001_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorRW002_XLSX;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorRWReadme_TXT;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_TXT;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeOverview_XLSX;
@@ -358,6 +359,29 @@ public class ExporterServiceImpl implements ExporterService {
 
 		// Return the workbook
 		return workbook;
+	}
+
+	/**
+	 * Export an indicator type RW readme as TXT.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public File exportIndicatorRWReadMe_TXT(final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorQueryData queryData = new ExporterIndicatorQueryData();
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		final Exporter<File, ExporterIndicatorQueryData> exporter = new ExporterIndicatorRWReadme_TXT(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("IndicatorRWReadme_" + new Date().getTime() + "_", ".txt");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
 	}
 
 	/* **************** */

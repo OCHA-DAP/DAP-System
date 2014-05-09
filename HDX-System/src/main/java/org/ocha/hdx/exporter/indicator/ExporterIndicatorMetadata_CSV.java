@@ -45,14 +45,16 @@ public class ExporterIndicatorMetadata_CSV extends Exporter_File<ExporterIndicat
 		headers.add("Indicator name"); // 1
 		headers.add("Source code"); // 2
 		headers.add("Source name"); // 3
-		headers.add("Unit code"); // 4
-		headers.add("Unit name"); // 5
-		headers.add("Dataset summary"); // 6
-		headers.add("Methodology"); // 7
-		headers.add("Date of dataset (min)"); // 8
-		headers.add("Date of dataset (max)"); // 9
-		headers.add("More Info"); // 10
-		headers.add("Terms of Use"); // 11
+		headers.add("Organization short name"); // 4
+		headers.add("Organization long name"); // 5
+		headers.add("Unit code"); // 6
+		headers.add("Unit name"); // 7
+		headers.add("Dataset summary"); // 8
+		headers.add("Methodology"); // 9
+		headers.add("Date of dataset (min)"); // 10
+		headers.add("Date of dataset (max)"); // 11
+		headers.add("More Info"); // 12
+		headers.add("Terms of Use"); // 13
 
 		final int dataSize = headers.size();
 
@@ -83,27 +85,34 @@ public class ExporterIndicatorMetadata_CSV extends Exporter_File<ExporterIndicat
 
 			row[0] = data.getIndicatorType().getCode();
 			row[1] = data.getIndicatorType().getName().getDefaultValue();
+
 			row[2] = data.getSource().getCode();
 			row[3] = data.getSource().getName().getDefaultValue();
-			row[4] = data.getIndicatorType().getUnit().getCode();
-			row[5] = data.getIndicatorType().getUnit().getName().getDefaultValue();
+
+			if (null != data.getSource().getOrganization()) {
+				row[4] = data.getSource().getOrganization().getShortName().getDefaultValue();
+				row[5] = data.getSource().getOrganization().getFullName().getDefaultValue();
+			}
+
+			row[6] = data.getIndicatorType().getUnit().getCode();
+			row[7] = data.getIndicatorType().getUnit().getName().getDefaultValue();
 
 			final Map<String, Timestamp> minMaxDatesForDataSeries = getExporterService().getMinMaxDatesForDataSeries(new DataSerie(data.getIndicatorType().getCode(), data.getSource().getCode()));
-			row[8] = null == minMaxDatesForDataSeries.get("MIN") ? "" : SDF_01.format(minMaxDatesForDataSeries.get("MIN"));
-			row[9] = null == minMaxDatesForDataSeries.get("MAX") ? "" : SDF_01.format(minMaxDatesForDataSeries.get("MAX"));
+			row[10] = null == minMaxDatesForDataSeries.get("MIN") ? "" : SDF_01.format(minMaxDatesForDataSeries.get("MIN"));
+			row[11] = null == minMaxDatesForDataSeries.get("MAX") ? "" : SDF_01.format(minMaxDatesForDataSeries.get("MAX"));
 
 			switch (data.getEntryKey()) {
 			case DATASET_SUMMARY:
-				row[6] = data.getEntryValue().getDefaultValue();
+				row[8] = data.getEntryValue().getDefaultValue();
 				break;
 			case MORE_INFO:
-				row[10] = data.getEntryValue().getDefaultValue();
+				row[12] = data.getEntryValue().getDefaultValue();
 				break;
 			case TERMS_OF_USE:
-				row[11] = data.getEntryValue().getDefaultValue();
+				row[13] = data.getEntryValue().getDefaultValue();
 				break;
 			case METHODOLOGY:
-				row[7] = data.getEntryValue().getDefaultValue();
+				row[9] = data.getEntryValue().getDefaultValue();
 				break;
 			case VALIDATION_NOTES:
 				// row[10] = data.getEntryValue().getDefaultValue();
