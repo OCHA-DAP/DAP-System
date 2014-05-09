@@ -89,7 +89,7 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 			createLinkCell(row, 0, reportRow.getIndicatorTypeCode(), "'Indicators definitions'!A1");
 			createCell(row, 1, reportRow.getIndicatorName());
 			// createCell(row, 2, reportRow.getSourceCode());
-			createCell(row, 3, reportRow.getUnit());
+			createCell(row, 2, reportRow.getUnit());
 
 			// Keep track of the indicator types processed
 			trackIndicatorTypes(queryData, reportRow, sheetName);

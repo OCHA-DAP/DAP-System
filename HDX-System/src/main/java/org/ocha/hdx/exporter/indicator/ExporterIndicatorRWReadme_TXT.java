@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.NoResultException;
-
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_File;
 import org.ocha.hdx.exporter.helper.ReadmeHelperImpl.ReadmeSentence;
@@ -13,18 +11,18 @@ import org.ocha.hdx.persistence.entity.view.IndicatorTypeOverview;
 import org.ocha.hdx.service.ExporterService;
 
 /**
- * Exporter for an indicator type - readme.
+ * Exporter for an indicator type RW - readme.
  * 
  * @author bmichiels
  * 
  */
-public class ExporterIndicatorReadme_TXT extends Exporter_File<ExporterIndicatorQueryData> {
+public class ExporterIndicatorRWReadme_TXT extends Exporter_File<ExporterIndicatorQueryData> {
 
-	public ExporterIndicatorReadme_TXT(final ExporterService exporterService) {
+	public ExporterIndicatorRWReadme_TXT(final ExporterService exporterService) {
 		super(exporterService);
 	}
 
-	public ExporterIndicatorReadme_TXT(final Exporter<File, ExporterIndicatorQueryData> exporter) {
+	public ExporterIndicatorRWReadme_TXT(final Exporter<File, ExporterIndicatorQueryData> exporter) {
 		super(exporter);
 	}
 
@@ -54,15 +52,17 @@ public class ExporterIndicatorReadme_TXT extends Exporter_File<ExporterIndicator
 		content.add("");
 		content.add("INDICATOR OVERVIEW");
 
-		// The overview data
-		IndicatorTypeOverview overviewData = null;
-		try {
-			overviewData = exporterService.getIndicatorTypeOverviewData(queryData);
-		} catch (final NoResultException e) {
-			// TODO: handle exception
-		}
+		// The overview data for RW001
+		queryData.setSourceCode("RW");
+		final List<String> RWIndicatorTypes = new ArrayList<String>();
+		RWIndicatorTypes.add("RW001");
+		RWIndicatorTypes.add("RW002");
 
-		if (null != overviewData) {
+		for (final String rwIndicator : RWIndicatorTypes) {
+			queryData.setIndicatorTypeCode(rwIndicator);
+			
+			final IndicatorTypeOverview overviewData = exporterService.getIndicatorTypeOverviewData(queryData);
+
 			content.add("");
 			content.add("Indicator ID : " + (null == overviewData.getIndicatorTypeCode() ? "" : overviewData.getIndicatorTypeCode()));
 			content.add("Indicator name : " + (null == overviewData.getIndicatorTypeDefaultValue() ? "" : overviewData.getIndicatorTypeDefaultValue()));
@@ -72,13 +72,9 @@ public class ExporterIndicatorReadme_TXT extends Exporter_File<ExporterIndicator
 			content.add("More info : " + (null == overviewData.getMoreInfoDefaultValue() ? "" : overviewData.getMoreInfoDefaultValue()));
 			content.add("Terms of use : " + (null == overviewData.getTermsOfUseDefaultValue() ? "" : overviewData.getTermsOfUseDefaultValue()));
 			content.add("HDX methodology : " + (null == overviewData.getMethodologyDefaultValue() ? "" : overviewData.getMethodologyDefaultValue()));
-		}
-		else {
-			content.add("");
-			content.add("No data for indicator.");
+
 		}
 
-		
 		// Write the file
 		writeTXTFile(content, file);
 

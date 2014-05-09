@@ -20,40 +20,43 @@
 		<div>
 			<form role="form" class="css-form">
 				<div style="width: 300px;">
-				<div class="form-group">
-					<label for="indicatorType">Indicator type (not used for RW reports)</label> <select class="form-control" id="indicatorType" ng-model="indicatorType" ng-change="indicatorTypeSelect()" ng-options="indicatorType.code for indicatorType in indicatorTypes" ng-class="default">
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="source">Source (not used for RW reports)</label> <select class="form-control" id="source" ng-disabled="sourceUnavailable" ng-model="source" ng-options="source.code for source in sources" ng-class="default">
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="reportFormat">Report format</label> <select class="form-control" id="reportFormat" ng-model="reportFormat">
-						<option selected="true">xlsx</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="fromYear">From year</label> <input type="number" class="form-control" id="fromYear" ng-model="fromYear" placeholder="From year...">
-				</div>
-				<div class="form-group">
-					<label for="toYear">To year</label> <input type="number" class="form-control" id="toYear" ng-model="toYear" placeholder="To year...">
-				</div>
-				<div class="form-group">
-					<label for="reportLanguage">Language</label> <select class="form-control" id="reportLanguage" ng-model="reportLanguage" ng-options="language.code for language in languages" ng-class="default">
-					</select>
-				</div>
-				<!-- div class="form-group">
+					<div class="form-group">
+						<label for="indicatorType">Indicator type (not used for RW reports)</label> <select class="form-control" id="indicatorType" ng-model="indicatorType" ng-change="indicatorTypeSelect()"
+							ng-options="indicatorType.code for indicatorType in indicatorTypes" ng-class="default">
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="source">Source (not used for RW reports)</label> <select class="form-control" id="source" ng-disabled="sourceUnavailable" ng-model="source"
+							ng-options="source.code for source in sources" ng-class="default">
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="reportFormat">Report format</label> <select class="form-control" id="reportFormat" ng-model="reportFormat">
+							<option selected="true">xlsx</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="fromYear">From year</label> <input type="number" class="form-control" id="fromYear" ng-model="fromYear" placeholder="From year...">
+					</div>
+					<div class="form-group">
+						<label for="toYear">To year</label> <input type="number" class="form-control" id="toYear" ng-model="toYear" placeholder="To year...">
+					</div>
+					<div class="form-group">
+						<label for="reportLanguage">Language</label> <select class="form-control" id="reportLanguage" ng-model="reportLanguage" ng-options="language.code for language in languages" ng-class="default">
+						</select>
+					</div>
+					<!-- div class="form-group">
 					<label for="reportFileName">File name</label> <input type="text" class="form-control" id="reportFileName" ng-model="reportFileName" placeholder="Report file name...">
 				</div -->
 				</div>
 				<div style="width: 800px;">
-				<button type="button" class="btn btn-primary btn-custom-default" ng-disabled="sourceUnavailable" ng-click="createReport('SW')">Create report</button>
+					<button type="button" class="btn btn-primary btn-custom-default" ng-disabled="sourceUnavailable" ng-click="createReport('SW')">Create report</button>
 					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createTXTReadme('SW')">Create TXT Readme</button>
 					<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
 				</div>
 				<div style="width: 800px; margin-top: 12px;">
-				<button type="button" class="btn btn-primary btn-custom-default" ng-disabled="sourceUnavailable" ng-click="createReport('RW')">Create RW report</button>
+					<button type="button" class="btn btn-primary btn-custom-default" ng-disabled="sourceUnavailable" ng-click="createReport('RW')">Create RW report</button>
+					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createTXTReadme('RW')">Create RW TXT Readme</button>
 					<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
 					<br />
 				</div>

@@ -550,6 +550,23 @@ public class APIResource {
 		return exporterService.exportIndicatorRW_XLSX(fromYear, toYear, language);
 	}
 
+	/**
+	 * Export an indicator-centric RW ReadMe in TXT format.
+	 * 
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A TXT File containing the ReadMe
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/indicatorRW/readme/language/{language}/ReadMe.txt")
+	@Produces("text/plain")
+	// TODO Check this
+	@PermitAll
+	public File exportIndicatorRWReadMe_TXT(@PathParam("language") final String language) throws Exception {
+		return exporterService.exportIndicatorRWReadMe_TXT(language);
+	}
+
 	// Others
 	// //////
 	

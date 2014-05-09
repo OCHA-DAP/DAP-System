@@ -88,11 +88,18 @@ public interface ExporterService {
 	/* ****************** */
 	/* Indicator reports. */
 	/* ****************** */
+	
+	// SW
+	
 	public XSSFWorkbook exportIndicator_XLSX(String indicatorTypeCode, String sourceCode, Long fromYear, Long toYear, String language) throws Exception;
 
 	public File exportIndicatorReadMe_TXT(String indicatorTypeCode, String sourceCode, String language) throws Exception;
+	
+	// RW
 
 	public XSSFWorkbook exportIndicatorRW_XLSX(Long fromYear, Long toYear, String language) throws Exception;
+
+	public File exportIndicatorRWReadMe_TXT(String language) throws Exception;
 
 	/*
 	 * Indicator overview
