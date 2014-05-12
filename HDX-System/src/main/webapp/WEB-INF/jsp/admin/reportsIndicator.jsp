@@ -31,7 +31,11 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="reportFormat">Report format</label> <select class="form-control" id="reportFormat" ng-model="reportFormat">
+						<label for="reportFormat">Report type</label> <select class="form-control" id="reportType" ng-model="reportType" ng-options="rt.name for rt in reportTypes" ng-change="updateFormat()">
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="reportFormat">Report format</label> <select class="form-control" id="reportFormat" ng-model="reportFormat" ng-options="f for f in reportType.formats">
 							<option selected="true">xlsx</option>
 						</select>
 					</div>
@@ -50,14 +54,7 @@
 				</div -->
 				</div>
 				<div style="width: 800px;">
-					<button type="button" class="btn btn-primary btn-custom-default" ng-disabled="sourceUnavailable" ng-click="createReport('SW')">Create report</button>
-					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createTXTReadme('SW')">Create TXT Readme</button>
-					<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
-				</div>
-				<div style="width: 800px; margin-top: 12px;">
-					<button type="button" class="btn btn-primary btn-custom-default" ng-disabled="sourceUnavailable" ng-click="createReport('RW')">Create RW report</button>
-					<button type="button" class="btn btn-primary btn-custom-default" ng-click="createTXTReadme('RW')">Create RW TXT Readme</button>
-					<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
+					<button type="button" class="btn btn-primary btn-custom-default" ng-disabled="sourceUnavailable" ng-click="createReport()">Create report</button>
 					<br />
 				</div>
 				<!-- button type="button" class="btn btn-default" ng-click="publishReport()">Publish on CKAN</button -->
@@ -67,6 +64,7 @@
 	<div ng-show="showTestZone">
 		<h3>Test zone</h3>
 		<pre>
+		<p>Report type : {{ reportType.name }}</p>
 		<p>Languages : {{ languages | json }}</p>
 		<p>Indicator types : {{ indicatorTypes | json }}</p>
 	</pre>
