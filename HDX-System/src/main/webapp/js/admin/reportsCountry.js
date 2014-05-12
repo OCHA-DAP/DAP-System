@@ -13,6 +13,12 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
   }, {
     name : 'RW Readme',
     formats : [ 'txt' ]
+  }, {
+    name : 'FTS Data',
+    formats : [ 'xlsx', 'csv' ]
+  }, {
+    name : 'FTS Readme',
+    formats : [ 'txt' ]
   } ];
 
   $scope.reportFileName = "";
@@ -57,23 +63,27 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
     switch ($scope.reportType.name) {
     case 'SW Data':
       $scope.reportFileName = $scope.country.code + "_Baseline";
-      // Sample http://localhost:8080/hdx/api/exporter/country/xlsx/BEL/fromYear/1998/toYear/2014/language/EN/Test.xlsx
       window.location.href = hdxContextRoot + "/api/exporter/country/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
           + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
       break;
+    case 'SW Readme':
+      window.location.href = hdxContextRoot + "/api/exporter/country/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/" + $scope.country.code + "_Readme.txt";
+      break;
     case 'RW Data':
       $scope.reportFileName = $scope.country.code + "_RW";
-      // Sample http://localhost:8080/hdx/api/exporter/country/xlsx/BEL/fromYear/1998/toYear/2014/language/EN/Test.xlsx
       window.location.href = hdxContextRoot + "/api/exporter/countryRW/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
           + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
       break;
-    case 'SW Readme':
-      // Sample http://localhost:8080/hdx/api/exporter/country/readme/BEL/language/EN/ReadMe.txt
-      window.location.href = hdxContextRoot + "/api/exporter/country/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/" + $scope.country.code + "_Readme.txt";
-      break;
     case 'RW Readme':
-      // Sample http://localhost:8080/hdx/api/exporter/country/readme/BEL/language/EN/ReadMe.txt
       window.location.href = hdxContextRoot + "/api/exporter/countryRW/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/" + $scope.country.code + "_Readme.txt";
+      break;
+    case 'FTS Data':
+      $scope.reportFileName = $scope.country.code + "_FTS";
+      window.location.href = hdxContextRoot + "/api/exporter/countryRW/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
+          + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
+      break;
+    case 'FTS Readme':
+      window.location.href = hdxContextRoot + "/api/exporter/countryFTS/readme/" + $scope.country.code + "/language/" + $scope.reportLanguage.code + "/" + $scope.country.code + "_Readme.txt";
       break;
 
     default:

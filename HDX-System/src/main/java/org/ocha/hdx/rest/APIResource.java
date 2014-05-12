@@ -444,6 +444,29 @@ public class APIResource {
 	}
 
 	/**
+	 * Export an indicator-centric report in CSV format.
+	 * 
+	 * @param indicatorTypeCode
+	 *            The code of the indicator (e.g. PVF020)
+	 * @param fromYear
+	 *            The year from which the data will be collected (e.g. 1998), inclusive
+	 * @param toYear
+	 *            The year to which the data will be collected (e.g. 2014), inclusive
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A CSV file containing the data as requested
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/indicator/csv/{indicatorTypeCode}/source/{sourceCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.csv")
+	@Produces("application/ms-excel")
+	@PermitAll
+	public File exportIndicator_CSV(@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("sourceCode") final String sourceCode,
+			@PathParam("fromYear") final Long fromYear, @PathParam("toYear") final Long toYear, @PathParam("language") final String language) throws Exception {
+		return exporterService.exportIndicator_CSV(indicatorTypeCode, sourceCode, fromYear, toYear, language);
+	}
+
+	/**
 	 * Export an indicator-centric ReadMe in TXT format.
 	 * 
 	 * @param indicatorTypeCode
@@ -565,6 +588,111 @@ public class APIResource {
 	@PermitAll
 	public File exportIndicatorRWReadMe_TXT(@PathParam("language") final String language) throws Exception {
 		return exporterService.exportIndicatorRWReadMe_TXT(language);
+	}
+
+	// FTS reports
+	// //////////
+	
+	/**
+	 * Export a country-centric FTS report in XLSX format.
+	 * 
+	 * @param countryCode
+	 *            The code of the country (e.g. BEL)
+	 * @param fromYear
+	 *            The year from which the data will be collected (e.g. 1998), inclusive
+	 * @param toYear
+	 *            The year to which the data will be collected (e.g. 2014), inclusive
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A XSSF workbook containing the data as requested
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/countryFTS/xlsx/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.xlsx")
+	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	@PermitAll
+	public XSSFWorkbook exportCountryFTS_XLSX(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
+			@PathParam("language") final String language) throws Exception {
+		return exporterService.exportCountryFTS_XLSX(countryCode, fromYear, toYear, language);
+	}
+
+	/**
+	 * Export a country-centric FTS report in CSV format.
+	 * 
+	 * @param countryCode
+	 *            The code of the country (e.g. BEL)
+	 * @param fromYear
+	 *            The year from which the data will be collected (e.g. 1998), inclusive
+	 * @param toYear
+	 *            The year to which the data will be collected (e.g. 2014), inclusive
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A CSV File containing the data as requested
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/countryFTS/csv/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.csv")
+	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	@PermitAll
+	public File exportCountryFTS_CSV(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
+			@PathParam("language") final String language) throws Exception {
+		return exporterService.exportCountryFTS_CSV(countryCode, fromYear, toYear, language);
+	}
+
+	/**
+	 * Export a country-centric FTS ReadMe in TXT format.
+	 * 
+	 * @param countryCode
+	 *            The code of the country (e.g. BEL)
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A TXT File containing the ReadMe
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/countryFTS/readme/{countryCode}/language/{language}/{filename}.txt")
+	@Produces("text/plain")
+	// TODO Check this
+	@PermitAll
+	public File exportCountryFTSReadMe_TXT(@PathParam("countryCode") final String countryCode, @PathParam("language") final String language) throws Exception {
+		return exporterService.exportCountryFTSReadMe_TXT(countryCode, language);
+	}
+
+	/**
+	 * Export an indicator-centric FTS report in XLSX format.
+	 * 
+	 * @param fromYear
+	 *            The year from which the data will be collected (e.g. 1998), inclusive
+	 * @param toYear
+	 *            The year to which the data will be collected (e.g. 2014), inclusive
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A XSSF workbook containing the data as requested
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/indicatorFTS/xlsx/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.xlsx")
+	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	@PermitAll
+	public XSSFWorkbook exportIndicatorFTS_XLSX(@PathParam("fromYear") final Long fromYear, @PathParam("toYear") final Long toYear, @PathParam("language") final String language) throws Exception {
+		return exporterService.exportIndicatorFTS_XLSX(fromYear, toYear, language);
+	}
+
+	/**
+	 * Export an indicator-centric FTS ReadMe in TXT format.
+	 * 
+	 * @param language
+	 *            The language the report will be written into. TODO Not supported yet. All texts will be given in the default language.
+	 * @return A TXT File containing the ReadMe
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/indicatorFTS/readme/language/{language}/{filename}.txt")
+	@Produces("text/plain")
+	// TODO Check this
+	@PermitAll
+	public File exportIndicatorFTSReadMe_TXT(@PathParam("language") final String language) throws Exception {
+		return exporterService.exportIndicatorFTSReadMe_TXT(language);
 	}
 
 	// Others

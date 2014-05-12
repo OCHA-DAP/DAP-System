@@ -8,21 +8,23 @@ import org.ocha.hdx.persistence.entity.view.IndicatorData;
 import org.ocha.hdx.service.ExporterService;
 
 /**
- * Exporter for the RW002 indicator type.
+ * Exporter for the RWxxx indicator types.
  * 
  * @author bmichiels
  * 
  */
-public class ExporterIndicatorRW002_XLSX extends AbstractExporterIndicatorRW_XLSX {
+public class ExporterIndicatorRW_XLSX extends AbstractExporterIndicatorRW_XLSX {
 
-	public ExporterIndicatorRW002_XLSX(final ExporterService exporterService) {
+	public ExporterIndicatorRW_XLSX(final ExporterService exporterService, final String indicatorTypeCode, final String sheetName) {
 		super(exporterService);
-		setRWIndicatorTypeCode("RW002");
+		setRWIndicatorTypeCode(indicatorTypeCode);
+		setRWSheetName(sheetName);
 	}
 
-	public ExporterIndicatorRW002_XLSX(final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter) {
+	public ExporterIndicatorRW_XLSX(final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter, final String indicatorTypeCode, final String sheetName) {
 		super(exporter);
-		setRWIndicatorTypeCode("RW002");
+		setRWIndicatorTypeCode(indicatorTypeCode);
+		setRWSheetName(sheetName);
 	}
 
 	@Override
@@ -30,6 +32,6 @@ public class ExporterIndicatorRW002_XLSX extends AbstractExporterIndicatorRW_XLS
 		queryData.setIndicatorTypeCode(getRWIndicatorTypeCode());
 		queryData.setSourceCode(getRWSourceCode());
 		final Map<Long, Map<String, IndicatorData>> data = exporterService.getIndicatorDataData(queryData);
-		return export(workbook, queryData, data, "Number of Reports");
+		return export(workbook, queryData, data, getRWSheetName());
 	}
 }

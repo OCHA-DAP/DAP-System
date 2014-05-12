@@ -11,25 +11,25 @@ import org.ocha.hdx.exporter.Exporter_XLSX;
 import org.ocha.hdx.service.ExporterService;
 
 /**
- * Exporter for a country RW - overview.
+ * Exporter for a country FTS - overview.
  * 
  * @author bmichiels
  * 
  */
-public class ExporterCountryRWOverview_XLSX extends Exporter_XLSX<ExporterCountryQueryData> {
+public class ExporterCountryFTSOverview_XLSX extends Exporter_XLSX<ExporterCountryQueryData> {
 
-	public ExporterCountryRWOverview_XLSX(final ExporterService exporterService) {
+	public ExporterCountryFTSOverview_XLSX(final ExporterService exporterService) {
 		super(exporterService);
 	}
 
-	public ExporterCountryRWOverview_XLSX(final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter) {
+	public ExporterCountryFTSOverview_XLSX(final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter) {
 		super(exporter);
 	}
 
 	@Override
 	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) throws Exception {
 
-		final List<Object[]> data = exporterService.getCountryRWOverviewData(queryData);
+		final List<Object[]> data = exporterService.getCountryFTSOverviewData(queryData);
 
 		/* TODO i18n */
 

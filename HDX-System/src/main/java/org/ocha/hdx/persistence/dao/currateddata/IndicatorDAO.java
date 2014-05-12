@@ -61,6 +61,7 @@ public interface IndicatorDAO {
 	 */
 	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
 	public List<Object[]> listIndicatorsForCountryRWOverview(String countryCode, String languageCode);
+	public List<Object[]> listIndicatorsForCountryFTSOverview(String countryCode, String languageCode);
 
 	/**
 	 * Indicators for the country - crisis history.
@@ -129,6 +130,17 @@ public interface IndicatorDAO {
 	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
 	 */
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryRW(String countryCode, int fromYear, int toYear, String languageCode);
+
+	/**
+	 * Indicators for the country - FTS.
+	 * 
+	 * @param countryCode
+	 * @param fromYear
+	 * @param toYear
+	 * @param languageCode
+	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
+	 */
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryFTS(String countryCode, int fromYear, int toYear, String languageCode);
 
 	/**
 	 * very likely to be used by the unit tests only

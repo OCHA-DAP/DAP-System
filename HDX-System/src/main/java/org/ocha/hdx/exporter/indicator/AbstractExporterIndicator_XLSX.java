@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Abstract exporter for all SW indicator-centric sheets (except overview).
+ * Abstract exporter for all indicator-centric sheets (except overview).
  * Currently there is only one indicator-centric data sheet.
  * Keeping this, should another sheet be developed.
  *

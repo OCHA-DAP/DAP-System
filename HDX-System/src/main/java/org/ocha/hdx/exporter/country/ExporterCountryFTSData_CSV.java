@@ -13,18 +13,18 @@ import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.service.ExporterService;
 
 /**
- * Exporter for a country - RW.
+ * Exporter for a country - FTS.
  * 
  * @author bmichiels
  * 
  */
-public class ExporterCountryRWData_CSV extends Exporter_File<ExporterCountryQueryData> {
+public class ExporterCountryFTSData_CSV extends Exporter_File<ExporterCountryQueryData> {
 
-	public ExporterCountryRWData_CSV(final ExporterService exporterService) {
+	public ExporterCountryFTSData_CSV(final ExporterService exporterService) {
 		super(exporterService);
 	}
 
-	public ExporterCountryRWData_CSV(final Exporter<File, ExporterCountryQueryData> exporter) {
+	public ExporterCountryFTSData_CSV(final Exporter<File, ExporterCountryQueryData> exporter) {
 		super(exporter);
 	}
 
@@ -32,9 +32,9 @@ public class ExporterCountryRWData_CSV extends Exporter_File<ExporterCountryQuer
 	public File export(final File file, final ExporterCountryQueryData queryData) throws IOException {
 
 		// Gathering the data
-		// 1. ReliefWeb
+		// 1. FTS
 
-		final Map<String, ReportRow> rwData = exporterService.getCountryRWData(queryData);
+		final Map<String, ReportRow> rwData = exporterService.getCountryFTSData(queryData);
 
 		final List<Map<String, ReportRow>> allData = new ArrayList<Map<String, ReportRow>>();
 		allData.add(rwData);

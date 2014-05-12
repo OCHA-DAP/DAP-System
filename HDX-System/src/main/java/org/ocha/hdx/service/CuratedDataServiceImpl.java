@@ -686,6 +686,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		return indicatorDAO.listIndicatorsForCountryRWOverview(countryCode, languageCode);
 	}
 
+	@Override
+	public List<Object[]> listIndicatorsForCountryFTSOverview(final String countryCode, final String languageCode) {
+		return indicatorDAO.listIndicatorsForCountryFTSOverview(countryCode, languageCode);
+	}
+
 	// Country crisis history
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
@@ -725,6 +730,12 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountryRW(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
 		return indicatorDAO.listIndicatorsForCountryRW(countryCode, fromYear, toYear, languageCode);
+	}
+
+	// Country FTS
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryFTS(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		return indicatorDAO.listIndicatorsForCountryFTS(countryCode, fromYear, toYear, languageCode);
 	}
 
 	/* Indicators */
