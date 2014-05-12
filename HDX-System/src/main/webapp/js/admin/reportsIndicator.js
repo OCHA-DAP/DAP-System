@@ -1,5 +1,33 @@
 app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilities) {
 
+  // Available reports
+  $scope.reportTypes = [ {
+    name : 'Data',
+    formats : [ 'xlsx' ]
+  }, {
+    name : 'Readme',
+    formats : [ 'txt' ]
+  }, {
+    name : 'RW Data',
+    formats : [ 'xlsx' ]
+  }, {
+    name : 'RW Readme',
+    formats : [ 'txt' ]
+  } /* , {
+    name : 'Metadata',
+    formats : [ 'csv' ]
+  }, {
+    name : 'All Indicators metadata',
+    formats : [ 'csv' ] 
+  } */];
+
+  $scope.reportFileName = "";
+  $scope.reportFormat = "";
+  $scope.reportType = $scope.reportTypes[0];
+  $scope.updateFormat = function() {
+    $scope.reportFormat = $scope.reportType.formats[0];
+  }
+  $scope.updateFormat();
   // /////////
   // Resources
   // /////////
@@ -44,40 +72,31 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
   $scope.indicatorType = selected[0];
   $scope.fromYear = 1998;
   $scope.toYear = 2014;
-  $scope.reportFileName = "";
-  $scope.reportFormat = "xlsx";
   $scope.reportLanguage = $scope.languages[0];
 
   $scope.sourceUnavailable = true;
 
   $scope.indicatorTypeSelect();
 
-  $scope.createReport = function(which) {
-    switch (which) {
-    case 'SW':
+  $scope.createReport = function() {
+    switch ($scope.reportType.name) {
+    case 'Data':
       $scope.reportFileName = $scope.indicatorType.code + "_Baseline";
       window.location.href = hdxContextRoot + "/api/exporter/indicator/" + $scope.reportFormat + "/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/fromYear/" + $scope.fromYear
           + "/toYear/" + $scope.toYear + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
       break;
 
-    case 'RW':
+    case 'Readme':
+      window.location.href = hdxContextRoot + "/api/exporter/indicator/readme/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/language/" + $scope.reportLanguage.code + "/" + $scope.indicatorType.code + "_Readme.txt";
+      break;
+
+    case 'RW Data':
       $scope.reportFileName = "RW";
       window.location.href = hdxContextRoot + "/api/exporter/indicatorRW/" + $scope.reportFormat + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
           + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
       break;
 
-    default:
-      break;
-    }
-  }
-
-  $scope.createTXTReadme = function(which) {
-    switch (which) {
-    case 'SW':
-      window.location.href = hdxContextRoot + "/api/exporter/indicator/readme/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/language/" + $scope.reportLanguage.code + "/" + $scope.indicatorType.code + "_Readme.txt";
-      break;
-
-    case 'RW':
+    case 'RW Readme':
       window.location.href = hdxContextRoot + "/api/exporter/indicatorRW/readme/language/" + $scope.reportLanguage.code + "/" + $scope.indicatorType.code + "_Readme.txt";
       break;
 
