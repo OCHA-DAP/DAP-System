@@ -3,7 +3,7 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
   // Available reports
   $scope.reportTypes = [ {
     name : 'Data',
-    formats : [ 'xlsx' ]
+    formats : [ 'xlsx', 'csv' ]
   }, {
     name : 'Readme',
     formats : [ 'txt' ]
@@ -12,6 +12,12 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
     formats : [ 'xlsx' ]
   }, {
     name : 'RW Readme',
+    formats : [ 'txt' ]
+  }, {
+    name : 'FTS Data',
+    formats : [ 'xlsx' ]
+  }, {
+    name : 'FTS Readme',
     formats : [ 'txt' ]
   } /* , {
     name : 'Metadata',
@@ -83,21 +89,26 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
     case 'Data':
       $scope.reportFileName = $scope.indicatorType.code + "_Baseline";
       window.location.href = hdxContextRoot + "/api/exporter/indicator/" + $scope.reportFormat + "/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/fromYear/" + $scope.fromYear
-          + "/toYear/" + $scope.toYear + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
+          + "/toYear/" + $scope.toYear + "/language/" + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
       break;
-
     case 'Readme':
       window.location.href = hdxContextRoot + "/api/exporter/indicator/readme/" + $scope.indicatorType.code + "/source/" + $scope.source.code + "/language/" + $scope.reportLanguage.code + "/" + $scope.indicatorType.code + "_Readme.txt";
       break;
-
     case 'RW Data':
       $scope.reportFileName = "RW";
       window.location.href = hdxContextRoot + "/api/exporter/indicatorRW/" + $scope.reportFormat + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
-          + $scope.reportLanguage.code + "/" + $scope.reportFileName + ".xlsx";
+          + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
       break;
-
     case 'RW Readme':
       window.location.href = hdxContextRoot + "/api/exporter/indicatorRW/readme/language/" + $scope.reportLanguage.code + "/" + $scope.indicatorType.code + "_Readme.txt";
+      break;
+    case 'FTS Data':
+      $scope.reportFileName = "FTS";
+      window.location.href = hdxContextRoot + "/api/exporter/indicatorFTS/" + $scope.reportFormat + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
+          + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
+      break;
+    case 'FTS Readme':
+      window.location.href = hdxContextRoot + "/api/exporter/indicatorFTS/readme/language/" + $scope.reportLanguage.code + "/" + $scope.indicatorType.code + "_Readme.txt";
       break;
 
     default:

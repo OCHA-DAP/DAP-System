@@ -59,11 +59,21 @@ public interface ExporterService {
 
 	public File exportCountryRWReadMe_TXT(String countryCode, String language) throws Exception;
 
+	// FTS 
+
+	public XSSFWorkbook exportCountryFTS_XLSX(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
+
+	public File exportCountryFTS_CSV(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
+
+	public File exportCountryFTSReadMe_TXT(String countryCode, String language) throws Exception;
+
 	/*
 	 * Country overview
 	 */
 	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData);
 	public List<Object[]> getCountryRWOverviewData(ExporterCountryQueryData queryData);
+	public List<Object[]> getCountryFTSOverviewData(ExporterCountryQueryData queryData);
+
 
 	/**
 	 * Only the rows with actual data are added in the returned result.
@@ -85,6 +95,8 @@ public interface ExporterService {
 
 	public Map<String, ReportRow> getCountryRWData(ExporterCountryQueryData queryData);
 
+	public Map<String, ReportRow> getCountryFTSData(ExporterCountryQueryData queryData);
+
 	/* ****************** */
 	/* Indicator reports. */
 	/* ****************** */
@@ -93,6 +105,8 @@ public interface ExporterService {
 	
 	public XSSFWorkbook exportIndicator_XLSX(String indicatorTypeCode, String sourceCode, Long fromYear, Long toYear, String language) throws Exception;
 
+	public File exportIndicator_CSV(String indicatorTypeCode, String sourceCode, Long fromYear, Long toYear, String language) throws Exception;
+
 	public File exportIndicatorReadMe_TXT(String indicatorTypeCode, String sourceCode, String language) throws Exception;
 	
 	// RW
@@ -100,6 +114,12 @@ public interface ExporterService {
 	public XSSFWorkbook exportIndicatorRW_XLSX(Long fromYear, Long toYear, String language) throws Exception;
 
 	public File exportIndicatorRWReadMe_TXT(String language) throws Exception;
+
+	// FTS
+
+	public XSSFWorkbook exportIndicatorFTS_XLSX(Long fromYear, Long toYear, String language) throws Exception;
+
+	public File exportIndicatorFTSReadMe_TXT(String language) throws Exception;
 
 	/*
 	 * Indicator overview
@@ -122,6 +142,5 @@ public interface ExporterService {
 	public File exportIndicatorMetadata_CSV(String indicatorTypeCode, String language) throws Exception;
 
 	public List<DataSerieMetadata> getIndicatorMetadataData(ExporterIndicatorMetadataQueryData queryData);
-
 
 }

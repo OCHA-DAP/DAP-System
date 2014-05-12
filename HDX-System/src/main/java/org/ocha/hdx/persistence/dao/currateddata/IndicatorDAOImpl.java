@@ -248,6 +248,35 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	}
 
 	/*
+	 * List of indicators for a country FTS - overview.
+	 * TODO Factorize with previous
+	 */
+	@Override
+	public List<Object[]> listIndicatorsForCountryFTSOverview(final String countryCode, final String languageCode) {
+		// List of indicators relevant for country FTS - overview. TODO Externalize ?
+		final String[] indicatorsList = new String[] { "FTS001", "FTS002" };
+
+		final List<Object[]> result = new ArrayList<Object[]>();
+		for (final String indicator : indicatorsList) {
+			// TODO i18n
+			final Query query = em
+					.createQuery(
+							"SELECT i.type.code, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.entity.code = :countryCode")
+					.setParameter("isCountry", "country").setParameter("code", indicator).setParameter("countryCode", countryCode).setMaxResults(1);
+			Object[] queryResult = null;
+			try {
+				queryResult = (Object[]) query.getSingleResult();
+			} catch (final NoResultException e) {
+				// It is possible that no value exists for the given indicator.
+				// So we just put the indicator in the result.
+				queryResult = new Object[] { indicator };
+			}
+			result.add(queryResult);
+		}
+		return result;
+	}
+
+	/*
 	 * List of indicators for a country - crisis history.
 	 */
 	@Override
@@ -370,6 +399,20 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
 		dataSeries.add(new DataSerie("RW002", "RW"));
 		dataSeries.add(new DataSerie("RW001", "RW"));
+
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
+	}
+
+	/*
+	 * List of indicators for a country - FTS.
+	 */
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountryFTS(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
+		// List of indicators relevant for country - FTS. Each indicator type has an associated source here TODO Externalize ?
+
+		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
+		dataSeries.add(new DataSerie("FTS002", "FTS"));
+		dataSeries.add(new DataSerie("FTS001", "FTS"));
 
 		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
 	}

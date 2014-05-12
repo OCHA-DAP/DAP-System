@@ -16,23 +16,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Abstract exporter for all RW indicator-centric sheets.
+ * Abstract exporter for all FTS indicator-centric sheets.
  *
  * @author bmichiels
  */
-public abstract class AbstractExporterIndicatorRW_XLSX extends Exporter_XLSX<ExporterIndicatorQueryData> {
+public abstract class AbstractExporterIndicatorFTS_XLSX extends Exporter_XLSX<ExporterIndicatorQueryData> {
 
-	private static Logger logger = LoggerFactory.getLogger(AbstractExporterIndicatorRW_XLSX.class);
+	private static Logger logger = LoggerFactory.getLogger(AbstractExporterIndicatorFTS_XLSX.class);
 	
-	private String RWIndicatorTypeCode;
-	private String RWSheetName;
-	private final String RWSourceCode = "RW";
+	private String FTSIndicatorTypeCode;
+	private String FTSSheetName;
+	private final String FTSSourceCode = "FTS";
 
-	public AbstractExporterIndicatorRW_XLSX(final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter) {
+	public AbstractExporterIndicatorFTS_XLSX(final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter) {
 		super(exporter);
 	}
 
-	public AbstractExporterIndicatorRW_XLSX(final ExporterService exporterService) {
+	public AbstractExporterIndicatorFTS_XLSX(final ExporterService exporterService) {
 		super(exporterService);
 	}
 
@@ -135,23 +135,23 @@ public abstract class AbstractExporterIndicatorRW_XLSX extends Exporter_XLSX<Exp
 		return super.export(workbook, queryData);
 	}
 
-	public String getRWIndicatorTypeCode() {
-		return RWIndicatorTypeCode;
+	public String getFTSIndicatorTypeCode() {
+		return FTSIndicatorTypeCode;
 	}
 
-	public void setRWIndicatorTypeCode(final String rWIndicatorTypeCode) {
-		RWIndicatorTypeCode = rWIndicatorTypeCode;
+	public void setFTSIndicatorTypeCode(final String fTSIndicatorTypeCode) {
+		FTSIndicatorTypeCode = fTSIndicatorTypeCode;
 	}
 
-	public String getRWSourceCode() {
-		return RWSourceCode;
+	public String getFTSSourceCode() {
+		return FTSSourceCode;
 	}
 
-	public String getRWSheetName() {
-		return RWSheetName;
+	public String getFTSSheetName() {
+		return FTSSheetName;
 	}
 
-	public void setRWSheetName(final String rWSheetName) {
-		RWSheetName = rWSheetName;
+	public void setFTSSheetName(final String fTSSheetName) {
+		FTSSheetName = fTSSheetName;
 	}
 }

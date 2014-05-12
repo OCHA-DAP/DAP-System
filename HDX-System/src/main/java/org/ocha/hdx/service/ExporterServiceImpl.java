@@ -16,6 +16,10 @@ import org.ocha.hdx.exporter.country.ExporterCountryCapacity_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryCrisisHistory_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryData_CSV;
 import org.ocha.hdx.exporter.country.ExporterCountryDefinitions_XLSX;
+import org.ocha.hdx.exporter.country.ExporterCountryFTSData_CSV;
+import org.ocha.hdx.exporter.country.ExporterCountryFTSData_XLSX;
+import org.ocha.hdx.exporter.country.ExporterCountryFTSOverview_XLSX;
+import org.ocha.hdx.exporter.country.ExporterCountryFTSReadme_TXT;
 import org.ocha.hdx.exporter.country.ExporterCountryOther_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryOverview_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
@@ -29,15 +33,18 @@ import org.ocha.hdx.exporter.country.ExporterCountrySocioEconomic_XLSX;
 import org.ocha.hdx.exporter.country.ExporterCountryVulnerability_XLSX;
 import org.ocha.hdx.exporter.helper.ReadmeHelper;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorData_CSV;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorData_XLSX;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorFTSReadme_TXT;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorFTS_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorMetadataQueryData;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorMetadata_CSV;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
-import org.ocha.hdx.exporter.indicator.ExporterIndicatorRW001_XLSX;
-import org.ocha.hdx.exporter.indicator.ExporterIndicatorRW002_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorRWReadme_TXT;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorRW_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_TXT;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorReadme_XLSX;
+import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeFTSOverview_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeOverview_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeRWOverview_XLSX;
 import org.ocha.hdx.model.DataSerie;
@@ -192,6 +199,133 @@ public class ExporterServiceImpl implements ExporterService {
 		final File file = File.createTempFile("CountryReadme_" + new Date().getTime() + "_", ".txt");
 		exporter.export(file, queryData);
 
+		// Return the file
+		return file;
+	}
+
+	/**
+	 * Export an indicator report as XLSX.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public XSSFWorkbook exportIndicator_XLSX(final String indicatorTypeCode, final String sourceCode, final Long fromYear, final Long toYear, final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorQueryData queryData = new ExporterIndicatorQueryData();
+		queryData.setIndicatorTypeCode(indicatorTypeCode);
+		queryData.setSourceCode(sourceCode);
+		queryData.setFromYear(fromYear);
+		queryData.setToYear(toYear);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		// Indicator report contains :
+		// 1. Indicator overview
+		// 2. Indicator data
+		// 3. Read me
+		final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_XLSX(new ExporterIndicatorTypeOverview_XLSX(new ExporterIndicatorData_XLSX((this))));
+
+		// Export the data in a new workbook
+		final XSSFWorkbook workbook = new XSSFWorkbook();
+		exporter.export(workbook, queryData);
+
+		// Return the workbook
+		return workbook;
+	}
+
+	/**
+	 * Export an indicator report as CSV.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public File exportIndicator_CSV(final String indicatorTypeCode, final String sourceCode, final Long fromYear, final Long toYear, final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorQueryData queryData = new ExporterIndicatorQueryData();
+		queryData.setIndicatorTypeCode(indicatorTypeCode);
+		queryData.setSourceCode(sourceCode);
+		queryData.setFromYear(fromYear);
+		queryData.setToYear(toYear);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		// Indicator report contains :
+		// 1. Indicator data
+		final Exporter<File, ExporterIndicatorQueryData> exporter = new ExporterIndicatorData_CSV(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("Indicator_" + new Date().getTime() + "_", ".csv");
+		exporter.export(file, queryData);
+
+		// Return the file
+		return file;
+	}
+
+	/**
+	 * Export an indicator type readme as TXT.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public File exportIndicatorReadMe_TXT(final String indicatorTypeCode, final String sourceCode, final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorQueryData queryData = new ExporterIndicatorQueryData();
+		queryData.setIndicatorTypeCode(indicatorTypeCode);
+		queryData.setSourceCode(sourceCode);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		final Exporter<File, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_TXT(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("IndicatorReadme_" + new Date().getTime() + "_", ".txt");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
+	}
+
+	@Override
+	public File exportIndicatorAllMetadata_CSV(final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorMetadataQueryData queryData = new ExporterIndicatorMetadataQueryData();
+		queryData.setIndicatorTypeCode(null);
+		queryData.setLanguage(language);
+
+		// Define the exporter
+		// Indicator metadata contains :
+		// 1. Metadata (all data)
+
+		final Exporter<File, ExporterIndicatorMetadataQueryData> exporter = new ExporterIndicatorMetadata_CSV(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("IndicatorAllMetadata_" + new Date().getTime() + "_", ".csv");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
+	}
+
+	@Override
+	public File exportIndicatorMetadata_CSV(final String indicatorTypeCode, final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorMetadataQueryData queryData = new ExporterIndicatorMetadataQueryData();
+		queryData.setIndicatorTypeCode(indicatorTypeCode);
+		queryData.setLanguage(language);
+
+		// Define the exporter
+		// Indicator metadata contains :
+		// 1. Metadata (all data)
+
+		final Exporter<File, ExporterIndicatorMetadataQueryData> exporter = new ExporterIndicatorMetadata_CSV(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("IndicatorMetadata_" + new Date().getTime() + "_", ".csv");
+		exporter.export(file, queryData);
+
 		// Return the workbook
 		return file;
 	}
@@ -214,7 +348,8 @@ public class ExporterServiceImpl implements ExporterService {
 		queryData.setReadmeHelper(readmeHelper);
 
 		// Define the exporter
-		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryReadme_XLSX(new ExporterCountryRWOverview_XLSX(new ExporterCountryRWData_XLSX(new ExporterCountryDefinitions_XLSX(this))));
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryReadme_XLSX(new ExporterCountryRWOverview_XLSX(new ExporterCountryRWData_XLSX(
+				new ExporterCountryDefinitions_XLSX(this))));
 
 		// final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> countryExporter = new ExporterIndicatorTypeOverview_XLSX(this);
 
@@ -279,62 +414,6 @@ public class ExporterServiceImpl implements ExporterService {
 		return file;
 	}
 
-	/**
-	 * Export an indicator report as XLSX.
-	 * 
-	 * @throws Exception
-	 */
-	@Override
-	public XSSFWorkbook exportIndicator_XLSX(final String indicatorTypeCode, final String sourceCode, final Long fromYear, final Long toYear, final String language) throws Exception {
-		// Set the query data
-		final ExporterIndicatorQueryData queryData = new ExporterIndicatorQueryData();
-		queryData.setIndicatorTypeCode(indicatorTypeCode);
-		queryData.setSourceCode(sourceCode);
-		queryData.setFromYear(fromYear);
-		queryData.setToYear(toYear);
-		queryData.setLanguage(language);
-		queryData.setReadmeHelper(readmeHelper);
-
-		// Define the exporter
-		// Indicator report contains :
-		// 1. Indicator overview
-		// 2. Indicator data
-		// 3. Read me
-		final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_XLSX(new ExporterIndicatorTypeOverview_XLSX(new ExporterIndicatorData_XLSX((this))));
-
-		// Export the data in a new workbook
-		final XSSFWorkbook workbook = new XSSFWorkbook();
-		exporter.export(workbook, queryData);
-
-		// Return the workbook
-		return workbook;
-	}
-
-	/**
-	 * Export an indicator type readme as TXT.
-	 * 
-	 * @throws Exception
-	 */
-	@Override
-	public File exportIndicatorReadMe_TXT(final String indicatorTypeCode, final String sourceCode, final String language) throws Exception {
-		// Set the query data
-		final ExporterIndicatorQueryData queryData = new ExporterIndicatorQueryData();
-		queryData.setIndicatorTypeCode(indicatorTypeCode);
-		queryData.setSourceCode(sourceCode);
-		queryData.setLanguage(language);
-		queryData.setReadmeHelper(readmeHelper);
-
-		// Define the exporter
-		final Exporter<File, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_TXT(this);
-
-		// Export the data in a new file
-		final File file = File.createTempFile("IndicatorReadme_" + new Date().getTime() + "_", ".txt");
-		exporter.export(file, queryData);
-
-		// Return the workbook
-		return file;
-	}
-
 	@Override
 	public XSSFWorkbook exportIndicatorRW_XLSX(final Long fromYear, final Long toYear, final String language) throws Exception {
 		// Set the query data
@@ -350,8 +429,8 @@ public class ExporterServiceImpl implements ExporterService {
 		// 2. Overview
 		// 3. Indicator data for RW001
 		// 3. Indicator data for RW002
-		final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_XLSX(new ExporterIndicatorTypeRWOverview_XLSX(new ExporterIndicatorRW002_XLSX(
-				new ExporterIndicatorRW001_XLSX(this))));
+		final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_XLSX(new ExporterIndicatorTypeRWOverview_XLSX(new ExporterIndicatorRW_XLSX(
+				new ExporterIndicatorRW_XLSX(this, "RW001", "Number of Disasters"), "RW002", "Number of Reports")));
 
 		// Export the data in a new workbook
 		final XSSFWorkbook workbook = new XSSFWorkbook();
@@ -384,9 +463,142 @@ public class ExporterServiceImpl implements ExporterService {
 		return file;
 	}
 
-	/* **************** */
-	/* Country reports. */
-	/* **************** */
+	// FTS 
+
+	/**
+	 * Export a country FTS report as XLSX.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public XSSFWorkbook exportCountryFTS_XLSX(final String countryCode, final Integer fromYear, final Integer toYear, final String language) throws Exception {
+		// Set the query data NOTE We use the same query data as for the SW country exporter, as the parameters are the same ; see later if we have to change this
+		final ExporterCountryQueryData queryData = new ExporterCountryQueryData();
+		queryData.setCountryCode(countryCode);
+		queryData.setFromYear(fromYear);
+		queryData.setToYear(toYear);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryReadme_XLSX(new ExporterCountryFTSOverview_XLSX(new ExporterCountryFTSData_XLSX(
+				new ExporterCountryDefinitions_XLSX(this))));
+
+		// final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> countryExporter = new ExporterIndicatorTypeOverview_XLSX(this);
+
+		// Export the data in a new workbook
+		final XSSFWorkbook workbook = new XSSFWorkbook();
+		exporter.export(workbook, queryData);
+
+		// Return the workbook
+		return workbook;
+	}
+
+	/**
+	 * Export a FTS country report as CSV.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public File exportCountryFTS_CSV(final String countryCode, final Integer fromYear, final Integer toYear, final String language) throws Exception {
+		// Set the query data
+		final ExporterCountryQueryData queryData = new ExporterCountryQueryData();
+		queryData.setCountryCode(countryCode);
+		queryData.setFromYear(fromYear);
+		queryData.setToYear(toYear);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		// Country report contains :
+		// 1. Country (all data)
+
+		final Exporter<File, ExporterCountryQueryData> exporter = new ExporterCountryFTSData_CSV(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("Country_" + new Date().getTime() + "_", ".csv");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
+	}
+
+	/**
+	 * Export a country FTS readme as TXT.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public File exportCountryFTSReadMe_TXT(final String countryCode, final String language) throws Exception {
+		// Set the query data
+		final ExporterCountryQueryData queryData = new ExporterCountryQueryData();
+		queryData.setCountryCode(countryCode);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		final Exporter<File, ExporterCountryQueryData> exporter = new ExporterCountryFTSReadme_TXT(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("CountryFTSReadme_" + new Date().getTime() + "_", ".txt");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
+	}
+
+	@Override
+	public XSSFWorkbook exportIndicatorFTS_XLSX(final Long fromYear, final Long toYear, final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorQueryData queryData = new ExporterIndicatorQueryData();
+		queryData.setFromYear(fromYear);
+		queryData.setToYear(toYear);
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		// Indicator report contains :
+		// 1. Read me
+		// 2. Overview
+		// 3. Indicator data for FTS001
+		// 3. Indicator data for FTS002
+		final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_XLSX(new ExporterIndicatorTypeFTSOverview_XLSX(new ExporterIndicatorFTS_XLSX(
+				new ExporterIndicatorFTS_XLSX(this, "FTS001", ""), "FTS002", "")));
+
+		// Export the data in a new workbook
+		final XSSFWorkbook workbook = new XSSFWorkbook();
+		exporter.export(workbook, queryData);
+
+		// Return the workbook
+		return workbook;
+	}
+
+	/**
+	 * Export an indicator type FTS readme as TXT.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public File exportIndicatorFTSReadMe_TXT(final String language) throws Exception {
+		// Set the query data
+		final ExporterIndicatorQueryData queryData = new ExporterIndicatorQueryData();
+		queryData.setLanguage(language);
+		queryData.setReadmeHelper(readmeHelper);
+
+		// Define the exporter
+		final Exporter<File, ExporterIndicatorQueryData> exporter = new ExporterIndicatorFTSReadme_TXT(this);
+
+		// Export the data in a new file
+		final File file = File.createTempFile("IndicatorFTSReadme_" + new Date().getTime() + "_", ".txt");
+		exporter.export(file, queryData);
+
+		// Return the workbook
+		return file;
+	}
+
+	/* ********************************* */
+	/* Data getters for Country reports. */
+	/* ********************************* */
 
 	/**
 	 * Country - overview.
@@ -395,9 +607,15 @@ public class ExporterServiceImpl implements ExporterService {
 	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData) {
 		return curatedDataService.listIndicatorsForCountryOverview(queryData.getCountryCode(), queryData.getLanguage());
 	}
+
 	@Override
 	public List<Object[]> getCountryRWOverviewData(final ExporterCountryQueryData queryData) {
 		return curatedDataService.listIndicatorsForCountryRWOverview(queryData.getCountryCode(), queryData.getLanguage());
+	}
+
+	@Override
+	public List<Object[]> getCountryFTSOverviewData(final ExporterCountryQueryData queryData) {
+		return curatedDataService.listIndicatorsForCountryFTSOverview(queryData.getCountryCode(), queryData.getLanguage());
 	}
 
 	/**
@@ -481,10 +699,22 @@ public class ExporterServiceImpl implements ExporterService {
 	@Override
 	public Map<String, ReportRow> getCountryRWData(final ExporterCountryQueryData queryData) {
 
-		final Map<Integer, List<Object[]>> listIndicatorsForCountryRW = curatedDataService.listIndicatorsForCountryRW(queryData.getCountryCode(), Integer.valueOf(queryData.getFromYear()),
+		final Map<Integer, List<Object[]>> listIndicatorsForCountry = curatedDataService.listIndicatorsForCountryRW(queryData.getCountryCode(), Integer.valueOf(queryData.getFromYear()),
 				Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
 
-		return convertCountryIndicatorsToReports(listIndicatorsForCountryRW);
+		return convertCountryIndicatorsToReports(listIndicatorsForCountry);
+	}
+
+	/**
+	 * Country - FTS.
+	 */
+	@Override
+	public Map<String, ReportRow> getCountryFTSData(final ExporterCountryQueryData queryData) {
+
+		final Map<Integer, List<Object[]>> listIndicatorsForCountry = curatedDataService.listIndicatorsForCountryFTS(queryData.getCountryCode(), Integer.valueOf(queryData.getFromYear()),
+				Integer.valueOf(queryData.getToYear()), queryData.getLanguage());
+
+		return convertCountryIndicatorsToReports(listIndicatorsForCountry);
 	}
 
 	/**
@@ -555,9 +785,9 @@ public class ExporterServiceImpl implements ExporterService {
 		return reportRows;
 	}
 
-	/* ****************** */
-	/* Indicator reports. */
-	/* ****************** */
+	/* *********************************** */
+	/* Data getters for Indicator reports. */
+	/* *********************************** */
 
 	/**
 	 * Indicator - overview.
@@ -586,48 +816,6 @@ public class ExporterServiceImpl implements ExporterService {
 		 * 
 		 * return convertCountryIndicatorsToReports(listIndicatorsForCountryCrisisHistory);
 		 */
-	}
-
-	@Override
-	public File exportIndicatorAllMetadata_CSV(final String language) throws Exception {
-		// Set the query data
-		final ExporterIndicatorMetadataQueryData queryData = new ExporterIndicatorMetadataQueryData();
-		queryData.setIndicatorTypeCode(null);
-		queryData.setLanguage(language);
-
-		// Define the exporter
-		// Indicator metadata contains :
-		// 1. Metadata (all data)
-
-		final Exporter<File, ExporterIndicatorMetadataQueryData> exporter = new ExporterIndicatorMetadata_CSV(this);
-
-		// Export the data in a new file
-		final File file = File.createTempFile("IndicatorAllMetadata_" + new Date().getTime() + "_", ".csv");
-		exporter.export(file, queryData);
-
-		// Return the workbook
-		return file;
-	}
-
-	@Override
-	public File exportIndicatorMetadata_CSV(final String indicatorTypeCode, final String language) throws Exception {
-		// Set the query data
-		final ExporterIndicatorMetadataQueryData queryData = new ExporterIndicatorMetadataQueryData();
-		queryData.setIndicatorTypeCode(indicatorTypeCode);
-		queryData.setLanguage(language);
-
-		// Define the exporter
-		// Indicator metadata contains :
-		// 1. Metadata (all data)
-
-		final Exporter<File, ExporterIndicatorMetadataQueryData> exporter = new ExporterIndicatorMetadata_CSV(this);
-
-		// Export the data in a new file
-		final File file = File.createTempFile("IndicatorMetadata_" + new Date().getTime() + "_", ".csv");
-		exporter.export(file, queryData);
-
-		// Return the workbook
-		return file;
 	}
 
 	@Override
