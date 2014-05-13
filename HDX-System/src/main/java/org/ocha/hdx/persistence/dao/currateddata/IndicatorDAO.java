@@ -18,11 +18,36 @@ import org.ocha.hdx.persistence.entity.curateddata.Source;
 
 public interface IndicatorDAO {
 
-	public List<Indicator> listLastIndicators(final int limit);
-
+	/**
+	 * Create an indicator.
+	 * @param source
+	 * @param entity
+	 * @param type
+	 * @param start
+	 * @param end
+	 * @param periodicity
+	 * @param value
+	 * @param initialValue
+	 * @param validationStatus
+	 * @param sourceLink
+	 * @param importFromCKAN
+	 */
 	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
 			final String initialValue, final ValidationStatus validationStatus, final String sourceLink, final ImportFromCKAN importFromCKAN);
 
+	/**
+	 * Create an indicator.
+	 * @param source
+	 * @param entity
+	 * @param type
+	 * @param start
+	 * @param end
+	 * @param periodicity
+	 * @param value
+	 * @param indicatorImportConfig
+	 * @param sourceLink
+	 * @param importFromCKAN
+	 */
 	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
 			final IndicatorImportConfig indicatorImportConfig, final String sourceLink, final ImportFromCKAN importFromCKAN);
 
@@ -53,94 +78,39 @@ public interface IndicatorDAO {
 	 */
 	public List<Indicator> listIndicatorsByYearAndSourceAndIndicatorTypes(final int year, final String sourceCode, final List<String> indicatorTypeCodes);
 
+	public List<Indicator> listLastIndicators(final int limit);
+
 	/**
 	 * Indicators for the country - overview.
 	 * 
 	 * @param countryCode
 	 * @param languageCode
+	 * @param indicatorsList
 	 */
-	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
-	public List<Object[]> listIndicatorsForCountryRWOverview(String countryCode, String languageCode);
-	public List<Object[]> listIndicatorsForCountryFTSOverview(String countryCode, String languageCode);
+	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode, String[] indicatorsList);
 
 	/**
-	 * Indicators for the country - crisis history.
-	 * 
+	 * Generic method to get indicators for a given country.
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
+	 * @param dataSeries
 	 * @param languageCode
-	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
+	 * @return
 	 */
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(String countryCode, int fromYear, int toYear, String languageCode);
+	Map<Integer, List<Object[]>> listIndicatorsForCountry(String countryCode, int fromYear, int toYear, String languageCode, List<DataSerie> dataSeries);
 
 	/**
-	 * Indicators for the country - vulnerability.
-	 * 
+	 * Generic method to get indicators for a given country.
 	 * @param countryCode
 	 * @param fromYear
 	 * @param toYear
+	 * @param dataSeries
 	 * @param languageCode
-	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
+	 * @param periodicity
+	 * @return
 	 */
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(String countryCode, int fromYear, int toYear, String languageCode);
-
-	public Map<Integer, List<Object[]>> list5YearsIndicatorsForCountry(String countryCode, int fromYear, int toYear, String languageCode);
-
-	/**
-	 * Indicators for the country - socio-economic.
-	 * 
-	 * @param countryCode
-	 * @param fromYear
-	 * @param toYear
-	 * @param languageCode
-	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
-	 */
-	public Map<Integer, List<Object[]>> listIndicatorsForCountrySocioEconomic(String countryCode, int fromYear, int toYear, String languageCode);
-
-	/**
-	 * Indicators for the country - capacity.
-	 * 
-	 * @param countryCode
-	 * @param fromYear
-	 * @param toYear
-	 * @param languageCode
-	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
-	 */
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity(String countryCode, int fromYear, int toYear, String languageCode);
-
-	/**
-	 * Indicators for the country - other.
-	 * 
-	 * @param countryCode
-	 * @param fromYear
-	 * @param toYear
-	 * @param languageCode
-	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
-	 */
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(String countryCode, int fromYear, int toYear, String languageCode);
-
-	/**
-	 * Indicators for the country - RW.
-	 * 
-	 * @param countryCode
-	 * @param fromYear
-	 * @param toYear
-	 * @param languageCode
-	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
-	 */
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryRW(String countryCode, int fromYear, int toYear, String languageCode);
-
-	/**
-	 * Indicators for the country - FTS.
-	 * 
-	 * @param countryCode
-	 * @param fromYear
-	 * @param toYear
-	 * @param languageCode
-	 * @return A map of data. Key is year, value is list of indicators for this year (Object[] for flexibility)
-	 */
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryFTS(String countryCode, int fromYear, int toYear, String languageCode);
+	Map<Integer, List<Object[]>> listIndicatorsForCountry(String countryCode, int fromYear, int toYear, String languageCode, Periodicity periodicity, List<DataSerie> dataSeries);
 
 	/**
 	 * very likely to be used by the unit tests only

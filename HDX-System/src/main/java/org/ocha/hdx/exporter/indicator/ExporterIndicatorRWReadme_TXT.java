@@ -2,6 +2,7 @@ package org.ocha.hdx.exporter.indicator;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -9,6 +10,7 @@ import javax.persistence.NoResultException;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_File;
 import org.ocha.hdx.exporter.helper.ReadmeHelperImpl.ReadmeSentence;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.view.IndicatorTypeOverview;
 import org.ocha.hdx.service.ExporterService;
 
@@ -54,11 +56,9 @@ public class ExporterIndicatorRWReadme_TXT extends Exporter_File<ExporterIndicat
 		content.add("");
 		content.add("INDICATOR OVERVIEW");
 
-		// The overview data for RW001
+		// The overview data for RW
 		queryData.setSourceCode("RW");
-		final List<String> RWIndicatorTypes = new ArrayList<String>();
-		RWIndicatorTypes.add("RW001");
-		RWIndicatorTypes.add("RW002");
+		final List<String> RWIndicatorTypes = Arrays.asList(DataSerie.COUNTRY_OVERVIEW_RW_indicatorsList);
 
 		for (final String rwIndicator : RWIndicatorTypes) {
 			queryData.setIndicatorTypeCode(rwIndicator);

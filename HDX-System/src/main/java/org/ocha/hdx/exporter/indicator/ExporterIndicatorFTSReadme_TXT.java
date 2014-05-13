@@ -54,11 +54,29 @@ public class ExporterIndicatorFTSReadme_TXT extends Exporter_File<ExporterIndica
 		content.add("");
 		content.add("INDICATOR OVERVIEW");
 
-		// The overview data for FTS001
-		queryData.setSourceCode("FTS");
+		// The overview data for FTS
+		queryData.setSourceCode("fts");
+		
 		final List<String> FTSIndicatorTypes = new ArrayList<String>();
-		FTSIndicatorTypes.add("FTS001");
-		FTSIndicatorTypes.add("FTS002");
+		FTSIndicatorTypes.add("FY010");
+		FTSIndicatorTypes.add("FY020");
+		FTSIndicatorTypes.add("FY040");
+		FTSIndicatorTypes.add("FY190");
+		FTSIndicatorTypes.add("FY200");
+		FTSIndicatorTypes.add("FY210");
+		FTSIndicatorTypes.add("FY240");
+		FTSIndicatorTypes.add("FY360");
+		FTSIndicatorTypes.add("FY370");
+		FTSIndicatorTypes.add("FY380");
+		FTSIndicatorTypes.add("FY500");
+		FTSIndicatorTypes.add("FY510");
+		FTSIndicatorTypes.add("FY520");
+		FTSIndicatorTypes.add("FY540");
+		FTSIndicatorTypes.add("FY550");
+		FTSIndicatorTypes.add("FY620");
+		FTSIndicatorTypes.add("FY630");
+		FTSIndicatorTypes.add("FA010");
+		FTSIndicatorTypes.add("FA140");
 
 		for (final String rwIndicator : FTSIndicatorTypes) {
 			queryData.setIndicatorTypeCode(rwIndicator);

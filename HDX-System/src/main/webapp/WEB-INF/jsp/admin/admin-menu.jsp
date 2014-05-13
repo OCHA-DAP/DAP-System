@@ -57,7 +57,7 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 					<ul class="dropdown-menu">
 						<li ng-class="{ active: isActive('${ctx}/admin/reports/country', 'reports') }"><a href="${ctx}/admin/reports/country/">Country-centric</a></li>
 						<li ng-class="{ active: isActive('${ctx}/admin/reports/indicator/', 'reports') }"><a href="${ctx}/admin/reports/indicator/">Indicator-centric</a></li>
-						<li ng-class="{ active: isActive('${ctx}/admin/reports/indicatorMetadata', 'reports') }"><a href="${ctx}/admin/reports/indicatorMetadata/">Indicator metadata</a></li>
+						<li ng-class="{ active: isActive('${ctx}/admin/reports/indicatorMetadata', 'reports') }"><a href="${ctx}/admin/reports/indicatorMetadata/">Metadata</a></li>
 					</ul></li>
 			</ul>
 			<!-- form class="navbar-form navbar-left" role="search">

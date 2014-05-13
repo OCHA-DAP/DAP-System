@@ -11,6 +11,7 @@ import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorMetadataQueryData;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
 import org.ocha.hdx.model.DataSerie;
+import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
@@ -29,7 +30,7 @@ public interface ExporterService {
 	 * Delegates from CuratedDataService.
 	 */
 
-	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode);
+	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode, final String[] indicatorsList);
 
 	public IndicatorType getIndicatorTypeByCode(final String code);
 
@@ -68,35 +69,15 @@ public interface ExporterService {
 	public File exportCountryFTSReadMe_TXT(String countryCode, String language) throws Exception;
 
 	/*
-	 * Country overview
-	 */
-	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData);
-	public List<Object[]> getCountryRWOverviewData(ExporterCountryQueryData queryData);
-	public List<Object[]> getCountryFTSOverviewData(ExporterCountryQueryData queryData);
-
-
-	/**
+	 * Data getters for country reports.
 	 * Only the rows with actual data are added in the returned result.
-	 * 
-	 * @param queryData
-	 * @return a map of the rows we can expect in the report.
 	 */
-	public Map<String, ReportRow> getCountryCrisisHistoryData(ExporterCountryQueryData queryData);
+	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData, final String[] indicatorsList);
+	public Map<String, ReportRow> getCountryData(ExporterCountryQueryData queryData, final List<DataSerie> dataSeries);
+	public Map<String, ReportRow> getCountryData(ExporterCountryQueryData queryData, final Periodicity periodicity, final List<DataSerie> dataSeries);
 
-	public Map<String, ReportRow> getCountrySocioEconomicData(ExporterCountryQueryData queryData);
-
-	public Map<String, ReportRow> getCountryVulnerabilityData(ExporterCountryQueryData queryData);
-
-	public Map<String, ReportRow> getCountryCapacityData(ExporterCountryQueryData queryData);
-
-	public Map<String, ReportRow> getCountryOtherData(ExporterCountryQueryData queryData);
-
-	public Map<String, ReportRow> getCountry5YearsData(ExporterCountryQueryData queryData);
-
-	public Map<String, ReportRow> getCountryRWData(ExporterCountryQueryData queryData);
-
-	public Map<String, ReportRow> getCountryFTSData(ExporterCountryQueryData queryData);
-
+	
+	
 	/* ****************** */
 	/* Indicator reports. */
 	/* ****************** */
@@ -122,25 +103,23 @@ public interface ExporterService {
 	public File exportIndicatorFTSReadMe_TXT(String language) throws Exception;
 
 	/*
-	 * Indicator overview
+	 * Data getters for Indicator reports.
+	 * Only the rows with actual data are added in the returned result.
 	 */
 	public IndicatorTypeOverview getIndicatorTypeOverviewData(ExporterIndicatorQueryData queryData);
-
-	/**
-	 * Only the rows with actual data are added in the returned result.
-	 * 
-	 * @param queryData
-	 * @return a map of the rows we can expect in the report.
-	 */
 	public Map<Long, Map<String, IndicatorData>> getIndicatorDataData(ExporterIndicatorQueryData queryData);
 
-	/*
-	 * Indicator metadata
-	 */
+	
+	
+	/* ***************** */
+	/* Metadata reports. */
+	/* ***************** */
 	public File exportIndicatorAllMetadata_CSV(String language) throws Exception;
-
 	public File exportIndicatorMetadata_CSV(String indicatorTypeCode, String language) throws Exception;
 
+	/*
+	 * Data getters for Metadata reports.
+	 * Only the rows with actual data are added in the returned result.
+	 */
 	public List<DataSerieMetadata> getIndicatorMetadataData(ExporterIndicatorMetadataQueryData queryData);
-
 }

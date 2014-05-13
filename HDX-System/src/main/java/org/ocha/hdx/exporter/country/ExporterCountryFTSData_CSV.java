@@ -10,6 +10,7 @@ import java.util.Map;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_File;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.service.ExporterService;
 
 /**
@@ -34,7 +35,7 @@ public class ExporterCountryFTSData_CSV extends Exporter_File<ExporterCountryQue
 		// Gathering the data
 		// 1. FTS
 
-		final Map<String, ReportRow> rwData = exporterService.getCountryFTSData(queryData);
+		final Map<String, ReportRow> rwData = exporterService.getCountryData(queryData, DataSerie.COUNTRY_FTS_dataSeries);
 
 		final List<Map<String, ReportRow>> allData = new ArrayList<Map<String, ReportRow>>();
 		allData.add(rwData);

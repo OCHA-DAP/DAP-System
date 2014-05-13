@@ -238,33 +238,14 @@ public interface CuratedDataService {
 	/* Country reports */
 
 	// Country overview
-	public List<Object[]> listIndicatorsForCountryOverview(String countryCode, String languageCode);
-	public List<Object[]> listIndicatorsForCountryRWOverview(String countryCode, String languageCode);
-	public List<Object[]> listIndicatorsForCountryFTSOverview(String countryCode, String languageCode);
+	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode, final String[] indicatorsList);
 
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(String countryCode, int fromYear, int toYear, String languageCode);
+	// Country indicators
+	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final List<DataSerie> dataSeries);
 
-	public Map<Integer, List<Object[]>> list5YearsIndicatorsForCountry(String countryCode, int fromYear, int toYear, String languageCode);
+	// Country indicators
+	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final Periodicity periodicity, final List<DataSerie> dataSeries);
 
-	// Country socio-economic
-	public Map<Integer, List<Object[]>> listIndicatorsForCountrySocioEconomic(String countryCode, int fromYear, int toYear, String languageCode);
-
-	// Country vulnerability
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(String countryCode, int fromYear, int toYear, String languageCode);
-
-	// Country capacity
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity(String countryCode, int fromYear, int toYear, String languageCode);
-
-	// Country other
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(String countryCode, int fromYear, int toYear, String languageCode);
-
-	// Country RW
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryRW(String countryCode, int fromYear, int toYear, String language);
-
-	// Country FTS
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryFTS(String countryCode, int fromYear, int toYear, String language);
-
-	
 	/* Indicator reports */
 
 	// Indicator overview

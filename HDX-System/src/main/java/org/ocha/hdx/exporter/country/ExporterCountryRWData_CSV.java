@@ -10,6 +10,7 @@ import java.util.Map;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_File;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.service.ExporterService;
 
 /**
@@ -34,7 +35,7 @@ public class ExporterCountryRWData_CSV extends Exporter_File<ExporterCountryQuer
 		// Gathering the data
 		// 1. ReliefWeb
 
-		final Map<String, ReportRow> rwData = exporterService.getCountryRWData(queryData);
+		final Map<String, ReportRow> rwData = exporterService.getCountryData(queryData, DataSerie.COUNTRY_RW_dataSeries);
 
 		final List<Map<String, ReportRow>> allData = new ArrayList<Map<String, ReportRow>>();
 		allData.add(rwData);
