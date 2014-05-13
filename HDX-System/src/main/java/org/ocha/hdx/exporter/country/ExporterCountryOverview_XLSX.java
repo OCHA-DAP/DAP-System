@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_XLSX;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.service.ExporterService;
 
 /**
@@ -29,7 +30,7 @@ public class ExporterCountryOverview_XLSX extends Exporter_XLSX<ExporterCountryQ
 	@Override
 	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) throws Exception {
 
-		final List<Object[]> data = exporterService.getCountryOverviewData(queryData);
+		final List<Object[]> data = exporterService.getCountryOverviewData(queryData, DataSerie.COUNTRY_OVERVIEW_indicatorsList);
 
 		/* TODO i18n */
 

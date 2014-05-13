@@ -10,6 +10,8 @@ import java.util.Map;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_File;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.model.DataSerie;
+import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.ocha.hdx.service.ExporterService;
 
@@ -42,12 +44,12 @@ public class ExporterCountryData_CSV extends Exporter_File<ExporterCountryQueryD
 		// 7. Country - 5-years data
 		// 8. Read me
 
-		final Map<String, ReportRow> crisisHistoryData = exporterService.getCountryCrisisHistoryData(queryData);
-		final Map<String, ReportRow> socioEconomicData = exporterService.getCountrySocioEconomicData(queryData);
-		final Map<String, ReportRow> vulnerabilityData = exporterService.getCountryVulnerabilityData(queryData);
-		final Map<String, ReportRow> capacityData = exporterService.getCountryCapacityData(queryData);
-		final Map<String, ReportRow> otherData = exporterService.getCountryOtherData(queryData);
-		final Map<String, ReportRow> _5YearsData = exporterService.getCountry5YearsData(queryData);
+		final Map<String, ReportRow> crisisHistoryData = exporterService.getCountryData(queryData, DataSerie.COUNTRY_CRISIS_HISTORY_dataSeries);
+		final Map<String, ReportRow> socioEconomicData = exporterService.getCountryData(queryData, DataSerie.COUNTRY_SOCIO_ECONOMIC_dataSeries);
+		final Map<String, ReportRow> vulnerabilityData = exporterService.getCountryData(queryData, DataSerie.COUNTRY_VULNERABILITY_dataSeries);
+		final Map<String, ReportRow> capacityData = exporterService.getCountryData(queryData, DataSerie.COUNTRY_CAPACITY_dataSeries);
+		final Map<String, ReportRow> otherData = exporterService.getCountryData(queryData, DataSerie.COUNTRY_OTHER_dataSeries);
+		final Map<String, ReportRow> _5YearsData = exporterService.getCountryData(queryData, Periodicity.FIVE_YEARS, DataSerie.COUNTRY_5_YEARS_dataSeries);
 
 		final List<Map<String, ReportRow>> allData = new ArrayList<Map<String, ReportRow>>();
 		allData.add(crisisHistoryData);

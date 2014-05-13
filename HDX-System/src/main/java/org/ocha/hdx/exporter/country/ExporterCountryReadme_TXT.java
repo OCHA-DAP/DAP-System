@@ -7,6 +7,7 @@ import java.util.List;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_File;
 import org.ocha.hdx.exporter.helper.ReadmeHelperImpl.ReadmeSentence;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.service.ExporterService;
 
 /**
@@ -52,7 +53,7 @@ public class ExporterCountryReadme_TXT extends Exporter_File<ExporterCountryQuer
 		content.add("COUNTRY OVERVIEW");
 
 		// The overview data
-		final List<Object[]> overviewData = this.exporterService.getCountryOverviewData(queryData);
+		final List<Object[]> overviewData = exporterService.getCountryOverviewData(queryData, DataSerie.COUNTRY_OVERVIEW_indicatorsList);
 		try {
 			for (final Object[] objects : overviewData) {
 				if (objects.length > 1) {

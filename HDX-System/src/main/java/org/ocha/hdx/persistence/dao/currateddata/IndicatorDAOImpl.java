@@ -193,11 +193,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 * List of indicators for a country - overview.
 	 */
 	@Override
-	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
-		// List of indicators relevant for country - overview. TODO Externalize ?
-		final String[] indicatorsList = new String[] { "CD010", "CD030", "CD050", "CD060", "CD070", "CD080", "CD090", "CG020", "CG030", "CG060", "CG070", "CG080", "CG100", "CG120", "CG140", "CG150",
-				"CG260", "CG290", "_m49-name", "_unterm:ISO Country alpha-2-code" };
-
+	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode, final String[] indicatorsList) {
 		final List<Object[]> result = new ArrayList<Object[]>();
 		for (final String indicator : indicatorsList) {
 			// TODO i18n
@@ -216,228 +212,20 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 			result.add(queryResult);
 		}
 		return result;
-	}
-
-	/*
-	 * List of indicators for a country RW - overview.
-	 * TODO Factorize with previous
-	 */
-	@Override
-	public List<Object[]> listIndicatorsForCountryRWOverview(final String countryCode, final String languageCode) {
-		// List of indicators relevant for country RW - overview. TODO Externalize ?
-		final String[] indicatorsList = new String[] { "RW001", "RW002" };
-
-		final List<Object[]> result = new ArrayList<Object[]>();
-		for (final String indicator : indicatorsList) {
-			// TODO i18n
-			final Query query = em
-					.createQuery(
-							"SELECT i.type.code, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.entity.code = :countryCode")
-					.setParameter("isCountry", "country").setParameter("code", indicator).setParameter("countryCode", countryCode).setMaxResults(1);
-			Object[] queryResult = null;
-			try {
-				queryResult = (Object[]) query.getSingleResult();
-			} catch (final NoResultException e) {
-				// It is possible that no value exists for the given indicator.
-				// So we just put the indicator in the result.
-				queryResult = new Object[] { indicator };
-			}
-			result.add(queryResult);
-		}
-		return result;
-	}
-
-	/*
-	 * List of indicators for a country FTS - overview.
-	 * TODO Factorize with previous
-	 */
-	@Override
-	public List<Object[]> listIndicatorsForCountryFTSOverview(final String countryCode, final String languageCode) {
-		// List of indicators relevant for country FTS - overview. TODO Externalize ?
-		final String[] indicatorsList = new String[] { "FTS001", "FTS002" };
-
-		final List<Object[]> result = new ArrayList<Object[]>();
-		for (final String indicator : indicatorsList) {
-			// TODO i18n
-			final Query query = em
-					.createQuery(
-							"SELECT i.type.code, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.entity.code = :countryCode")
-					.setParameter("isCountry", "country").setParameter("code", indicator).setParameter("countryCode", countryCode).setMaxResults(1);
-			Object[] queryResult = null;
-			try {
-				queryResult = (Object[]) query.getSingleResult();
-			} catch (final NoResultException e) {
-				// It is possible that no value exists for the given indicator.
-				// So we just put the indicator in the result.
-				queryResult = new Object[] { indicator };
-			}
-			result.add(queryResult);
-		}
-		return result;
-	}
-
-	/*
-	 * List of indicators for a country - crisis history.
-	 */
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-
-		// List of indicators relevant for country - crisis history. Each indicator type has an associated source here TODO Externalize ?
-
-		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
-
-		dataSeries.add(new DataSerie("CH070", "emdat"));
-		dataSeries.add(new DataSerie("CH080", "emdat"));
-		dataSeries.add(new DataSerie("CH090", "emdat"));
-		dataSeries.add(new DataSerie("CH100", "emdat"));
-
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
-	}
-
-	/*
-	 * List of indicators for a country - socio-economic.
-	 */
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountrySocioEconomic(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		// List of indicators relevant for country - socio-economic. Each indicator type has an associated source here TODO Externalize ?
-
-		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
-		dataSeries.add(new DataSerie("PSE030", "world-bank"));
-		dataSeries.add(new DataSerie("PSE090", "world-bank"));
-		dataSeries.add(new DataSerie("PSE120", "world-bank"));
-		dataSeries.add(new DataSerie("PSE130", "world-bank"));
-		dataSeries.add(new DataSerie("PSP080", "esa-unpd-wpp2012"));
-		dataSeries.add(new DataSerie("PSE140", "world-bank"));
-		dataSeries.add(new DataSerie("PSE150", "world-bank"));
-		dataSeries.add(new DataSerie("PSE200", "world-bank"));
-		dataSeries.add(new DataSerie("PSP010", "esa-unpd-wpp2012"));
-		dataSeries.add(new DataSerie("PSP060", "world-bank"));
-		dataSeries.add(new DataSerie("PSP090", "world-bank"));
-		dataSeries.add(new DataSerie("PSP110", "world-bank"));
-
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
-	}
-
-	/*
-	 * List of indicators for a country - vulnerability.
-	 */
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		// List of indicators relevant for country - vulnerability. Each indicator type has an associated source here TODO Externalize ?
-		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
-		dataSeries.add(new DataSerie("PVE130", "mdgs"));
-		dataSeries.add(new DataSerie("PVF020", "faostat3"));
-		dataSeries.add(new DataSerie("PVH140", "mdgs"));
-		dataSeries.add(new DataSerie("PVL040", "world-bank"));
-		dataSeries.add(new DataSerie("PVN010", "fao-foodsec"));
-		dataSeries.add(new DataSerie("PVW010", "mdgs"));
-		dataSeries.add(new DataSerie("PVW040", "mdgs"));
-
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
-	}
-
-	/*
-	 * List of indicators for a country - capacity.
-	 */
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		// List of indicators relevant for country - capacity. Each indicator type has an associated source here TODO Externalize ?
-
-		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
-		dataSeries.add(new DataSerie("PCX051", "mdgs"));
-		dataSeries.add(new DataSerie("PCX080", "mdgs"));
-		dataSeries.add(new DataSerie("PCX090", "world-bank"));
-		dataSeries.add(new DataSerie("PCX100", "world-bank"));
-
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
-	}
-
-	/*
-	 * List of indicators for a country - other.
-	 */
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		// List of indicators relevant for country - other. Each indicator type has an associated source here TODO Externalize ?
-
-		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
-		dataSeries.add(new DataSerie("_Children 1 year old immunized against measles, percentage", "mdgs"));
-		dataSeries.add(new DataSerie("_emdat:no_homeless", "emdat"));
-		dataSeries.add(new DataSerie("_emdat:no_injured", "emdat"));
-		dataSeries.add(new DataSerie("_emdat:total_affected", "emdat"));
-		dataSeries.add(new DataSerie("_GNI, PPP (current international $)", "world-bank"));
-		dataSeries.add(new DataSerie("_Internet users per 100 inhabitants", "mdgs"));
-		dataSeries.add(new DataSerie("_Land area (sq. km)", "world-bank"));
-		dataSeries.add(new DataSerie("_Net ODA received per capita (current US$)", "world-bank"));
-		dataSeries.add(new DataSerie("_Number of infant deaths", "world-bank"));
-
-		dataSeries.add(new DataSerie("_Population, total", "world-bank"));
-		dataSeries.add(new DataSerie("_Population undernourished, millions", "mdgs"));
-		dataSeries.add(new DataSerie("_Population undernourished, percentage", "mdgs"));
-		dataSeries.add(new DataSerie("_reliefweb_Humanitarian_Bulletin", "reliefweb-api"));
-		dataSeries.add(new DataSerie("_reliefweb_Humanitarian_Dashboard", "reliefweb-api"));
-		dataSeries.add(new DataSerie("_reliefweb_Humanitarian_Snapshot", "reliefweb-api"));
-		dataSeries.add(new DataSerie("_reliefweb_Infographic", "reliefweb-api"));
-		dataSeries.add(new DataSerie("_reliefweb_Key_Messages", "reliefweb-api"));
-		dataSeries.add(new DataSerie("_reliefweb_Other", "reliefweb-api"));
-		dataSeries.add(new DataSerie("_reliefweb_Press_Release", "reliefweb-api"));
-		dataSeries.add(new DataSerie("_reliefweb_Press_Review", "reliefweb-api"));
-		dataSeries.add(new DataSerie("_reliefweb_Reference_Map", "reliefweb-api"));
-		dataSeries.add(new DataSerie("_reliefweb_Situation_Report", "reliefweb-api"));
-		dataSeries.add(new DataSerie("_reliefweb_Statement/Speech", "reliefweb-api"));
-		dataSeries.add(new DataSerie("_reliefweb_Thematic_Map", "reliefweb-api"));
-
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
-	}
-
-	/*
-	 * List of indicators for a country - RW.
-	 */
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryRW(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		// List of indicators relevant for country - RW. Each indicator type has an associated source here TODO Externalize ?
-
-		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
-		dataSeries.add(new DataSerie("RW002", "RW"));
-		dataSeries.add(new DataSerie("RW001", "RW"));
-
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
-	}
-
-	/*
-	 * List of indicators for a country - FTS.
-	 */
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryFTS(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		// List of indicators relevant for country - FTS. Each indicator type has an associated source here TODO Externalize ?
-
-		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
-		dataSeries.add(new DataSerie("FTS002", "FTS"));
-		dataSeries.add(new DataSerie("FTS001", "FTS"));
-
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.YEAR);
-	}
-
-	/*
-	 * List of indicators for a country - 5-years data.
-	 */
-	@Override
-	public Map<Integer, List<Object[]>> list5YearsIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		final List<DataSerie> dataSeries = new ArrayList<DataSerie>();
-		dataSeries.add(new DataSerie("_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "esa-unpd-wpp2012"));
-		dataSeries.add(new DataSerie("PSP050", "esa-unpd-wpp2012"));
-		dataSeries.add(new DataSerie("PVH010", "esa-unpd-wpp2012"));
-		dataSeries.add(new DataSerie("PVH050", "esa-unpd-wpp2012"));
-		dataSeries.add(new DataSerie("PVH100", "esa-unpd-wpp2012"));
-		dataSeries.add(new DataSerie("PVH150", "esa-unpd-wpp2012"));
-
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, dataSeries, languageCode, Periodicity.FIVE_YEARS);
 	}
 
 	/*
 	 * Generic method to get indicators for a given country.
 	 */
-	private Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final List<DataSerie> dataSeries, final String languageCode,
-			final Periodicity periodicity) {
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode,
+			final List<DataSerie> dataSeries) {
+		return listIndicatorsForCountry(countryCode, fromYear, toYear, languageCode, Periodicity.YEAR, dataSeries);
+	}
+	
+	@Override
+	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode,
+			final Periodicity periodicity, final List<DataSerie> dataSeries) {
 		int fromYear_ = fromYear;
 		int toYear_ = toYear;
 

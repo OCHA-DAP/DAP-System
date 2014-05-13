@@ -5,6 +5,7 @@ import java.util.Map;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.service.ExporterService;
 
 /**
@@ -26,7 +27,7 @@ public class ExporterCountryRWData_XLSX extends AbstractExporterCountryRW_XLSX {
 	@Override
 	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) throws Exception {
 
-		final Map<String, ReportRow> data = exporterService.getCountryRWData(queryData);
+		final Map<String, ReportRow> data = exporterService.getCountryData(queryData, DataSerie.COUNTRY_RW_dataSeries);
 
 		return export(workbook, queryData, data, "ReliefWeb data");
 

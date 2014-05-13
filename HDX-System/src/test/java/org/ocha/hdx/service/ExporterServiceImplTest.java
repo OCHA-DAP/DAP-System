@@ -17,6 +17,8 @@ import org.junit.runner.RunWith;
 import org.ocha.hdx.IntegrationTestSetUpAndTearDown;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.model.DataSerie;
+import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -55,7 +57,7 @@ public class ExporterServiceImplTest {
 		exporterCountryQueryData.setFromYear(2005);
 		exporterCountryQueryData.setToYear(2010);
 		exporterCountryQueryData.setLanguage("En");
-		final Map<String, ReportRow> countryCrisisHistoryData = exporterService.getCountryCrisisHistoryData(exporterCountryQueryData);
+		final Map<String, ReportRow> countryCrisisHistoryData = exporterService.getCountryData(exporterCountryQueryData, DataSerie.COUNTRY_CRISIS_HISTORY_dataSeries);
 
 		{
 			Assert.assertEquals(2, countryCrisisHistoryData.size());
@@ -90,7 +92,7 @@ public class ExporterServiceImplTest {
 		exporterCountryQueryData.setFromYear(2005);
 		exporterCountryQueryData.setToYear(2010);
 		exporterCountryQueryData.setLanguage("En");
-		final Map<String, ReportRow> data5Years = exporterService.getCountry5YearsData(exporterCountryQueryData);
+		final Map<String, ReportRow> data5Years = exporterService.getCountryData(exporterCountryQueryData, Periodicity.FIVE_YEARS, DataSerie.COUNTRY_5_YEARS_dataSeries);
 
 		Assert.assertEquals(1, data5Years.size());
 		final ReportRow reportRow = data5Years.get("_WPP2012_MORT_F02_CRUDE_DEATH_RATE");

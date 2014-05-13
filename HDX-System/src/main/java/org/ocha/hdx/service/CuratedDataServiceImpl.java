@@ -677,65 +677,20 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	// Country overview
 	@Override
-	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) {
-		return indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode);
+	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode, final String[] indicatorsList) {
+		return indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode, indicatorsList);
 	}
 
+	// Country indicators
 	@Override
-	public List<Object[]> listIndicatorsForCountryRWOverview(final String countryCode, final String languageCode) {
-		return indicatorDAO.listIndicatorsForCountryRWOverview(countryCode, languageCode);
+	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final List<DataSerie> dataSeries) {
+		return indicatorDAO.listIndicatorsForCountry(countryCode, fromYear, toYear, languageCode, dataSeries);
 	}
 
+	// Country indicators
 	@Override
-	public List<Object[]> listIndicatorsForCountryFTSOverview(final String countryCode, final String languageCode) {
-		return indicatorDAO.listIndicatorsForCountryFTSOverview(countryCode, languageCode);
-	}
-
-	// Country crisis history
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		return indicatorDAO.listIndicatorsForCountryCrisisHistory(countryCode, fromYear, toYear, languageCode);
-	}
-
-	// Country socio-economic
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountrySocioEconomic(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		return indicatorDAO.listIndicatorsForCountrySocioEconomic(countryCode, fromYear, toYear, languageCode);
-	}
-
-	// Country vulnerability
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryVulnerability(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		return indicatorDAO.listIndicatorsForCountryVulnerability(countryCode, fromYear, toYear, languageCode);
-	}
-
-	@Override
-	public Map<Integer, List<Object[]>> list5YearsIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		return indicatorDAO.list5YearsIndicatorsForCountry(countryCode, fromYear, toYear, languageCode);
-	}
-
-	// Country capacity
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryCapacity(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		return indicatorDAO.listIndicatorsForCountryCapacity(countryCode, fromYear, toYear, languageCode);
-	}
-
-	// Country other
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryOther(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		return indicatorDAO.listIndicatorsForCountryOther(countryCode, fromYear, toYear, languageCode);
-	}
-
-	// Country RW
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryRW(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		return indicatorDAO.listIndicatorsForCountryRW(countryCode, fromYear, toYear, languageCode);
-	}
-
-	// Country FTS
-	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountryFTS(final String countryCode, final int fromYear, final int toYear, final String languageCode) {
-		return indicatorDAO.listIndicatorsForCountryFTS(countryCode, fromYear, toYear, languageCode);
+	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final Periodicity periodicity, final List<DataSerie> dataSeries) {
+		return indicatorDAO.listIndicatorsForCountry(countryCode, fromYear, toYear, languageCode, periodicity, dataSeries);
 	}
 
 	/* Indicators */

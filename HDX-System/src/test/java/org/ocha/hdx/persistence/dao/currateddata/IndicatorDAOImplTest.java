@@ -185,7 +185,7 @@ public class IndicatorDAOImplTest {
 		integrationTestSetUpAndTearDown.setUpDataForCountryOverview();
 
 		{
-			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("USA", "FR");
+			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("USA", "FR", DataSerie.COUNTRY_OVERVIEW_indicatorsList);
 			Assert.assertEquals(20, listIndicatorsForCountryOverview.size());
 			final Object[] element = listIndicatorsForCountryOverview.get(0);
 			Assert.assertEquals(5, element.length);
@@ -196,7 +196,7 @@ public class IndicatorDAOImplTest {
 		}
 
 		{
-			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("COL", "FR");
+			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("COL", "FR", DataSerie.COUNTRY_OVERVIEW_indicatorsList);
 			Assert.assertEquals(20, listIndicatorsForCountryOverview.size());
 			final Object[] element = listIndicatorsForCountryOverview.get(0);
 			Assert.assertEquals(1, element.length);
@@ -211,7 +211,7 @@ public class IndicatorDAOImplTest {
 
 		integrationTestSetUpAndTearDown.setUpDataForCountryCrisisHistory();
 
-		final Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory = indicatorDAO.listIndicatorsForCountryCrisisHistory("USA", 2005, 2010, "FR");
+		final Map<Integer, List<Object[]>> listIndicatorsForCountryCrisisHistory = indicatorDAO.listIndicatorsForCountry("USA", 2005, 2010, "FR", DataSerie.COUNTRY_CRISIS_HISTORY_dataSeries);
 		Assert.assertEquals(6, listIndicatorsForCountryCrisisHistory.size());
 
 		final List<Object[]> results2005 = listIndicatorsForCountryCrisisHistory.get(new Integer(2005));
@@ -276,7 +276,7 @@ public class IndicatorDAOImplTest {
 		integrationTestSetUpAndTearDown.setUpDataForCountryOverview();
 
 		{
-			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("USA", "FR");
+			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("USA", "FR", DataSerie.COUNTRY_OVERVIEW_indicatorsList);
 			Assert.assertEquals(20, listIndicatorsForCountryOverview.size());
 			final Object[] element = listIndicatorsForCountryOverview.get(0);
 			Assert.assertEquals(5, element.length);
@@ -287,7 +287,7 @@ public class IndicatorDAOImplTest {
 		}
 
 		{
-			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("COL", "FR");
+			final List<Object[]> listIndicatorsForCountryOverview = indicatorDAO.listIndicatorsForCountryOverview("COL", "FR", DataSerie.COUNTRY_OVERVIEW_indicatorsList);
 			Assert.assertEquals(20, listIndicatorsForCountryOverview.size());
 			final Object[] element = listIndicatorsForCountryOverview.get(0);
 			Assert.assertEquals(1, element.length);
