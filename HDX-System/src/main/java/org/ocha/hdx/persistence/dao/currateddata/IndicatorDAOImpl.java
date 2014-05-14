@@ -193,6 +193,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 * List of indicators for a country - overview.
 	 */
 	@Override
+	@Deprecated
 	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode, final String[] indicatorsList) {
 		final List<Object[]> result = new ArrayList<Object[]>();
 		for (final String indicator : indicatorsList) {

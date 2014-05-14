@@ -47,7 +47,7 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 		/* TODO i18n */
 
 		// Creating the sheet
-		final String safeName = WorkbookUtil.createSafeSheetName("Indicators definitions");
+		final String safeName = WorkbookUtil.createSafeSheetName("Indicator definitions");
 		final XSSFSheet sheet = workbook.createSheet(safeName);
 
 		workbook.setSheetOrder(safeName, 1);

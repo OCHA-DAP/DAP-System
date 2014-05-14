@@ -55,7 +55,7 @@
 					<br />
 				</div>
 
-				<div style="width: 300px;">
+				<!-- div style="width: 300px;">
 					<div class="form-group" style="margin-top: 30px;">
 						<label for="reportGroup">CKAN Country (Group)</label> <select class="form-control" id="ckanGroupId" ng-model="ckanGroupModel" ng-options="ckanGroup.name for ckanGroup in ckanGroups"
 							ng-class="default" ng-change="groupSelect(ckanGroupModel)" ng-disabled="!grpLoaded">
@@ -74,7 +74,7 @@
 						</select>
 					</div>
 					<button type="button" class="btn btn-primary btn-custom-default" ng-click="savePublish()" ng-disabled="!saveBtn">Save & Publish</button>
-				</div>
+				</div -->
 			</form>
 		</div>
 	</div>

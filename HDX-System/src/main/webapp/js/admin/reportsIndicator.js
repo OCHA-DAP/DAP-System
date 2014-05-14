@@ -100,7 +100,7 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
           + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
       break;
     case 'RW Readme':
-      window.location.href = hdxContextRoot + "/api/exporter/indicatorRW/readme/language/" + $scope.reportLanguage.code + "/" + $scope.indicatorType.code + "_Readme.txt";
+      window.location.href = hdxContextRoot + "/api/exporter/indicatorRW/readme/language/" + $scope.reportLanguage.code + "/RW_Readme.txt";
       break;
     case 'FTS Data':
       $scope.reportFileName = "FTS";
@@ -108,7 +108,7 @@ app.controller('ReportsIndicatorCtrl', function($scope, $filter, $http, utilitie
           + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
       break;
     case 'FTS Readme':
-      window.location.href = hdxContextRoot + "/api/exporter/indicatorFTS/readme/language/" + $scope.reportLanguage.code + "/" + $scope.indicatorType.code + "_Readme.txt";
+      window.location.href = hdxContextRoot + "/api/exporter/indicatorFTS/readme/language/" + $scope.reportLanguage.code + "/FTS_Readme.txt";
       break;
 
     default:
