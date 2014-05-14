@@ -3,9 +3,6 @@ package org.ocha.hdx.model;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.ocha.hdx.persistence.dao.view.IndicatorTypeOverviewDAOImpl;
-
 public class DataSerie implements Comparable<DataSerie> {
 
 	// List of indicators for country overview
@@ -62,14 +59,11 @@ public class DataSerie implements Comparable<DataSerie> {
 			"fts"), new DataSerie("FY500", "fts"), new DataSerie("FY510", "fts"), new DataSerie("FY520", "fts"), new DataSerie("FY540", "fts"), new DataSerie("FY550", "fts"), new DataSerie("FY620",
 			"fts"), new DataSerie("FY630", "fts"), new DataSerie("FA010", "fts"), new DataSerie("FA140", "fts"));
 
-	Logger logger = Logger.getLogger(IndicatorTypeOverviewDAOImpl.class);
-
 	private final String indicatorCode;
 	private final String sourceCode;
 
 	public DataSerie(final String indicatorCode, final String sourceCode) {
 		super();
-		logger.debug("Source code param [" + sourceCode + "]");
 		this.indicatorCode = indicatorCode;
 		this.sourceCode = sourceCode;
 	}
