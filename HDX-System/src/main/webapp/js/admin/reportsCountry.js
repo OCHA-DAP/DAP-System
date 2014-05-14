@@ -79,7 +79,7 @@ app.controller('ReportsCountryCtrl', function($scope, $filter, utilities) {
       break;
     case 'FTS Data':
       $scope.reportFileName = $scope.country.code + "_FTS";
-      window.location.href = hdxContextRoot + "/api/exporter/countryRW/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
+      window.location.href = hdxContextRoot + "/api/exporter/countryFTS/" + $scope.reportFormat + "/" + $scope.country.code + "/fromYear/" + $scope.fromYear + "/toYear/" + $scope.toYear + "/language/"
           + $scope.reportLanguage.code + "/" + $scope.reportFileName + "." + $scope.reportFormat;
       break;
     case 'FTS Readme':

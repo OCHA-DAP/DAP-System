@@ -132,9 +132,11 @@ public class ExporterServiceImpl implements ExporterService {
 		queryData.setReadmeHelper(readmeHelper);
 
 		// Define the exporter
-		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryReadme_XLSX(new ExporterCountryOverview_XLSX(new ExporterCountryData_XLSX(
-				new ExporterCountryData_XLSX(new ExporterCountryData_XLSX(new ExporterCountryData_XLSX(new ExporterCountryData_XLSX(new ExporterCountryData_XLSX(
-						new ExporterCountryDefinitions_XLSX(this), Periodicity.FIVE_YEARS, DataSerie.COUNTRY_5_YEARS_dataSeries, "5 Years indicators"), DataSerie.COUNTRY_OTHER_dataSeries, "Other"), DataSerie.COUNTRY_CAPACITY_dataSeries, "Capacity"), DataSerie.COUNTRY_VULNERABILITY_dataSeries, "Vulnerability"), DataSerie.COUNTRY_SOCIO_ECONOMIC_dataSeries, "Socio-economic"), DataSerie.COUNTRY_CRISIS_HISTORY_dataSeries, "Crisis history")));
+		final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter = new ExporterCountryReadme_XLSX(new ExporterCountryOverview_XLSX(new ExporterCountryData_XLSX(new ExporterCountryData_XLSX(
+				new ExporterCountryData_XLSX(new ExporterCountryData_XLSX(new ExporterCountryData_XLSX(new ExporterCountryData_XLSX(new ExporterCountryDefinitions_XLSX(this), Periodicity.FIVE_YEARS,
+						DataSerie.COUNTRY_5_YEARS_dataSeries, "5 Years indicators"), DataSerie.COUNTRY_OTHER_dataSeries, "Other"), DataSerie.COUNTRY_CAPACITY_dataSeries, "Capacity"),
+						DataSerie.COUNTRY_VULNERABILITY_dataSeries, "Vulnerability"), DataSerie.COUNTRY_SOCIO_ECONOMIC_dataSeries, "Socio-economic"), DataSerie.COUNTRY_CRISIS_HISTORY_dataSeries,
+				"Crisis history")));
 
 		// final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> countryExporter = new ExporterIndicatorTypeOverview_XLSX(this);
 
@@ -556,10 +558,10 @@ public class ExporterServiceImpl implements ExporterService {
 		// Indicator report contains :
 		// 1. Read me
 		// 2. Overview
-		// 3. Indicator data for FTS001
-		// 3. Indicator data for FTS002
-		final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_XLSX(new ExporterIndicatorTypeFTSOverview_XLSX(new ExporterIndicatorFTS_XLSX(
-				new ExporterIndicatorFTS_XLSX(this, "FTS001", ""), "FTS002", "")));
+		// 3. Indicator data for every FTS indicator
+
+		final List<DataSerie> countryFtsDataseries = DataSerie.COUNTRY_FTS_dataSeries;
+		final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_XLSX(new ExporterIndicatorTypeFTSOverview_XLSX(buildSheets(countryFtsDataseries)));
 
 		// Export the data in a new workbook
 		final XSSFWorkbook workbook = new XSSFWorkbook();
@@ -567,6 +569,23 @@ public class ExporterServiceImpl implements ExporterService {
 
 		// Return the workbook
 		return workbook;
+	}
+	
+	/**
+	 * Build the exporters for each FTS Indicator.
+	 */
+	private ExporterIndicatorFTS_XLSX buildSheets(final List<DataSerie> dss) {
+		ExporterIndicatorFTS_XLSX previous = null;
+		for (final DataSerie ds : dss) {
+			ExporterIndicatorFTS_XLSX aSheet = null;
+			if (previous == null) {
+				aSheet = new ExporterIndicatorFTS_XLSX(this, ds.getIndicatorCode(), ds.getIndicatorCode());
+			} else {
+				aSheet = new ExporterIndicatorFTS_XLSX(previous, ds.getIndicatorCode(), ds.getIndicatorCode());
+			}
+			previous = aSheet;
+		}
+		return previous;
 	}
 
 	/**
@@ -609,8 +628,8 @@ public class ExporterServiceImpl implements ExporterService {
 	 */
 	@Override
 	public Map<String, ReportRow> getCountryData(final ExporterCountryQueryData queryData, final List<DataSerie> dataSeries) {
-		final Map<Integer, List<Object[]>> listIndicatorsForCountry = curatedDataService.listIndicatorsForCountry(queryData.getCountryCode(),
-				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage(), dataSeries);
+		final Map<Integer, List<Object[]>> listIndicatorsForCountry = curatedDataService.listIndicatorsForCountry(queryData.getCountryCode(), Integer.valueOf(queryData.getFromYear()),
+				Integer.valueOf(queryData.getToYear()), queryData.getLanguage(), dataSeries);
 
 		return convertCountryIndicatorsToReports(listIndicatorsForCountry);
 
@@ -618,8 +637,8 @@ public class ExporterServiceImpl implements ExporterService {
 
 	@Override
 	public Map<String, ReportRow> getCountryData(final ExporterCountryQueryData queryData, final Periodicity periodicity, final List<DataSerie> dataSeries) {
-		final Map<Integer, List<Object[]>> listIndicatorsForCountry = curatedDataService.listIndicatorsForCountry(queryData.getCountryCode(),
-				Integer.valueOf(queryData.getFromYear()), Integer.valueOf(queryData.getToYear()), queryData.getLanguage(), periodicity, dataSeries);
+		final Map<Integer, List<Object[]>> listIndicatorsForCountry = curatedDataService.listIndicatorsForCountry(queryData.getCountryCode(), Integer.valueOf(queryData.getFromYear()),
+				Integer.valueOf(queryData.getToYear()), queryData.getLanguage(), periodicity, dataSeries);
 
 		return convertCountryIndicatorsToReports(listIndicatorsForCountry);
 

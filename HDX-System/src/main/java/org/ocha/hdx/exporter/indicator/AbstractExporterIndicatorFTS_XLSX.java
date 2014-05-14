@@ -26,7 +26,7 @@ public abstract class AbstractExporterIndicatorFTS_XLSX extends Exporter_XLSX<Ex
 	
 	private String FTSIndicatorTypeCode;
 	private String FTSSheetName;
-	private final String FTSSourceCode = "FTS";
+	private final String FTSSourceCode = "fts";
 
 	public AbstractExporterIndicatorFTS_XLSX(final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter) {
 		super(exporter);
