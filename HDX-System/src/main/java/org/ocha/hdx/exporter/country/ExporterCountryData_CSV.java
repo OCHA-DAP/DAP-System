@@ -51,6 +51,7 @@ public class ExporterCountryData_CSV extends Exporter_File<ExporterCountryQueryD
 		final Map<String, ReportRow> otherData = exporterService.getCountryData(queryData, DataSerie.COUNTRY_OTHER_dataSeries);
 		final Map<String, ReportRow> _5YearsData = exporterService.getCountryData(queryData, Periodicity.FIVE_YEARS, DataSerie.COUNTRY_5_YEARS_dataSeries);
 
+		// Merging
 		final List<Map<String, ReportRow>> allData = new ArrayList<Map<String, ReportRow>>();
 		allData.add(crisisHistoryData);
 		allData.add(socioEconomicData);
@@ -71,19 +72,8 @@ public class ExporterCountryData_CSV extends Exporter_File<ExporterCountryQueryD
 		headers.add("HDX Methodology");
 
 		// Retrieve years from the data, as specifying 0 for fromYear/toYear in the queryData allows for earliest/latest data available.
-		int fromYear = Integer.MAX_VALUE;
-		int toYear = Integer.MIN_VALUE;
-		for (final Map<String, ReportRow> map : allData) {
-			for (final String indicatorTypeCode : map.keySet()) {
-				final ReportRow reportRow = map.get(indicatorTypeCode);
-				if (fromYear > reportRow.getMinYear()) {
-					fromYear = reportRow.getMinYear();
-				}
-				if (toYear < reportRow.getMaxYear()) {
-					toYear = reportRow.getMaxYear();
-				}
-			}
-		}
+		final int fromYear = getYear(allData, "from");
+		final int toYear = getYear(allData, "to");
 
 		// We may have holes in the series of years,
 		// so we map each year to the corresponding column index.
@@ -92,6 +82,7 @@ public class ExporterCountryData_CSV extends Exporter_File<ExporterCountryQueryD
 			headers.add("" + year);
 			yearToColum.put(year, headers.size() - 1);
 		}
+		
 		// Number of columns
 		final int dataSize = headers.size();
 

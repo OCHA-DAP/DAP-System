@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class specify the criteria for the data to be collected. It should be subclassed for every report type.
+ * This class specify the criteria for the data to be collected. 
+ * It should be subclassed for every report type.
  * 
  * @author bmichiels
  * 

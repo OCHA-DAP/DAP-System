@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.service.ExporterService;
 
 /**
@@ -40,6 +42,47 @@ public abstract class Exporter_File<QD extends QueryData> extends AbstractExport
 		super(exporter);
 	}
 
+	/* ********* */
+	/* Utilities */
+	/* ********* */
+
+	/**
+	 * Retrieve years from the data, as specifying 0 for fromYear/toYear in the queryData allows for earliest/latest data available.
+	 * 
+	 * @param data
+	 * @param which
+	 * @return
+	 */
+	protected static int getYear(final List<Map<String, ReportRow>> allData, final String which) {
+		int year = 0;
+		if ("from".equals(which)) {
+			year = Integer.MAX_VALUE;
+			for (final Map<String, ReportRow> map : allData) {
+				for (final String indicatorTypeCode : map.keySet()) {
+					final ReportRow reportRow = map.get(indicatorTypeCode);
+					if (year > reportRow.getMinYear()) {
+						year = reportRow.getMinYear();
+					}
+				}
+			}
+		} else {
+			year = Integer.MIN_VALUE;
+			for (final Map<String, ReportRow> map : allData) {
+				for (final String indicatorTypeCode : map.keySet()) {
+					final ReportRow reportRow = map.get(indicatorTypeCode);
+					if (year < reportRow.getMaxYear()) {
+						year = reportRow.getMaxYear();
+					}
+				}
+			}
+		}
+		return year;
+	}
+
+	/* *** */
+	/* I/O */
+	/* *** */
+
 	/**
 	 * Write a CSV file.
 	 * 
@@ -50,19 +93,25 @@ public abstract class Exporter_File<QD extends QueryData> extends AbstractExport
 	 */
 	protected static void writeCSVFile(final List<String[]> content, final String separator, final File file) throws IOException {
 		final FileWriter writer = new FileWriter(file);
+		// Iterate over content
 		for (final String[] line : content) {
+			// Grab an iterator for this line of content
 			for (final Iterator<String> iterator = Arrays.asList(line).iterator(); iterator.hasNext();) {
 				final String cell = iterator.next();
+				// Avoid null values in file
 				if (cell != null) {
+					// Escape for proper CSV
 					final String escaped = StringEscapeUtils.escapeCsv(cell);
 					writer.write(escaped);
 				} else {
 					writer.write("");
 				}
+				// If we're not at the end of the line, write a separator
 				if (iterator.hasNext()) {
 					writer.write(separator);
 				}
 			}
+			// Write a new line
 			writer.write(System.getProperty("line.separator"));
 		}
 		writer.close();
@@ -77,6 +126,7 @@ public abstract class Exporter_File<QD extends QueryData> extends AbstractExport
 	 */
 	protected static void writeTXTFile(final List<String> content, final File file) throws IOException {
 		final FileWriter writer = new FileWriter(file);
+		// Write each line
 		for (final String line : content) {
 			writer.write(line);
 			writer.write(System.getProperty("line.separator"));

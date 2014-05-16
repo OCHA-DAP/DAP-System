@@ -27,6 +27,7 @@ public class ExporterCountryRWData_XLSX extends AbstractExporterCountryRW_XLSX {
 	@Override
 	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) throws Exception {
 
+		// Get the RW data
 		final Map<String, ReportRow> data = exporterService.getCountryData(queryData, DataSerie.COUNTRY_RW_dataSeries);
 
 		return export(workbook, queryData, data, "ReliefWeb data");
