@@ -62,7 +62,6 @@ public class ExporterCountryReadme_TXT extends Exporter_File<ExporterCountryQuer
 			}
 
 		} catch (final Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 

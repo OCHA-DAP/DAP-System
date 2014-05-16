@@ -30,6 +30,7 @@ public class ExporterCountryFTSOverview_XLSX extends Exporter_XLSX<ExporterCount
 	@Override
 	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) throws Exception {
 
+		// Get the data
 		final List<Object[]> data = exporterService.getCountryOverviewData(queryData, DataSerie.COUNTRY_OVERVIEW_FTS_indicatorsList);
 
 		/* TODO i18n */

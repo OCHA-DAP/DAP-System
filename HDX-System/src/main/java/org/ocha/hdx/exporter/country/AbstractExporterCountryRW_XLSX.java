@@ -2,9 +2,7 @@ package org.ocha.hdx.exporter.country;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.poi.ss.util.WorkbookUtil;
@@ -13,12 +11,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_XLSX;
-import org.ocha.hdx.exporter.QueryData.CHANNEL_KEYS;
-import org.ocha.hdx.exporter.country.ExporterCountryQueryData.DataSerieInSheet;
 import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.service.ExporterService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Abstract exporter for all RW country-centric sheets.
@@ -26,8 +20,6 @@ import org.slf4j.LoggerFactory;
  * @author bmichiels
  */
 public abstract class AbstractExporterCountryRW_XLSX extends Exporter_XLSX<ExporterCountryQueryData> {
-
-	private static Logger logger = LoggerFactory.getLogger(AbstractExporterCountryRW_XLSX.class);
 
 	public AbstractExporterCountryRW_XLSX(final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter) {
 		super(exporter);
@@ -37,7 +29,6 @@ public abstract class AbstractExporterCountryRW_XLSX extends Exporter_XLSX<Expor
 		super(exporterService);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData, final Map<String, ReportRow> data, final String sheetName) throws Exception {
 		// TODO i18n, UT
 
@@ -50,22 +41,13 @@ public abstract class AbstractExporterCountryRW_XLSX extends Exporter_XLSX<Expor
 		headers.add("Indicator");
 
 		// Retrieve years from the data, as specifying 0 for fromYear/toYear in the queryData allows for earliest/latest data available.
-		int fromYear = Integer.MAX_VALUE;
-		int toYear = Integer.MIN_VALUE;
-		for (final String indicatorTypeCode : data.keySet()) {
-			final ReportRow reportRow = data.get(indicatorTypeCode);
-			if (fromYear > reportRow.getMinYear()) {
-				fromYear = reportRow.getMinYear();
-			}
-			if (toYear < reportRow.getMaxYear()) {
-				toYear = reportRow.getMaxYear();
-			}
-		}
+		final int fromYear = getYear(data, "from");
+		final int toYear = getYear(data, "to");
 
 		// We may have holes in the series of years,
 		// so we map each year to the corresponding column index.
 		final Map<Integer, Integer> yearToColum = new HashMap<Integer, Integer>();
-		
+
 		for (int year = fromYear; year <= toYear; year++) {
 			headers.add(year);
 			yearToColum.put(year, headers.size() - 1);
@@ -117,6 +99,7 @@ public abstract class AbstractExporterCountryRW_XLSX extends Exporter_XLSX<Expor
 			sheet.autoSizeColumn(i);
 		}
 
+		/*
 		// Show processed indicator types so far
 		final Set<DataSerieInSheet> dataSerieInSheets = (Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES);
 		logger.debug("Indicators type after " + this.getClass().getName() + " : ");
@@ -127,19 +110,7 @@ public abstract class AbstractExporterCountryRW_XLSX extends Exporter_XLSX<Expor
 		} else {
 			logger.debug("\tNone");
 		}
-
+		*/
 		return super.export(workbook, queryData);
-
-	}
-
-	private static void trackIndicatorTypes(final ExporterCountryQueryData queryData, final ReportRow reportRow, final String sheetName) {
-		@SuppressWarnings("unchecked")
-		Set<DataSerieInSheet> indicatorTypes = (Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES);
-		if (null == indicatorTypes) {
-			indicatorTypes = new HashSet<DataSerieInSheet>();
-			queryData.setChannelValue(CHANNEL_KEYS.DATA_SERIES, indicatorTypes);
-		}
-		final DataSerieInSheet dataSerieInSheet = queryData.new DataSerieInSheet(reportRow.getIndicatorTypeCode(), reportRow.getSourceCode(), sheetName);
-		indicatorTypes.add(dataSerieInSheet);
 	}
 }

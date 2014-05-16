@@ -3,7 +3,10 @@ package org.ocha.hdx.exporter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -15,6 +18,10 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.ocha.hdx.exporter.QueryData.CHANNEL_KEYS;
+import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
+import org.ocha.hdx.exporter.country.ExporterCountryQueryData.DataSerieInSheet;
+import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.service.ExporterService;
 
 /**
@@ -314,10 +321,61 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 		return true;
 	}
 	
+	/**
+	 * Retrieve years from the data, as specifying 0 for fromYear/toYear in the queryData allows for earliest/latest data available.
+	 * @param data
+	 * @param which
+	 * @return
+	 */
+	protected static int getYear(final Map<String, ReportRow> data, final String which) {
+		int year = 0;
+		if ("from".equals(which)) {
+			year = Integer.MAX_VALUE;
+			for (final String indicatorTypeCode : data.keySet()) {
+				final ReportRow reportRow = data.get(indicatorTypeCode);
+				if (year > reportRow.getMinYear()) {
+					year = reportRow.getMinYear();
+				}
+			}
+		} else {
+			year = Integer.MIN_VALUE;
+			for (final String indicatorTypeCode : data.keySet()) {
+				final ReportRow reportRow = data.get(indicatorTypeCode);
+				if (year < reportRow.getMaxYear()) {
+					year = reportRow.getMaxYear();
+				}
+			}
+		}
+		return year;
+	}
+	
+	/**
+	 * Keep track of the indicator types processed
+	 * 
+	 * @param queryData
+	 * @param reportRow
+	 * @param sheetName
+	 */
+	protected static void trackIndicatorTypes(final ExporterCountryQueryData queryData, final ReportRow reportRow, final String sheetName) {
+		@SuppressWarnings("unchecked")
+		Set<DataSerieInSheet> indicatorTypes = (Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES);
+		if (null == indicatorTypes) {
+			indicatorTypes = new HashSet<DataSerieInSheet>();
+			queryData.setChannelValue(CHANNEL_KEYS.DATA_SERIES, indicatorTypes);
+		}
+		final DataSerieInSheet dataSerieInSheet = queryData.new DataSerieInSheet(reportRow.getIndicatorTypeCode(), reportRow.getSourceCode(), sheetName);
+		indicatorTypes.add(dataSerieInSheet);
+	}
 	/* *** */
 	/* I/O */
 	/* *** */
 
+	/**
+	 * Write a workbook.
+	 * @param wb
+	 * @param path
+	 * @throws IOException
+	 */
 	public static void writeFile(final Workbook wb, final String path) throws IOException {
 		FileOutputStream fileOut;
 		fileOut = new FileOutputStream(path);

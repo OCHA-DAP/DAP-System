@@ -18,8 +18,13 @@ import org.ocha.hdx.service.ExporterService;
  */
 public class ExporterCountryData_XLSX extends AbstractExporterCountry_XLSX {
 
+	// The list of data series for this sheet
 	private final List<DataSerie> dataSeries;
+	
+	// The sheet name
 	private final String sheetName;
+	
+	// The periodicity of the indicators in the data series
 	private final Periodicity periodicity;
 	
 	public ExporterCountryData_XLSX(final ExporterService exporterService, final List<DataSerie> dataSeries, final String sheetName) {
