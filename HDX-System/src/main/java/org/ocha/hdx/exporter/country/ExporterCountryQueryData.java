@@ -76,6 +76,12 @@ public class ExporterCountryQueryData extends QueryData {
 		this.readmeHelper = readmeHelper;
 	}
 
+	/**
+	 * Class representing a Data Series within a given sheet.
+	 * This class is used to build the "Indicator definitions" tab in the XLSX reports.
+	 * @author bmichiels
+	 *
+	 */
 	public class DataSerieInSheet implements Comparable<DataSerieInSheet> {
 		private final DataSerie dataSerie;
 		private final String sheetName;
@@ -88,7 +94,7 @@ public class ExporterCountryQueryData extends QueryData {
 
 		public DataSerieInSheet(final String indicatorCode, final String sourceCode, final String sheetName) {
 			super();
-			this.dataSerie = new DataSerie(indicatorCode, sourceCode);
+			dataSerie = new DataSerie(indicatorCode, sourceCode);
 			this.sheetName = sheetName;
 		}
 
@@ -104,33 +110,41 @@ public class ExporterCountryQueryData extends QueryData {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getOuterType().hashCode();
-			result = prime * result + ((dataSerie == null) ? 0 : dataSerie.hashCode());
-			result = prime * result + ((sheetName == null) ? 0 : sheetName.hashCode());
+			result = (prime * result) + getOuterType().hashCode();
+			result = (prime * result) + ((dataSerie == null) ? 0 : dataSerie.hashCode());
+			result = (prime * result) + ((sheetName == null) ? 0 : sheetName.hashCode());
 			return result;
 		}
 
 		@Override
 		public boolean equals(final Object obj) {
-			if (this == obj)
+			if (this == obj) {
 				return true;
-			if (obj == null)
+			}
+			if (obj == null) {
 				return false;
-			if (getClass() != obj.getClass())
+			}
+			if (getClass() != obj.getClass()) {
 				return false;
+			}
 			final DataSerieInSheet other = (DataSerieInSheet) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getOuterType().equals(other.getOuterType())) {
 				return false;
+			}
 			if (dataSerie == null) {
-				if (other.dataSerie != null)
+				if (other.dataSerie != null) {
 					return false;
-			} else if (!dataSerie.equals(other.dataSerie))
+				}
+			} else if (!dataSerie.equals(other.dataSerie)) {
 				return false;
+			}
 			if (sheetName == null) {
-				if (other.sheetName != null)
+				if (other.sheetName != null) {
 					return false;
-			} else if (!sheetName.equals(other.sheetName))
+				}
+			} else if (!sheetName.equals(other.sheetName)) {
 				return false;
+			}
 			return true;
 		}
 
@@ -140,11 +154,11 @@ public class ExporterCountryQueryData extends QueryData {
 
 		@Override
 		public int compareTo(final DataSerieInSheet o) {
-			final int dataSerieComparison = this.dataSerie.compareTo(o.dataSerie);
+			final int dataSerieComparison = dataSerie.compareTo(o.dataSerie);
 			if (dataSerieComparison != 0) {
 				return dataSerieComparison;
 			} else {
-				return this.sheetName.compareTo(o.sheetName);
+				return sheetName.compareTo(o.sheetName);
 			}
 		}
 

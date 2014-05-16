@@ -2,9 +2,7 @@ package org.ocha.hdx.exporter.country;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -12,12 +10,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.Exporter;
 import org.ocha.hdx.exporter.Exporter_XLSX;
-import org.ocha.hdx.exporter.QueryData.CHANNEL_KEYS;
-import org.ocha.hdx.exporter.country.ExporterCountryQueryData.DataSerieInSheet;
 import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.service.ExporterService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Abstract exporter for all SW country-centric sheets (except overview).
@@ -25,8 +19,6 @@ import org.slf4j.LoggerFactory;
  * @author bmichiels
  */
 public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<ExporterCountryQueryData> {
-
-	private static Logger logger = LoggerFactory.getLogger(AbstractExporterCountry_XLSX.class);
 
 	public AbstractExporterCountry_XLSX(final Exporter<XSSFWorkbook, ExporterCountryQueryData> exporter) {
 		super(exporter);
@@ -36,7 +28,6 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		super(exporterService);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData, final Map<String, ReportRow> data, final String sheetName) throws Exception {
 		// TODO i18n, UT
 
@@ -51,20 +42,12 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		headers.add("Units");
 
 		// Retrieve years from the data, as specifying 0 for fromYear/toYear in the queryData allows for earliest/latest data available.
-		int fromYear = Integer.MAX_VALUE;
-		int toYear = Integer.MIN_VALUE;
-		for (final String indicatorTypeCode : data.keySet()) {
-			final ReportRow reportRow = data.get(indicatorTypeCode);
-			if (fromYear > reportRow.getMinYear()) {
-				fromYear = reportRow.getMinYear();
-			}
-			if (toYear < reportRow.getMaxYear()) {
-				toYear = reportRow.getMaxYear();
-			}
-		}
+		final int fromYear = getYear(data, "from");
+		final int toYear = getYear(data, "to");
 
 		// We may have holes in the series of years,
 		// so we map each year to the corresponding column index.
+		// Years are presented in reverse order in the sheet.
 		final Map<Integer, Integer> yearToColum = new HashMap<Integer, Integer>();
 		for (int year = toYear; year >= fromYear; year--) {
 			headers.add(year);
@@ -80,12 +63,17 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		// We start right just after the headers row
 		int rowIndex = 1;
 
+		// We iterate over the indicator type codes
 		for (final String indicatorTypeCode : data.keySet()) {
+
+			// The data for this indicator type code
 			final ReportRow reportRow = data.get(indicatorTypeCode);
 
+			// Create a new row
 			final XSSFRow row = sheet.createRow(rowIndex);
 			rowIndex++;
 
+			// With the indicator type code, we create a link to the Indicator definitions sheet
 			createLinkCell(row, 0, reportRow.getIndicatorTypeCode(), "'Indicator definitions'!A1");
 			createCell(row, 1, reportRow.getIndicatorName());
 			// createCell(row, 2, reportRow.getSourceCode());
@@ -100,23 +88,27 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 			// createCell(row, 6, reportRow.getMetadata().get(MetadataName.TERMS_OF_USE));
 			// createCell(row, 7, reportRow.getMetadata().get(MetadataName.METHODOLOGY));
 
+			// Get the values for this indicator type code for each considered year
 			for (int year = fromYear; year <= toYear; year++) {
 				final int columnIndex = yearToColum.get(year);
 				final Double value = reportRow.getDoubleValue(year);
+				// If there is a value for this year...
 				if (null != value) {
+					// ... we put it in its cell
 					createNumCell(row, columnIndex, value);
 				} else {
+					// otherwise we put just a simple space to avoid unwanted effect in the sheet
 					createCell(row, columnIndex, " ");
 				}
 			}
 		}
 
 		// Freeze the headers
-		// Freeze the 2 first columns
+		// Freeze the 3 first columns
 		sheet.createFreezePane(3, 1, 3, 1);
 
-		// Auto size the columns
-		// Except Indicator ID and Dataset summary which is fixed
+		// Auto size the columns,
+		// except Indicator ID which is fixed
 		for (int i = 0; i < (headers.size() + data.keySet().size()); i++) {
 			if (0 == i) {
 				sheet.setColumnWidth(i, 3000);
@@ -125,9 +117,10 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 			}
 		}
 
+		/*
 		// Show processed indicator types so far
 		final Set<DataSerieInSheet> dataSerieInSheets = (Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES);
-		logger.debug("Indicators type after " + this.getClass().getName() + " : ");
+		logger.debug("Indicator types after " + this.getClass().getName() + " : ");
 		if(null != dataSerieInSheets) {
 			for (final DataSerieInSheet dataSerieInSheet : dataSerieInSheets) {
 				logger.debug("\t" + dataSerieInSheet.getDataSerie().getIndicatorCode() + " => " + dataSerieInSheet.getSheetName());
@@ -136,20 +129,9 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 		else {
 			logger.debug("\tNone");
 		}
+		*/
 
 		return super.export(workbook, queryData);
-
-	}
-
-	private static void trackIndicatorTypes(final ExporterCountryQueryData queryData, final ReportRow reportRow, final String sheetName) {
-		@SuppressWarnings("unchecked")
-		Set<DataSerieInSheet> indicatorTypes = (Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES);
-		if (null == indicatorTypes) {
-			indicatorTypes = new HashSet<DataSerieInSheet>();
-			queryData.setChannelValue(CHANNEL_KEYS.DATA_SERIES, indicatorTypes);
-		}
-		final DataSerieInSheet dataSerieInSheet = queryData.new DataSerieInSheet(reportRow.getIndicatorTypeCode(), reportRow.getSourceCode(), sheetName);
-		indicatorTypes.add(dataSerieInSheet);
 	}
 
 	// private static void createDatasetSummaryCell(final ReportRow reportRow, final short position, final XSSFRow row) {
@@ -179,5 +161,4 @@ public abstract class AbstractExporterCountry_XLSX extends Exporter_XLSX<Exporte
 	// }
 	//
 	// }
-
 }

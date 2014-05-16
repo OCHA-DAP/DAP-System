@@ -27,6 +27,7 @@ public class ExporterCountryFTSData_XLSX extends AbstractExporterCountryFTS_XLSX
 	@Override
 	public XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData) throws Exception {
 
+		// Get the data
 		final Map<String, ReportRow> data = exporterService.getCountryData(queryData, DataSerie.COUNTRY_FTS_dataSeries);
 
 		return export(workbook, queryData, data, "FTS data");

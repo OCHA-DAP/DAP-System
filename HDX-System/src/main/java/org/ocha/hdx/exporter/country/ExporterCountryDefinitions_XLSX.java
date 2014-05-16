@@ -40,6 +40,7 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 
 		final TreeSet<DataSerieInSheet> dataSeries = new TreeSet<DataSerieInSheet>();
 
+		// Retrieve all the indicators processed so far
 		if (null != queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES)) {
 			dataSeries.addAll((Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES));
 		}
@@ -50,6 +51,9 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 		final String safeName = WorkbookUtil.createSafeSheetName("Indicator definitions");
 		final XSSFSheet sheet = workbook.createSheet(safeName);
 
+		// Move the sheet to the right place
+		// (this exporter can only be called when all other data sheets have been processed, 
+		// so we can only move this one now)
 		workbook.setSheetOrder(safeName, 1);
 
 		// Assign the headers to the title row
@@ -77,6 +81,7 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 			final IndicatorType indicatorType = exporterService.getIndicatorTypeByCode(dataSerie.getDataSerie().getIndicatorCode());
 			createCell(row, 1, indicatorType.getName().getDefaultValue());
 
+			// Find source data
 			if ((dataSerie.getDataSerie().getSourceCode() != null) && !dataSerie.getDataSerie().getSourceCode().isEmpty()) {
 				final Source source = exporterService.getSourceByCode(dataSerie.getDataSerie().getSourceCode());
 				if (source != null) {
@@ -84,6 +89,7 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 				}
 			}
 
+			// Handle the metadata
 			final List<DataSerieMetadata> results = exporterService.getMetadataForDataSerie(dataSerie.getDataSerie());
 			for (final DataSerieMetadata dataSerieMetadata : results) {
 				switch (dataSerieMetadata.getEntryKey()) {
@@ -107,7 +113,7 @@ public class ExporterCountryDefinitions_XLSX extends Exporter_XLSX<ExporterCount
 
 		}
 
-		// Auto size the columns, except DATASET_SUMMARY, which have a fixed width
+		// Auto size the columns, except METADATA cells, which have a fixed width
 		for (int i = 0; i < headers.size(); i++) {
 			if (i > 2) {
 				sheet.setColumnWidth(i, 20000);

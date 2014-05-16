@@ -35,29 +35,20 @@ public class ExporterCountryFTSData_CSV extends Exporter_File<ExporterCountryQue
 		// Gathering the data
 		// 1. FTS
 
-		final Map<String, ReportRow> rwData = exporterService.getCountryData(queryData, DataSerie.COUNTRY_FTS_dataSeries);
+		final Map<String, ReportRow> ftsData = exporterService.getCountryData(queryData, DataSerie.COUNTRY_FTS_dataSeries);
 
+		// For now there is only one sort of data, but we keep the list, should more data come
+		// (see ExporterCountryData_CSV)
 		final List<Map<String, ReportRow>> allData = new ArrayList<Map<String, ReportRow>>();
-		allData.add(rwData);
+		allData.add(ftsData);
 
 		// Define the headers
 		final ArrayList<String> headers = new ArrayList<String>();
 		headers.add("Indicator name");
 
 		// Retrieve years from the data, as specifying 0 for fromYear/toYear in the queryData allows for earliest/latest data available.
-		int fromYear = Integer.MAX_VALUE;
-		int toYear = Integer.MIN_VALUE;
-		for (final Map<String, ReportRow> map : allData) {
-			for (final String indicatorTypeCode : map.keySet()) {
-				final ReportRow reportRow = map.get(indicatorTypeCode);
-				if (fromYear > reportRow.getMinYear()) {
-					fromYear = reportRow.getMinYear();
-				}
-				if (toYear < reportRow.getMaxYear()) {
-					toYear = reportRow.getMaxYear();
-				}
-			}
-		}
+		final int fromYear = getYear(allData, "from");
+		final int toYear = getYear(allData, "to");
 
 		// We may have holes in the series of years,
 		// so we map each year to the corresponding column index.
