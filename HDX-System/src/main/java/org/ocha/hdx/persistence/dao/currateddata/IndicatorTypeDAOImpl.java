@@ -60,8 +60,9 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 
 	@Override
 	@Transactional
-	public void updateIndicatorType(final long indicatorTypeId, final String newName, final Unit newUnit, final ValueType valueType) {
+	public void updateIndicatorType(final long indicatorTypeId, final String newCode, final String newName, final Unit newUnit, final ValueType valueType) {
 		final IndicatorType indicatorType = em.find(IndicatorType.class, indicatorTypeId);
+		indicatorType.setCode(newCode);
 		indicatorType.getName().setDefaultValue(newName);
 		indicatorType.setUnit(newUnit);
 		indicatorType.setValueType(valueType);

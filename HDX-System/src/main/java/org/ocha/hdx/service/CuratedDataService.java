@@ -69,7 +69,7 @@ public interface CuratedDataService {
 
 	public void deleteIndicatorType(final long indicatorTypeId);
 
-	public void updateIndicatorType(final long indicatorTypeId, final String newName, final long newUnit, final String newValueType);
+	public void updateIndicatorType(final long indicatorTypeId, final String newCode, final String newName, final long newUnit, final String newValueType);
 
 	/*
 	 * Organizations
