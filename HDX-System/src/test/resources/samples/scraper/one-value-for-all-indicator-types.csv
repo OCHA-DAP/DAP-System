@@ -1,22 +1,22 @@
 dsID,region,indID,period,value,is_number,source
-"World Bank",AFG,"_Access to electricity (% of population)",2009,15.6,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
-mdgs,AFG,"_Children 1 year old immunized against measles, percentage",1990,20.0,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=563
-emdat,CPV,_emdat:no_homeless,1900/P1Y,0.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
-emdat,CPV,_emdat:no_injured,1900/P1Y,0.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
-emdat,CPV,_emdat:total_affected,1900/P1Y,0.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
-"World Bank",AFG,"_GNI, PPP (current international $)",2002,15573848233.5421,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
-data.undp.org,NOR,_HDR:68606,2000,0.105,1,http://data.undp.org/resource/bh77-rzbn.json
-"World Bank",AFG,"_International migrant stock (% of population)",1960,0.529583654341474,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PCX140,2009,15.6,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+mdgs,AFG,PCH100,1990,20.0,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=563
+emdat,CPV,PVX080,1900/P1Y,0.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
+emdat,CPV,PVX090,1900/P1Y,0.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
+emdat,CPV,PVX100,1900/P1Y,0.0,1,http://cred01.epid.ucl.ac.be:5317/?after=&before=&agg1=iso&agg2=year&dl=true
+"World Bank",AFG,PSE230,2002,15573848233.5421,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+data.undp.org,NOR,PSE240,2000,0.105,1,http://data.undp.org/resource/bh77-rzbn.json
+"World Bank",AFG,TT027T,1960,0.529583654341474,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
 mdgs,AFG,"_Internet users per 100 inhabitants",1990,0.0,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=605
-"World Bank",AFG,"_Land area (sq. km)",1961,652230.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
-m49,AFG,_m49-name,2013-11-06,Afghanistan,0,http://unstats.un.org/unsd/methods/m49/m49alpha.htm
-"World Bank",AFG,"_Net ODA received per capita (current US$)",1960,1.95795971024932,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
-"World Bank",AFG,"_Number of infant deaths",1961,106000.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
-mdgs,DZA,"_Population undernourished, millions",1991,1.4,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=640
-mdgs,DZA,"_Population undernourished, percentage",1991,5.5,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=566
-"World Bank",AFG,"_Population, total",1960,8774440.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
-unterm,VNM,"_unterm:ISO Country alpha-2-code",2014-03-17,VN,0,http://unterm.un.org/DGAACS/unterm.nsf/WebView/5F89E9A813E6E94E85256DC700440AB6?OpenDocument
-esa-unpd-WPP2012,BDI,_WPP2012_MORT_F02_CRUDE_DEATH_RATE,1950/P5Y,25.206,1,http://esa.un.org/unpd/wpp/Excel-Data/EXCEL_FILES/3_Mortality/WPP2012_MORT_F02_CRUDE_DEATH_RATE.XLS
+"World Bank",AFG,CG300,1961,652230.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+m49,AFG,CG310,2013-11-06,Afghanistan,0,http://unstats.un.org/unsd/methods/m49/m49alpha.htm
+"World Bank",AFG,PSE250,1960,1.95795971024932,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+"World Bank",AFG,PCH110,1961,106000.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+mdgs,DZA,PVN060,1991,1.4,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=640
+mdgs,DZA,PVN070,1991,5.5,1,http://mdgs.un.org/unsd/mdg/Handlers/ExportHandler.ashx?Type=Csv&Series=566
+"World Bank",AFG,PSP120,1960,8774440.0,1,http://api.worldbank.org/datafiles/AFG_Country_MetaData_en_EXCEL.xls
+unterm,VNM,CG320,2014-03-17,VN,0,http://unterm.un.org/DGAACS/unterm.nsf/WebView/5F89E9A813E6E94E85256DC700440AB6?OpenDocument
+esa-unpd-WPP2012,BDI,PVH200,1950/P5Y,25.206,1,http://esa.un.org/unpd/wpp/Excel-Data/EXCEL_FILES/3_Mortality/WPP2012_MORT_F02_CRUDE_DEATH_RATE.XLS
 wikipedia,CAN,CD010,2014-03-17,http://en.wikipedia.org/wiki/Canada#Geography,0,http://en.wikipedia.org/wiki/Canada#Geography
 wikipedia,TKM,CD030,2014-03-17,http://en.wikipedia.org/wiki/Turkmenistan#Climate,0,http://en.wikipedia.org/wiki/Turkmenistan#Climate
 wikipedia,CAN,CD050,2014-03-17,http://en.wikipedia.org/wiki/Canada#Economy,0,http://en.wikipedia.org/wiki/Canada#Economy

@@ -1008,9 +1008,9 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/indicatorTypes/submitUpdate")
-	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newName") final String newName, @FormParam("newUnit") final long newUnit,
+	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newCode") final String newCode, @FormParam("newName") final String newName, @FormParam("newUnit") final long newUnit,
 			@FormParam("newValueType") final String newValueType) {
-		curatedDataService.updateIndicatorType(indicatorTypeId, newName, newUnit, newValueType);
+		curatedDataService.updateIndicatorType(indicatorTypeId, newCode, newName, newUnit, newValueType);
 		return Response.ok().build();
 	}
 

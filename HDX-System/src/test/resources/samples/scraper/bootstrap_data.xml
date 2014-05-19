@@ -731,24 +731,24 @@
   <hdx_unit id="43" code="incidents-of-conflict" text_id="286"/>
   <hdx_unit id="44" code="per-million-people-per-year" text_id="287"/>
   <hdx_unit id="45" code="average-per-year-per-million-people" text_id="288"/>
-  <indicator_type id="1" code="_Access to electricity (% of population)" value_type="NUMBER" text_id="289" unit_id="1"/>
-  <indicator_type id="2" code="_Children 1 year old immunized against measles, percentage" value_type="NUMBER" text_id="290" unit_id="2"/>
-  <indicator_type id="3" code="_emdat:no_homeless" value_type="NUMBER" text_id="291" unit_id="3"/>
-  <indicator_type id="4" code="_emdat:no_injured" value_type="NUMBER" text_id="292" unit_id="3"/>
-  <indicator_type id="5" code="_emdat:total_affected" value_type="NUMBER" text_id="293" unit_id="3"/>
-  <indicator_type id="6" code="_GNI, PPP (current international $)" value_type="NUMBER" text_id="294" unit_id="4"/>
-  <indicator_type id="7" code="_HDR:68606" value_type="NUMBER" text_id="295" unit_id="5"/>
-  <indicator_type id="8" code="_International migrant stock (% of population)" value_type="NUMBER" text_id="296" unit_id="1"/>
+  <indicator_type id="1" code="PCX140" value_type="NUMBER" text_id="289" unit_id="1"/>
+  <indicator_type id="2" code="PCH100" value_type="NUMBER" text_id="290" unit_id="2"/>
+  <indicator_type id="3" code="PVX080" value_type="NUMBER" text_id="291" unit_id="3"/>
+  <indicator_type id="4" code="PVX090" value_type="NUMBER" text_id="292" unit_id="3"/>
+  <indicator_type id="5" code="PVX100" value_type="NUMBER" text_id="293" unit_id="3"/>
+  <indicator_type id="6" code="PSE230" value_type="NUMBER" text_id="294" unit_id="4"/>
+  <indicator_type id="7" code="PSE240" value_type="NUMBER" text_id="295" unit_id="5"/>
+  <indicator_type id="8" code="TT027T" value_type="NUMBER" text_id="296" unit_id="1"/>
   <indicator_type id="9" code="_Internet users per 100 inhabitants" value_type="NUMBER" text_id="297" unit_id="6"/>
-  <indicator_type id="10" code="_Land area (sq. km)" value_type="NUMBER" text_id="298" unit_id="7"/>
-  <indicator_type id="11" code="_m49-name" value_type="STRING" text_id="299" unit_id="8"/>
-  <indicator_type id="12" code="_Net ODA received per capita (current US$)" value_type="NUMBER" text_id="300" unit_id="9"/>
-  <indicator_type id="13" code="_Number of infant deaths" value_type="NUMBER" text_id="301" unit_id="3"/>
-  <indicator_type id="14" code="_Population undernourished, millions" value_type="NUMBER" text_id="302" unit_id="10"/>
-  <indicator_type id="15" code="_Population undernourished, percentage" value_type="NUMBER" text_id="303" unit_id="11"/>
-  <indicator_type id="16" code="_Population, total" value_type="NUMBER" text_id="304" unit_id="3"/>
-  <indicator_type id="17" code="_unterm:ISO Country alpha-2-code" value_type="STRING" text_id="305" unit_id="8"/>
-  <indicator_type id="18" code="_WPP2012_MORT_F02_CRUDE_DEATH_RATE" value_type="NUMBER" text_id="306" unit_id="12"/>
+  <indicator_type id="10" code="CG300" value_type="NUMBER" text_id="298" unit_id="7"/>
+  <indicator_type id="11" code="CG310" value_type="STRING" text_id="299" unit_id="8"/>
+  <indicator_type id="12" code="PSE250" value_type="NUMBER" text_id="300" unit_id="9"/>
+  <indicator_type id="13" code="PCH110" value_type="NUMBER" text_id="301" unit_id="3"/>
+  <indicator_type id="14" code="PVN060" value_type="NUMBER" text_id="302" unit_id="10"/>
+  <indicator_type id="15" code="PVN070" value_type="NUMBER" text_id="303" unit_id="11"/>
+  <indicator_type id="16" code="PSP120" value_type="NUMBER" text_id="304" unit_id="3"/>
+  <indicator_type id="17" code="CG320" value_type="STRING" text_id="305" unit_id="8"/>
+  <indicator_type id="18" code="PVH200" value_type="NUMBER" text_id="306" unit_id="12"/>
   <indicator_type id="19" code="CD010" value_type="STRING" text_id="307" unit_id="13"/>
   <indicator_type id="20" code="CD030" value_type="STRING" text_id="308" unit_id="13"/>
   <indicator_type id="21" code="CD050" value_type="STRING" text_id="309" unit_id="13"/>

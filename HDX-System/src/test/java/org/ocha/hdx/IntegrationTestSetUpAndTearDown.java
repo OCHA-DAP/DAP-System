@@ -271,14 +271,14 @@ public class IntegrationTestSetUpAndTearDown {
 
 		final Text nod = textDAO.createText("Number of disasters");
 
-		indicatorTypeDAO.createIndicatorType("_WPP2012_MORT_F02_CRUDE_DEATH_RATE", nod, uno, ValueType.NUMBER);
+		indicatorTypeDAO.createIndicatorType("PVH200", nod, uno, ValueType.NUMBER);
 
 		final Text esaunpdWPP2012 = textDAO.createText("esa-unpd-wpp2012");
 		sourceDAO.createSource("esa-unpd-wpp2012", esaunpdWPP2012, "www.test.com", null);
 
 		final Entity usa = entityDAO.getEntityByCodeAndType("USA", "country");
 		final Source sourceesaunpdWPP2012 = sourceDAO.getSourceByCode("esa-unpd-wpp2012");
-		final IndicatorType indicatorTypeF02 = indicatorTypeDAO.getIndicatorTypeByCode("_WPP2012_MORT_F02_CRUDE_DEATH_RATE");
+		final IndicatorType indicatorTypeF02 = indicatorTypeDAO.getIndicatorTypeByCode("PVH200");
 
 		final DateTime dateTime2008 = new DateTime(2008, 1, 1, 0, 0);
 		final Date date2008 = dateTime2008.toDate();
@@ -293,7 +293,7 @@ public class IntegrationTestSetUpAndTearDown {
 
 	public void tearDownDataForCountry5Years() {
 		final DataSerieMetadata dataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(
-				"_WPP2012_MORT_F02_CRUDE_DEATH_RATE", "esa-unpd-wpp2012", MetadataName.DATASET_SUMMARY);
+				"PVH200", "esa-unpd-wpp2012", MetadataName.DATASET_SUMMARY);
 		dataSerieMetadataDAO.deleteDataSerieMetadata(dataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey.getId());
 		indicatorDAO.deleteAllIndicators();
 
@@ -303,7 +303,7 @@ public class IntegrationTestSetUpAndTearDown {
 			// Might have been deleted by another setup
 		}
 
-		indicatorTypeDAO.deleteIndicatorTypeByCode("_WPP2012_MORT_F02_CRUDE_DEATH_RATE");
+		indicatorTypeDAO.deleteIndicatorTypeByCode("PVH200");
 
 		sourceDAO.deleteSourceByCode("esa-unpd-wpp2012");
 

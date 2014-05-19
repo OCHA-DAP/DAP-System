@@ -21,6 +21,6 @@ public interface IndicatorTypeDAO {
 
 	public void deleteIndicatorType(long indicatorTypeId);
 
-	public void updateIndicatorType(long indicatorTypeId, String newName, Unit newUnit, ValueType valueType);
+	public void updateIndicatorType(long indicatorTypeId, String newCode, String newName, Unit newUnit, ValueType valueType);
 
 }

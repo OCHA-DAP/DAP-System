@@ -38,7 +38,7 @@ public class IndicatorType {
 		}
 
 		public String getLabel() {
-			return this.label;
+			return label;
 		}
 
 	}
@@ -48,7 +48,7 @@ public class IndicatorType {
 	@Column(name = "id", nullable = false)
 	private long id;
 
-	@Column(name = "code", unique = true, nullable = false, updatable = false)
+	@Column(name = "code", unique = true, nullable = false, updatable = true)
 	private String code;
 
 	@ManyToOne
@@ -66,7 +66,7 @@ public class IndicatorType {
 	private ValueType valueType;
 
 	public long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(final long id) {
@@ -74,7 +74,7 @@ public class IndicatorType {
 	}
 
 	public String getCode() {
-		return this.code;
+		return code;
 	}
 
 	public void setCode(final String code) {
@@ -82,7 +82,7 @@ public class IndicatorType {
 	}
 
 	public Text getName() {
-		return this.name;
+		return name;
 	}
 
 	public void setName(final Text name) {
@@ -90,7 +90,7 @@ public class IndicatorType {
 	}
 
 	public Unit getUnit() {
-		return this.unit;
+		return unit;
 	}
 
 	public void setUnit(final Unit unit) {
@@ -98,11 +98,11 @@ public class IndicatorType {
 	}
 
 	public String getDisplayableTitle() {
-		return this.name.getDefaultValue() + " in " + this.unit.getName().getDefaultValue();
+		return name.getDefaultValue() + " in " + unit.getName().getDefaultValue();
 	}
 
 	public ValueType getValueType() {
-		return this.valueType;
+		return valueType;
 	}
 
 	public void setValueType(final ValueType valueType) {

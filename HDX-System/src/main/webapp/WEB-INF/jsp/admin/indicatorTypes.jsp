@@ -56,7 +56,7 @@
 				</tr>
 				<tr ng-repeat="indicatorType in indicatorTypes | filter:search | orderBy:predicate:reverse">
 					<td>
-						<!-- non editable code --> <span e-name="code" e-form="rowform"> {{ indicatorType.code }} </span>
+						<!-- editable code --> <span editable-text="indicatorType.code" e-class="form-control" e-name="code" e-id="code" e-form="rowform" e-style="width: 100%;" e-required> {{ indicatorType.code }} </span>
 					</td>
 					<td>
 						<!-- editable name --> <span editable-text="indicatorType.name" e-class="form-control" e-name="name" e-id="name" e-form="rowform" e-required> {{ indicatorType.name }} </span>

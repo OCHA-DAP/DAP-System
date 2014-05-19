@@ -62,8 +62,9 @@ public class IndicatorTypeDAOImplTest {
         final Unit newUnit = unitDAO.createUnit("newUnit", newUnitText);
 
         logger.info("Testing update indicator type...");
-		indicatorTypeDAO.updateIndicatorType(indicatorTypeForId.getId(), "newName", newUnit, ValueType.DATE);
+		indicatorTypeDAO.updateIndicatorType(indicatorTypeForId.getId(), "newCode", "newName", newUnit, ValueType.DATE);
 		final IndicatorType indicatorTypeUpdated = indicatorTypeDAO.getIndicatorTypeById(indicatorTypeForId.getId());
+		Assert.assertEquals("newCode", indicatorTypeUpdated.getCode());
 		Assert.assertEquals("newName", indicatorTypeUpdated.getName().getDefaultValue());
 		Assert.assertEquals("newUnit", indicatorTypeUpdated.getUnit().getName().getDefaultValue());
 		Assert.assertEquals(ValueType.DATE, indicatorTypeUpdated.getValueType());

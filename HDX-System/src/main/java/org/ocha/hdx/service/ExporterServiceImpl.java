@@ -428,7 +428,7 @@ public class ExporterServiceImpl implements ExporterService {
 		// 3. Indicator data for RW001
 		// 3. Indicator data for RW002
 		final Exporter<XSSFWorkbook, ExporterIndicatorQueryData> exporter = new ExporterIndicatorReadme_XLSX(new ExporterIndicatorTypeRWOverview_XLSX(new ExporterIndicatorRW_XLSX(
-				new ExporterIndicatorRW_XLSX(this, "RW001", "Number of Disasters"), "RW002", "Number of Reports")));
+				new ExporterIndicatorRW_XLSX(this, "RW001", "Number of Reports"), "RW002", "Number of Disasters")));
 
 		// Export the data in a new workbook
 		final XSSFWorkbook workbook = new XSSFWorkbook();

@@ -148,6 +148,9 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, utilities) {
       "indicatorTypeId" : id
     });
     angular.extend(params, {
+      "newCode" : data.code
+    });
+    angular.extend(params, {
       "newName" : data.name
     });
     angular.extend(params, {
@@ -173,6 +176,10 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, utilities) {
 
   // Check that the updated indicatorType is valid
   $scope.checkUpdateForm = function(data) {
+    var code = data.code;
+    if (!code || null === code || '' === code) {
+      return "Code cannot be empty.";
+    }
     var name = data.name;
     if (!name || null === name || '' === name) {
       return "Name cannot be empty.";

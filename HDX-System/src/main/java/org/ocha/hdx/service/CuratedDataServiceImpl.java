@@ -202,9 +202,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void updateIndicatorType(final long indicatorTypeId, final String newName, final long newUnit, final String newValueType) {
+	public void updateIndicatorType(final long indicatorTypeId, final String newCode, final String newName, final long newUnit, final String newValueType) {
 		final Unit unit = unitDAO.getUnitById(newUnit);
-		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newName, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
+		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newCode, newName, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
 	}
 
 	@Override
