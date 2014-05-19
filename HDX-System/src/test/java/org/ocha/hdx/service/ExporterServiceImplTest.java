@@ -95,8 +95,8 @@ public class ExporterServiceImplTest {
 		final Map<String, ReportRow> data5Years = exporterService.getCountryData(exporterCountryQueryData, Periodicity.FIVE_YEARS, DataSerie.COUNTRY_5_YEARS_dataSeries);
 
 		Assert.assertEquals(1, data5Years.size());
-		final ReportRow reportRow = data5Years.get("_WPP2012_MORT_F02_CRUDE_DEATH_RATE");
-		Assert.assertEquals("_WPP2012_MORT_F02_CRUDE_DEATH_RATE", reportRow.getIndicatorTypeCode());
+		final ReportRow reportRow = data5Years.get("PVH200");
+		Assert.assertEquals("PVH200", reportRow.getIndicatorTypeCode());
 		Assert.assertEquals("Number of disasters", reportRow.getIndicatorName());
 		Assert.assertNull(reportRow.getValue(2005));
 		Assert.assertNull(reportRow.getValue(2006));

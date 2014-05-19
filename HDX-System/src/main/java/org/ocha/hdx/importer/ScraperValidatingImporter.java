@@ -55,7 +55,7 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 
 		if (sourceDictionaries != null) {
 			for (final SourceDictionary sourceDictionary : sourceDictionaries) {
-				this.sourcesMap.put(sourceDictionary.getUnnormalizedName(), sourceDictionary.getSource().getCode());
+				sourcesMap.put(sourceDictionary.getUnnormalizedName(), sourceDictionary.getSource().getCode());
 			}
 		}
 	}
@@ -71,7 +71,7 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 			while ((line = br.readLine()) != null) {
 				// use comma as separator
 				final String[] values = line.split(",");
-				if ("_m49-name".equals(values[2])) {
+				if ("CG310".equals(values[2])) {
 					result.put(values[1], values[4]);
 				}
 			}
@@ -96,17 +96,17 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 	@Override
 	protected PreparedIndicator createPreparedIndicator(final String[] values) {
 		final PreparedIndicator preparedIndicator = new PreparedIndicator();
-		if (this.sourcesMap.containsKey(values[0])) {
-			preparedIndicator.setSourceCode(this.sourcesMap.get(values[0]));
+		if (sourcesMap.containsKey(values[0])) {
+			preparedIndicator.setSourceCode(sourcesMap.get(values[0]));
 		} else {
 			preparedIndicator.setSourceCode(values[0]);
 		}
 		preparedIndicator.setIndicatorTypeCode(values[2]);
-		final String key = this.generateMapKey(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
-		final IndicatorTypeInformationHolder indTypeInfoHolder = this.getIndTypeInfoHolder(key);
+		final String key = generateMapKey(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
+		final IndicatorTypeInformationHolder indTypeInfoHolder = getIndTypeInfoHolder(key);
 		final Map<String, AbstractConfigEntry> indConfigMap = indTypeInfoHolder.getIndicatorEntries();
 
-		final AbstractColumnsTransformer transformer = this.generateColumnsTransformer(key, indConfigMap, preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
+		final AbstractColumnsTransformer transformer = generateColumnsTransformer(key, indConfigMap, preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
 		if (!transformer.isDisabled()) {
 
 			preparedIndicator.setEntityCode(transformer.getEntityCode(values));
@@ -130,17 +130,17 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 	 * @return
 	 */
 	private AbstractColumnsTransformer generateColumnsTransformer(final String key, final Map<String, AbstractConfigEntry> indConfigMap, final String indTypeCode, final String sourceCode) {
-		AbstractColumnsTransformer transformer = this.colTransformers.get(key);
+		AbstractColumnsTransformer transformer = colTransformers.get(key);
 		if (transformer == null) {
-			final List<IndicatorResourceConfigEntry> embeddedConfigs = this.indicatorCreationService.findEmbeddedConfigs(indTypeCode, sourceCode);
+			final List<IndicatorResourceConfigEntry> embeddedConfigs = indicatorCreationService.findEmbeddedConfigs(indTypeCode, sourceCode);
 			for (final IndicatorResourceConfigEntry indicatorResourceConfigEntry : embeddedConfigs) {
 				final AbstractConfigEntry value = indConfigMap.get(indicatorResourceConfigEntry.getEntryKey());
 				if (value == null) {
 					indConfigMap.put(indicatorResourceConfigEntry.getEntryKey(), indicatorResourceConfigEntry);
 				}
 			}
-			transformer = new ScraperColumnsTransformer(key, this.resourceEntriesMap, indConfigMap, this.sourcesMap);
-			this.colTransformers.put(key, transformer);
+			transformer = new ScraperColumnsTransformer(key, resourceEntriesMap, indConfigMap, sourcesMap);
+			colTransformers.put(key, transformer);
 		}
 		return transformer;
 	}
@@ -148,10 +148,10 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 	@Override
 	public List<Indicator> transformToFinalFormat() {
 		final List<Indicator> list = new LinkedList<Indicator>();
-		for (final PreparedIndicator preparedIndicator : this.preparedData.getIndicatorsToImport()) {
+		for (final PreparedIndicator preparedIndicator : preparedData.getIndicatorsToImport()) {
 			try {
-				final Indicator indicator = this.indicatorCreationService.createIndicator(preparedIndicator);
-				if (this.validation(indicator)) {
+				final Indicator indicator = indicatorCreationService.createIndicator(preparedIndicator);
+				if (validation(indicator)) {
 					list.add(indicator);
 				}
 			} catch (final Exception e) {

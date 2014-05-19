@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DummyConfigurationCreator {
 
-	private static final String _EMDAT_TOTAL_AFFECTED = "_emdat:total_affected";
+	private static final String _EMDAT_TOTAL_AFFECTED = "PVX100";
 
 	private static final String PSP010 = "PSP010";
 
@@ -49,8 +49,8 @@ public class DummyConfigurationCreator {
 		final ResourceConfiguration configuration = new ResourceConfiguration();
 		configuration.setName("Dummy Configuration");
 
-		this.createGeneralConfigEntries(configuration);
-		this.createIndicatorConfigEntries(configuration);
+		createGeneralConfigEntries(configuration);
+		createIndicatorConfigEntries(configuration);
 
 		return configuration;
 	}
@@ -77,8 +77,8 @@ public class DummyConfigurationCreator {
 	private void createIndicatorConfigEntries(final ResourceConfiguration configuration) {
 		final Set<IndicatorResourceConfigEntry> entries = new HashSet<IndicatorResourceConfigEntry>();
 
-		final IndicatorType type = this.typeDAO.getIndicatorTypeByCode(PSP080);
-		final Source source = this.sourceDAO.getSourceByCode(ESA_UNPD_WPP2012);
+		final IndicatorType type = typeDAO.getIndicatorTypeByCode(PSP080);
+		final Source source = sourceDAO.getSourceByCode(ESA_UNPD_WPP2012);
 
 		final IndicatorResourceConfigEntry entry1 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel(), "24000", source, type);
 		final IndicatorResourceConfigEntry entry2 = new IndicatorResourceConfigEntry(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel(), "0.022", source, type);
