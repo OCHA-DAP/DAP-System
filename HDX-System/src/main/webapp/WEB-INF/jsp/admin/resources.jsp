@@ -42,7 +42,7 @@
 					<td>
 						<fmt:formatDate value="${ckanResource.revision_timestamp}" pattern="yyyy-MM-dd HH:mm:ss" />
 					</td>
-					<td>${ckanResource.resourceConfiguration.name}</td>http://manage.hdx.rwlabs.org/hdx/admin/misc/configurations/id/3/edit/
+					<td><a href="${ctx}/admin/misc/configurations/id/${ckanResource.resourceConfiguration.id}/edit/">${ckanResource.resourceConfiguration.name}</a></td>
 					<td>
 						<c:if test="${ckanResource.workflowState eq 'FILE_PRE_VALIDATION_SUCCESS' || ckanResource.workflowState eq 'FILE_PRE_VALIDATION_FAIL'}">
 							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report">
@@ -56,7 +56,7 @@
 						<c:if test="${ckanResource.isDownloadable()}">
 							<a href="${ctx}/admin/status/manuallyTriggerDownload/${ckanResource.id.id}/${ckanResource.id.revision_id}/">download</a>
 						</c:if>
-						<c:if test="${ckanResource.workflowState eq 'DOWNLOADED' || ckanResource.workflowState eq 'CONFIGURED' }">
+						<c:if test="${ckanResource.workflowState eq 'DOWNLOADED'}">
 							<a href="${ctx}/admin/status/manuallyTriggerEvaluation/${ckanResource.id.id}/${ckanResource.id.revision_id}/">evaluate</a>
 						</c:if>
 						<c:if test="${ckanResource.workflowState eq 'FILE_PRE_VALIDATION_SUCCESS'}">
