@@ -59,14 +59,6 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 
 	@Override
 	@Transactional
-	public void flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration) {
-		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
-		ckanResourceToFlag.setWorkflowState(WorkflowState.CONFIGURED);
-		ckanResourceToFlag.setResourceConfiguration(resourceConfiguration);
-	}
-
-	@Override
-	@Transactional
 	public void flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 		ckanResourceToFlag.setWorkflowState(WorkflowState.FILE_PRE_VALIDATION_SUCCESS);

@@ -23,7 +23,7 @@ import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 public class CKANResource {
 
 	public enum WorkflowState {
-		DETECTED_NEW, DETECTED_REVISION, OUTDATED, DOWNLOADED, CONFIGURED, FILE_PRE_VALIDATION_SUCCESS, FILE_PRE_VALIDATION_FAIL, IMPORT_SUCCESS, IMPORT_FAIL;
+		DETECTED_NEW, DETECTED_REVISION, OUTDATED, DOWNLOADED, FILE_PRE_VALIDATION_SUCCESS, FILE_PRE_VALIDATION_FAIL, IMPORT_SUCCESS, IMPORT_FAIL;
 	}
 
 	@Embeddable
@@ -158,7 +158,7 @@ public class CKANResource {
 	private CKANDataset.Type importer;
 
 	@ManyToOne(optional = true)
-	@JoinColumn(name = "resource_configuration_id", nullable = true)
+	@JoinColumn(name = "resource_configuration_id", nullable = false)
 	@ForeignKey(name = "fk_ckan_resource_to_resource_config")
 	private ResourceConfiguration resourceConfiguration;
 

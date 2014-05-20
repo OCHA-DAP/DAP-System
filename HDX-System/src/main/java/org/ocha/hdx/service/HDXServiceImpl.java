@@ -171,8 +171,7 @@ public class HDXServiceImpl implements HDXService {
 					if (resourceDAO.getCKANResource(resource.getId(), resource.getRevision_id()) == null) {
 						// If some revisions were detected before, but were not
 						// processed yet, (i.e a revision was uploaded in the
-						// mean
-						// time )we mark them as outdated
+						// mean time) we mark them as outdated
 						final List<CKANResource> ckanResources = resourceDAO.listCKANResourceRevisions(resource.getId());
 						for (final CKANResource ckanResource : ckanResources) {
 							workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());

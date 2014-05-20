@@ -9,7 +9,6 @@ import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
-import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class WorkflowServiceImpl implements WorkflowService {
@@ -61,18 +60,6 @@ public class WorkflowServiceImpl implements WorkflowService {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.DOWNLOADED)) {
 			resourceDAO.flagCKANResourceAsDownloaded(id, revision_id);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	@Deprecated
-	@Override
-	public boolean flagCKANResourceAsConfigured(final String id, final String revision_id, final ResourceConfiguration resourceConfiguration) {
-		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		if (nextStateIsPossible(res, WorkflowState.CONFIGURED)) {
-			resourceDAO.flagCKANResourceAsConfigured(id, revision_id, resourceConfiguration);
 			return true;
 		} else {
 			return false;

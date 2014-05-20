@@ -26,7 +26,6 @@
 				<entry key="DETECTED_NEW" value-ref="listForDetected" />
 				<entry key="DETECTED_REVISION" value-ref="listForRevision" />
 				<entry key="DOWNLOADED" value-ref="listForDownloaded" />
-				<entry key="CONFIGURED" value-ref="listForConfigured" />
 				<entry key="FILE_PRE_VALIDATION_SUCCESS" value-ref="listForTechEvalSuccess" />
 			</map>
 		</constructor-arg>
@@ -40,11 +39,6 @@
 		<value>DOWNLOADED</value>
 	</util:list>
 	<util:list id="listForDownloaded">
-		<value>FILE_PRE_VALIDATION_SUCCESS</value>
-		<value>FILE_PRE_VALIDATION_FAIL</value>
-		<value>CONFIGURED</value>
-	</util:list>
-	<util:list id="listForConfigured">
 		<value>FILE_PRE_VALIDATION_SUCCESS</value>
 		<value>FILE_PRE_VALIDATION_FAIL</value>
 	</util:list>

@@ -1,7 +1,5 @@
 package org.ocha.hdx.persistence.dao.ckan;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.Date;
 
 import org.junit.After;
@@ -16,6 +14,7 @@ import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.validation.util.DummyEntityCreatorWrapper;
 import org.ocha.hdx.validation.util.DummyEntityCreatorWrapper.DummyEntityCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +53,7 @@ public class CKANResourceDAOImplTest {
 
 		final Date revisionTs = new Date();
 		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", "newUnitTestResourceName", revisionTs, "theParent", "parentDataset_id",
-				"parentDataset_revision_id", revisionTs, null);
+				"parentDataset_revision_id", revisionTs, savedConfig);
 
 		Assert.assertEquals(1, ckanResourceDAO.listCKANResources().size());
 
@@ -78,7 +77,7 @@ public class CKANResourceDAOImplTest {
 
 		final Date revision2Ts = new Date();
 		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId2", "newUnitTestResourceName2", revision2Ts, "theParent", "parentDataset_id",
-				"parentDataset_revision_id", revision2Ts, null);
+				"parentDataset_revision_id", revision2Ts, savedConfig);
 
 		// no change expected, the resource already exist
 		Assert.assertEquals(2, ckanResourceDAO.listCKANResources().size());
@@ -97,30 +96,14 @@ public class CKANResourceDAOImplTest {
 			Assert.assertNull(r.getDownloadDate());
 		}
 
-		ckanResourceDAO.flagCKANResourceAsConfigured("newUnitTestResourceId", "newUnitTestResourceRevId", savedConfig);
-		{
-			final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId");
-			Assert.assertEquals(WorkflowState.CONFIGURED, r.getWorkflowState());
-			Assert.assertNotNull(r.getResourceConfiguration());
-			Assert.assertEquals("test", r.getResourceConfiguration().getName());
-			Assert.assertNotNull(r.getResourceConfiguration().getGeneralConfigEntries());
-			Assert.assertNotNull(r.getResourceConfiguration().getIndicatorConfigEntries());
-			Assert.assertTrue(r.getResourceConfiguration().getGeneralConfigEntries().size() > 0);
-			Assert.assertTrue(r.getResourceConfiguration().getIndicatorConfigEntries().size() > 0);
-		}
-
-		ckanResourceDAO.flagCKANResourceAsConfigured("newUnitTestResourceId", "newUnitTestResourceRevId", null);
 		resourceConfigurationDAO.deleteResourceConfiguration(configurationId);
 		entityCreator.deleteNeededIndicatorTypeAndSource();
 	}
 
-	@Test
+	@Test(expected = DataIntegrityViolationException.class)
 	public void testCKANResourceWithEmptyConfig() {
-		final Date revisionTs = new Date();
-		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", "newUnitTestResourceName", revisionTs, "theParent", "parentDataset_id",
-				"parentDataset_revision_id", revisionTs, null);
-		final CKANResource r = ckanResourceDAO.getCKANResource("newUnitTestResourceId", "newUnitTestResourceRevId");
+		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", "newUnitTestResourceName", new Date(), "theParent", "parentDataset_id",
+				"parentDataset_revision_id", new Date(), null);
 
-		assertTrue(r != null);
 	}
 }

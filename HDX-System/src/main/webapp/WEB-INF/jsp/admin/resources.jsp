@@ -42,7 +42,7 @@
 					<td>
 						<fmt:formatDate value="${ckanResource.revision_timestamp}" pattern="yyyy-MM-dd HH:mm:ss" />
 					</td>
-					<td>${ckanResource.resourceConfiguration.name}</td>
+					<td>${ckanResource.resourceConfiguration.name}</td>http://manage.hdx.rwlabs.org/hdx/admin/misc/configurations/id/3/edit/
 					<td>
 						<c:if test="${ckanResource.workflowState eq 'FILE_PRE_VALIDATION_SUCCESS' || ckanResource.workflowState eq 'FILE_PRE_VALIDATION_FAIL'}">
 							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report">
