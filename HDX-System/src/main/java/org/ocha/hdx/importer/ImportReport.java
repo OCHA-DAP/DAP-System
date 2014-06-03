@@ -1,6 +1,10 @@
 package org.ocha.hdx.importer;
 
-public class ImportReport {
+import java.io.Serializable;
+
+public class ImportReport implements Serializable {
+
+	private static final long serialVersionUID = -7350328255412730901L;
 
 	private boolean overallResult;
 

@@ -165,7 +165,6 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	}
 
 	private void creatingMissingEntities(final File file, final HDXWithCountryListImporter importer) {
-		final PreparedData preparedData;
 		for (final Entry<String, String> entry : importer.getCountryList(file).entrySet()) {
 			try {
 				this.curatedDataService.createEntity(entry.getKey(), entry.getValue(), "country");

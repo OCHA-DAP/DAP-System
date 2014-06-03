@@ -29,7 +29,6 @@ public abstract class AbstractExporterCountryFTS_XLSX extends Exporter_XLSX<Expo
 		super(exporterService);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected XSSFWorkbook export(final XSSFWorkbook workbook, final ExporterCountryQueryData queryData, final Map<String, ReportRow> data, final String sheetName) throws Exception {
 		// TODO i18n, UT
 
@@ -48,18 +47,15 @@ public abstract class AbstractExporterCountryFTS_XLSX extends Exporter_XLSX<Expo
 		// We may have holes in the series of years,
 		// so we map each year to the corresponding column index.
 		final Map<Integer, Integer> yearToColum = new HashMap<Integer, Integer>();
-		
+
 		for (int year = fromYear; year <= toYear; year++) {
 			headers.add(year);
 			yearToColum.put(year, headers.size() - 1);
 		}
 		// Switch to the following for reverse order
 		/*
-		for (int year = toYear; year >= fromYear; year--) {
-			headers.add(year);
-			yearToColum.put(year, headers.size() - 1);
-		}
-		*/
+		 * for (int year = toYear; year >= fromYear; year--) { headers.add(year); yearToColum.put(year, headers.size() - 1); }
+		 */
 
 		// Assign the headers to the title row
 		createColumnHeaderCells(sheet, headers);
@@ -101,18 +97,11 @@ public abstract class AbstractExporterCountryFTS_XLSX extends Exporter_XLSX<Expo
 		}
 
 		/*
-		// Show processed indicator types so far
-		final Set<DataSerieInSheet> dataSerieInSheets = (Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES);
-		logger.debug("Indicators type after " + this.getClass().getName() + " : ");
-		if (null != dataSerieInSheets) {
-			for (final DataSerieInSheet dataSerieInSheet : dataSerieInSheets) {
-				logger.debug("\t" + dataSerieInSheet.getDataSerie().getIndicatorCode() + " => " + dataSerieInSheet.getSheetName());
-			}
-		} else {
-			logger.debug("\tNone");
-		}
-		*/
-		
+		 * // Show processed indicator types so far final Set<DataSerieInSheet> dataSerieInSheets = (Set<DataSerieInSheet>) queryData.getChannelValue(CHANNEL_KEYS.DATA_SERIES);
+		 * logger.debug("Indicators type after " + this.getClass().getName() + " : "); if (null != dataSerieInSheets) { for (final DataSerieInSheet dataSerieInSheet : dataSerieInSheets) {
+		 * logger.debug("\t" + dataSerieInSheet.getDataSerie().getIndicatorCode() + " => " + dataSerieInSheet.getSheetName()); } } else { logger.debug("\tNone"); }
+		 */
+
 		return super.export(workbook, queryData);
 	}
 }

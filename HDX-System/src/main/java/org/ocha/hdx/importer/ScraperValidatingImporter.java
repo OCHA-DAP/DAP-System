@@ -20,8 +20,6 @@ import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.ocha.hdx.service.IndicatorCreationService;
 import org.ocha.hdx.validation.itemvalidator.IValidatorCreator;
 import org.ocha.hdx.validation.prevalidator.IPreValidatorCreator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -31,8 +29,6 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class ScraperValidatingImporter extends AbstractValidatingImporter {
-
-	private static Logger logger = LoggerFactory.getLogger(ScraperValidatingImporter.class);
 
 	Map<String, String> sourcesMap = new HashMap<>();
 	/**

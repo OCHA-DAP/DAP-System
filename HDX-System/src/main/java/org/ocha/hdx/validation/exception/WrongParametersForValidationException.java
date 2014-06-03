@@ -5,9 +5,11 @@ package org.ocha.hdx.validation.exception;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 public class WrongParametersForValidationException extends RuntimeException {
+
+	private static final long serialVersionUID = 6595363693385816880L;
 
 	/**
 	 *

@@ -303,22 +303,22 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 		return indAndSrcCode;
 	}
 
-	private void cleanStrings(final String[] line) {
-		for (int i = 0; i < line.length; i++) {
-			String string = line[i];
-
-			if (string != null && string.length() > 0) {
-				string = string.trim();
-				if (string.indexOf("\"") == 0) {
-					string = string.substring(1);
-				}
-				if (string.lastIndexOf("\"") == string.length() - 1) {
-					string = string.substring(0, string.length() - 1);
-				}
-			}
-			line[i] = string;
-		}
-	}
+	// private void cleanStrings(final String[] line) {
+	// for (int i = 0; i < line.length; i++) {
+	// String string = line[i];
+	//
+	// if (string != null && string.length() > 0) {
+	// string = string.trim();
+	// if (string.indexOf("\"") == 0) {
+	// string = string.substring(1);
+	// }
+	// if (string.lastIndexOf("\"") == string.length() - 1) {
+	// string = string.substring(0, string.length() - 1);
+	// }
+	// }
+	// line[i] = string;
+	// }
+	// }
 
 	protected abstract String[] getValuesFromLine(final String line);
 
