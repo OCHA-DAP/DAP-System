@@ -65,14 +65,12 @@ public class ScraperValidatingImporterAllIndicatorTypesTest {
 
 	private static Logger logger = LoggerFactory.getLogger(ScraperValidatingImporterAllIndicatorTypesTest.class);
 
-	public final static List<String> ALLOWED_INDICATOR_TYPES_LIST = Collections.unmodifiableList(Arrays.asList("PCX140",
-			"PCH100", "PVX080", "PVX090", "PVX100", "PSE230", "PSE240",
-			"TT027T", "_Internet users per 100 inhabitants", "CG300", "CG310", "PSE250",
-			"PCH110", "PVN060", "PVN070", "PSP120", "CG320",
-			"PVH200", "CD010", "CD030", "CD050", "CD060", "CD070", "CD080", "CD090", "CG020", "CG030", "CG060", "CG070", "CG080", "CG100", "CG120", "CG140", "CG150",
-			"CG260", "CG290", "CH070", "CH080", "CH090", "CH100", "PCH090", "PCX090", "PCX100", "PCX130", "PSE030", "PSE090", "PSE110", "PSE120", "PSE130", "PSE140", "PSE150", "PSE160", "PSE170",
-			"PSE200", "PSE210", "PSE220", "PSP010", "PSP050", "PSP060", "PSP070", "PSP080", "PSP090", "PSP100", "PSP110", "PVE010", "PVE030", "PVE110", "PVE120", "PVE130", "PVF020", "PVH010",
-			"PVH050", "PVH080", "PVH090", "PVH100", "PVH120", "PVH140", "PVH150", "PVH180", "PVH190", "PVL010", "PVL030", "PVL040", "PVN010", "PVN050", "PVW010", "PVW040", "PVX010", "PVX020"));
+	public final static List<String> ALLOWED_INDICATOR_TYPES_LIST = Collections.unmodifiableList(Arrays.asList("PCX140", "PCH100", "PVX080", "PVX090", "PVX100", "PSE230", "PSE240", "TT027T",
+			"_Internet users per 100 inhabitants", "CG300", "CG310", "PSE250", "PCH110", "PVN060", "PVN070", "PSP120", "CG320", "PVH200", "CD010", "CD030", "CD050", "CD060", "CD070", "CD080",
+			"CD090", "CG020", "CG030", "CG060", "CG070", "CG080", "CG100", "CG120", "CG140", "CG150", "CG260", "CG290", "CH070", "CH080", "CH090", "CH100", "PCH090", "PCX090", "PCX100", "PCX130",
+			"PSE030", "PSE090", "PSE110", "PSE120", "PSE130", "PSE140", "PSE150", "PSE160", "PSE170", "PSE200", "PSE210", "PSE220", "PSP010", "PSP050", "PSP060", "PSP070", "PSP080", "PSP090",
+			"PSP100", "PSP110", "PVE010", "PVE030", "PVE110", "PVE120", "PVE130", "PVF020", "PVH010", "PVH050", "PVH080", "PVH090", "PVH100", "PVH120", "PVH140", "PVH150", "PVH180", "PVH190",
+			"PVL010", "PVL030", "PVL040", "PVN010", "PVN050", "PVW010", "PVW040", "PVX010", "PVX020"));
 
 	public final static String ALLOWED_INDICATOR_TYPES = StringUtils.join(ALLOWED_INDICATOR_TYPES_LIST, "&&");
 
@@ -113,7 +111,7 @@ public class ScraperValidatingImporterAllIndicatorTypesTest {
 
 		logger.info("Starting 2nd phase of import");
 
-		final List<Indicator> indicators = importer.transformToFinalFormat();
+		final List<Indicator> indicators = indicatorCreationService.createIndicators(preparedData.getIndicatorsToImport());
 
 		logMissingIndicators(getTypesFromIndicatorList(indicators));
 

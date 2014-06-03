@@ -79,12 +79,12 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 
 	@Override
 	@Transactional
-	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report) {
+	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport validationReport) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 		ckanResourceToFlag.setWorkflowState(WorkflowState.IMPORT_SUCCESS);
 		ckanResourceToFlag.setImportDate(new Date());
 		ckanResourceToFlag.setImporter(importer);
-		ckanResourceToFlag.setValidationReport(report);
+		ckanResourceToFlag.setValidationReport(validationReport);
 
 	}
 

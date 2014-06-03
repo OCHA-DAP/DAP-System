@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.ocha.hdx.config.DummyConfigurationCreator;
 import org.ocha.hdx.importer.HDXWithCountryListImporter;
+import org.ocha.hdx.importer.ImportReport;
 import org.ocha.hdx.importer.PreparedData;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.ScraperValidatingImporter;
@@ -17,6 +18,8 @@ import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
+import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
+import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
 import org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
@@ -46,6 +49,12 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 
 	@Autowired
 	private SourceDictionaryDAO sourceDictionaryDAO;
+
+	@Autowired
+	private IndicatorTypeDAO indicatorTypeDAO;
+
+	@Autowired
+	private SourceDAO sourceDAO;
 
 	@Autowired
 	private CuratedDataService curatedDataService;
@@ -81,10 +90,11 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	}
 
 	@Override
-	public boolean transformAndImportDataFromResource(final File file, final Type type, final String resourceId, final String revisionId, final ResourceConfiguration config,
-			final ValidationReport report) {
+	public ImportReport transformAndImportDataFromResource(final File file, final Type type, final String resourceId, final String revisionId, final ResourceConfiguration config,
+			final ValidationReport validationReport) {
 
-		HDXWithCountryListImporter importer = null;
+		final ImportReport importReport = new ImportReport();
+
 		// FIXME we probably want something else here, map of HDXImporter, or
 		// Factory....
 		final PreparedData preparedData;
@@ -93,22 +103,25 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			preparedData = this.defaultImportFail(file);
 			break;
 		case SCRAPER_VALIDATING:
-			importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(config), config, this.validatorCreators, this.preValidatorCreators, report,
-					this.indicatorCreationService);
-			preparedData = this.prepareDataForImport(file, importer);
+			final ScraperValidatingImporter importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(config), config, this.validatorCreators,
+					this.preValidatorCreators, validationReport, this.indicatorCreationService);
+			this.creatingMissingEntities(file, importer);
+			preparedData = importer.prepareDataForImport(file);
 			break;
 		default:
 			preparedData = this.defaultImportFail(file);
 		}
 		if (preparedData.isSuccess()) {
 			logger.info(String.format("Import successful, about to persist %d values", preparedData.getIndicatorsToImport().size()));
-			final List<Indicator> indicators = importer.transformToFinalFormat();
+			final List<Indicator> indicators = indicatorCreationService.createIndicators(preparedData.getIndicatorsToImport());
+			// FIXME here we used to run importer.validations, and this should as well populate one of the report
 			this.saveReadIndicatorsToDatabase(indicators, resourceId, revisionId);
 		} else {
 			logger.info("Import failed");
 		}
 
-		return preparedData.isSuccess();
+		importReport.setOverallResult(preparedData.isSuccess());
+		return importReport;
 
 	}
 
@@ -128,8 +141,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		}
 	}
 
-	@Override
-	public void saveReadIndicatorsToDatabase(final List<Indicator> indicators, final String resourceId, final String revisionId) {
+	private void saveReadIndicatorsToDatabase(final List<Indicator> indicators, final String resourceId, final String revisionId) {
 		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
 		for (final Indicator indicator : indicators) {
 			try {
@@ -152,17 +164,14 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		return preparedData;
 	}
 
-	private PreparedData prepareDataForImport(final File file, final HDXWithCountryListImporter importer) {
+	private void creatingMissingEntities(final File file, final HDXWithCountryListImporter importer) {
 		final PreparedData preparedData;
 		for (final Entry<String, String> entry : importer.getCountryList(file).entrySet()) {
 			try {
 				this.curatedDataService.createEntity(entry.getKey(), entry.getValue(), "country");
 			} catch (final Exception e) {
-				logger.debug(String.format("Not creating country : %s already exist", entry.getKey()));
+				logger.trace(String.format("Not creating country : %s already exist", entry.getKey()));
 			}
 		}
-		preparedData = importer.prepareDataForImport(file);
-
-		return preparedData;
 	}
 }

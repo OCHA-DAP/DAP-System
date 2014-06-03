@@ -66,6 +66,21 @@ public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 	}
 
 	@Override
+	public List<Indicator> createIndicators(final List<PreparedIndicator> preparedIndicators) {
+		final List<Indicator> list = new ArrayList<Indicator>();
+		for (final PreparedIndicator preparedIndicator : preparedIndicators) {
+			try {
+				final Indicator indicator = createIndicator(preparedIndicator);
+				list.add(indicator);
+			} catch (final Exception e) {
+				e.printStackTrace();
+				logger.debug(String.format("Error trying to create preparedIndicator : %s", preparedIndicator.toString()));
+			}
+		}
+		return list;
+	}
+
+	@Override
 	public List<IndicatorResourceConfigEntry> findEmbeddedConfigs(final String indicatorTypeCode, final String sourceCode) {
 		final List<IndicatorResourceConfigEntry> list = new ArrayList<IndicatorResourceConfigEntry>();
 

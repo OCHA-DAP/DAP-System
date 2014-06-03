@@ -10,5 +10,7 @@ public interface IndicatorCreationService {
 
 	Indicator createIndicator(PreparedIndicator preparedIndicator);
 
+	List<Indicator> createIndicators(List<PreparedIndicator> preparedIndicators);
+
 	List<IndicatorResourceConfigEntry> findEmbeddedConfigs(String indicatorTypeCode, String sourceCode);
 }

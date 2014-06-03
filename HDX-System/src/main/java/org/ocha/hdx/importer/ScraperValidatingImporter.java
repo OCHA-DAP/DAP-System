@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.configs.AbstractConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
-import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.dictionary.SourceDictionary;
 import org.ocha.hdx.service.IndicatorCreationService;
@@ -143,23 +141,6 @@ public class ScraperValidatingImporter extends AbstractValidatingImporter {
 			colTransformers.put(key, transformer);
 		}
 		return transformer;
-	}
-
-	@Override
-	public List<Indicator> transformToFinalFormat() {
-		final List<Indicator> list = new LinkedList<Indicator>();
-		for (final PreparedIndicator preparedIndicator : preparedData.getIndicatorsToImport()) {
-			try {
-				final Indicator indicator = indicatorCreationService.createIndicator(preparedIndicator);
-				if (validation(indicator)) {
-					list.add(indicator);
-				}
-			} catch (final Exception e) {
-				e.printStackTrace();
-				logger.debug(String.format("Error trying to create preparedIndicator : %s", preparedIndicator.toString()));
-			}
-		}
-		return list;
 	}
 
 }

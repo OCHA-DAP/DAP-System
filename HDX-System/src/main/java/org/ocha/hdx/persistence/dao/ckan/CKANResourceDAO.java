@@ -26,7 +26,7 @@ public interface CKANResourceDAO {
 	 * @param id
 	 * @param revision_id
 	 */
-	public void flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final ValidationReport report);
+	public void flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final ValidationReport validationReport);
 
 	/**
 	 * Flags the given record as FILE_PRE_VALIDATION_FAIL and stores which evaluator triggered the failure

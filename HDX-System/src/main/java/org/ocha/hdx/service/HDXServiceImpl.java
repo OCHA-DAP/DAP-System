@@ -35,6 +35,7 @@ import org.ocha.hdx.dto.apiv3.GroupListV3DTO;
 import org.ocha.hdx.dto.apiv3.GroupV3DTO;
 import org.ocha.hdx.dto.apiv3.GroupV3WrapperDTO;
 import org.ocha.hdx.dto.apiv3.ResourceCreateQuery;
+import org.ocha.hdx.importer.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.UserDAO;
 import org.ocha.hdx.persistence.dao.ckan.CKANDatasetDAO;
@@ -295,14 +296,14 @@ public class HDXServiceImpl implements HDXService {
 		final CKANDataset.Type type = this.getTypeForFile(id, revision_id);
 
 		final ResourceConfiguration config = this.getResourceConfigFromResourceIdAndRevisionId(id, revision_id);
-		final ValidationReport report = this.getValidationReportFromResourceIdAndRevisionId(id, revision_id);
+		final ValidationReport validationReport = this.getValidationReportFromResourceIdAndRevisionId(id, revision_id);
 
-		final boolean result = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type, id, revision_id, config, report);
+		final ImportReport importReport = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type, id, revision_id, config, validationReport);
 
-		if (result) {
-			workflowService.flagCKANResourceAsImportSuccess(id, revision_id, type, report);
+		if (importReport.getOverallResult()) {
+			workflowService.flagCKANResourceAsImportSuccess(id, revision_id, type, validationReport);
 		} else {
-			workflowService.flagCKANResourceAsImportFail(id, revision_id, type, report);
+			workflowService.flagCKANResourceAsImportFail(id, revision_id, type, validationReport);
 			mailService.sendMailForResourceImportFailure(id, revision_id);
 		}
 	}
