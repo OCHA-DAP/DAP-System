@@ -26,19 +26,16 @@ public class AuthorizationSecurityContext implements SecurityContext {
 
 	@Override
 	public String getAuthenticationScheme() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Principal getUserPrincipal() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isSecure() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -78,7 +78,6 @@ public class Entity implements Comparable<Entity> {
 
 	@Override
 	public int compareTo(final Entity o) {
-		// TODO Auto-generated method stub
 		return this.code.compareTo(o.code);
 	}
 

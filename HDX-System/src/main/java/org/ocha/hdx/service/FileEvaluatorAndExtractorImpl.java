@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.ocha.hdx.config.DummyConfigurationCreator;
 import org.ocha.hdx.importer.HDXWithCountryListImporter;
 import org.ocha.hdx.importer.ImportReport;
+import org.ocha.hdx.importer.ImportReport.Status;
 import org.ocha.hdx.importer.PreparedData;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.ScraperValidatingImporter;
@@ -114,11 +115,12 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			final List<Indicator> indicators = indicatorCreationService.createIndicators(preparedData.getIndicatorsToImport());
 			// FIXME here we used to run importer.validations, and this should as well populate one of the report
 			final ImportReport importReport = this.saveReadIndicatorsToDatabase(indicators, resourceId, revisionId);
-			importReport.setOverallResult(preparedData.isSuccess());
 			return importReport;
 		} else {
 			logger.info("Import failed");
-			return new ImportReport();
+			final ImportReport importReport = new ImportReport();
+			importReport.addEntry(Status.ERROR, "Could not perform import, IMPORTER ran additional validations and found errors. See Validation Report for details");
+			return importReport;
 		}
 
 	}
@@ -146,6 +148,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		for (final Indicator indicator : indicators) {
 			try {
 				this.curatedDataService.createIndicator(indicator, importFromCKAN);
+				importReport.addEntry(Status.SUCCESS, "plop");
 				// FIXME populate the report
 			} catch (final Exception e) {
 				logger.trace(String.format("Error trying to save Indicator : %s", indicator.toString()));

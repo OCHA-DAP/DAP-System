@@ -33,7 +33,6 @@ public class ImportFromCKANDAOImpl implements ImportFromCKANDAO {
 		try {
 			importFromCkan = query.getSingleResult();
 		} catch (final NoResultException e) {
-			// TODO create the record if not found
 			importFromCkan = createNewImportRecord("dummy", "dummy", new Date());
 		}
 

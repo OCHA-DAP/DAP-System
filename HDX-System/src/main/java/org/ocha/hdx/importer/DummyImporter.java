@@ -5,8 +5,7 @@ import java.io.File;
 public class DummyImporter implements HDXImporter {
 
 	@Override
-	public PreparedData prepareDataForImport(File file) {
-		// TODO Auto-generated method stub
+	public PreparedData prepareDataForImport(final File file) {
 		return null;
 	}
 

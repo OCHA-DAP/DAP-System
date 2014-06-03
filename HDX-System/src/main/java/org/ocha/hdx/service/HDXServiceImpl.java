@@ -239,7 +239,6 @@ public class HDXServiceImpl implements HDXService {
 
 	@Override
 	public List<CKANDataset> listCKANDatasets() {
-		// TODO Auto-generated method stub
 		return datasetDAO.listCKANDatasets();
 	}
 
@@ -300,7 +299,7 @@ public class HDXServiceImpl implements HDXService {
 
 		final ImportReport importReport = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type, id, revision_id, config, validationReport);
 
-		if (importReport.getOverallResult()) {
+		if (importReport.isSuccess()) {
 			workflowService.flagCKANResourceAsImportSuccess(id, revision_id, type, validationReport);
 		} else {
 			workflowService.flagCKANResourceAsImportFail(id, revision_id, type, validationReport);

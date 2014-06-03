@@ -351,9 +351,9 @@ public class APIResource {
 	// Export functionalities
 	// //////////////////////
 
-	// SW reports 
+	// SW reports
 	// //////////
-	
+
 	/**
 	 * Export a country-centric report in XLSX format.
 	 * 
@@ -394,7 +394,6 @@ public class APIResource {
 	@GET
 	@Path("/exporter/country/csv/{countryCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.csv")
 	@Produces("application/ms-excel")
-	// TODO Check this
 	@PermitAll
 	public File exportCountry_CSV(@PathParam("countryCode") final String countryCode, @PathParam("fromYear") final Integer fromYear, @PathParam("toYear") final Integer toYear,
 			@PathParam("language") final String language) throws Exception {
@@ -414,7 +413,6 @@ public class APIResource {
 	@GET
 	@Path("/exporter/country/readme/{countryCode}/language/{language}/{filename}.txt")
 	@Produces("text/plain")
-	// TODO Check this
 	@PermitAll
 	public File exportCountryReadMe_TXT(@PathParam("countryCode") final String countryCode, @PathParam("language") final String language) throws Exception {
 		return exporterService.exportCountryReadMe_TXT(countryCode, language);
@@ -461,8 +459,8 @@ public class APIResource {
 	@Path("/exporter/indicator/csv/{indicatorTypeCode}/source/{sourceCode}/fromYear/{fromYear}/toYear/{toYear}/language/{language}/{filename}.csv")
 	@Produces("application/ms-excel")
 	@PermitAll
-	public File exportIndicator_CSV(@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("sourceCode") final String sourceCode,
-			@PathParam("fromYear") final Long fromYear, @PathParam("toYear") final Long toYear, @PathParam("language") final String language) throws Exception {
+	public File exportIndicator_CSV(@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("sourceCode") final String sourceCode, @PathParam("fromYear") final Long fromYear,
+			@PathParam("toYear") final Long toYear, @PathParam("language") final String language) throws Exception {
 		return exporterService.exportIndicator_CSV(indicatorTypeCode, sourceCode, fromYear, toYear, language);
 	}
 
@@ -479,15 +477,15 @@ public class APIResource {
 	@GET
 	@Path("/exporter/indicator/readme/{indicatorTypeCode}/source/{sourceCode}/language/{language}/{filename}.txt")
 	@Produces("text/plain")
-	// TODO Check this
 	@PermitAll
-	public File exportIndicatorReadMe_TXT(@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("sourceCode") final String sourceCode, @PathParam("language") final String language) throws Exception {
+	public File exportIndicatorReadMe_TXT(@PathParam("indicatorTypeCode") final String indicatorTypeCode, @PathParam("sourceCode") final String sourceCode, @PathParam("language") final String language)
+			throws Exception {
 		return exporterService.exportIndicatorReadMe_TXT(indicatorTypeCode, sourceCode, language);
 	}
 
 	// RW reports
 	// //////////
-	
+
 	/**
 	 * Export a country-centric RW report in XLSX format.
 	 * 
@@ -547,7 +545,6 @@ public class APIResource {
 	@GET
 	@Path("/exporter/countryRW/readme/{countryCode}/language/{language}/{filename}.txt")
 	@Produces("text/plain")
-	// TODO Check this
 	@PermitAll
 	public File exportCountryRWReadMe_TXT(@PathParam("countryCode") final String countryCode, @PathParam("language") final String language) throws Exception {
 		return exporterService.exportCountryRWReadMe_TXT(countryCode, language);
@@ -584,7 +581,6 @@ public class APIResource {
 	@GET
 	@Path("/exporter/indicatorRW/readme/language/{language}/{filename}.txt")
 	@Produces("text/plain")
-	// TODO Check this
 	@PermitAll
 	public File exportIndicatorRWReadMe_TXT(@PathParam("language") final String language) throws Exception {
 		return exporterService.exportIndicatorRWReadMe_TXT(language);
@@ -592,7 +588,7 @@ public class APIResource {
 
 	// FTS reports
 	// //////////
-	
+
 	/**
 	 * Export a country-centric FTS report in XLSX format.
 	 * 
@@ -652,7 +648,6 @@ public class APIResource {
 	@GET
 	@Path("/exporter/countryFTS/readme/{countryCode}/language/{language}/{filename}.txt")
 	@Produces("text/plain")
-	// TODO Check this
 	@PermitAll
 	public File exportCountryFTSReadMe_TXT(@PathParam("countryCode") final String countryCode, @PathParam("language") final String language) throws Exception {
 		return exporterService.exportCountryFTSReadMe_TXT(countryCode, language);
@@ -689,7 +684,6 @@ public class APIResource {
 	@GET
 	@Path("/exporter/indicatorFTS/readme/language/{language}/{filename}.txt")
 	@Produces("text/plain")
-	// TODO Check this
 	@PermitAll
 	public File exportIndicatorFTSReadMe_TXT(@PathParam("language") final String language) throws Exception {
 		return exporterService.exportIndicatorFTSReadMe_TXT(language);
@@ -697,7 +691,7 @@ public class APIResource {
 
 	// Others
 	// //////
-	
+
 	/**
 	 * Export all indicator metadata report in CSV format.
 	 * 
@@ -713,7 +707,7 @@ public class APIResource {
 	public File exportIndicatorAllMetadata_CSV(@PathParam("language") final String language) throws Exception {
 		return exporterService.exportIndicatorAllMetadata_CSV(language);
 	}
-	
+
 	/**
 	 * Export an indicator metadata report in CSV format.
 	 * 
