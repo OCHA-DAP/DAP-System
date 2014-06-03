@@ -59,16 +59,16 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 
 	private final List<IPreValidator> preValidators;
 
-	private final ValidationReport report;
+	private final ValidationReport validationReport;
 
 	protected PreparedData preparedData;
 
 	public AbstractValidatingImporter(final ResourceConfiguration resourceConfiguration, final List<IValidatorCreator> validatorCreators, final List<IPreValidatorCreator> preValidatorCreators,
-			final ValidationReport report) {
+			final ValidationReport validationReport) {
 		super();
 		this.preValidators = new ArrayList<IPreValidator>();
 
-		this.report = report;
+		this.validationReport = validationReport;
 		if (resourceConfiguration != null) {
 			if (resourceConfiguration.getGeneralConfigEntries() != null) {
 				this.generaterResourceEntriesMap(resourceConfiguration);
@@ -164,6 +164,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 					}
 				} catch (final RuntimeException re) {
 					logger.debug(re.toString(), re);
+					this.validationReport.addEntry(ValidationStatus.ERROR, re.toString());
 				}
 
 			}
@@ -171,7 +172,8 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 			this.preparedData = new PreparedData(true, preparedIndicators);
 		} catch (final IOException e) {
 			logger.debug(e.toString(), e);
-			this.preparedData = new PreparedData(true, preparedIndicators);
+			this.validationReport.addEntry(ValidationStatus.ERROR, e.toString());
+			this.preparedData = new PreparedData(false, preparedIndicators);
 		}
 		return this.preparedData;
 	}
@@ -187,7 +189,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 					final Response response = validator.validate(indicator);
 					validator.populateImportConfig(indicator.getIndicatorImportConfig(), response);
 
-					if (!this.verifyResponse(response)) {
+					if (!this.updateReportWithResponseStatus(response)) {
 						ret = false;
 					}
 				}
@@ -199,13 +201,13 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 
 	}
 
-	private boolean verifyResponse(final Response response) {
+	private boolean updateReportWithResponseStatus(final Response response) {
 		switch (response.getStatus()) {
 		case ERROR:
-			this.report.addEntry(response.getStatus(), response.getDescription());
+			this.validationReport.addEntry(response.getStatus(), response.getDescription());
 			return false;
 		case WARNING:
-			this.report.addEntry(response.getStatus(), response.getDescription());
+			this.validationReport.addEntry(response.getStatus(), response.getDescription());
 			return true;
 		default:
 			return true;
@@ -275,7 +277,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 			}
 
 			if (cachedValidatorList.size() == 0) {
-				this.report.addEntry(ValidationStatus.WARNING, String.format("No validators found for indicator type '%s' and source '%s'", indTypeCode, sourceCode));
+				this.validationReport.addEntry(ValidationStatus.WARNING, String.format("No validators found for indicator type '%s' and source '%s'", indTypeCode, sourceCode));
 			}
 		}
 		return cachedValidatorList;
@@ -285,7 +287,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 		boolean ret = true;
 		for (final IPreValidator preValidator : this.preValidators) {
 			final Response response = preValidator.validate(values);
-			if (!this.verifyResponse(response)) {
+			if (!this.updateReportWithResponseStatus(response)) {
 				ret = false;
 				logger.debug(String.format("Pre-validation error. Message :  %s", response.getDescription()));
 			}

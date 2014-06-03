@@ -16,4 +16,12 @@ public class ImportReport implements Serializable {
 		this.overallResult = overallResult;
 	}
 
+	public void addEntry() {
+
+	}
+
+}
+
+class ImportReportEntry {
+
 }

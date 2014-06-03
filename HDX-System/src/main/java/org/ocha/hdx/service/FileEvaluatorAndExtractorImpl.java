@@ -93,8 +93,6 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	public ImportReport transformAndImportDataFromResource(final File file, final Type type, final String resourceId, final String revisionId, final ResourceConfiguration config,
 			final ValidationReport validationReport) {
 
-		final ImportReport importReport = new ImportReport();
-
 		// FIXME we probably want something else here, map of HDXImporter, or
 		// Factory....
 		final PreparedData preparedData;
@@ -115,13 +113,13 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			logger.info(String.format("Import successful, about to persist %d values", preparedData.getIndicatorsToImport().size()));
 			final List<Indicator> indicators = indicatorCreationService.createIndicators(preparedData.getIndicatorsToImport());
 			// FIXME here we used to run importer.validations, and this should as well populate one of the report
-			this.saveReadIndicatorsToDatabase(indicators, resourceId, revisionId);
+			final ImportReport importReport = this.saveReadIndicatorsToDatabase(indicators, resourceId, revisionId);
+			importReport.setOverallResult(preparedData.isSuccess());
+			return importReport;
 		} else {
 			logger.info("Import failed");
+			return new ImportReport();
 		}
-
-		importReport.setOverallResult(preparedData.isSuccess());
-		return importReport;
 
 	}
 
@@ -141,15 +139,21 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		}
 	}
 
-	private void saveReadIndicatorsToDatabase(final List<Indicator> indicators, final String resourceId, final String revisionId) {
+	private ImportReport saveReadIndicatorsToDatabase(final List<Indicator> indicators, final String resourceId, final String revisionId) {
+		final ImportReport importReport = new ImportReport();
+
 		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
 		for (final Indicator indicator : indicators) {
 			try {
 				this.curatedDataService.createIndicator(indicator, importFromCKAN);
+				// FIXME populate the report
 			} catch (final Exception e) {
-				logger.debug(String.format("Error trying to save Indicator : %s", indicator.toString()));
+				logger.trace(String.format("Error trying to save Indicator : %s", indicator.toString()));
+				// FIXME populate the report
 			}
 		}
+
+		return importReport;
 	}
 
 	private ValidationReport defaultValidationFail(final File file) {
