@@ -19,7 +19,7 @@
     <org.springframework.version>3.2.4.RELEASE</org.springframework.version>
     <org.springframework.security.version>3.1.4.RELEASE</org.springframework.security.version>
     <javax.servlet.api.version>2.5</javax.servlet.api.version>
-    <derby.version>10.10.1.1</derby.version>
+    <derby.version>10.10.2.0</derby.version>
     <jstl.impl.version>1.2</jstl.impl.version>
     <jersey.version>2.6</jersey.version>
     <aspectj.version>1.7.3</aspectj.version>
