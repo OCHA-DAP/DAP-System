@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ocha.hdx.importer.ImportReport.Status;
+import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 
 public class ImportReport implements Serializable {
 
@@ -34,17 +35,30 @@ public class ImportReport implements Serializable {
 	public void addEntry(final Status status, final String message) {
 		entries.add(new ImportReportEntry(status, message));
 	}
+
+	public void addEntry(final Status status, final String message, final Indicator indicator) {
+		entries.add(new ImportReportEntry(status, message));
+	}
 }
 
 class ImportReportEntry {
 
 	private final Status status;
 	private final String message;
+	private final Indicator relatedIndicator;
 
 	public ImportReportEntry(final Status status, final String message) {
 		super();
 		this.status = status;
 		this.message = message;
+		this.relatedIndicator = null;
+	}
+
+	public ImportReportEntry(final Status status, final String message, final Indicator relatedIndicator) {
+		super();
+		this.status = status;
+		this.message = message;
+		this.relatedIndicator = relatedIndicator;
 	}
 
 	public Status getStatus() {
@@ -53,6 +67,10 @@ class ImportReportEntry {
 
 	public String getMessage() {
 		return message;
+	}
+
+	public Indicator getRelatedIndicator() {
+		return relatedIndicator;
 	}
 
 }

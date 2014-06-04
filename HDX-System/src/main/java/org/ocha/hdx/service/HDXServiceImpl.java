@@ -300,10 +300,10 @@ public class HDXServiceImpl implements HDXService {
 		final ImportReport importReport = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type, id, revision_id, config, validationReport);
 
 		if (importReport.isSuccess()) {
-			workflowService.flagCKANResourceAsImportSuccess(id, revision_id, type, validationReport);
+			workflowService.flagCKANResourceAsImportSuccess(id, revision_id, type, validationReport, importReport);
 		} else {
-			workflowService.flagCKANResourceAsImportFail(id, revision_id, type, validationReport);
-			mailService.sendMailForResourceImportFailure(id, revision_id);
+			workflowService.flagCKANResourceAsImportFail(id, revision_id, type, validationReport, importReport);
+			mailService.sendMailForResourceImportFailure(id, revision_id, importReport);
 		}
 	}
 

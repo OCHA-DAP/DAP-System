@@ -3,6 +3,7 @@ package org.ocha.hdx.persistence.dao.ckan;
 import java.util.Date;
 import java.util.List;
 
+import org.ocha.hdx.importer.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
@@ -42,9 +43,9 @@ public interface CKANResourceDAO {
 	 * @param revision_id
 	 * @param evaluator
 	 */
-	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report);
+	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report, final ImportReport importReport);
 
-	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report);
+	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report, final ImportReport importReport);
 
 	/**
 	 * Flags the given record as Outdated

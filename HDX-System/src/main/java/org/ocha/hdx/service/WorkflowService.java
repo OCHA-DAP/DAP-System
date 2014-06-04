@@ -1,5 +1,6 @@
 package org.ocha.hdx.service;
 
+import org.ocha.hdx.importer.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
@@ -17,8 +18,8 @@ public interface WorkflowService {
 
 	public boolean flagCKANResourceAsFilePreValidationFail(final String id, final String revision_id, final ValidationReport report);
 
-	public boolean flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type evaluator, final ValidationReport report);
+	public boolean flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type evaluator, final ValidationReport validationReport, final ImportReport importReport);
 
-	public boolean flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type evaluator, final ValidationReport report);
+	public boolean flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type evaluator, final ValidationReport validationReport, final ImportReport importReport);
 
 }

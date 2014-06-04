@@ -3,6 +3,7 @@ package org.ocha.hdx.service;
 import java.util.List;
 import java.util.Map;
 
+import org.ocha.hdx.importer.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.ckan.CKANResourceDAO;
 import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
@@ -89,10 +90,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	@Override
-	public boolean flagCKANResourceAsImportSuccess(final String id, final String revision_id, final Type evaluator, final ValidationReport report) {
+	public boolean flagCKANResourceAsImportSuccess(final String id, final String revision_id, final Type evaluator, final ValidationReport validationReport, final ImportReport importReport) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.IMPORT_SUCCESS)) {
-			resourceDAO.flagCKANResourceAsImportSuccess(id, revision_id, evaluator, report);
+			resourceDAO.flagCKANResourceAsImportSuccess(id, revision_id, evaluator, validationReport, importReport);
 			return true;
 		} else {
 			return false;
@@ -100,10 +101,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	@Override
-	public boolean flagCKANResourceAsImportFail(final String id, final String revision_id, final Type evaluator, final ValidationReport report) {
+	public boolean flagCKANResourceAsImportFail(final String id, final String revision_id, final Type evaluator, final ValidationReport validationReport, final ImportReport importReport) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.IMPORT_FAIL)) {
-			resourceDAO.flagCKANResourceAsImportFail(id, revision_id, evaluator, report);
+			resourceDAO.flagCKANResourceAsImportFail(id, revision_id, evaluator, validationReport, importReport);
 			return true;
 		} else {
 			return false;

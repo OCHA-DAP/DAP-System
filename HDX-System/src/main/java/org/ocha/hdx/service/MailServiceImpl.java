@@ -11,6 +11,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.ocha.hdx.importer.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.ckan.CKANDatasetDAO;
 import org.ocha.hdx.persistence.dao.ckan.CKANResourceDAO;
@@ -102,6 +103,15 @@ public class MailServiceImpl implements MailService {
 
 		final String mailSubject = String.format("CKAN Resource [%s] IMPORT failed, for type : %s", res.getName(), res.getEvaluator());
 		final String mailBody = String.format("CKAN Resource [%s] IMPORT failed, for type : %s", res.getName(), res.getEvaluator());
+		sendMail(getMaintainerForFile(id, revision_id), mailSubject, mailBody);
+	}
+
+	@Override
+	public void sendMailForResourceImportFailure(final String id, final String revision_id, final ImportReport importReport) {
+		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
+
+		final String mailSubject = String.format("CKAN Resource [%s] IMPORT failed, for type : %s", res.getName(), res.getEvaluator());
+		final String mailBody = String.format("CKAN Resource [%s] IMPORT failed, report : %s", res.getName(), importReport);
 		sendMail(getMaintainerForFile(id, revision_id), mailSubject, mailBody);
 
 	}

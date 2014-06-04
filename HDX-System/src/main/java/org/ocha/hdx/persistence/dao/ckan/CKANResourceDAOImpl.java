@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.ocha.hdx.importer.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
@@ -79,23 +80,25 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 
 	@Override
 	@Transactional
-	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport validationReport) {
+	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport validationReport, final ImportReport importReport) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 		ckanResourceToFlag.setWorkflowState(WorkflowState.IMPORT_SUCCESS);
 		ckanResourceToFlag.setImportDate(new Date());
 		ckanResourceToFlag.setImporter(importer);
 		ckanResourceToFlag.setValidationReport(validationReport);
+		ckanResourceToFlag.setImportReport(importReport);
 
 	}
 
 	@Override
 	@Transactional
-	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report) {
+	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report, final ImportReport importReport) {
 		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
 		ckanResourceToFlag.setWorkflowState(WorkflowState.IMPORT_FAIL);
 		ckanResourceToFlag.setImportDate(new Date());
 		ckanResourceToFlag.setImporter(importer);
 		ckanResourceToFlag.setValidationReport(report);
+		ckanResourceToFlag.setImportReport(importReport);
 	}
 
 	@Override

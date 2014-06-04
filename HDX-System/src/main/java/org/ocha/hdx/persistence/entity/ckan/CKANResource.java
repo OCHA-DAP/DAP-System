@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
+import org.ocha.hdx.importer.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 
@@ -153,6 +154,12 @@ public class CKANResource {
 	@Column(name = "validationReport", length = 50000, nullable = true, updatable = true)
 	private ValidationReport validationReport;
 
+	// FIXME here we store the serialization of the report for fast prototyping
+	// this is something we'll probably want to change
+	@Lob
+	@Column(name = "import_report", length = 50000, nullable = true, updatable = true)
+	private ImportReport importReport;
+
 	@Column(name = "importer", nullable = true, updatable = true)
 	@Enumerated(EnumType.STRING)
 	private CKANDataset.Type importer;
@@ -268,6 +275,14 @@ public class CKANResource {
 
 	public void setValidationReport(final ValidationReport validationReport) {
 		this.validationReport = validationReport;
+	}
+
+	public ImportReport getImportReport() {
+		return importReport;
+	}
+
+	public void setImportReport(final ImportReport importReport) {
+		this.importReport = importReport;
 	}
 
 	public CKANDataset.Type getImporter() {
