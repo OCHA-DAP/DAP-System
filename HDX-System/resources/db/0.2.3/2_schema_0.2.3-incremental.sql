@@ -1,0 +1,1 @@
+ALTER TABLE ckan_resource ADD COLUMN import_report oid;
