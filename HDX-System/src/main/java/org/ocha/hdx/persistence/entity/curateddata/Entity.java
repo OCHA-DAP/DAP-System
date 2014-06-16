@@ -32,6 +32,11 @@ public class Entity implements Comparable<Entity> {
 	private long id;
 
 	@ManyToOne
+	@JoinColumn(name = "parent_id")
+	@ForeignKey(name = "fk_entity_to_parent")
+	private Entity parent;
+
+	@ManyToOne
 	@JoinColumn(name = "entity_type_id")
 	@ForeignKey(name = "fk_entity_to_type")
 	private EntityType type;
@@ -66,6 +71,14 @@ public class Entity implements Comparable<Entity> {
 
 	public void setCode(final String code) {
 		this.code = code;
+	}
+
+	public Entity getParent() {
+		return parent;
+	}
+
+	public void setParent(final Entity parent) {
+		this.parent = parent;
 	}
 
 	public Text getName() {

@@ -38,6 +38,8 @@ public class EntityDAOImplTest {
 		entityTypeDAO.createEntityType("country", text);
 		final Text textCrisis = textDAO.createText("Crisis");
 		entityTypeDAO.createEntityType("crisis", textCrisis);
+		final Text textMunicipality = textDAO.createText("Municipality");
+		entityTypeDAO.createEntityType("municipality", textMunicipality);
 	}
 
 	@After
@@ -45,6 +47,7 @@ public class EntityDAOImplTest {
 		try {
 			entityTypeDAO.deleteEntityTypeByCode("country");
 			entityTypeDAO.deleteEntityTypeByCode("crisis");
+			entityTypeDAO.deleteEntityTypeByCode("municipality");
 		} catch (final Exception e) {
 		}
 	}
@@ -189,6 +192,11 @@ public class EntityDAOImplTest {
 		Assert.assertEquals(2, entityDAO.listEntities().size());
 		entityTypeDAO.deleteEntityType(crisis.getId());
 		Assert.assertEquals(0, entityDAO.listEntities().size());
+
+	}
+
+	@Test
+	public void testCreateEntityWithParent() {
 
 	}
 }

@@ -36,6 +36,19 @@ public class EntityDAOImpl implements EntityDAO {
 		entity.setCode(code);
 		entity.setName(name);
 		entity.setType(entityType);
+
+		em.persist(entity);
+	}
+
+	@Override
+	@Transactional
+	public void createEntity(final String code, final Text name, final EntityType entityType, final long parentId) {
+		final Entity entity = new Entity();
+		entity.setCode(code);
+		entity.setName(name);
+		entity.setType(entityType);
+		entity.setParent(getEntityById(parentId));
+
 		em.persist(entity);
 	}
 
