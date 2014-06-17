@@ -197,6 +197,22 @@ public class EntityDAOImplTest {
 
 	@Test
 	public void testCreateEntityWithParent() {
+		final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
+		final EntityType municipality = entityTypeDAO.getEntityTypeByCode("municipality");
 
+		final Text luxembourg = textDAO.createText("Luxembourg");
+		entityDAO.createEntity("LU", luxembourg, country);
+
+		final Entity luxembourgEntity = entityDAO.getEntityByCodeAndType("LU", "country");
+
+		final Text dudelange = textDAO.createText("Dudelange");
+		entityDAO.createEntity("DU", dudelange, municipality, luxembourgEntity.getId());
+
+		Assert.assertEquals(2, entityDAO.listEntities().size());
+
+		final Entity dudelangeEntity = entityDAO.getEntityByCodeAndType("DU", "municipality");
+
+		Assert.assertEquals("LU", dudelangeEntity.getParent().getCode());
+		Assert.assertEquals("DU", dudelangeEntity.getCode());
 	}
 }
