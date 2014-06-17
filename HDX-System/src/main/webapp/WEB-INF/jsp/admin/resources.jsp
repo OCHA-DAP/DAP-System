@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set value="${pageContext.request.contextPath}" var="ctx" scope="request" />
 <!DOCTYPE html>
@@ -42,15 +42,21 @@
 					<td>
 						<fmt:formatDate value="${ckanResource.revision_timestamp}" pattern="yyyy-MM-dd HH:mm:ss" />
 					</td>
-					<td><a href="${ctx}/admin/misc/configurations/id/${ckanResource.resourceConfiguration.id}/edit/">${ckanResource.resourceConfiguration.name}</a></td>
+					<td>
+						<a href="${ctx}/admin/misc/configurations/id/${ckanResource.resourceConfiguration.id}/edit/">${ckanResource.resourceConfiguration.name}</a>
+					</td>
 					<td>
 						<c:if test="${ckanResource.workflowState eq 'FILE_PRE_VALIDATION_SUCCESS' || ckanResource.workflowState eq 'FILE_PRE_VALIDATION_FAIL'}">
 							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report">
 						</c:if>
+						<c:if test="${ckanResource.workflowState eq 'IMPORT_SUCCESS' || ckanResource.workflowState eq 'IMPORT_FAIL'}">
+							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/import-report">
+						</c:if>
 						${ckanResource.workflowState}
 						<c:if test="${ckanResource.workflowState eq 'FILE_PRE_VALIDATION_SUCCESS' || ckanResource.workflowState eq 'FILE_PRE_VALIDATION_FAIL'}">
 							</a>evaluated by ${ckanResource.evaluator}</c:if>
-						<c:if test="${ckanResource.workflowState eq 'IMPORT_SUCCESS' || ckanResource.workflowState eq 'IMPORT_FAIL'}"> imported by ${ckanResource.importer}</c:if>
+						<c:if test="${ckanResource.workflowState eq 'IMPORT_SUCCESS' || ckanResource.workflowState eq 'IMPORT_FAIL'}">
+							</a> imported by ${ckanResource.importer}</c:if>
 					</td>
 					<td>
 						<c:if test="${ckanResource.isDownloadable()}">

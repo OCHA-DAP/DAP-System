@@ -564,6 +564,12 @@ public class AdminResource {
 	}
 
 	@GET
+	@Path("/status/resources/{id}/{revision_id}/import-report")
+	public Response getCKANResourceImportReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
+		return Response.ok(new Viewable("/admin/import-report", hdxService.getCKANResource(id, revision_id))).build();
+	}
+
+	@GET
 	@Path("/status/resources/{id}/{revision_id}/report")
 	public Response getCKANResourceReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
 		return Response.ok(new Viewable("/admin/report", hdxService.getCKANResource(id, revision_id))).build();
@@ -1008,8 +1014,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/indicatorTypes/submitUpdate")
-	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newCode") final String newCode, @FormParam("newName") final String newName, @FormParam("newUnit") final long newUnit,
-			@FormParam("newValueType") final String newValueType) {
+	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newCode") final String newCode, @FormParam("newName") final String newName,
+			@FormParam("newUnit") final long newUnit, @FormParam("newValueType") final String newValueType) {
 		curatedDataService.updateIndicatorType(indicatorTypeId, newCode, newName, newUnit, newValueType);
 		return Response.ok().build();
 	}
@@ -1135,7 +1141,7 @@ public class AdminResource {
 		final List<DataSerieMetadata> metadataForIndicatorTypeCode = curatedDataService.getMetadataForIndicatorTypeCode(indicatorTypeCode);
 		final List<Source> listSources = new ArrayList<Source>();
 		for (final DataSerieMetadata dataSerieMetadata : metadataForIndicatorTypeCode) {
-			if(!listSources.contains(dataSerieMetadata.getSource())) {
+			if (!listSources.contains(dataSerieMetadata.getSource())) {
 				listSources.add(dataSerieMetadata.getSource());
 			}
 		}
@@ -1145,7 +1151,7 @@ public class AdminResource {
 				return o1.getCode().compareTo(o2.getCode());
 			}
 		});
-		
+
 		final JsonArray jsonArray = new JsonArray();
 		for (final Source source : listSources) {
 			final JsonObject jsonSource = sourceToJson(source);
