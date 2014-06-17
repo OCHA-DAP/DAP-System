@@ -4,15 +4,16 @@
 <script type="text/javascript">
   var hdxContextRoot = "${ctx}";
 </script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
-<script src="${ctx}/js/xeditable.min.js"></script>
-<script src="${ctx}/js/admin/utilities.js"></script>
-<script src="${ctx}/js/admin/init.js"></script>
-<script src="${ctx}/js/admin/${param.which}.js"></script>
-<script src="${ctx}/js/admin/menu.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
+<script type="text/javascript" src="${ctx}/js/xeditable.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/loading-bar.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/admin/utilities.js"></script>
+<script type="text/javascript" src="${ctx}/js/admin/init.js"></script>
+<script type="text/javascript" src="${ctx}/js/admin/${param.which}.js"></script>
+<script type="text/javascript" src="${ctx}/js/admin/menu.js"></script>
 <script>
   var appData = {};
 </script>
