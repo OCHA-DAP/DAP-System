@@ -1,10 +1,17 @@
 package org.ocha.hdx.persistence.entity.curateddata;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.ForeignKey;
 import org.ocha.hdx.persistence.entity.i18n.Text;
-
-import javax.persistence.*;
-import javax.persistence.Entity;
 
 /**
  * @author Alexandru Artimon
@@ -36,7 +43,7 @@ public class Unit {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -44,7 +51,7 @@ public class Unit {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(final String code) {
         this.code = code;
     }
 
@@ -52,8 +59,13 @@ public class Unit {
         return name;
     }
 
-    public void setName(Text name) {
+    public void setName(final Text name) {
         this.name = name;
     }
+
+	@Override
+	public String toString() {
+		return "Unit [id=" + id + ", code=" + code + ", name=" + name + "]";
+	}
 
 }

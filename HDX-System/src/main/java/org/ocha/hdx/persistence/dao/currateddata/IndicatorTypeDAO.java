@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorTypeCount;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 
 public interface IndicatorTypeDAO {
 
 	public List<IndicatorType> listIndicatorTypes();
+
+	public List<IndicatorTypeCount> listIndicatorTypeCounts();
 
 	public void createIndicatorType(String code, Text name, Unit unit, ValueType valueType);
 

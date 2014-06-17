@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorTypeCount;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,12 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 	@Override
 	public List<IndicatorType> listIndicatorTypes() {
 		final TypedQuery<IndicatorType> query = em.createQuery("SELECT it FROM IndicatorType it ORDER BY it.code", IndicatorType.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<IndicatorTypeCount> listIndicatorTypeCounts() {
+		final TypedQuery<IndicatorTypeCount> query = em.createQuery("FROM IndicatorTypeCount", IndicatorTypeCount.class);
 		return query.getResultList();
 	}
 

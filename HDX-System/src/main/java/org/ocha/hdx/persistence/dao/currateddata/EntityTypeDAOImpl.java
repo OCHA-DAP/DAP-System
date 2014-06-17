@@ -23,11 +23,12 @@ public class EntityTypeDAOImpl implements EntityTypeDAO {
 
 	@Override
 	@Transactional
-	public void createEntityType(final String code, final Text name) {
+	public EntityType createEntityType(final String code, final Text name) {
 		final EntityType entityType = new EntityType();
 		entityType.setCode(code);
 		entityType.setName(name);
 		em.persist(entityType);
+		return entityType;
 	}
 
 	@Override

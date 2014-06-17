@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,7 @@ import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorTypeCount;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Organization;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
@@ -925,10 +927,25 @@ public class AdminResource {
 		String result = "";
 
 		final List<IndicatorType> listIndicatorTypes = curatedDataService.listIndicatorTypes();
+		final List<IndicatorTypeCount> listIndicatorTypeCounts = curatedDataService.listIndicatorTypeCounts();
 		final JsonArray jsonArray = new JsonArray();
 		for (final IndicatorType indicatorType : listIndicatorTypes) {
-			final JsonObject jsonIndicatorType = indicatorTypeToJson(indicatorType);
-
+			final Iterator<IndicatorTypeCount> iter = listIndicatorTypeCounts.iterator();
+			IndicatorTypeCount count = null;
+			boolean found = false;
+			while (iter.hasNext()) {
+				count = iter.next();
+				if (count.getId() == indicatorType.getId()) {
+					iter.remove();
+					found = true;
+					break;
+				}
+			}
+			if(!found) {
+				count = null;
+			}
+			found = false;
+			final JsonObject jsonIndicatorType = indicatorTypeToJson(indicatorType, count);
 			jsonArray.add(jsonIndicatorType);
 		}
 		if ((null != var) && !"".equals(var)) {
@@ -937,11 +954,17 @@ public class AdminResource {
 		return result + jsonArray.toString();
 	}
 
-	private static JsonObject indicatorTypeToJson(final IndicatorType indicatorType) {
+	private static JsonObject indicatorTypeToJson(final IndicatorType indicatorType, final IndicatorTypeCount count) {
 		final JsonObject jsonIndicatorType = new JsonObject();
 		jsonIndicatorType.addProperty("id", indicatorType.getId());
 		jsonIndicatorType.addProperty("code", indicatorType.getCode());
 		jsonIndicatorType.addProperty("name", indicatorType.getName().getDefaultValue());
+		if (null != count) {
+			jsonIndicatorType.addProperty("nb_index", count.getCount());
+		}
+		else {
+			jsonIndicatorType.addProperty("nb_index", 0);
+		}
 		jsonIndicatorType.addProperty("unit", indicatorType.getUnit().getId());
 		jsonIndicatorType.addProperty("valueType", indicatorType.getValueType().toString());
 		jsonIndicatorType.addProperty("text_id", indicatorType.getName().getId());
@@ -1008,8 +1031,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/indicatorTypes/submitUpdate")
-	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newCode") final String newCode, @FormParam("newName") final String newName, @FormParam("newUnit") final long newUnit,
-			@FormParam("newValueType") final String newValueType) {
+	public Response updateIndicatorType(@FormParam("indicatorTypeId") final long indicatorTypeId, @FormParam("newCode") final String newCode, @FormParam("newName") final String newName,
+			@FormParam("newUnit") final long newUnit, @FormParam("newValueType") final String newValueType) {
 		curatedDataService.updateIndicatorType(indicatorTypeId, newCode, newName, newUnit, newValueType);
 		return Response.ok().build();
 	}
@@ -1135,7 +1158,7 @@ public class AdminResource {
 		final List<DataSerieMetadata> metadataForIndicatorTypeCode = curatedDataService.getMetadataForIndicatorTypeCode(indicatorTypeCode);
 		final List<Source> listSources = new ArrayList<Source>();
 		for (final DataSerieMetadata dataSerieMetadata : metadataForIndicatorTypeCode) {
-			if(!listSources.contains(dataSerieMetadata.getSource())) {
+			if (!listSources.contains(dataSerieMetadata.getSource())) {
 				listSources.add(dataSerieMetadata.getSource());
 			}
 		}
@@ -1145,7 +1168,7 @@ public class AdminResource {
 				return o1.getCode().compareTo(o2.getCode());
 			}
 		});
-		
+
 		final JsonArray jsonArray = new JsonArray();
 		for (final Source source : listSources) {
 			final JsonObject jsonSource = sourceToJson(source);
@@ -1229,7 +1252,7 @@ public class AdminResource {
 			final JsonObject jsonIndicator = new JsonObject();
 			jsonIndicator.addProperty("id", indicator.getId());
 			jsonIndicator.add("source", sourceToJson(indicator.getSource()));
-			jsonIndicator.add("indicatorType", indicatorTypeToJson(indicator.getType()));
+			jsonIndicator.add("indicatorType", indicatorTypeToJson(indicator.getType(), null));
 			jsonIndicator.addProperty("valueType", unquote(gson.toJson(indicator.getType().getValueType())));
 			jsonIndicator.addProperty("startDate", unquote(gson.toJson(indicator.getStart())));
 			jsonIndicator.addProperty("endDate", unquote(gson.toJson(indicator.getEnd())));

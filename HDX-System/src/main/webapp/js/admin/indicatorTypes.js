@@ -47,7 +47,7 @@ app.controller('IndicatorTypesCtrl', function($scope, $filter, utilities) {
     return (indicatorType.valueType && selected.length) ? selected[0].text : 'Not set';
   };
 
-  // Show an indicator type's value type
+  // Show an indicator type's unit
   $scope.showUnit = function(indicatorName) {
     var selected = utilities.findSomething($scope.units, "id", indicatorName.unit);
     var result = (indicatorName.unit && selected.length) ? selected[0].name : 'Not set';
