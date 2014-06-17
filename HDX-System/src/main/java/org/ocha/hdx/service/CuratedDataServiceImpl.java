@@ -34,6 +34,7 @@ import org.ocha.hdx.persistence.entity.curateddata.EntityType;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorTypeCount;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Organization;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
@@ -180,6 +181,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	public List<IndicatorType> listIndicatorTypes() {
 		return indicatorTypeDAO.listIndicatorTypes();
+	}
+
+	@Override
+	public List<IndicatorTypeCount> listIndicatorTypeCounts() {
+		return indicatorTypeDAO.listIndicatorTypeCounts();
 	}
 
 	@Override

@@ -109,4 +109,9 @@ public class IndicatorType {
 		this.valueType = valueType;
 	}
 
+	@Override
+	public String toString() {
+		return "IndicatorType [id=" + id + ", code=" + code + ", name=" + name + ", unit=" + unit + ", valueType=" + valueType + "]";
+	}
+
 }

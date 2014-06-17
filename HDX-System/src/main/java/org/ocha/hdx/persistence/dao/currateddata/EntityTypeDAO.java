@@ -9,7 +9,7 @@ public interface EntityTypeDAO {
 
 	public List<EntityType> listEntityTypes();
 
-	public void createEntityType(String code, Text name);
+	public EntityType createEntityType(String code, Text name);
 
 	public EntityType getEntityTypeById(long id);
 

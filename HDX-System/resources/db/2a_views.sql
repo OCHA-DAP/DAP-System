@@ -12,6 +12,23 @@ AS SELECT
   WHERE ad.entry_value_text_id = t.id;
 
 CREATE OR REPLACE VIEW 
+	hdx_view_indicator_type_count 
+AS SELECT
+	i.type_id as id, 
+	it.code as code, 
+	count(*) as count
+	FROM 
+		hdx_indicator i, 
+		indicator_type it 
+	WHERE
+		i.type_id = it.id 
+	GROUP BY
+		i.type_id, 
+		it.code 
+	ORDER BY
+		it.code; 
+
+CREATE OR REPLACE VIEW 
 	hdx_view_report_indicator_type_overview 
 AS SELECT DISTINCT
 	it.id as "indicator_type_id", 

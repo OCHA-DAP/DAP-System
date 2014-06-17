@@ -25,7 +25,7 @@
 						</c:forEach>
 					</select>
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
+				<button type="submit" class="btn btn-primary btn-custom-default">Submit</button>
 			</form>
 		</div>
 		

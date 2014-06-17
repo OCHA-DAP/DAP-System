@@ -22,11 +22,11 @@
 			<form novalidate name="createResourceForm" class="css-form">
 				<table class="table table-bordered table-hover table-condensed">
 					<tr style="font-weight: bold">
-						<td style="width: 12%">Code</td>
-						<td style="width: 12%">Default name</td>
-						<td style="width: 12%">Unit</td>
-						<td style="width: 44%">Value type</td>
-						<td style="width: 20%">Action</td>
+						<td style="width: 10%">Code</td>
+						<td style="width: 25%">Default name</td>
+						<td style="width: 15%">Unit</td>
+						<td style="width: 40%">Value type</td>
+						<td style="width: 10%">Action</td>
 					</tr>
 					<tr>
 						<td><input type="text" class="form-control" placeholder="Code" id="newResource_code" ng-model="newResource.code" required /></td>
@@ -45,14 +45,15 @@
 		<div ng-controller="I18nCtrl">
 			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
-					<td style="width: 12%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a>
+					<td style="width: 10%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a>
 					<columnsearch param="search.code"></columnsearch></td>
-					<td style="width: 12%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a>
+					<td style="width: 20%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a>
 					<columnsearch param="search.name"></columnsearch></td>
-					<td style="width: 12%"><a href="" ng-click="predicate='unit'; reverse=!reverse">Unit</a></td>
-					<td style="width: 12%"><a href="" ng-click="predicate='valueType'; reverse=!reverse">Value type</a></td>
-					<td style="width: 32%">Translations</td>
-					<td style="width: 20%">Action</td>
+					<td style="width: 5%"><a href="" ng-click="predicate='nb_index'; reverse=!reverse">Indicators count</a></td>
+					<td style="width: 15%"><a href="" ng-click="predicate='unit'; reverse=!reverse">Unit</a></td>
+					<td style="width: 10%"><a href="" ng-click="predicate='valueType'; reverse=!reverse">Value type</a></td>
+					<td style="width: 30%">Translations</td>
+					<td style="width: 10%">Action</td>
 				</tr>
 				<tr ng-repeat="indicatorType in indicatorTypes | filter:search | orderBy:predicate:reverse">
 					<td>
@@ -60,6 +61,9 @@
 					</td>
 					<td>
 						<!-- editable name --> <span editable-text="indicatorType.name" e-class="form-control" e-name="name" e-id="name" e-form="rowform" e-required> {{ indicatorType.name }} </span>
+					</td>
+					<td style="text-align: right;">
+						<!-- Non editable count --> <span> {{indicatorType.nb_index}} </span>
 					</td>
 					<td>
 						<!-- editable unit --> <span editable-select="indicatorType.unit" e-class="form-control" e-name="unit" e-id="unit" e-form="rowform" e-ng-options="u.id as u.name for u in units" e-required>

@@ -50,7 +50,7 @@ public class Text {
 	private List<Translation> translations;
 
 	public long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(final long id) {
@@ -58,7 +58,7 @@ public class Text {
 	}
 
 	public String getDefaultValue() {
-		return this.defaultValue;
+		return defaultValue;
 	}
 
 	public void setDefaultValue(final String defaultValue) {
@@ -66,7 +66,7 @@ public class Text {
 	}
 
 	public List<Translation> getTranslations() {
-		return this.translations;
+		return translations;
 	}
 
 	public void setTranslations(final List<Translation> translations) {
@@ -77,8 +77,8 @@ public class Text {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.defaultValue == null) ? 0 : this.defaultValue.hashCode());
-		result = prime * result + (int) (this.id ^ (this.id >>> 32));
+		result = (prime * result) + ((defaultValue == null) ? 0 : defaultValue.hashCode());
+		result = (prime * result) + (int) (id ^ (id >>> 32));
 		return result;
 	}
 
@@ -94,17 +94,22 @@ public class Text {
 			return false;
 		}
 		final Text other = (Text) obj;
-		if (this.defaultValue == null) {
+		if (defaultValue == null) {
 			if (other.defaultValue != null) {
 				return false;
 			}
-		} else if (!this.defaultValue.equals(other.defaultValue)) {
+		} else if (!defaultValue.equals(other.defaultValue)) {
 			return false;
 		}
-		if (this.id != other.id) {
+		if (id != other.id) {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Text [id=" + id + ", defaultValue=" + defaultValue + "]";
 	}
 
 }

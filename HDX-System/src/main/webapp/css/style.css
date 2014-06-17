@@ -193,3 +193,20 @@ search {
 	background-color: white;
     z-index: 1030; /* fix for navbar dropdown getting under content */
 }
+#loading-bar .bar {
+	/* background: #2c3e50; */
+	background: gray;
+}
+
+#loading-bar .peg {
+	/* box-shadow: 0 0 10px #2c3e50, 0 0 5px #2c3e50; */
+	box-shadow: 0 0 10px gray, 0 0 5px gray;
+}
+
+#loading-bar-spinner .spinner-icon {
+	/*  border-top-color:  #2c3e50;
+  border-left-color: #2c3e50; */
+	border-top-color: gray;
+	border-left-color: gray;
+}
+

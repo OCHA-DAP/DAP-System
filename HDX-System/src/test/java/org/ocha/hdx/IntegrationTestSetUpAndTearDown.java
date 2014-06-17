@@ -18,6 +18,7 @@ import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAO;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
+import org.ocha.hdx.persistence.entity.curateddata.EntityType;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
@@ -28,7 +29,6 @@ import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
-import org.ocha.hdx.service.CuratedDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class IntegrationTestSetUpAndTearDown {
@@ -52,9 +52,6 @@ public class IntegrationTestSetUpAndTearDown {
 	private ImportFromCKANDAO importFromCKANDAO;
 
 	@Autowired
-	private CuratedDataService curatedDataService;
-
-	@Autowired
 	private DataSerieMetadataDAO dataSerieMetadataDAO;
 
 	@Autowired
@@ -65,11 +62,14 @@ public class IntegrationTestSetUpAndTearDown {
 
 	public void setUp() {
 		final Text text = textDAO.createText("Country");
-		entityTypeDAO.createEntityType("country", text);
+		final EntityType countryEntityType = entityTypeDAO.createEntityType("country", text);
 
-		curatedDataService.createEntity("LUX", "Luxembourg", "country");
-		curatedDataService.createEntity("RUS", "Russia", "country");
-		curatedDataService.createEntity("RWA", "Rwanda", "country");
+		final Text Luxembourgtext = textDAO.createText("Luxembourg");
+		final Text Russiatext = textDAO.createText("Russia");
+		final Text Rwandatext = textDAO.createText("Rwanda");
+		entityDAO.createEntity("LUX", Luxembourgtext, countryEntityType);
+		entityDAO.createEntity("RUS", Russiatext, countryEntityType);
+		entityDAO.createEntity("RWA", Rwandatext, countryEntityType);
 
 		final Text dollarText = textDAO.createText("dollar");
 		final Unit dollar = unitDAO.createUnit("dollar", dollarText);
@@ -110,7 +110,8 @@ public class IntegrationTestSetUpAndTearDown {
 		final Source sourceM49 = sourceDAO.getSourceByCode("m49");
 
 		// Entity
-		curatedDataService.createEntity("COL", "Colombia", "country");
+		final Text Colombiatext = textDAO.createText("Colombia");
+		entityDAO.createEntity("COL", Colombiatext, countryEntityType);
 		final Entity colombia = entityDAO.getEntityByCodeAndType("COL", "country");
 
 		// Indicator type
@@ -149,8 +150,18 @@ public class IntegrationTestSetUpAndTearDown {
 	}
 
 	public void setUpDataForCountryOverview() {
+		EntityType countryEntityType = null;
 		try {
-			curatedDataService.createEntity("USA", "USA", "country");
+			final Text text = textDAO.createText("Country");
+			countryEntityType = entityTypeDAO.createEntityType("country", text);
+		} catch (final ConstraintViolationException | PersistenceException e) {
+			// Might have been created by another setup
+			countryEntityType = entityTypeDAO.getEntityTypeByCode("country");
+		}
+
+		try {
+			final Text USAtext = textDAO.createText("USA");
+			entityDAO.createEntity("USA", USAtext, countryEntityType);
 		} catch (final ConstraintViolationException | PersistenceException e) {
 			// Might have been created by another setup
 		}
@@ -189,8 +200,18 @@ public class IntegrationTestSetUpAndTearDown {
 	}
 
 	public void setUpDataForCountryCrisisHistory() {
+		EntityType countryEntityType = null;
 		try {
-			curatedDataService.createEntity("USA", "USA", "country");
+			final Text text = textDAO.createText("Country");
+			countryEntityType = entityTypeDAO.createEntityType("country", text);
+		} catch (final ConstraintViolationException | PersistenceException e) {
+			// Might have been created by another setup
+			countryEntityType = entityTypeDAO.getEntityTypeByCode("country");
+		}
+
+		try {
+			final Text USAtext = textDAO.createText("USA");
+			entityDAO.createEntity("USA", USAtext, countryEntityType);
 		} catch (final ConstraintViolationException | PersistenceException e) {
 			// Might have been created by another setup
 		}
@@ -260,8 +281,18 @@ public class IntegrationTestSetUpAndTearDown {
 	}
 
 	public void setUpDataForCountry5Years() {
+		EntityType countryEntityType = null;
 		try {
-			curatedDataService.createEntity("USA", "USA", "country");
+			final Text text = textDAO.createText("Country");
+			countryEntityType = entityTypeDAO.createEntityType("country", text);
+		} catch (final ConstraintViolationException | PersistenceException e) {
+			// Might have been created by another setup
+			countryEntityType = entityTypeDAO.getEntityTypeByCode("country");
+		}
+
+		try {
+			final Text USAtext = textDAO.createText("USA");
+			entityDAO.createEntity("USA", USAtext, countryEntityType);
 		} catch (final ConstraintViolationException | PersistenceException e) {
 			// Might have been created by another setup
 		}
@@ -292,8 +323,8 @@ public class IntegrationTestSetUpAndTearDown {
 	}
 
 	public void tearDownDataForCountry5Years() {
-		final DataSerieMetadata dataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(
-				"PVH200", "esa-unpd-wpp2012", MetadataName.DATASET_SUMMARY);
+		final DataSerieMetadata dataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey("PVH200",
+				"esa-unpd-wpp2012", MetadataName.DATASET_SUMMARY);
 		dataSerieMetadataDAO.deleteDataSerieMetadata(dataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey.getId());
 		indicatorDAO.deleteAllIndicators();
 
