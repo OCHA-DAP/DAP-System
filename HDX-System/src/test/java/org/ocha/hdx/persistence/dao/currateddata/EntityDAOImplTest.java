@@ -212,7 +212,8 @@ public class EntityDAOImplTest {
 
 		final Entity dudelangeEntity = entityDAO.getEntityByCodeAndType("DU", "municipality");
 
-		Assert.assertEquals("LU", dudelangeEntity.getParent().getCode());
 		Assert.assertEquals("DU", dudelangeEntity.getCode());
+		Assert.assertEquals("LU", dudelangeEntity.getParent().getCode());
+		Assert.assertNull(dudelangeEntity.getParent().getParent());
 	}
 }
