@@ -50,7 +50,7 @@
 %>
 <script src="${ctx}/admin/curated/dataValidators/json?var=data_dataValidators"></script>
 <script>
-	appData['dataValidators'] = data_dataValidators;
+  appData['dataValidators'] = data_dataValidators;
 </script>
 <%
 	} // End if(needs.contains("sources")) {
@@ -59,7 +59,7 @@
 %>
 <script src="${ctx}/admin/curated/sources/json?var=data_sources"></script>
 <script>
-	appData['sources'] = data_sources;
+  appData['sources'] = data_sources;
 </script>
 <%
 	} // End if(needs.contains("sources")) {
@@ -68,7 +68,7 @@
 %>
 <script src="${ctx}/admin/curated/organizations/json?var=data_organizations"></script>
 <script>
-	appData['organizations'] = data_organizations;
+  appData['organizations'] = data_organizations;
 </script>
 <%
 	} // End if(needs.contains("organizations")) {
@@ -100,7 +100,7 @@
 <%
 	} // End if(needs.contains("periodicities")) {
 
-		if(needs.contains("entityTypes")) {
+	if(needs.contains("entityTypes")) {
 %>
 <script src="${ctx}/admin/curated/entityTypes/json?var=data_entityTypes"></script>
 <script>
@@ -108,6 +108,16 @@
 </script>
 <%
 	} // End if(needs.contains("entityTypes")) {
+	
+		if(needs.contains("entityCodes")) {
+%>
+<script src="${ctx}/admin/curated/entityCodes/json?var=data_entityCodes"></script>
+<script>
+  appData['entityCodes'] = data_entityCodes;
+</script>
+<%
+	} // End if(needs.contains("entityCodes")) {
+		
     if(needs.contains("valueTypes")) {
 %>
 <script src="${ctx}/admin/curated/indicatorTypes/valueTypes/json?var=data_valueTypes"></script>
@@ -128,7 +138,7 @@
 %>
 <script src="${ctx}/admin/curated/indicatorTypes/json?var=data_indicatorTypes"></script>
 <script>
-	appData['indicatorTypes'] = data_indicatorTypes;
+  appData['indicatorTypes'] = data_indicatorTypes;
 </script>
 <%
 	} // End if(needs.contains("indicatorTypes")) {
@@ -136,35 +146,35 @@
 %>
 <script src="${ctx}/admin/misc/configurations/json?var=data_resourceConfigurations"></script>
 <script>
-    appData['resourceConfigurations'] = data_resourceConfigurations;
+  appData['resourceConfigurations'] = data_resourceConfigurations;
 </script>
 
 <%
-    } // End if(needs.contains("resourceConfigurations")) {
+	} // End if(needs.contains("resourceConfigurations")) {
     if(needs.contains("regionDictionaries")) {
 %>
 <script src="${ctx}/admin/dictionaries/regions/json?var=data_regionDictionaries"></script>
 <script>
-    appData['regionDictionaries'] = data_regionDictionaries;
+  appData['regionDictionaries'] = data_regionDictionaries;
 </script>
 <%
-    } // End if(needs.contains("regionDictionaries")) {
+	} // End if(needs.contains("regionDictionaries")) {
     if(needs.contains("sourceDictionaries")) {
 %>
 <script src="${ctx}/admin/dictionaries/sources/json?var=data_sourceDictionaries"></script>
 <script>
-    appData['sourceDictionaries'] = data_sourceDictionaries;
+  appData['sourceDictionaries'] = data_sourceDictionaries;
 </script>
 <%
-    } // End if(needs.contains("sourceDictionaries")) {
+	} // End if(needs.contains("sourceDictionaries")) {
     if(needs.contains("indicatorTypeDictionaries")) {
 %>
 <script src="${ctx}/admin/dictionaries/indicatorTypes/json?var=data_indicatorTypeDictionaries"></script>
 <script>
-    appData['indicatorTypeDictionaries'] = data_indicatorTypeDictionaries;
+  appData['indicatorTypeDictionaries'] = data_indicatorTypeDictionaries;
 </script>
 <%
-    } // End if(needs.contains("indicatorTypeDictionaries")) {
+	} // End if(needs.contains("indicatorTypeDictionaries")) {
 	if(needs.contains("entities")) {
 %>
 <script src="${ctx}/admin/curated/entities/json?var=data_entities"></script>
@@ -177,10 +187,10 @@
 %>
 <script src="${ctx}/admin/importers/json?var=data_importers"></script>
 <script>
-    appData['importers'] = data_importers;
+  appData['importers'] = data_importers;
 </script>
 <%
-    } // End if(needs.contains("importers")) {
+	} // End if(needs.contains("importers")) {
 	} // End if (null != needsRequest && !"".equals(needsRequest)) {
 %>
 <script>

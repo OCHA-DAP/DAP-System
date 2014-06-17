@@ -11,7 +11,7 @@
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="entities" />
 	<jsp:param name="i18n" value="true" />
-	<jsp:param name="needs" value="entityTypes,search,columnsearch" />
+	<jsp:param name="needs" value="entityCodes,entityTypes,search,columnsearch" />
 </jsp:include>
 </head>
 <body ng-controller="EntitiesCtrl">
@@ -24,14 +24,18 @@
 					<tr style="font-weight: bold">
 						<td style="width: 15%">Entity type</td>
 						<td style="width: 15%">Code</td>
-						<td style="width: 50%">Default name</td>
-						<td style="width: 20%">Action</td>
+						<td style="width: 15%">Default name</td>
+						<td style="width: 45%">Parent</td>
+						<td style="width: 10%">Action</td>
 					</tr>
 					<tr>
 						<td><select class="form-control" id="newResource_entityType" ng-model="newResource.entityType" ng-options="entityType.name for entityType in entityTypes" ng-class="default">
 						</select></td>
 						<td><input type="text" class="form-control" placeholder="Code" id="newResource_code" ng-model="newResource.code" required /></td>
 						<td><input type="text" class="form-control" placeholder="Name" id="newResource_name" ng-model="newResource.name" required /></td>
+						<td><select class="form-control" id="newResource_parent" ng-model="newResource.parent" ng-options="entityCode.id as entityCode.code for entityCode in entityCodes" ng-class="default">
+						<option value=""></option>
+						</select></td>
 						<td style="white-space: nowrap">
 							<button class="btn btn-primary btn-custom-default" ng-click="createEntity(newResource)">Add</button>
 						</td>
@@ -48,8 +52,9 @@
 					<columnsearch param="search.code"></columnsearch></td>
 					<td style="width: 15%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a>
 					<columnsearch param="search.name"></columnsearch></td>
+					<td style="width: 10%"><a href="" ng-click="predicate='parent.code'; reverse=!reverse">Parent</a></td>
 					<td style="width: 35%">Translations</td>
-					<td style="width: 20%">Action</td>
+					<td style="width: 10%">Action</td>
 				</tr>
 				<tr ng-repeat="entity in entities | filter:search | orderBy:predicate:reverse">
 					<td>
@@ -60,6 +65,9 @@
 					</td>
 					<td>
 						<!-- editable name --> <span editable-text="entity.name" e-class="form-control" e-name="name" e-id="name" e-form="rowform" e-required> {{ entity.name }} </span>
+					</td>
+					<td>
+						<!-- non editable parent --> <span>{{entity.parent ? entity.parent.code : ""}}</span>
 					</td>
 					<td><jsp:include page="i18n.jsp">
 							<jsp:param name="item" value="entity" />
@@ -103,6 +111,7 @@
 	<div ng-show="showTestZone">
 		<h3>Test zone</h3>
 		<pre>
+		<p>Entity codes : {{ entityCodes | json }}</p>
 		<p>Pagination : {{ pagination | json }}</p>
 		<p>Entity types : {{ entityTypes | json }}</p>
 		<p>Entities : {{ entities | json }}</p>
