@@ -41,7 +41,9 @@ public class ImportReport implements Serializable {
 	}
 }
 
-class ImportReportEntry {
+class ImportReportEntry implements Serializable {
+
+	private static final long serialVersionUID = 4090405946027327873L;
 
 	private final Status status;
 	private final String message;
