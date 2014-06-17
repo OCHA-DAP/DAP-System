@@ -14,6 +14,7 @@ import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -46,9 +47,18 @@ public class EntityDAOImplTest {
 	public void tearDown() {
 		try {
 			entityTypeDAO.deleteEntityTypeByCode("country");
+		} catch (final Exception e) {
+			logger.debug(e.toString(), e);
+		}
+		try {
 			entityTypeDAO.deleteEntityTypeByCode("crisis");
+		} catch (final Exception e) {
+			logger.debug(e.toString(), e);
+		}
+		try {
 			entityTypeDAO.deleteEntityTypeByCode("municipality");
 		} catch (final Exception e) {
+			logger.debug(e.toString(), e);
 		}
 	}
 
@@ -215,5 +225,19 @@ public class EntityDAOImplTest {
 		Assert.assertEquals("DU", dudelangeEntity.getCode());
 		Assert.assertEquals("LU", dudelangeEntity.getParent().getCode());
 		Assert.assertNull(dudelangeEntity.getParent().getParent());
+
+		try {
+			entityDAO.deleteEntityByCodeAndType("LU", "country");
+			Assert.fail("Cannot delete a parent before deleting the children");
+		} catch (final DataIntegrityViolationException e) {
+			// expected
+		}
+		Assert.assertEquals(2, entityDAO.listEntities().size());
+
+		entityDAO.deleteEntityByCodeAndType("DU", "municipality");
+		Assert.assertEquals(1, entityDAO.listEntities().size());
+
+		entityDAO.deleteEntityByCodeAndType("LU", "country");
+		Assert.assertEquals(0, entityDAO.listEntities().size());
 	}
 }
