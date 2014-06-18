@@ -13,10 +13,10 @@
 	<h2>Report for resource id : ${it.id.id}, revision : ${it.id.revision_id}</h2>
 
 	Work in progress
-<!-- 	<ul> -->
-<%-- 		<c:forEach var="entry" items="${it.validationReport.entries}"> --%>
-<%-- 			<li class="${entry.status}">${entry.status}:${entry.message}</li> --%>
-<%-- 		</c:forEach> --%>
-<!-- 	</ul> -->
+	<ul>
+		<c:forEach var="entry" items="${it.importReport.entries}">
+			<li class="${entry.status}">${entry.status}:${entry.message}, indicator : ${entry.relatedIndicator}</li>
+		</c:forEach>
+	</ul>
 </body>
 </html>
