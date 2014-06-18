@@ -3,7 +3,7 @@ package org.ocha.hdx.persistence.dao.ckan;
 import java.util.Date;
 import java.util.List;
 
-import org.ocha.hdx.importer.ImportReport;
+import org.ocha.hdx.importer.report.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;

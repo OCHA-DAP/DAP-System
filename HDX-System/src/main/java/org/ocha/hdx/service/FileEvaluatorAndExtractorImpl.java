@@ -9,11 +9,11 @@ import javax.annotation.Resource;
 
 import org.ocha.hdx.config.DummyConfigurationCreator;
 import org.ocha.hdx.importer.HDXWithCountryListImporter;
-import org.ocha.hdx.importer.ImportReport;
-import org.ocha.hdx.importer.ImportReport.Status;
 import org.ocha.hdx.importer.PreparedData;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.ScraperValidatingImporter;
+import org.ocha.hdx.importer.report.ImportReport;
+import org.ocha.hdx.importer.report.Status;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;

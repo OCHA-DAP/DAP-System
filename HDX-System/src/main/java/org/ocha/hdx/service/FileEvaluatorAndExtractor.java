@@ -2,8 +2,8 @@ package org.ocha.hdx.service;
 
 import java.io.File;
 
-import org.ocha.hdx.importer.ImportReport;
 import org.ocha.hdx.importer.PreparedData;
+import org.ocha.hdx.importer.report.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;

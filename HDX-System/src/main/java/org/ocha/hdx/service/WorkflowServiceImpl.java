@@ -3,7 +3,7 @@ package org.ocha.hdx.service;
 import java.util.List;
 import java.util.Map;
 
-import org.ocha.hdx.importer.ImportReport;
+import org.ocha.hdx.importer.report.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.ckan.CKANResourceDAO;
 import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;

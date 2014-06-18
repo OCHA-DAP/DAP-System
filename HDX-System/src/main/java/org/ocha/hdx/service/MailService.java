@@ -1,6 +1,6 @@
 package org.ocha.hdx.service;
 
-import org.ocha.hdx.importer.ImportReport;
+import org.ocha.hdx.importer.report.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 
 public interface MailService {

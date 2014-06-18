@@ -35,7 +35,7 @@ import org.ocha.hdx.dto.apiv3.GroupListV3DTO;
 import org.ocha.hdx.dto.apiv3.GroupV3DTO;
 import org.ocha.hdx.dto.apiv3.GroupV3WrapperDTO;
 import org.ocha.hdx.dto.apiv3.ResourceCreateQuery;
-import org.ocha.hdx.importer.ImportReport;
+import org.ocha.hdx.importer.report.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.UserDAO;
 import org.ocha.hdx.persistence.dao.ckan.CKANDatasetDAO;
