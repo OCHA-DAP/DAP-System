@@ -3,14 +3,14 @@
   <groupId>org.ocha</groupId>
   <artifactId>hdx</artifactId>
   <packaging>war</packaging>
-  <version>0.2.1</version>
+  <version>0.2.3</version>
   <name>OCHA HDX webapp</name>
 
 
   <properties>
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-    <hdx.official.version>v0.2.1Beta (Warp Coil) - ${project.version} </hdx.official.version>
+    <hdx.official.version>v0.2.3Beta (Warp Coil) - ${project.version} </hdx.official.version>
     <hdx.build.date>Build date : ${timestamp} </hdx.build.date>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
@@ -21,7 +21,7 @@
     <javax.servlet.api.version>2.5</javax.servlet.api.version>
     <derby.version>10.10.2.0</derby.version>
     <jstl.impl.version>1.2</jstl.impl.version>
-    <jersey.version>2.6</jersey.version>
+    <jersey.version>2.9</jersey.version>
     <aspectj.version>1.7.3</aspectj.version>
     <!-- This value is ok for prod, can be overriden for other environments in profiles -->
     <HDX_ROOT>/opt/www/tomcat/hdx</HDX_ROOT>

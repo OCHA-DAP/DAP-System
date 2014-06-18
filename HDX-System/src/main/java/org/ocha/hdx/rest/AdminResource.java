@@ -108,7 +108,6 @@ public class AdminResource {
 	 */
 	@GET
 	@Path("/misc/users/")
-	@SuppressWarnings("static-method")
 	public Response displayUsersList() {
 		return Response.ok(new Viewable("/admin/users")).build();
 	}
@@ -816,10 +815,9 @@ public class AdminResource {
 		jsonEntity.addProperty("code", entity.getCode());
 		jsonEntity.addProperty("name", entity.getName().getDefaultValue());
 		jsonEntity.addProperty("text_id", entity.getName().getId());
-		if(null != entity.getParent()) {
+		if (null != entity.getParent()) {
 			jsonEntity.add("parent", entityToJson(entity.getParent()));
-		}
-		else {
+		} else {
 			jsonEntity.addProperty("parent", "");
 		}
 		final List<Translation> translations = entity.getName().getTranslations();
@@ -969,7 +967,7 @@ public class AdminResource {
 					break;
 				}
 			}
-			if(!found) {
+			if (!found) {
 				count = null;
 			}
 			found = false;
@@ -989,8 +987,7 @@ public class AdminResource {
 		jsonIndicatorType.addProperty("name", indicatorType.getName().getDefaultValue());
 		if (null != count) {
 			jsonIndicatorType.addProperty("nb_index", count.getCount());
-		}
-		else {
+		} else {
 			jsonIndicatorType.addProperty("nb_index", 0);
 		}
 		jsonIndicatorType.addProperty("unit", indicatorType.getUnit().getId());
