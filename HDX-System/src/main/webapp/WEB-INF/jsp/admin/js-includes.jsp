@@ -10,6 +10,7 @@
 <script type="text/javascript" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
 <script type="text/javascript" src="${ctx}/js/xeditable.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/loading-bar.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/ng-upload.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/admin/utilities.js"></script>
 <script type="text/javascript" src="${ctx}/js/admin/init.js"></script>
 <script type="text/javascript" src="${ctx}/js/admin/${param.which}.js"></script>

@@ -76,8 +76,8 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
     }
 
     var joined = $scope.allowedIndicatorTypeCodes.join("&&");
-    if(utilities.endsWith(joined, "&&")) {
-      joined = joined.substring(0, joined.length-2);
+    if (utilities.endsWith(joined, "&&")) {
+      joined = joined.substring(0, joined.length - 2);
     }
     console.log("[" + joined + "]");
     $scope.updateGC(joined, $scope.allowedIndicatorTypeCodesKey, $scope.allowedIndicatorTypeCodesId);
@@ -170,13 +170,13 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
   };
 
   // Indicator Resource Configuration
-  
+
   // Find available sources for the selected indicator type
   $scope.dataSeriesSourcesAvailable = false;
   $scope.dataSeriesSources = [];
   $scope.dataSeriesIndicatorTypeCode = "";
   $scope.dataSeriesIndicatorTypeSelect = function() {
-    if(!$scope.newIndRC || !$scope.newIndRC.indTypeCode) {
+    if (!$scope.newIndRC || !$scope.newIndRC.indTypeCode) {
       $scope.resetIndicatorNewConfiguration();
     }
     var found = utilities.findSomething($scope.indicatorTypes, "code", $scope.dataSeriesIndicatorTypeCode);
@@ -188,12 +188,12 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
   $scope.loadSourcesForIndicatorType = function() {
     return $http.get(hdxContextRoot + '/admin/curated/sourcesForIndicatorType/json', {
       params : {
-        indicatorTypeCode: $scope.newIndRC.indTypeCode.code
+        indicatorTypeCode : $scope.newIndRC.indTypeCode.code
       }
     }).success(function(data, status, headers, config) {
       $scope.dataSeriesSources = data;
       $scope.dataSeriesSourcesAvailable = false;
-      if($scope.dataSeriesSources && 0 < $scope.dataSeriesSources.length) {
+      if ($scope.dataSeriesSources && 0 < $scope.dataSeriesSources.length) {
         $scope.newIndRC.sourceCode = $scope.dataSeriesSources[0];
         $scope.dataSeriesSourcesAvailable = true;
       }
@@ -201,10 +201,7 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
       $scope.dataSeriesSourcesAvailable = false;
     });
   }
-  
-  
-  
-  
+
   // add an Indicator Resource Configuration
   $scope.addIndicatorRC = function(data, rc) {
 
@@ -384,6 +381,45 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
     }
   };
 
+  // Data Series Configuration file upload
+  $scope.fileName = "";
+  $scope.strippedFileName = "";
+
+  $scope.setFileName = function(a) {
+    if (a && a.value && a.value !== "") {
+      $scope.strippedFileName = a.value.replace(/^.*[\\\/]/, '');
+    } else {
+      $scope.strippedFileName = "";
+    }
+  };
+
+  $scope.startUploading = function() {
+    console.log('uploading....')
+  };
+
+  $scope.uploadComplete = function(content) {
+    if ("ok" === content.status) {
+      alert("Data Series Configuration file uploaded and processed.");
+    } else {
+      var errors = "";
+      if (content.errors && 0 < content.errors.length) {
+        for (var i = 0; i < content.errors.length; i++) {
+          var msg = "no info";
+          if(content.errors[i].message) {
+            msg = content.errors[i].message;
+          }
+          errors += msg + "\r\n";
+        }
+      }
+      else {
+        errors = "no errors declared.";
+      }
+      alert("Data Series Configuration file uploaded and processed with errors : " + errors);
+    }
+    $scope.resetIndicatorNewConfiguration();
+    $scope.resetCreateIndicatorResourceForm();
+    $scope.loadResourceConfiguration();
+  };
 });
 
 app.controller('RegionDictionariesCtrl', function($scope, utilities) {
@@ -666,5 +702,4 @@ app.controller('IndicatorTypeDictionariesCtrl', function($scope, utilities) {
 
     return "OK";
   };
-
 });
