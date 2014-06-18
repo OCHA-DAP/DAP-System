@@ -74,7 +74,8 @@
 						</div -->
 						<div class="pull-left" style="width: 200px;">
 							<h5>Available</h5>
-							<select class="form-control" id="itFrom" ng-model="availableIndicatorTypeCodesSelected" ng-options="indicatorType.code for indicatorType in editResourceConfiguration.indicatorTypes | filter:filterAvailableITC | orderBy:'code'" ng-class="default" multiple size="10"></select>
+							<select class="form-control" id="itFrom" ng-model="availableIndicatorTypeCodesSelected"
+								ng-options="indicatorType.code for indicatorType in editResourceConfiguration.indicatorTypes | filter:filterAvailableITC | orderBy:'code'" ng-class="default" multiple size="10"></select>
 						</div>
 						<div class="pull-left" style="width: 100px; text-align: center; padding-top: 50px;">
 							<button class="btn btn-primary btn-custom-default" ng-disabled="0 === availableIndicatorTypeCodesSelected.length" ng-click="move('right')">&#8594;</button>
@@ -83,7 +84,8 @@
 						</div>
 						<div class="pull-left" style="width: 200px;">
 							<h5>Allowed</h5>
-							<select class="form-control" id="itTo" ng-model="allowedIndicatorTypeCodesSelected" ng-options="indicatorType for indicatorType in allowedIndicatorTypeCodes | orderBy:''" ng-class="default" multiple size="10"></select>
+							<select class="form-control" id="itTo" ng-model="allowedIndicatorTypeCodesSelected" ng-options="indicatorType for indicatorType in allowedIndicatorTypeCodes | orderBy:''" ng-class="default"
+								multiple size="10"></select>
 						</div>
 					</div>
 					<div class="tab-pane" id="dataseries">
@@ -100,8 +102,8 @@
 								<tr>
 									<td><select class="form-control" id="newIndRC_indTypeCode" ng-model="dataSeriesIndicatorTypeCode" ng-options="indicatorType for indicatorType in allowedIndicatorTypeCodes"
 										ng-class="default" ng-change="dataSeriesIndicatorTypeSelect()"></select></td>
-									<td><select class="form-control" id="newIndRC_sourceCode" ng-model="newIndRC.sourceCode" ng-options="source.code for source in dataSeriesSources" ng-disabled="!dataSeriesSourcesAvailable" ng-class="default"></select>
-									</td>
+									<td><select class="form-control" id="newIndRC_sourceCode" ng-model="newIndRC.sourceCode" ng-options="source.code for source in dataSeriesSources"
+										ng-disabled="!dataSeriesSourcesAvailable" ng-class="default"></select></td>
 									<td><select class="form-control" id="newIndRC_indConfKey" ng-model="newIndRC.key"
 										ng-options="indicatorConfiguration.key for indicatorConfiguration in editResourceConfiguration.availableIndConfs" ng-class="default"></select></td>
 									<td><input type="text" class="form-control" placeholder="Value" id="newIndRC_value" ng-model="newIndRC.value" required /></td>
@@ -111,6 +113,22 @@
 								</tr>
 							</table>
 						</form>
+						<div style="margin-bottom: 24px;">
+							<!-- button class="btn btn-primary btn-custom-default" ng-click="">Upload a Data Series Configuration file</button -->
+							<form action="${ctx}/admin/misc/configurations/addIndicatorConfigurationsFromCSVFile" ng-upload="uploadComplete(content)">
+								<input type="hidden" name="rcID" id="rcID" value="{{editResourceConfiguration.id}}" />
+								<table style="width: 100%">
+									<tr>
+										<td style="width:1px;"><span class="btn btn-primary btn-file">
+												<span class="glyphicon glyphicon-file"></span>
+												Upload a Data Series Configuration file&hellip; <input type="file" id="configFile" name="configFile" ng-model="fileName" maxlength='1000000' accept='.csv' ng-file-select onchange="angular.element(this).scope().setFileName(this);" />
+											</span></td>
+										<td style="padding-left: 5px; padding-right: 5px;"><input type="text" class="form-control" ng-model="strippedFileName" readonly style="width: 100%;"></td>
+										<td style="width: 20%;"><button class="btn btn-primary btn-custom-default" upload-submit ng-disabled="$isLoading || (fileName && fileName==='')">Upload</button></td>
+									</tr>
+								</table>
+							</form>
+						</div>
 						<h4>List of Data Series Configurations</h4>
 						<table class="table table-bordered table-hover table-condensed">
 							<tr style="font-weight: bold">

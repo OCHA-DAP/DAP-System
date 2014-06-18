@@ -1,6 +1,9 @@
 package org.ocha.hdx.rest;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -26,6 +30,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.server.mvc.Viewable;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -69,9 +77,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import au.com.bytecode.opencsv.CSVReader;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.visualization.datasource.base.TypeMismatchException;
 
@@ -295,6 +306,85 @@ public class AdminResource {
 	public Response editResourceConfiguration(@PathParam("id") final String id) throws IllegalArgumentException, Exception {
 		final long lId = Long.valueOf(id).longValue();
 		return Response.ok(new Viewable("/admin/editResourceConfiguration", hdxService.getResourceConfiguration(lId))).build();
+	}
+
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Path("/misc/configurations/addIndicatorConfigurationsFromCSVFile")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String addIndicatorConfigurationsFromCSVFile(@FormDataParam("rcID") final String rcId, @FormDataParam("configFile") final InputStream file,
+			@FormDataParam("configFile") final FormDataContentDisposition fileDisposition) {
+		final JsonObject response = new JsonObject();
+		final JsonArray errors = new JsonArray();
+		response.add("errors", errors);
+
+		File csvConfigFile = null;
+		try {
+			csvConfigFile = File.createTempFile("fromUpload", fileDisposition.getFileName());
+			FileUtils.writeByteArrayToFile(csvConfigFile, IOUtils.toByteArray(file));
+		} catch (final IOException e) {
+			final String msg = "Error creating temporary file for Indicator Configurations from CSV file";
+			logger.warn(msg, e);
+			final JsonObject error = new JsonObject();
+			error.addProperty("message", msg);
+			errors.add(error);
+			response.addProperty("status", "nok");
+			return response.toString();
+		}
+
+		if ((csvConfigFile != null) && (csvConfigFile.length() > 0)) {
+			// Add indicator configuration
+			CSVReader csvReader = null;
+			List<String[]> configs = null;
+			try {
+				csvReader = new CSVReader(new FileReader(csvConfigFile), '#');
+				configs = csvReader.readAll();
+				csvReader.close();
+			} catch (final IOException e) {
+				final String msg = "Error reading Indicator Configurations CSV file";
+				logger.warn(msg, e);
+				final JsonObject error = new JsonObject();
+				error.addProperty("message", msg);
+				errors.add(error);
+				response.addProperty("status", "nok");
+				return response.toString();
+			}
+			if (null != configs) {
+				int index = 0;
+				try {
+
+					for (final String[] config : configs) {
+						++index;
+						final long rcID = Long.valueOf(rcId).longValue();
+						final long itID = curatedDataService.getIndicatorTypeByCode(config[0]).getId();
+						final long srcID = curatedDataService.getSourceByCode(config[1]).getId();
+						try {
+							hdxService.addIndicatorConfiguration(rcID, itID, srcID, config[2], config[3]);
+						} catch (final Exception e) {
+							final String msg = "Error adding Indicator Configurations CSV from file at line [" + index + "] with values " + Arrays.toString(config);
+							logger.warn(msg, e);
+							final JsonObject error = new JsonObject();
+							error.addProperty("message", msg);
+							errors.add(error);
+							response.addProperty("status", "nok");
+						}
+					}
+				} catch (final Exception e) {
+					final String msg = "Error adding Indicator Configurations CSV from file at line [" + index + "] with message = " + e.getMessage();
+					logger.warn(msg, e);
+					final JsonObject error = new JsonObject();
+					error.addProperty("message", msg);
+					errors.add(error);
+					response.addProperty("status", "nok");
+				}
+			}
+		}
+
+		final JsonElement status = response.get("status");
+		if ((null == status) || !"nok".equals(status.getAsString())) {
+			response.addProperty("status", "ok");
+		}
+		return response.toString();
 	}
 
 	@POST
@@ -816,10 +906,10 @@ public class AdminResource {
 		jsonEntity.addProperty("code", entity.getCode());
 		jsonEntity.addProperty("name", entity.getName().getDefaultValue());
 		jsonEntity.addProperty("text_id", entity.getName().getId());
-		if(null != entity.getParent()) {
+		if (null != entity.getParent()) {
 			jsonEntity.add("parent", entityToJson(entity.getParent()));
-		}
-		else {
+
+		} else {
 			jsonEntity.addProperty("parent", "");
 		}
 		final List<Translation> translations = entity.getName().getTranslations();
@@ -969,7 +1059,7 @@ public class AdminResource {
 					break;
 				}
 			}
-			if(!found) {
+			if (!found) {
 				count = null;
 			}
 			found = false;
@@ -989,8 +1079,8 @@ public class AdminResource {
 		jsonIndicatorType.addProperty("name", indicatorType.getName().getDefaultValue());
 		if (null != count) {
 			jsonIndicatorType.addProperty("nb_index", count.getCount());
-		}
-		else {
+
+		} else {
 			jsonIndicatorType.addProperty("nb_index", 0);
 		}
 		jsonIndicatorType.addProperty("unit", indicatorType.getUnit().getId());

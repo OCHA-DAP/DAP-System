@@ -1,4 +1,4 @@
-var app = angular.module("app", [ "xeditable", "ui.bootstrap", "utilities", 'angular-loading-bar' ]);
+var app = angular.module("app", [ "ngUpload", "xeditable", "ui.bootstrap", "utilities", "angular-loading-bar" ]);
 
 app.constant("RESOURCE_TYPES", {
   language : {
