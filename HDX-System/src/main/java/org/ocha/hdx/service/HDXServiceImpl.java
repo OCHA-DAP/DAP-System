@@ -437,6 +437,7 @@ public class HDXServiceImpl implements HDXService {
 	@Override
 	public DatasetV3WrapperDTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey) {
 		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV3, datasetName);
+		log.debug(String.format("About to call url : %s", urlForDataSet));
 		final String jsonResult = this.performHttpGET(urlForDataSet, apiKey);
 		if (jsonResult == null) {
 			return null;
