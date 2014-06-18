@@ -778,23 +778,54 @@ public class AdminResource {
 		final List<Entity> listEntities = curatedDataService.listEntities();
 		final JsonArray jsonArray = new JsonArray();
 		for (final Entity entity : listEntities) {
-			final JsonObject jsonEntity = new JsonObject();
-			jsonEntity.addProperty("id", entity.getId());
-			jsonEntity.addProperty("entityType", entity.getType().getId());
-			jsonEntity.addProperty("entityTypeName", entity.getType().getName().getDefaultValue());
-			jsonEntity.addProperty("code", entity.getCode());
-			jsonEntity.addProperty("name", entity.getName().getDefaultValue());
-			jsonEntity.addProperty("text_id", entity.getName().getId());
-			final List<Translation> translations = entity.getName().getTranslations();
-			final JsonArray jsonTranslations = translationsToJson(translations);
-			jsonEntity.add("translations", jsonTranslations);
-
+			final JsonObject jsonEntity = entityToJson(entity);
 			jsonArray.add(jsonEntity);
 		}
 		if ((null != var) && !"".equals(var)) {
 			result = "var " + var + " = ";
 		}
 		return result + jsonArray.toString();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("curated/entityCodes/json")
+	public String getEntityCodes(@QueryParam("var") final String var) throws TypeMismatchException {
+
+		String result = "";
+
+		final List<Entity> listEntities = curatedDataService.listEntities();
+		final JsonArray jsonArray = new JsonArray();
+		for (final Entity entity : listEntities) {
+			final JsonObject jsonEntity = new JsonObject();
+			jsonEntity.addProperty("id", entity.getId());
+			jsonEntity.addProperty("code", entity.getCode());
+			jsonArray.add(jsonEntity);
+		}
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
+	}
+
+	private JsonObject entityToJson(final Entity entity) {
+		final JsonObject jsonEntity = new JsonObject();
+		jsonEntity.addProperty("id", entity.getId());
+		jsonEntity.addProperty("entityType", entity.getType().getId());
+		jsonEntity.addProperty("entityTypeName", entity.getType().getName().getDefaultValue());
+		jsonEntity.addProperty("code", entity.getCode());
+		jsonEntity.addProperty("name", entity.getName().getDefaultValue());
+		jsonEntity.addProperty("text_id", entity.getName().getId());
+		if(null != entity.getParent()) {
+			jsonEntity.add("parent", entityToJson(entity.getParent()));
+		}
+		else {
+			jsonEntity.addProperty("parent", "");
+		}
+		final List<Translation> translations = entity.getName().getTranslations();
+		final JsonArray jsonTranslations = translationsToJson(translations);
+		jsonEntity.add("translations", jsonTranslations);
+		return jsonEntity;
 	}
 
 	@GET
@@ -835,21 +866,12 @@ public class AdminResource {
 		final int _currentPage = ((_fromIndex + 1) / _howMuch) + 1;
 		final List<Entity> paginatedEntities = allEntities.subList(_fromIndex, _toIndex);
 		final JsonObject jsonEntities = new JsonObject();
-		final JsonArray jsonEntitiesArray = new JsonArray();
+		final JsonArray jsonArray = new JsonArray();
 		for (final Entity entity : paginatedEntities) {
-			final JsonObject jsonEntity = new JsonObject();
-			jsonEntity.addProperty("id", entity.getId());
-			jsonEntity.addProperty("entityType", entity.getType().getId());
-			jsonEntity.addProperty("code", entity.getCode());
-			jsonEntity.addProperty("name", entity.getName().getDefaultValue());
-			jsonEntity.addProperty("text_id", entity.getName().getId());
-			final List<Translation> translations = entity.getName().getTranslations();
-			final JsonArray jsonTranslations = translationsToJson(translations);
-			jsonEntity.add("translations", jsonTranslations);
-
-			jsonEntitiesArray.add(jsonEntity);
+			final JsonObject jsonEntity = entityToJson(entity);
+			jsonArray.add(jsonEntity);
 		}
-		jsonEntities.add("entities", jsonEntitiesArray);
+		jsonEntities.add("entities", jsonArray);
 		addPagination(jsonEntities, _fromIndex, _toIndex, _nextIndex, _previousIndex, _totalNumber, _currentPage, _nbPages, _firstIndex, _lastIndex, _howMuch);
 
 		return jsonEntities.toString();

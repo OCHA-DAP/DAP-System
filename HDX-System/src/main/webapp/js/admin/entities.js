@@ -5,6 +5,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
   // /////////
   $scope.resources = function() {
     $scope.entityTypes = appData['entityTypes'];
+    $scope.entityCodes = appData['entityCodes'];
   }
   $scope.resources();
 
@@ -140,6 +141,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
     $scope.newResource.entityType = null;
     $scope.newResource.code = "";
     $scope.newResource.name = "";
+    $scope.newResource.parent = "";
   };
 
   // Reset the create resource form
