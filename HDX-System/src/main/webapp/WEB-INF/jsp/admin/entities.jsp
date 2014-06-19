@@ -11,7 +11,7 @@
 <jsp:include page="js-includes.jsp">
 	<jsp:param name="which" value="entities" />
 	<jsp:param name="i18n" value="true" />
-	<jsp:param name="needs" value="entityCodes,entityTypes,search,columnsearch" />
+	<jsp:param name="needs" value="entityTypes,search,columnsearch" />
 </jsp:include>
 </head>
 <body ng-controller="EntitiesCtrl">
@@ -33,8 +33,7 @@
 						</select></td>
 						<td><input type="text" class="form-control" placeholder="Code" id="newResource_code" ng-model="newResource.code" required /></td>
 						<td><input type="text" class="form-control" placeholder="Name" id="newResource_name" ng-model="newResource.name" required /></td>
-						<td><select class="form-control" id="newResource_parent" ng-model="newResource.parent" ng-options="entityCode.id as entityCode.code for entityCode in entityCodes" ng-class="default">
-						<option value=""></option>
+						<td><select class="form-control" id="newResource_parent" ng-model="newResource.parentId" ng-options="entityCode.id as entityCode.code for entityCode in entityCodes" ng-class="default">
 						</select></td>
 						<td style="white-space: nowrap">
 							<button class="btn btn-primary btn-custom-default" ng-click="createEntity(newResource)">Add</button>
@@ -48,10 +47,8 @@
 			<table class="table table-bordered table-hover table-condensed">
 				<tr style="font-weight: bold">
 					<td style="width: 15%"><a href="" ng-click="predicate='entityType'; reverse=!reverse">Entity type</a></td>
-					<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a>
-					<columnsearch param="search.code"></columnsearch></td>
-					<td style="width: 15%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a>
-					<columnsearch param="search.name"></columnsearch></td>
+					<td style="width: 15%"><a href="" ng-click="predicate='code'; reverse=!reverse">Code</a> <columnsearch param="search.code"></columnsearch></td>
+					<td style="width: 15%"><a href="" ng-click="predicate='name'; reverse=!reverse">Default name</a> <columnsearch param="search.name"></columnsearch></td>
 					<td style="width: 10%"><a href="" ng-click="predicate='parent.code'; reverse=!reverse">Parent</a></td>
 					<td style="width: 35%">Translations</td>
 					<td style="width: 10%">Action</td>
@@ -67,7 +64,8 @@
 						<!-- editable name --> <span editable-text="entity.name" e-class="form-control" e-name="name" e-id="name" e-form="rowform" e-required> {{ entity.name }} </span>
 					</td>
 					<td>
-						<!-- non editable parent --> <span>{{entity.parent ? entity.parent.code : ""}}</span>
+						<!-- editable parent --> <span editable-select="entity.parent.id" e-class="form-control" e-name="parent" e-id="parent" e-form="rowform" e-ng-options="e.id as e.code for e in entityCodes | filter: filterEntityCodes(entity.id)">
+							{{showParent(entity)}} </span>
 					</td>
 					<td><jsp:include page="i18n.jsp">
 							<jsp:param name="item" value="entity" />

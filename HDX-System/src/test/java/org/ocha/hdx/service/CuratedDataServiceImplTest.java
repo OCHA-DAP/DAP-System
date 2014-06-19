@@ -76,13 +76,13 @@ public class CuratedDataServiceImplTest {
 		Assert.assertEquals(4, curatedDataService.listEntities().size());
 
 		try {
-			curatedDataService.createEntity("RUS", "Russia", "crisis");
+			curatedDataService.createEntity("RUS", "Russia", "crisis", null);
 			Assert.fail("entity type crisis does not exist");
 		} catch (final NoResultException e) {
 			// expected
 		}
 
-		curatedDataService.createEntity("SWE", "Sweden", "country");
+		curatedDataService.createEntity("SWE", "Sweden", "country", null);
 
 		Assert.assertEquals(5, curatedDataService.listEntities().size());
 

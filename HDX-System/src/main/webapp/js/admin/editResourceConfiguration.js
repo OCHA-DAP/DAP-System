@@ -382,7 +382,7 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
   };
 
   // Data Series Configuration file upload
-  $scope.fileName = "";
+  $scope.configFile = null;
   $scope.strippedFileName = "";
 
   $scope.setFileName = function(a) {
@@ -416,6 +416,8 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
       }
       alert("Data Series Configuration file uploaded and processed with errors : " + errors);
     }
+    $scope.configFile = null;
+    $scope.strippedFileName = "";
     $scope.resetIndicatorNewConfiguration();
     $scope.resetCreateIndicatorResourceForm();
     $scope.loadResourceConfiguration();

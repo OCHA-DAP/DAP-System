@@ -146,11 +146,15 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void createEntity(final String code, final String defaultName, final String entityTypeCode) {
+	public void createEntity(final String code, final String defaultName, final String entityTypeCode, final Long parentId) {
 		final EntityType entityType = entityTypeDAO.getEntityTypeByCode(entityTypeCode);
 
 		final Text text = textDAO.createText(defaultName);
-		entityDAO.createEntity(code, text, entityType);
+		if (null == parentId) {
+			entityDAO.createEntity(code, text, entityType);
+		} else {
+			entityDAO.createEntity(code, text, entityType, parentId);
+		}
 	}
 
 	@Override
@@ -165,8 +169,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void updateEntity(final long entityId, final String newName) {
-		entityDAO.updateEntity(entityId, newName);
+	public void updateEntity(final long entityId, final String newName, final Long parentId) {
+		entityDAO.updateEntity(entityId, newName, parentId);
 	}
 
 	@Override
@@ -695,7 +699,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	// Country indicators
 	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final Periodicity periodicity, final List<DataSerie> dataSeries) {
+	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final Periodicity periodicity,
+			final List<DataSerie> dataSeries) {
 		return indicatorDAO.listIndicatorsForCountry(countryCode, fromYear, toYear, languageCode, periodicity, dataSeries);
 	}
 

@@ -22,6 +22,6 @@ public interface EntityDAO {
 
 	public void deleteEntity(long entityId);
 
-	public void updateEntity(long entityId, String newName);
+	public void updateEntity(long entityId, String newName, Long parentId);
 
 }

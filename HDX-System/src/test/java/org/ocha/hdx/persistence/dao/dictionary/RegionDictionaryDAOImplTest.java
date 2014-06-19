@@ -60,10 +60,10 @@ public class RegionDictionaryDAOImplTest {
 		crisis = entityTypeDAO.getEntityTypeByCode("crisis");
 
 		// set up the Entities
-		curatedDataService.createEntity("FOO", "Foolandia", "country");
-		curatedDataService.createEntity("BAR", "Barlandia", "country");
-		curatedDataService.createEntity("Crisis1", "First Test Crisis", "crisis");
-		curatedDataService.createEntity("Crisis2", "Second Test Crisis", "crisis");
+		curatedDataService.createEntity("FOO", "Foolandia", "country", null);
+		curatedDataService.createEntity("BAR", "Barlandia", "country", null);
+		curatedDataService.createEntity("Crisis1", "First Test Crisis", "crisis", null);
+		curatedDataService.createEntity("Crisis2", "Second Test Crisis", "crisis", null);
 
 	}
 
