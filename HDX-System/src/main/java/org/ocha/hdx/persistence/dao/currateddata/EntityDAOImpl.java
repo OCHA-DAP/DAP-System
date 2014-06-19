@@ -77,9 +77,13 @@ public class EntityDAOImpl implements EntityDAO {
 
 	@Override
 	@Transactional
-	public void updateEntity(final long entityId, final String newName) {
+	public void updateEntity(final long entityId, final String newName, final Long parentId) {
 		final Entity entity = em.find(Entity.class, entityId);
 		entity.getName().setDefaultValue(newName);
+		if (null == parentId) {
+			entity.setParent(null);
+		} else {
+			entity.setParent(getEntityById(parentId));
+		}
 	}
-
 }

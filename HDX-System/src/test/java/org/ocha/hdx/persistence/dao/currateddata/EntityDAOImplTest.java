@@ -151,7 +151,7 @@ public class EntityDAOImplTest {
 		entityDAO.createEntity("RU", russia, country);
 		final Entity entity = entityDAO.getEntityByCodeAndType("RU", "country");
 
-		entityDAO.updateEntity(entity.getId(), "NewName");
+		entityDAO.updateEntity(entity.getId(), "NewName", null);
 		final Entity updatedEntity = entityDAO.getEntityById(entity.getId());
 
 		Assert.assertEquals("NewName", updatedEntity.getName().getDefaultValue());

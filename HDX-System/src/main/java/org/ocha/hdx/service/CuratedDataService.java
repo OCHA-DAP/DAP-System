@@ -47,7 +47,7 @@ public interface CuratedDataService {
 	 */
 	public List<Entity> listEntities();
 
-	public void createEntity(final String code, final String defaultName, final String entityTypeCode);
+	public void createEntity(final String code, final String defaultName, final String entityTypeCode, final Long parentId);
 
 	public Entity getEntity(final long id);
 
@@ -55,7 +55,7 @@ public interface CuratedDataService {
 
 	public void deleteEntity(final long entityId);
 
-	public void updateEntity(final long entityId, String newName);
+	public void updateEntity(final long entityId, final String newName, final Long parentId);
 
 	/*
 	 * Indicator types

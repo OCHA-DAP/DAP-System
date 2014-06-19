@@ -910,7 +910,9 @@ public class AdminResource {
 			jsonEntity.add("parent", entityToJson(entity.getParent()));
 
 		} else {
-			jsonEntity.addProperty("parent", "");
+			final JsonObject jsonParentId = new JsonObject();
+			jsonParentId.addProperty("id", "");
+			jsonEntity.add("parent", jsonParentId);
 		}
 		final List<Translation> translations = entity.getName().getTranslations();
 		final JsonArray jsonTranslations = translationsToJson(translations);
@@ -1003,9 +1005,9 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/entities/submitCreate")
-	public Response createEntity(@FormParam("entityTypeCode") final String entityTypeCode, @FormParam("code") final String code, @FormParam("name") final String name) {
-		logger.debug(String.format("Entering createEntity with params code : %s,  name %s, entityTypeCode : %s", code, name, entityTypeCode));
-		curatedDataService.createEntity(code, name, entityTypeCode);
+	public Response createEntity(@FormParam("entityTypeCode") final String entityTypeCode, @FormParam("code") final String code, @FormParam("name") final String name, @FormParam("parent") final Long parent) {
+		logger.debug(String.format("Entering createEntity with params code : %s,  name %s, entityTypeCode : %s, parent : %s", code, name, entityTypeCode, parent));
+		curatedDataService.createEntity(code, name, entityTypeCode, parent);
 		logger.debug("Create entity successful, about to return ok");
 		return Response.ok().build();
 	}
@@ -1021,9 +1023,12 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/entities/submitUpdate")
-	public Response updateEntity(@FormParam("entityId") final long entityId, @FormParam("newName") final String newName, @Context final UriInfo uriInfo) {
-		curatedDataService.updateEntity(entityId, newName);
-
+	public Response updateEntity(@FormParam("entityId") final long entityId, @FormParam("newName") final String newName, @FormParam("parent") final Long parent_, @Context final UriInfo uriInfo) {
+		Long parent = parent_;
+		if((null == parent_) || (entityId == parent)) {
+			parent = null;
+		}
+		curatedDataService.updateEntity(entityId, newName, parent);
 		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/curated/entities/").build();
 		return Response.seeOther(newURI).build();
 	}

@@ -3,14 +3,39 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
   // /////////
   // Resources
   // /////////
+  $scope.allowNullForEntityCodes = function() {
+    if ($scope.entityCodes && $scope.entityCodes[0] && "" !== $scope.entityCodes[0].id) {
+      $scope.entityCodes.splice(0, 0, {
+        id : "",
+        code : ""
+      });
+    }
+  }
+
+  $scope.loadEntityCodes = function() {
+    return utilities.loadResource($scope, 'entityCodes', '/admin/curated/entityCodes/json', function() {
+      $scope.allowNullForEntityCodes();
+    });
+  }
+
   $scope.resources = function() {
     $scope.entityTypes = appData['entityTypes'];
-    $scope.entityCodes = appData['entityCodes'];
+    $scope.loadEntityCodes();
   }
   $scope.resources();
 
   // The new indicator
-  $scope.newResource;
+  // Reset the new entity
+  $scope.resetNewEntity = function() {
+    if (!$scope.newResource) {
+      $scope.newResource = {};
+    }
+    $scope.newResource.entityType = null;
+    $scope.newResource.code = "";
+    $scope.newResource.name = "";
+    $scope.newResource.parentId = "";
+  };
+  $scope.resetNewEntity();
 
   // ///////////////////////
   // Entity types management
@@ -18,16 +43,6 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
 
   // Sort management
   $scope.predicate = 'entityType';
-
-  /*
-  // Load entity types
-  $scope.loadEntityTypes = function() {
-    return utilities.loadResource($scope, 'entityTypes', '/admin/curated/entityTypes/json', function() {
-      // $scope.resetNewTranslations();
-    });
-  };
-  $scope.loadEntityTypes();
-  */
 
   // Show an entity type for a given entity
   $scope.showEntityType = function(entity) {
@@ -74,6 +89,23 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
     $scope.pagination.nbPages = pagination.nbPages;
   }
 
+  // Show an entity's parent
+  $scope.showParent = function(entity) {
+    if (entity.parent && entity.parent.id) {
+      var selected = utilities.findSomething($scope.entities, "id", entity.parent.id);
+      var result = (selected.length) ? selected[0].code : "";
+      return result;
+    } else
+      return "";
+  };
+
+  // Filter entity codes
+  $scope.filterEntityCodes = function(entityId) {
+    return function(entityCode) {
+      return entityCode.id !== entityId;
+    }
+  }
+
   // Create an entity
   // ================
   $scope.createEntity = function(data) {
@@ -93,6 +125,11 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
         "name" : data.name
       });
     }
+    if (data && data.parentId && "" !== data.parentId) {
+      angular.extend(params, {
+        "parent" : data.parentId
+      });
+    }
     return utilities.createResource({
       validate : $scope.checkCreateForm,
       data : data,
@@ -102,6 +139,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
         $scope.resetNewEntity();
         $scope.resetCreateResourceForm();
         $scope.loadEntities();
+        $scope.loadEntityCodes();
       },
       errorCallback : function() {
         alert("Entity creation threw an error. Maybe this entity already exists. No entity has been created.");
@@ -133,17 +171,6 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
     return "OK";
   };
 
-  // Reset the new entity
-  $scope.resetNewEntity = function() {
-    if (!$scope.newResource) {
-      $scope.newResource = {};
-    }
-    $scope.newResource.entityType = null;
-    $scope.newResource.code = "";
-    $scope.newResource.name = "";
-    $scope.newResource.parent = "";
-  };
-
   // Reset the create resource form
   $scope.resetCreateResourceForm = function() {
     $scope.createResourceForm.$setPristine();
@@ -159,6 +186,9 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
     angular.extend(params, {
       "newName" : data.name
     });
+    angular.extend(params, {
+      "parent" : data.parent
+    });
 
     return utilities.updateResource({
       validate : $scope.checkUpdateForm,
@@ -167,6 +197,7 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
       url : '/admin/curated/entities/submitUpdate',
       successCallback : function() {
         $scope.loadEntities();
+        $scope.loadEntityCodes();
       },
       errorCallback : function() {
         alert("Entity update threw an error. No entity has been updated.");
@@ -192,9 +223,12 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
         "entityId" : id
       },
       url : '/admin/curated/entities/submitDelete',
-      successCallback : $scope.loadEntities,
+      successCallback : function() {
+        $scope.loadEntities();
+        $scope.loadEntityCodes();
+      },
       errorCallback : function() {
-        alert("Entity deletion threw an error. Maybe this entity is used by some indicator. No entity has been deleted.");
+        alert("Entity deletion threw an error. Maybe this entity is used by some indicator or is a parent of another entity. No entity has been deleted.");
       }
     });
   }

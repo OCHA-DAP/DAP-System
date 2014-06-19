@@ -86,7 +86,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			return validationReport;
 
 		default:
-			return this.defaultValidationFail(file);
+			return defaultValidationFail(file);
 		}
 	}
 
@@ -99,22 +99,22 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		final PreparedData preparedData;
 		switch (type) {
 		case DUMMY:
-			preparedData = this.defaultImportFail(file);
+			preparedData = defaultImportFail(file);
 			break;
 		case SCRAPER_VALIDATING:
-			final ScraperValidatingImporter importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(config), config, this.validatorCreators,
-					this.preValidatorCreators, validationReport, this.indicatorCreationService);
-			this.creatingMissingEntities(file, importer);
+			final ScraperValidatingImporter importer = new ScraperValidatingImporter(sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(config), config, validatorCreators,
+					preValidatorCreators, validationReport, indicatorCreationService);
+			creatingMissingEntities(file, importer);
 			preparedData = importer.prepareDataForImport(file);
 			break;
 		default:
-			preparedData = this.defaultImportFail(file);
+			preparedData = defaultImportFail(file);
 		}
 		if (preparedData.isSuccess()) {
 			logger.info(String.format("Import successful, about to persist %d values", preparedData.getIndicatorsToImport().size()));
 			final List<Indicator> indicators = indicatorCreationService.createIndicators(preparedData.getIndicatorsToImport());
 			// FIXME here we used to run importer.validations, and this should as well populate one of the report
-			final ImportReport importReport = this.saveReadIndicatorsToDatabase(indicators, resourceId, revisionId);
+			final ImportReport importReport = saveReadIndicatorsToDatabase(indicators, resourceId, revisionId);
 			return importReport;
 		} else {
 			logger.info("Import failed");
@@ -131,10 +131,10 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	@Override
 	@Deprecated
 	public void incorporatePreparedDataForImport(final PreparedData preparedData, final String resourceId, final String revisionId) {
-		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
+		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
 		for (final PreparedIndicator preparedIndicator : preparedData.getIndicatorsToImport()) {
 			try {
-				this.curatedDataService.createIndicator(preparedIndicator, importFromCKAN);
+				curatedDataService.createIndicator(preparedIndicator, importFromCKAN);
 			} catch (final Exception e) {
 				logger.debug(String.format("Error trying to create preparedIndicator : %s", preparedIndicator.toString()));
 			}
@@ -144,10 +144,10 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	private ImportReport saveReadIndicatorsToDatabase(final List<Indicator> indicators, final String resourceId, final String revisionId) {
 		final ImportReport importReport = new ImportReport();
 
-		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
+		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
 		for (final Indicator indicator : indicators) {
 			try {
-				this.curatedDataService.createIndicator(indicator, importFromCKAN);
+				curatedDataService.createIndicator(indicator, importFromCKAN);
 				importReport.addEntry(Status.SUCCESS, String.format("Successfully created indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()),
 						indicator);
 			} catch (final Exception e) {
@@ -175,7 +175,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	private void creatingMissingEntities(final File file, final HDXWithCountryListImporter importer) {
 		for (final Entry<String, String> entry : importer.getCountryList(file).entrySet()) {
 			try {
-				this.curatedDataService.createEntity(entry.getKey(), entry.getValue(), "country");
+				curatedDataService.createEntity(entry.getKey(), entry.getValue(), "country", null);
 			} catch (final Exception e) {
 				logger.trace(String.format("Not creating country : %s already exist", entry.getKey()));
 			}
