@@ -45,7 +45,53 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
         }
       }
     }
+    if ($scope.editResourceConfiguration && $scope.editResourceConfiguration.indicatorConfigurations) {
+      for (var i = 0; i < $scope.editResourceConfiguration.indicatorConfigurations; i++) {
+        var indicatorConfiguration = $scope.editResourceConfiguration.indicatorConfigurations[i];
+        angular.extend(indicatorConfiguration, {
+          checked : false
+        });
+      }
+    }
   }
+
+  $scope.allClicked = function() {
+    var newValue = !$scope.allChecked();
+    for (var i = 0; i < $scope.editResourceConfiguration.indicatorConfigurations.length; i++) {
+      var indicatorConfiguration = $scope.editResourceConfiguration.indicatorConfigurations[i];
+      indicatorConfiguration.checked = newValue;
+    }
+  };
+
+  $scope.allChecked = function() {
+    var result = true;
+    if (!$scope.editResourceConfiguration || !$scope.editResourceConfiguration.indicatorConfigurations || 0 === $scope.editResourceConfiguration.indicatorConfigurations.length) {
+      result = false;
+    } else {
+      for (var i = 0; i < $scope.editResourceConfiguration.indicatorConfigurations.length; i++) {
+        var indicatorConfiguration = $scope.editResourceConfiguration.indicatorConfigurations[i];
+        if (!indicatorConfiguration.checked) {
+          result = false;
+          break;
+        }
+      }
+    }
+    return result;
+  };
+
+  $scope.someSelected = function() {
+    var result = false;
+    if ($scope.editResourceConfiguration && $scope.editResourceConfiguration.indicatorConfigurations && 0 < $scope.editResourceConfiguration.indicatorConfigurations.length) {
+      for (var i = 0; i < $scope.editResourceConfiguration.indicatorConfigurations.length; i++) {
+        var indicatorConfiguration = $scope.editResourceConfiguration.indicatorConfigurations[i];
+        if (indicatorConfiguration.checked) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  };
 
   // FRAGILE
   $scope.move = function(which) {
@@ -303,6 +349,33 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
     });
   };
 
+  // delete multiple Indicator Resource Configuration
+  $scope.confirmDeleteMultiple = function(rcID) {
+    var all = $scope.allChecked();
+    var ids = [];
+    if (!all && $scope.editResourceConfiguration && $scope.editResourceConfiguration.indicatorConfigurations && 0 < $scope.editResourceConfiguration.indicatorConfigurations.length) {
+      for (var i = 0; i < $scope.editResourceConfiguration.indicatorConfigurations.length; i++) {
+        var indicatorConfiguration = $scope.editResourceConfiguration.indicatorConfigurations[i];
+        if(indicatorConfiguration.checked) {
+          ids.push(indicatorConfiguration.id);
+        }
+      }
+    }
+    var params = {
+      "rcID" : rcID,
+      "all" : all,
+      "ids" : ids.join(",")
+    };
+    return utilities.deleteResource({
+      params : params,
+      url : '/admin/misc/configurations/deleteIndicatorConfigurations',
+      successCallback : $scope.loadResourceConfiguration,
+      errorCallback : function() {
+        alert("Configuration deletion threw an error. No configuration has been deleted.");
+      }
+    });
+  };
+
   //update an Indicator Resource Configuration
   $scope.updateIC = function(data, ic) {
     return utilities.updateResource({
@@ -405,13 +478,12 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
       if (content.errors && 0 < content.errors.length) {
         for (var i = 0; i < content.errors.length; i++) {
           var msg = "no info";
-          if(content.errors[i].message) {
+          if (content.errors[i].message) {
             msg = content.errors[i].message;
           }
           errors += msg + "\r\n";
         }
-      }
-      else {
+      } else {
         errors = "no errors declared.";
       }
       alert("Data Series Configuration file uploaded and processed with errors : " + errors);
@@ -422,6 +494,11 @@ app.controller('EditResourceConfigurationCtrl', function($scope, $filter, $http,
     $scope.resetCreateIndicatorResourceForm();
     $scope.loadResourceConfiguration();
   };
+
+  // DataSeries configuration file export as CSV
+  $scope.exportConfiguration = function(configId) {
+    window.location.href = hdxContextRoot + "/admin/exporter/configuration/" + configId + "/configuration.csv";
+  }
 });
 
 app.controller('RegionDictionariesCtrl', function($scope, utilities) {

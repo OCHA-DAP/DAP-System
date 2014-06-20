@@ -32,6 +32,8 @@ public interface ResourceConfigurationDAO {
 
 	public void deleteIndicatorConfiguration(long rcID, long id);
 
+	public void deleteAllIndicatorConfigurations(long rcID);
+
 	public void updateIndicatorConfiguration(long id, long indTypeID, long srcID, String key, String value);
 
 }

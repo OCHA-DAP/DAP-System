@@ -217,6 +217,13 @@ public class ResourceConfigurationDAOImpl implements ResourceConfigurationDAO {
 
 	@Override
 	@Transactional
+	public void deleteAllIndicatorConfigurations(final long rcID) {
+		final ResourceConfiguration rc = getResourceConfigurationById(rcID);
+		rc.getIndicatorConfigEntries().clear();
+	}
+
+	@Override
+	@Transactional
 	public void updateIndicatorConfiguration(final long id, final long indTypeID, final long srcID, final String key, final String value) {
 		final IndicatorResourceConfigEntry irce = getIndicatorResourceConfigEntryById(id);
 		final Source source = sourceDAO.getSourceById(srcID);

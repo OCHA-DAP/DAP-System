@@ -2,12 +2,14 @@ package org.ocha.hdx.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,6 +61,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import au.com.bytecode.opencsv.CSVWriter;
 
 import com.google.gson.JsonObject;
 
@@ -132,7 +136,7 @@ public class HDXServiceImpl implements HDXService {
 		resourceCreateQuery.setPackage_id(packageId);
 		resourceCreateQuery.setUrl(resourceUrl);
 		resourceCreateQuery.setName(name);
-		final String result = this.performHttpPOST(this.urlBaseForResourceCreation, this.technicalAPIKey, GSONBuilderWrapper.getGSON().toJson(resourceCreateQuery));
+		final String result = performHttpPOST(urlBaseForResourceCreation, technicalAPIKey, GSONBuilderWrapper.getGSON().toJson(resourceCreateQuery));
 
 		final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
 
@@ -143,7 +147,7 @@ public class HDXServiceImpl implements HDXService {
 
 	@Override
 	public boolean addResourceToCKANDataset(final String packageId, final File file) {
-		final String result = this.performHttpPOSTMultipart(this.urlBaseForResourceCreation, this.technicalAPIKey, packageId, file);
+		final String result = performHttpPOSTMultipart(urlBaseForResourceCreation, technicalAPIKey, packageId, file);
 		final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
 
 		return res.get("success").getAsBoolean();
@@ -151,19 +155,19 @@ public class HDXServiceImpl implements HDXService {
 
 	@Override
 	public void checkForNewCKANDatasets() {
-		final List<DatasetV3DTO> datasetV3DTOList = this.getDatasetV3DTOsFromQuery(technicalAPIKey);
+		final List<DatasetV3DTO> datasetV3DTOList = getDatasetV3DTOsFromQuery(technicalAPIKey);
 		datasetDAO.importDetectedDatasetsIfNotPresent(datasetV3DTOList);
 	}
 
 	@Override
 	@Transactional
 	public void checkForNewCKANResources() {
-		final List<String> datasetList = this.getDatasetNamesFromQuery(this.technicalAPIKey);
-		final Map<String, CKANDataset> datasetToBeCuratedMap = this.datasetDAO.listToBeCuratedCKANDatasets();
+		final List<String> datasetList = getDatasetNamesFromQuery(technicalAPIKey);
+		final Map<String, CKANDataset> datasetToBeCuratedMap = datasetDAO.listToBeCuratedCKANDatasets();
 		for (final String datasetName : datasetList) {
 			final CKANDataset ckanDataset = datasetToBeCuratedMap.get(datasetName);
 			if (ckanDataset != null) {
-				final DatasetV3WrapperDTO dataset = this.getDatasetDTOFromQueryV3(datasetName, this.technicalAPIKey);
+				final DatasetV3WrapperDTO dataset = getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
 
 				final List<Resource> resources = dataset.getResult().getResources();
 				for (final Resource resource : resources) {
@@ -178,7 +182,7 @@ public class HDXServiceImpl implements HDXService {
 							workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
 						}
 
-						this.resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName, dataset.getResult()
+						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName, dataset.getResult()
 								.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
 					}
 				}
@@ -190,7 +194,7 @@ public class HDXServiceImpl implements HDXService {
 	public List<String> getCKANGroupNames() {
 		List<String> grps = new ArrayList<String>();
 
-		final String jsonResult = this.performHttpGET(urlBaseForGroupsList, technicalAPIKey);
+		final String jsonResult = performHttpGET(urlBaseForGroupsList, technicalAPIKey);
 		if (jsonResult == null) {
 			log.warn(String.format("Got null result from %s", urlBaseForGroupsList));
 		} else {
@@ -207,7 +211,7 @@ public class HDXServiceImpl implements HDXService {
 
 		for (final String grp : groups) {
 			final String urlForGroup = String.format("%s%s", urlBaseForGroupContentV3, grp);
-			final String jsonResult = this.performHttpGET(urlForGroup, technicalAPIKey);
+			final String jsonResult = performHttpGET(urlForGroup, technicalAPIKey);
 			if (jsonResult == null) {
 				log.warn(String.format("Got null result from %s", urlBaseForGroupContentV3));
 			} else {
@@ -222,7 +226,7 @@ public class HDXServiceImpl implements HDXService {
 	public DatasetV3DTO getDatasetContent(final String name) {
 		DatasetV3DTO result = null;
 		final String urlForDataset = String.format("%s%s", urlBaseForDatasetContentV3, name);
-		final String jsonResult = this.performHttpGET(urlForDataset, technicalAPIKey);
+		final String jsonResult = performHttpGET(urlForDataset, technicalAPIKey);
 		if (jsonResult == null) {
 			log.warn(String.format("Got null result from %s", urlBaseForDatasetContentV3));
 		} else {
@@ -244,8 +248,8 @@ public class HDXServiceImpl implements HDXService {
 
 	@Override
 	public void flagDatasetAsToBeCurated(final String datasetName, final Type type, final long configurationId) {
-		final ResourceConfiguration configuration = this.resourceConfigurationDAO.getResourceConfigurationById(configurationId);
-		this.datasetDAO.flagDatasetAsToBeCurated(datasetName, type, configuration);
+		final ResourceConfiguration configuration = resourceConfigurationDAO.getResourceConfigurationById(configurationId);
+		datasetDAO.flagDatasetAsToBeCurated(datasetName, type, configuration);
 
 	}
 
@@ -257,15 +261,15 @@ public class HDXServiceImpl implements HDXService {
 	@Override
 	@Transactional
 	public void downloadFileForCKANResource(final String id, final String revision_id) throws IOException {
-		final File destinationFile = this.getLocalFileFromResourceIdAndRevisionId(id, revision_id);
-		final URL url = this.getResourceURLFromAPI(id, revision_id);
+		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
+		final URL url = getResourceURLFromAPI(id, revision_id);
 
 		if (!workflowService.flagCKANResourceAsDownloaded(id, revision_id)) {
 			return;
 		}
 
 		// if we can't download the file, the flag will be rolled back
-		final boolean success = this.performDownload(url, destinationFile);
+		final boolean success = performDownload(url, destinationFile);
 		if (!success) {
 			throw new RuntimeException("Failed downloading the given resource");
 		}
@@ -274,9 +278,9 @@ public class HDXServiceImpl implements HDXService {
 
 	@Override
 	public void evaluateFileForCKANResource(final String id, final String revision_id) throws IOException {
-		final File destinationFile = this.getLocalFileFromResourceIdAndRevisionId(id, revision_id);
+		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
 
-		final CKANDataset.Type type = this.getTypeForFile(id, revision_id);
+		final CKANDataset.Type type = getTypeForFile(id, revision_id);
 		final ValidationReport report = fileEvaluatorAndExtractor.evaluateResource(destinationFile, type);
 
 		if (report.isNotInError()) {
@@ -290,12 +294,12 @@ public class HDXServiceImpl implements HDXService {
 
 	@Override
 	public void transformAndImportDataFromFileForCKANResource(final String id, final String revision_id) {
-		final File destinationFile = this.getLocalFileFromResourceIdAndRevisionId(id, revision_id);
+		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
 
-		final CKANDataset.Type type = this.getTypeForFile(id, revision_id);
+		final CKANDataset.Type type = getTypeForFile(id, revision_id);
 
-		final ResourceConfiguration config = this.getResourceConfigFromResourceIdAndRevisionId(id, revision_id);
-		final ValidationReport validationReport = this.getValidationReportFromResourceIdAndRevisionId(id, revision_id);
+		final ResourceConfiguration config = getResourceConfigFromResourceIdAndRevisionId(id, revision_id);
+		final ValidationReport validationReport = getValidationReportFromResourceIdAndRevisionId(id, revision_id);
 
 		final ImportReport importReport = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type, id, revision_id, config, validationReport);
 
@@ -355,7 +359,7 @@ public class HDXServiceImpl implements HDXService {
 	private ResourceConfiguration getResourceConfigFromResourceIdAndRevisionId(final String id, final String revision_id) {
 		final CKANResource resource = resourceDAO.getCKANResource(id, revision_id);
 		final ResourceConfiguration config = resource.getResourceConfiguration();
-		if (config != null && (config.getGeneralConfigEntries() != null || config.getIndicatorConfigEntries() != null)) {
+		if ((config != null) && ((config.getGeneralConfigEntries() != null) || (config.getIndicatorConfigEntries() != null))) {
 			return config;
 		} else {
 			return null;
@@ -376,9 +380,9 @@ public class HDXServiceImpl implements HDXService {
 	 * @throws MalformedURLException
 	 */
 	private URL getResourceURLFromAPI(final String id, final String revision_id) throws MalformedURLException {
-		final List<String> datasetList = this.getDatasetNamesFromQuery(technicalAPIKey);
+		final List<String> datasetList = getDatasetNamesFromQuery(technicalAPIKey);
 		for (final String datasetName : datasetList) {
-			final DatasetV3WrapperDTO dataset = this.getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
+			final DatasetV3WrapperDTO dataset = getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
 			final List<Resource> resources = dataset.getResult().getResources();
 			for (final Resource resource : resources) {
 				if (resource.getId().equals(id) && resource.getRevision_id().equals(revision_id)) {
@@ -392,29 +396,29 @@ public class HDXServiceImpl implements HDXService {
 	@Override
 	public List<String> getDatasetsListFromCKAN(final String userId) throws InsufficientCredentialsException {
 		final String apiKey = userDao.getUserApiKey(userId);
-		return this.getDatasetNamesFromQuery(apiKey);
+		return getDatasetNamesFromQuery(apiKey);
 	}
 
 	@Override
 	public DatasetV3WrapperDTO getDatasetContentFromCKANV3(final String userId, final String datasetName) throws InsufficientCredentialsException {
 		final String apiKey = userDao.getUserApiKey(userId);
 
-		return this.getDatasetDTOFromQueryV3(datasetName, apiKey);
+		return getDatasetDTOFromQueryV3(datasetName, apiKey);
 
 	}
 
 	List<DatasetV3DTO> getDatasetV3DTOsFromQuery(final String apiKey) {
-		final List<String> names = this.getDatasetNamesFromQuery(apiKey);
+		final List<String> names = getDatasetNamesFromQuery(apiKey);
 		final List<DatasetV3DTO> result = new ArrayList<>();
 
 		for (final String name : names) {
-			result.add(this.getDatasetDTOFromQueryV3(name, apiKey).getResult());
+			result.add(getDatasetDTOFromQueryV3(name, apiKey).getResult());
 		}
 		return result;
 	}
 
 	List<String> getDatasetNamesFromQuery(final String apiKey) {
-		final String jsonResult = this.performHttpGET(urlBaseForDatasetsList, apiKey);
+		final String jsonResult = performHttpGET(urlBaseForDatasetsList, apiKey);
 		if (jsonResult == null) {
 			log.warn(String.format("Got null result from %s", urlBaseForDatasetsList));
 			return new ArrayList<String>();
@@ -438,7 +442,7 @@ public class HDXServiceImpl implements HDXService {
 	public DatasetV3WrapperDTO getDatasetDTOFromQueryV3(final String datasetName, final String apiKey) {
 		final String urlForDataSet = String.format("%s%s", urlBaseForDatasetContentV3, datasetName);
 		log.debug(String.format("About to call url : %s", urlForDataSet));
-		final String jsonResult = this.performHttpGET(urlForDataSet, apiKey);
+		final String jsonResult = performHttpGET(urlForDataSet, apiKey);
 		if (jsonResult == null) {
 			return null;
 		} else {
@@ -671,8 +675,39 @@ public class HDXServiceImpl implements HDXService {
 	}
 
 	@Override
+	public void deleteAllIndicatorConfigurations(final long rcID) throws Exception {
+		resourceConfigurationDAO.deleteAllIndicatorConfigurations(rcID);
+	}
+
+	@Override
 	public void updateIndicatorConfiguration(final long id, final long indTypeID, final long srcID, final String key, final String value) throws Exception {
 		resourceConfigurationDAO.updateIndicatorConfiguration(id, indTypeID, srcID, key, value);
+	}
+
+	@Override
+	public File exportDataSeriesConfiguration_CSV(final Long id) throws Exception {
+		final ResourceConfiguration configuration = resourceConfigurationDAO.getResourceConfigurationById(id);
+		final Set<IndicatorResourceConfigEntry> indicatorConfigEntries = configuration.getIndicatorConfigEntries();
+		final List<String[]> content = new ArrayList<>();
+		if(null != indicatorConfigEntries) {
+			for (final IndicatorResourceConfigEntry indicatorResourceConfigEntry : indicatorConfigEntries) {
+				final String[] line = new String[4];
+				line[0] = indicatorResourceConfigEntry.getIndicatorType().getCode();
+				line[1] = indicatorResourceConfigEntry.getSource().getCode();
+				line[2] = indicatorResourceConfigEntry.getEntryKey();
+				line[3] = indicatorResourceConfigEntry.getEntryValue();
+				
+				content.add(line);
+			}
+		}
+		// Export the data in a new file
+		final File file = File.createTempFile("Config_" + new Date().getTime() + "_", ".csv");
+		final CSVWriter csvWriter = new CSVWriter(new FileWriter(file), '#');
+		csvWriter.writeAll(content);
+		csvWriter.close();
+		
+		// Return the workbook
+		return file;
 	}
 
 	/*

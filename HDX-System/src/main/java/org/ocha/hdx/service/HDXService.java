@@ -140,7 +140,11 @@ public interface HDXService {
 
 	public void deleteIndicatorConfiguration(long rcID, long id) throws Exception;
 
+	public void deleteAllIndicatorConfigurations(long resConfID) throws Exception;
+
 	public void updateIndicatorConfiguration(long id, long indTypeID, long srcID, String key, String value) throws Exception;
+
+	public File exportDataSeriesConfiguration_CSV(Long id) throws Exception;
 
 	/*
 	 * Languages management.

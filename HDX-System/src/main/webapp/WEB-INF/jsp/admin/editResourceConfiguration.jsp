@@ -129,16 +129,21 @@
 								</table>
 							</form>
 						</div>
-						<h4>List of Data Series Configurations</h4>
+						<h4>List of Data Series Configurations &nbsp;<span style="font-size: small;"><a href="#" ng-click="exportConfiguration(editResourceConfiguration.id);">(export this configuration as a CSV file)</a></span></h4>
+						
 						<table class="table table-bordered table-hover table-condensed">
 							<tr style="font-weight: bold">
-								<td style="width: 20%"><a href="" ng-click="predicate='indType'; reverse=!reverse">Indicator Type </td>
-								<td style="width: 20%"><a href="" ng-click="predicate='src'; reverse=!reverse">Source </td>
-								<td style="width: 20%"><a href="" ng-click="predicate='key'; reverse=!reverse">Indicator Configuration </td>
-								<td style="width: 20%"><a href="" ng-click="predicate='value'; reverse=!reverse">Value </td>
+								<td align="center" style="width: 5%"><input type="checkbox" ng-click="allClicked()" ng-checked="allChecked()"></td>
+								<td align="center" style="width: 5%">#</td>
+								<td style="width: 15%"><a href="" ng-click="predicate='indType'; reverse=!reverse">Indicator Type</a></td>
+								<td style="width: 15%"><a href="" ng-click="predicate='src'; reverse=!reverse">Source</a></td>
+								<td style="width: 20%"><a href="" ng-click="predicate='key'; reverse=!reverse">Indicator Configuration</a></td>
+								<td style="width: 20%"><a href="" ng-click="predicate='value'; reverse=!reverse">Value</a></td>
 								<td style="width: 20%">Action</td>
 							</tr>
 							<tr ng-repeat="ic in editResourceConfiguration.indicatorConfigurations | orderBy:predicate:reverse">
+								<td align="center"><input type="checkbox" ng-model="ic.checked"></td>
+								<td align="center">{{ $index + 1 }}</td>
 								<td><span e-class="form-control" e-name="indType" e-id="indType" e-form="icform"> {{ showIndicatorType(ic) }} </span></td>
 								<td><span e-class="form-control" e-name="src" e-id="src" e-form="icform"> {{ showSources(ic) }} </span></td>
 								<td>
@@ -162,6 +167,7 @@
 								</td>
 							</tr>
 						</table>
+						<button class="btn btn-danger btn-custom-danger" ng-disabled="!someSelected()" ng-click="confirmDeleteMultiple(editResourceConfiguration.id)"><span>Delete selected</span></button>
 					</div>
 					<div class="tab-pane" id="region" ng-controller="RegionDictionariesCtrl">
 						<h4>Add a new Region Dictionary</h4>

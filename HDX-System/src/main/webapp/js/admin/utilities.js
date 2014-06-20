@@ -163,11 +163,10 @@ angular.module('utilities', []).factory('utilities', [ '$filter', '$http', funct
   // Delete a resource
   // =================
   function deleteResource(options) {
-    if (!confirm("Do you really want to delete this item ?")) {
+    if (!confirm("Do you really want to delete this ?")) {
       return;
     }
     return post(options);
-  }
-  ;
+  };
 
 } ]);

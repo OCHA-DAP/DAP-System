@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -386,6 +387,22 @@ public class AdminResource {
 		return response.toString();
 	}
 
+	/**
+	 * Export a Data Series configuration in CSV format.
+	 * 
+	 * @param id
+	 *            The configuration id
+	 * @return A CSV File containing the data as requested
+	 * @throws Exception
+	 */
+	@GET
+	@Path("/exporter/configuration/{id}/{filename}.csv")
+	@Produces("application/ms-excel")
+	@PermitAll // TODO Remove ?
+	public File exportDataSeriesConfiguration_CSV(@PathParam("id") final Long id) throws Exception {
+		return hdxService.exportDataSeriesConfiguration_CSV(id);
+	}
+
 	@POST
 	@Path("/misc/configurations/addGeneralConfiguration")
 	public Response addGeneralConfiguration(@FormParam("rcID") final String rcID, @FormParam("key") final String key, @FormParam("value") final String value) throws Exception {
@@ -434,6 +451,30 @@ public class AdminResource {
 		final long genConfID = Long.valueOf(id).longValue();
 		hdxService.deleteIndicatorConfiguration(resConfID, genConfID);
 		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/misc/configurations/deleteIndicatorConfigurations")
+	public Response deleteIndicatorConfigurations(@FormParam("rcID") final String rcID, @FormParam("all") final boolean all, @FormParam("ids") final String ids) throws Exception {
+		final long resConfID = Long.valueOf(rcID).longValue();
+		if (all) {
+			hdxService.deleteAllIndicatorConfigurations(resConfID);
+		} else {
+			final String[] ids_ = getIds(ids);
+			for (int i = 0; i < ids_.length; i++) {
+				final long id = Long.valueOf(ids_[i]);
+				hdxService.deleteIndicatorConfiguration(resConfID, id);
+			}
+		}
+		return Response.ok().build();
+	}
+
+	private String[] getIds(final String ids) {
+		String[] result = {};
+		if ((null != ids) && !"".equals(ids)) {
+			result = ids.split(",");
+		}
+		return result;
 	}
 
 	@POST
@@ -1003,7 +1044,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/curated/entities/submitCreate")
-	public Response createEntity(@FormParam("entityTypeCode") final String entityTypeCode, @FormParam("code") final String code, @FormParam("name") final String name, @FormParam("parent") final Long parent) {
+	public Response createEntity(@FormParam("entityTypeCode") final String entityTypeCode, @FormParam("code") final String code, @FormParam("name") final String name,
+			@FormParam("parent") final Long parent) {
 		logger.debug(String.format("Entering createEntity with params code : %s,  name %s, entityTypeCode : %s, parent : %s", code, name, entityTypeCode, parent));
 		curatedDataService.createEntity(code, name, entityTypeCode, parent);
 		logger.debug("Create entity successful, about to return ok");
@@ -1023,7 +1065,7 @@ public class AdminResource {
 	@Path("/curated/entities/submitUpdate")
 	public Response updateEntity(@FormParam("entityId") final long entityId, @FormParam("newName") final String newName, @FormParam("parent") final Long parent_, @Context final UriInfo uriInfo) {
 		Long parent = parent_;
-		if((null == parent_) || (entityId == parent)) {
+		if ((null == parent_) || (entityId == parent)) {
 			parent = null;
 		}
 		curatedDataService.updateEntity(entityId, newName, parent);
