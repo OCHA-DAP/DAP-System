@@ -109,6 +109,8 @@ public interface CuratedDataService {
 	 */
 	public List<ImportFromCKAN> listImportsFromCKAN();
 
+	public Map<Long, Long> countIndicatorsByImport();
+
 	public void deleteImportFromCKAN(final long id);
 
 	/*

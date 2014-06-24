@@ -15,39 +15,29 @@
 <body ng-controller="ImportsFromCKANCtrl">
 	<jsp:include page="admin-menu.jsp" />
 	<div id="content">
-		<h3>Delete an import and all the associated indicators</h3>
-		<div>
-			<form method="POST" action="./delete" class="css-form" role="form">
-				<div class="form-group" style="width: 100px;">
-					<label for="importToDeleteId">Type</label> <select class="form-control" name="importToDeleteId" id="importToDeleteId">
-						<c:forEach var="importFromCKAN" items="${it}">
-							<option value="${importFromCKAN.id}">${importFromCKAN.id}</option>
-						</c:forEach>
-					</select>
-				</div>
-				<button type="submit" class="btn btn-primary btn-custom-default">Submit</button>
-			</form>
-		</div>
-		
-		<h3>List of imports</h3>
+		<h3>List of imports from CKAN</h3>
 		<table class="table table-bordered table-hover table-condensed">
 			<tr>
-				<th>Id</th>
-				<th>Resource Id</th>
-				<th>Revision Id</th>
-				<th>Timestamp</th>
+				<th style="width: 25%"><a href="" ng-click="predicate='resourceId'; reverse=!reverse">Resource ID</a></th>
+				<th style="width: 25%"><a href="" ng-click="predicate='revisionId'; reverse=!reverse">Revision ID</a></th>
+				<th style="width: 25%"><a href="" ng-click="predicate='timestamp'; reverse=!reverse">Timestamp</a></th>
+				<th style="width: 15%"><a href="" ng-click="predicate='indicatorCount'; reverse=!reverse">Indicator count</a></th>
+				<th style="width: 10%">Action</th>
 			</tr>
-
-			<c:forEach var="importFromCKAN" items="${it}">
-				<tr>
-					<td>${importFromCKAN.id}</td>
-					<td>${importFromCKAN.resourceId}</td>
-					<td>${importFromCKAN.revisionId}</td>
-					<td>${importFromCKAN.timestamp}</td>
-				</tr>
-			</c:forEach>
-
+			<tr ng-repeat="importFromCKAN in importsFromCKAN | orderBy:predicate:reverse">
+				<td>{{importFromCKAN.resourceId}}</td>
+				<td>{{importFromCKAN.revisionId}}</td>
+				<td>{{importFromCKAN.timestamp}}</td>
+				<td>{{importFromCKAN.indicatorCount}}</td>
+				<td><button class="btn btn-danger btn-custom-danger" ng-click="deleteImport(importFromCKAN.id)">Delete</button></td>
+			</tr>
 		</table>
+	</div>
+	<div ng-show="showTestZone">
+		<h3>Test zone</h3>
+		<pre>
+			<p>Imports from CKAN : {{ importsFromCKAN | json }}</p>
+		</pre>
 	</div>
 </body>
 </html>

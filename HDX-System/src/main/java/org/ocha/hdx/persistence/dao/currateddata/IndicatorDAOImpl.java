@@ -183,6 +183,25 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		return query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<Long, Long> countIndicatorsByImport() {
+		final Map<Long, Long> result = new HashMap<Long, Long>();
+		final Query query = em.createQuery("SELECT i.importFromCKAN.id, COUNT(i) from Indicator i GROUP BY i.importFromCKAN");
+		List<Object[]> queryResult = null;
+		try {
+			queryResult = query.getResultList();
+		} catch (final NoResultException e) {
+			// It is possible that no value exists.
+		}
+		if(null != queryResult) {
+			for (final Object[] object : queryResult) {
+				result.put((Long)object[0], (Long)object[1]);
+			}
+		}
+		return result;
+	}
+
 	/* ******* */
 	/* Reports */
 	/* ******* */
@@ -219,14 +238,13 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 * Generic method to get indicators for a given country.
 	 */
 	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode,
-			final List<DataSerie> dataSeries) {
+	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final List<DataSerie> dataSeries) {
 		return listIndicatorsForCountry(countryCode, fromYear, toYear, languageCode, Periodicity.YEAR, dataSeries);
 	}
-	
+
 	@Override
-	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode,
-			final Periodicity periodicity, final List<DataSerie> dataSeries) {
+	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final Periodicity periodicity,
+			final List<DataSerie> dataSeries) {
 		int fromYear_ = fromYear;
 		int toYear_ = toYear;
 

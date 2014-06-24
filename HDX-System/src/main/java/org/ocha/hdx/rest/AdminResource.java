@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,6 +46,7 @@ import org.ocha.hdx.dto.apiv3.DatasetV3DTO;
 import org.ocha.hdx.dto.apiv3.GroupV3DTO;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.JSONable;
+import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
@@ -93,6 +95,8 @@ import com.google.visualization.datasource.base.TypeMismatchException;
 @Produces(MediaType.TEXT_HTML)
 @Component
 public class AdminResource {
+
+	private static final SimpleDateFormat SDF_01 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
 	private static Logger logger = LoggerFactory.getLogger(AdminResource.class);
 
@@ -399,7 +403,8 @@ public class AdminResource {
 	@GET
 	@Path("/exporter/configuration/{id}/{filename}.csv")
 	@Produces("application/ms-excel")
-	@PermitAll // TODO Remove ?
+	@PermitAll
+	// TODO Remove ?
 	public File exportDataSeriesConfiguration_CSV(@PathParam("id") final Long id) throws Exception {
 		return hdxService.exportDataSeriesConfiguration_CSV(id);
 	}
@@ -1458,11 +1463,35 @@ public class AdminResource {
 		return Response.ok(new Viewable("/admin/importsFromCKAN", curatedDataService.listImportsFromCKAN())).build();
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/curated/importsfromckan/json")
+	public String getImportsFromCKAN(@QueryParam("var") final String var) {
+		String result = "";
+		final List<ImportFromCKAN> importsFromCKAN = curatedDataService.listImportsFromCKAN();
+		final Map<Long, Long> countIndicatorsByImport = curatedDataService.countIndicatorsByImport();
+		
+		final JsonArray jsonArray = new JsonArray();
+		for (final ImportFromCKAN importFromCKAN : importsFromCKAN) {
+			final JsonObject jsonImport = new JsonObject();
+			jsonImport.addProperty("id", importFromCKAN.getId());
+			jsonImport.addProperty("indicatorCount", null == countIndicatorsByImport.get(importFromCKAN.getId()) ? 0 : countIndicatorsByImport.get(importFromCKAN.getId()));
+			jsonImport.addProperty("resourceId", importFromCKAN.getResourceId());
+			jsonImport.addProperty("revisionId", importFromCKAN.getRevisionId());
+			jsonImport.addProperty("timestamp", SDF_01.format(importFromCKAN.getTimestamp()));
+			jsonArray.add(jsonImport);
+		}
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + jsonArray.toString();
+	}
+
 	@POST
 	@Path("/curated/importsfromckan/delete")
 	public Response deleteImportFromCKAN(@FormParam("importToDeleteId") final long importToDeleteId) {
 		curatedDataService.deleteImportFromCKAN(importToDeleteId);
-		return displayImportFromCKANList();
+		return Response.ok().build();
 	}
 
 	/*

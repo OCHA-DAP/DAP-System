@@ -53,6 +53,12 @@ public interface IndicatorDAO {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public Map<Long, Long> countIndicatorsByImport();
+
+	/**
+	 * 
 	 * @param countryCodes
 	 *            optional filter to only get some countries (cannot deal other entityTypes yet)
 	 */

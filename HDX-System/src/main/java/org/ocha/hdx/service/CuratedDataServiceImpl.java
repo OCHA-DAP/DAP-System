@@ -309,6 +309,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
+	public Map<Long, Long> countIndicatorsByImport() {
+		return indicatorDAO.countIndicatorsByImport();
+	}
+
+	@Override
 	@Transactional
 	public void deleteImportFromCKAN(final long id) {
 		indicatorDAO.deleteAllIndicatorsFromImport(id);
