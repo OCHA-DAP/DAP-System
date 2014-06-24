@@ -53,6 +53,35 @@ h5 {
 	text-decoration: underline;
 }
 
+.welcome_table {
+	width: 600px;
+	margin: 0 auto;
+}
+
+.welcome_table td {
+	padding: 6px;
+	vertical-align: top;
+	height: 100%;
+}
+
+.welcome_content {
+/*
+	border: lightGray 12px double;
+	border-bottom-right-radius: 200px;
+	border-top-right-radius: 50px;
+	border-top-left-radius: 50px;
+	border-bottom-left-radius: 50px;
+	*/
+	border-bottom-left-radius: 50px;
+	border-top-right-radius: 50px;
+	/* border-bottom-right-radius: 20px; */
+	border: 1px solid lightGray;
+	height: 100%;
+	padding: 12px;
+}
+.welcome_content ul {
+	list-style-type: circle;
+}
 /*
 Translations CSS settings
 */

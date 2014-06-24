@@ -27,7 +27,7 @@
 	</div>
 	<div id="content">
 		<h1 style="font-size: 180px; font-weight: bold;">404:</h1>
-		<p style="margin-left: 300px; margin-top: 75px; font-size: 24px;">Mistakes are the portals of discovery. <br />But we'd rather you use our <a href="${ctx}/login/">homepage</a>.</p>
+		<p style="margin-left: 300px; margin-top: 75px; font-size: 24px;">Mistakes are the portals of discovery. <br />But we'd rather you use our <a href="${ctx}/admin/adminHome/">homepage</a>.</p>
 	</div>
 </body>
 </html>

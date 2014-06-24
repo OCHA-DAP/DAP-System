@@ -121,6 +121,15 @@ public class AdminResource {
 	}
 
 	/*
+	 * Admin home page
+	 */
+	@GET
+	@Path("/adminHome")
+	public Response adminHome() {
+		return Response.ok(new Viewable("/admin/admin_home")).build();
+	}
+
+	/*
 	 * Users management
 	 */
 	@GET

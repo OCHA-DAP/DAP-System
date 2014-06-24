@@ -10,7 +10,7 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 			</button>
-			<span class="navbar-brand">HDX / admin</span>
+			<span class="navbar-brand"><a href="${ctx}/admin/adminHome">HDX / admin</a></span>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
