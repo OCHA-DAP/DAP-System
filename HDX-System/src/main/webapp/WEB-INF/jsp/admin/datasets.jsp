@@ -17,46 +17,32 @@
 		<h3>List of datasets in CKAN</h3>
 		<table class="table table-bordered table-hover table-condensed">
 			<tr>
-				<th><!-- a href="" ng-click="predicate='title'; reverse=!reverse" -->Title (name)<!-- /a --></th>
-				<th><!-- a href="" ng-click="predicate='status'; reverse=!reverse" -->Status<!-- /a --></th>
-				<th><!-- a href="" ng-click="predicate='config'; reverse=!reverse" -->Config<!-- /a --></th>
-				<th>Choose a type and flag as to be curated</th>
-				<th>Ignore a dataset</th>
+				<th style="width:40%"><a href="" ng-click="predicate='title'; reverse=!reverse">Title (name)</a></th>
+				<th style="width:10%"><a href="" ng-click="predicate='status'; reverse=!reverse">Status</a>&nbsp;<span style="font-size: smaller;">(<a href="" ng-click="toggleShowHideIgnored()">{{showHideIgnoredMessage}}</a>)</span></th>
+				<th style="width:10%"><a href="" ng-click="predicate='configuration.name'; reverse=!reverse">Configuration</a></th>
+				<th style="width:40%">Action</th>
 			</tr>
-
-			<c:forEach var="dataset" items="${it.datasets}">
-				<tr>
-					<td>${dataset.title}(${dataset.name})</td>
-					<td>${dataset.status}</td>
-					<td>${dataset.configuration.name}</td>
-					<td>
-						<form method="POST" action="flagDatasetAsToBeCurated">
-							<input type="hidden" name="datasetName" value="${dataset.name}" />
-							<input type="hidden" name="type" value="SCRAPER_VALIDATING" />
-							<select name="configuration">
-								<c:forEach var="config" items="${it.configs}">
-									<c:choose>
-										<c:when test="${ not empty dataset.configuration and config.id == dataset.configuration.id }">
-											<option value="${config.id}" selected="selected">${config.name}</option>
-										</c:when>
-										<c:otherwise>
-											<option value="${config.id}">${config.name}</option>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</select>
-							<input type="submit" value="flag for curation" />
-						</form>
-					</td>
-					<td>
-						<form method="POST" action="flagDatasetAsIgnored">
-							<input type="hidden" name="datasetName" value="${dataset.name}" /> <input type="submit" <c:if test="${dataset.status eq 'IGNORED'}">disabled="disabled"</c:if> value="Ignore Dataset" />
-						</form>
-					</td>
-				</tr>
-			</c:forEach>
-
+			<tr ng-repeat="dataset in ckan.datasets | filter:filterDatasets | orderBy:predicate:reverse">
+				<td>{{dataset.title}} ({{dataset.name}})</td>
+				<td>{{dataset.status}}</td>
+				<td>{{dataset.configuration.name}}</td>
+				<td>
+					<form class="form-buttons form-inline">
+						<select class="form-control" ng-model="dataset.newConfiguration" ng-options="c.name for c in ckan.configurations" ng-class="default")>
+							<option value=""></option>
+						</select>
+						<button class="btn btn-primary btn-custom-default" ng-click="flagForCuration(dataset.name)" ng-disabled="dataset.newConfiguration == null">Flag for curation</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="ignoreDataset(dataset.name)" ng-disabled="dataset.status === 'IGNORED'">Ignore</button>
+					</form>
+				</td>
+			</tr>
 		</table>
+	</div>
+	<div ng-show="showTestZone">
+		<h3>Test zone</h3>
+		<pre>
+			<p>Datasets : {{ ckan | json }}</p>
+		</pre>
 	</div>
 </body>
 </html>
