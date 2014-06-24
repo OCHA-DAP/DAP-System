@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -667,23 +668,87 @@ public class AdminResource {
 		return Response.ok(new Viewable("/admin/datasets", jspElement)).build();
 	}
 
+	@GET
+	@Path("/status/datasets/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getDatasets(@QueryParam("var") final String var) {
+		final List<ResourceConfiguration> configurations = hdxService.listConfigurations();
+		final List<CKANDataset> datasets = hdxService.listCKANDatasets();
+
+		String result = "";
+
+		final JsonObject result_ = new JsonObject();
+
+		final JsonArray configs_ = new JsonArray();
+		for (final ResourceConfiguration configuration : configurations) {
+			final JsonObject jsonConfig = configurationToJson(configuration);
+			configs_.add(jsonConfig);
+		}
+		result_.add("configurations", configs_);
+
+		final JsonArray datasets_ = new JsonArray();
+		for (final CKANDataset dataset : datasets) {
+			final JsonObject jsonDataset = datasetToJson(dataset);
+			datasets_.add(jsonDataset);
+		}
+		result_.add("datasets", datasets_);
+
+		if ((null != var) && !"".equals(var)) {
+			result = "var " + var + " = ";
+		}
+		return result + result_.toString();
+	}
+
+	private static JsonObject datasetToJson(final CKANDataset dataset) {
+		final JsonObject result = new JsonObject();
+		if (null != dataset) {
+			result.addProperty("author", dataset.getAuthor());
+			result.addProperty("authorEmail", dataset.getAuthor_email());
+			result.addProperty("maintainer", dataset.getMaintainer());
+			result.addProperty("maintainerEmail", dataset.getMaintainer_email());
+			result.addProperty("name", dataset.getName());
+			result.addProperty("title", dataset.getTitle());
+			result.addProperty("status", null == dataset.getStatus() ? "" : dataset.getStatus().toString());
+			result.addProperty("type", null == dataset.getType() ? "" : dataset.getType().toString());
+			result.add("configuration", configurationToJson(dataset.getConfiguration()));
+		}
+		return result;
+	}
+
+	private static JsonObject configurationToJson(final ResourceConfiguration configuration) {
+		final JsonObject result = new JsonObject();
+		if (null != configuration) {
+			result.addProperty("id", configuration.getId());
+			result.addProperty("name", configuration.getName());
+			final Set<ResourceConfigEntry> generalConfigEntries = configuration.getGeneralConfigEntries();
+			final JsonArray configEntries = new JsonArray();
+			if (null != generalConfigEntries) {
+				for (final ResourceConfigEntry configEntry : generalConfigEntries) {
+					final JsonObject entry = new JsonObject();
+					entry.addProperty("id", configEntry.getId());
+					entry.addProperty("entryKey", configEntry.getEntryKey());
+					entry.addProperty("entryValue", configEntry.getEntryValue());
+					// entry.add("parentConfiguration", configurationToJson(configEntry.getParentConfiguration()));
+					configEntries.add(entry);
+				}
+			}
+			result.add("configEntries", configEntries);
+		}
+		return result;
+	}
+
 	@POST
 	@Path("/status/datasets/flagDatasetAsToBeCurated")
-	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("type") final CKANDataset.Type type, @FormParam("configuration") final long configuration,
-			@Context final UriInfo uriInfo) throws URISyntaxException {
-		hdxService.flagDatasetAsToBeCurated(datasetName, type, configuration);
-
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
-		return Response.seeOther(newURI).build();
+	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("configuration") final long configuration) {
+		hdxService.flagDatasetAsToBeCurated(datasetName, CKANDataset.Type.SCRAPER_VALIDATING, configuration); // See if change needed
+		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/status/datasets/flagDatasetAsIgnored")
-	public Response flagDatasetAsIgnored(@FormParam("datasetName") final String datasetName, @Context final UriInfo uriInfo) throws URISyntaxException {
+	public Response flagDatasetAsIgnored(@FormParam("datasetName") final String datasetName) {
 		hdxService.flagDatasetAsIgnored(datasetName);
-
-		final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
-		return Response.seeOther(newURI).build();
+		return Response.ok().build();
 	}
 
 	/*
