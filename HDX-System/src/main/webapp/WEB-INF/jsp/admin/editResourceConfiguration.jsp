@@ -121,7 +121,7 @@
 									<tr>
 										<td style="width:1px;"><span class="btn btn-primary btn-file">
 												<span class="glyphicon glyphicon-file"></span>
-												Upload a Data Series Configuration file&hellip; <input type="file" id="configFile" name="configFile" ng-model="fileName" maxlength='1000000' accept='.csv' ng-file-select onchange="angular.element(this).scope().setFileName(this);" />
+												Upload a Data Series Configuration CSV file&hellip; <input type="file" id="configFile" name="configFile" ng-model="fileName" maxlength='1000000' accept='.csv' ng-file-select onchange="angular.element(this).scope().setFileName(this);" />
 											</span></td>
 										<td style="padding-left: 5px; padding-right: 5px;"><input type="text" class="form-control" ng-model="strippedFileName" readonly style="width: 100%;"></td>
 										<td style="width: 20%;"><button class="btn btn-primary btn-custom-default" upload-submit ng-disabled="$isLoading || (fileName && fileName==='')">Upload</button></td>

@@ -20,6 +20,7 @@ import java.util.Set;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -1131,6 +1132,126 @@ public class AdminResource {
 		return Response.ok().build();
 	}
 
+	@SuppressWarnings("null")
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Path("/curated/entities/createEntitiesFromCSVFile")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String createEntitiesFromCSVFile(@FormDataParam("entitiesFile") final InputStream file, @FormDataParam("entitiesFile") final FormDataContentDisposition fileDisposition) {
+		final JsonObject response = new JsonObject();
+		final JsonArray errors = new JsonArray();
+		response.add("errors", errors);
+
+		File csvFile = null;
+		try {
+			csvFile = File.createTempFile("fromUpload", fileDisposition.getFileName());
+			FileUtils.writeByteArrayToFile(csvFile, IOUtils.toByteArray(file));
+		} catch (final IOException e) {
+			final String msg = "Error creating temporary file for Entities Creation from CSV file";
+			logger.warn(msg, e);
+			final JsonObject error = new JsonObject();
+			error.addProperty("message", msg);
+			errors.add(error);
+			response.addProperty("status", "nok");
+			return response.toString();
+		}
+
+		if ((csvFile != null) && (csvFile.length() > 0)) {
+			CSVReader csvReader = null;
+			List<String[]> entities = null;
+			try {
+				csvReader = new CSVReader(new FileReader(csvFile), '#');
+				entities = csvReader.readAll();
+				csvReader.close();
+			} catch (final IOException e) {
+				final String msg = "Error reading Entities Creation CSV file";
+				logger.warn(msg, e);
+				final JsonObject error = new JsonObject();
+				error.addProperty("message", msg);
+				errors.add(error);
+				response.addProperty("status", "nok");
+				return response.toString();
+			}
+			if (null != entities) {
+				int index = 0;
+				try {
+					for (final String[] entity : entities) {
+						++index;
+						try {
+							// Check if the entity already exists
+							Entity exists = null;
+							try {
+								exists = curatedDataService.getEntityByCodeAndType(entity[2], entity[0]);
+							} catch (final NoResultException e) {
+								// Should happen most frequently
+							}
+							if(null != exists) {
+								logger.warn("Entity with type " + entity[0] + " and code " + entity[2] + " already exists ! Skipping.");
+								continue;
+							}
+							
+							// Handle the entity type
+							EntityType entityType = null;
+							try {
+								entityType = curatedDataService.getEntityTypeByCode(entity[0]);
+							} catch (final NoResultException e) {
+								// Can happen
+							}
+							
+							// No existing entity type, so we create a new one
+							if (null == entityType) {
+								entityType = curatedDataService.createEntityType(entity[0], entity[1]);
+							}
+							
+							
+							// Handle the entity parent
+							Entity parent = null;
+							if ((null != entity[4]) && !"".equals(entity[4]) && (null != entity[5]) && !"".equals(entity[5])) {
+								try {
+								parent = curatedDataService.getEntityByCodeAndType(entity[4], entity[5]);
+								} catch (final NoResultException e) {
+									// Should not happen 
+									final String msg = "Entity parent with type " + entity[5] + " and code " + entity[4] + " does not exist ! Skipping.";
+									logger.warn(msg);
+									final JsonObject error = new JsonObject();
+									error.addProperty("message", msg);
+									errors.add(error);
+									response.addProperty("status", "nok");
+									continue;
+								}
+							}
+							Long parentId = null;
+							if (null != parent) {
+								parentId = parent.getId();
+							}
+							curatedDataService.createEntity(entity[2], entity[3], entityType.getCode(), parentId);
+						} catch (final Exception e) {
+							final String msg = "Error creating Entity from CSV file at line [" + index + "] with values " + Arrays.toString(entity);
+							logger.warn(msg, e);
+							final JsonObject error = new JsonObject();
+							error.addProperty("message", msg);
+							errors.add(error);
+							response.addProperty("status", "nok");
+						}
+					}
+				} catch (final Exception e) {
+					final String msg = "Error creating Entity from CSV from file at line [" + index + "] with message = " + e.getMessage();
+					logger.warn(msg, e);
+					final JsonObject error = new JsonObject();
+					error.addProperty("message", msg);
+					errors.add(error);
+					response.addProperty("status", "nok");
+				}
+			}
+		}
+
+		final JsonElement status = response.get("status");
+		if ((null == status) || !"nok".equals(status.getAsString())) {
+			response.addProperty("status", "ok");
+		}
+		return response.toString();
+	}
+
 	@POST
 	@Path("/curated/entities/submitDelete")
 	public Response deleteEntity(@FormParam("entityId") final long entityId, @Context final UriInfo uriInfo) {
@@ -1479,7 +1600,7 @@ public class AdminResource {
 		String result = "";
 		final List<ImportFromCKAN> importsFromCKAN = curatedDataService.listImportsFromCKAN();
 		final Map<Long, Long> countIndicatorsByImport = curatedDataService.countIndicatorsByImport();
-		
+
 		final JsonArray jsonArray = new JsonArray();
 		for (final ImportFromCKAN importFromCKAN : importsFromCKAN) {
 			final JsonObject jsonImport = new JsonObject();

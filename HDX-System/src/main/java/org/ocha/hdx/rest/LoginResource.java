@@ -63,7 +63,7 @@ public class LoginResource {
 			session.setMaxInactiveInterval(1800);
 
 			if ("admin".equals(hdxService.getUserById(userId).getRole())) {
-				final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/datasets/").build();
+				final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/adminHome/").build();
 				return Response.seeOther(newURI).build();
 			} else {
 				final URI newURI = uriInfo.getBaseUriBuilder().path("api/yearly/source/acled/indicatortype/PVX040/BarChart/").build();

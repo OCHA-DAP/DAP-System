@@ -242,4 +242,47 @@ app.controller('EntitiesCtrl', function($scope, $filter, utilities) {
     var theEntity = filteredEntities && 0 < filteredEntities.length ? filteredEntities[0] : null;
     return theEntity;
   }
+  
+  // Create entities with file upload
+  // ================================
+  $scope.entitiesFile = null;
+  $scope.strippedFileName = "";
+
+  $scope.setFileName = function(a) {
+    if (a && a.value && a.value !== "") {
+      $scope.strippedFileName = a.value.replace(/^.*[\\\/]/, '');
+    } else {
+      $scope.strippedFileName = "";
+    }
+  };
+
+  $scope.startUploading = function() {
+    console.log('uploading....')
+  };
+
+  $scope.uploadComplete = function(content) {
+    if ("ok" === content.status) {
+      alert("Entities Creation file uploaded and processed.");
+    } else {
+      var errors = "";
+      if (content.errors && 0 < content.errors.length) {
+        for (var i = 0; i < content.errors.length; i++) {
+          var msg = "no info";
+          if (content.errors[i].message) {
+            msg = content.errors[i].message;
+          }
+          errors += msg + "\r\n";
+        }
+      } else {
+        errors = "no errors declared.";
+      }
+      alert("Entities Creation file uploaded and processed with errors : " + errors);
+    }
+    $scope.entitiesFile = null;
+    $scope.strippedFileName = "";
+    $scope.resetNewEntity();
+    $scope.resetCreateResourceForm();
+    $scope.loadEntityCodes();
+    $scope.loadEntities();
+  };
 });

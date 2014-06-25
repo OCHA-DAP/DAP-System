@@ -34,9 +34,11 @@ public interface CuratedDataService {
 	 */
 	public List<EntityType> listEntityTypes();
 
-	public void createEntityType(final String code, final String name);
+	public EntityType createEntityType(final String code, final String name);
 
 	public EntityType getEntityType(final long id);
+
+	public EntityType getEntityTypeByCode(final String code);
 
 	public void deleteEntityType(final long entityTypeId);
 

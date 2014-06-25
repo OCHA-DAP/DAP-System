@@ -41,6 +41,19 @@
 					</tr>
 				</table>
 			</form>
+			<form action="${ctx}/admin/curated/entities/createEntitiesFromCSVFile" ng-upload="uploadComplete(content)">
+				<table style="width: 100%">
+					<tr>
+						<td style="width: 1px;"><span class="btn btn-primary btn-file">
+								<span class="glyphicon glyphicon-file"></span>
+								Upload an Entities Creation CSV file&hellip; <input type="file" id="entitiesFile" name="entitiesFile" ng-model="fileName" maxlength='1000000' accept='.csv' ng-file-select
+									onchange="angular.element(this).scope().setFileName(this);" />
+							</span></td>
+						<td style="padding-left: 5px; padding-right: 5px;"><input type="text" class="form-control" ng-model="strippedFileName" readonly style="width: 100%;"></td>
+						<td style="width: 10%;"><button class="btn btn-primary btn-custom-default" upload-submit ng-disabled="$isLoading || (fileName && fileName==='')">Upload</button></td>
+					</tr>
+				</table>
+			</form>
 		</div>
 		<search title="Entities"></search>
 		<div ng-controller="I18nCtrl">
@@ -64,8 +77,8 @@
 						<!-- editable name --> <span editable-text="entity.name" e-class="form-control" e-name="name" e-id="name" e-form="rowform" e-required> {{ entity.name }} </span>
 					</td>
 					<td>
-						<!-- editable parent --> <span editable-select="entity.parent.id" e-class="form-control" e-name="parent" e-id="parent" e-form="rowform" e-ng-options="e.id as e.code for e in entityCodes | filter: filterEntityCodes(entity.id)">
-							{{showParent(entity)}} </span>
+						<!-- editable parent --> <span editable-select="entity.parent.id" e-class="form-control" e-name="parent" e-id="parent" e-form="rowform"
+							e-ng-options="e.id as e.code for e in entityCodes | filter: filterEntityCodes(entity.id)"> {{showParent(entity)}} </span>
 					</td>
 					<td><jsp:include page="i18n.jsp">
 							<jsp:param name="item" value="entity" />
