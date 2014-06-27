@@ -12,6 +12,7 @@ import org.ocha.hdx.importer.HDXWithCountryListImporter;
 import org.ocha.hdx.importer.PreparedData;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.ScraperValidatingImporter;
+import org.ocha.hdx.importer.WfpImporter;
 import org.ocha.hdx.importer.report.ImportReport;
 import org.ocha.hdx.importer.report.Status;
 import org.ocha.hdx.model.validation.ValidationReport;
@@ -29,6 +30,7 @@ import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.validation.DummyValidator;
 import org.ocha.hdx.validation.ScraperValidator;
+import org.ocha.hdx.validation.WfpValidator;
 import org.ocha.hdx.validation.itemvalidator.IValidatorCreator;
 import org.ocha.hdx.validation.prevalidator.IPreValidatorCreator;
 import org.slf4j.Logger;
@@ -79,6 +81,8 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		switch (type) {
 		case DUMMY:
 			return new DummyValidator().evaluateFile(file);
+		case WFP:
+			return new WfpValidator().evaluateFile(file);
 		case SCRAPER_VALIDATING:
 			final ValidationReport validationReport = new ScraperValidator().evaluateFile(file);
 			// since we're using the same validator for both types, we're setting the correct type afterwards
@@ -101,11 +105,17 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		case DUMMY:
 			preparedData = defaultImportFail(file);
 			break;
-		case SCRAPER_VALIDATING:
+		case SCRAPER_VALIDATING: {
 			final ScraperValidatingImporter importer = new ScraperValidatingImporter(sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(config), config, validatorCreators,
 					preValidatorCreators, validationReport, indicatorCreationService);
 			creatingMissingEntities(file, importer);
 			preparedData = importer.prepareDataForImport(file);
+		}
+			break;
+		case WFP: {
+			final WfpImporter importer = new WfpImporter(curatedDataService, indicatorCreationService);
+			preparedData = importer.prepareDataForImport(file);
+		}
 			break;
 		default:
 			preparedData = defaultImportFail(file);

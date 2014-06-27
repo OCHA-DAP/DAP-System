@@ -32,7 +32,7 @@ public class CKANDataset {
 	}
 
 	public enum Type {
-		SCRAPER_VALIDATING, DUMMY;
+		SCRAPER_VALIDATING, WFP, DUMMY;
 	}
 
 	@Id
@@ -50,15 +50,15 @@ public class CKANDataset {
 		this.maintainer_email = maintainer_email;
 		this.author = author;
 		this.author_email = author_email;
-		this.status = Status.PENDING;
-		this.type = null;
+		status = Status.PENDING;
+		type = null;
 	}
 
 	@Column(name = "title", nullable = false, updatable = true)
 	private String title;
 
 	public String getTitle() {
-		return this.title;
+		return title;
 	}
 
 	public void setTitle(final String title) {
@@ -75,7 +75,7 @@ public class CKANDataset {
 	private ResourceConfiguration configuration;
 
 	public Status getStatus() {
-		return this.status;
+		return status;
 	}
 
 	public void setStatus(final Status status) {
@@ -87,7 +87,7 @@ public class CKANDataset {
 	private Type type;
 
 	public Type getType() {
-		return this.type;
+		return type;
 	}
 
 	public void setType(final Type type) {
@@ -95,7 +95,7 @@ public class CKANDataset {
 	}
 
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	@Column(name = "maintainer", nullable = true, updatable = true)
@@ -108,23 +108,23 @@ public class CKANDataset {
 	private String author_email;
 
 	public String getMaintainer() {
-		return this.maintainer;
+		return maintainer;
 	}
 
 	public String getMaintainer_email() {
-		return this.maintainer_email;
+		return maintainer_email;
 	}
 
 	public String getAuthor() {
-		return this.author;
+		return author;
 	}
 
 	public String getAuthor_email() {
-		return this.author_email;
+		return author_email;
 	}
 
 	public ResourceConfiguration getConfiguration() {
-		return this.configuration;
+		return configuration;
 	}
 
 	public void setConfiguration(final ResourceConfiguration configuration) {

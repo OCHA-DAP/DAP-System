@@ -30,13 +30,15 @@ public class SourceDAOImpl implements SourceDAO {
 
 	@Override
 	@Transactional
-	public void createSource(final String code, final Text name, final String link, final Organization organization) {
+	public Source createSource(final String code, final Text name, final String link, final Organization organization) {
 		final Source source = new Source();
 		source.setCode(code);
 		source.setName(name);
 		source.setOrgLink(link);
 		source.setOrganization(organization);
 		em.persist(source);
+		
+		return source;
 	}
 
 	@Override

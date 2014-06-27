@@ -12,7 +12,7 @@ public interface SourceDAO {
 
 	public List<Source> listSourcesForIndicatorType(String indicatorTypeCode);
 
-	public void createSource(String code, Text name, String link, Organization organization);
+	public Source createSource(String code, Text name, String link, Organization organization);
 
 	public Source getSourceByCode(String code);
 

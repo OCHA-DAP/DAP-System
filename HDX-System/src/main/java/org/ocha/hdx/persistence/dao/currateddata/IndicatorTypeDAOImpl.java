@@ -32,14 +32,15 @@ public class IndicatorTypeDAOImpl implements IndicatorTypeDAO {
 
 	@Override
 	@Transactional
-	public void createIndicatorType(final String code, final Text name, final Unit unit, final ValueType valueType) {
+	public IndicatorType createIndicatorType(final String code, final Text name, final Unit unit, final ValueType valueType) {
 		final IndicatorType indicatorType = new IndicatorType();
 		indicatorType.setCode(code);
 		indicatorType.setName(name);
 		indicatorType.setUnit(unit);
 		indicatorType.setValueType(valueType);
 		em.persist(indicatorType);
-
+		
+		return indicatorType;
 	}
 
 	@Override

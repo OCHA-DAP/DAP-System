@@ -14,7 +14,7 @@ public interface IndicatorTypeDAO {
 
 	public List<IndicatorTypeCount> listIndicatorTypeCounts();
 
-	public void createIndicatorType(String code, Text name, Unit unit, ValueType valueType);
+	public IndicatorType createIndicatorType(String code, Text name, Unit unit, ValueType valueType);
 
 	public IndicatorType getIndicatorTypeByCode(String code);
 

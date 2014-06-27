@@ -31,18 +31,20 @@ public class EntityDAOImpl implements EntityDAO {
 
 	@Override
 	@Transactional
-	public void createEntity(final String code, final Text name, final EntityType entityType) {
+	public Entity createEntity(final String code, final Text name, final EntityType entityType) {
 		final Entity entity = new Entity();
 		entity.setCode(code);
 		entity.setName(name);
 		entity.setType(entityType);
 
 		em.persist(entity);
+		
+		return entity;
 	}
 
 	@Override
 	@Transactional
-	public void createEntity(final String code, final Text name, final EntityType entityType, final long parentId) {
+	public Entity createEntity(final String code, final Text name, final EntityType entityType, final long parentId) {
 		final Entity entity = new Entity();
 		entity.setCode(code);
 		entity.setName(name);
@@ -50,6 +52,8 @@ public class EntityDAOImpl implements EntityDAO {
 		entity.setParent(getEntityById(parentId));
 
 		em.persist(entity);
+		
+		return entity;
 	}
 
 	@Override

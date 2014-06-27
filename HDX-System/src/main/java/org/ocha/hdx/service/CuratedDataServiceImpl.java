@@ -151,15 +151,16 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	@Transactional
-	public void createEntity(final String code, final String defaultName, final String entityTypeCode, final Long parentId) {
+	public Entity createEntity(final String code, final String defaultName, final String entityTypeCode, final Long parentId) {
 		final EntityType entityType = entityTypeDAO.getEntityTypeByCode(entityTypeCode);
-
+		Entity result = null;
 		final Text text = textDAO.createText(defaultName);
 		if (null == parentId) {
-			entityDAO.createEntity(code, text, entityType);
+			result = entityDAO.createEntity(code, text, entityType);
 		} else {
-			entityDAO.createEntity(code, text, entityType, parentId);
+			result = entityDAO.createEntity(code, text, entityType, parentId);
 		}
+		return result;
 	}
 
 	@Override

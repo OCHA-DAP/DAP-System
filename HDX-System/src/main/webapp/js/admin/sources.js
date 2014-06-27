@@ -86,6 +86,11 @@ app.controller('SourcesCtrl', function($scope, $filter, utilities) {
       utilities.setFocus('newResource_name');
       return "Name cannot be empty.";
     }
+    var organization = data.organization;
+    if (!organization || null === organization || '' === organization) {
+      utilities.setFocus('newResource_organization');
+      return "Organization cannot be empty.";
+    }
     return "OK";
   };
 

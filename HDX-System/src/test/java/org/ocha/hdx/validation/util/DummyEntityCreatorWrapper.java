@@ -7,7 +7,9 @@ import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
 import org.ocha.hdx.persistence.dao.currateddata.UnitDAO;
 import org.ocha.hdx.persistence.dao.i18n.TextDAO;
 import org.ocha.hdx.persistence.entity.curateddata.EntityType;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType;
+import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +41,27 @@ public class DummyEntityCreatorWrapper {
 
 	public class DummyEntityCreator {
 
+		// Vars for scraper
 		private Text srcText;
 		private Text indTypeText;
 		private Text countryType;
 		private Text entityText;
+
+		// Vars for wfp
+		private Text srcWfpText;
+		private Source srcWfp;
+		private Text countryText;
+		private Text subnationalText;
+		private EntityType countryEntityType;
+		private EntityType subnationalEntityType;
+		private Text poorText;
+		private Text borderlineText;
+		private Text acceptableText;
+		private Text percentageUnitText;
+		private Unit percentageUnit;
+		private IndicatorType poor;
+		private IndicatorType borderline;
+		private IndicatorType acceptable;
 
 		public void createNeededIndicatorTypeAndSource() {
 			srcText = textDAO.createText("Source 1");
@@ -55,13 +74,55 @@ public class DummyEntityCreatorWrapper {
 
 			indicatorTypeDAO.createIndicatorType("PSP080", indTypeText, unit, ValueType.NUMBER);
 
-
 			countryType = textDAO.createText("Country");
 			entityTypeDAO.createEntityType("country", countryType);
 			final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
 
 			entityText = textDAO.createText("Finland");
 			entityDAO.createEntity("Fi", entityText, country);
+		}
+
+		public void createNeededIndicatorTypeAndSourceForWfp() {
+			srcWfpText = textDAO.createText("World Food Program");
+			srcWfp = sourceDAO.createSource("WFP", srcWfpText, "www.wfp.org", null);
+
+			poorText = textDAO.createText("Poor");
+			borderlineText = textDAO.createText("Borderline");
+			acceptableText = textDAO.createText("Acceptable");
+
+			percentageUnitText = textDAO.createText("Percentage");
+			percentageUnit = unitDAO.createUnit("percentage of population", percentageUnitText);
+
+			poor = indicatorTypeDAO.createIndicatorType("PVF040", poorText, percentageUnit, ValueType.NUMBER);
+			borderline = indicatorTypeDAO.createIndicatorType("PVF050", borderlineText, percentageUnit, ValueType.NUMBER);
+			acceptable = indicatorTypeDAO.createIndicatorType("WFP_ACCEPTABLE", acceptableText, percentageUnit, ValueType.NUMBER);
+
+			countryText = textDAO.createText("Country");
+			countryEntityType = entityTypeDAO.createEntityType("country", countryText);
+
+			subnationalText = textDAO.createText("Subnational");
+			subnationalEntityType = entityTypeDAO.createEntityType("subnational", subnationalText);
+		}
+
+		public void deleteNeededIndicatorTypeAndSourceForWfp() {
+			indicatorTypeDAO.deleteIndicatorType(poor.getId());
+			indicatorTypeDAO.deleteIndicatorType(borderline.getId());
+			indicatorTypeDAO.deleteIndicatorType(acceptable.getId());
+
+			unitDAO.deleteUnit(percentageUnit.getId());
+
+			entityTypeDAO.deleteEntityType(subnationalEntityType.getId());
+			entityTypeDAO.deleteEntityType(countryEntityType.getId());
+			
+			sourceDAO.deleteSource(srcWfp.getId());
+
+			textDAO.deleteText(srcWfpText.getId());
+			textDAO.deleteText(countryText.getId());
+			textDAO.deleteText(subnationalText.getId());
+			textDAO.deleteText(poorText.getId());
+			textDAO.deleteText(borderlineText.getId());
+			textDAO.deleteText(acceptableText.getId());
+			textDAO.deleteText(percentageUnitText.getId());
 		}
 
 		public void deleteNeededIndicatorTypeAndSource() {

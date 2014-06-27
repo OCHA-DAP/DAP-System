@@ -10,9 +10,9 @@ public interface EntityDAO {
 
 	public List<Entity> listEntities();
 
-	public void createEntity(String code, Text name, final EntityType entityType);
+	public Entity createEntity(String code, Text name, final EntityType entityType);
 
-	public void createEntity(String code, Text name, final EntityType entityType, long parentId);
+	public Entity createEntity(String code, Text name, final EntityType entityType, long parentId);
 
 	public Entity getEntityByCodeAndType(String code, String type);
 

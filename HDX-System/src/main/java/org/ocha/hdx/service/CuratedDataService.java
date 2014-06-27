@@ -49,7 +49,7 @@ public interface CuratedDataService {
 	 */
 	public List<Entity> listEntities();
 
-	public void createEntity(final String code, final String defaultName, final String entityTypeCode, final Long parentId);
+	public Entity createEntity(final String code, final String defaultName, final String entityTypeCode, final Long parentId);
 
 	public Entity getEntity(final long id);
 
