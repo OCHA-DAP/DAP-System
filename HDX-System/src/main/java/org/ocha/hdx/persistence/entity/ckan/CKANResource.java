@@ -86,6 +86,11 @@ public class CKANResource {
 			return true;
 		}
 
+		@Override
+		public String toString() {
+			return "Id [id=" + id + ", revision_id=" + revision_id + "]";
+		}
+
 	}
 
 	public CKANResource() {
