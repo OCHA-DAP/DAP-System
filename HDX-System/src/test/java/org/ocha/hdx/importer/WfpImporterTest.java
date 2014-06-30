@@ -51,7 +51,7 @@ public class WfpImporterTest {
 
 		final PreparedData preparedData = wfpImporter.prepareDataForImport(file);
 		Assert.assertTrue(preparedData.isSuccess());
-		Assert.assertEquals(329 * 3, preparedData.getIndicatorsToImport().size());
+		Assert.assertEquals(329 * 2, preparedData.getIndicatorsToImport().size());
 
 		entityCreator.deleteNeededIndicatorTypeAndSourceForWfp();
 	}

@@ -259,6 +259,11 @@ public class HDXServiceImpl implements HDXService {
 	}
 
 	@Override
+	public void updateDataset(final String datasetName, final String importer, final Long configurationId) {
+		datasetDAO.updateDataset(datasetName, importer, configurationId);
+	}
+
+	@Override
 	@Transactional
 	public void downloadFileForCKANResource(final String id, final String revision_id) throws IOException {
 		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
