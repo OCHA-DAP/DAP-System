@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.http.HttpEntity;
@@ -162,10 +163,12 @@ public class HDXServiceImpl implements HDXService {
 	@Override
 	@Transactional
 	public void checkForNewCKANResources() {
-		final List<String> datasetList = getDatasetNamesFromQuery(technicalAPIKey);
+		// final List<String> datasetList = getDatasetNamesFromQuery(technicalAPIKey);
 		final Map<String, CKANDataset> datasetToBeCuratedMap = datasetDAO.listToBeCuratedCKANDatasets();
-		for (final String datasetName : datasetList) {
-			final CKANDataset ckanDataset = datasetToBeCuratedMap.get(datasetName);
+		// for (final String datasetName : datasetList) {
+		for (final Entry<String, CKANDataset> entry : datasetToBeCuratedMap.entrySet()) {
+			final String datasetName = entry.getKey();
+			final CKANDataset ckanDataset = entry.getValue();
 			if (ckanDataset != null) {
 				final DatasetV3WrapperDTO dataset = getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
 
@@ -182,8 +185,8 @@ public class HDXServiceImpl implements HDXService {
 							workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
 						}
 
-						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName, dataset.getResult()
-								.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
+						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName,
+								dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
 					}
 				}
 			}
@@ -399,13 +402,13 @@ public class HDXServiceImpl implements HDXService {
 		return getDatasetNamesFromQuery(apiKey);
 	}
 
-	@Override
-	public DatasetV3WrapperDTO getDatasetContentFromCKANV3(final String userId, final String datasetName) throws InsufficientCredentialsException {
-		final String apiKey = userDao.getUserApiKey(userId);
-
-		return getDatasetDTOFromQueryV3(datasetName, apiKey);
-
-	}
+	// @Override
+	// public DatasetV3WrapperDTO getDatasetContentFromCKANV3(final String userId, final String datasetName) throws InsufficientCredentialsException {
+	// final String apiKey = userDao.getUserApiKey(userId);
+	//
+	// return getDatasetDTOFromQueryV3(datasetName, apiKey);
+	//
+	// }
 
 	List<DatasetV3DTO> getDatasetV3DTOsFromQuery(final String apiKey) {
 		final List<String> names = getDatasetNamesFromQuery(apiKey);
@@ -689,14 +692,14 @@ public class HDXServiceImpl implements HDXService {
 		final ResourceConfiguration configuration = resourceConfigurationDAO.getResourceConfigurationById(id);
 		final Set<IndicatorResourceConfigEntry> indicatorConfigEntries = configuration.getIndicatorConfigEntries();
 		final List<String[]> content = new ArrayList<>();
-		if(null != indicatorConfigEntries) {
+		if (null != indicatorConfigEntries) {
 			for (final IndicatorResourceConfigEntry indicatorResourceConfigEntry : indicatorConfigEntries) {
 				final String[] line = new String[4];
 				line[0] = indicatorResourceConfigEntry.getIndicatorType().getCode();
 				line[1] = indicatorResourceConfigEntry.getSource().getCode();
 				line[2] = indicatorResourceConfigEntry.getEntryKey();
 				line[3] = indicatorResourceConfigEntry.getEntryValue();
-				
+
 				content.add(line);
 			}
 		}
@@ -705,7 +708,7 @@ public class HDXServiceImpl implements HDXService {
 		final CSVWriter csvWriter = new CSVWriter(new FileWriter(file), '#');
 		csvWriter.writeAll(content);
 		csvWriter.close();
-		
+
 		// Return the workbook
 		return file;
 	}

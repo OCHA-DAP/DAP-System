@@ -23,7 +23,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 //FIXME reactivate these integration tests when the dedicated ckan instance is ready
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
 public class HDXServiceImplTest {
@@ -63,39 +62,35 @@ public class HDXServiceImplTest {
 		}
 	}
 
-	@Test
-	public void testGetDatasetContentFromCKANV3() throws Exception {
-		{
-			final DatasetV3WrapperDTO dto = hdxService.getDatasetContentFromCKANV3("seustachi", "testforauth");
-			Assert.assertTrue(dto.isSuccess());
-		}
+	// @Test
+	// public void testGetDatasetContentFromCKANV3() throws Exception {
+	// {
+	// final DatasetV3WrapperDTO dto = hdxService.getDatasetContentFromCKANV3("seustachi", "testforauth");
+	// Assert.assertTrue(dto.isSuccess());
+	// }
+	//
+	// try {
+	// hdxService.getDatasetContentFromCKANV3("otherUser", "testforauth");
+	// Assert.fail("Should have raised an InsufficientCredentialsException");
+	// } catch (final InsufficientCredentialsException e) {
+	// }
+	// }
 
-		try {
-			hdxService.getDatasetContentFromCKANV3("otherUser", "testforauth");
-			Assert.fail("Should have raised an InsufficientCredentialsException");
-		} catch (final InsufficientCredentialsException e) {
-		}
-	}
-
-	@Ignore
 	@Test
 	public void testGetDatasetDTOFromQueryV3() {
-		{
-			final DatasetV3WrapperDTO dto = hdxService.getDatasetDTOFromQueryV3("mali-hp-data-test", null);
-			Assert.assertTrue(dto.isSuccess());
-		}
 
 		{
-			final DatasetV3WrapperDTO wrapper = hdxService.getDatasetDTOFromQueryV3("test1", null);
+			final DatasetV3WrapperDTO wrapper = hdxService.getDatasetDTOFromQueryV3("raw-scraperwiki-input", null);
+			Assert.assertTrue(wrapper.isSuccess());
 			final DatasetV3DTO dto = wrapper.getResult();
-			Assert.assertEquals("test1", dto.getName());
-			Assert.assertEquals(1381841484380L, dto.getRevision_timestamp().getTime());
-			Assert.assertEquals("16d36b88-ce78-4a69-94a1-634dd77133fc", dto.getRevision_id());
-			Assert.assertEquals(2, dto.getTags().size());
-			Assert.assertEquals("Junk", dto.getTags().get(0).getName());
-			Assert.assertEquals("toBeCurated", dto.getTags().get(1).getName());
-			Assert.assertEquals(1, dto.getExtras().size());
-			Assert.assertEquals("hdx_status", dto.getExtras().get(0).getKey());
+			Assert.assertEquals("raw-scraperwiki-input", dto.getName());
+			Assert.assertEquals(1396446415229L, dto.getRevision_timestamp().getTime());
+			Assert.assertEquals("bfef925e-537b-454a-8aea-3147bd28935e", dto.getRevision_id());
+			Assert.assertEquals(0, dto.getTags().size());
+			// Assert.assertEquals("Junk", dto.getTags().get(0).getName());
+			// Assert.assertEquals("toBeCurated", dto.getTags().get(1).getName());
+			Assert.assertEquals(0, dto.getExtras().size());
+			// Assert.assertEquals("hdx_status", dto.getExtras().get(0).getKey());
 			Assert.assertEquals(1, dto.getResources().size());
 
 			Assert.assertEquals("active", dto.getResources().get(0).getState());
@@ -135,9 +130,11 @@ public class HDXServiceImplTest {
 		// we need to initialize datasets as to be curated to get some data to
 		// work on
 		hdxService.checkForNewCKANDatasets();
-		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
+		final List<CKANDataset> ckandDatasets = ckanDatasetDAO.listCKANDatasets();
+		for (final CKANDataset ckandDataset : ckandDatasets) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
-			hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER_VALIDATING, 0);
+			if (ckandDataset.getName().startsWith("raw"))
+				hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER_VALIDATING, 0);
 		}
 
 		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
