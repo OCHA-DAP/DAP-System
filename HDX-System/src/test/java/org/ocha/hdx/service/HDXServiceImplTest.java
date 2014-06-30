@@ -127,6 +127,7 @@ public class HDXServiceImplTest {
 	}
 
 	@Test
+	@Ignore
 	public void testCheckForNewCKANResources() {
 		// we need to initialize datasets as to be curated to get some data to
 		// work on
