@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -104,15 +105,22 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional
 	public void flagCKANResourceAsOutdated(final String id, final String revision_id) {
-		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		// final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		final CKANResource ckanResourceToFlag = getCKANResource(id, revision_id);
 		ckanResourceToFlag.setWorkflowState(WorkflowState.OUTDATED);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public CKANResource getCKANResource(final String id, final String revision_id) {
-		final CKANResource ret = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
-		return ret;
+		// final CKANResource ret = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r WHERE r.id.id = :id AND r.id.revision_id = :revision_id", CKANResource.class).setParameter("id", id)
+				.setParameter("revision_id", revision_id);
+		try {
+			return query.getSingleResult();
+		} catch (final NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override

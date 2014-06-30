@@ -161,7 +161,6 @@ public class HDXServiceImpl implements HDXService {
 	}
 
 	@Override
-	@Transactional
 	public void checkForNewCKANResources() {
 		// final List<String> datasetList = getDatasetNamesFromQuery(technicalAPIKey);
 		final Map<String, CKANDataset> datasetToBeCuratedMap = datasetDAO.listToBeCuratedCKANDatasets();
