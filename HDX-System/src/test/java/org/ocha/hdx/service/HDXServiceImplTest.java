@@ -98,6 +98,7 @@ public class HDXServiceImplTest {
 	}
 
 	@Test
+	@Ignore
 	public void testGetPrivateDatasetDTOFromQueryV3() {
 		{
 			final DatasetV3WrapperDTO dto = hdxService.getDatasetDTOFromQueryV3("testforauth", null);
@@ -126,6 +127,7 @@ public class HDXServiceImplTest {
 	}
 
 	@Test
+	@Ignore
 	public void testCheckForNewCKANResources() {
 		// we need to initialize datasets as to be curated to get some data to
 		// work on

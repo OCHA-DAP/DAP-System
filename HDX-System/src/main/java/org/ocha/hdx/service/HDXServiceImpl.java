@@ -177,6 +177,7 @@ public class HDXServiceImpl implements HDXService {
 					// if the same id/revisionId is already present, do nothing,
 					// this has already been processed
 					if (resourceDAO.getCKANResource(resource.getId(), resource.getRevision_id()) == null) {
+						log.debug(String.format("Could not find resource for id : %s, revisionId : %s", resource.getId(), resource.getRevision_id()));
 						// If some revisions were detected before, but were not
 						// processed yet, (i.e a revision was uploaded in the
 						// mean time) we mark them as outdated
