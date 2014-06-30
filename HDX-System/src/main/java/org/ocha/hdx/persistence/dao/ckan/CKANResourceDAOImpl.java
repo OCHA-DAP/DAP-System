@@ -54,7 +54,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional
 	public void flagCKANResourceAsDownloaded(final String id, final String revision_id) {
-		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		final CKANResource ckanResourceToFlag = getCKANResource(id, revision_id);
 		ckanResourceToFlag.setWorkflowState(WorkflowState.DOWNLOADED);
 		ckanResourceToFlag.setDownloadDate(new Date());
 	}
@@ -62,7 +62,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional
 	public void flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final ValidationReport report) {
-		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		final CKANResource ckanResourceToFlag = getCKANResource(id, revision_id);
 		ckanResourceToFlag.setWorkflowState(WorkflowState.FILE_PRE_VALIDATION_SUCCESS);
 		ckanResourceToFlag.setEvaluationDate(new Date());
 		ckanResourceToFlag.setEvaluator(report.getValidator());
@@ -72,7 +72,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional
 	public void flagCKANResourceAsFilePreValidationFail(final String id, final String revision_id, final ValidationReport report) {
-		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		final CKANResource ckanResourceToFlag = getCKANResource(id, revision_id);
 		ckanResourceToFlag.setWorkflowState(WorkflowState.FILE_PRE_VALIDATION_FAIL);
 		ckanResourceToFlag.setEvaluationDate(new Date());
 		ckanResourceToFlag.setEvaluator(report.getValidator());
@@ -82,7 +82,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional
 	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport validationReport, final ImportReport importReport) {
-		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		final CKANResource ckanResourceToFlag = getCKANResource(id, revision_id);
 		ckanResourceToFlag.setWorkflowState(WorkflowState.IMPORT_SUCCESS);
 		ckanResourceToFlag.setImportDate(new Date());
 		ckanResourceToFlag.setImporter(importer);
@@ -94,7 +94,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional
 	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report, final ImportReport importReport) {
-		final CKANResource ckanResourceToFlag = em.find(CKANResource.class, new CKANResource.Id(id, revision_id));
+		final CKANResource ckanResourceToFlag = getCKANResource(id, revision_id);
 		ckanResourceToFlag.setWorkflowState(WorkflowState.IMPORT_FAIL);
 		ckanResourceToFlag.setImportDate(new Date());
 		ckanResourceToFlag.setImporter(importer);
