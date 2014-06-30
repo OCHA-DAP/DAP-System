@@ -21,6 +21,8 @@ public interface CKANDatasetDAO {
 
 	public void flagDatasetAsIgnored(String datasetName);
 
+	public void updateDataset(String datasetName, String importer, Long configurationId);
+
 	public List<CKANDataset> listCKANDatasets();
 
 	public Map<String,CKANDataset> listToBeCuratedCKANDatasets();

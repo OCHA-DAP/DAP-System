@@ -51,6 +51,8 @@ public interface HDXService {
 
 	public void flagDatasetAsIgnored(final String datasetName);
 
+	public void updateDataset(final String datasetName, final String importer, final Long configurationId);
+	
 	/**
 	 * 
 	 * downloads the file associated to the given id / revision and flags the record as {@link WorkflowState#DOWNLOADED}

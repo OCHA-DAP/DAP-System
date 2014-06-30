@@ -766,6 +766,13 @@ public class AdminResource {
 		return Response.ok().build();
 	}
 
+	@POST
+	@Path("/status/datasets/updateDatasetImporterAndConfiguration")
+	public Response updateDatasetImporterAndConfiguration(@FormParam("datasetName") final String datasetName, @FormParam("importer") final String importer, @FormParam("configurationId") final Long configurationId) {
+		hdxService.updateDataset(datasetName, importer, configurationId);
+		return Response.ok().build();
+	}
+
 	/*
 	 * Status / resources management
 	 */

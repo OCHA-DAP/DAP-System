@@ -4,6 +4,20 @@ app.controller('DatasetsCtrl', function($scope, utilities) {
   $scope.predicate = 'title';
 
   // Resources
+  $scope.resources = function() {
+    $scope.importers = appData['importers'];
+  }
+  $scope.resources();
+
+  $scope.findConfiguration = function(configName) {
+    if (configName && null != configName && "" !== configName) {
+      var selected = utilities.findSomething($scope.ckan.configurations, "name", configName);
+      var result = (selected && selected.length) ? selected[0].code : "";
+      return result;
+    } else
+      return null;
+  }
+
   $scope.loadDatasets = function() {
     return utilities.loadResource($scope, 'ckan', '/admin/status/datasets/json', function() {
       /*
@@ -11,7 +25,7 @@ app.controller('DatasetsCtrl', function($scope, utilities) {
         for (var i = 0; i < $scope.ckan.datasets.length; i++) {
           var dataset = $scope.ckan.datasets[i];
           angular.extend(dataset, {
-            "newConfiguration" : null
+            "newConfiguration" : $scope.findConfiguration(dataset.configuration.name)
           });
         }
       }
@@ -21,7 +35,28 @@ app.controller('DatasetsCtrl', function($scope, utilities) {
   $scope.loadDatasets();
 
   // Datasets management
-  $scope.showHideIgnoredMessage = "Hide ignored"; 
+  $scope.selectedDataset = {};
+  $scope.selectedImporter = "";
+  $scope.selectedConfiguration = "";
+  $scope.importAndConfigSetup = function(dataset) {
+    $scope.selectedDataset = dataset;
+    $scope.selectedImporter = dataset.type;
+    if ('SCRAPER_VALIDATING' === dataset.type) {
+      $scope.selectedConfiguration = dataset.configuration.id;
+    }
+  }
+
+  $scope.resetSelectedConfiguration = function() {
+    $scope.selectedConfiguration = "";
+  }
+  $scope.setImportAndConfigurationDisabled = function() {
+    var isImporterSet = $scope.selectedImporter && '' !== $scope.selectedImporter;
+    var isScraperValidating = $scope.selectedImporter && 'SCRAPER_VALIDATING' === $scope.selectedImporter;
+    var isConfigSet = $scope.selectedConfiguration && '' !== $scope.selectedConfiguration;
+    return !((isScraperValidating && isConfigSet) || (isImporterSet && !isScraperValidating && !isConfigSet));
+  }
+
+  $scope.showHideIgnoredMessage = "Hide ignored";
   $scope.toggleShowHideIgnored = function() {
     switch ($scope.showHideIgnoredMessage) {
     case 'Hide ignored':
@@ -36,13 +71,21 @@ app.controller('DatasetsCtrl', function($scope, utilities) {
     }
   }
 
+  $scope.showImporter = function(dataset) {
+    return dataset.type
+        + (("SCRAPER_VALIDATING" === dataset.type) ? " (" + ((dataset.configuration.name && dataset.configuration.name) ? dataset.configuration.name : "configuration not set") + ")" : "");
+  }
+  $scope.setImportAndConfiguration = function() {
+    return $scope.updateDatasetImporterAndConfiguration();
+  }
+
   $scope.filterDatasets = function(dataset) {
-    if('Show ignored' === $scope.showHideIgnoredMessage) {
+    if ('Show ignored' === $scope.showHideIgnoredMessage) {
       return dataset.status !== 'IGNORED';
     }
     return true;
   }
-  
+
   $scope.flagForCuration = function(datasetName) {
     var params = {};
     angular.extend(params, {
@@ -79,6 +122,36 @@ app.controller('DatasetsCtrl', function($scope, utilities) {
       url : '/admin/status/datasets/flagDatasetAsIgnored',
       successCallback : function() {
         $scope.loadDatasets();
+      },
+      errorCallback : function() {
+        alert("Dataset update threw an error. No dataset has been updated.");
+        $scope.loadDatasets();
+      }
+    });
+  }
+
+  $scope.updateDatasetImporterAndConfiguration = function() {
+    var params = {};
+    angular.extend(params, {
+      "datasetName" : $scope.selectedDataset.name
+    });
+    angular.extend(params, {
+      "importer" : $scope.selectedImporter
+    });
+    angular.extend(params, {
+      "configurationId" : $scope.selectedConfiguration
+    });
+    return utilities.updateResource({
+      validate : function(data) {
+        return "OK";
+      },
+      data : {},
+      params : params,
+      url : '/admin/status/datasets/updateDatasetImporterAndConfiguration',
+      successCallback : function() {
+        $('#chooseImporterAndConfigModal').modal('hide');
+        $scope.loadDatasets();
+        $('#importerAndConfigChosenModal').modal('show');
       },
       errorCallback : function() {
         alert("Dataset update threw an error. No dataset has been updated.");

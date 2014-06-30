@@ -23,11 +23,11 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 	@Transactional
 	public void importDetectedDatasetsIfNotPresent(final List<DatasetV3DTO> datasets) {
 		for (final DatasetV3DTO datasetV3DTO : datasets) {
-			final CKANDataset dataset = this.em.find(CKANDataset.class, datasetV3DTO.getName());
+			final CKANDataset dataset = em.find(CKANDataset.class, datasetV3DTO.getName());
 			if (dataset == null) {
 				final CKANDataset newDataset = new CKANDataset(datasetV3DTO.getName(), datasetV3DTO.getTitle(), datasetV3DTO.getMaintainer(), datasetV3DTO.getMaintainer_email(),
 						datasetV3DTO.getAuthor(), datasetV3DTO.getAuthor_email());
-				this.em.persist(newDataset);
+				em.persist(newDataset);
 			}
 		}
 	}
@@ -35,7 +35,7 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 	@Override
 	@Transactional
 	public void flagDatasetAsToBeCurated(final String datasetName, final Type type, final ResourceConfiguration configuration) {
-		final CKANDataset dataset = this.em.find(CKANDataset.class, datasetName);
+		final CKANDataset dataset = em.find(CKANDataset.class, datasetName);
 		dataset.setStatus(CKANDataset.Status.TO_BE_CURATED);
 		dataset.setType(type);
 		dataset.setConfiguration(configuration);
@@ -44,21 +44,33 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 	@Override
 	@Transactional
 	public void flagDatasetAsIgnored(final String datasetName) {
-		final CKANDataset dataset = this.em.find(CKANDataset.class, datasetName);
+		final CKANDataset dataset = em.find(CKANDataset.class, datasetName);
 		dataset.setStatus(CKANDataset.Status.IGNORED);
 		dataset.setType(null);
 	}
 
 	@Override
+	@Transactional
+	public void updateDataset(final String datasetName, final String importer, final Long configurationId) {
+		final CKANDataset dataset = em.find(CKANDataset.class, datasetName);
+		dataset.setStatus(CKANDataset.Status.TO_BE_CURATED);
+		dataset.setType(CKANDataset.Type.valueOf(importer));
+		if (null != configurationId) {
+			final ResourceConfiguration resourceConfiguration = em.find(ResourceConfiguration.class, configurationId);
+			dataset.setConfiguration(resourceConfiguration);
+		}
+	}
+
+	@Override
 	public List<CKANDataset> listCKANDatasets() {
-		final TypedQuery<CKANDataset> query = this.em.createQuery("SELECT d FROM CKANDataset d ORDER BY d.name", CKANDataset.class);
+		final TypedQuery<CKANDataset> query = em.createQuery("SELECT d FROM CKANDataset d ORDER BY d.name", CKANDataset.class);
 		return query.getResultList();
 	}
 
 	@Override
-	public Map<String,CKANDataset> listToBeCuratedCKANDatasets() {
-		final Map<String,CKANDataset>  result = new HashMap<>();
-		final TypedQuery<CKANDataset> query = this.em.createQuery("SELECT r FROM CKANDataset r WHERE r.status='TO_BE_CURATED'", CKANDataset.class);
+	public Map<String, CKANDataset> listToBeCuratedCKANDatasets() {
+		final Map<String, CKANDataset> result = new HashMap<>();
+		final TypedQuery<CKANDataset> query = em.createQuery("SELECT r FROM CKANDataset r WHERE r.status='TO_BE_CURATED'", CKANDataset.class);
 		final List<CKANDataset> toBeCuratedDatasets = query.getResultList();
 
 		for (final CKANDataset toBeCuratedDataset : toBeCuratedDatasets) {
@@ -70,18 +82,18 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 	@Override
 	@Transactional
 	public void deleteAllCKANDatasetsRecords() {
-		this.em.createQuery("DELETE FROM CKANDataset").executeUpdate();
+		em.createQuery("DELETE FROM CKANDataset").executeUpdate();
 	}
 
 	@Override
 	public Type getTypeForName(final String name) {
-		final CKANDataset dataset = this.em.find(CKANDataset.class, name);
+		final CKANDataset dataset = em.find(CKANDataset.class, name);
 		return dataset.getType();
 	}
 
 	@Override
 	public String getMaintainerMailForName(final String name) {
-		final CKANDataset dataset = this.em.find(CKANDataset.class, name);
+		final CKANDataset dataset = em.find(CKANDataset.class, name);
 		return dataset.getMaintainer_email();
 	}
 

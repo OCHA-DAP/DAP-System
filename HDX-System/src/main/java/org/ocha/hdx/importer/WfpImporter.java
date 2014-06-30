@@ -105,7 +105,7 @@ public class WfpImporter implements HDXImporter {
 
 				preparedIndicators.add(poorIndicator);
 				preparedIndicators.add(borderlineIndicator);
-				preparedIndicators.add(acceptableIndicator);
+				// preparedIndicators.add(acceptableIndicator); --> Acceptable is not needed, cf. #240
 
 				// Entities 
 				Entity countryEntity = null;
