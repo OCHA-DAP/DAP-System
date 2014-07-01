@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ocha.hdx.persistence.entity.curateddata.Indicator;
-
 public class ImportReport implements Serializable {
 
 	private static final long serialVersionUID = -7350328255412730901L;
@@ -29,10 +27,6 @@ public class ImportReport implements Serializable {
 
 	public void addEntry(final ImportStatus status, final String message) {
 		entries.add(new ImportReportEntry(status, message));
-	}
-
-	public void addEntry(final ImportStatus status, final String message, final Indicator indicator) {
-		entries.add(new ImportReportEntry(status, message, indicator));
 	}
 
 	public List<ImportReportEntry> getEntries() {

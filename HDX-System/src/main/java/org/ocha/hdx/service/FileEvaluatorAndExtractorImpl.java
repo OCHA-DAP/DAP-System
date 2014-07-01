@@ -153,11 +153,10 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			try {
 				curatedDataService.createIndicator(indicator, importFromCKAN);
 				importReport.addEntry(ImportStatus.SUCCESS,
-						String.format("Successfully created indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()), indicator);
+						String.format("Successfully created indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()));
 			} catch (final Exception e) {
 				logger.trace(String.format("Error trying to save Indicator : %s", indicator.toString()));
-				importReport.addEntry(ImportStatus.ERROR, String.format("Failed to create indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()),
-						indicator);
+				importReport.addEntry(ImportStatus.ERROR, String.format("Failed to create indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()));
 			}
 		}
 
