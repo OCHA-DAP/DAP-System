@@ -1,5 +1,6 @@
 package org.ocha.hdx.service;
 
+import java.io.File;
 import java.util.Date;
 
 import javax.persistence.NoResultException;
@@ -25,6 +26,7 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -145,6 +147,20 @@ public class CuratedDataServiceImplTest {
 			final String result = JsonRenderer.renderDataTable(dataTable, true, false, false).toString();
 			result.toString();
 		}
+
+	}
+
+	@Test
+	public void testCreateEntitiesFromCSVFile() throws Exception {
+		Assert.assertEquals(4, curatedDataService.listEntities().size());
+		final File csvFile = new ClassPathResource("samples/entitiesCSV/configuration.csv").getFile();
+		curatedDataService.createEntitiesFromCSVFile(csvFile);
+
+		entityDAO.deleteEntityByCodeAndType("BEL_Brabant_Lasnes", "subnational");
+		entityDAO.deleteEntityByCodeAndType("BEL_Brabant_Waterloo", "subnational");
+		entityDAO.deleteEntityByCodeAndType("BEL_Hainaut", "subnational");
+		entityDAO.deleteEntityByCodeAndType("BEL_Brabant", "subnational");
+		entityDAO.deleteEntityByCodeAndType("BEL", "country");
 
 	}
 }

@@ -20,7 +20,6 @@ import java.util.Set;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -1163,92 +1162,26 @@ public class AdminResource {
 			return response.toString();
 		}
 
-		if ((csvFile != null) && (csvFile.length() > 0)) {
-			CSVReader csvReader = null;
-			List<String[]> entities = null;
-			try {
-				csvReader = new CSVReader(new FileReader(csvFile), '#');
-				entities = csvReader.readAll();
-				csvReader.close();
-			} catch (final IOException e) {
-				final String msg = "Error reading Entities Creation CSV file";
-				logger.warn(msg, e);
-				final JsonObject error = new JsonObject();
-				error.addProperty("message", msg);
-				errors.add(error);
-				response.addProperty("status", "nok");
-				return response.toString();
-			}
-			if (null != entities) {
-				int index = 0;
-				try {
-					for (final String[] entity : entities) {
-						++index;
-						try {
-							// Check if the entity already exists
-							Entity exists = null;
-							try {
-								exists = curatedDataService.getEntityByCodeAndType(entity[2], entity[0]);
-							} catch (final NoResultException e) {
-								// Should happen most frequently
-							}
-							if (null != exists) {
-								logger.warn("Entity with type " + entity[0] + " and code " + entity[2] + " already exists ! Skipping.");
-								continue;
-							}
+		if ((csvFile == null) || (csvFile.length() == 0)) {
+			final String msg = "Trying to create entities from null or empty file";
+			logger.warn(msg);
+			final JsonObject error = new JsonObject();
+			error.addProperty("message", msg);
+			errors.add(error);
+			response.addProperty("status", "nok");
+			return response.toString();
+		}
 
-							// Handle the entity type
-							EntityType entityType = null;
-							try {
-								entityType = curatedDataService.getEntityTypeByCode(entity[0]);
-							} catch (final NoResultException e) {
-								// Can happen
-							}
-
-							// No existing entity type, so we create a new one
-							if (null == entityType) {
-								entityType = curatedDataService.createEntityType(entity[0], entity[1]);
-							}
-
-							// Handle the entity parent
-							Entity parent = null;
-							if ((null != entity[4]) && !"".equals(entity[4]) && (null != entity[5]) && !"".equals(entity[5])) {
-								try {
-									parent = curatedDataService.getEntityByCodeAndType(entity[4], entity[5]);
-								} catch (final NoResultException e) {
-									// Should not happen
-									final String msg = "Entity parent with type " + entity[5] + " and code " + entity[4] + " does not exist ! Skipping.";
-									logger.warn(msg);
-									final JsonObject error = new JsonObject();
-									error.addProperty("message", msg);
-									errors.add(error);
-									response.addProperty("status", "nok");
-									continue;
-								}
-							}
-							Long parentId = null;
-							if (null != parent) {
-								parentId = parent.getId();
-							}
-							curatedDataService.createEntity(entity[2], entity[3], entityType.getCode(), parentId);
-						} catch (final Exception e) {
-							final String msg = "Error creating Entity from CSV file at line [" + index + "] with values " + Arrays.toString(entity);
-							logger.warn(msg, e);
-							final JsonObject error = new JsonObject();
-							error.addProperty("message", msg);
-							errors.add(error);
-							response.addProperty("status", "nok");
-						}
-					}
-				} catch (final Exception e) {
-					final String msg = "Error creating Entity from CSV from file at line [" + index + "] with message = " + e.getMessage();
-					logger.warn(msg, e);
-					final JsonObject error = new JsonObject();
-					error.addProperty("message", msg);
-					errors.add(error);
-					response.addProperty("status", "nok");
-				}
-			}
+		try {
+			curatedDataService.createEntitiesFromCSVFile(csvFile);
+		} catch (final Exception e) {
+			final String msg = "Error reading Entities Creation CSV file";
+			logger.warn(msg, e);
+			final JsonObject error = new JsonObject();
+			error.addProperty("message", msg);
+			errors.add(error);
+			response.addProperty("status", "nok");
+			return response.toString();
 		}
 
 		final JsonElement status = response.get("status");

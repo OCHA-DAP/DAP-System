@@ -69,7 +69,7 @@ public class AllowedIndicatorTypesValidatorCreator implements IPreValidatorCreat
 			final String indTypeCode = line[IND_TYPE_POSITION];
 
 			if (indTypeCode != null && this.allowedTypesSet.contains(indTypeCode.trim())) {
-				response.setDescription("Success");
+				response.setDescription(String.format("Indicator type code %s is allowed", indTypeCode));
 				response.setStatus(ValidationStatus.SUCCESS);
 			} else {
 				response.setDescription(String.format("Indicator type code %s not allowed.", indTypeCode));

@@ -1,5 +1,8 @@
 package org.ocha.hdx.service;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.NoResultException;
 
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.TimeRange;
@@ -50,6 +55,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 import com.google.visualization.datasource.base.TypeMismatchException;
 import com.google.visualization.datasource.datatable.ColumnDescription;
@@ -161,6 +168,66 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			result = entityDAO.createEntity(code, text, entityType, parentId);
 		}
 		return result;
+	}
+
+	@Override
+	public void createEntitiesFromCSVFile(final File csvFile) throws IOException, Exception {
+		CSVReader csvReader = null;
+		List<String[]> entities = null;
+
+		csvReader = new CSVReader(new FileReader(csvFile), '#');
+		entities = csvReader.readAll();
+		csvReader.close();
+
+		if (null != entities) {
+			for (final String[] entity : entities) {
+
+				// Check if the entity already exists
+				Entity exists = null;
+				try {
+					exists = getEntityByCodeAndType(entity[2], entity[0]);
+				} catch (final NoResultException e) {
+					// Should happen most frequently
+				}
+				if (null != exists) {
+					logger.warn("Entity with type " + entity[0] + " and code " + entity[2] + " already exists ! Skipping.");
+					continue;
+				}
+
+				// Handle the entity type
+				EntityType entityType = null;
+				try {
+					entityType = getEntityTypeByCode(entity[0]);
+				} catch (final NoResultException e) {
+					// Can happen
+				}
+
+				// No existing entity type, so we create a new one
+				if (null == entityType) {
+					entityType = createEntityType(entity[0], entity[1]);
+				}
+
+				// Handle the entity parent
+				Entity parent = null;
+				if ((null != entity[4]) && !"".equals(entity[4]) && (null != entity[5]) && !"".equals(entity[5])) {
+					try {
+						parent = getEntityByCodeAndType(entity[4], entity[5]);
+					} catch (final NoResultException e) {
+						// Should not happen
+						final String msg = "Entity parent with type " + entity[5] + " and code " + entity[4] + " does not exist ! Skipping.";
+						logger.warn(msg);
+						throw new Exception(msg);
+					}
+				}
+				Long parentId = null;
+				if (null != parent) {
+					parentId = parent.getId();
+				}
+				createEntity(entity[2], entity[3], entityType.getCode(), parentId);
+
+			}
+		}
+
 	}
 
 	@Override

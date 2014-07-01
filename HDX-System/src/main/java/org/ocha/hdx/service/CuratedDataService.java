@@ -1,5 +1,7 @@
 package org.ocha.hdx.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +52,8 @@ public interface CuratedDataService {
 	public List<Entity> listEntities();
 
 	public Entity createEntity(final String code, final String defaultName, final String entityTypeCode, final Long parentId);
+
+	public void createEntitiesFromCSVFile(File csvFile) throws IOException, Exception;
 
 	public Entity getEntity(final long id);
 
@@ -251,7 +255,8 @@ public interface CuratedDataService {
 	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final List<DataSerie> dataSeries);
 
 	// Country indicators
-	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final Periodicity periodicity, final List<DataSerie> dataSeries);
+	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final Periodicity periodicity,
+			final List<DataSerie> dataSeries);
 
 	/* Indicator reports */
 
