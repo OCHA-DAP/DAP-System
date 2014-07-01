@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 
-class ImportReportEntry implements Serializable {
+public class ImportReportEntry implements Serializable {
 
 	private static final long serialVersionUID = 4090405946027327873L;
 

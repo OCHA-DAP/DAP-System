@@ -32,7 +32,7 @@ public class ImportReport implements Serializable {
 	}
 
 	public void addEntry(final ImportStatus status, final String message, final Indicator indicator) {
-		entries.add(new ImportReportEntry(status, message));
+		entries.add(new ImportReportEntry(status, message, indicator));
 	}
 
 	public List<ImportReportEntry> getEntries() {
