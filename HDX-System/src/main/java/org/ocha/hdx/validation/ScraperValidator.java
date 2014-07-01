@@ -27,7 +27,7 @@ public class ScraperValidator implements HDXValidator {
 
 	@Override
 	public ValidationReport evaluateFile(final File file) {
-		final ValidationReport report = new ValidationReport(CKANDataset.Type.SCRAPER_VALIDATING);
+		final ValidationReport report = new ValidationReport(CKANDataset.Type.SCRAPER_CONFIGURABLE);
 		extractZipContent(file);
 		final File parent = file.getParentFile();
 

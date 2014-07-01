@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 @Component
 public class AllowedIndicatorTypesValidatorCreator implements IPreValidatorCreator {
@@ -26,7 +26,7 @@ public class AllowedIndicatorTypesValidatorCreator implements IPreValidatorCreat
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.ocha.hdx.validation.prevalidator.IPreValidator#getPreValidatorName()
 	 */
 	@Override
@@ -73,7 +73,7 @@ public class AllowedIndicatorTypesValidatorCreator implements IPreValidatorCreat
 				response.setStatus(ValidationStatus.SUCCESS);
 			} else {
 				response.setDescription(String.format("Indicator type code %s not allowed.", indTypeCode));
-				response.setStatus(ValidationStatus.ERROR);
+				response.setStatus(ValidationStatus.WARNING);
 			}
 
 			return response;

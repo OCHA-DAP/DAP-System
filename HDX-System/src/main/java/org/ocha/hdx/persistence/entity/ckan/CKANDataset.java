@@ -17,14 +17,14 @@ import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 public class CKANDataset {
 
 	/**
-	 *
+	 * 
 	 * @author Samuel Eustachi
-	 *
-	 *
+	 * 
+	 * 
 	 *         PENDING : initial Status, the dataset resource won't be processed
-	 *
+	 * 
 	 *         IGNORED : a data manager flagged this as ignored, the dataset resource won't be processed
-	 *
+	 * 
 	 *         TO_BE_CURATED : all resources from this dataset will be curated (using processor (validator, importer...) according to CKANDataset#Type )
 	 */
 	public enum Status {
@@ -32,7 +32,7 @@ public class CKANDataset {
 	}
 
 	public enum Type {
-		SCRAPER_VALIDATING, WFP, DUMMY;
+		SCRAPER_CONFIGURABLE, WFP;
 	}
 
 	@Id
@@ -71,7 +71,7 @@ public class CKANDataset {
 
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "configuration_id", nullable = true)
-	@ForeignKey(name="fk_ckan_dataset_to_resource_config")
+	@ForeignKey(name = "fk_ckan_dataset_to_resource_config")
 	private ResourceConfiguration configuration;
 
 	public Status getStatus() {
@@ -130,7 +130,5 @@ public class CKANDataset {
 	public void setConfiguration(final ResourceConfiguration configuration) {
 		this.configuration = configuration;
 	}
-
-
 
 }

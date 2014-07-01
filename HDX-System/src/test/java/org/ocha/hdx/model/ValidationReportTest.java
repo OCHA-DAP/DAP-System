@@ -14,7 +14,7 @@ public class ValidationReportTest {
 
 	@Test
 	public void testAddEntry() {
-		final ValidationReport report = new ValidationReport(Type.DUMMY);
+		final ValidationReport report = new ValidationReport(Type.SCRAPER_CONFIGURABLE);
 
 		Assert.assertEquals(ValidationStatus.SUCCESS, report.getStatus());
 		Assert.assertTrue(report.isNotInError());
@@ -53,7 +53,7 @@ public class ValidationReportTest {
 
 	@Test
 	public void testAddEntries() {
-		final ValidationReport report = new ValidationReport(Type.DUMMY);
+		final ValidationReport report = new ValidationReport(Type.SCRAPER_CONFIGURABLE);
 
 		Assert.assertEquals(ValidationStatus.SUCCESS, report.getStatus());
 		Assert.assertTrue(report.isNotInError());

@@ -49,7 +49,7 @@ public class AllowedIndicatorTypesValidatorTest {
 
 		testLine[AllowedIndicatorTypesValidatorCreator.IND_TYPE_POSITION] = "test3_indicator_type";
 		final Response responseError = allowedIndicatorTypesValidator.validate(testLine);
-		assertEquals(ValidationStatus.ERROR, responseError.getStatus());
+		assertEquals(ValidationStatus.WARNING, responseError.getStatus());
 	}
 
 }

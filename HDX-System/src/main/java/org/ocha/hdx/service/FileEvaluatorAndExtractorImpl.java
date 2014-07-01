@@ -28,7 +28,6 @@ import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
-import org.ocha.hdx.validation.DummyValidator;
 import org.ocha.hdx.validation.ScraperValidator;
 import org.ocha.hdx.validation.WfpValidator;
 import org.ocha.hdx.validation.itemvalidator.IValidatorCreator;
@@ -79,11 +78,9 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		// FIXME we probably want something else here, map of HDXValidator, or
 		// Factory....
 		switch (type) {
-		case DUMMY:
-			return new DummyValidator().evaluateFile(file);
 		case WFP:
 			return new WfpValidator().evaluateFile(file);
-		case SCRAPER_VALIDATING:
+		case SCRAPER_CONFIGURABLE:
 			final ValidationReport validationReport = new ScraperValidator().evaluateFile(file);
 			// since we're using the same validator for both types, we're setting the correct type afterwards
 			validationReport.setValidator(type);
@@ -102,10 +99,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		// Factory....
 		final PreparedData preparedData;
 		switch (type) {
-		case DUMMY:
-			preparedData = defaultImportFail(file);
-			break;
-		case SCRAPER_VALIDATING: {
+		case SCRAPER_CONFIGURABLE: {
 			final ScraperValidatingImporter importer = new ScraperValidatingImporter(sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(config), config, validatorCreators,
 					preValidatorCreators, validationReport, indicatorCreationService);
 			creatingMissingEntities(file, importer);
@@ -162,7 +156,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 						indicator);
 			} catch (final Exception e) {
 				logger.trace(String.format("Error trying to save Indicator : %s", indicator.toString()));
-				importReport.addEntry(Status.ERROR, String.format("Falied to create indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()),
+				importReport.addEntry(Status.ERROR, String.format("Failed to create indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()),
 						indicator);
 			}
 		}
@@ -171,7 +165,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	}
 
 	private ValidationReport defaultValidationFail(final File file) {
-		final ValidationReport report = new ValidationReport(CKANDataset.Type.DUMMY);
+		final ValidationReport report = new ValidationReport(CKANDataset.Type.WFP);
 
 		report.addEntry(ValidationStatus.ERROR, "Mocked evaluator, always failing");
 		return report;

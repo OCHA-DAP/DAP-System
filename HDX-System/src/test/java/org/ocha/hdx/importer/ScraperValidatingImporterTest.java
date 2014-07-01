@@ -24,15 +24,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * 
  * @author alexandru-m-g
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml",
-		"classpath:/ctx-persistence-test.xml", "classpath:/ctx-service.xml" })
+@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-persistence-test.xml", "classpath:/ctx-service.xml" })
 @Transactional
 public class ScraperValidatingImporterTest {
-
 
 	@Resource
 	private List<IValidatorCreator> validatorCreators;
@@ -52,11 +50,11 @@ public class ScraperValidatingImporterTest {
 	@Test
 	public void testPrepareDataForImport() throws IOException {
 
-		final DummyEntityCreator entityCreator	= this.dummyEntityCreatorWrapper.generateNewEntityCreator();
+		final DummyEntityCreator entityCreator = this.dummyEntityCreatorWrapper.generateNewEntityCreator();
 		entityCreator.createNeededIndicatorTypeAndSource();
 
-		final ScraperValidatingImporter scraperImporter = new ScraperValidatingImporter(null, this.dummyConfigurationCreator.createConfiguration(), this.validatorCreators,
-				this.preValidatorCreators, new ValidationReport(CKANDataset.Type.SCRAPER_VALIDATING), this.indService);
+		final ScraperValidatingImporter scraperImporter = new ScraperValidatingImporter(null, this.dummyConfigurationCreator.createConfiguration(), this.validatorCreators, this.preValidatorCreators,
+				new ValidationReport(CKANDataset.Type.SCRAPER_CONFIGURABLE), this.indService);
 
 		final File csvValueFile = new ClassPathResource("samples/scraper/csv.zip").getFile();
 
@@ -71,7 +69,6 @@ public class ScraperValidatingImporterTest {
 		}
 
 		entityCreator.deleteNeededIndicatorTypeAndSource();
-
 
 	}
 }

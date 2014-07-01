@@ -755,7 +755,7 @@ public class AdminResource {
 	@POST
 	@Path("/status/datasets/flagDatasetAsToBeCurated")
 	public Response flagDatasetAsToBeCurated(@FormParam("datasetName") final String datasetName, @FormParam("configuration") final long configuration) {
-		hdxService.flagDatasetAsToBeCurated(datasetName, CKANDataset.Type.SCRAPER_VALIDATING, configuration); // See if change needed
+		hdxService.flagDatasetAsToBeCurated(datasetName, CKANDataset.Type.SCRAPER_CONFIGURABLE, configuration); // See if change needed
 		return Response.ok().build();
 	}
 
@@ -768,7 +768,8 @@ public class AdminResource {
 
 	@POST
 	@Path("/status/datasets/updateDatasetImporterAndConfiguration")
-	public Response updateDatasetImporterAndConfiguration(@FormParam("datasetName") final String datasetName, @FormParam("importer") final String importer, @FormParam("configurationId") final Long configurationId) {
+	public Response updateDatasetImporterAndConfiguration(@FormParam("datasetName") final String datasetName, @FormParam("importer") final String importer,
+			@FormParam("configurationId") final Long configurationId) {
 		hdxService.updateDataset(datasetName, importer, configurationId);
 		return Response.ok().build();
 	}
@@ -1139,7 +1140,6 @@ public class AdminResource {
 		return Response.ok().build();
 	}
 
-	@SuppressWarnings("null")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path("/curated/entities/createEntitiesFromCSVFile")
@@ -1192,11 +1192,11 @@ public class AdminResource {
 							} catch (final NoResultException e) {
 								// Should happen most frequently
 							}
-							if(null != exists) {
+							if (null != exists) {
 								logger.warn("Entity with type " + entity[0] + " and code " + entity[2] + " already exists ! Skipping.");
 								continue;
 							}
-							
+
 							// Handle the entity type
 							EntityType entityType = null;
 							try {
@@ -1204,20 +1204,19 @@ public class AdminResource {
 							} catch (final NoResultException e) {
 								// Can happen
 							}
-							
+
 							// No existing entity type, so we create a new one
 							if (null == entityType) {
 								entityType = curatedDataService.createEntityType(entity[0], entity[1]);
 							}
-							
-							
+
 							// Handle the entity parent
 							Entity parent = null;
 							if ((null != entity[4]) && !"".equals(entity[4]) && (null != entity[5]) && !"".equals(entity[5])) {
 								try {
-								parent = curatedDataService.getEntityByCodeAndType(entity[4], entity[5]);
+									parent = curatedDataService.getEntityByCodeAndType(entity[4], entity[5]);
 								} catch (final NoResultException e) {
-									// Should not happen 
+									// Should not happen
 									final String msg = "Entity parent with type " + entity[5] + " and code " + entity[4] + " does not exist ! Skipping.";
 									logger.warn(msg);
 									final JsonObject error = new JsonObject();

@@ -76,7 +76,6 @@ public class WfpImporter implements HDXImporter {
 		}
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public PreparedData prepareDataForImport(final File file) {
 		final Reporter report = new Reporter();
@@ -107,14 +106,14 @@ public class WfpImporter implements HDXImporter {
 				preparedIndicators.add(borderlineIndicator);
 				// preparedIndicators.add(acceptableIndicator); --> Acceptable is not needed, cf. #240
 
-				// Entities 
+				// Entities
 				Entity countryEntity = null;
 				String countryCode = null;
 				Entity adm1Entity = null;
 				String adm1Code = null;
 				Entity adm2Entity = null;
 				String adm2Code = null;
-				
+
 				// Cell 0 contains country code
 				final Cell countryCodeCell = row.getCell(0);
 				countryCode = countryCodeCell.getStringCellValue();
@@ -135,7 +134,7 @@ public class WfpImporter implements HDXImporter {
 					countryEntity = curatedDataService.createEntity(countryCode, countryName, country.getCode(), null);
 				}
 
-				// Cell 2 contains adm1 (maybe null) 
+				// Cell 2 contains adm1 (maybe null)
 				final Cell adm1Cell = row.getCell(2);
 				if ((null != adm1Cell.getStringCellValue()) && !"".equals(adm1Cell.getStringCellValue())) {
 					adm1Code = countryCode + "_" + convertToAscii(adm1Cell.getStringCellValue());
@@ -150,7 +149,7 @@ public class WfpImporter implements HDXImporter {
 					}
 				}
 
-				// Cell 3 contains adm2 (maybe null) 
+				// Cell 3 contains adm2 (maybe null)
 				final Cell adm2Cell = row.getCell(3);
 				if ((null != adm2Cell.getStringCellValue()) && !"".equals(adm2Cell.getStringCellValue())) {
 					adm2Code = countryCode + "_" + adm1Code + "_" + convertToAscii(adm2Cell.getStringCellValue());
@@ -164,7 +163,7 @@ public class WfpImporter implements HDXImporter {
 						adm2Entity = curatedDataService.createEntity(adm2Code, adm2Name, subnational.getCode(), adm1Entity.getId());
 					}
 				}
-				
+
 				// Cell 4 contains year
 				Integer year = null;
 				final Cell yearCell = row.getCell(4);
@@ -229,9 +228,9 @@ public class WfpImporter implements HDXImporter {
 					logger.debug(msg);
 					report.addEntry(msg);
 				}
-				
+
 				final Calendar start = new GregorianCalendar(year, 0, 1);
-				final Calendar end = new GregorianCalendar(1+year, 0, 1);
+				final Calendar end = new GregorianCalendar(1 + year, 0, 1);
 
 				// Poor
 				poorIndicator.setSourceCode(source.getCode());
@@ -242,7 +241,7 @@ public class WfpImporter implements HDXImporter {
 				poorIndicator.setPeriodicity(periodicity);
 				poorIndicator.setIndicatorImportConfig(indicatorImportConfig);
 				poorIndicator.setSourceLink(source.getOrgLink()); // TODO Check
-				
+
 				poorIndicator.setIndicatorTypeCode(poor.getCode());
 				poorIndicator.setValue(new IndicatorValue(poorValue));
 
@@ -255,7 +254,7 @@ public class WfpImporter implements HDXImporter {
 				borderlineIndicator.setPeriodicity(periodicity);
 				borderlineIndicator.setIndicatorImportConfig(indicatorImportConfig);
 				borderlineIndicator.setSourceLink(source.getOrgLink()); // TODO Check
-				
+
 				borderlineIndicator.setIndicatorTypeCode(borderline.getCode());
 				borderlineIndicator.setValue(new IndicatorValue(borderlineValue));
 
@@ -268,7 +267,7 @@ public class WfpImporter implements HDXImporter {
 				acceptableIndicator.setPeriodicity(periodicity);
 				acceptableIndicator.setIndicatorImportConfig(indicatorImportConfig);
 				acceptableIndicator.setSourceLink(source.getOrgLink()); // TODO Check
-				
+
 				acceptableIndicator.setIndicatorTypeCode(acceptable.getCode());
 				acceptableIndicator.setValue(new IndicatorValue(acceptableValue));
 			}
@@ -279,7 +278,7 @@ public class WfpImporter implements HDXImporter {
 		}
 
 		success = 0 == report.messages.size();
-		
+
 		final PreparedData result = new PreparedData(success, preparedIndicators);
 		return result;
 	}

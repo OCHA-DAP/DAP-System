@@ -23,6 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 //FIXME reactivate these integration tests when the dedicated ckan instance is ready
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
 public class HDXServiceImplTest {
@@ -119,7 +120,7 @@ public class HDXServiceImplTest {
 		Assert.assertTrue(ckanDatasetDAO.listCKANDatasets().size() > 0);
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
-			hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER_VALIDATING, 0);
+			hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER_CONFIGURABLE, 0);
 		}
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.TO_BE_CURATED, ckandDataset.getStatus());
@@ -136,7 +137,7 @@ public class HDXServiceImplTest {
 		for (final CKANDataset ckandDataset : ckandDatasets) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
 			if (ckandDataset.getName().startsWith("raw"))
-				hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER_VALIDATING, 0);
+				hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.SCRAPER_CONFIGURABLE, 0);
 		}
 
 		Assert.assertEquals(0, ckanResourceDAO.listCKANResources().size());
@@ -167,7 +168,7 @@ public class HDXServiceImplTest {
 		for (final CKANDataset ckandDataset : ckanDatasetDAO.listCKANDatasets()) {
 			Assert.assertEquals(CKANDataset.Status.PENDING, ckandDataset.getStatus());
 			if (!ckandDataset.getName().equals("nope")) {
-				hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.DUMMY, 0);
+				hdxService.flagDatasetAsToBeCurated(ckandDataset.getName(), CKANDataset.Type.WFP, 0);
 			}
 		}
 

@@ -96,7 +96,7 @@ public class ScraperValidatingImporterAllIndicatorTypesTest {
 
 		final ResourceConfiguration config = getConfigWithInjectedAllowedIndicators();
 
-		final ValidationReport report = new ValidationReport(CKANDataset.Type.SCRAPER_VALIDATING);
+		final ValidationReport report = new ValidationReport(CKANDataset.Type.SCRAPER_CONFIGURABLE);
 
 		logger.info("Starting 1st phase of import");
 		final TestScraperValidatingImporter importer = new TestScraperValidatingImporter(sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(config), config, validatorCreators,
