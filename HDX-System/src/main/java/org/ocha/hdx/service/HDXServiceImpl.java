@@ -171,22 +171,24 @@ public class HDXServiceImpl implements HDXService {
 			if (ckanDataset != null) {
 				final DatasetV3WrapperDTO dataset = getDatasetDTOFromQueryV3(datasetName, technicalAPIKey);
 
-				final List<Resource> resources = dataset.getResult().getResources();
-				for (final Resource resource : resources) {
-					// if the same id/revisionId is already present, do nothing,
-					// this has already been processed
-					if (resourceDAO.getCKANResource(resource.getId(), resource.getRevision_id()) == null) {
-						log.debug(String.format("Could not find resource for id : %s, revisionId : %s", resource.getId(), resource.getRevision_id()));
-						// If some revisions were detected before, but were not
-						// processed yet, (i.e a revision was uploaded in the
-						// mean time) we mark them as outdated
-						final List<CKANResource> ckanResources = resourceDAO.listCKANResourceRevisions(resource.getId());
-						for (final CKANResource ckanResource : ckanResources) {
-							workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
-						}
+				if (dataset != null && dataset.getResult() != null && dataset.getResult().getResources() != null) {
+					final List<Resource> resources = dataset.getResult().getResources();
+					for (final Resource resource : resources) {
+						// if the same id/revisionId is already present, do nothing,
+						// this has already been processed
+						if (resourceDAO.getCKANResource(resource.getId(), resource.getRevision_id()) == null) {
+							log.debug(String.format("Could not find resource for id : %s, revisionId : %s", resource.getId(), resource.getRevision_id()));
+							// If some revisions were detected before, but were not
+							// processed yet, (i.e a revision was uploaded in the
+							// mean time) we mark them as outdated
+							final List<CKANResource> ckanResources = resourceDAO.listCKANResourceRevisions(resource.getId());
+							for (final CKANResource ckanResource : ckanResources) {
+								workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
+							}
 
-						resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName,
-								dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
+							resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName, dataset.getResult()
+									.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
+						}
 					}
 				}
 			}
