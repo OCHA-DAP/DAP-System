@@ -50,6 +50,8 @@
 							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report"> ${ckanResource.workflowState} </a> evaluated by ${ckanResource.evaluator}
 						</c:if>
 						<c:if test="${ckanResource.workflowState eq 'IMPORT_SUCCESS' || ckanResource.workflowState eq 'IMPORT_FAIL'}">
+							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report"> Full validation Report </a> 
+							<br />
 							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/import-report">${ckanResource.workflowState} </a> imported by ${ckanResource.importer}
 						</c:if>
 					</td>
