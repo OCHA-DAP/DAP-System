@@ -1,5 +1,5 @@
 package org.ocha.hdx.importer.report;
 
-public enum Status {
+public enum ImportStatus {
 	SUCCESS, ERROR;
 }

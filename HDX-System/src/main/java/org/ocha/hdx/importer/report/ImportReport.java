@@ -12,26 +12,26 @@ public class ImportReport implements Serializable {
 
 	public ImportReport() {
 		super();
-		this.overallStatus = Status.SUCCESS;
+		this.overallStatus = ImportStatus.SUCCESS;
 		entries = new ArrayList<>();
 	}
 
-	private final Status overallStatus;
+	private final ImportStatus overallStatus;
 	private final List<ImportReportEntry> entries;
 
-	public Status getOverallStatus() {
+	public ImportStatus getOverallStatus() {
 		return overallStatus;
 	}
 
 	public boolean isSuccess() {
-		return Status.SUCCESS.equals(overallStatus);
+		return ImportStatus.SUCCESS.equals(overallStatus);
 	}
 
-	public void addEntry(final Status status, final String message) {
+	public void addEntry(final ImportStatus status, final String message) {
 		entries.add(new ImportReportEntry(status, message));
 	}
 
-	public void addEntry(final Status status, final String message, final Indicator indicator) {
+	public void addEntry(final ImportStatus status, final String message, final Indicator indicator) {
 		entries.add(new ImportReportEntry(status, message));
 	}
 

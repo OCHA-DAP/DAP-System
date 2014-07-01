@@ -14,7 +14,7 @@ import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.ScraperValidatingImporter;
 import org.ocha.hdx.importer.WfpImporter;
 import org.ocha.hdx.importer.report.ImportReport;
-import org.ocha.hdx.importer.report.Status;
+import org.ocha.hdx.importer.report.ImportStatus;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
@@ -123,7 +123,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		} else {
 			logger.info("Import failed");
 			final ImportReport importReport = new ImportReport();
-			importReport.addEntry(Status.ERROR, "Could not perform import, IMPORTER ran additional validations and found errors. See Validation Report for details");
+			importReport.addEntry(ImportStatus.ERROR, "Could not perform import, IMPORTER ran additional validations and found errors. See Validation Report for details");
 			return importReport;
 		}
 
@@ -152,11 +152,11 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		for (final Indicator indicator : indicators) {
 			try {
 				curatedDataService.createIndicator(indicator, importFromCKAN);
-				importReport.addEntry(Status.SUCCESS, String.format("Successfully created indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()),
-						indicator);
+				importReport.addEntry(ImportStatus.SUCCESS,
+						String.format("Successfully created indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()), indicator);
 			} catch (final Exception e) {
 				logger.trace(String.format("Error trying to save Indicator : %s", indicator.toString()));
-				importReport.addEntry(Status.ERROR, String.format("Failed to create indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()),
+				importReport.addEntry(ImportStatus.ERROR, String.format("Failed to create indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()),
 						indicator);
 			}
 		}
