@@ -26,7 +26,7 @@
 						<label for="source">Please choose an importer to associate with dataset <b>{{selectedDataset.name}}</b></label> 
 						<select style="margin-bottom: 6px;" class="form-control" id="importerForDataset" ng-model="selectedImporter" ng-options="i.name as i.name for i in importers" ng-class="default" ng-change="resetSelectedConfiguration()">
 						</select>
-						<select class="form-control" id="configurationForDataset" ng-model="selectedConfiguration" ng-disabled="selectedImporter !== 'SCRAPER_VALIDATING'" ng-options="c.id as c.name for c in ckan.configurations" ng-class="default">
+						<select class="form-control" id="configurationForDataset" ng-model="selectedConfiguration" ng-disabled="selectedImporter !== 'SCRAPER_CONFIGURABLE'" ng-options="c.id as c.name for c in ckan.configurations" ng-class="default">
 						</select>
 					</div>
 				</div>
@@ -72,7 +72,7 @@
 					</td>
 					<td>
 						<button class="btn btn-primary btn-custom-default" ng-click="importAndConfigSetup(dataset)" data-toggle="modal" data-target="#chooseImporterAndConfigModal">Choose importer & config</button>
-						<button class="btn btn-primary btn-custom-default" ng-click="flagForCuration(dataset.name)" ng-disabled="'' === dataset.type || ('SCRAPER_VALIDATING' === dataset.type && (!dataset.configuration || !dataset.configuration.name))">Flag for curation</button>
+						<button class="btn btn-primary btn-custom-default" ng-click="flagForCuration(dataset.name)" ng-disabled="'' === dataset.type || ('SCRAPER_CONFIGURABLE' === dataset.type && (!dataset.configuration || !dataset.configuration.name))">Flag for curation</button>
 						<button class="btn btn-primary btn-custom-default" ng-click="ignoreDataset(dataset.name)" ng-disabled="dataset.status === 'IGNORED'">Ignore</button></td>
 				</tr>
 			</table>

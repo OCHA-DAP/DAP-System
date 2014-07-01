@@ -41,7 +41,7 @@ app.controller('DatasetsCtrl', function($scope, utilities) {
   $scope.importAndConfigSetup = function(dataset) {
     $scope.selectedDataset = dataset;
     $scope.selectedImporter = dataset.type;
-    if ('SCRAPER_VALIDATING' === dataset.type) {
+    if ('SCRAPER_CONFIGURABLE' === dataset.type) {
       $scope.selectedConfiguration = dataset.configuration.id;
     }
   }
@@ -51,7 +51,7 @@ app.controller('DatasetsCtrl', function($scope, utilities) {
   }
   $scope.setImportAndConfigurationDisabled = function() {
     var isImporterSet = $scope.selectedImporter && '' !== $scope.selectedImporter;
-    var isScraperValidating = $scope.selectedImporter && 'SCRAPER_VALIDATING' === $scope.selectedImporter;
+    var isScraperValidating = $scope.selectedImporter && 'SCRAPER_CONFIGURABLE' === $scope.selectedImporter;
     var isConfigSet = $scope.selectedConfiguration && '' !== $scope.selectedConfiguration;
     return !((isScraperValidating && isConfigSet) || (isImporterSet && !isScraperValidating && !isConfigSet));
   }
@@ -73,7 +73,7 @@ app.controller('DatasetsCtrl', function($scope, utilities) {
 
   $scope.showImporter = function(dataset) {
     return dataset.type
-        + (("SCRAPER_VALIDATING" === dataset.type) ? " (" + ((dataset.configuration.name && dataset.configuration.name) ? dataset.configuration.name : "configuration not set") + ")" : "");
+        + (("SCRAPER_CONFIGURABLE" === dataset.type) ? " (" + ((dataset.configuration.name && dataset.configuration.name) ? dataset.configuration.name : "configuration not set") + ")" : "");
   }
   $scope.setImportAndConfiguration = function() {
     return $scope.updateDatasetImporterAndConfiguration();
