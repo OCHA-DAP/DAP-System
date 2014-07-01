@@ -47,16 +47,11 @@
 					</td>
 					<td>
 						<c:if test="${ckanResource.workflowState eq 'FILE_PRE_VALIDATION_SUCCESS' || ckanResource.workflowState eq 'FILE_PRE_VALIDATION_FAIL'}">
-							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report">
+							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report"> ${ckanResource.workflowState} </a> evaluated by ${ckanResource.evaluator}
 						</c:if>
 						<c:if test="${ckanResource.workflowState eq 'IMPORT_SUCCESS' || ckanResource.workflowState eq 'IMPORT_FAIL'}">
-							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/import-report">
+							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/import-report">${ckanResource.workflowState} </a> imported by ${ckanResource.importer}
 						</c:if>
-						${ckanResource.workflowState}
-						<c:if test="${ckanResource.workflowState eq 'FILE_PRE_VALIDATION_SUCCESS' || ckanResource.workflowState eq 'FILE_PRE_VALIDATION_FAIL'}">
-							</a>evaluated by ${ckanResource.evaluator}</c:if>
-						<c:if test="${ckanResource.workflowState eq 'IMPORT_SUCCESS' || ckanResource.workflowState eq 'IMPORT_FAIL'}">
-							</a> imported by ${ckanResource.importer}</c:if>
 					</td>
 					<td>
 						<c:if test="${ckanResource.isDownloadable()}">
