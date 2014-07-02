@@ -15,7 +15,7 @@
 	Work in progress
 	<ul>
 		<c:forEach var="entry" items="${it.importReport.entries}">
-			<li class="${entry.status}">${entry.status}:${entry.message}, indicator : ${entry.relatedIndicator}</li>
+			<li class="${entry.status}">${entry.status}:${entry.message}</li>
 		</c:forEach>
 	</ul>
 </body>
