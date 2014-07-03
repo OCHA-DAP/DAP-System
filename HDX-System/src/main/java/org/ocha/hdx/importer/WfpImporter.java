@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.EntityType;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
@@ -43,7 +44,6 @@ public class WfpImporter implements HDXImporter {
 	private final IndicatorType borderline;
 	private final IndicatorType acceptable;
 	private final Periodicity periodicity = Periodicity.YEAR;
-	private final IndicatorImportConfig indicatorImportConfig = null;
 
 	public WfpImporter(final CuratedDataService curatedDataService) {
 		this.curatedDataService = curatedDataService;
@@ -233,7 +233,7 @@ public class WfpImporter implements HDXImporter {
 				poorIndicator.setStart(start.getTime());
 				poorIndicator.setEnd(end.getTime());
 				poorIndicator.setPeriodicity(periodicity);
-				poorIndicator.setIndicatorImportConfig(indicatorImportConfig);
+				poorIndicator.setIndicatorImportConfig(new IndicatorImportConfig(poorAsString, ValidationStatus.SUCCESS));
 				poorIndicator.setSourceLink(source.getOrgLink()); // TODO Check
 
 				poorIndicator.setIndicatorTypeCode(poor.getCode());
@@ -246,7 +246,7 @@ public class WfpImporter implements HDXImporter {
 				borderlineIndicator.setStart(start.getTime());
 				borderlineIndicator.setEnd(end.getTime());
 				borderlineIndicator.setPeriodicity(periodicity);
-				borderlineIndicator.setIndicatorImportConfig(indicatorImportConfig);
+				borderlineIndicator.setIndicatorImportConfig(new IndicatorImportConfig(borderlineAsString, ValidationStatus.SUCCESS));
 				borderlineIndicator.setSourceLink(source.getOrgLink()); // TODO Check
 
 				borderlineIndicator.setIndicatorTypeCode(borderline.getCode());
@@ -259,7 +259,7 @@ public class WfpImporter implements HDXImporter {
 				acceptableIndicator.setStart(start.getTime());
 				acceptableIndicator.setEnd(end.getTime());
 				acceptableIndicator.setPeriodicity(periodicity);
-				acceptableIndicator.setIndicatorImportConfig(indicatorImportConfig);
+				acceptableIndicator.setIndicatorImportConfig(new IndicatorImportConfig(acceptableAsString, ValidationStatus.SUCCESS));
 				acceptableIndicator.setSourceLink(source.getOrgLink()); // TODO Check
 
 				acceptableIndicator.setIndicatorTypeCode(acceptable.getCode());
