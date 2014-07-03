@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.hdx.service.CuratedDataService;
-import org.ocha.hdx.service.IndicatorCreationService;
 import org.ocha.hdx.validation.util.DummyEntityCreatorWrapper;
 import org.ocha.hdx.validation.util.DummyEntityCreatorWrapper.DummyEntityCreator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +27,6 @@ public class WfpImporterTest {
 	private CuratedDataService curatedDataService;
 
 	@Autowired
-	private IndicatorCreationService indicatorCreationService;
-
-	@Autowired
 	private DummyEntityCreatorWrapper dummyEntityCreatorWrapper;
 
 	@Test
@@ -39,7 +35,7 @@ public class WfpImporterTest {
 		final DummyEntityCreator entityCreator = dummyEntityCreatorWrapper.generateNewEntityCreator();
 		entityCreator.createNeededIndicatorTypeAndSourceForWfp();
 
-		final WfpImporter wfpImporter = new WfpImporter(curatedDataService, indicatorCreationService);
+		final WfpImporter wfpImporter = new WfpImporter(curatedDataService);
 
 		File file = null;
 		try {

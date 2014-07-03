@@ -107,7 +107,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		}
 			break;
 		case WFP: {
-			final WfpImporter importer = new WfpImporter(curatedDataService, indicatorCreationService);
+			final WfpImporter importer = new WfpImporter(curatedDataService);
 			preparedData = importer.prepareDataForImport(file);
 		}
 			break;

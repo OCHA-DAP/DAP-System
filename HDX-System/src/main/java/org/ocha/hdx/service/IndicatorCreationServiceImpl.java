@@ -59,6 +59,7 @@ public class IndicatorCreationServiceImpl implements IndicatorCreationService {
 		indicator.setEnd(preparedIndicator.getEnd());
 		indicator.setPeriodicity(preparedIndicator.getPeriodicity());
 		indicator.setValue(preparedIndicator.getValue());
+		indicator.setInitialValue(preparedIndicator.getValue().toString());
 		indicator.setIndicatorImportConfig(preparedIndicator.getIndicatorImportConfig());
 		indicator.setSourceLink(preparedIndicator.getSourceLink());
 

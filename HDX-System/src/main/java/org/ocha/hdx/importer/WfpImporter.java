@@ -6,10 +6,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.NoResultException;
 
@@ -26,7 +24,6 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
 import org.ocha.hdx.service.CuratedDataService;
-import org.ocha.hdx.service.IndicatorCreationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +34,6 @@ public class WfpImporter implements HDXImporter {
 
 	Logger logger = LoggerFactory.getLogger(WfpImporter.class);
 
-	private final Map<String, IndicatorType> indicatorTypeCache = new HashMap<String, IndicatorType>();
-	private final IndicatorCreationService indicatorCreationService;
 	private final CuratedDataService curatedDataService;
 
 	private final Source source;
@@ -50,8 +45,7 @@ public class WfpImporter implements HDXImporter {
 	private final Periodicity periodicity = Periodicity.YEAR;
 	private final IndicatorImportConfig indicatorImportConfig = null;
 
-	public WfpImporter(final CuratedDataService curatedDataService, final IndicatorCreationService indicatorCreationService) {
-		this.indicatorCreationService = indicatorCreationService;
+	public WfpImporter(final CuratedDataService curatedDataService) {
 		this.curatedDataService = curatedDataService;
 
 		// Set the source as WFP
