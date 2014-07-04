@@ -42,7 +42,7 @@ public class WorkflowServiceImplTest {
 
 		revision.setWorkflowState(WorkflowState.DOWNLOADED);
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DOWNLOADED));
-		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.OUTDATED));
+		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.OUTDATED));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DETECTED_NEW));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DETECTED_REVISION));
 		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.FILE_PRE_VALIDATION_SUCCESS));
@@ -62,7 +62,7 @@ public class WorkflowServiceImplTest {
 
 		revision.setWorkflowState(WorkflowState.FILE_PRE_VALIDATION_SUCCESS);
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DOWNLOADED));
-		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.OUTDATED));
+		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.OUTDATED));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DETECTED_NEW));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DETECTED_REVISION));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.FILE_PRE_VALIDATION_SUCCESS));
