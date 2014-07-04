@@ -1,66 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
       ">
-	<context:annotation-config />
+  <context:annotation-config />
 
-	<bean id="hdxService" class="org.ocha.hdx.service.HDXServiceImpl">
-		<constructor-arg name="host" value="${ckan.host}" />
-		<constructor-arg name="technicalAPIKey" value="${ckan.technical.api.key}" />
-		<constructor-arg name="stagingDirectory">
-			<bean class="java.io.File">
-				<constructor-arg value="${HDX_FOLDER}/staging" />
-			</bean>
-		</constructor-arg>
-	</bean>
+  <bean id="hdxService" class="org.ocha.hdx.service.HDXServiceImpl">
+    <constructor-arg name="host" value="${ckan.host}" />
+    <constructor-arg name="technicalAPIKey" value="${ckan.technical.api.key}" />
+    <constructor-arg name="stagingDirectory">
+      <bean class="java.io.File">
+        <constructor-arg value="${HDX_FOLDER}/staging" />
+      </bean>
+    </constructor-arg>
+  </bean>
 
-	<bean id="fileEvaluatorAndExtractor" class="org.ocha.hdx.service.FileEvaluatorAndExtractorImpl" />
+  <bean id="fileEvaluatorAndExtractor" class="org.ocha.hdx.service.FileEvaluatorAndExtractorImpl" />
 
-	<bean id="workflowService" class="org.ocha.hdx.service.WorkflowServiceImpl">
-		<constructor-arg>
-			<map key-type="java.lang.String" value-type="java.lang.String">
-				<entry key="DETECTED_NEW" value-ref="listForDetected" />
-				<entry key="DETECTED_REVISION" value-ref="listForRevision" />
-				<entry key="DOWNLOADED" value-ref="listForDownloaded" />
-				<entry key="FILE_PRE_VALIDATION_SUCCESS" value-ref="listForTechEvalSuccess" />
-			</map>
-		</constructor-arg>
-	</bean>
-	<util:list id="listForDetected">
-		<value>OUTDATED</value>
-		<value>DOWNLOADED</value>
-	</util:list>
-	<util:list id="listForRevision">
-		<value>OUTDATED</value>
-		<value>DOWNLOADED</value>
-	</util:list>
-	<util:list id="listForDownloaded">
-		<value>FILE_PRE_VALIDATION_SUCCESS</value>
-		<value>FILE_PRE_VALIDATION_FAIL</value>
-	</util:list>
-	<util:list id="listForTechEvalSuccess">
-		<value>IMPORT_SUCCESS</value>
-		<value>IMPORT_FAIL</value>
-	</util:list>
+  <bean id="workflowService" class="org.ocha.hdx.service.WorkflowServiceImpl">
+    <constructor-arg>
+      <map key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="DETECTED_NEW" value-ref="listForDetected" />
+        <entry key="DETECTED_REVISION" value-ref="listForRevision" />
+        <entry key="DOWNLOADED" value-ref="listForDownloaded" />
+        <entry key="FILE_PRE_VALIDATION_SUCCESS" value-ref="listForTechEvalSuccess" />
+      </map>
+    </constructor-arg>
+  </bean>
+  <util:list id="listForDetected">
+    <value>OUTDATED</value>
+    <value>DOWNLOADED</value>
+  </util:list>
+  <util:list id="listForRevision">
+    <value>OUTDATED</value>
+    <value>DOWNLOADED</value>
+  </util:list>
+  <util:list id="listForDownloaded">
+    <value>FILE_PRE_VALIDATION_SUCCESS</value>
+    <value>FILE_PRE_VALIDATION_FAIL</value>
+    <value>OUTDATED</value>
+  </util:list>
+  <util:list id="listForTechEvalSuccess">
+    <value>IMPORT_SUCCESS</value>
+    <value>IMPORT_FAIL</value>
+    <value>OUTDATED</value>
+  </util:list>
 
-	<bean id="mailService" class="org.ocha.hdx.service.MailServiceImpl">
-		<constructor-arg name="smtpHost" value="${smtp.host}" />
-		<constructor-arg name="smtpPort" value="${smtp.port}" />
-		<constructor-arg name="from" value="${mail.from}" />
-	</bean>
+  <bean id="mailService" class="org.ocha.hdx.service.MailServiceImpl">
+    <constructor-arg name="smtpHost" value="${smtp.host}" />
+    <constructor-arg name="smtpPort" value="${smtp.port}" />
+    <constructor-arg name="from" value="${mail.from}" />
+  </bean>
 
-	<bean id="curatedDataService" class="org.ocha.hdx.service.CuratedDataServiceImpl" />
+  <bean id="curatedDataService" class="org.ocha.hdx.service.CuratedDataServiceImpl" />
 
-    <bean id="exporterService" class="org.ocha.hdx.service.ExporterServiceImpl" />
-    
-    <bean id="indicatorCreationService" class="org.ocha.hdx.service.IndicatorCreationServiceImpl" />
+  <bean id="exporterService" class="org.ocha.hdx.service.ExporterServiceImpl" />
+
+  <bean id="indicatorCreationService" class="org.ocha.hdx.service.IndicatorCreationServiceImpl" />
 
 
-    <!-- Helpers -->    
-    <bean id="readmeHelper" class="org.ocha.hdx.exporter.helper.ReadmeHelperImpl" />
-    
+  <!-- Helpers -->
+  <bean id="readmeHelper" class="org.ocha.hdx.exporter.helper.ReadmeHelperImpl" />
+
 </beans>
