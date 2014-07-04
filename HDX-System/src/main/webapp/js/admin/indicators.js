@@ -247,30 +247,30 @@ app.controller('IndicatorsCtrl', function($scope, $filter, $http, utilities) {
       for (var i = 0; i < data.length; i++) {
         var indicator = data[i];
         
-        var parsedStartDate = data[i].startDate ? $scope.showDate(data[i].startDate) : "";
-        var parsedEndDate = data[i].endDate ? $scope.showDate(data[i].endDate) : "";
+        var parsedStartDate = indicator.startDate ? $scope.showDate(indicator.startDate) : "";
+        var parsedEndDate = indicator.endDate ? $scope.showDate(indicator.endDate) : "";
 
-        var periodicityStartsWithQuote = data[i].periodicity ? (data[i].periodicity.lastIndexOf('"', 0) === 0) : false;
-        var periodicityEndsWithQuote = data[i].periodicity ? (data[i].periodicity.lastIndexOf('"', data[i].periodicity.length - 1) === data[i].periodicity.length - 1) : false;
-        var processedPeriodicity = data[i].periodicity ? ((periodicityStartsWithQuote && periodicityEndsWithQuote) ? data[i].periodicity.substring(1, data[i].periodicity.length - 1) : "") : "";
+        var periodicityStartsWithQuote = indicator.periodicity ? (indicator.periodicity.lastIndexOf('"', 0) === 0) : false;
+        var periodicityEndsWithQuote = indicator.periodicity ? (indicator.periodicity.lastIndexOf('"', indicator.periodicity.length - 1) === indicator.periodicity.length - 1) : false;
+        var processedPeriodicity = indicator.periodicity ? ((periodicityStartsWithQuote && periodicityEndsWithQuote) ? indicator.periodicity.substring(1, indicator.periodicity.length - 1) : indicator.periodicity) : "";
         
-        var valueStartsWithQuote = data[i].value ? (data[i].value.lastIndexOf('"', 0) === 0) : false;
-        var valueEndsWithQuote = data[i].value ? (data[i].value.lastIndexOf('"', data[i].value.length - 1) === data[i].value.length - 1) : false;
-        var processedValue = data[i].value ? ((valueStartsWithQuote && valueEndsWithQuote) ? data[i].value.substring(1, data[i].value.length - 1) : "") : "";
+        var valueStartsWithQuote = indicator.value ? (indicator.value.lastIndexOf('"', 0) === 0) : false;
+        var valueEndsWithQuote =indicator.value ? (indicator.value.lastIndexOf('"', indicator.value.length - 1) === indicator.value.length - 1) : false;
+        var processedValue = indicator.value ? ((valueStartsWithQuote && valueEndsWithQuote) ? indicator.value.substring(1, indicator.value.length - 1) : indicator.value) : "";
         
-        angular.extend(data[i], {
+        angular.extend(indicator, {
           "parsedStartDate" : parsedStartDate
         });
-        angular.extend(data[i], {
+        angular.extend(indicator, {
           "parsedEndDate" : parsedEndDate
         });
-        angular.extend(data[i], {
+        angular.extend(indicator, {
           "processedPeriodicity" : processedPeriodicity
         });
-        angular.extend(data[i], {
+        angular.extend(indicator, {
           "processedValue" : processedValue
         });
-        angular.extend(data[i], {
+        angular.extend(indicator, {
           "processedImportFromCkan" : "TODO"
         });
       }
