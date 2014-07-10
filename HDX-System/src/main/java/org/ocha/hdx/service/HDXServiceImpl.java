@@ -51,6 +51,7 @@ import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
+import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
 import org.ocha.hdx.persistence.entity.configs.IndicatorResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfigEntry;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
@@ -304,6 +305,11 @@ public class HDXServiceImpl implements HDXService {
 
 	@Override
 	public void transformAndImportDataFromFileForCKANResource(final String id, final String revision_id) {
+		if (!workflowService.nextStateIsPossible(id, revision_id, WorkflowState.IMPORTING)) {
+			return;
+		}
+		workflowService.flagCKANResourceAsImporting(id, revision_id);
+
 		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
 
 		final CKANDataset.Type type = getTypeForFile(id, revision_id);

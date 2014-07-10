@@ -27,6 +27,7 @@
         <entry key="DETECTED_REVISION" value-ref="listForRevision" />
         <entry key="DOWNLOADED" value-ref="listForDownloaded" />
         <entry key="FILE_PRE_VALIDATION_SUCCESS" value-ref="listForTechEvalSuccess" />
+        <entry key="IMPORTING" value-ref="listForImporting" />
       </map>
     </constructor-arg>
   </bean>
@@ -44,6 +45,10 @@
     <value>OUTDATED</value>
   </util:list>
   <util:list id="listForTechEvalSuccess">
+    <value>IMPORTING</value>
+    <value>OUTDATED</value>
+  </util:list>
+  <util:list id="listForImporting">
     <value>IMPORT_SUCCESS</value>
     <value>IMPORT_FAIL</value>
     <value>OUTDATED</value>

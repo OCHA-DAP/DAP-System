@@ -67,8 +67,9 @@ public class WorkflowServiceImplTest {
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DETECTED_REVISION));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.FILE_PRE_VALIDATION_SUCCESS));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.FILE_PRE_VALIDATION_FAIL));
-		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_SUCCESS));
-		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_FAIL));
+		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORTING));
+		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_SUCCESS));
+		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_FAIL));
 
 		revision.setWorkflowState(WorkflowState.FILE_PRE_VALIDATION_FAIL);
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DOWNLOADED));
@@ -77,8 +78,19 @@ public class WorkflowServiceImplTest {
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DETECTED_REVISION));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.FILE_PRE_VALIDATION_SUCCESS));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.FILE_PRE_VALIDATION_FAIL));
+		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORTING));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_SUCCESS));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_FAIL));
+
+		revision.setWorkflowState(WorkflowState.IMPORTING);
+		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DOWNLOADED));
+		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.OUTDATED));
+		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DETECTED_NEW));
+		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DETECTED_REVISION));
+		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.FILE_PRE_VALIDATION_SUCCESS));
+		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.FILE_PRE_VALIDATION_FAIL));
+		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_SUCCESS));
+		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.IMPORT_FAIL));
 
 		revision.setWorkflowState(WorkflowState.IMPORT_SUCCESS);
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DOWNLOADED));

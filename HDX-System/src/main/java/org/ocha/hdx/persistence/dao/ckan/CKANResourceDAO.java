@@ -37,6 +37,8 @@ public interface CKANResourceDAO {
 	 */
 	public void flagCKANResourceAsFilePreValidationFail(final String id, final String revision_id, final ValidationReport report);
 
+	public void flagCKANResourceAsImporting(final String id, final String revision_id);
+
 	/**
 	 * 
 	 * @param id

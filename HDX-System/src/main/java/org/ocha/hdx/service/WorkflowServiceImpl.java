@@ -45,6 +45,12 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	@Override
+	public boolean nextStateIsPossible(final String id, final String revision_id, final WorkflowState destinationState) {
+		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
+		return isTransitionPossible(res.getWorkflowState(), destinationState);
+	}
+
+	@Override
 	public boolean flagCKANResourceAsOutdated(final String id, final String revision_id) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.OUTDATED)) {
@@ -83,6 +89,17 @@ public class WorkflowServiceImpl implements WorkflowService {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.FILE_PRE_VALIDATION_FAIL)) {
 			resourceDAO.flagCKANResourceAsFilePreValidationFail(id, revision_id, report);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean flagCKANResourceAsImporting(final String id, final String revision_id) {
+		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
+		if (nextStateIsPossible(res, WorkflowState.IMPORTING)) {
+			resourceDAO.flagCKANResourceAsImporting(id, revision_id);
 			return true;
 		} else {
 			return false;

@@ -26,6 +26,7 @@
 				<th>Revision Ts</th>
 				<th>Configuration name</th>
 				<th>Workflow State</th>
+				<th>Reports</th>
 				<th>Action</th>
 			</tr>
 
@@ -45,14 +46,15 @@
 					<td>
 						<a href="${ctx}/admin/misc/configurations/id/${ckanResource.resourceConfiguration.id}/edit/">${ckanResource.resourceConfiguration.name}</a>
 					</td>
+					<td>${ckanResource.workflowState}</td>
 					<td>
-						<c:if test="${ckanResource.workflowState eq 'FILE_PRE_VALIDATION_SUCCESS' || ckanResource.workflowState eq 'FILE_PRE_VALIDATION_FAIL'}">
-							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report"> ${ckanResource.workflowState} </a> evaluated by ${ckanResource.evaluator}
+						<c:if test="${ckanResource.workflowState eq 'FILE_PRE_VALIDATION_SUCCESS' || ckanResource.workflowState eq 'FILE_PRE_VALIDATION_FAIL' || ckanResource.workflowState eq 'IMPORTING'}">
+							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report"> Validation Report </a> evaluated by ${ckanResource.evaluator}
 						</c:if>
 						<c:if test="${ckanResource.workflowState eq 'IMPORT_SUCCESS' || ckanResource.workflowState eq 'IMPORT_FAIL'}">
-							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report"> Full validation Report </a> 
+							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/report"> Full Validation Report </a> 
 							<br />
-							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/import-report">${ckanResource.workflowState} </a> imported by ${ckanResource.importer}
+							<a target="_blank" href="./${ckanResource.id.id}/${ckanResource.id.revision_id}/import-report">Import Report </a> imported by ${ckanResource.importer}
 						</c:if>
 					</td>
 					<td>
