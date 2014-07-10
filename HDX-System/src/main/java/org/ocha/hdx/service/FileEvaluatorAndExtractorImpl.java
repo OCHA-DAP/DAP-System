@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import org.ocha.hdx.config.DummyConfigurationCreator;
 import org.ocha.hdx.importer.HDXWithCountryListImporter;
 import org.ocha.hdx.importer.PreparedData;
-import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.ScraperValidatingImporter;
 import org.ocha.hdx.importer.WfpImporter;
 import org.ocha.hdx.importer.report.ImportReport;
@@ -127,22 +126,6 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			return importReport;
 		}
 
-	}
-
-	/**
-	 * see {@link FileEvaluatorAndExtractor#incorporatePreparedDataForImport(PreparedData, String, String)}
-	 */
-	@Override
-	@Deprecated
-	public void incorporatePreparedDataForImport(final PreparedData preparedData, final String resourceId, final String revisionId) {
-		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
-		for (final PreparedIndicator preparedIndicator : preparedData.getIndicatorsToImport()) {
-			try {
-				curatedDataService.createIndicator(preparedIndicator, importFromCKAN);
-			} catch (final Exception e) {
-				logger.debug(String.format("Error trying to create preparedIndicator : %s", preparedIndicator.toString()));
-			}
-		}
 	}
 
 	private ImportReport saveReadIndicatorsToDatabase(final List<Indicator> indicators, final String resourceId, final String revisionId) {

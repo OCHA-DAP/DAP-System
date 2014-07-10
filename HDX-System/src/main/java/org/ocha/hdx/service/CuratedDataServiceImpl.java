@@ -13,7 +13,6 @@ import java.util.Map;
 
 import javax.persistence.NoResultException;
 
-import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.TimeRange;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.api.CellDescriptor;
@@ -410,17 +409,17 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	}
 
-	@Override
-	@Transactional
-	public void createIndicator(final PreparedIndicator preparedIndicator, final ImportFromCKAN importFromCKAN) {
-		final Source source = sourceDAO.getSourceByCode(preparedIndicator.getSourceCode());
-		final Entity entity = entityDAO.getEntityByCodeAndType(preparedIndicator.getEntityCode(), preparedIndicator.getEntityTypeCode());
-		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(preparedIndicator.getIndicatorTypeCode());
-
-		indicatorDAO.createIndicator(source, entity, indicatorType, preparedIndicator.getStart(), preparedIndicator.getEnd(), preparedIndicator.getPeriodicity(), preparedIndicator.getValue(),
-				preparedIndicator.getIndicatorImportConfig().getInitialValue(), preparedIndicator.getIndicatorImportConfig().getValidationStatus(), preparedIndicator.getSourceLink(), importFromCKAN);
-
-	}
+	// @Override
+	// @Transactional
+	// public void createIndicator(final PreparedIndicator preparedIndicator, final ImportFromCKAN importFromCKAN) {
+	// final Source source = sourceDAO.getSourceByCode(preparedIndicator.getSourceCode());
+	// final Entity entity = entityDAO.getEntityByCodeAndType(preparedIndicator.getEntityCode(), preparedIndicator.getEntityTypeCode());
+	// final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(preparedIndicator.getIndicatorTypeCode());
+	//
+	// indicatorDAO.createIndicator(source, entity, indicatorType, preparedIndicator.getStart(), preparedIndicator.getEnd(), preparedIndicator.getPeriodicity(), preparedIndicator.getValue(),
+	// preparedIndicator.getIndicatorImportConfig().getInitialValue(), preparedIndicator.getIndicatorImportConfig().getValidationStatus(), preparedIndicator.getSourceLink(), importFromCKAN);
+	//
+	// }
 
 	@Override
 	@Transactional

@@ -2,12 +2,10 @@ package org.ocha.hdx.service;
 
 import java.io.File;
 
-import org.ocha.hdx.importer.PreparedData;
 import org.ocha.hdx.importer.report.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
-import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 
 public interface FileEvaluatorAndExtractor {
 
@@ -28,11 +26,5 @@ public interface FileEvaluatorAndExtractor {
 	 */
 	public ImportReport transformAndImportDataFromResource(final File file, final CKANDataset.Type type, final String resourceId, final String revisionId, ResourceConfiguration config,
 			ValidationReport report);
-
-	/**
-	 * @deprecated use {@link FileEvaluatorAndExtractor#saveReadIndicatorsToDatabase(Indicator, String, String)} instead
-	 */
-	@Deprecated
-	public void incorporatePreparedDataForImport(final PreparedData preparedData, final String resourceId, final String revisionId);
 
 }
