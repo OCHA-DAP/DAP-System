@@ -6,8 +6,7 @@ import java.util.List;
 public class DataSerie implements Comparable<DataSerie> {
 
 	// List of indicators for country overview
-	public static final String[] COUNTRY_OVERVIEW_indicatorsList = new String[] { "CD010", "CD030", "CD050", "CD060", "CD070", "CD080", "CD090", "CG020", "CG030", "CG060", "CG070", "CG080", "CG100",
-			"CG120", "CG140", "CG150", "CG260", "CG290", "CG310", "CG320" };
+	public static final String[] COUNTRY_OVERVIEW_indicatorsList = new String[] { "CG020", "CG030", "CG060", "CG070", "CG080", "CG100", "CG120", "CG140", "CG150", "CG290", "CG310", "CG320" };
 
 	// List of indicators for country RW overview
 	public static final String[] COUNTRY_OVERVIEW_RW_indicatorsList = new String[] { "RW001", "RW002" };
@@ -35,20 +34,17 @@ public class DataSerie implements Comparable<DataSerie> {
 			new DataSerie("PCX100", "world-bank"));
 
 	// List of indicators relevant for country - other
-	public static final List<DataSerie> COUNTRY_OTHER_dataSeries = Arrays.asList(new DataSerie("PCH100", "mdgs"), new DataSerie(
-			"PVX080", "emdat"), new DataSerie("PVX090", "emdat"), new DataSerie("PVX100", "emdat"), new DataSerie("PSE230",
-			"world-bank"), new DataSerie("_Internet users per 100 inhabitants", "mdgs"), new DataSerie("CG300", "world-bank"), new DataSerie(
-			"PSE250", "world-bank"), new DataSerie("PCH110", "world-bank"), new DataSerie("PSP120	", "world-bank"), new DataSerie(
-			"PVN060", "mdgs"), new DataSerie("PVN070", "mdgs"), new DataSerie("_reliefweb_Humanitarian_Bulletin", "reliefweb-api"),
-			new DataSerie("_reliefweb_Humanitarian_Dashboard", "reliefweb-api"), new DataSerie("_reliefweb_Humanitarian_Snapshot", "reliefweb-api"), new DataSerie("_reliefweb_Infographic",
-					"reliefweb-api"), new DataSerie("_reliefweb_Key_Messages", "reliefweb-api"), new DataSerie("_reliefweb_Other", "reliefweb-api"), new DataSerie("_reliefweb_Press_Release",
-					"reliefweb-api"), new DataSerie("_reliefweb_Press_Review", "reliefweb-api"), new DataSerie("_reliefweb_Reference_Map", "reliefweb-api"), new DataSerie(
-					"_reliefweb_Situation_Report", "reliefweb-api"), new DataSerie("_reliefweb_Statement/Speech", "reliefweb-api"), new DataSerie("_reliefweb_Thematic_Map", "reliefweb-api"));
+	public static final List<DataSerie> COUNTRY_OTHER_dataSeries = Arrays.asList(new DataSerie("PCH100", "mdgs"), new DataSerie("PVX080", "emdat"), new DataSerie("PVX090", "emdat"), new DataSerie(
+			"PVX100", "emdat"), new DataSerie("PSE230", "world-bank"), new DataSerie("_Internet users per 100 inhabitants", "mdgs"), new DataSerie("CG300", "world-bank"), new DataSerie("PSE250",
+			"world-bank"), new DataSerie("PCH110", "world-bank"), new DataSerie("PSP120	", "world-bank"), new DataSerie("PVN060", "mdgs"), new DataSerie("PVN070", "mdgs"), new DataSerie(
+			"_reliefweb_Humanitarian_Bulletin", "reliefweb-api"), new DataSerie("_reliefweb_Humanitarian_Dashboard", "reliefweb-api"), new DataSerie("_reliefweb_Humanitarian_Snapshot",
+			"reliefweb-api"), new DataSerie("_reliefweb_Infographic", "reliefweb-api"), new DataSerie("_reliefweb_Key_Messages", "reliefweb-api"), new DataSerie("_reliefweb_Other", "reliefweb-api"),
+			new DataSerie("_reliefweb_Press_Release", "reliefweb-api"), new DataSerie("_reliefweb_Press_Review", "reliefweb-api"), new DataSerie("_reliefweb_Reference_Map", "reliefweb-api"),
+			new DataSerie("_reliefweb_Situation_Report", "reliefweb-api"), new DataSerie("_reliefweb_Statement/Speech", "reliefweb-api"), new DataSerie("_reliefweb_Thematic_Map", "reliefweb-api"));
 
 	// List of indicators relevant for country - 5 years
-	public static final List<DataSerie> COUNTRY_5_YEARS_dataSeries = Arrays.asList(new DataSerie("PVH200", "esa-unpd-wpp2012"),
-			new DataSerie("PSP050", "esa-unpd-wpp2012"), new DataSerie("PVH010", "esa-unpd-wpp2012"), new DataSerie("PVH050", "esa-unpd-wpp2012"), new DataSerie("PVH100", "esa-unpd-wpp2012"),
-			new DataSerie("PVH150", "esa-unpd-wpp2012"));
+	public static final List<DataSerie> COUNTRY_5_YEARS_dataSeries = Arrays.asList(new DataSerie("PVH200", "esa-unpd-wpp2012"), new DataSerie("PSP050", "esa-unpd-wpp2012"), new DataSerie("PVH010",
+			"esa-unpd-wpp2012"), new DataSerie("PVH050", "esa-unpd-wpp2012"), new DataSerie("PVH100", "esa-unpd-wpp2012"), new DataSerie("PVH150", "esa-unpd-wpp2012"));
 
 	// List of indicators relevant for country - RW
 	public static final List<DataSerie> COUNTRY_RW_dataSeries = Arrays.asList(new DataSerie("RW002", "RW"), new DataSerie("RW001", "RW"));

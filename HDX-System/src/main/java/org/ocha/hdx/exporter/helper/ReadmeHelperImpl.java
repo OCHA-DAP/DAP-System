@@ -11,28 +11,30 @@ import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
 
 /**
  * Implementation of the helper interface for the readme parts of reports.
+ * 
  * @author bmichiels
- *
- * TODO Externalize and i18n.
+ * 
+ *         TODO Externalize and i18n.
  */
 public class ReadmeHelperImpl implements ReadmeHelper {
 
 	/**
 	 * A readme sentence.
+	 * 
 	 * @author bmichiels
-	 *
+	 * 
 	 */
 	public static final class ReadmeSentence {
 		/**
 		 * The readme statement.
 		 */
 		private final String sentence;
-		
+
 		/**
 		 * The row index of the statement.
 		 */
 		private final int row;
-		
+
 		/**
 		 * The column index of the statement.
 		 */
@@ -62,7 +64,7 @@ public class ReadmeHelperImpl implements ReadmeHelper {
 	 * The list of all readme sentences.
 	 */
 	private static final List<String> SENTENCES = new ArrayList<String>();
-	
+
 	/**
 	 * The readme descriptors for each type of exporter.
 	 */
@@ -71,8 +73,8 @@ public class ReadmeHelperImpl implements ReadmeHelper {
 	public ReadmeHelperImpl() {
 		SENTENCES.add("This document is an extract of data compiled by automated extraction of data from a variety of online sources and manually compiled sources.");
 		SENTENCES.add("The compilation of data is performed on an ongong basis, generally once per day for the automated sources and less frequently for manually compiled sources.");
-		SENTENCES.add("The compilation is done by the Humanitarian Data Exchange (HDX), a project of the UN Office for the Coordination of Humanitarian Affairs and a part of the ReliefWeb Labs.");
-		SENTENCES.add("More information is available at http://hdx.rwlabs.org");
+		SENTENCES.add("The compilation is done by the Humanitarian Data Exchange (HDX), a project of the UN Office for the Coordination of Humanitarian Affairs.");
+		SENTENCES.add("More information is available at http://docs.hdx.rwlabs.org/");
 		SENTENCES
 				.add("Indicators are organized into several thematic tabs in this file.  All are annual indicators with the exception of the \"5-year indicators\" tab which groups the small set of indicators with 5-year periods.");
 		SENTENCES.add("Field Definitions");
@@ -109,6 +111,7 @@ public class ReadmeHelperImpl implements ReadmeHelper {
 
 	/**
 	 * Get the readme sentences for a country-centric report.
+	 * 
 	 * @return
 	 */
 	private static List<ReadmeSentence> getCountryReadme() {
@@ -146,6 +149,7 @@ public class ReadmeHelperImpl implements ReadmeHelper {
 
 	/**
 	 * Get the readme sentences for an indicator-centric report.
+	 * 
 	 * @return
 	 */
 	private static List<ReadmeSentence> getIndicatorReadme() {
