@@ -309,7 +309,12 @@ public class HDXServiceImpl implements HDXService {
 		final CKANDataset.Type type = getTypeForFile(id, revision_id);
 
 		final ResourceConfiguration config = getResourceConfigFromResourceIdAndRevisionId(id, revision_id);
-		final ValidationReport validationReport = getValidationReportFromResourceIdAndRevisionId(id, revision_id);
+		ValidationReport validationReport = getValidationReportFromResourceIdAndRevisionId(id, revision_id);
+
+		if (validationReport == null) {
+			// Not very likely to happen, but it is possible to have validation only during the import
+			validationReport = new ValidationReport(type);
+		}
 
 		final ImportReport importReport = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type, id, revision_id, config, validationReport);
 
