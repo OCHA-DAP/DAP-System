@@ -48,8 +48,9 @@ public class DataSerie implements Comparable<DataSerie> {
 			new DataSerie("_reliefweb_Situation_Report", "reliefweb-api"), new DataSerie("_reliefweb_Statement/Speech", "reliefweb-api"), new DataSerie("_reliefweb_Thematic_Map", "reliefweb-api"));
 
 	// List of indicators relevant for country - 5 years
-	public static final List<DataSerie> COUNTRY_5_YEARS_dataSeries = Arrays.asList(new DataSerie("PVH200", "esa-unpd-wpp2012"), new DataSerie("PSP050", "esa-unpd-wpp2012"), new DataSerie("PVH010",
-			"esa-unpd-wpp2012"), new DataSerie("PVH050", "esa-unpd-wpp2012"), new DataSerie("PVH100", "esa-unpd-wpp2012"), new DataSerie("PVH150", "esa-unpd-wpp2012"));
+	public static final List<DataSerie> COUNTRY_5_YEARS_dataSeries = Arrays.asList(new DataSerie("PSP050", "esa-unpd-wpp2012"), new DataSerie("PVH010", "esa-unpd-wpp2012"), new DataSerie("PVH050",
+			"esa-unpd-wpp2012"), new DataSerie("PVH100", "esa-unpd-wpp2012"), new DataSerie("PVH120", "data.undp.org"), new DataSerie("PVH150", "esa-unpd-wpp2012"), new DataSerie("PVH180",
+			"data.undp.org"), new DataSerie("PVH190", "mdgs"), new DataSerie("PVH200", "esa-unpd-wpp2012"));
 
 	// List of indicators relevant for country - RW
 	public static final List<DataSerie> COUNTRY_RW_dataSeries = Arrays.asList(new DataSerie("RW002", "RW"), new DataSerie("RW001", "RW"));
