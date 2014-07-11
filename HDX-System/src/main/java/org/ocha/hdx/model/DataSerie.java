@@ -39,13 +39,19 @@ public class DataSerie implements Comparable<DataSerie> {
 					"world-bank"));
 
 	// List of indicators relevant for country - other
-	public static final List<DataSerie> COUNTRY_OTHER_dataSeries = Arrays.asList(new DataSerie("PCH100", "mdgs"), new DataSerie("PVX080", "emdat"), new DataSerie("PVX090", "emdat"), new DataSerie(
-			"PVX100", "emdat"), new DataSerie("PSE230", "world-bank"), new DataSerie("_Internet users per 100 inhabitants", "mdgs"), new DataSerie("CG300", "world-bank"), new DataSerie("PSE250",
-			"world-bank"), new DataSerie("PCH110", "world-bank"), new DataSerie("PSP120	", "world-bank"), new DataSerie("PVN060", "mdgs"), new DataSerie("PVN070", "mdgs"), new DataSerie(
-			"_reliefweb_Humanitarian_Bulletin", "reliefweb-api"), new DataSerie("_reliefweb_Humanitarian_Dashboard", "reliefweb-api"), new DataSerie("_reliefweb_Humanitarian_Snapshot",
-			"reliefweb-api"), new DataSerie("_reliefweb_Infographic", "reliefweb-api"), new DataSerie("_reliefweb_Key_Messages", "reliefweb-api"), new DataSerie("_reliefweb_Other", "reliefweb-api"),
-			new DataSerie("_reliefweb_Press_Release", "reliefweb-api"), new DataSerie("_reliefweb_Press_Review", "reliefweb-api"), new DataSerie("_reliefweb_Reference_Map", "reliefweb-api"),
-			new DataSerie("_reliefweb_Situation_Report", "reliefweb-api"), new DataSerie("_reliefweb_Statement/Speech", "reliefweb-api"), new DataSerie("_reliefweb_Thematic_Map", "reliefweb-api"));
+	public static final List<DataSerie> COUNTRY_OTHER_dataSeries = Arrays.asList(new DataSerie("CG300", "world-bank"), new DataSerie("PCH090", "unicef-infobycountry"),
+			new DataSerie("PCH100", "mdgs"), new DataSerie("PCH110", "world-bank"), new DataSerie("PSE230", "world-bank"), new DataSerie("PSE250", "world-bank"),
+			new DataSerie("PSP120", "world-bank"), new DataSerie("PVH080", "world-bank"), new DataSerie("PVH090", "world-bank"), new DataSerie("PVN060", "mdgs"), new DataSerie("PVN070", "mdgs"),
+			new DataSerie("PVX080", "emdat"), new DataSerie("PVX090", "emdat"), new DataSerie("PVX100", "emdat"), new DataSerie("TT008", "who-gho"), new DataSerie("TT009", "who-gho"), new DataSerie(
+					"TT010", "who-gho"), new DataSerie("TT011", "who-gho"), new DataSerie("TT013", "who-gho"), new DataSerie("TT013R", "who-gho"), new DataSerie("TT013U", "who-gho"), new DataSerie(
+					"TT014", "mdgs"), new DataSerie("TT015", "who-gho"), new DataSerie("TT016", "who-gho"), new DataSerie("TT017", "who-gho"), new DataSerie("TT018", "who-gho"), new DataSerie(
+					"TT019", "who-gho"), new DataSerie("TT020", "who-gho"), new DataSerie("TT024", "who-gho"), new DataSerie("TT024F", "who-gho"), new DataSerie("TT024M", "who-gho"), new DataSerie(
+					"TT025", "who-gho"), new DataSerie("TT025F", "who-gho"), new DataSerie("TT025M", "who-gho"), new DataSerie("TT026", "who-gho"), new DataSerie("TT026F", "who-gho"), new DataSerie(
+					"TT026M", "who-gho"), new DataSerie("TT027", "desa-pop-mig"), new DataSerie("TT027T", "world-bank"), new DataSerie("TT029", "unodc"), new DataSerie("TT030", "world-bank"),
+			new DataSerie("TT031R2", "who-gho"), new DataSerie("TT031R3", "who-gho"), new DataSerie("TT031R5", "who-gho"), new DataSerie("TT031U2", "who-gho"), new DataSerie("TT031U3", "who-gho"),
+			new DataSerie("TT031U5", "who-gho"), new DataSerie("TT032", "who-gho"), new DataSerie("TT033R2", "who-gho"), new DataSerie("TT033R3", "who-gho"), new DataSerie("TT033R5", "who-gho"),
+			new DataSerie("TT033U2", "who-gho"), new DataSerie("TT033U3", "who-gho"), new DataSerie("TT033U5", "who-gho"), new DataSerie("TT034", "who-gho"), new DataSerie("TT035", "who-gho"),
+			new DataSerie("TT036", "world-bank"), new DataSerie("TT037R3", "who-gho"), new DataSerie("TT037R5", "who-gho"), new DataSerie("TT037U3", "who-gho"), new DataSerie("TT037U5", "who-gho"));
 
 	// List of indicators relevant for country - 5 years
 	public static final List<DataSerie> COUNTRY_5_YEARS_dataSeries = Arrays.asList(new DataSerie("PSP050", "esa-unpd-wpp2012"), new DataSerie("PVH010", "esa-unpd-wpp2012"), new DataSerie("PVH050",
