@@ -45,12 +45,11 @@ public class IndicatorDataDAOImpl implements IndicatorDataDAO {
 	public List<IndicatorData> getIndicatorData(final String entityCode, final List<String> indicatorTypeCodes) {
 
 		final TypedQuery<IndicatorData> query = em.createQuery(
-				"SELECT i FROM IndicatorData i WHERE i.countryCode = :entityCode AND i.indicatorTypeCode IN (:indicatorTypeCodes) order by i.indicatorYear", IndicatorData.class);
+				"SELECT i FROM IndicatorData i WHERE i.countryCode = :entityCode AND i.indicatorTypeCode IN :indicatorTypeCodes order by i.indicatorYear", IndicatorData.class);
 
 		query.setParameter("entityCode", entityCode);
 		query.setParameter("indicatorTypeCodes", indicatorTypeCodes);
 
-		// TODO Auto-generated method stub
 		return query.getResultList();
 	}
 }

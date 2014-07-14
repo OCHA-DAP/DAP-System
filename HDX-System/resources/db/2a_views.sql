@@ -94,4 +94,3 @@ where
 	and e.id = i.entity_id
 	and etx.id = e.text_id
 	and et.id = e.entity_type_id
-	and et.code = 'country';

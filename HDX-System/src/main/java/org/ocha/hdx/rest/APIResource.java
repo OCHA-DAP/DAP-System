@@ -727,10 +727,11 @@ public class APIResource {
 	}
 
 	@GET
-	@Path("/exporter/WFP/xslx/{entityCode}/language/{language}/{filename}.csv")
+	@Path("/exporter/country/wfp/xslx/{entityCode}/wfp.xlsx")
 	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	@PermitAll
-	public XSSFWorkbook exportWFPAsXLSX(@PathParam("entityCode") final String entityCode, @PathParam("language") final String language) throws Exception {
+	public XSSFWorkbook exportWFPAsXLSX(@PathParam("entityCode") final String entityCode) throws Exception {
+		logger.debug("Entering exportWFPAsXLSX");
 		return exporterService.getWFPReport(entityCode);
 	}
 }

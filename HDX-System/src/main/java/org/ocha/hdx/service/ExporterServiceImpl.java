@@ -30,6 +30,7 @@ import org.ocha.hdx.exporter.country.ExporterCountryReadme_XLSX;
 import org.ocha.hdx.exporter.helper.ReadmeHelper;
 import org.ocha.hdx.exporter.helper.ReportRow;
 import org.ocha.hdx.exporter.helper.WFPReportRow;
+import org.ocha.hdx.exporter.hierarchical.HierarchicalEntityMultiIndicatorTypesExporter_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorData_CSV;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorData_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorFTSReadme_TXT;
@@ -759,13 +760,21 @@ public class ExporterServiceImpl implements ExporterService {
 
 	@Override
 	public XSSFWorkbook getWFPReport(final String entityCode) {
+		logger.debug("Entering getWFPReport");
 		final List<String> indicators = new ArrayList<>();
 		indicators.add("PVF040");
 		indicators.add("PVF050");
 		indicators.add("WFP_ACCEPTABLE");
 		final List<WFPReportRow> rows = getValuesForIndicatorsAndEntity(entityCode, "country", indicators);
 
-		return null;
+		final HierarchicalEntityMultiIndicatorTypesExporter_XLSX exporter = new HierarchicalEntityMultiIndicatorTypesExporter_XLSX(this, rows);
+		try {
+			return exporter.export(new XSSFWorkbook(), null);
+		} catch (final Exception e) {
+			logger.error(e.toString(), e);
+			return null;
+		}
+
 	}
 
 	@Override
@@ -778,9 +787,11 @@ public class ExporterServiceImpl implements ExporterService {
 	}
 
 	private void getWFPReportRowFromEntity(final List<WFPReportRow> result, final Entity entity, final List<String> indicatorTypes) {
-		if (entity.getChildren() == null) {
+		logger.debug(String.format("Entering getWFPReportRowFromEntity for entity : %s", entity.getCode()));
+		if (entity.getChildren() == null || entity.getChildren().size() == 0) {
 			final WFPReportRow row = new WFPReportRow(entity);
 			final List<IndicatorData> indicatorData = indicatorDataDAO.getIndicatorData(entity.getCode(), indicatorTypes);
+			logger.debug(String.format("Got %d values for entity : %s", indicatorData.size(), entity.getCode()));
 			for (final IndicatorData iData : indicatorData) {
 				row.addNewValue(iData.getIndicatorYear().intValue(), iData.getIndicatorTypeCode(), iData.getIndicatorValue());
 			}

@@ -111,8 +111,20 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 		}
 	}
 
+	public static void createColumnHeaderCells(final XSSFSheet sheet, final XSSFRow titleRow, final Object[] headers) {
+
+		// Create the header cells
+		for (int i = 0; i < headers.length; i++) {
+			createColumnHeaderCell(headers[i], titleRow, i);
+		}
+	}
+
 	public static void createColumnHeaderCells(final XSSFSheet sheet, final List<Object> headers) {
 		createColumnHeaderCells(sheet, headers.toArray(new Object[] {}));
+	}
+
+	public static void createColumnHeaderCells(final XSSFSheet sheet, final XSSFRow titleRow, final List<Object> headers) {
+		createColumnHeaderCells(sheet, titleRow, headers.toArray(new Object[] {}));
 	}
 
 	public static XSSFCell createColumnHeaderCell(final Object header, final XSSFRow titleRow, final int columnIndex) {
