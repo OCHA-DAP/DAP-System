@@ -38,7 +38,7 @@ public class EntityDAOImpl implements EntityDAO {
 		entity.setType(entityType);
 
 		em.persist(entity);
-		
+
 		return entity;
 	}
 
@@ -52,7 +52,7 @@ public class EntityDAOImpl implements EntityDAO {
 		entity.setParent(getEntityById(parentId));
 
 		em.persist(entity);
-		
+
 		return entity;
 	}
 
@@ -89,5 +89,15 @@ public class EntityDAOImpl implements EntityDAO {
 		} else {
 			entity.setParent(getEntityById(parentId));
 		}
+	}
+
+	@Override
+	public Entity getEntityTreeFromCode(final String code, final String type) {
+		// Could be done with FetchType.EAGER in Entity, but this way we keep a lazy loading for other methods
+		final TypedQuery<Entity> query = em
+				.createQuery("SELECT e FROM Entity e LEFT JOIN FETCH e.children adm1 LEFT JOIN FETCH adm1.children  Where e.code = :code AND e.type.code = :type", Entity.class)
+				.setParameter("code", code).setParameter("type", type);
+		final Entity result = query.getSingleResult();
+		return result;
 	}
 }

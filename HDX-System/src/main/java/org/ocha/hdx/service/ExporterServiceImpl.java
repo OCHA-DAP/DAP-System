@@ -2,6 +2,7 @@ package org.ocha.hdx.service;
 
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.ocha.hdx.exporter.country.ExporterCountryReadme_TXT;
 import org.ocha.hdx.exporter.country.ExporterCountryReadme_XLSX;
 import org.ocha.hdx.exporter.helper.ReadmeHelper;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.exporter.helper.WFPReportRow;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorData_CSV;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorData_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorFTSReadme_TXT;
@@ -43,9 +45,11 @@ import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeFTSOverview_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeOverview_XLSX;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorTypeRWOverview_XLSX;
 import org.ocha.hdx.model.DataSerie;
+import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAO;
 import org.ocha.hdx.persistence.dao.view.IndicatorDataDAO;
 import org.ocha.hdx.persistence.dao.view.IndicatorTypeOverviewDAO;
+import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
@@ -72,6 +76,9 @@ public class ExporterServiceImpl implements ExporterService {
 
 	@Autowired
 	private IndicatorDataDAO indicatorDataDAO;
+
+	@Autowired
+	private EntityDAO entityDAO;
 
 	@Autowired
 	private ReadmeHelper readmeHelper;
@@ -328,7 +335,7 @@ public class ExporterServiceImpl implements ExporterService {
 		return file;
 	}
 
-	// RW 
+	// RW
 
 	/**
 	 * Export a country RW report as XLSX.
@@ -461,7 +468,7 @@ public class ExporterServiceImpl implements ExporterService {
 		return file;
 	}
 
-	// FTS 
+	// FTS
 
 	/**
 	 * Export a country FTS report as XLSX.
@@ -570,7 +577,7 @@ public class ExporterServiceImpl implements ExporterService {
 		// Return the workbook
 		return workbook;
 	}
-	
+
 	/**
 	 * Build the exporters for each FTS Indicator.
 	 */
@@ -750,8 +757,40 @@ public class ExporterServiceImpl implements ExporterService {
 		return dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCode(queryData.getIndicatorTypeCode());
 	}
 
-	/* ********* */
-	/* Utilities */
-	/* ********* */
+	@Override
+	public XSSFWorkbook getWFPReport(final String entityCode) {
+		final List<String> indicators = new ArrayList<>();
+		indicators.add("PVF040");
+		indicators.add("PVF050");
+		indicators.add("WFP_ACCEPTABLE");
+		final List<WFPReportRow> rows = getValuesForIndicatorsAndEntity(entityCode, "country", indicators);
+
+		return null;
+	}
+
+	@Override
+	public List<WFPReportRow> getValuesForIndicatorsAndEntity(final String EntityCode, final String entityType, final List<String> indicatorTypes) {
+		final List<WFPReportRow> result = new ArrayList<>();
+		final Entity entityTreeFromCode = entityDAO.getEntityTreeFromCode(EntityCode, entityType);
+
+		getWFPReportRowFromEntity(result, entityTreeFromCode, indicatorTypes);
+		return result;
+	}
+
+	private void getWFPReportRowFromEntity(final List<WFPReportRow> result, final Entity entity, final List<String> indicatorTypes) {
+		if (entity.getChildren() == null) {
+			final WFPReportRow row = new WFPReportRow(entity);
+			final List<IndicatorData> indicatorData = indicatorDataDAO.getIndicatorData(entity.getCode(), indicatorTypes);
+			for (final IndicatorData iData : indicatorData) {
+				row.addNewValue(iData.getIndicatorYear().intValue(), iData.getIndicatorTypeCode(), iData.getIndicatorValue());
+			}
+			result.add(row);
+		} else {
+			for (final Entity child : entity.getChildren()) {
+				getWFPReportRowFromEntity(result, child, indicatorTypes);
+			}
+		}
+
+	}
 
 }

@@ -24,4 +24,10 @@ public interface EntityDAO {
 
 	public void updateEntity(long entityId, String newName, Long parentId);
 
+	/**
+	 * Up to 2 levels (entity --> children --> children)
+	 * 
+	 */
+	public Entity getEntityTreeFromCode(String code, final String type);
+
 }

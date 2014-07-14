@@ -1,11 +1,15 @@
 package org.ocha.hdx.persistence.entity.curateddata;
 
+import java.util.Set;
+
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -35,6 +39,9 @@ public class Entity implements Comparable<Entity> {
 	@JoinColumn(name = "parent_id")
 	@ForeignKey(name = "fk_entity_to_parent")
 	private Entity parent;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+	private Set<Entity> children;
 
 	@ManyToOne
 	@JoinColumn(name = "entity_type_id")
@@ -79,6 +86,14 @@ public class Entity implements Comparable<Entity> {
 
 	public void setParent(final Entity parent) {
 		this.parent = parent;
+	}
+
+	public Set<Entity> getChildren() {
+		return children;
+	}
+
+	public void setChildren(final Set<Entity> children) {
+		this.children = children;
 	}
 
 	public Text getName() {

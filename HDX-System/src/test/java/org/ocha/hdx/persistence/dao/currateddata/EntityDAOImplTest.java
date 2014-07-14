@@ -2,6 +2,7 @@ package org.ocha.hdx.persistence.dao.currateddata;
 
 import javax.persistence.PersistenceException;
 
+import org.hibernate.LazyInitializationException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -210,21 +211,47 @@ public class EntityDAOImplTest {
 		final EntityType country = entityTypeDAO.getEntityTypeByCode("country");
 		final EntityType municipality = entityTypeDAO.getEntityTypeByCode("municipality");
 
-		final Text luxembourg = textDAO.createText("Luxembourg");
-		entityDAO.createEntity("LU", luxembourg, country);
+		{
+			final Text luxembourg = textDAO.createText("Luxembourg");
+			final Entity luxembourgEntity = entityDAO.createEntity("LU", luxembourg, country);
 
-		final Entity luxembourgEntity = entityDAO.getEntityByCodeAndType("LU", "country");
+			final Text dudelange = textDAO.createText("Dudelange");
+			final Entity dudelangeEntity = entityDAO.createEntity("DU", dudelange, municipality, luxembourgEntity.getId());
 
-		final Text dudelange = textDAO.createText("Dudelange");
-		entityDAO.createEntity("DU", dudelange, municipality, luxembourgEntity.getId());
+			final Text dudelangeStreet = textDAO.createText("Dudelange Street");
+			entityDAO.createEntity("DU_ST", dudelangeStreet, municipality, dudelangeEntity.getId());
+		}
 
-		Assert.assertEquals(2, entityDAO.listEntities().size());
+		Assert.assertEquals(3, entityDAO.listEntities().size());
 
-		final Entity dudelangeEntity = entityDAO.getEntityByCodeAndType("DU", "municipality");
+		{
+			final Entity dudelangeEntity = entityDAO.getEntityByCodeAndType("DU", "municipality");
 
-		Assert.assertEquals("DU", dudelangeEntity.getCode());
-		Assert.assertEquals("LU", dudelangeEntity.getParent().getCode());
-		Assert.assertNull(dudelangeEntity.getParent().getParent());
+			Assert.assertEquals("DU", dudelangeEntity.getCode());
+			Assert.assertEquals("LU", dudelangeEntity.getParent().getCode());
+			Assert.assertNull(dudelangeEntity.getParent().getParent());
+		}
+
+		{
+			final Entity luxembourgEntity = entityDAO.getEntityByCodeAndType("LU", "country");
+			Assert.assertEquals("LU", luxembourgEntity.getCode());
+			try {
+				Assert.assertEquals(1, luxembourgEntity.getChildren().size());
+				// Assert.fail("Should have raised a LazyInitializationException");
+			} catch (final LazyInitializationException e1) {
+				// expected
+			}
+		}
+
+		{
+			final Entity luxembourgEntitiesTree = entityDAO.getEntityTreeFromCode("LU", "country");
+			Assert.assertEquals("LU", luxembourgEntitiesTree.getCode());
+			Assert.assertEquals(1, luxembourgEntitiesTree.getChildren().size());
+			final Entity dudelangeEntity = luxembourgEntitiesTree.getChildren().iterator().next();
+			Assert.assertEquals("DU", dudelangeEntity.getCode());
+			Assert.assertEquals(1, dudelangeEntity.getChildren().size());
+			Assert.assertEquals("DU_ST", dudelangeEntity.getChildren().iterator().next().getCode());
+		}
 
 		try {
 			entityDAO.deleteEntityByCodeAndType("LU", "country");
@@ -232,6 +259,9 @@ public class EntityDAOImplTest {
 		} catch (final DataIntegrityViolationException e) {
 			// expected
 		}
+		Assert.assertEquals(3, entityDAO.listEntities().size());
+
+		entityDAO.deleteEntityByCodeAndType("DU_ST", "municipality");
 		Assert.assertEquals(2, entityDAO.listEntities().size());
 
 		entityDAO.deleteEntityByCodeAndType("DU", "municipality");

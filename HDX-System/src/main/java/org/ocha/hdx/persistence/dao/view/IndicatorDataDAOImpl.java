@@ -22,12 +22,16 @@ public class IndicatorDataDAOImpl implements IndicatorDataDAO {
 	public Map<Long, Map<String, IndicatorData>> getIndicatorData(final String indicatorTypeCode, final String sourceCode, final Long fromYear, final Long toYear) {
 		final Map<Long, Map<String, IndicatorData>> result = new HashMap<Long, Map<String, IndicatorData>>();
 		List<IndicatorData> queryResult = null;
-		final TypedQuery<IndicatorData> query = em.createQuery("SELECT i FROM IndicatorData i WHERE i.indicatorTypeCode = :indicatorTypeCode AND i.sourceCode = :sourceCode and i.indicatorYear >= :fromYear and i.indicatorYear <= :toYear order by i.indicatorYear, i.countryCode", IndicatorData.class).setParameter("indicatorTypeCode", indicatorTypeCode).setParameter("sourceCode", sourceCode).setParameter("fromYear", fromYear).setParameter("toYear", toYear);
+		final TypedQuery<IndicatorData> query = em
+				.createQuery(
+						"SELECT i FROM IndicatorData i WHERE i.indicatorTypeCode = :indicatorTypeCode AND i.sourceCode = :sourceCode and i.indicatorYear >= :fromYear and i.indicatorYear <= :toYear order by i.indicatorYear, i.countryCode",
+						IndicatorData.class).setParameter("indicatorTypeCode", indicatorTypeCode).setParameter("sourceCode", sourceCode).setParameter("fromYear", fromYear)
+				.setParameter("toYear", toYear);
 		queryResult = query.getResultList();
-		if(null != queryResult) {
+		if (null != queryResult) {
 			for (final IndicatorData indicatorData : queryResult) {
 				Map<String, IndicatorData> countryMap = result.get(indicatorData.getIndicatorYear());
-				if(null == countryMap) {
+				if (null == countryMap) {
 					countryMap = new HashMap<String, IndicatorData>();
 					result.put(indicatorData.getIndicatorYear(), countryMap);
 				}
@@ -35,5 +39,18 @@ public class IndicatorDataDAOImpl implements IndicatorDataDAO {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public List<IndicatorData> getIndicatorData(final String entityCode, final List<String> indicatorTypeCodes) {
+
+		final TypedQuery<IndicatorData> query = em.createQuery(
+				"SELECT i FROM IndicatorData i WHERE i.countryCode = :entityCode AND i.indicatorTypeCode IN (:indicatorTypeCodes) order by i.indicatorYear", IndicatorData.class);
+
+		query.setParameter("entityCode", entityCode);
+		query.setParameter("indicatorTypeCodes", indicatorTypeCodes);
+
+		// TODO Auto-generated method stub
+		return query.getResultList();
 	}
 }

@@ -294,7 +294,9 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 
 	/**
 	 * Check if a String represents an Integer
-	 * @param str The String to check
+	 * 
+	 * @param str
+	 *            The String to check
 	 * @return True if the given String represents an Integer, false otherwise
 	 */
 	public static boolean isInteger(final String str) {
@@ -320,9 +322,10 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Retrieve years from the data, as specifying 0 for fromYear/toYear in the queryData allows for earliest/latest data available.
+	 * 
 	 * @param data
 	 * @param which
 	 * @return
@@ -348,7 +351,7 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 		}
 		return year;
 	}
-	
+
 	/**
 	 * Keep track of the indicator types processed
 	 * 
@@ -366,17 +369,19 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 		final DataSerieInSheet dataSerieInSheet = queryData.new DataSerieInSheet(reportRow.getIndicatorTypeCode(), reportRow.getSourceCode(), sheetName);
 		indicatorTypes.add(dataSerieInSheet);
 	}
+
 	/* *** */
 	/* I/O */
 	/* *** */
 
 	/**
 	 * Write a workbook.
+	 * 
 	 * @param wb
 	 * @param path
 	 * @throws IOException
 	 */
-	public static void writeFile(final Workbook wb, final String path) throws IOException {
+	private static void writeFile(final Workbook wb, final String path) throws IOException {
 		FileOutputStream fileOut;
 		fileOut = new FileOutputStream(path);
 		wb.write(fileOut);

@@ -726,4 +726,11 @@ public class APIResource {
 		return exporterService.exportIndicatorMetadata_CSV(indicatorTypeCode, language);
 	}
 
+	@GET
+	@Path("/exporter/WFP/xslx/{entityCode}/language/{language}/{filename}.csv")
+	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	@PermitAll
+	public XSSFWorkbook exportWFPAsXLSX(@PathParam("entityCode") final String entityCode, @PathParam("language") final String language) throws Exception {
+		return exporterService.getWFPReport(entityCode);
+	}
 }

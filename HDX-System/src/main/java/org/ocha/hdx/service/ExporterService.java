@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocha.hdx.exporter.country.ExporterCountryQueryData;
 import org.ocha.hdx.exporter.helper.ReportRow;
+import org.ocha.hdx.exporter.helper.WFPReportRow;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorMetadataQueryData;
 import org.ocha.hdx.exporter.indicator.ExporterIndicatorQueryData;
 import org.ocha.hdx.model.DataSerie;
@@ -44,15 +45,15 @@ public interface ExporterService {
 	/* Country reports. */
 	/* **************** */
 
-	// SW 
-	
+	// SW
+
 	public XSSFWorkbook exportCountry_XLSX(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
 
 	public File exportCountry_CSV(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
 
 	public File exportCountryReadMe_TXT(String countryCode, String language) throws Exception;
 
-	// RW 
+	// RW
 
 	public XSSFWorkbook exportCountryRW_XLSX(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
 
@@ -60,7 +61,7 @@ public interface ExporterService {
 
 	public File exportCountryRWReadMe_TXT(String countryCode, String language) throws Exception;
 
-	// FTS 
+	// FTS
 
 	public XSSFWorkbook exportCountryFTS_XLSX(String countryCode, Integer fromYear, Integer toYear, String language) throws Exception;
 
@@ -69,27 +70,26 @@ public interface ExporterService {
 	public File exportCountryFTSReadMe_TXT(String countryCode, String language) throws Exception;
 
 	/*
-	 * Data getters for country reports.
-	 * Only the rows with actual data are added in the returned result.
+	 * Data getters for country reports. Only the rows with actual data are added in the returned result.
 	 */
 	public List<Object[]> getCountryOverviewData(final ExporterCountryQueryData queryData, final String[] indicatorsList);
+
 	public Map<String, ReportRow> getCountryData(ExporterCountryQueryData queryData, final List<DataSerie> dataSeries);
+
 	public Map<String, ReportRow> getCountryData(ExporterCountryQueryData queryData, final Periodicity periodicity, final List<DataSerie> dataSeries);
 
-	
-	
 	/* ****************** */
 	/* Indicator reports. */
 	/* ****************** */
-	
+
 	// SW
-	
+
 	public XSSFWorkbook exportIndicator_XLSX(String indicatorTypeCode, String sourceCode, Long fromYear, Long toYear, String language) throws Exception;
 
 	public File exportIndicator_CSV(String indicatorTypeCode, String sourceCode, Long fromYear, Long toYear, String language) throws Exception;
 
 	public File exportIndicatorReadMe_TXT(String indicatorTypeCode, String sourceCode, String language) throws Exception;
-	
+
 	// RW
 
 	public XSSFWorkbook exportIndicatorRW_XLSX(Long fromYear, Long toYear, String language) throws Exception;
@@ -103,23 +103,25 @@ public interface ExporterService {
 	public File exportIndicatorFTSReadMe_TXT(String language) throws Exception;
 
 	/*
-	 * Data getters for Indicator reports.
-	 * Only the rows with actual data are added in the returned result.
+	 * Data getters for Indicator reports. Only the rows with actual data are added in the returned result.
 	 */
 	public IndicatorTypeOverview getIndicatorTypeOverviewData(ExporterIndicatorQueryData queryData);
+
 	public Map<Long, Map<String, IndicatorData>> getIndicatorDataData(ExporterIndicatorQueryData queryData);
 
-	
-	
 	/* ***************** */
 	/* Metadata reports. */
 	/* ***************** */
 	public File exportIndicatorAllMetadata_CSV(String language) throws Exception;
+
 	public File exportIndicatorMetadata_CSV(String indicatorTypeCode, String language) throws Exception;
 
 	/*
-	 * Data getters for Metadata reports.
-	 * Only the rows with actual data are added in the returned result.
+	 * Data getters for Metadata reports. Only the rows with actual data are added in the returned result.
 	 */
 	public List<DataSerieMetadata> getIndicatorMetadataData(ExporterIndicatorMetadataQueryData queryData);
+
+	public List<WFPReportRow> getValuesForIndicatorsAndEntity(final String EntityCode, String entityType, List<String> indicatorTypes);
+
+	public XSSFWorkbook getWFPReport(final String entityCode);
 }
