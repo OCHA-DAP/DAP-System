@@ -788,15 +788,15 @@ public class ExporterServiceImpl implements ExporterService {
 
 	private void getWFPReportRowFromEntity(final List<WFPReportRow> result, final Entity entity, final List<String> indicatorTypes) {
 		logger.debug(String.format("Entering getWFPReportRowFromEntity for entity : %s", entity.getCode()));
-		if (entity.getChildren() == null || entity.getChildren().size() == 0) {
-			final WFPReportRow row = new WFPReportRow(entity);
-			final List<IndicatorData> indicatorData = indicatorDataDAO.getIndicatorData(entity.getCode(), indicatorTypes);
-			logger.debug(String.format("Got %d values for entity : %s", indicatorData.size(), entity.getCode()));
-			for (final IndicatorData iData : indicatorData) {
-				row.addNewValue(iData.getIndicatorYear().intValue(), iData.getIndicatorTypeCode(), iData.getIndicatorValue());
-			}
-			result.add(row);
-		} else {
+
+		final List<IndicatorData> indicatorData = indicatorDataDAO.getIndicatorData(entity.getCode(), indicatorTypes);
+		final WFPReportRow row = new WFPReportRow(entity);
+		logger.debug(String.format("Got %d values for entity : %s", indicatorData.size(), entity.getCode()));
+		for (final IndicatorData iData : indicatorData) {
+			row.addNewValue(iData.getIndicatorYear().intValue(), iData.getIndicatorTypeCode(), iData.getIndicatorValue());
+		}
+		result.add(row);
+		if (entity.getChildren() != null && !entity.getChildren().isEmpty()) {
 			for (final Entity child : entity.getChildren()) {
 				getWFPReportRowFromEntity(result, child, indicatorTypes);
 			}
