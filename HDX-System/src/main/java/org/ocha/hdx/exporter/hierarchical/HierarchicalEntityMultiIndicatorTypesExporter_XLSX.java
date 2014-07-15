@@ -18,9 +18,14 @@ public class HierarchicalEntityMultiIndicatorTypesExporter_XLSX extends Exporter
 
 	List<WFPReportRow> rows;
 
+	long minYear = Long.MAX_VALUE;
+	long maxYear = Long.MIN_VALUE;
+
 	public HierarchicalEntityMultiIndicatorTypesExporter_XLSX(final ExporterService exporterService, final List<WFPReportRow> rows) {
 		super(exporterService);
 		this.rows = rows;
+		calculateBoundaries();
+
 		// TODO Auto-generated constructor stub
 	}
 
@@ -33,7 +38,7 @@ public class HierarchicalEntityMultiIndicatorTypesExporter_XLSX extends Exporter
 		{
 			final ArrayList<Object> headers = new ArrayList<Object>();
 
-			headers.add("Adm+2");
+			headers.add("Administrative Unit");
 			headers.add(" ");
 			headers.add(" ");
 
@@ -84,37 +89,37 @@ public class HierarchicalEntityMultiIndicatorTypesExporter_XLSX extends Exporter
 
 		}
 		final ArrayList<Object> headers2 = new ArrayList<Object>();
-		headers2.add("Adm+2");
-		headers2.add("Adm+1");
-		headers2.add("Adm");
+		headers2.add("Country");
+		headers2.add("Adm0");
+		headers2.add("Adm1");
 
 		headers2.add("Poor");
-		headers2.add("borderline");
-		headers2.add("acceptable ");
+		headers2.add("Borderline");
+		headers2.add("Acceptable");
 
 		headers2.add("Poor");
-		headers2.add("borderline");
-		headers2.add("acceptable ");
+		headers2.add("Borderline");
+		headers2.add("Acceptable");
 
 		headers2.add("Poor");
-		headers2.add("borderline");
-		headers2.add("acceptable ");
+		headers2.add("Borderline");
+		headers2.add("Acceptable");
 
 		headers2.add("Poor");
-		headers2.add("borderline");
-		headers2.add("acceptable ");
+		headers2.add("Borderline");
+		headers2.add("Acceptable");
 
 		headers2.add("Poor");
-		headers2.add("borderline");
-		headers2.add("acceptable ");
+		headers2.add("Borderline");
+		headers2.add("Acceptable");
 
 		headers2.add("Poor");
-		headers2.add("borderline");
-		headers2.add("acceptable ");
+		headers2.add("Borderline");
+		headers2.add("Acceptable");
 
 		headers2.add("Poor");
-		headers2.add("borderline");
-		headers2.add("acceptable ");
+		headers2.add("Borderline");
+		headers2.add("Acceptable");
 
 		final XSSFRow titleRow = sheet.createRow(1);
 
@@ -177,6 +182,12 @@ public class HierarchicalEntityMultiIndicatorTypesExporter_XLSX extends Exporter
 		} else {
 			createCell(xssfRow, position, " ");
 		}
+	}
+
+	private void calculateBoundaries() {
+		minYear = 10;
+		maxYear = 10;
+
 	}
 
 }
