@@ -95,8 +95,8 @@ public class EntityDAOImpl implements EntityDAO {
 	public Entity getEntityTreeFromCode(final String code, final String type) {
 		// Could be done with FetchType.EAGER in Entity, but this way we keep a lazy loading for other methods
 		final TypedQuery<Entity> query = em
-				.createQuery("SELECT e FROM Entity e LEFT JOIN FETCH e.children adm1 LEFT JOIN FETCH adm1.children  Where e.code = :code AND e.type.code = :type", Entity.class)
-				.setParameter("code", code).setParameter("type", type);
+				.createQuery("SELECT e FROM Entity e LEFT JOIN FETCH e.children adm1 LEFT JOIN FETCH adm1.children adm2 LEFT JOIN FETCH adm2.children Where e.code = :code AND e.type.code = :type",
+						Entity.class).setParameter("code", code).setParameter("type", type);
 		final Entity result = query.getSingleResult();
 		return result;
 	}
