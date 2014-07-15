@@ -20,13 +20,13 @@ public class DataSerie implements Comparable<DataSerie> {
 			new DataSerie("CH100", "emdat"));
 
 	// List of indicators relevant for country - socio-economic
-	public static final List<DataSerie> COUNTRY_SOCIO_ECONOMIC_dataSeries = Arrays.asList(new DataSerie("PCX130", "world-bank"), new DataSerie("PCX140", "world-bank"), new DataSerie("PSE030",
-			"world-bank"), new DataSerie("PSE090", "world-bank"), new DataSerie("PSE110", "data.undp.org"), new DataSerie("PSE120", "world-bank"), new DataSerie("PSE130", "world-bank"),
-			new DataSerie("PSE140", "world-bank"), new DataSerie("PSE150", "world-bank"), new DataSerie("PSE160", "data.undp.org"), new DataSerie("PSE170", "world-bank"), new DataSerie("PSE200",
-					"world-bank"), new DataSerie("PSE210", "world-bank"), new DataSerie("PSE220", "data.undp.org"), new DataSerie("PSE240", "data.undp.org"), new DataSerie("PSP010",
-					"esa-unpd-wpp2012"), new DataSerie("PSP060", "world-bank"), new DataSerie("PSP070", "esa-unpd-wpp2012"), new DataSerie("PSP080", "esa-unpd-wpp2012"), new DataSerie("PSP090",
-					"world-bank"), new DataSerie("PSP100", "esa-unpd-wup2011"), new DataSerie("PSP110", "world-bank"), new DataSerie("PVE010", "data.undp.org"), new DataSerie("PVE030",
-					"data.undp.org"), new DataSerie("PVE040", "data.undp.org"), new DataSerie("PVE110", "data.undp.org"), new DataSerie("PVE120", "data.undp.org"));
+	public static final List<DataSerie> COUNTRY_SOCIO_ECONOMIC_dataSeries = Arrays.asList(new DataSerie("PCX140", "world-bank"), new DataSerie("PSE030", "world-bank"), new DataSerie("PSE090",
+			"world-bank"), new DataSerie("PSE110", "data.undp.org"), new DataSerie("PSE120", "world-bank"), new DataSerie("PSE130", "world-bank"), new DataSerie("PSE140", "world-bank"),
+			new DataSerie("PSE150", "world-bank"), new DataSerie("PSE160", "data.undp.org"), new DataSerie("PSE170", "world-bank"), new DataSerie("PSE200", "world-bank"), new DataSerie("PSE210",
+					"world-bank"), new DataSerie("PSE220", "data.undp.org"), new DataSerie("PSE240", "data.undp.org"), new DataSerie("PSP010", "esa-unpd-wpp2012"), new DataSerie("PSP060",
+					"world-bank"), new DataSerie("PSP070", "esa-unpd-wpp2012"), new DataSerie("PSP080", "esa-unpd-wpp2012"), new DataSerie("PSP090", "world-bank"), new DataSerie("PSP100",
+					"esa-unpd-wup2011"), new DataSerie("PSP110", "world-bank"), new DataSerie("PVE010", "data.undp.org"), new DataSerie("PVE030", "data.undp.org"), new DataSerie("PVE040",
+					"data.undp.org"), new DataSerie("PVE110", "data.undp.org"), new DataSerie("PVE120", "data.undp.org"));
 
 	// List of indicators relevant for country - vulnerability
 	public static final List<DataSerie> COUNTRY_VULNERABILITY_dataSeries = Arrays.asList(new DataSerie("PVE130", "mdgs"), new DataSerie("PVF020", "faostat3"), new DataSerie("PVF040", "wfp-vam"),
