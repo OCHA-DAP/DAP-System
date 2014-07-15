@@ -25,4 +25,19 @@ public abstract class MultiIndicatorReportRow {
 		return yearResults.get(indicatorCode);
 	}
 
+	public long getMinYear() {
+		long minYear = Long.MAX_VALUE;
+		for (final Integer year : values.keySet()) {
+			minYear = Math.min(minYear, year);
+		}
+		return minYear;
+	}
+
+	public long getMaxYear() {
+		long maxYear = Long.MIN_VALUE;
+		for (final Integer year : values.keySet()) {
+			maxYear = Math.max(maxYear, year);
+		}
+		return maxYear;
+	}
 }

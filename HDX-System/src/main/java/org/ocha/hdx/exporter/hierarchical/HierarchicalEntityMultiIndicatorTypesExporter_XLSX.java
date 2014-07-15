@@ -185,8 +185,10 @@ public class HierarchicalEntityMultiIndicatorTypesExporter_XLSX extends Exporter
 	}
 
 	private void calculateBoundaries() {
-		minYear = 10;
-		maxYear = 10;
+		for (final WFPReportRow wfpPreportRow : rows) {
+			minYear = 10;
+			maxYear = 10;
+		}
 
 	}
 

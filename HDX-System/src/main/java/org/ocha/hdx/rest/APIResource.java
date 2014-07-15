@@ -727,7 +727,7 @@ public class APIResource {
 	}
 
 	@GET
-	@Path("/exporter/country/wfp/xslx/{entityCode}/wfp_fcs.xlsx")
+	@Path("/exporter/country/wfp/xlsx/{entityCode}/wfp_fcs.xlsx")
 	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	@PermitAll
 	public XSSFWorkbook exportWFPAsXLSX(@PathParam("entityCode") final String entityCode) throws Exception {
