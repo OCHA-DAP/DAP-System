@@ -24,7 +24,7 @@ import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 public class CKANResource {
 
 	public enum WorkflowState {
-		DETECTED_NEW, DETECTED_REVISION, OUTDATED, DOWNLOADED, FILE_PRE_VALIDATION_SUCCESS, FILE_PRE_VALIDATION_FAIL, IMPORTING, IMPORT_SUCCESS, IMPORT_FAIL;
+		DETECTED_NEW, DETECTED_REVISION, CONFIGURATION_NEEDED, READY_TO_PROCESS, OUTDATED, DOWNLOADED, FILE_PRE_VALIDATION_SUCCESS, FILE_PRE_VALIDATION_FAIL, IMPORTING, IMPORT_SUCCESS, IMPORT_FAIL;
 	}
 
 	@Embeddable
@@ -191,7 +191,7 @@ public class CKANResource {
 	}
 
 	public boolean isDownloadable() {
-		return this.workflowState.equals(WorkflowState.DETECTED_NEW) || this.workflowState.equals(WorkflowState.DETECTED_REVISION);
+		return this.workflowState.equals(WorkflowState.READY_TO_PROCESS);
 	}
 
 	public Date getRevision_timestamp() {

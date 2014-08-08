@@ -25,6 +25,8 @@
       <map key-type="java.lang.String" value-type="java.lang.String">
         <entry key="DETECTED_NEW" value-ref="listForDetected" />
         <entry key="DETECTED_REVISION" value-ref="listForRevision" />
+        <entry key="CONFIGURATION_NEEDED" value-ref="listForConfigurationNeeded" />
+        <entry key="READY_TO_PROCESS" value-ref="listForReadyToProcess" />
         <entry key="DOWNLOADED" value-ref="listForDownloaded" />
         <entry key="FILE_PRE_VALIDATION_SUCCESS" value-ref="listForTechEvalSuccess" />
         <entry key="IMPORTING" value-ref="listForImporting" />
@@ -33,11 +35,21 @@
   </bean>
   <util:list id="listForDetected">
     <value>OUTDATED</value>
-    <value>DOWNLOADED</value>
+    <value>CONFIGURATION_NEEDED</value>
+    <value>READY_TO_PROCESS</value>
   </util:list>
   <util:list id="listForRevision">
     <value>OUTDATED</value>
+    <value>CONFIGURATION_NEEDED</value>
+    <value>READY_TO_PROCESS</value>
+  </util:list>
+   <util:list id="listForConfigurationNeeded">
+    <value>READY_TO_PROCESS</value>
+    <value>OUTDATED</value>
+  </util:list>
+   <util:list id="listForReadyToProcess">
     <value>DOWNLOADED</value>
+    <value>OUTDATED</value>
   </util:list>
   <util:list id="listForDownloaded">
     <value>FILE_PRE_VALIDATION_SUCCESS</value>
