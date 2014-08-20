@@ -1,6 +1,6 @@
 package org.ocha.hdx.model.api2;
 
-public class ApiValue {
+public class ApiIndicatorValue {
 
 	private double value;
 
