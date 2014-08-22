@@ -96,6 +96,7 @@ public class CKANResourceDAOImplTest {
 			Assert.assertNull(r.getDownloadDate());
 		}
 
+		ckanResourceDAO.deleteAllCKANResourcesRecords();
 		resourceConfigurationDAO.deleteResourceConfiguration(configurationId);
 		entityCreator.deleteNeededIndicatorTypeAndSource();
 	}

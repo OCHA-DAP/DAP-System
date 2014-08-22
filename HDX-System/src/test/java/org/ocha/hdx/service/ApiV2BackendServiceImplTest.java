@@ -30,36 +30,37 @@ public class ApiV2BackendServiceImplTest {
 
 	@Before
 	public void setUp() {
-		integrationTestSetUpAndTearDown.setUp();
+		this.integrationTestSetUpAndTearDown.setUp();
 	}
 
 	@After
 	public void tearDown() {
-		integrationTestSetUpAndTearDown.tearDown();
+		this.integrationTestSetUpAndTearDown.tearDown();
 	}
 
 	@Test
 	public void testListIndicatorsByCriteriaWithPagination() {
 		final List<String> countries = new ArrayList<>();
 		{
-			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, null, null, null, 0, 1000, null);
+			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, null, null, null, 0, 1000, null);
 			Assert.assertEquals(2, listIndicatorsByCriteriaWithPagination.getTotalCount().intValue());
 		}
 
 		{
-			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, countries, null, null, 0, 1000,
+			countries.add("FAKE");
+			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, countries, null, null, 0, 1000,
 					null);
 			Assert.assertEquals(0, listIndicatorsByCriteriaWithPagination.getTotalCount().intValue());
+			countries.clear();
 		}
 
 		{
-			countries.add("LUX");
-			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, countries, null, null, 0, 1000,
+			countries.add("RUS");
+			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, countries, null, null, 0, 1000,
 					null);
 			Assert.assertEquals(1, listIndicatorsByCriteriaWithPagination.getTotalCount().intValue());
 		}
 
-		fail("Not yet implemented");
 	}
 
 	@Test
