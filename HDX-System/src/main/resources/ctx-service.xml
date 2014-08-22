@@ -67,6 +67,8 @@
   <bean id="indicatorCreationService" class="org.ocha.hdx.service.IndicatorCreationServiceImpl" />
 
   <bean id="apiV2BackendService" class="org.ocha.hdx.service.ApiV2BackendServiceImpl" />
+  
+  <bean id="intermediaryBackendServiceImpl" class="org.ocha.hdx.service.IntermediaryBackendServiceImpl" />
 
   <!-- Helpers -->
   <bean id="readmeHelper" class="org.ocha.hdx.exporter.helper.ReadmeHelperImpl" />

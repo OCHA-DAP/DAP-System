@@ -8,16 +8,25 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.ocha.hdx.importer.TimeRange;
 import org.ocha.hdx.model.DataSerie;
+import org.ocha.hdx.model.api2util.IntermediaryIndicatorValue;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
@@ -27,6 +36,7 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorImportConfig;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,7 +81,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		indicator.setIndicatorImportConfig(indicatorImportConfig);
 		indicator.setSourceLink(sourceLink);
 		indicator.setImportFromCKAN(importFromCKAN);
-		em.persist(indicator);
+		this.em.persist(indicator);
 	}
 
 	/**
@@ -80,20 +90,20 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	@Transactional
 	public void deleteIndicator(final long indicatorId) {
-		em.createQuery("DELETE FROM Indicator i WHERE i.id = :indicatorId").setParameter("indicatorId", indicatorId).executeUpdate();
+		this.em.createQuery("DELETE FROM Indicator i WHERE i.id = :indicatorId").setParameter("indicatorId", indicatorId).executeUpdate();
 
 	}
 
 	/**
 	 * Delete some indicators.
-	 * 
+	 *
 	 * @author Dan TODO: It could delete all indicators in one transaction
 	 */
 	@Override
 	@Transactional
 	public void deleteIndicators(final List<Long> indList) {
 		for (final Long ind : indList) {
-			deleteIndicator(ind);
+			this.deleteIndicator(ind);
 		}
 	}
 
@@ -103,7 +113,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	@Transactional
 	public void deleteAllIndicators() {
-		em.createQuery("DELETE FROM Indicator").executeUpdate();
+		this.em.createQuery("DELETE FROM Indicator").executeUpdate();
 	}
 
 	/**
@@ -112,7 +122,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	@Transactional
 	public void deleteAllIndicatorsFromImport(final long importId) {
-		em.createQuery("DELETE FROM Indicator i WHERE i.importFromCKAN.id = :importId").setParameter("importId", importId).executeUpdate();
+		this.em.createQuery("DELETE FROM Indicator i WHERE i.importFromCKAN.id = :importId").setParameter("importId", importId).executeUpdate();
 
 	}
 
@@ -120,7 +130,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Override
 	public List<Indicator> listLastIndicators(final int limit) {
-		final TypedQuery<Indicator> query = em.createQuery("SELECT i FROM Indicator i ORDER BY i.id DESC", Indicator.class).setMaxResults(limit);
+		final TypedQuery<Indicator> query = this.em.createQuery("SELECT i FROM Indicator i ORDER BY i.id DESC", Indicator.class).setMaxResults(limit);
 		return query.getResultList();
 	}
 
@@ -132,7 +142,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 			sb.append(" AND i.entity.type.code = 'country' AND i.entity.code IN :countryCodes ");
 		}
 		sb.append(" ORDER BY i.start, i.entity.type.code, i.entity.code");
-		final TypedQuery<Indicator> query = em.createQuery(sb.toString(), Indicator.class).setParameter("periodicity", periodicity).setParameter("source", sourceCode)
+		final TypedQuery<Indicator> query = this.em.createQuery(sb.toString(), Indicator.class).setParameter("periodicity", periodicity).setParameter("source", sourceCode)
 				.setParameter("indicatorType", indicatorTypeCode);
 
 		if ((countryCodes != null) && !countryCodes.isEmpty()) {
@@ -144,7 +154,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Override
 	public List<Indicator> listIndicatorsByPeriodicityAndEntityAndIndicatorType(final Periodicity periodicity, final String entityType, final String entityCode, final String indicatorTypeCode) {
-		final TypedQuery<Indicator> query = em
+		final TypedQuery<Indicator> query = this.em
 				.createQuery(
 						"SELECT i FROM Indicator i WHERE i.periodicity = :periodicity AND i.entity.type.code = :entityType AND i.entity.code = :entityCode AND i.type.code = :indicatorType ORDER BY i.start, i.source.code",
 						Indicator.class).setParameter("periodicity", periodicity).setParameter("entityType", entityType).setParameter("entityCode", entityCode)
@@ -162,7 +172,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 			sb.append(" AND i.entity.type.code = 'country' AND i.entity.code IN :countryCodes ");
 		}
 		sb.append(" ORDER BY i.entity.type.code, i.entity.code ");
-		final TypedQuery<Indicator> query = em.createQuery(sb.toString(), Indicator.class).setParameter("periodicity", Periodicity.YEAR).setParameter("start", timeRange.getStart())
+		final TypedQuery<Indicator> query = this.em.createQuery(sb.toString(), Indicator.class).setParameter("periodicity", Periodicity.YEAR).setParameter("start", timeRange.getStart())
 				.setParameter("source", sourceCode).setParameter("indicatorType", indicatorTypeCode);
 
 		if ((countryCodes != null) && !countryCodes.isEmpty()) {
@@ -174,7 +184,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public List<Indicator> listIndicatorsByYearAndSourceAndIndicatorTypes(final int year, final String sourceCode, final List<String> indicatorTypeCodes) {
 		final TimeRange timeRange = new TimeRange(year);
-		final TypedQuery<Indicator> query = em
+		final TypedQuery<Indicator> query = this.em
 				.createQuery(
 						"SELECT i FROM Indicator i WHERE i.periodicity = :periodicity AND i.source.code = :source AND i.type.code IN :indicatorTypes AND i.start = :start ORDER BY i.entity.type.code, i.entity.code, i.type.code",
 						Indicator.class).setParameter("periodicity", Periodicity.YEAR).setParameter("start", timeRange.getStart()).setParameter("source", sourceCode)
@@ -187,7 +197,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public Map<Long, Long> countIndicatorsByImport() {
 		final Map<Long, Long> result = new HashMap<Long, Long>();
-		final Query query = em.createQuery("SELECT i.importFromCKAN.id, COUNT(i) from Indicator i GROUP BY i.importFromCKAN");
+		final Query query = this.em.createQuery("SELECT i.importFromCKAN.id, COUNT(i) from Indicator i GROUP BY i.importFromCKAN");
 		List<Object[]> queryResult = null;
 		try {
 			queryResult = query.getResultList();
@@ -217,7 +227,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		final List<Object[]> result = new ArrayList<Object[]>();
 		for (final String indicator : indicatorsList) {
 			// TODO i18n
-			final Query query = em
+			final Query query = this.em
 					.createQuery(
 							"SELECT i.type.code, i.type.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.entity.code = :countryCode")
 					.setParameter("isCountry", "country").setParameter("code", indicator).setParameter("countryCode", countryCode).setMaxResults(1);
@@ -239,7 +249,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 */
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final List<DataSerie> dataSeries) {
-		return listIndicatorsForCountry(countryCode, fromYear, toYear, languageCode, Periodicity.YEAR, dataSeries);
+		return this.listIndicatorsForCountry(countryCode, fromYear, toYear, languageCode, Periodicity.YEAR, dataSeries);
 	}
 
 	@Override
@@ -252,7 +262,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		Map<String, Integer> minMax = null;
 		if (0 == fromYear) {
 			// Find the earliest year available
-			minMax = getMinMaxDatesForCountryIndicators(countryCode, dataSeries);
+			minMax = this.getMinMaxDatesForCountryIndicators(countryCode, dataSeries);
 			fromYear_ = minMax.get("MIN");
 		}
 
@@ -260,7 +270,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		if (0 == toYear) {
 			// Find the latest year available
 			if (null == minMax) {
-				minMax = getMinMaxDatesForCountryIndicators(countryCode, dataSeries);
+				minMax = this.getMinMaxDatesForCountryIndicators(countryCode, dataSeries);
 			}
 			toYear_ = minMax.get("MAX");
 		}
@@ -276,7 +286,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 				final String sourceCode = dataSerie.getSourceCode();
 
 				// FIXME this should be possible to run only one query per indicator, with several results, one per year. Only if there is one and only one result per year, no updates
-				final Query query = em
+				final Query query = this.em
 						.createQuery(
 								"SELECT i.type.code, i.type.name.defaultValue, i.type.unit.name.defaultValue, i.value, i.importFromCKAN.timestamp, i.source.name.defaultValue, i.source.code from Indicator i WHERE i.entity.type.code = :isCountry AND i.type.code = :code AND i.source.code = :sourceCode "
 										+ "AND i.entity.code = :countryCode AND i.periodicity = :periodicity and i.start = :start").setParameter("isCountry", "country")
@@ -312,7 +322,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		query_ += ")";
 		logger.debug("Min-max dates query : " + query_);
 
-		final Query query = em.createQuery(query_);
+		final Query query = this.em.createQuery(query_);
 
 		query.setParameter("isCountry", "country");
 		query.setParameter("countryCode", countryCode);
@@ -357,7 +367,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public Map<String, Timestamp> getMinMaxDatesForDataSeries(final DataSerie dataSeries) {
 		final String query_ = "SELECT MIN(i.start), MAX(i.start) from Indicator i WHERE i.source.code = :sourceCode AND i.type.code = :indicatorTypeCode";
-		final Query query = em.createQuery(query_);
+		final Query query = this.em.createQuery(query_);
 		query.setParameter("sourceCode", dataSeries.getSourceCode());
 		query.setParameter("indicatorTypeCode", dataSeries.getIndicatorCode());
 
@@ -383,7 +393,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public Object[] getIndicatorTypeOverview(final String indicatorTypeCode, final String sourceCode, final String languageCode) {
 		// TODO i18n
-		final Query query = em.createQuery("SELECT i.type.code, i.type.name.defaultValue, i.source.code, i.value, i.source.name.defaultValue from Indicator i WHERE i.type.code = :code and ")
+		final Query query = this.em.createQuery("SELECT i.type.code, i.type.name.defaultValue, i.source.code, i.value, i.source.name.defaultValue from Indicator i WHERE i.type.code = :code and ")
 				.setParameter("code", indicatorTypeCode).setMaxResults(1);
 		Object[] queryResult = null;
 		try {
@@ -403,7 +413,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Override
 	public List<String> getExistingSourcesCodesForYearAndIndicatorType(final int year, final String indicatorTypeCode) {
 		final TimeRange timerange = new TimeRange(Integer.valueOf(year).toString());
-		final TypedQuery<String> query = em
+		final TypedQuery<String> query = this.em
 				.createQuery("SELECT DISTINCT(i.source.code) FROM Indicator i Where i.start = :start AND i.end = :end AND i.periodicity = :periodicity AND i.type.code = :indicatorTypeCode",
 						String.class).setParameter("start", timerange.getStart()).setParameter("end", timerange.getEnd()).setParameter("periodicity", timerange.getPeriodicity())
 				.setParameter("indicatorTypeCode", indicatorTypeCode);
@@ -412,9 +422,119 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Override
 	public List<String> getExistingSourcesCodesForIndicatorType(final String indicatorTypeCode) {
-		final TypedQuery<String> query = em.createQuery("SELECT DISTINCT(i.source.code) FROM Indicator i Where i.type.code = :indicatorTypeCode", String.class).setParameter("indicatorTypeCode",
+		final TypedQuery<String> query = this.em.createQuery("SELECT DISTINCT(i.source.code) FROM Indicator i Where i.type.code = :indicatorTypeCode", String.class).setParameter("indicatorTypeCode",
 				indicatorTypeCode);
 		return query.getResultList();
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Long countIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
+			final List<String> entityCodes, final Integer startYear, final Integer endYear){
+		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
+		final CriteriaQuery<Long> criteriaQuery =
+				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear,
+				endYear, criteriaBuilder, Long.class, false);
+
+		final Set<Root<?>> roots = criteriaQuery.getRoots();
+		criteriaQuery.select(criteriaBuilder.count(roots.iterator().next()));
+
+		final TypedQuery<Long> query = this.em.createQuery(criteriaQuery);
+		return query.getSingleResult();
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public List<IntermediaryIndicatorValue> listIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
+			final List<String> entityCodes, final Integer startYear, final Integer endYear, final Integer startPosition, final Integer maxResult, final String lang){
+
+		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
+		final CriteriaQuery<IntermediaryIndicatorValue> criteriaQuery =
+				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear,
+				endYear, criteriaBuilder, IntermediaryIndicatorValue.class, true);
+
+		final TypedQuery<IntermediaryIndicatorValue> query = this.em.createQuery(criteriaQuery);
+		query.setFirstResult(startPosition);
+		query.setMaxResults(maxResult);
+		return query.getResultList();
+	}
+
+	/**
+	 * @param indicatorTypeCodes
+	 * @param sourceCodes
+	 * @param entityCodes
+	 * @param startYear
+	 * @param endYear
+	 * @param criteriaQuery
+	 * @param criteriaBuilder
+	 * @return
+	 */
+	private <T> CriteriaQuery<T> createQueryforIndicatorsByCriteria(final List<String> indicatorTypeCodes,
+			final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear,
+			final Integer endYear, final CriteriaBuilder criteriaBuilder,
+			final Class<T> responseClass,
+			final boolean addSelectClause) {
+
+		final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(responseClass);
+		final Root<Indicator> indicatorRoot = criteriaQuery.from(Indicator.class);
+
+
+		final Join<Indicator, IndicatorType> indToIndTypeJoin = indicatorRoot.join("type");
+		final Join<IndicatorType, Text> indTypeToTextJoin = indToIndTypeJoin.join("name");
+//		final Join<Translation, Language> translationToLangJoin = textToTranslationsJoin.join((SingularAttribute) textToTranslationsJoin.get("id").get("language").getModel());
+//		final Join<Id, Language> translationToLangJoin = tempJoin.join("language");
+
+		final Join<Indicator, Source> indToSrcJoin = indicatorRoot.join("source");
+		final Join<Object, Object> srcToTextJoin = indToSrcJoin.join("name");
+
+		final Join<Indicator, Entity> indToEntityJoin = indicatorRoot.join("entity");
+		final Join<Object, Object> entityToTextJoin = indToEntityJoin.join("name");
+
+		final List<Predicate> filters = new ArrayList<>();
+		filters.add(indicatorRoot.get("value").get("numberValue").isNotNull());
+
+		if ( CollectionUtils.isNotEmpty(indicatorTypeCodes) ) {
+			filters.add( indToIndTypeJoin.get("code").in(indicatorTypeCodes) );
+		}
+		if ( CollectionUtils.isNotEmpty(sourceCodes)) {
+			filters.add( indToSrcJoin.get("code").in(sourceCodes) );
+		}
+		if ( CollectionUtils.isNotEmpty(entityCodes)) {
+			filters.add( indToEntityJoin.get("code").in(entityCodes) );
+		}
+		if ( startYear != null ) {
+			final LocalDateTime  startDate = new LocalDateTime(startYear, 1, 1, 0, 0);
+			filters.add( criteriaBuilder.greaterThanOrEqualTo(indicatorRoot.<Date>get("start"), startDate.toDate()) );
+		}
+		if ( endYear != null ) {
+			final LocalDateTime  endDate = new LocalDateTime(endYear+1, 1, 1, 0, 0);
+			filters.add( criteriaBuilder.lessThan(indicatorRoot.<Date>get("start"), endDate.toDate()) );
+		}
+
+
+		if (addSelectClause) {
+			criteriaQuery.
+				select(criteriaBuilder.construct(
+						responseClass,
+						indicatorRoot.get("value").get("numberValue"),
+						indToIndTypeJoin.get("code"),
+						indTypeToTextJoin.get("defaultValue"),
+						indTypeToTextJoin.get("id"),
+						indToEntityJoin.get("code"),
+						entityToTextJoin.get("defaultValue"),
+						entityToTextJoin.get("id"),
+						indToSrcJoin.get("code"),
+						srcToTextJoin.get("defaultValue"),
+						srcToTextJoin.get("id"),
+						indicatorRoot.get("start")
+					)
+				)
+				.orderBy(criteriaBuilder.asc(indToIndTypeJoin.get("code")))
+				.orderBy(criteriaBuilder.asc(indicatorRoot.get("id")));
+		}
+		criteriaQuery.where(filters.toArray(new Predicate[0]));
+
+		return criteriaQuery;
 	}
 
 }

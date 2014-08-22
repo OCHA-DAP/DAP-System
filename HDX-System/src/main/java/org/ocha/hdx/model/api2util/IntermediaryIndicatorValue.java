@@ -1,35 +1,44 @@
-package org.ocha.hdx.model.api2;
+package org.ocha.hdx.model.api2util;
 
-public class ApiIndicatorValue {
+import java.util.Date;
 
+public class IntermediaryIndicatorValue {
 	private double value;
 
 	private String indicatorTypeCode;
 
 	private String indicatorTypeName;
 
+	private Long indicatorTypeNameId;
+
 	private String locationCode;
 
 	private String locationName;
+
+	private Long locationNameId;
 
 	private String sourceCode;
 
 	private String sourceName;
 
-	private String time;
+	private Long sourceNameId;
 
+	private Date startDate;
 
-	public ApiIndicatorValue(final double value, final String indicatorTypeCode, final String indicatorTypeName, final String locationCode, final String locationName, final String sourceCode,
-			final String sourceName, final String time) {
+	public IntermediaryIndicatorValue(final double value, final String indicatorTypeCode, final String indicatorTypeName, final Long indicatorTypeNameId, final String locationCode,
+			final String locationName, final Long locationNameId, final String sourceCode, final String sourceName, final Long sourceNameId, final Date startDate) {
 		super();
 		this.value = value;
 		this.indicatorTypeCode = indicatorTypeCode;
 		this.indicatorTypeName = indicatorTypeName;
+		this.indicatorTypeNameId = indicatorTypeNameId;
 		this.locationCode = locationCode;
 		this.locationName = locationName;
+		this.locationNameId = locationNameId;
 		this.sourceCode = sourceCode;
 		this.sourceName = sourceName;
-		this.time = time;
+		this.sourceNameId = sourceNameId;
+		this.startDate = startDate;
 	}
 
 	public double getValue() {
@@ -56,6 +65,14 @@ public class ApiIndicatorValue {
 		this.indicatorTypeName = indicatorTypeName;
 	}
 
+	public Long getIndicatorTypeNameId() {
+		return this.indicatorTypeNameId;
+	}
+
+	public void setIndicatorTypeNameId(final Long indicatorTypeNameId) {
+		this.indicatorTypeNameId = indicatorTypeNameId;
+	}
+
 	public String getLocationCode() {
 		return this.locationCode;
 	}
@@ -70,6 +87,14 @@ public class ApiIndicatorValue {
 
 	public void setLocationName(final String locationName) {
 		this.locationName = locationName;
+	}
+
+	public Long getLocationNameId() {
+		return this.locationNameId;
+	}
+
+	public void setLocationNameId(final Long locationNameId) {
+		this.locationNameId = locationNameId;
 	}
 
 	public String getSourceCode() {
@@ -88,12 +113,22 @@ public class ApiIndicatorValue {
 		this.sourceName = sourceName;
 	}
 
-	public String getTime() {
-		return this.time;
+	public Long getSourceNameId() {
+		return this.sourceNameId;
 	}
 
-	public void setTime(final String time) {
-		this.time = time;
+	public void setSourceNameId(final Long sourceNameId) {
+		this.sourceNameId = sourceNameId;
 	}
+
+	public Date getStartDate() {
+		return this.startDate;
+	}
+
+	public void setStartDate(final Date startDate) {
+		this.startDate = startDate;
+	}
+
+
 
 }
