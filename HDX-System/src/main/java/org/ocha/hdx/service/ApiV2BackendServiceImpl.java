@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 
 import javax.annotation.Resource;
 
-import org.apache.derby.tools.sysinfo;
 import org.ocha.hdx.model.api2.ApiIndicatorValue;
 import org.ocha.hdx.model.api2.ApiResultWrapper;
 import org.ocha.hdx.model.api2util.RequestParamsWrapper;
