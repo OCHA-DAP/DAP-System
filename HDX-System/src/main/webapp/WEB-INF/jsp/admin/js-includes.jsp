@@ -4,8 +4,8 @@
 <script type="text/javascript">
   var hdxContextRoot = "${ctx}";
 </script>
-<script type="text/javascript" src="${ctx}/googleapis/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}/googleapis/angular.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/googleapis/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/googleapis/angular.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
 <script type="text/javascript" src="${ctx}/js/xeditable.min.js"></script>
