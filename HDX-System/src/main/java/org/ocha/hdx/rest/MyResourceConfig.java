@@ -1,5 +1,6 @@
 package org.ocha.hdx.rest;
 
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
@@ -15,9 +16,12 @@ public class MyResourceConfig extends ResourceConfig {
 		register(AdminResource.class);
 		register(LoginResource.class);
 		register(APIResource.class);
+		register(ApiV2Resource.class);
 
 		register(XSSFWorkbookWriter.class);
 		register(MultiPartFeature.class);
+
+		register(JacksonFeature.class);
 
 		register(AuthenticationExceptionMapper.class);
 		register(InsufficientCredentialsExceptionMapper.class);

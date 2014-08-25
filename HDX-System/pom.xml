@@ -21,7 +21,7 @@
     <javax.servlet.api.version>2.5</javax.servlet.api.version>
     <derby.version>10.10.2.0</derby.version>
     <jstl.impl.version>1.2</jstl.impl.version>
-    <jersey.version>2.9</jersey.version>
+    <jersey.version>2.11</jersey.version>
     <aspectj.version>1.7.3</aspectj.version>
     <!-- This value is ok for prod, can be overriden for other environments in profiles -->
     <HDX_ROOT>/opt/www/tomcat/hdx</HDX_ROOT>
@@ -85,6 +85,13 @@
       <version>1.2.16</version>
     </dependency>
 
+	<dependency>
+		<groupId>commons-collections</groupId>
+		<artifactId>commons-collections</artifactId>
+		<version>3.2.1</version>
+	</dependency>
+
+    
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
@@ -174,6 +181,12 @@
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-multipart</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
       <version>${jersey.version}</version>
     </dependency>
 
