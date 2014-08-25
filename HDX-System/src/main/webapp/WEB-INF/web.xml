@@ -82,6 +82,11 @@
     <filter-name>jersey-spring</filter-name>
     <url-pattern>/api/*</url-pattern>
   </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>jersey-spring</filter-name>
+    <url-pattern>/public/api2/*</url-pattern>
+  </filter-mapping>
 
   <error-page>
     <error-code>404</error-code>
