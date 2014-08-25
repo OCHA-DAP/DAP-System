@@ -2,7 +2,7 @@ package org.ocha.hdx.rest;
 
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@RolesAllowed({ "admin", "api" })
+@PermitAll
 @Path("/public/api2")
 @Component
 public class ApiV2Resource {
