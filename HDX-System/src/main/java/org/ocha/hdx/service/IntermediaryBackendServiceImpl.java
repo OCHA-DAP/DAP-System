@@ -30,6 +30,9 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 	@Transactional(readOnly = true)
 	@Override
 	public ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination(final RequestParamsWrapper paramsWrapper) {
+		final Integer [] yearPair = this.findYearPeriod(paramsWrapper);
+		final Integer startYear = yearPair[0];
+		final Integer endYear = yearPair[1];
 
 		Integer maxResults = paramsWrapper.getPageSize();
 		if ( paramsWrapper.getPageSize() == null || paramsWrapper.getPageSize() > Constants.MAX_RESULTS ) {
@@ -38,11 +41,12 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 		final Integer currentPage = (paramsWrapper.getPageNum()!=null?paramsWrapper.getPageNum():0);
 		final Integer startPosition = currentPage * maxResults;
 
+
 		final String languageCode = paramsWrapper.getLang() != null ? paramsWrapper.getLang() : Constants.DEFAULT_LANGUAGE;
 		final List<IntermediaryIndicatorValue> interimValues =
 				this.indicatorDAO.listIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(),
 						paramsWrapper.getSourceCodes(), paramsWrapper.getEntityCodes(),
-						paramsWrapper.getStartYear(), paramsWrapper.getEndYear(),
+						startYear, endYear,
 						startPosition, maxResults, languageCode);
 
 		final ApiResultWrapper<ApiIndicatorValue> resultWrapper;
@@ -50,7 +54,7 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 			final List<ApiIndicatorValue> values = this.transformAll(interimValues);
 			final Long totalCount = this.indicatorDAO.countIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(),
 					paramsWrapper.getSourceCodes(), paramsWrapper.getEntityCodes(),
-					paramsWrapper.getStartYear(), paramsWrapper.getEndYear());
+					startYear, endYear);
 			final Long totalPages = totalCount/maxResults + 1;
 			resultWrapper = new ApiResultWrapper<ApiIndicatorValue>(values, totalCount.intValue(), currentPage, totalPages.intValue(), true, "None", currentPage < totalPages);
 		}
@@ -68,12 +72,16 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 	@Override
 	public ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteria(final RequestParamsWrapper paramsWrapper) {
 
+		final Integer [] yearPair = this.findYearPeriod(paramsWrapper);
+		final Integer startYear = yearPair[0];
+		final Integer endYear = yearPair[1];
+
 		final Integer maxResults = Constants.MAX_RESULTS;
 		final String languageCode = paramsWrapper.getLang() != null ? paramsWrapper.getLang() : Constants.DEFAULT_LANGUAGE;
 		final List<IntermediaryIndicatorValue> interimValues =
 				this.indicatorDAO.listIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(),
 						paramsWrapper.getSourceCodes(), paramsWrapper.getEntityCodes(),
-						paramsWrapper.getStartYear(), paramsWrapper.getEndYear(), 0, maxResults+1, languageCode);
+						startYear, endYear, 0, maxResults+1, languageCode);
 
 		final ApiResultWrapper<ApiIndicatorValue> resultWrapper;
 		if ( interimValues != null ) {
@@ -92,6 +100,17 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 
 		return resultWrapper;
 
+	}
+
+	private Integer[] findYearPeriod(final RequestParamsWrapper paramsWrapper) {
+		Integer startYear = paramsWrapper.getStartYear();
+		Integer endYear = paramsWrapper.getEndYear();
+		if ( RequestParamsWrapper.PeriodType.LATEST_YEAR.equals(paramsWrapper.getPeriodType()) ) {
+			startYear = this.indicatorDAO.latestYearForIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(),
+					paramsWrapper.getSourceCodes(), paramsWrapper.getEntityCodes());
+			endYear = startYear;
+		}
+		return new Integer[]{startYear, endYear};
 	}
 
 	private List<ApiIndicatorValue> transformAll(final List<IntermediaryIndicatorValue> interimValues) {

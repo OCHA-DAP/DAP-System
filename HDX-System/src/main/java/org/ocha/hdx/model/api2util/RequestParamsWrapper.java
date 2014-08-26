@@ -7,16 +7,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.ocha.hdx.exceptions.apiv2.ApiV2ProcessingException;
+
 /**
  * @author alexandru-m-g
  *
  */
 public class RequestParamsWrapper {
+
+	public enum PeriodType{
+		LATEST_YEAR;
+	}
+
 	private final List<String> indicatorTypeCodes;
 	private final List<String> sourceCodes;
 	private final List<String> entityCodes;
 	private final Integer startYear;
 	private final Integer endYear;
+	private PeriodType periodType;
 	private final Integer pageNum;
 	private final Integer pageSize;
 	private final String lang;
@@ -24,7 +32,7 @@ public class RequestParamsWrapper {
 
 
 	public RequestParamsWrapper(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear, final Integer endYear,
-			final Integer pageNum, final Integer pageSize, final String lang) {
+			final String periodType, final Integer pageNum, final Integer pageSize, final String lang) throws ApiV2ProcessingException {
 		super();
 		this.indicatorTypeCodes = new ArrayList<String>();
 		this.populateOrderedList(indicatorTypeCodes, this.indicatorTypeCodes);
@@ -37,9 +45,19 @@ public class RequestParamsWrapper {
 
 		this.startYear = startYear;
 		this.endYear = endYear;
+
+		if ( periodType != null ) {
+			try {
+				this.periodType = PeriodType.valueOf(periodType.toUpperCase());
+			} catch (final IllegalArgumentException e) {
+				throw new ApiV2ProcessingException("Incorrect period type", e);
+			}
+		}
+
 		this.pageNum = pageNum;
 		this.pageSize = pageSize;
 		this.lang = lang;
+
 	}
 
 	private void populateOrderedList(final List<String> srclist, final List<String> destList) {
@@ -64,6 +82,7 @@ public class RequestParamsWrapper {
 		result = prime * result + ((this.lang == null) ? 0 : this.lang.hashCode());
 		result = prime * result + ((this.pageNum == null) ? 0 : this.pageNum.hashCode());
 		result = prime * result + ((this.pageSize == null) ? 0 : this.pageSize.hashCode());
+		result = prime * result + ((this.periodType == null) ? 0 : this.periodType.hashCode());
 		result = prime * result + ((this.sourceCodes == null) ? 0 : this.sourceCodes.hashCode());
 		result = prime * result + ((this.startYear == null) ? 0 : this.startYear.hashCode());
 		return result;
@@ -126,6 +145,9 @@ public class RequestParamsWrapper {
 		} else if (!this.pageSize.equals(other.pageSize)) {
 			return false;
 		}
+		if (this.periodType != other.periodType) {
+			return false;
+		}
 		if (this.sourceCodes == null) {
 			if (other.sourceCodes != null) {
 				return false;
@@ -166,6 +188,14 @@ public class RequestParamsWrapper {
 	}
 	public String getLang() {
 		return this.lang;
+	}
+
+	public PeriodType getPeriodType() {
+		return this.periodType;
+	}
+
+	public void setPeriodType(final PeriodType periodType) {
+		this.periodType = periodType;
 	}
 
 

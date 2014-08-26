@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.annotation.Resource;
 
+import org.ocha.hdx.exceptions.apiv2.ApiV2ProcessingException;
 import org.ocha.hdx.model.api2.ApiIndicatorValue;
 import org.ocha.hdx.model.api2.ApiResultWrapper;
 import org.ocha.hdx.model.api2util.RequestParamsWrapper;
@@ -37,27 +38,53 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 	public ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination(
 			final List<String> indicatorTypeCodes, final List<String> sourceCodes,
 			final List<String> entityCodes, final Integer startYear, final Integer endYear,
+			final String periodType,
 			final Integer pageNum, final Integer pageSize, final String lang) {
 
-		final RequestParamsWrapper paramsWrapper = new RequestParamsWrapper(indicatorTypeCodes, sourceCodes,
-				entityCodes, startYear, endYear, pageNum, pageSize, lang);
-		final ApiResultWrapper<ApiIndicatorValue> result = this.searchViaCache(paramsWrapper);
+		final ApiResultWrapper<ApiIndicatorValue> result = this.innerListIndicators(indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear, periodType, pageNum,
+				pageSize, lang);
 		return result;
 	}
-
 
 	/* (non-Javadoc)
 	 * @see org.ocha.hdx.service.ApiV2BackendService#listIndicatorsByCriteria(java.util.List, java.util.List, java.util.List, java.lang.Integer, java.lang.Integer, java.lang.String)
 	 */
 	@Override
 	public ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes,
-			final Integer startYear, final Integer endYear, final String lang) {
+			final Integer startYear, final Integer endYear, final String periodType, final String lang) {
 
-		final RequestParamsWrapper paramsWrapper = new RequestParamsWrapper(indicatorTypeCodes, sourceCodes,
-				entityCodes, startYear, endYear, null, null, lang);
-		final ApiResultWrapper<ApiIndicatorValue> result = this.searchViaCache(paramsWrapper);
+		final ApiResultWrapper<ApiIndicatorValue> result = this.innerListIndicators(indicatorTypeCodes, sourceCodes,
+				entityCodes, startYear, endYear, periodType, null, null, lang);
 		return result;
 	}
+
+	/**
+	 * @param indicatorTypeCodes
+	 * @param sourceCodes
+	 * @param entityCodes
+	 * @param startYear
+	 * @param endYear
+	 * @param periodType
+	 * @param pageNum
+	 * @param pageSize
+	 * @param lang
+	 * @return
+	 */
+	private ApiResultWrapper<ApiIndicatorValue> innerListIndicators(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
+			final List<String> entityCodes, final Integer startYear, final Integer endYear, final String periodType, final Integer pageNum,
+			final Integer pageSize, final String lang) {
+		ApiResultWrapper<ApiIndicatorValue> result;
+		try{
+			final RequestParamsWrapper paramsWrapper = new RequestParamsWrapper(indicatorTypeCodes, sourceCodes,
+				entityCodes, startYear, endYear, periodType, pageNum, pageSize, lang);
+			result = this.searchViaCache(paramsWrapper);
+		}
+		catch(final ApiV2ProcessingException e) {
+			result = new ApiResultWrapper<ApiIndicatorValue>(e.getMessage());
+		}
+		return result;
+	}
+
 
 	/**
 	 * @param paramsWrapper

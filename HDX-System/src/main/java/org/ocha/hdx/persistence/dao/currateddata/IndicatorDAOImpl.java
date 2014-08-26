@@ -18,6 +18,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -441,6 +442,35 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 		final TypedQuery<Long> query = this.em.createQuery(criteriaQuery);
 		return query.getSingleResult();
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Integer latestYearForIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
+			final List<String> entityCodes){
+		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
+		final CriteriaQuery<Date> criteriaQuery =
+				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, null,
+				null, criteriaBuilder, Date.class, false);
+
+		final Set<Root<?>> roots = criteriaQuery.getRoots();
+
+		final Root<Indicator> indicatorRoot = (Root<Indicator>) roots.iterator().next();
+
+		final Path<Date> datePath = indicatorRoot.get("start");
+
+		criteriaQuery.select( criteriaBuilder.greatest(datePath) );
+
+		final TypedQuery<Date> query = this.em.createQuery(criteriaQuery);
+		final Date resultDate =  query.getSingleResult();
+
+		if ( resultDate != null ) {
+			final Calendar c = Calendar.getInstance();
+			c.setTime(resultDate);
+			return c.get(Calendar.YEAR);
+		}
+
+		return null;
 	}
 
 	@Transactional(readOnly = true)

@@ -4,6 +4,7 @@
 package org.ocha.hdx.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Arrays;
@@ -117,7 +118,8 @@ public class ApiV2BackendServiceImplCacheTest {
 				"http://www.example3.com", importFromCKAN);
 
 		final ApiResultWrapper<ApiIndicatorValue> resultWrapper1 =
-				this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(Arrays.asList("PSP080", "FY620"), Arrays.asList("esa-unpd-WPP2012", "acled"), Arrays.asList("Ro","Fi"), 2012, 2013, 1, 2, "en");
+				this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(Arrays.asList("PSP080", "FY620"), Arrays.asList("esa-unpd-WPP2012", "acled"),
+						Arrays.asList("Ro","Fi"), 2012, 2013, null, 1, 2, "en");
 		assertNotNull(resultWrapper1);
 		assertEquals("There should be 3 indicators matching the criteria in total", new Integer(3), resultWrapper1.getTotalCount() );
 		assertEquals("There should be exactly 1 indicator matching the criteria on the requested page", 1, resultWrapper1.getResults().size() );
@@ -127,9 +129,54 @@ public class ApiV2BackendServiceImplCacheTest {
 
 		assertEquals("The cache should not be hit", 0, this.indicatorResultCache.stats().hitCount());
 		final ApiResultWrapper<ApiIndicatorValue> resultWrapper2 =
-				this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(Arrays.asList("PSP080", "FY620"), Arrays.asList("esa-unpd-WPP2012", "acled"), Arrays.asList("Ro","Fi"), 2012, 2013, 1, 2, "en");
+				this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(Arrays.asList("PSP080", "FY620"), Arrays.asList("esa-unpd-WPP2012", "acled"),
+						Arrays.asList("Ro","Fi"), 2012, 2013, null, 1, 2, "en");
 
 		assertEquals("The cache should have been hit once", 1, this.indicatorResultCache.stats().hitCount());
+
+		this.indicatorDAO.deleteAllIndicatorsFromImport(importFromCKAN.getId());
+		this.importFromCKANDAO.deleteImportFromCKAN(importFromCKAN.getId());
+	}
+
+	@Test
+	public final void testListIndicatorsByLatestYearCriteria() {
+		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord("anyResourceId", "anyRevisionId", new Date());
+		final Source src1 = this.sourceDAO.getSourceByCode("esa-unpd-WPP2012");
+		final IndicatorType type1 = this.indicatorTypeDAO.getIndicatorTypeByCode("PSP080");
+		final Entity entity1 = this.entityDAO.getEntityByCodeAndType("Fi", "country");
+
+		final LocalDateTime dateTime2012 = new LocalDateTime(2012, 1, 1, 0, 0);
+		final Date date2012 = dateTime2012.toDate();
+		final Date date2013 = dateTime2012.plusYears(1).toDate();
+
+		this.indicatorDAO.createIndicator(src1, entity1, type1, date2012, date2012, Periodicity.MONTH, new IndicatorValue(10000.0), "10000$", ValidationStatus.SUCCESS,
+				"http://www.example.com", importFromCKAN);
+
+		final Source src2 = this.sourceDAO.getSourceByCode("acled");
+		final IndicatorType type2 = this.indicatorTypeDAO.getIndicatorTypeByCode("FY620");
+		final Entity entity2 = this.entityDAO.getEntityByCodeAndType("Ro", "country");
+
+		this.indicatorDAO.createIndicator(src2, entity2, type2, date2013, date2013, Periodicity.MONTH, new IndicatorValue(20000.0), "20000$", ValidationStatus.SUCCESS,
+				"http://www.example2.com", importFromCKAN);
+
+		this.indicatorDAO.createIndicator(src2, entity2, type2, date2012, date2013, Periodicity.MONTH, new IndicatorValue(30000.0), "30000$", ValidationStatus.SUCCESS,
+				"http://www.example3.com", importFromCKAN);
+
+		final ApiResultWrapper<ApiIndicatorValue> resultWrapper1 =
+				this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(Arrays.asList("PSP080", "FY620"), Arrays.asList("esa-unpd-WPP2012", "acled"),
+						Arrays.asList("Ro","Fi"), null, null, "latest_year", 0, 2, "en");
+		assertNotNull(resultWrapper1);
+		assertEquals("There should be 1 indicator matching the criteria in total", new Integer(1), resultWrapper1.getTotalCount() );
+		assertEquals("There should be exactly 1 indicator matching the criteria on the requested page", 1, resultWrapper1.getResults().size() );
+		assertEquals("Total number of pages should be 1", new Integer(1), resultWrapper1.getTotalNumOfPages());
+		assertEquals("Current page should be 0", new Integer(0), resultWrapper1.getCurrentPage());
+
+		final ApiResultWrapper<ApiIndicatorValue> resultWrapper2 =
+				this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(Arrays.asList("PSP080", "FY620"), Arrays.asList("esa-unpd-WPP2012", "acled"),
+						Arrays.asList("Ro","Fi"), null, null, "fake_period", 0, 2, "en");
+
+		assertNotNull(resultWrapper2);
+		assertFalse("This should not be successful as the period type doesn't exist", resultWrapper2.isSuccess() );
 
 		this.indicatorDAO.deleteAllIndicatorsFromImport(importFromCKAN.getId());
 		this.importFromCKANDAO.deleteImportFromCKAN(importFromCKAN.getId());

@@ -29,6 +29,10 @@ public class ApiResultWrapper<T> {
 	/* In case pagination is not used, this flag shows if there are more results than were returned */
 	private boolean moreResults;
 
+	public ApiResultWrapper(final String errorMessage){
+		this.success = false;
+		this.errorMessage = errorMessage;
+	}
 
 
 	public ApiResultWrapper(final List<T> results, final Integer totalCount, final Integer currentPage, final Integer totalNumOfPages, final boolean success, final String errorMessage,
