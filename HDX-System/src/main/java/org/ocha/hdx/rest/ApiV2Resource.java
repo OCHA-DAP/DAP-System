@@ -30,7 +30,7 @@ public class ApiV2Resource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/values")
-	public ApiResultWrapper<ApiIndicatorValue> getIndicatorValues(@QueryParam("e") final List<String> entityCodes, @QueryParam("it") final List<String> indicatorTypeCodes,
+	public ApiResultWrapper<ApiIndicatorValue> getIndicatorValues(@QueryParam("l") final List<String> entityCodes, @QueryParam("it") final List<String> indicatorTypeCodes,
 			@QueryParam("s") final List<String> sourceCodes, @QueryParam("minTime") final String minTime, @QueryParam("maxTime") final String maxTime,
 			@QueryParam("periodType") final String periodType,
 			@QueryParam("pageNum") final Integer pageNum, @QueryParam("pageSize") final Integer pageSize,
