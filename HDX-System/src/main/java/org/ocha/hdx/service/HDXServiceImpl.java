@@ -5,9 +5,9 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -342,8 +342,14 @@ public class HDXServiceImpl implements HDXService {
 			return false;
 		}
 
-		final URLConnection uCon = url.openConnection();
-
+		HttpURLConnection uCon = (HttpURLConnection) url.openConnection();
+		final int httpStatus = uCon.getResponseCode();
+		if (httpStatus == HttpURLConnection.HTTP_MOVED_TEMP
+				|| httpStatus == HttpURLConnection.HTTP_MOVED_PERM
+					|| httpStatus == HttpURLConnection.HTTP_SEE_OTHER){
+			final String newUrlStr = uCon.getHeaderField("Location");
+			uCon = (HttpURLConnection) new URL(newUrlStr).openConnection();
+		}
 		final InputStream is = uCon.getInputStream();
 
 		final byte[] buf = new byte[1024];
