@@ -30,9 +30,11 @@ public class ApiV2Resource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/values")
-	public ApiResultWrapper<ApiIndicatorValue> getIndicatorValues(@QueryParam("e") final List<String> entityCodes, @QueryParam("it") final List<String> indicatorTypeCodes,
-			@QueryParam("s") final List<String> sourceCodes, @QueryParam("minTime") final String minTime, @QueryParam("maxTime") final String maxTime, @QueryParam("pageNum") final Integer pageNum,
-			@QueryParam("pageSize") final Integer pageSize, @QueryParam("lang") final String lang) {
+	public ApiResultWrapper<ApiIndicatorValue> getIndicatorValues(@QueryParam("l") final List<String> entityCodes, @QueryParam("it") final List<String> indicatorTypeCodes,
+			@QueryParam("s") final List<String> sourceCodes, @QueryParam("minTime") final String minTime, @QueryParam("maxTime") final String maxTime,
+			@QueryParam("periodType") final String periodType,
+			@QueryParam("pageNum") final Integer pageNum, @QueryParam("pageSize") final Integer pageSize,
+			@QueryParam("lang") final String lang) {
 
 		LOGGER.debug("Entering getIndicatorValues");
 
@@ -41,8 +43,9 @@ public class ApiV2Resource {
 			final Integer startYear = minTime == null ? null : new Integer(minTime);
 			final Integer endYear = maxTime == null ? null : new Integer(maxTime);
 
-			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = apiV2BackendService.listIndicatorsByCriteriaWithPagination(indicatorTypeCodes, sourceCodes, entityCodes,
-					startYear, endYear, pageNum, pageSize, lang);
+			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination =
+					this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(indicatorTypeCodes, sourceCodes, entityCodes,
+					startYear, endYear, periodType, pageNum, pageSize, lang);
 
 			return listIndicatorsByCriteriaWithPagination;
 		} catch (final Exception e) {

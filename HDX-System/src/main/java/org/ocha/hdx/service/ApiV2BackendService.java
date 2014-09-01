@@ -26,7 +26,7 @@ public interface ApiV2BackendService {
 	 */
 	ApiResultWrapper<ApiIndicatorValue>  listIndicatorsByCriteriaWithPagination(List<String> indicatorTypeCodes,
 			List<String> sourceCodes, List<String> entityCodes,
-			Integer startYear, Integer endYear,
+			Integer startYear, Integer endYear, String periodType,
 			Integer pageNum, Integer pageSize, String lang);
 
 	/**
@@ -43,5 +43,5 @@ public interface ApiV2BackendService {
 	 */
 	ApiResultWrapper<ApiIndicatorValue>  listIndicatorsByCriteria(List<String> indicatorTypeCodes,
 			List<String> sourceCodes, List<String> entityCodes,
-			Integer startYear, Integer endYear,	String lang);
+			Integer startYear, Integer endYear, final String periodType, String lang);
 }

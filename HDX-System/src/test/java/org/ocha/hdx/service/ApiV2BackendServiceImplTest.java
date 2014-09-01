@@ -43,13 +43,15 @@ public class ApiV2BackendServiceImplTest {
 	public void testListIndicatorsByCriteriaWithPagination() {
 		final List<String> countries = new ArrayList<>();
 		{
-			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, null, null, null, 0, 1000, null);
+			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination =
+					this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, null, null, null, null, 0, 1000, null);
 			Assert.assertEquals(2, listIndicatorsByCriteriaWithPagination.getTotalCount().intValue());
 		}
 
 		{
 			countries.add("FAKE");
-			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, countries, null, null, 0, 1000,
+			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination =
+					this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, countries, null, null, null, 0, 1000,
 					null);
 			Assert.assertEquals(0, listIndicatorsByCriteriaWithPagination.getTotalCount().intValue());
 			countries.clear();
@@ -57,7 +59,8 @@ public class ApiV2BackendServiceImplTest {
 
 		{
 			countries.add("RUS");
-			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, countries, null, null, 0, 1000,
+			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination =
+					this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, countries, null, null, null, 0, 1000,
 					null);
 			Assert.assertEquals(1, listIndicatorsByCriteriaWithPagination.getTotalCount().intValue());
 		}

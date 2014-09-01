@@ -208,4 +208,6 @@ public interface IndicatorDAO {
 	 */
 	public Long countIndicatorsByCriteria(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes, Integer startYear, Integer endYear);
 
+	public Integer latestYearForIndicatorsByCriteria(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes);
+
 }
