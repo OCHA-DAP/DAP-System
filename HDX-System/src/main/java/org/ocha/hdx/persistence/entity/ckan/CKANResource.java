@@ -3,12 +3,14 @@ package org.ocha.hdx.persistence.entity.ckan;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -17,6 +19,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.ForeignKey;
 import org.ocha.hdx.importer.report.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
+import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 
 @Entity
@@ -48,47 +51,54 @@ public class CKANResource {
 		}
 
 		public String getId() {
-			return id;
+			return this.id;
 		}
 
 		public String getRevision_id() {
-			return revision_id;
+			return this.revision_id;
 		}
 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((id == null) ? 0 : id.hashCode());
-			result = prime * result + ((revision_id == null) ? 0 : revision_id.hashCode());
+			result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+			result = prime * result + ((this.revision_id == null) ? 0 : this.revision_id.hashCode());
 			return result;
 		}
 
 		@Override
 		public boolean equals(final Object obj) {
-			if (this == obj)
+			if (this == obj) {
 				return true;
-			if (obj == null)
+			}
+			if (obj == null) {
 				return false;
-			if (getClass() != obj.getClass())
+			}
+			if (this.getClass() != obj.getClass()) {
 				return false;
+			}
 			final Id other = (Id) obj;
-			if (id == null) {
-				if (other.id != null)
+			if (this.id == null) {
+				if (other.id != null) {
 					return false;
-			} else if (!id.equals(other.id))
+				}
+			} else if (!this.id.equals(other.id)) {
 				return false;
-			if (revision_id == null) {
-				if (other.revision_id != null)
+			}
+			if (this.revision_id == null) {
+				if (other.revision_id != null) {
 					return false;
-			} else if (!revision_id.equals(other.revision_id))
+				}
+			} else if (!this.revision_id.equals(other.revision_id)) {
 				return false;
+			}
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "Id [id=" + id + ", revision_id=" + revision_id + "]";
+			return "Id [id=" + this.id + ", revision_id=" + this.revision_id + "]";
 		}
 
 	}
@@ -108,11 +118,55 @@ public class CKANResource {
 		this.parentDataset_name = parentDataset_name;
 	}
 
+
+	/**
+	 * Constructor that skips the huge blob reports. Used in HQL.
+	 * @param name
+	 * @param workflowState
+	 * @param revision_timestamp
+	 * @param parentDataset_name
+	 * @param parentDataset_id
+	 * @param parentDataset_revision_id
+	 * @param parentDataset_revision_timestamp
+	 * @param detectionDate
+	 * @param downloadDate
+	 * @param evaluationDate
+	 * @param evaluator
+	 * @param importDate
+	 * @param importer
+	 * @param resourceConfiguration
+	 */
+	public CKANResource(final Id id, final String name, final WorkflowState workflowState,
+			final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
+			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp, final Date detectionDate, final Date downloadDate, final Date evaluationDate,
+			final Type evaluator, final Date importDate, final Type importer, final ResourceConfiguration resourceConfiguration) {
+
+		this.id.id  = id.getId();
+		this.id.revision_id = id.getRevision_id();
+
+		this.name = name;
+		this.workflowState = workflowState;
+		this.revision_timestamp = revision_timestamp;
+		this.parentDataset_name = parentDataset_name;
+		this.parentDataset_id = parentDataset_id;
+		this.parentDataset_revision_id = parentDataset_revision_id;
+		this.parentDataset_revision_timestamp = parentDataset_revision_timestamp;
+		this.detectionDate = detectionDate;
+		this.downloadDate = downloadDate;
+		this.evaluationDate = evaluationDate;
+		this.evaluator = evaluator;
+		this.importDate = importDate;
+		this.importer = importer;
+		this.resourceConfiguration = resourceConfiguration;
+	}
+
+
+
 	@EmbeddedId
 	private final Id id = new Id();
 
 	public Id getId() {
-		return id;
+		return this.id;
 	}
 
 	@Column(name = "name", nullable = false, updatable = false)
@@ -155,12 +209,13 @@ public class CKANResource {
 
 	// FIXME here we store the serialization of the report for fast prototyping
 	// this is something we'll probably want to change
-	@Lob
+	@Lob @Basic(fetch=FetchType.LAZY)
 	@Column(name = "validationReport", length = 50000, nullable = true, updatable = true)
 	private ValidationReport validationReport;
 
 	// FIXME here we store the serialization of the report for fast prototyping
 	// this is something we'll probably want to change
+	@Basic(fetch=FetchType.LAZY)
 	@Lob
 	@Column(name = "import_report", length = 50000, nullable = true, updatable = true)
 	private ImportReport importReport;
@@ -175,7 +230,7 @@ public class CKANResource {
 	private ResourceConfiguration resourceConfiguration;
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(final String name) {
@@ -183,7 +238,7 @@ public class CKANResource {
 	}
 
 	public WorkflowState getWorkflowState() {
-		return workflowState;
+		return this.workflowState;
 	}
 
 	public void setWorkflowState(final WorkflowState workflowState) {
@@ -195,7 +250,7 @@ public class CKANResource {
 	}
 
 	public Date getRevision_timestamp() {
-		return revision_timestamp;
+		return this.revision_timestamp;
 	}
 
 	public void setRevision_timestamp(final Date revision_timestamp) {
@@ -203,7 +258,7 @@ public class CKANResource {
 	}
 
 	public String getParentDataset_name() {
-		return parentDataset_name;
+		return this.parentDataset_name;
 	}
 
 	public void setParentDataset_name(final String parentDataset_name) {
@@ -211,7 +266,7 @@ public class CKANResource {
 	}
 
 	public String getParentDataset_id() {
-		return parentDataset_id;
+		return this.parentDataset_id;
 	}
 
 	public void setParentDataset_id(final String parentDataset_id) {
@@ -219,7 +274,7 @@ public class CKANResource {
 	}
 
 	public String getParentDataset_revision_id() {
-		return parentDataset_revision_id;
+		return this.parentDataset_revision_id;
 	}
 
 	public void setParentDataset_revision_id(final String parentDataset_revision_id) {
@@ -227,7 +282,7 @@ public class CKANResource {
 	}
 
 	public Date getParentDataset_revision_timestamp() {
-		return parentDataset_revision_timestamp;
+		return this.parentDataset_revision_timestamp;
 	}
 
 	public void setParentDataset_revision_timestamp(final Date parentDataset_revision_timestamp) {
@@ -235,7 +290,7 @@ public class CKANResource {
 	}
 
 	public Date getDetectionDate() {
-		return detectionDate;
+		return this.detectionDate;
 	}
 
 	public void setDetectionDate(final Date detectionDate) {
@@ -243,7 +298,7 @@ public class CKANResource {
 	}
 
 	public Date getDownloadDate() {
-		return downloadDate;
+		return this.downloadDate;
 	}
 
 	public void setDownloadDate(final Date downloadDate) {
@@ -251,7 +306,7 @@ public class CKANResource {
 	}
 
 	public Date getEvaluationDate() {
-		return evaluationDate;
+		return this.evaluationDate;
 	}
 
 	public void setEvaluationDate(final Date evaluationDate) {
@@ -259,7 +314,7 @@ public class CKANResource {
 	}
 
 	public CKANDataset.Type getEvaluator() {
-		return evaluator;
+		return this.evaluator;
 	}
 
 	public void setEvaluator(final CKANDataset.Type evaluator) {
@@ -267,7 +322,7 @@ public class CKANResource {
 	}
 
 	public Date getImportDate() {
-		return importDate;
+		return this.importDate;
 	}
 
 	public void setImportDate(final Date importDate) {
@@ -275,7 +330,7 @@ public class CKANResource {
 	}
 
 	public ValidationReport getValidationReport() {
-		return validationReport;
+		return this.validationReport;
 	}
 
 	public void setValidationReport(final ValidationReport validationReport) {
@@ -283,7 +338,7 @@ public class CKANResource {
 	}
 
 	public ImportReport getImportReport() {
-		return importReport;
+		return this.importReport;
 	}
 
 	public void setImportReport(final ImportReport importReport) {
@@ -291,7 +346,7 @@ public class CKANResource {
 	}
 
 	public CKANDataset.Type getImporter() {
-		return importer;
+		return this.importer;
 	}
 
 	public void setImporter(final CKANDataset.Type importer) {
@@ -299,7 +354,7 @@ public class CKANResource {
 	}
 
 	public ResourceConfiguration getResourceConfiguration() {
-		return resourceConfiguration;
+		return this.resourceConfiguration;
 	}
 
 	public void setResourceConfiguration(final ResourceConfiguration resourceConfiguration) {

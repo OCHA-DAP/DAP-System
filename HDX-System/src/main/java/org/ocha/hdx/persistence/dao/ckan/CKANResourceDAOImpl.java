@@ -17,6 +17,14 @@ import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 public class CKANResourceDAOImpl implements CKANResourceDAO {
+	
+	/**
+	 * A hackish workaround to avoid loading the huge blob reports
+	 */
+	private final static String SELECT_CLAUSE = "new CKANResource(r.id, r.name, r.workflowState,"
+		+ "r.revision_timestamp, r.parentDataset_name, r.parentDataset_id,"
+		+ "r.parentDataset_revision_id, r.parentDataset_revision_timestamp, r.detectionDate, r.downloadDate, r.evaluationDate,"
+		+ "r.evaluator, r.importDate, r.importer, r.resourceConfiguration)";
 
 	@PersistenceContext
 	private EntityManager em;
@@ -133,14 +141,15 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional(readOnly = true)
 	public List<CKANResource> listCKANResourceRevisions(final String id) {
-		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r WHERE r.id.id = :id", CKANResource.class).setParameter("id", id);
+		final TypedQuery<CKANResource> query = em.createQuery("SELECT " + SELECT_CLAUSE + " FROM CKANResource r WHERE r.id.id = :id", CKANResource.class).setParameter("id", id);
 		return query.getResultList();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<CKANResource> listCKANResources() {
-		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r ORDER BY id.id, detectionDate desc", CKANResource.class);
+
+		final TypedQuery<CKANResource> query = this.em.createQuery("SELECT " + SELECT_CLAUSE +  " FROM CKANResource r ORDER BY r.id.id, r.detectionDate desc", CKANResource.class);
 		return query.getResultList();
 	}
 
