@@ -48,4 +48,6 @@ public interface DataSerieMetadataDAO {
 
 	public DataSerieMetadata getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(final String indicatorTypeCode, final String sourceCode, final MetadataName entryKey);
 
+	public void deleteDataSerieMetadataForIndicatorType(long indicatorTypeId);
+
 }

@@ -288,6 +288,19 @@ public class DataSerieMetadataDAOImplTest {
 		textDAO.deleteText(text.getId());
 	}
 
+	@Test
+	public final void testDeleteDataSerieMetadataForIndicatorType() {
+
+		final Text text = textDAO.createText("Dummy Value");
+		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, MetadataName.METHODOLOGY, text);
+		assertTrue(dataSerieMetadata.getId() > 0);
+
+		dataSerieMetadataDAO.deleteDataSerieMetadataForIndicatorType(indicatorType.getId());
+
+		assertNull(dataSerieMetadataDAO.getDataSerieMetadataById(dataSerieMetadata.getId()));
+
+	}
+
 	/**
 	 * Test method for {@link org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAOImpl#updateDataSerieMetadata(long, org.ocha.hdx.persistence.entity.i18n.Text)}.
 	 */

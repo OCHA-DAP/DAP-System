@@ -292,6 +292,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	@Transactional
 	public void deleteIndicatorType(final long indicatorTypeId) {
+		dataSerieMetadataDAO.deleteDataSerieMetadataForIndicatorType(indicatorTypeId);
 		indicatorTypeDAO.deleteIndicatorType(indicatorTypeId);
 	}
 

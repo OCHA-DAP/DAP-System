@@ -129,4 +129,10 @@ public class DataSerieMetadataDAOImpl implements DataSerieMetadataDAO {
 		}
 	}
 
+	@Override
+	@Transactional
+	public void deleteDataSerieMetadataForIndicatorType(final long indicatorTypeId) {
+		em.createQuery("DELETE FROM DataSerieMetadata ad WHERE ad.indicatorType.id=:indicatorTypeId").setParameter("indicatorTypeId", indicatorTypeId).executeUpdate();
+
+	}
 }
