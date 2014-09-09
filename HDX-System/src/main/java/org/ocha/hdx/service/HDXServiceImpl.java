@@ -92,6 +92,7 @@ public class HDXServiceImpl implements HDXService {
 		if (!stagingDirectory.isDirectory()) {
 			throw new IllegalArgumentException("staging  directory doesn't exist: " + stagingDirectory.getAbsolutePath());
 		}
+
 		this.stagingDirectory = stagingDirectory;
 
 		urlBaseForDatasetsList = String.format(DATASET_LIST_V3_API_PATTERN, host);
@@ -315,7 +316,7 @@ public class HDXServiceImpl implements HDXService {
 		final CKANDataset.Type type = getTypeForFile(id, revision_id);
 
 		final ResourceConfiguration config = getResourceConfigFromResourceIdAndRevisionId(id, revision_id);
-		ValidationReport validationReport = getValidationReportFromResourceIdAndRevisionId(id, revision_id);
+		ValidationReport validationReport = workflowService.readValidationReport(id, revision_id);
 
 		if (validationReport == null) {
 			// Not very likely to happen, but it is possible to have validation only during the import
@@ -389,11 +390,6 @@ public class HDXServiceImpl implements HDXService {
 		} else {
 			return null;
 		}
-	}
-
-	private ValidationReport getValidationReportFromResourceIdAndRevisionId(final String id, final String revision_id) {
-		final CKANResource resource = resourceDAO.getCKANResource(id, revision_id);
-		return resource.getValidationReport();
 	}
 
 	/**
