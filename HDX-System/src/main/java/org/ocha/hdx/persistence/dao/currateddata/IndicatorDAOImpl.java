@@ -25,6 +25,7 @@ import javax.persistence.criteria.Root;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
+import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.TimeRange;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.api2util.IntermediaryIndicatorValue;
@@ -97,7 +98,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	/**
 	 * Delete some indicators.
-	 *
+	 * 
 	 * @author Dan TODO: It could delete all indicators in one transaction
 	 */
 	@Override
@@ -205,9 +206,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		} catch (final NoResultException e) {
 			// It is possible that no value exists.
 		}
-		if(null != queryResult) {
+		if (null != queryResult) {
 			for (final Object[] object : queryResult) {
-				result.put((Long)object[0], (Long)object[1]);
+				result.put((Long) object[0], (Long) object[1]);
 			}
 		}
 		return result;
@@ -430,12 +431,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Transactional(readOnly = true)
 	@Override
-	public Long countIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
-			final List<String> entityCodes, final Integer startYear, final Integer endYear){
+	public Long countIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear, final Integer endYear) {
 		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
-		final CriteriaQuery<Long> criteriaQuery =
-				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear,
-				endYear, criteriaBuilder, Long.class, false);
+		final CriteriaQuery<Long> criteriaQuery = this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear, criteriaBuilder, Long.class, false);
 
 		final Set<Root<?>> roots = criteriaQuery.getRoots();
 		criteriaQuery.select(criteriaBuilder.count(roots.iterator().next()));
@@ -446,12 +444,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Transactional(readOnly = true)
 	@Override
-	public Integer latestYearForIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
-			final List<String> entityCodes){
+	public Integer latestYearForIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes) {
 		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
-		final CriteriaQuery<Date> criteriaQuery =
-				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, null,
-				null, criteriaBuilder, Date.class, false);
+		final CriteriaQuery<Date> criteriaQuery = this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, null, null, criteriaBuilder, Date.class, false);
 
 		final Set<Root<?>> roots = criteriaQuery.getRoots();
 
@@ -459,12 +454,12 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 		final Path<Date> datePath = indicatorRoot.get("start");
 
-		criteriaQuery.select( criteriaBuilder.greatest(datePath) );
+		criteriaQuery.select(criteriaBuilder.greatest(datePath));
 
 		final TypedQuery<Date> query = this.em.createQuery(criteriaQuery);
-		final Date resultDate =  query.getSingleResult();
+		final Date resultDate = query.getSingleResult();
 
-		if ( resultDate != null ) {
+		if (resultDate != null) {
 			final Calendar c = Calendar.getInstance();
 			c.setTime(resultDate);
 			return c.get(Calendar.YEAR);
@@ -475,13 +470,12 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<IntermediaryIndicatorValue> listIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
-			final List<String> entityCodes, final Integer startYear, final Integer endYear, final Integer startPosition, final Integer maxResult, final String lang){
+	public List<IntermediaryIndicatorValue> listIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear,
+			final Integer endYear, final Integer startPosition, final Integer maxResult, final String lang) {
 
 		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
-		final CriteriaQuery<IntermediaryIndicatorValue> criteriaQuery =
-				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear,
-				endYear, criteriaBuilder, IntermediaryIndicatorValue.class, true);
+		final CriteriaQuery<IntermediaryIndicatorValue> criteriaQuery = this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear, criteriaBuilder,
+				IntermediaryIndicatorValue.class, true);
 
 		final TypedQuery<IntermediaryIndicatorValue> query = this.em.createQuery(criteriaQuery);
 		query.setFirstResult(startPosition);
@@ -499,20 +493,16 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 * @param criteriaBuilder
 	 * @return
 	 */
-	private <T> CriteriaQuery<T> createQueryforIndicatorsByCriteria(final List<String> indicatorTypeCodes,
-			final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear,
-			final Integer endYear, final CriteriaBuilder criteriaBuilder,
-			final Class<T> responseClass,
-			final boolean addSelectClause) {
+	private <T> CriteriaQuery<T> createQueryforIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear,
+			final Integer endYear, final CriteriaBuilder criteriaBuilder, final Class<T> responseClass, final boolean addSelectClause) {
 
 		final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(responseClass);
 		final Root<Indicator> indicatorRoot = criteriaQuery.from(Indicator.class);
 
-
 		final Join<Indicator, IndicatorType> indToIndTypeJoin = indicatorRoot.join("type");
 		final Join<IndicatorType, Text> indTypeToTextJoin = indToIndTypeJoin.join("name");
-//		final Join<Translation, Language> translationToLangJoin = textToTranslationsJoin.join((SingularAttribute) textToTranslationsJoin.get("id").get("language").getModel());
-//		final Join<Id, Language> translationToLangJoin = tempJoin.join("language");
+		// final Join<Translation, Language> translationToLangJoin = textToTranslationsJoin.join((SingularAttribute) textToTranslationsJoin.get("id").get("language").getModel());
+		// final Join<Id, Language> translationToLangJoin = tempJoin.join("language");
 
 		final Join<Indicator, Source> indToSrcJoin = indicatorRoot.join("source");
 		final Join<Object, Object> srcToTextJoin = indToSrcJoin.join("name");
@@ -523,48 +513,40 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		final List<Predicate> filters = new ArrayList<>();
 		filters.add(indicatorRoot.get("value").get("numberValue").isNotNull());
 
-		if ( CollectionUtils.isNotEmpty(indicatorTypeCodes) ) {
-			filters.add( indToIndTypeJoin.get("code").in(indicatorTypeCodes) );
+		if (CollectionUtils.isNotEmpty(indicatorTypeCodes)) {
+			filters.add(indToIndTypeJoin.get("code").in(indicatorTypeCodes));
 		}
-		if ( CollectionUtils.isNotEmpty(sourceCodes)) {
-			filters.add( indToSrcJoin.get("code").in(sourceCodes) );
+		if (CollectionUtils.isNotEmpty(sourceCodes)) {
+			filters.add(indToSrcJoin.get("code").in(sourceCodes));
 		}
-		if ( CollectionUtils.isNotEmpty(entityCodes)) {
-			filters.add( indToEntityJoin.get("code").in(entityCodes) );
+		if (CollectionUtils.isNotEmpty(entityCodes)) {
+			filters.add(indToEntityJoin.get("code").in(entityCodes));
 		}
-		if ( startYear != null ) {
-			final LocalDateTime  startDate = new LocalDateTime(startYear, 1, 1, 0, 0);
-			filters.add( criteriaBuilder.greaterThanOrEqualTo(indicatorRoot.<Date>get("start"), startDate.toDate()) );
+		if (startYear != null) {
+			final LocalDateTime startDate = new LocalDateTime(startYear, 1, 1, 0, 0);
+			filters.add(criteriaBuilder.greaterThanOrEqualTo(indicatorRoot.<Date> get("start"), startDate.toDate()));
 		}
-		if ( endYear != null ) {
-			final LocalDateTime  endDate = new LocalDateTime(endYear+1, 1, 1, 0, 0);
-			filters.add( criteriaBuilder.lessThan(indicatorRoot.<Date>get("start"), endDate.toDate()) );
+		if (endYear != null) {
+			final LocalDateTime endDate = new LocalDateTime(endYear + 1, 1, 1, 0, 0);
+			filters.add(criteriaBuilder.lessThan(indicatorRoot.<Date> get("start"), endDate.toDate()));
 		}
-
 
 		if (addSelectClause) {
-			criteriaQuery.
-				select(criteriaBuilder.construct(
-						responseClass,
-						indicatorRoot.get("value").get("numberValue"),
-						indToIndTypeJoin.get("code"),
-						indTypeToTextJoin.get("defaultValue"),
-						indTypeToTextJoin.get("id"),
-						indToEntityJoin.get("code"),
-						entityToTextJoin.get("defaultValue"),
-						entityToTextJoin.get("id"),
-						indToSrcJoin.get("code"),
-						srcToTextJoin.get("defaultValue"),
-						srcToTextJoin.get("id"),
-						indicatorRoot.get("start")
-					)
-				)
-				.orderBy(criteriaBuilder.asc(indToIndTypeJoin.get("code")))
-				.orderBy(criteriaBuilder.asc(indicatorRoot.get("id")));
+			criteriaQuery
+					.select(criteriaBuilder.construct(responseClass, indicatorRoot.get("value").get("numberValue"), indToIndTypeJoin.get("code"), indTypeToTextJoin.get("defaultValue"),
+							indTypeToTextJoin.get("id"), indToEntityJoin.get("code"), entityToTextJoin.get("defaultValue"), entityToTextJoin.get("id"), indToSrcJoin.get("code"),
+							srcToTextJoin.get("defaultValue"), srcToTextJoin.get("id"), indicatorRoot.get("start"))).orderBy(criteriaBuilder.asc(indToIndTypeJoin.get("code")))
+					.orderBy(criteriaBuilder.asc(indicatorRoot.get("id")));
 		}
 		criteriaQuery.where(filters.toArray(new Predicate[0]));
 
 		return criteriaQuery;
 	}
 
+	@Override
+	public boolean indicatorExists(final PreparedIndicator preparedIndicator) {
+		final TypedQuery<Indicator> query = this.em.createQuery("SELECT i FROM Indicator i Where i.source.code = :sourceCode", Indicator.class);
+		query.setParameter("sourceCode", preparedIndicator.getSourceCode());
+		return false;
+	}
 }

@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.persistence.NoResultException;
 
+import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.TimeRange;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.api.CellDescriptor;
@@ -408,6 +409,12 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		indicatorDAO.createIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, ValidationStatus.SUCCESS, sourceLink, importFromCKAN);
 
+	}
+
+	@Override
+	public boolean indicatorExists(final PreparedIndicator preparedIndicator) {
+		// TODO Auto-generated method stub
+		return indicatorDAO.indicatorExists(preparedIndicator);
 	}
 
 	// @Override
