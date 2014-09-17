@@ -11,12 +11,12 @@ import org.ocha.hdx.exceptions.apiv2.ApiV2ProcessingException;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 public class RequestParamsWrapper {
 
-	public enum PeriodType{
-		LATEST_YEAR;
+	public enum PeriodType {
+		LATEST_YEAR, LATEST_YEAR_BY_COUNTRY;
 	}
 
 	private final List<String> indicatorTypeCodes;
@@ -29,10 +29,8 @@ public class RequestParamsWrapper {
 	private final Integer pageSize;
 	private final String lang;
 
-
-
 	public RequestParamsWrapper(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear, final Integer endYear,
-			final String periodType, final Integer pageNum, final Integer pageSize, final String lang) throws ApiV2ProcessingException {
+			final PeriodType periodType, final Integer pageNum, final Integer pageSize, final String lang) throws ApiV2ProcessingException {
 		super();
 		this.indicatorTypeCodes = new ArrayList<String>();
 		this.populateOrderedList(indicatorTypeCodes, this.indicatorTypeCodes);
@@ -46,13 +44,7 @@ public class RequestParamsWrapper {
 		this.startYear = startYear;
 		this.endYear = endYear;
 
-		if ( periodType != null ) {
-			try {
-				this.periodType = PeriodType.valueOf(periodType.toUpperCase());
-			} catch (final IllegalArgumentException e) {
-				throw new ApiV2ProcessingException("Incorrect period type", e);
-			}
-		}
+		this.periodType = periodType;
 
 		this.pageNum = pageNum;
 		this.pageSize = pageSize;
@@ -61,15 +53,15 @@ public class RequestParamsWrapper {
 	}
 
 	private void populateOrderedList(final List<String> srclist, final List<String> destList) {
-		if ( srclist != null && srclist.size() > 0 ) {
+		if (srclist != null && srclist.size() > 0) {
 			destList.addAll(srclist);
 			Collections.sort(destList);
 		}
 	}
 
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -88,7 +80,9 @@ public class RequestParamsWrapper {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -168,24 +162,31 @@ public class RequestParamsWrapper {
 	public List<String> getIndicatorTypeCodes() {
 		return this.indicatorTypeCodes;
 	}
+
 	public List<String> getSourceCodes() {
 		return this.sourceCodes;
 	}
+
 	public List<String> getEntityCodes() {
 		return this.entityCodes;
 	}
+
 	public Integer getStartYear() {
 		return this.startYear;
 	}
+
 	public Integer getEndYear() {
 		return this.endYear;
 	}
+
 	public Integer getPageNum() {
 		return this.pageNum;
 	}
+
 	public Integer getPageSize() {
 		return this.pageSize;
 	}
+
 	public String getLang() {
 		return this.lang;
 	}
@@ -197,8 +198,5 @@ public class RequestParamsWrapper {
 	public void setPeriodType(final PeriodType periodType) {
 		this.periodType = periodType;
 	}
-
-
-
 
 }

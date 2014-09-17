@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.ocha.hdx.model.api2.ApiIndicatorValue;
 import org.ocha.hdx.model.api2.ApiResultWrapper;
+import org.ocha.hdx.model.api2util.RequestParamsWrapper.PeriodType;
 import org.ocha.hdx.service.ApiV2BackendService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApiV2Resource {
 
+	// public enum PeriodType {
+	// LATEST_YEAR("latest_year"), LATEST_YEAR_BY_COUNTRY("latest_year_by_country");
+	//
+	// private final String label;
+	//
+	// private PeriodType(final String label) {
+	// this.label = label;
+	// }
+	//
+	// public String getLabel() {
+	// return label;
+	// }
+	//
+	// }
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApiV2Resource.class);
 
 	@Autowired
@@ -32,9 +48,7 @@ public class ApiV2Resource {
 	@Path("/values")
 	public ApiResultWrapper<ApiIndicatorValue> getIndicatorValues(@QueryParam("l") final List<String> entityCodes, @QueryParam("it") final List<String> indicatorTypeCodes,
 			@QueryParam("s") final List<String> sourceCodes, @QueryParam("minTime") final String minTime, @QueryParam("maxTime") final String maxTime,
-			@QueryParam("periodType") final String periodType,
-			@QueryParam("pageNum") final Integer pageNum, @QueryParam("pageSize") final Integer pageSize,
-			@QueryParam("lang") final String lang) {
+			@QueryParam("periodType") final PeriodType periodType, @QueryParam("pageNum") final Integer pageNum, @QueryParam("pageSize") final Integer pageSize, @QueryParam("lang") final String lang) {
 
 		LOGGER.debug("Entering getIndicatorValues");
 
@@ -43,9 +57,8 @@ public class ApiV2Resource {
 			final Integer startYear = minTime == null ? null : new Integer(minTime);
 			final Integer endYear = maxTime == null ? null : new Integer(maxTime);
 
-			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination =
-					this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(indicatorTypeCodes, sourceCodes, entityCodes,
-					startYear, endYear, periodType, pageNum, pageSize, lang);
+			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(indicatorTypeCodes, sourceCodes,
+					entityCodes, startYear, endYear, periodType, pageNum, pageSize, lang);
 
 			return listIndicatorsByCriteriaWithPagination;
 		} catch (final Exception e) {
