@@ -16,7 +16,7 @@ public class IndicatorMaxDate {
 	@Column(name = "values")
 	private double value;
 
-	@Column(name = "indicator_type_codes")
+	@Column(name = "indicator_type_code")
 	private String indicatorTypeCode;
 
 	@Column(name = "indicator_type_name")
