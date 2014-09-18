@@ -15,4 +15,4 @@ CREATE OR REPLACE VIEW
 	text st,
 	text et
 	WHERE i.type_id = it.id AND i.source_id = s.id AND i.entity_id = e.id
-	AND itt.id = it.text_id AND st.id = s.text_id AND et.id = e.text_id ;
+	AND itt.id = it.text_id AND st.id = s.text_id AND et.id = e.text_id AND i.number_value is not null;
