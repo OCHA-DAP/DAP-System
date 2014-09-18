@@ -18,12 +18,12 @@ public class IndicatorMaxDateDAOImpl implements IndicatorMaxDateDAO {
 		final StringBuilder builder = new StringBuilder("SELECT imd FROM IndicatorMaxDate imd WHERE ");
 
 		boolean andNeeded = false;
-		if (entityCodes != null) {
+		if (entityCodes != null && !entityCodes.isEmpty()) {
 			builder.append(" imd.entityCode IN (:entityCodes) ");
 			andNeeded = true;
 		}
 
-		if (indicatorTypeCodes != null) {
+		if (indicatorTypeCodes != null && !indicatorTypeCodes.isEmpty()) {
 			if (andNeeded) {
 				builder.append(" AND ");
 			}
@@ -32,11 +32,11 @@ public class IndicatorMaxDateDAOImpl implements IndicatorMaxDateDAO {
 
 		}
 
-		if (sourceCodes != null) {
+		if (sourceCodes != null && !sourceCodes.isEmpty()) {
 			if (andNeeded) {
 				builder.append(" AND ");
 			}
-			builder.append(" AND imd.sourceCode IN (:sourceCodes) ");
+			builder.append(" imd.sourceCode IN (:sourceCodes) ");
 		}
 		final TypedQuery<IndicatorMaxDate> query = em.createQuery(builder.toString(), IndicatorMaxDate.class);
 
