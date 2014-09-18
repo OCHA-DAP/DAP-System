@@ -13,7 +13,7 @@ public class IndicatorMaxDate {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "values")
+	@Column(name = "value")
 	private double value;
 
 	@Column(name = "indicator_type_code")
