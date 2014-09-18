@@ -40,13 +40,13 @@ public class IndicatorMaxDateDAOImpl implements IndicatorMaxDateDAO {
 		}
 		final TypedQuery<IndicatorMaxDate> query = em.createQuery(builder.toString(), IndicatorMaxDate.class);
 
-		if (entityCodes != null) {
+		if (entityCodes != null && !entityCodes.isEmpty()) {
 			query.setParameter("entityCodes", entityCodes);
 		}
-		if (indicatorTypeCodes != null) {
+		if (indicatorTypeCodes != null && !indicatorTypeCodes.isEmpty()) {
 			query.setParameter("indicatorTypeCodes", indicatorTypeCodes);
 		}
-		if (sourceCodes != null) {
+		if (sourceCodes != null && !sourceCodes.isEmpty()) {
 			query.setParameter("sourceCodes", sourceCodes);
 		}
 
