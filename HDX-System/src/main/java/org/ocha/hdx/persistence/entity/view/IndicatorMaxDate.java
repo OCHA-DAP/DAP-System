@@ -14,7 +14,7 @@ public class IndicatorMaxDate {
 	private Long id;
 
 	@Column(name = "value")
-	private double value;
+	private Double value;
 
 	@Column(name = "indicator_type_code")
 	private String indicatorTypeCode;
@@ -45,11 +45,11 @@ public class IndicatorMaxDate {
 		this.id = id;
 	}
 
-	public double getValue() {
+	public Double getValue() {
 		return value;
 	}
 
-	public void setValue(final double value) {
+	public void setValue(final Double value) {
 		this.value = value;
 	}
 
