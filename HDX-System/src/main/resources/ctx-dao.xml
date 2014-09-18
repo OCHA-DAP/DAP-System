@@ -33,5 +33,6 @@
   <!-- Views -->
   <bean id="indicatorTypeOverviewDAO" class="org.ocha.hdx.persistence.dao.view.IndicatorTypeOverviewDAOImpl" />
   <bean id="indicatorDataDAO" class="org.ocha.hdx.persistence.dao.view.IndicatorDataDAOImpl" />
+  <bean id="indicatorMaxDateDAO" class="org.ocha.hdx.persistence.dao.view.IndicatorMaxDateDAOImpl"/>
 
 </beans>
