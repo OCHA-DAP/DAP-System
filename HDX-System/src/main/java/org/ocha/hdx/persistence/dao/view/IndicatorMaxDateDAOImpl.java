@@ -19,7 +19,7 @@ public class IndicatorMaxDateDAOImpl implements IndicatorMaxDateDAO {
 
 		boolean andNeeded = false;
 		if (entityCodes != null && !entityCodes.isEmpty()) {
-			builder.append(" imd.entityCode IN (:entityCodes) ");
+			builder.append(" imd.locationCode IN (:entityCodes) ");
 			andNeeded = true;
 		}
 
