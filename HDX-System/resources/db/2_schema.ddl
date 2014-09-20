@@ -193,7 +193,6 @@
         evaluationDate timestamp,
         evaluator varchar(255),
         importDate timestamp,
-        import_report oid,
         importer varchar(255),
         name varchar(255) not null,
         parentDataset_id varchar(255) not null,
@@ -201,7 +200,6 @@
         parentDataset_revision_id varchar(255) not null,
         parentDataset_revision_timestamp timestamp not null,
         revision_timestamp timestamp not null,
-        validationReport oid,
         workflowState varchar(255) not null,
         resource_configuration_id int8 not null,
         primary key (id, revision_id)

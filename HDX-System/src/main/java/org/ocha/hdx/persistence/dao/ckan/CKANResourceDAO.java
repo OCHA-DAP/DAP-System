@@ -3,8 +3,6 @@ package org.ocha.hdx.persistence.dao.ckan;
 import java.util.Date;
 import java.util.List;
 
-import org.ocha.hdx.importer.report.ImportReport;
-import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
@@ -27,7 +25,7 @@ public interface CKANResourceDAO {
 	 * @param id
 	 * @param revision_id
 	 */
-	public void flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final ValidationReport validationReport);
+	public void flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final CKANDataset.Type validator);
 
 	/**
 	 * Flags the given record as FILE_PRE_VALIDATION_FAIL and stores which evaluator triggered the failure
@@ -35,7 +33,7 @@ public interface CKANResourceDAO {
 	 * @param id
 	 * @param revision_id
 	 */
-	public void flagCKANResourceAsFilePreValidationFail(final String id, final String revision_id, final ValidationReport report);
+	public void flagCKANResourceAsFilePreValidationFail(final String id, final String revision_id, final CKANDataset.Type validator);
 
 	public void flagCKANResourceAsImporting(final String id, final String revision_id);
 
@@ -45,9 +43,9 @@ public interface CKANResourceDAO {
 	 * @param revision_id
 	 * @param evaluator
 	 */
-	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report, final ImportReport importReport);
+	public void flagCKANResourceAsImportSuccess(final String id, final String revision_id, final CKANDataset.Type importer);
 
-	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport report, final ImportReport importReport);
+	public void flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer);
 
 	/**
 	 * Flags the given record as Outdated

@@ -150,8 +150,7 @@ public abstract class AbstractValidatingImporter implements HDXWithCountryListIm
 		final List<PreparedIndicator> preparedIndicators = new LinkedList<>();
 		final File valueFile = this.findValueFile(file);
 
-		try (FileReader fileReader = new FileReader(valueFile)) {
-			final CSVReader reader = new CSVReader(fileReader);
+		try (FileReader fileReader = new FileReader(valueFile); final CSVReader reader = new CSVReader(fileReader)) {
 			String[] values;
 			while ((values = reader.readNext()) != null) {
 				try {

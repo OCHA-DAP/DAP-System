@@ -1,5 +1,10 @@
 package org.ocha.hdx.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -10,15 +15,27 @@ import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class WorkflowServiceImpl implements WorkflowService {
 
+	private static final Logger log = LoggerFactory.getLogger(WorkflowServiceImpl.class);
+
 	private final Map<WorkflowState, List<WorkflowState>> possibleTransitionsMap;
 
-	public WorkflowServiceImpl(final Map<WorkflowState, List<WorkflowState>> possibleTransitionsMap) {
+	private final File reportDirectory;
+
+	public WorkflowServiceImpl(final Map<WorkflowState, List<WorkflowState>> possibleTransitionsMap, final File reportDirectory) {
 		super();
 		this.possibleTransitionsMap = possibleTransitionsMap;
+
+		if (!reportDirectory.isDirectory()) {
+			throw new IllegalArgumentException("reports directory doesn't exist: " + reportDirectory.getAbsolutePath());
+		}
+
+		this.reportDirectory = reportDirectory;
 	}
 
 	@Autowired
@@ -77,7 +94,8 @@ public class WorkflowServiceImpl implements WorkflowService {
 	public boolean flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.FILE_PRE_VALIDATION_SUCCESS)) {
-			resourceDAO.flagCKANResourceAsFilePreValidationSuccess(id, revision_id, report);
+			resourceDAO.flagCKANResourceAsFilePreValidationSuccess(id, revision_id, report.getValidator());
+			// FIXME write report on disk
 			return true;
 		} else {
 			return false;
@@ -88,7 +106,8 @@ public class WorkflowServiceImpl implements WorkflowService {
 	public boolean flagCKANResourceAsFilePreValidationFail(final String id, final String revision_id, final ValidationReport report) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.FILE_PRE_VALIDATION_FAIL)) {
-			resourceDAO.flagCKANResourceAsFilePreValidationFail(id, revision_id, report);
+			resourceDAO.flagCKANResourceAsFilePreValidationFail(id, revision_id, report.getValidator());
+			// FIXME write report on disk
 			return true;
 		} else {
 			return false;
@@ -110,7 +129,8 @@ public class WorkflowServiceImpl implements WorkflowService {
 	public boolean flagCKANResourceAsImportSuccess(final String id, final String revision_id, final Type importer, final ValidationReport validationReport, final ImportReport importReport) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.IMPORT_SUCCESS)) {
-			resourceDAO.flagCKANResourceAsImportSuccess(id, revision_id, importer, validationReport, importReport);
+			resourceDAO.flagCKANResourceAsImportSuccess(id, revision_id, importer);
+			// FIXME write reports on disk
 			return true;
 		} else {
 			return false;
@@ -121,11 +141,57 @@ public class WorkflowServiceImpl implements WorkflowService {
 	public boolean flagCKANResourceAsImportFail(final String id, final String revision_id, final Type importer, final ValidationReport validationReport, final ImportReport importReport) {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.IMPORT_FAIL)) {
-			resourceDAO.flagCKANResourceAsImportFail(id, revision_id, importer, validationReport, importReport);
+			resourceDAO.flagCKANResourceAsImportFail(id, revision_id, importer);
+			// FIXME write reports on disk
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	private void writeValidationReportOnFile(final String id, final String revision_id, final ValidationReport validationReport) {
+		FileOutputStream fout;
+		try {
+			final File reportFile = new File(getReportFolder(id, revision_id), "ValidationReport");
+			fout = new FileOutputStream(reportFile);
+			final ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(validationReport);
+		} catch (final Exception e) {
+			log.error(e.toString(), e);
+		}
+	}
+
+	@Override
+	public ValidationReport readValidationReport(final String id, final String revision_id) {
+		final File reportFile = new File(getReportFolder(id, revision_id), "ValidationReport");
+
+		try (FileInputStream fileIn = new FileInputStream(reportFile); final ObjectInputStream in = new ObjectInputStream(fileIn)) {
+			return (ValidationReport) in.readObject();
+		} catch (final Exception e) {
+			log.error(e.toString(), e);
+			return null;
+		}
+
+	}
+
+	private void writeImportReportOnFile(final String id, final String revision_id, final ImportReport importReport) {
+		FileOutputStream fout;
+		try {
+			final File reportFile = new File(getReportFolder(id, revision_id), "ImportReport");
+			fout = new FileOutputStream(reportFile);
+			final ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(importReport);
+		} catch (final Exception e) {
+			log.error(e.toString(), e);
+		}
+	}
+
+	private File getReportFolder(final String id, final String revision_id) {
+		final String fileName = resourceDAO.getCKANResource(id, revision_id).getName();
+
+		final File resourceFolder = new File(reportDirectory, id);
+		final File revisionFolder = new File(resourceFolder, revision_id);
+		return new File(revisionFolder, fileName);
 	}
 
 }

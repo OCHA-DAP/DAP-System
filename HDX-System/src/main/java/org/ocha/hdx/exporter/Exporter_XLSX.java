@@ -1,7 +1,5 @@
 package org.ocha.hdx.exporter;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -393,10 +391,10 @@ public abstract class Exporter_XLSX<QD extends QueryData> extends AbstractExport
 	 * @param path
 	 * @throws IOException
 	 */
-	private static void writeFile(final Workbook wb, final String path) throws IOException {
-		FileOutputStream fileOut;
-		fileOut = new FileOutputStream(path);
-		wb.write(fileOut);
-		fileOut.close();
-	}
+	// private static void writeFile(final Workbook wb, final String path) throws IOException {
+	// FileOutputStream fileOut;
+	// fileOut = new FileOutputStream(path);
+	// wb.write(fileOut);
+	// fileOut.close();
+	// }
 }

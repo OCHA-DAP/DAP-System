@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
@@ -225,6 +226,8 @@ public interface CuratedDataService {
 	public void createIndicatorTypeDictionary(final long configId, final long indicatorTypeId, final String unnormalizedName);
 
 	public void createIndicator(Indicator indicator, ImportFromCKAN importFromCKAN);
+
+	public boolean indicatorExists(final PreparedIndicator preparedIndicator);
 
 	public void deleteIndicatorTypeDictionary(long id);
 
