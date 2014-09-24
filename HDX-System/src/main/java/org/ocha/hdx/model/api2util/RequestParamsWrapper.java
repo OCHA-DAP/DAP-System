@@ -11,12 +11,17 @@ import org.ocha.hdx.exceptions.apiv2.ApiV2ProcessingException;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 public class RequestParamsWrapper {
 
 	public enum PeriodType {
 		LATEST_YEAR, LATEST_YEAR_BY_COUNTRY;
+	}
+
+	public enum SortingOption {
+		INDICATOR_TYPE_ASC, INDICATOR_TYPE_DESC, SOURCE_TYPE_ASC, SOURCE_TYPE_DESC, COUNTRY_ASC, COUNTRY_DESC,
+		VALUE_ASC, VALUE_DESC
 	}
 
 	private final List<String> indicatorTypeCodes;
@@ -28,9 +33,10 @@ public class RequestParamsWrapper {
 	private final Integer pageNum;
 	private final Integer pageSize;
 	private final String lang;
+	private SortingOption sortingOption;
 
 	public RequestParamsWrapper(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear, final Integer endYear,
-			final PeriodType periodType, final Integer pageNum, final Integer pageSize, final String lang) throws ApiV2ProcessingException {
+			final PeriodType periodType, final SortingOption sortingOption, final Integer pageNum, final Integer pageSize, final String lang) throws ApiV2ProcessingException {
 		super();
 		this.indicatorTypeCodes = new ArrayList<String>();
 		this.populateOrderedList(indicatorTypeCodes, this.indicatorTypeCodes);
@@ -50,6 +56,12 @@ public class RequestParamsWrapper {
 		this.pageSize = pageSize;
 		this.lang = lang;
 
+		if ( sortingOption != null ) {
+			this.sortingOption = sortingOption;
+		} else {
+			this.sortingOption = SortingOption.VALUE_DESC;
+		}
+
 	}
 
 	private void populateOrderedList(final List<String> srclist, final List<String> destList) {
@@ -61,7 +73,7 @@ public class RequestParamsWrapper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -82,7 +94,7 @@ public class RequestParamsWrapper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -198,5 +210,11 @@ public class RequestParamsWrapper {
 	public void setPeriodType(final PeriodType periodType) {
 		this.periodType = periodType;
 	}
+
+	public SortingOption getSortingOption() {
+		return this.sortingOption;
+	}
+
+
 
 }

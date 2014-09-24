@@ -42,7 +42,7 @@ import com.google.common.cache.LoadingCache;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
@@ -117,7 +117,7 @@ public class ApiV2BackendServiceImplCacheTest {
 				importFromCKAN);
 
 		final ApiResultWrapper<ApiIndicatorValue> resultWrapper1 = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(Arrays.asList("PSP080", "FY620"),
-				Arrays.asList("esa-unpd-WPP2012", "acled"), Arrays.asList("Ro", "Fi"), 2012, 2013, null, 1, 2, "en");
+				Arrays.asList("esa-unpd-WPP2012", "acled"), Arrays.asList("Ro", "Fi"), 2012, 2013, null, null, 1, 2, "en");
 		assertNotNull(resultWrapper1);
 		assertEquals("There should be 3 indicators matching the criteria in total", new Integer(3), resultWrapper1.getTotalCount());
 		assertEquals("There should be exactly 1 indicator matching the criteria on the requested page", 1, resultWrapper1.getResults().size());
@@ -126,7 +126,7 @@ public class ApiV2BackendServiceImplCacheTest {
 
 		assertEquals("The cache should not be hit", 0, this.indicatorResultCache.stats().hitCount());
 		final ApiResultWrapper<ApiIndicatorValue> resultWrapper2 = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(Arrays.asList("PSP080", "FY620"),
-				Arrays.asList("esa-unpd-WPP2012", "acled"), Arrays.asList("Ro", "Fi"), 2012, 2013, null, 1, 2, "en");
+				Arrays.asList("esa-unpd-WPP2012", "acled"), Arrays.asList("Ro", "Fi"), 2012, 2013, null, null, 1, 2, "en");
 
 		assertEquals("The cache should have been hit once", 1, this.indicatorResultCache.stats().hitCount());
 
@@ -159,7 +159,7 @@ public class ApiV2BackendServiceImplCacheTest {
 				importFromCKAN);
 
 		final ApiResultWrapper<ApiIndicatorValue> resultWrapper1 = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(Arrays.asList("PSP080", "FY620"),
-				Arrays.asList("esa-unpd-WPP2012", "acled"), Arrays.asList("Ro", "Fi"), null, null, PeriodType.LATEST_YEAR, 0, 2, "en");
+				Arrays.asList("esa-unpd-WPP2012", "acled"), Arrays.asList("Ro", "Fi"), null, null, PeriodType.LATEST_YEAR, null, 0, 2, "en");
 		assertNotNull(resultWrapper1);
 		assertEquals("There should be 1 indicator matching the criteria in total", new Integer(1), resultWrapper1.getTotalCount());
 		assertEquals("There should be exactly 1 indicator matching the criteria on the requested page", 1, resultWrapper1.getResults().size());

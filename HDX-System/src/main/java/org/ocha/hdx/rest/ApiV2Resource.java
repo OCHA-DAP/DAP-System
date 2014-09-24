@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import org.ocha.hdx.model.api2.ApiIndicatorValue;
 import org.ocha.hdx.model.api2.ApiResultWrapper;
 import org.ocha.hdx.model.api2util.RequestParamsWrapper.PeriodType;
+import org.ocha.hdx.model.api2util.RequestParamsWrapper.SortingOption;
 import org.ocha.hdx.service.ApiV2BackendService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,8 @@ public class ApiV2Resource {
 	@Path("/values")
 	public ApiResultWrapper<ApiIndicatorValue> getIndicatorValues(@QueryParam("l") final List<String> entityCodes, @QueryParam("it") final List<String> indicatorTypeCodes,
 			@QueryParam("s") final List<String> sourceCodes, @QueryParam("minTime") final String minTime, @QueryParam("maxTime") final String maxTime,
-			@QueryParam("periodType") final PeriodType periodType, @QueryParam("pageNum") final Integer pageNum, @QueryParam("pageSize") final Integer pageSize, @QueryParam("lang") final String lang) {
+			@QueryParam("periodType") final PeriodType periodType, @QueryParam("sorting") final SortingOption sortingOption,
+			@QueryParam("pageNum") final Integer pageNum, @QueryParam("pageSize") final Integer pageSize, @QueryParam("lang") final String lang) {
 
 		LOGGER.debug("Entering getIndicatorValues");
 
@@ -58,7 +60,7 @@ public class ApiV2Resource {
 			final Integer endYear = maxTime == null ? null : new Integer(maxTime);
 
 			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(indicatorTypeCodes, sourceCodes,
-					entityCodes, startYear, endYear, periodType, pageNum, pageSize, lang);
+					entityCodes, startYear, endYear, periodType, sortingOption, pageNum, pageSize, lang);
 
 			return listIndicatorsByCriteriaWithPagination;
 		} catch (final Exception e) {
