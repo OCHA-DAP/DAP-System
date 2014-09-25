@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author alexandru-m-g
- * 
+ *
  */
 public class IntermediaryBackendServiceImpl implements IntermediaryBackendService {
 	@Autowired
@@ -32,7 +32,7 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.ocha.hdx.service.IntermediaryBackendService#listIndicatorsByCriteriaWithPagination(java.util.List, java.util.List, java.util.List, java.lang.Integer, java.lang.Integer,
 	 * java.lang.Integer, java.lang.Integer, java.lang.String)
 	 */
@@ -40,7 +40,7 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 	@Override
 	public ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination(final RequestParamsWrapper paramsWrapper) {
 		if (PeriodType.LATEST_YEAR_BY_COUNTRY.equals(paramsWrapper.getPeriodType())) {
-			return getLastYearByEntryValues(paramsWrapper);
+			return this.getLastYearByEntryValues(paramsWrapper);
 		}
 
 		final Integer[] yearPair = this.findYearPeriod(paramsWrapper);
@@ -56,7 +56,7 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 
 		final String languageCode = paramsWrapper.getLang() != null ? paramsWrapper.getLang() : Constants.DEFAULT_LANGUAGE;
 		final List<IntermediaryIndicatorValue> interimValues = this.indicatorDAO.listIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes(),
-				paramsWrapper.getEntityCodes(), startYear, endYear, startPosition, maxResults, languageCode);
+				paramsWrapper.getEntityCodes(), startYear, endYear, paramsWrapper.getSortingOption(), startPosition, maxResults, languageCode);
 
 		final ApiResultWrapper<ApiIndicatorValue> resultWrapper;
 		if (interimValues != null) {
@@ -74,14 +74,14 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.ocha.hdx.service.IntermediaryBackendService#listIndicatorsByCriteria(java.util.List, java.util.List, java.util.List, java.lang.Integer, java.lang.Integer, java.lang.String)
 	 */
 	@Transactional(readOnly = true)
 	@Override
 	public ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteria(final RequestParamsWrapper paramsWrapper) {
 		if (PeriodType.LATEST_YEAR_BY_COUNTRY.equals(paramsWrapper.getPeriodType())) {
-			return getLastYearByEntryValues(paramsWrapper);
+			return this.getLastYearByEntryValues(paramsWrapper);
 		}
 
 		final Integer[] yearPair = this.findYearPeriod(paramsWrapper);
@@ -91,7 +91,7 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 		final Integer maxResults = Constants.MAX_RESULTS;
 		final String languageCode = paramsWrapper.getLang() != null ? paramsWrapper.getLang() : Constants.DEFAULT_LANGUAGE;
 		final List<IntermediaryIndicatorValue> interimValues = this.indicatorDAO.listIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes(),
-				paramsWrapper.getEntityCodes(), startYear, endYear, 0, maxResults + 1, languageCode);
+				paramsWrapper.getEntityCodes(), startYear, endYear, paramsWrapper.getSortingOption(), 0, maxResults + 1, languageCode);
 
 		final ApiResultWrapper<ApiIndicatorValue> resultWrapper;
 		if (interimValues != null) {
@@ -143,13 +143,13 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 
 	/**
 	 * for now, no pagination in any case here
-	 * 
+	 *
 	 * @param paramsWrapper
 	 * @return
 	 */
 	private ApiResultWrapper<ApiIndicatorValue> getLastYearByEntryValues(final RequestParamsWrapper paramsWrapper) {
 
-		final List<IndicatorMaxDate> rawValues = indicatorMaxDateDAO.getValues(paramsWrapper.getEntityCodes(), paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes());
+		final List<IndicatorMaxDate> rawValues = this.indicatorMaxDateDAO.getValues(paramsWrapper.getEntityCodes(), paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes());
 
 		final List<ApiIndicatorValue> values = new ArrayList<>();
 		for (final IndicatorMaxDate rValue : rawValues) {

@@ -71,9 +71,8 @@ public class RequestParamsWrapper {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -87,14 +86,13 @@ public class RequestParamsWrapper {
 		result = prime * result + ((this.pageNum == null) ? 0 : this.pageNum.hashCode());
 		result = prime * result + ((this.pageSize == null) ? 0 : this.pageSize.hashCode());
 		result = prime * result + ((this.periodType == null) ? 0 : this.periodType.hashCode());
+		result = prime * result + ((this.sortingOption == null) ? 0 : this.sortingOption.hashCode());
 		result = prime * result + ((this.sourceCodes == null) ? 0 : this.sourceCodes.hashCode());
 		result = prime * result + ((this.startYear == null) ? 0 : this.startYear.hashCode());
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -152,6 +150,9 @@ public class RequestParamsWrapper {
 			return false;
 		}
 		if (this.periodType != other.periodType) {
+			return false;
+		}
+		if (this.sortingOption != other.sortingOption) {
 			return false;
 		}
 		if (this.sourceCodes == null) {
