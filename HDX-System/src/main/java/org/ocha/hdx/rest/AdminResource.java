@@ -31,6 +31,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.FileUtils;
@@ -676,6 +677,23 @@ public class AdminResource {
 		final Map<String, Object> jspElement = new HashMap<String, Object>();
 		jspElement.put("configs", hdxService.listConfigurations());
 		return Response.ok(new Viewable("/admin/manualImport", jspElement)).build();
+	}
+
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Path("/status/manualImport/")
+	public Response uploadFile(@FormDataParam("resourceName") final String resourceName, @FormDataParam("resourceConfigurationId") final long resourceConfigurationId,
+			@FormDataParam("resourceFile") final InputStream resourceFile, @Context final UriInfo uriInfo) {
+
+		try {
+			hdxService.addNewCKANResource(resourceName, resourceName, resourceConfigurationId, resourceFile);
+
+			final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
+			return Response.seeOther(newURI).build();
+		} catch (final IOException e) {
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+		}
+
 	}
 
 	/*

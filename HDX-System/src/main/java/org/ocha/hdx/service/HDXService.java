@@ -2,6 +2,7 @@ package org.ocha.hdx.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
@@ -24,9 +25,12 @@ public interface HDXService {
 
 	public boolean addResourceToCKANDataset(final String packageId, final String resourceUrl, final String name);
 
-	public boolean addResourceToCKANDataset(final String packageId, final File file);
+	// not used for now
+	// public boolean addResourceToCKANDataset(final String packageId, final File file);
 
 	public void checkForNewCKANDatasets();
+
+	public void addNewCKANResource(final String resourceId, final String resourceName, final long resourceConfigurationId, final InputStream resourceFile) throws IOException;
 
 	/**
 	 * will try to get all the resources from CKAN instance first datasets and then resources
@@ -52,7 +56,7 @@ public interface HDXService {
 	public void flagDatasetAsIgnored(final String datasetName);
 
 	public void updateDataset(final String datasetName, final String importer, final Long configurationId);
-	
+
 	/**
 	 * 
 	 * downloads the file associated to the given id / revision and flags the record as {@link WorkflowState#DOWNLOADED}

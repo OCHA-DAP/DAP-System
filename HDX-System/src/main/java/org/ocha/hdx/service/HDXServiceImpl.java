@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -148,18 +150,31 @@ public class HDXServiceImpl implements HDXService {
 
 	}
 
-	@Override
-	public boolean addResourceToCKANDataset(final String packageId, final File file) {
-		final String result = performHttpPOSTMultipart(urlBaseForResourceCreation, technicalAPIKey, packageId, file);
-		final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
-
-		return res.get("success").getAsBoolean();
-	}
+	// @Override
+	// public boolean addResourceToCKANDataset(final String packageId, final File file) {
+	// final String result = performHttpPOSTMultipart(urlBaseForResourceCreation, technicalAPIKey, packageId, file);
+	// final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
+	//
+	// return res.get("success").getAsBoolean();
+	// }
 
 	@Override
 	public void checkForNewCKANDatasets() {
 		final List<DatasetV3DTO> datasetV3DTOList = getDatasetV3DTOsFromQuery(technicalAPIKey);
 		datasetDAO.importDetectedDatasetsIfNotPresent(datasetV3DTOList);
+	}
+
+	@Override
+	@Transactional
+	public void addNewCKANResource(final String resourceId, final String resourceName, final long resourceConfigurationId, final InputStream resourceFile) throws IOException {
+
+		final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(resourceConfigurationId);
+
+		resourceDAO.newCKANResourceDetected(resourceId, resourceId, CKANDataset.Type.MANUAL, resourceName, new Date(), CKANDataset.MANUAL_UPLOAD, CKANDataset.MANUAL_UPLOAD, CKANDataset.MANUAL_UPLOAD,
+				new Date(), config);
+
+		writeResourceFileFromInputStream(resourceName, resourceName, resourceFile);
+
 	}
 
 	@Override
@@ -270,6 +285,11 @@ public class HDXServiceImpl implements HDXService {
 		datasetDAO.updateDataset(datasetName, importer, configurationId);
 	}
 
+	private void writeResourceFileFromInputStream(final String id, final String revision_id, final InputStream resourceFile) throws IOException {
+		final File destinationFile = getLocalFileFromResourceIdAndRevisionId(id, revision_id);
+		FileUtils.writeByteArrayToFile(destinationFile, IOUtils.toByteArray(resourceFile));
+	}
+
 	@Override
 	@Transactional
 	public void downloadFileForCKANResource(final String id, final String revision_id) throws IOException {
@@ -376,8 +396,8 @@ public class HDXServiceImpl implements HDXService {
 	private File getLocalFileFromResourceIdAndRevisionId(final String id, final String revision_id) {
 		final String fileName = resourceDAO.getCKANResource(id, revision_id).getName();
 
-		final File reourceFolder = new File(stagingDirectory, id);
-		final File revisionFolder = new File(reourceFolder, revision_id);
+		final File resourceFolder = new File(stagingDirectory, id);
+		final File revisionFolder = new File(resourceFolder, revision_id);
 		return new File(revisionFolder, fileName);
 	}
 
