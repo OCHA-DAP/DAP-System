@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
 </head>
 <body>
-	<h2>Report for resource id : ${it.id.id}, revision : ${it.id.revision_id}</h2>
+	<h2>Report for resource id : ${it.id}, revision : ${it.revision_id}</h2>
 
 	Work in progress
 	<ul>

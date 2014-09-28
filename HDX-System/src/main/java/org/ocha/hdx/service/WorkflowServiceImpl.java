@@ -3,11 +3,10 @@ package org.ocha.hdx.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.ocha.hdx.importer.report.ImportReport;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.dao.ckan.CKANResourceDAO;
@@ -95,7 +94,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.FILE_PRE_VALIDATION_SUCCESS)) {
 			resourceDAO.flagCKANResourceAsFilePreValidationSuccess(id, revision_id, report.getValidator());
-			// FIXME write report on disk
+			writeValidationReportOnFile(id, revision_id, report);
 			return true;
 		} else {
 			return false;
@@ -107,7 +106,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.FILE_PRE_VALIDATION_FAIL)) {
 			resourceDAO.flagCKANResourceAsFilePreValidationFail(id, revision_id, report.getValidator());
-			// FIXME write report on disk
+			writeValidationReportOnFile(id, revision_id, report);
 			return true;
 		} else {
 			return false;
@@ -150,12 +149,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	private void writeValidationReportOnFile(final String id, final String revision_id, final ValidationReport validationReport) {
-		FileOutputStream fout;
-		try {
-			final File reportFile = new File(getReportFolder(id, revision_id), "ValidationReport");
-			fout = new FileOutputStream(reportFile);
-			final ObjectOutputStream oos = new ObjectOutputStream(fout);
-			oos.writeObject(validationReport);
+		final File reportFile = new File(getReportFolder(id, revision_id), "ValidationReport");
+
+		try (final FileOutputStream fout = new FileOutputStream(reportFile)) {
+			IOUtils.write(validationReport.toJson(), fout);
 		} catch (final Exception e) {
 			log.error(e.toString(), e);
 		}
@@ -165,8 +162,8 @@ public class WorkflowServiceImpl implements WorkflowService {
 	public ValidationReport readValidationReport(final String id, final String revision_id) {
 		final File reportFile = new File(getReportFolder(id, revision_id), "ValidationReport");
 
-		try (FileInputStream fileIn = new FileInputStream(reportFile); final ObjectInputStream in = new ObjectInputStream(fileIn)) {
-			return (ValidationReport) in.readObject();
+		try (FileInputStream fileIn = new FileInputStream(reportFile)) {
+			return ValidationReport.fromJson(IOUtils.toString(fileIn));
 		} catch (final Exception e) {
 			log.error(e.toString(), e);
 			return null;
@@ -175,15 +172,26 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	private void writeImportReportOnFile(final String id, final String revision_id, final ImportReport importReport) {
-		FileOutputStream fout;
-		try {
-			final File reportFile = new File(getReportFolder(id, revision_id), "ImportReport");
-			fout = new FileOutputStream(reportFile);
-			final ObjectOutputStream oos = new ObjectOutputStream(fout);
-			oos.writeObject(importReport.toJson());
+		final File reportFile = new File(getReportFolder(id, revision_id), "ImportReport");
+
+		try (final FileOutputStream fout = new FileOutputStream(reportFile)) {
+			IOUtils.write(importReport.toJson(), fout);
 		} catch (final Exception e) {
 			log.error(e.toString(), e);
 		}
+	}
+
+	@Override
+	public ImportReport readImportReport(final String id, final String revision_id) {
+		final File reportFile = new File(getReportFolder(id, revision_id), "ImportReport");
+
+		try (FileInputStream fileIn = new FileInputStream(reportFile)) {
+			return ImportReport.fromJson(IOUtils.toString(fileIn));
+		} catch (final Exception e) {
+			log.error(e.toString(), e);
+			return null;
+		}
+
 	}
 
 	private File getReportFolder(final String id, final String revision_id) {

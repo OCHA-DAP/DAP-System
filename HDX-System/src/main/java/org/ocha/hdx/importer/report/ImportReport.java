@@ -9,6 +9,9 @@ import org.ocha.hdx.tools.GSONBuilderWrapper;
 
 public class ImportReport implements Serializable {
 
+	private String id;
+	private String revisionId;
+
 	private static final long serialVersionUID = -7350328255412730901L;
 
 	private String message;
@@ -20,6 +23,12 @@ public class ImportReport implements Serializable {
 
 	private ImportStatus overallStatus;
 	private final Map<DataSerie, ImportReportEntry> entries;
+
+	public ImportReport(final String id, final String revisionId) {
+		this();
+		this.id = id;
+		this.revisionId = revisionId;
+	}
 
 	public ImportReport() {
 		super();
@@ -76,6 +85,14 @@ public class ImportReport implements Serializable {
 			entries.put(dataSerie, newImportReportEntry);
 			return newImportReportEntry;
 		}
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getRevisionId() {
+		return revisionId;
 	}
 
 	public String getMessage() {

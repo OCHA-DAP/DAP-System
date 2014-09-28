@@ -77,6 +77,7 @@ import org.ocha.hdx.rest.helper.DisplayRegionDictionaries;
 import org.ocha.hdx.rest.helper.DisplaySourceDictionaries;
 import org.ocha.hdx.service.CuratedDataService;
 import org.ocha.hdx.service.HDXService;
+import org.ocha.hdx.service.WorkflowService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,9 @@ public class AdminResource {
 
 	@Autowired
 	private CuratedDataService curatedDataService;
+
+	@Autowired
+	private WorkflowService workflowService;
 
 	/*
 	 * Utilities
@@ -811,13 +815,14 @@ public class AdminResource {
 	@GET
 	@Path("/status/resources/{id}/{revision_id}/import-report")
 	public Response getCKANResourceImportReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
-		return Response.ok(new Viewable("/admin/import-report", hdxService.getCKANResource(id, revision_id))).build();
+		// return Response.ok(new Viewable("/admin/import-report", hdxService.getCKANResource(id, revision_id))).build();
+		return Response.ok(new Viewable("/admin/import-report", workflowService.readImportReport(id, revision_id))).build();
 	}
 
 	@GET
 	@Path("/status/resources/{id}/{revision_id}/report")
 	public Response getCKANResourceReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
-		return Response.ok(new Viewable("/admin/report", hdxService.getCKANResource(id, revision_id))).build();
+		return Response.ok(new Viewable("/admin/report", workflowService.readValidationReport(id, revision_id))).build();
 	}
 
 	/*

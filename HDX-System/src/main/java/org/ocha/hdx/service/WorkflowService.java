@@ -28,4 +28,6 @@ public interface WorkflowService {
 
 	public ValidationReport readValidationReport(final String id, final String revision_id);
 
+	public ImportReport readImportReport(final String id, final String revision_id);
+
 }
