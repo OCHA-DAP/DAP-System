@@ -149,7 +149,7 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 	 */
 	private ApiResultWrapper<ApiIndicatorValue> getLastYearByEntryValues(final RequestParamsWrapper paramsWrapper) {
 
-		final List<IndicatorMaxDate> rawValues = this.indicatorMaxDateDAO.getValues(paramsWrapper.getEntityCodes(), paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes());
+		final List<IndicatorMaxDate> rawValues = this.indicatorMaxDateDAO.getValues(paramsWrapper.getEntityCodes(), paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes(), paramsWrapper.getSortingOption());
 
 		final List<ApiIndicatorValue> values = new ArrayList<>();
 		for (final IndicatorMaxDate rValue : rawValues) {

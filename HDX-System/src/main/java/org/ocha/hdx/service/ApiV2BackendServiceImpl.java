@@ -43,8 +43,10 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 	public ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes,
 			final Integer startYear, final Integer endYear, final PeriodType periodType, final SortingOption sortingOption, final Integer pageNum, final Integer pageSize, final String lang) {
 
+		final Long time = System.currentTimeMillis();
 		final ApiResultWrapper<ApiIndicatorValue> result = this.innerListIndicators(indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear,
 				periodType, sortingOption, pageNum, pageSize, lang);
+		logger.info( String.format("Query answered in %s ms", System.currentTimeMillis()-time ) );
 		return result;
 	}
 
@@ -81,7 +83,7 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 		ApiResultWrapper<ApiIndicatorValue> result;
 		try {
 			result = this.indicatorResultCache.get(paramsWrapper);
-			System.out.println(this.indicatorResultCache.stats().toString());
+			logger.info(this.indicatorResultCache.stats().toString());
 			return result;
 		} catch (final ExecutionException e) {
 			logger.error(e.getMessage());
