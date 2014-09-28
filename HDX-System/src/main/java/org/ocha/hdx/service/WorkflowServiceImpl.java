@@ -130,7 +130,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.IMPORT_SUCCESS)) {
 			resourceDAO.flagCKANResourceAsImportSuccess(id, revision_id, importer);
-			// FIXME write reports on disk
+			writeImportReportOnFile(id, revision_id, importReport);
 			return true;
 		} else {
 			return false;
@@ -142,7 +142,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
 		if (nextStateIsPossible(res, WorkflowState.IMPORT_FAIL)) {
 			resourceDAO.flagCKANResourceAsImportFail(id, revision_id, importer);
-			// FIXME write reports on disk
+			writeImportReportOnFile(id, revision_id, importReport);
 			return true;
 		} else {
 			return false;
@@ -180,7 +180,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 			final File reportFile = new File(getReportFolder(id, revision_id), "ImportReport");
 			fout = new FileOutputStream(reportFile);
 			final ObjectOutputStream oos = new ObjectOutputStream(fout);
-			oos.writeObject(importReport);
+			oos.writeObject(importReport.toJson());
 		} catch (final Exception e) {
 			log.error(e.toString(), e);
 		}

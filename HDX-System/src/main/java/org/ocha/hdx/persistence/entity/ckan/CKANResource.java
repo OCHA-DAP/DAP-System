@@ -102,9 +102,10 @@ public class CKANResource {
 		super();
 	}
 
-	public CKANResource(final String id, final String revision_id, final boolean isNew, final String parentDataset_name) {
+	public CKANResource(final String id, final String revision_id, final Type type, final boolean isNew, final String parentDataset_name) {
 		this.id.id = id;
 		this.id.revision_id = revision_id;
+		this.type = type;
 		if (isNew) {
 			this.workflowState = WorkflowState.DETECTED_NEW;
 		} else {
@@ -131,12 +132,14 @@ public class CKANResource {
 	 * @param importer
 	 * @param resourceConfiguration
 	 */
-	public CKANResource(final Id id, final String name, final WorkflowState workflowState, final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
-			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp, final Date detectionDate, final Date downloadDate, final Date evaluationDate, final Type evaluator,
-			final Date importDate, final Type importer, final ResourceConfiguration resourceConfiguration) {
+	public CKANResource(final Id id, final Type type, final String name, final WorkflowState workflowState, final Date revision_timestamp, final String parentDataset_name,
+			final String parentDataset_id, final String parentDataset_revision_id, final Date parentDataset_revision_timestamp, final Date detectionDate, final Date downloadDate,
+			final Date evaluationDate, final Type evaluator, final Date importDate, final Type importer, final ResourceConfiguration resourceConfiguration) {
 
 		this.id.id = id.getId();
 		this.id.revision_id = id.getRevision_id();
+
+		this.type = type;
 
 		this.name = name;
 		this.workflowState = workflowState;
@@ -160,6 +163,10 @@ public class CKANResource {
 	public Id getId() {
 		return this.id;
 	}
+
+	@Column(name = "type", nullable = false, updatable = false)
+	@Enumerated(EnumType.STRING)
+	private Type type;
 
 	@Column(name = "name", nullable = false, updatable = false)
 	private String name;

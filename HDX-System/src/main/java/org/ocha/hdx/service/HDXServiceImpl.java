@@ -188,8 +188,8 @@ public class HDXServiceImpl implements HDXService {
 								workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
 							}
 
-							resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), resource.getName(), resource.getRevision_timestamp(), datasetName, dataset.getResult()
-									.getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
+							resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), ckanDataset.getType(), resource.getName(), resource.getRevision_timestamp(), datasetName,
+									dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
 						}
 					}
 				}
@@ -315,7 +315,6 @@ public class HDXServiceImpl implements HDXService {
 
 		final CKANDataset.Type type = getTypeForFile(id, revision_id);
 
-		final ResourceConfiguration config = getResourceConfigFromResourceIdAndRevisionId(id, revision_id);
 		ValidationReport validationReport = workflowService.readValidationReport(id, revision_id);
 
 		if (validationReport == null) {
@@ -323,6 +322,7 @@ public class HDXServiceImpl implements HDXService {
 			validationReport = new ValidationReport(type);
 		}
 
+		final ResourceConfiguration config = getResourceConfigFromResourceIdAndRevisionId(id, revision_id);
 		final ImportReport importReport = fileEvaluatorAndExtractor.transformAndImportDataFromResource(destinationFile, type, id, revision_id, config, validationReport);
 
 		if (importReport.isSuccess()) {

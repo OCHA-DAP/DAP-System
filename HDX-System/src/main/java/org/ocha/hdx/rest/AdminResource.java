@@ -670,6 +670,14 @@ public class AdminResource {
 		return jsonTranslations.toString();
 	}
 
+	@GET
+	@Path("/status/manualImport/")
+	public Response uploadFileForm() {
+		final Map<String, Object> jspElement = new HashMap<String, Object>();
+		jspElement.put("configs", hdxService.listConfigurations());
+		return Response.ok(new Viewable("/admin/manualImport", jspElement)).build();
+	}
+
 	/*
 	 * Status / datasets management
 	 */

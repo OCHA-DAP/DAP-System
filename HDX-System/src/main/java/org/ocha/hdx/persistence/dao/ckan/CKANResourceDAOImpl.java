@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
+import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
@@ -16,20 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class CKANResourceDAOImpl implements CKANResourceDAO {
 
-	/**
-	 * A hackish workaround to avoid loading the huge blob reports
-	 */
-	private final static String SELECT_CLAUSE = "new CKANResource(r.id, r.name, r.workflowState," + "r.revision_timestamp, r.parentDataset_name, r.parentDataset_id,"
-			+ "r.parentDataset_revision_id, r.parentDataset_revision_timestamp, r.detectionDate, r.downloadDate, r.evaluationDate," + "r.evaluator, r.importDate, r.importer, r.resourceConfiguration)";
-
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
 	@Transactional
-	public void newCKANResourceDetected(final String id, final String revision_id, final String name, final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
-			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp, final ResourceConfiguration configuration) {
-		final CKANResource ckanResource = new CKANResource(id, revision_id, !ckanResourceExists(id), parentDataset_name);
+	public void newCKANResourceDetected(final String id, final String revision_id, final Type type, final String name, final Date revision_timestamp, final String parentDataset_name,
+			final String parentDataset_id, final String parentDataset_revision_id, final Date parentDataset_revision_timestamp, final ResourceConfiguration configuration) {
+		final CKANResource ckanResource = new CKANResource(id, revision_id, type, !ckanResourceExists(id), parentDataset_name);
 		if (name != null) {
 			ckanResource.setName(name);
 		} else {
@@ -131,7 +126,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Override
 	@Transactional(readOnly = true)
 	public List<CKANResource> listCKANResourceRevisions(final String id) {
-		final TypedQuery<CKANResource> query = em.createQuery("SELECT " + SELECT_CLAUSE + " FROM CKANResource r WHERE r.id.id = :id", CKANResource.class).setParameter("id", id);
+		final TypedQuery<CKANResource> query = em.createQuery("SELECT r FROM CKANResource r WHERE r.id.id = :id", CKANResource.class).setParameter("id", id);
 		return query.getResultList();
 	}
 
@@ -139,7 +134,7 @@ public class CKANResourceDAOImpl implements CKANResourceDAO {
 	@Transactional(readOnly = true)
 	public List<CKANResource> listCKANResources() {
 
-		final TypedQuery<CKANResource> query = this.em.createQuery("SELECT " + SELECT_CLAUSE + " FROM CKANResource r ORDER BY r.id.id, r.detectionDate desc", CKANResource.class);
+		final TypedQuery<CKANResource> query = this.em.createQuery("SELECT r FROM CKANResource r ORDER BY r.id.id, r.detectionDate desc", CKANResource.class);
 		return query.getResultList();
 	}
 

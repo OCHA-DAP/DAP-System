@@ -32,7 +32,7 @@ public class CKANDataset {
 	}
 
 	public enum Type {
-		SCRAPER_CONFIGURABLE, WFP;
+		SCRAPER_CONFIGURABLE, WFP, MANUAL;
 	}
 
 	@Id
