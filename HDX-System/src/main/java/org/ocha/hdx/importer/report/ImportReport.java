@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.ocha.hdx.model.DataSerie;
+import org.ocha.hdx.tools.GSONBuilderWrapper;
 
 public class ImportReport implements Serializable {
 
@@ -99,5 +100,14 @@ public class ImportReport implements Serializable {
 
 	public Map<DataSerie, ImportReportEntry> getEntries() {
 		return entries;
+	}
+
+	public String toJson() {
+		return GSONBuilderWrapper.getGSON().toJson(this);
+	}
+
+	public static ImportReport fromJson(final String json) {
+		return GSONBuilderWrapper.getGSON().fromJson(json, ImportReport.class);
+
 	}
 }
