@@ -44,10 +44,11 @@ public class WorkflowServiceImpl implements WorkflowService {
 	private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	private boolean isTransitionPossible(final WorkflowState from, final WorkflowState to) {
-		final List<WorkflowState> tos = possibleTransitionsMap.get(from);
+		final List<WorkflowState> tos = this.possibleTransitionsMap.get(from);
 
-		if (tos == null)
+		if (tos == null) {
 			return false;
+		}
 		if (tos.contains(to)) {
 			return true;
 		} else {
@@ -57,20 +58,20 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Override
 	public boolean nextStateIsPossible(final CKANResource resource, final WorkflowState destinationState) {
-		return isTransitionPossible(resource.getWorkflowState(), destinationState);
+		return this.isTransitionPossible(resource.getWorkflowState(), destinationState);
 	}
 
 	@Override
 	public boolean nextStateIsPossible(final String id, final String revision_id, final WorkflowState destinationState) {
-		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		return isTransitionPossible(res.getWorkflowState(), destinationState);
+		final CKANResource res = this.resourceDAO.getCKANResource(id, revision_id);
+		return this.isTransitionPossible(res.getWorkflowState(), destinationState);
 	}
 
 	@Override
 	public boolean flagCKANResourceAsOutdated(final String id, final String revision_id) {
-		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		if (nextStateIsPossible(res, WorkflowState.OUTDATED)) {
-			resourceDAO.flagCKANResourceAsOutdated(id, revision_id);
+		final CKANResource res = this.resourceDAO.getCKANResource(id, revision_id);
+		if (this.nextStateIsPossible(res, WorkflowState.OUTDATED)) {
+			this.resourceDAO.flagCKANResourceAsOutdated(id, revision_id);
 			return true;
 		} else {
 			return false;
@@ -80,9 +81,9 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Override
 	public boolean flagCKANResourceAsDownloaded(final String id, final String revision_id) {
-		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		if (nextStateIsPossible(res, WorkflowState.DOWNLOADED)) {
-			resourceDAO.flagCKANResourceAsDownloaded(id, revision_id);
+		final CKANResource res = this.resourceDAO.getCKANResource(id, revision_id);
+		if (this.nextStateIsPossible(res, WorkflowState.DOWNLOADED)) {
+			this.resourceDAO.flagCKANResourceAsDownloaded(id, revision_id);
 			return true;
 		} else {
 			return false;
@@ -91,10 +92,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Override
 	public boolean flagCKANResourceAsFilePreValidationSuccess(final String id, final String revision_id, final ValidationReport report) {
-		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		if (nextStateIsPossible(res, WorkflowState.FILE_PRE_VALIDATION_SUCCESS)) {
-			resourceDAO.flagCKANResourceAsFilePreValidationSuccess(id, revision_id, report.getValidator());
-			writeValidationReportOnFile(id, revision_id, report);
+		final CKANResource res = this.resourceDAO.getCKANResource(id, revision_id);
+		if (this.nextStateIsPossible(res, WorkflowState.FILE_PRE_VALIDATION_SUCCESS)) {
+			this.resourceDAO.flagCKANResourceAsFilePreValidationSuccess(id, revision_id, report.getValidator());
+			this.writeValidationReportOnFile(id, revision_id, report);
 			return true;
 		} else {
 			return false;
@@ -103,10 +104,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Override
 	public boolean flagCKANResourceAsFilePreValidationFail(final String id, final String revision_id, final ValidationReport report) {
-		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		if (nextStateIsPossible(res, WorkflowState.FILE_PRE_VALIDATION_FAIL)) {
-			resourceDAO.flagCKANResourceAsFilePreValidationFail(id, revision_id, report.getValidator());
-			writeValidationReportOnFile(id, revision_id, report);
+		final CKANResource res = this.resourceDAO.getCKANResource(id, revision_id);
+		if (this.nextStateIsPossible(res, WorkflowState.FILE_PRE_VALIDATION_FAIL)) {
+			this.resourceDAO.flagCKANResourceAsFilePreValidationFail(id, revision_id, report.getValidator());
+			this.writeValidationReportOnFile(id, revision_id, report);
 			return true;
 		} else {
 			return false;
@@ -115,9 +116,9 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Override
 	public boolean flagCKANResourceAsImporting(final String id, final String revision_id) {
-		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		if (nextStateIsPossible(res, WorkflowState.IMPORTING)) {
-			resourceDAO.flagCKANResourceAsImporting(id, revision_id);
+		final CKANResource res = this.resourceDAO.getCKANResource(id, revision_id);
+		if (this.nextStateIsPossible(res, WorkflowState.IMPORTING)) {
+			this.resourceDAO.flagCKANResourceAsImporting(id, revision_id);
 			return true;
 		} else {
 			return false;
@@ -126,10 +127,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Override
 	public boolean flagCKANResourceAsImportSuccess(final String id, final String revision_id, final Type importer, final ValidationReport validationReport, final ImportReport importReport) {
-		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		if (nextStateIsPossible(res, WorkflowState.IMPORT_SUCCESS)) {
-			resourceDAO.flagCKANResourceAsImportSuccess(id, revision_id, importer);
-			writeImportReportOnFile(id, revision_id, importReport);
+		final CKANResource res = this.resourceDAO.getCKANResource(id, revision_id);
+		if (this.nextStateIsPossible(res, WorkflowState.IMPORT_SUCCESS)) {
+			this.resourceDAO.flagCKANResourceAsImportSuccess(id, revision_id, importer);
+			this.writeImportReportOnFile(id, revision_id, importReport);
 			return true;
 		} else {
 			return false;
@@ -138,10 +139,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Override
 	public boolean flagCKANResourceAsImportFail(final String id, final String revision_id, final Type importer, final ValidationReport validationReport, final ImportReport importReport) {
-		final CKANResource res = resourceDAO.getCKANResource(id, revision_id);
-		if (nextStateIsPossible(res, WorkflowState.IMPORT_FAIL)) {
-			resourceDAO.flagCKANResourceAsImportFail(id, revision_id, importer);
-			writeImportReportOnFile(id, revision_id, importReport);
+		final CKANResource res = this.resourceDAO.getCKANResource(id, revision_id);
+		if (this.nextStateIsPossible(res, WorkflowState.IMPORT_FAIL)) {
+			this.resourceDAO.flagCKANResourceAsImportFail(id, revision_id, importer);
+			this.writeImportReportOnFile(id, revision_id, importReport);
 			return true;
 		} else {
 			return false;
@@ -149,7 +150,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	private void writeValidationReportOnFile(final String id, final String revision_id, final ValidationReport validationReport) {
-		final File reportFile = new File(getReportFolder(id, revision_id), "ValidationReport");
+		final File reportFile = new File(this.getReportFolder(id, revision_id), "ValidationReport");
 
 		try (final FileOutputStream fout = new FileOutputStream(reportFile)) {
 			IOUtils.write(validationReport.toJson(), fout);
@@ -160,7 +161,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Override
 	public ValidationReport readValidationReport(final String id, final String revision_id) {
-		final File reportFile = new File(getReportFolder(id, revision_id), "ValidationReport");
+		final File reportFile = new File(this.getReportFolder(id, revision_id), "ValidationReport");
 
 		try (FileInputStream fileIn = new FileInputStream(reportFile)) {
 			return ValidationReport.fromJson(IOUtils.toString(fileIn));
@@ -172,7 +173,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	private void writeImportReportOnFile(final String id, final String revision_id, final ImportReport importReport) {
-		final File reportFile = new File(getReportFolder(id, revision_id), "ImportReport");
+		final File reportFile = new File(this.getReportFolder(id, revision_id), "ImportReport");
 
 		try (final FileOutputStream fout = new FileOutputStream(reportFile)) {
 			IOUtils.write(importReport.toJson(), fout);
@@ -183,10 +184,13 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 	@Override
 	public ImportReport readImportReport(final String id, final String revision_id) {
-		final File reportFile = new File(getReportFolder(id, revision_id), "ImportReport");
+		final File reportFile = new File(this.getReportFolder(id, revision_id), "ImportReport");
 
 		try (FileInputStream fileIn = new FileInputStream(reportFile)) {
-			return ImportReport.fromJson(IOUtils.toString(fileIn));
+			final ImportReport report =  ImportReport.fromJson(IOUtils.toString(fileIn));
+			report.setId(id);
+			report.setRevisionId(revision_id);
+			return report;
 		} catch (final Exception e) {
 			log.error(e.toString(), e);
 			return null;
@@ -195,11 +199,15 @@ public class WorkflowServiceImpl implements WorkflowService {
 	}
 
 	private File getReportFolder(final String id, final String revision_id) {
-		final String fileName = resourceDAO.getCKANResource(id, revision_id).getName();
+		final String fileName = this.resourceDAO.getCKANResource(id, revision_id).getName() + ".log";
 
-		final File resourceFolder = new File(reportDirectory, id);
+		final File resourceFolder = new File(this.reportDirectory, id);
 		final File revisionFolder = new File(resourceFolder, revision_id);
-		return new File(revisionFolder, fileName);
+		final File result = new File(revisionFolder, fileName);
+		if ( !result.exists() ) {
+			result.mkdirs();
+		}
+		return result;
 	}
 
 }

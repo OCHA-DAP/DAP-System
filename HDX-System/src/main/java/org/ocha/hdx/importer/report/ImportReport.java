@@ -32,91 +32,91 @@ public class ImportReport implements Serializable {
 
 	public ImportReport() {
 		super();
-		totalNbOfRecords = 0;
-		nbOfNewRecords = 0;
-		nbOfAlreadyExistingRecords = 0;
-		nbOfRecordsInError = 0;
+		this.totalNbOfRecords = 0;
+		this.nbOfNewRecords = 0;
+		this.nbOfAlreadyExistingRecords = 0;
+		this.nbOfRecordsInError = 0;
 
 		this.overallStatus = ImportStatus.SUCCESS;
-		entries = new HashMap<>();
+		this.entries = new HashMap<>();
 	}
 
 	public ImportStatus getOverallStatus() {
-		return overallStatus;
+		return this.overallStatus;
 	}
 
 	public boolean isSuccess() {
-		return ImportStatus.SUCCESS.equals(overallStatus);
+		return ImportStatus.SUCCESS.equals(this.overallStatus);
 	}
 
 	public void setErrorMessage(final String message) {
 		this.message = message;
-		overallStatus = ImportStatus.ERROR;
+		this.overallStatus = ImportStatus.ERROR;
 	}
 
 	public void addNewRecord(final DataSerie dataSerie) {
-		totalNbOfRecords++;
-		nbOfNewRecords++;
-		final ImportReportEntry entryForDataSerie = getEntryForDataSerie(dataSerie);
+		this.totalNbOfRecords++;
+		this.nbOfNewRecords++;
+		final ImportReportEntry entryForDataSerie = this.getEntryForDataSerie(dataSerie);
 		entryForDataSerie.addNewRecord();
 	}
 
 	public void addAlreadyExistingRecord(final DataSerie dataSerie) {
-		totalNbOfRecords++;
-		nbOfAlreadyExistingRecords++;
-		final ImportReportEntry entryForDataSerie = getEntryForDataSerie(dataSerie);
+		this.totalNbOfRecords++;
+		this.nbOfAlreadyExistingRecords++;
+		final ImportReportEntry entryForDataSerie = this.getEntryForDataSerie(dataSerie);
 		entryForDataSerie.addAlreadyExistingRecord();
 	}
 
 	public void addRecordInError(final DataSerie dataSerie) {
-		overallStatus = ImportStatus.ERROR;
-		totalNbOfRecords++;
-		nbOfRecordsInError++;
-		final ImportReportEntry entryForDataSerie = getEntryForDataSerie(dataSerie);
+		this.overallStatus = ImportStatus.ERROR;
+		this.totalNbOfRecords++;
+		this.nbOfRecordsInError++;
+		final ImportReportEntry entryForDataSerie = this.getEntryForDataSerie(dataSerie);
 		entryForDataSerie.addRecordInError();
 	}
 
 	private ImportReportEntry getEntryForDataSerie(final DataSerie dataSerie) {
-		final ImportReportEntry importReportEntry = entries.get(dataSerie);
+		final ImportReportEntry importReportEntry = this.entries.get(dataSerie);
 		if (importReportEntry != null) {
 			return importReportEntry;
 		} else {
 			final ImportReportEntry newImportReportEntry = new ImportReportEntry(dataSerie);
-			entries.put(dataSerie, newImportReportEntry);
+			this.entries.put(dataSerie, newImportReportEntry);
 			return newImportReportEntry;
 		}
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getRevisionId() {
-		return revisionId;
+		return this.revisionId;
 	}
 
 	public String getMessage() {
-		return message;
+		return this.message;
 	}
 
 	public int getTotalNbOfRecords() {
-		return totalNbOfRecords;
+		return this.totalNbOfRecords;
 	}
 
 	public int getNbOfNewRecords() {
-		return nbOfNewRecords;
+		return this.nbOfNewRecords;
 	}
 
 	public int getNbOfAlreadyExistingRecords() {
-		return nbOfAlreadyExistingRecords;
+		return this.nbOfAlreadyExistingRecords;
 	}
 
 	public int getNbOfRecordsInError() {
-		return nbOfRecordsInError;
+		return this.nbOfRecordsInError;
 	}
 
 	public Map<DataSerie, ImportReportEntry> getEntries() {
-		return entries;
+		return this.entries;
 	}
 
 	public String toJson() {
@@ -127,4 +127,20 @@ public class ImportReport implements Serializable {
 		return GSONBuilderWrapper.getGSON().fromJson(json, ImportReport.class);
 
 	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(final String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param revisionId the revisionId to set
+	 */
+	public void setRevisionId(final String revisionId) {
+		this.revisionId = revisionId;
+	}
+
+
 }

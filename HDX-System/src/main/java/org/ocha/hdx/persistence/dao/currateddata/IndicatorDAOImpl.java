@@ -98,7 +98,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	/**
 	 * Delete some indicators.
-	 * 
+	 *
 	 * @author Dan TODO: It could delete all indicators in one transaction
 	 */
 	@Override
@@ -545,8 +545,25 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Override
 	public boolean indicatorExists(final PreparedIndicator preparedIndicator) {
-		final TypedQuery<Indicator> query = this.em.createQuery("SELECT i FROM Indicator i Where i.source.code = :sourceCode", Indicator.class);
+		final StringBuilder builder = new StringBuilder("SELECT count(i) FROM Indicator i WHERE");
+		builder.append(" i.source.code = :sourceCode");
+		builder.append(" AND i.type.code = :indicatorTypeCode");
+		builder.append(" AND i.entity.code = :entityCode");
+		builder.append(" AND i.entity.type.code = :entityTypeCode");
+		builder.append(" AND i.periodicity = :periodicity");
+		builder.append(" AND i.start = :startTime");
+		final TypedQuery<Long> query = this.em.createQuery(builder.toString(), Long.class);
 		query.setParameter("sourceCode", preparedIndicator.getSourceCode());
-		return false;
+		query.setParameter("indicatorTypeCode", preparedIndicator.getIndicatorTypeCode());
+		query.setParameter("entityCode", preparedIndicator.getEntityCode());
+		query.setParameter("entityTypeCode", preparedIndicator.getEntityTypeCode());
+		query.setParameter("startTime", preparedIndicator.getStart());
+		query.setParameter("periodicity", preparedIndicator.getPeriodicity());
+		final Long count = query.getSingleResult();
+		if ( count != null && count > 0 ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
