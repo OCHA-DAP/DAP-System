@@ -11,16 +11,19 @@
 </head>
 <body >
 	<jsp:include page="admin-menu.jsp" />
-	<div>
-		<form>
-			<input type="text" id="resourceName" name="resourceName" />
-			<input type="file" id="resourceFile" name="resourceFile" />
-			<select>
-				<c:forEach var="config" items="${it.configs}">
-					<option value="${config.id}">${config.name}</option>
-				</c:forEach>
-			</select>
-			<input type="submit" value="Send" /> 
+	<div id="content">
+		<form method="post" enctype="multipart/form-data" action="">
+			<div>
+				<br/><br/>
+				<input type="text" id="resourceName" name="resourceName" />
+				<input type="file" id="resourceFile" name="resourceFile" />
+				<select>
+					<c:forEach var="config" items="${it.configs}">
+						<option value="${config.id}">${config.name}</option>
+					</c:forEach>
+				</select>
+				<input type="submit" value="Send" /> 
+			</div>
 		</form>
 	</div>
 </body>

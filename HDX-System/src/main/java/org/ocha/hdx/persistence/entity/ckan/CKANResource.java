@@ -208,7 +208,7 @@ public class CKANResource {
 
 	@Column(name = "importer", nullable = true, updatable = true)
 	@Enumerated(EnumType.STRING)
-	private CKANDataset.Type importer;
+	private Type importer;
 
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "resource_configuration_id", nullable = false)
@@ -329,6 +329,14 @@ public class CKANResource {
 
 	public void setResourceConfiguration(final ResourceConfiguration resourceConfiguration) {
 		this.resourceConfiguration = resourceConfiguration;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(final Type type) {
+		this.type = type;
 	}
 
 }

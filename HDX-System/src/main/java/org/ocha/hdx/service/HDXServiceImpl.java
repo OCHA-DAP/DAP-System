@@ -175,6 +175,8 @@ public class HDXServiceImpl implements HDXService {
 
 		writeResourceFileFromInputStream(resourceName, resourceName, resourceFile);
 
+		resourceDAO.flagCKANResourceAsDownloaded(resourceName, resourceName);
+
 	}
 
 	@Override
@@ -586,7 +588,7 @@ public class HDXServiceImpl implements HDXService {
 	 */
 	private Type getTypeForFile(final String id, final String revision_id) {
 		final CKANResource ckanResource = resourceDAO.getCKANResource(id, revision_id);
-		return datasetDAO.getTypeForName(ckanResource.getParentDataset_name());
+		return ckanResource.getType();
 	}
 
 	@Override
