@@ -1,0 +1,1 @@
+The folder $HDX_ROOT/reports must be created so the app starts 
