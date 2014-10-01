@@ -69,4 +69,29 @@ public class ApiV2Resource {
 		}
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/available-periods")
+	public ApiResultWrapper<Integer> getAvailablePeriods(@QueryParam("l") final List<String> entityCodes,
+			@QueryParam("it") final List<String> indicatorTypeCodes,
+			@QueryParam("s") final List<String> sourceCodes, @QueryParam("minTime") final String minTime,
+			@QueryParam("maxTime") final String maxTime) {
+
+		LOGGER.debug("Entering getIndicatorValues");
+
+		try {
+			// We could let Jersey do this for us, but we might want to do something smarter in the future
+			final Integer startYear = minTime == null ? null : new Integer(minTime);
+			final Integer endYear = maxTime == null ? null : new Integer(maxTime);
+
+			final ApiResultWrapper<Integer> periodList = this.apiV2BackendService.listAvailablePeriods(indicatorTypeCodes, sourceCodes,
+					entityCodes, startYear, endYear);
+
+			return periodList;
+		} catch (final Exception e) {
+			LOGGER.error(e.toString(), e);
+			return null;
+		}
+	}
+
 }

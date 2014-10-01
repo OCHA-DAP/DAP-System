@@ -24,19 +24,26 @@ public class RequestParamsWrapper {
 		VALUE_ASC, VALUE_DESC
 	}
 
+	public enum RequestType {
+		INDICATOR_LIST, PERIOD_LIST
+	}
+
 	private final List<String> indicatorTypeCodes;
 	private final List<String> sourceCodes;
 	private final List<String> entityCodes;
 	private final Integer startYear;
 	private final Integer endYear;
-	private PeriodType periodType;
+	private final PeriodType periodType;
 	private final Integer pageNum;
 	private final Integer pageSize;
 	private final String lang;
 	private SortingOption sortingOption;
+	private final RequestType requestType;
 
-	public RequestParamsWrapper(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear, final Integer endYear,
-			final PeriodType periodType, final SortingOption sortingOption, final Integer pageNum, final Integer pageSize, final String lang) throws ApiV2ProcessingException {
+	public RequestParamsWrapper(final RequestType requestType, final List<String> indicatorTypeCodes, final List<String> sourceCodes,
+			final List<String> entityCodes, final Integer startYear, final Integer endYear,
+			final PeriodType periodType, final SortingOption sortingOption, final Integer pageNum,
+			final Integer pageSize, final String lang) throws ApiV2ProcessingException {
 		super();
 		this.indicatorTypeCodes = new ArrayList<String>();
 		this.populateOrderedList(indicatorTypeCodes, this.indicatorTypeCodes);
@@ -55,6 +62,8 @@ public class RequestParamsWrapper {
 		this.pageNum = pageNum;
 		this.pageSize = pageSize;
 		this.lang = lang;
+
+		this.requestType = requestType;
 
 		if ( sortingOption != null ) {
 			this.sortingOption = sortingOption;
@@ -86,6 +95,7 @@ public class RequestParamsWrapper {
 		result = prime * result + ((this.pageNum == null) ? 0 : this.pageNum.hashCode());
 		result = prime * result + ((this.pageSize == null) ? 0 : this.pageSize.hashCode());
 		result = prime * result + ((this.periodType == null) ? 0 : this.periodType.hashCode());
+		result = prime * result + ((this.requestType == null) ? 0 : this.requestType.hashCode());
 		result = prime * result + ((this.sortingOption == null) ? 0 : this.sortingOption.hashCode());
 		result = prime * result + ((this.sourceCodes == null) ? 0 : this.sourceCodes.hashCode());
 		result = prime * result + ((this.startYear == null) ? 0 : this.startYear.hashCode());
@@ -152,6 +162,9 @@ public class RequestParamsWrapper {
 		if (this.periodType != other.periodType) {
 			return false;
 		}
+		if (this.requestType != other.requestType) {
+			return false;
+		}
 		if (this.sortingOption != other.sortingOption) {
 			return false;
 		}
@@ -208,12 +221,12 @@ public class RequestParamsWrapper {
 		return this.periodType;
 	}
 
-	public void setPeriodType(final PeriodType periodType) {
-		this.periodType = periodType;
-	}
-
 	public SortingOption getSortingOption() {
 		return this.sortingOption;
+	}
+
+	public RequestType getRequestType() {
+		return this.requestType;
 	}
 
 

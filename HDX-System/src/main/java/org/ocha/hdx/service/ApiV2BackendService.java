@@ -39,4 +39,7 @@ public interface ApiV2BackendService {
 	ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes, Integer startYear, Integer endYear,
 			PeriodType periodType, SortingOption sortingOption, Integer pageNum, Integer pageSize, String lang);
 
+	ApiResultWrapper<Integer> listAvailablePeriods(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes, Integer startYear,
+			Integer endYear);
+
 }

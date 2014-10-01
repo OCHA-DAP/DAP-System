@@ -25,4 +25,6 @@ public interface IntermediaryBackendService {
 	 * @return
 	 */
 	ApiResultWrapper<ApiIndicatorValue>  listIndicatorsByCriteria(RequestParamsWrapper paramsWrapper);
+
+	ApiResultWrapper<Integer> listAvailablePeriods(final RequestParamsWrapper paramsWrapper);
 }
