@@ -218,4 +218,7 @@ public interface IndicatorDAO {
 
 	public Integer latestYearForIndicatorsByCriteria(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes);
 
+	public List<Integer> listAvailablePeriods(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes,
+			Integer startYear, Integer endYear);
+
 }

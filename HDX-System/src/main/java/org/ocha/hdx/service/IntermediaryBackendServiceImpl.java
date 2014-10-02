@@ -30,6 +30,26 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 	@Autowired
 	private IndicatorMaxDateDAO indicatorMaxDateDAO;
 
+	@Override
+	public ApiResultWrapper<Integer> listAvailablePeriods(final RequestParamsWrapper paramsWrapper) {
+		final Integer[] yearPair = this.findYearPeriod(paramsWrapper);
+		final Integer startYear = yearPair[0];
+		final Integer endYear = yearPair[1];
+
+		final List<Integer> periods = this.indicatorDAO.listAvailablePeriods(paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes(),
+				paramsWrapper.getEntityCodes(), startYear, endYear);
+
+		ApiResultWrapper<Integer> result;
+		if (periods != null) {
+			result = new ApiResultWrapper<>(periods, periods.size(), null, null, true, null, false);
+		}
+		else {
+			result = new ApiResultWrapper<>("There was a problem getting the list of periods");
+		}
+
+		return result;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *

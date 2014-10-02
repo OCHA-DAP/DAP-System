@@ -281,4 +281,42 @@ public class ApiV2BackendServiceImplCacheTest {
 		}
 	}
 
+
+	@Test
+	public final void testAvailablePeriods() {
+		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord("anyResourceId", "anyRevisionId", new Date());
+		final Source src1 = this.sourceDAO.getSourceByCode("esa-unpd-WPP2012");
+		final IndicatorType type1 = this.indicatorTypeDAO.getIndicatorTypeByCode("PSP080");
+		final Entity entity1 = this.entityDAO.getEntityByCodeAndType("Fi", "country");
+
+		final LocalDateTime dateTime2012 = new LocalDateTime(2012, 1, 1, 0, 0);
+		final Date date2012 = dateTime2012.toDate();
+		final Date date2013 = dateTime2012.plusYears(1).toDate();
+		final Date date2011 = dateTime2012.minusYears(1).toDate();
+
+		this.indicatorDAO.createIndicator(src1, entity1, type1, date2012, date2012, Periodicity.MONTH, new IndicatorValue(10000.0), "10000$", ValidationStatus.SUCCESS, "http://www.example.com",
+				importFromCKAN);
+
+		final Source src2 = this.sourceDAO.getSourceByCode("acled");
+		final Entity entity2 = this.entityDAO.getEntityByCodeAndType("Ro", "country");
+
+		this.indicatorDAO.createIndicator(src2, entity2, type1, date2011, date2011, Periodicity.MONTH, new IndicatorValue(20000.0), "20000$", ValidationStatus.SUCCESS, "http://www.example2.com",
+				importFromCKAN);
+
+		this.indicatorDAO.createIndicator(src2, entity2, type1, date2013, date2013, Periodicity.MONTH, new IndicatorValue(30000.0), "30000$", ValidationStatus.SUCCESS, "http://www.example3.com",
+				importFromCKAN);
+
+		final ApiResultWrapper<Integer> resultWrapper =
+				this.apiV2BackendService.listAvailablePeriods(Arrays.asList("PSP080", "FY620"),
+				Arrays.asList("esa-unpd-WPP2012", "acled"), Arrays.asList("Ro", "Fi"), null, null);
+
+		assertTrue(resultWrapper.getResults().size() == 3);
+		assertTrue(resultWrapper.getResults().get(0)==2013);
+		assertTrue(resultWrapper.getResults().get(1)==2012);
+		assertTrue(resultWrapper.getResults().get(2)==2011);
+
+		this.indicatorDAO.deleteAllIndicatorsFromImport(importFromCKAN.getId());
+		this.importFromCKANDAO.deleteImportFromCKAN(importFromCKAN.getId());
+	}
+
 }

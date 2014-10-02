@@ -17,6 +17,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
@@ -443,6 +444,29 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 		final TypedQuery<Long> query = this.em.createQuery(criteriaQuery);
 		return query.getSingleResult();
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public List<Integer> listAvailablePeriods(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
+			final List<String> entityCodes, final Integer startYear, final Integer endYear){
+
+		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
+		final CriteriaQuery<Integer> criteriaQuery =
+				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear,
+				endYear, null, criteriaBuilder, Integer.class, false);
+
+		final Set<Root<?>> roots = criteriaQuery.getRoots();
+		final Root<?> root = roots.iterator().next();
+		final Expression<Integer> selectExpression = criteriaBuilder.function("year", Integer.class, root.get("start"));
+		criteriaQuery.select(selectExpression);
+		criteriaQuery.distinct(true);
+		criteriaQuery.orderBy(criteriaBuilder.desc(selectExpression));
+
+		final TypedQuery<Integer> query = this.em.createQuery(criteriaQuery);
+		final List<Integer> resultList = query.getResultList();
+
+		return resultList;
 	}
 
 	@Transactional(readOnly = true)

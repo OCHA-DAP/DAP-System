@@ -13,6 +13,7 @@ import org.ocha.hdx.model.api2.ApiIndicatorValue;
 import org.ocha.hdx.model.api2.ApiResultWrapper;
 import org.ocha.hdx.model.api2util.RequestParamsWrapper;
 import org.ocha.hdx.model.api2util.RequestParamsWrapper.PeriodType;
+import org.ocha.hdx.model.api2util.RequestParamsWrapper.RequestType;
 import org.ocha.hdx.model.api2util.RequestParamsWrapper.SortingOption;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 	IntermediaryBackendService intermediaryBackendService;
 
 	@Resource
-	LoadingCache<RequestParamsWrapper, ApiResultWrapper<ApiIndicatorValue>> indicatorResultCache;
+	LoadingCache<RequestParamsWrapper, ApiResultWrapper<?>> indicatorResultCache;
 
 	/*
 	 * (non-Javadoc)
@@ -44,7 +45,7 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 			final Integer startYear, final Integer endYear, final PeriodType periodType, final SortingOption sortingOption, final Integer pageNum, final Integer pageSize, final String lang) {
 
 		final Long time = System.currentTimeMillis();
-		final ApiResultWrapper<ApiIndicatorValue> result = this.innerListIndicators(indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear,
+		final ApiResultWrapper<ApiIndicatorValue> result = this.innerListIndicators(RequestType.INDICATOR_LIST, indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear,
 				periodType, sortingOption, pageNum, pageSize, lang);
 		logger.info( String.format("Query answered in %s ms", System.currentTimeMillis()-time ) );
 		return result;
@@ -63,13 +64,15 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 	 * @param lang
 	 * @return
 	 */
-	private ApiResultWrapper<ApiIndicatorValue> innerListIndicators(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear,
-			final Integer endYear, final PeriodType periodType, final SortingOption sortingOption, final Integer pageNum, final Integer pageSize, final String lang) {
+	private ApiResultWrapper<ApiIndicatorValue> innerListIndicators(final RequestType requestType, final List<String> indicatorTypeCodes, final List<String> sourceCodes,
+			final List<String> entityCodes, final Integer startYear,
+			final Integer endYear, final PeriodType periodType, final SortingOption sortingOption,
+			final Integer pageNum, final Integer pageSize, final String lang) {
 		ApiResultWrapper<ApiIndicatorValue> result;
 		try {
-			final RequestParamsWrapper paramsWrapper = new RequestParamsWrapper(indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear,
+			final RequestParamsWrapper paramsWrapper = new RequestParamsWrapper(requestType, indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear,
 					periodType, sortingOption, pageNum, pageSize, lang);
-			result = this.searchViaCache(paramsWrapper);
+			result = (ApiResultWrapper<ApiIndicatorValue>) this.searchViaCache(paramsWrapper);
 		} catch (final ApiV2ProcessingException e) {
 			result = new ApiResultWrapper<ApiIndicatorValue>(e.getMessage());
 		}
@@ -79,8 +82,8 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 	/**
 	 * @param paramsWrapper
 	 */
-	private ApiResultWrapper<ApiIndicatorValue> searchViaCache(final RequestParamsWrapper paramsWrapper) {
-		ApiResultWrapper<ApiIndicatorValue> result;
+	private ApiResultWrapper<?> searchViaCache(final RequestParamsWrapper paramsWrapper) {
+		ApiResultWrapper<?> result;
 		try {
 			result = this.indicatorResultCache.get(paramsWrapper);
 			logger.info(this.indicatorResultCache.stats().toString());
@@ -90,6 +93,25 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+
+	@Override
+	public ApiResultWrapper<Integer> listAvailablePeriods(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes,
+			final Integer startYear, final Integer endYear) {
+
+		ApiResultWrapper<Integer> result;
+		final Long time = System.currentTimeMillis();
+		try {
+			final RequestParamsWrapper paramsWrapper = new RequestParamsWrapper(RequestType.PERIOD_LIST, indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear,
+					null, null, null, null, null);
+			result = (ApiResultWrapper<Integer>) this.searchViaCache(paramsWrapper);
+		} catch (final ApiV2ProcessingException e) {
+			e.printStackTrace();
+			result = new ApiResultWrapper<Integer>(e.getMessage());
+		}
+		logger.info( String.format("Query answered in %s ms", System.currentTimeMillis()-time ) );
+		return result;
 	}
 
 }
