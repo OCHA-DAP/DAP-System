@@ -17,7 +17,7 @@ public class ValidationReport implements Serializable {
 	private ValidationStatus status;
 
 	public boolean isNotInError() {
-		return !status.equals(ValidationStatus.ERROR);
+		return !this.status.equals(ValidationStatus.ERROR);
 	}
 
 	private CKANDataset.Type validator;
@@ -26,14 +26,14 @@ public class ValidationReport implements Serializable {
 
 	public ValidationReport() {
 		super();
-		entries = new ArrayList<>();
+		this.entries = new ArrayList<>();
 	}
 
 	public ValidationReport(final CKANDataset.Type validator) {
 		super();
-		status = ValidationStatus.SUCCESS;
+		this.status = ValidationStatus.SUCCESS;
 		this.validator = validator;
-		entries = new ArrayList<>();
+		this.entries = new ArrayList<>();
 	}
 
 	public ValidationReport(final String id, final String revisionId, final CKANDataset.Type validator) {
@@ -45,33 +45,33 @@ public class ValidationReport implements Serializable {
 
 	public void addEntry(final ValidationStatus newEntryStatus, final String newEntryMessage) {
 		// Compare to uses the ordinal of the Enum (based on declaration order)
-		if (newEntryStatus.compareTo(status) > 0) {
-			status = newEntryStatus;
+		if (newEntryStatus.compareTo(this.status) > 0) {
+			this.status = newEntryStatus;
 		}
 		final ValidationReportEntry newEntry = new ValidationReportEntry(newEntryStatus, newEntryMessage);
-		entries.add(newEntry);
+		this.entries.add(newEntry);
 	}
 
 	public void addEntries(final List<ValidationReportEntry> newEntries) {
 		for (final ValidationReportEntry newEntry : newEntries) {
-			addEntry(newEntry.getStatus(), newEntry.getMessage());
+			this.addEntry(newEntry.getStatus(), newEntry.getMessage());
 		}
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getRevisionId() {
-		return revisionId;
+		return this.revisionId;
 	}
 
 	public ValidationStatus getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public CKANDataset.Type getValidator() {
-		return validator;
+		return this.validator;
 	}
 
 	public void setValidator(final CKANDataset.Type validator) {
@@ -79,17 +79,31 @@ public class ValidationReport implements Serializable {
 	}
 
 	public List<ValidationReportEntry> getEntries() {
-		return entries;
+		return this.entries;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(final String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param revisionId the revisionId to set
+	 */
+	public void setRevisionId(final String revisionId) {
+		this.revisionId = revisionId;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "ValidationReport [status=" + status + ", validator=" + validator + ", entries=" + entries + "]";
+		return "ValidationReport [status=" + this.status + ", validator=" + this.validator + ", entries=" + this.entries + "]";
 	}
 
 	public String toJson() {

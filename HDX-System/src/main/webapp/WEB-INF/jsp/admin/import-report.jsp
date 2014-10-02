@@ -31,12 +31,14 @@
 			<th>Number of Records with Errors</th>
 		</tr>
 		<c:forEach var="entry" items="${it.entries}">
-			<td>${entry.key.indicatorCode}</td>
-			<td>${entry.key.sourceCode}</td>
-			<td>${entry.value.totalNbOfRecords}</td>
-			<td>${entry.value.nbOfNewRecords}</td>
-			<td>${entry.value.nbOfAlreadyExistingRecords}</td>
-			<td>${entry.value.nbOfRecordsInError}</td>
+			<tr>
+				<td>${entry.key.indicatorCode}</td>
+				<td>${entry.key.sourceCode}</td>
+				<td>${entry.value.totalNbOfRecords}</td>
+				<td>${entry.value.nbOfNewRecords}</td>
+				<td>${entry.value.nbOfAlreadyExistingRecords}</td>
+				<td>${entry.value.nbOfRecordsInError}</td>
+			</tr>
 		</c:forEach>
 	</table>
 </body>

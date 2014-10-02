@@ -47,6 +47,7 @@ import org.ocha.hdx.dto.apiv3.DatasetV3DTO;
 import org.ocha.hdx.dto.apiv3.GroupV3DTO;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.JSONable;
+import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
@@ -822,7 +823,10 @@ public class AdminResource {
 	@GET
 	@Path("/status/resources/{id}/{revision_id}/report")
 	public Response getCKANResourceReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
-		return Response.ok(new Viewable("/admin/report", workflowService.readValidationReport(id, revision_id))).build();
+		final ValidationReport validationReport = this.workflowService.readValidationReport(id, revision_id);
+		validationReport.setId(id);
+		validationReport.setRevisionId(revision_id);
+		return Response.ok(new Viewable("/admin/report", validationReport)).build();
 	}
 
 	/*
