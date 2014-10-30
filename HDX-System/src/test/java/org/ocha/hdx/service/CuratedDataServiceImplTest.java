@@ -2,6 +2,7 @@ package org.ocha.hdx.service;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.NoResultException;
 
@@ -75,7 +76,8 @@ public class CuratedDataServiceImplTest {
 
 	@Test
 	public void testListEntities() {
-		Assert.assertEquals(4, curatedDataService.listEntities().size());
+		final List<Entity> listEntities = curatedDataService.listEntities();
+		Assert.assertEquals(4, listEntities.size());
 
 		try {
 			curatedDataService.createEntity("RUS", "Russia", "crisis", null);

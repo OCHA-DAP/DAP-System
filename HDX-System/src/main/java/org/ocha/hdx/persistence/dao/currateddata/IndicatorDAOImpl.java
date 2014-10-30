@@ -26,6 +26,7 @@ import javax.persistence.criteria.Root;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
+import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.TimeRange;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.api2util.IntermediaryIndicatorValue;
@@ -633,6 +634,30 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 			case SOURCE_TYPE_DESC:
 				criteriaQuery.orderBy(criteriaBuilder.desc(srcToTextJoin.get("defaultValue")));
 				break;
+		}
+	}
+
+	@Override
+	public boolean indicatorExists(final PreparedIndicator preparedIndicator) {
+		final StringBuilder builder = new StringBuilder("SELECT count(i) FROM Indicator i WHERE");
+		builder.append(" i.source.code = :sourceCode");
+		builder.append(" AND i.type.code = :indicatorTypeCode");
+		builder.append(" AND i.entity.code = :entityCode");
+		builder.append(" AND i.entity.type.code = :entityTypeCode");
+		builder.append(" AND i.periodicity = :periodicity");
+		builder.append(" AND i.start = :startTime");
+		final TypedQuery<Long> query = this.em.createQuery(builder.toString(), Long.class);
+		query.setParameter("sourceCode", preparedIndicator.getSourceCode());
+		query.setParameter("indicatorTypeCode", preparedIndicator.getIndicatorTypeCode());
+		query.setParameter("entityCode", preparedIndicator.getEntityCode());
+		query.setParameter("entityTypeCode", preparedIndicator.getEntityTypeCode());
+		query.setParameter("startTime", preparedIndicator.getStart());
+		query.setParameter("periodicity", preparedIndicator.getPeriodicity());
+		final Long count = query.getSingleResult();
+		if ( count != null && count > 0 ) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 

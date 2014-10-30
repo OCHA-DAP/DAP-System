@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.api2util.IntermediaryIndicatorValue;
 import org.ocha.hdx.model.api2util.RequestParamsWrapper.SortingOption;
@@ -54,6 +55,8 @@ public interface IndicatorDAO {
 	 */
 	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
 			final IndicatorImportConfig indicatorImportConfig, final String sourceLink, final ImportFromCKAN importFromCKAN);
+
+	public boolean indicatorExists(final PreparedIndicator preparedIndicator);
 
 	/**
 	 *

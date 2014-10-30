@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ocha.hdx.config.DummyConfigurationCreator;
 import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
+import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
@@ -52,7 +53,7 @@ public class CKANResourceDAOImplTest {
 		final Long configurationId = savedConfig.getId();
 
 		final Date revisionTs = new Date();
-		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", "newUnitTestResourceName", revisionTs, "theParent", "parentDataset_id",
+		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", CKANDataset.Type.MANUAL, "newUnitTestResourceName", revisionTs, "theParent", "parentDataset_id",
 				"parentDataset_revision_id", revisionTs, savedConfig);
 
 		Assert.assertEquals(1, ckanResourceDAO.listCKANResources().size());
@@ -76,8 +77,8 @@ public class CKANResourceDAOImplTest {
 		Assert.assertEquals(1, ckanResourceDAO.listCKANResources().size());
 
 		final Date revision2Ts = new Date();
-		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId2", "newUnitTestResourceName2", revision2Ts, "theParent", "parentDataset_id",
-				"parentDataset_revision_id", revision2Ts, savedConfig);
+		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId2", CKANDataset.Type.MANUAL, "newUnitTestResourceName2", revision2Ts, "theParent",
+				"parentDataset_id", "parentDataset_revision_id", revision2Ts, savedConfig);
 
 		// no change expected, the resource already exist
 		Assert.assertEquals(2, ckanResourceDAO.listCKANResources().size());
@@ -103,7 +104,7 @@ public class CKANResourceDAOImplTest {
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void testCKANResourceWithEmptyConfig() {
-		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", "newUnitTestResourceName", new Date(), "theParent", "parentDataset_id",
+		ckanResourceDAO.newCKANResourceDetected("newUnitTestResourceId", "newUnitTestResourceRevId", CKANDataset.Type.MANUAL, "newUnitTestResourceName", new Date(), "theParent", "parentDataset_id",
 				"parentDataset_revision_id", new Date(), null);
 
 	}

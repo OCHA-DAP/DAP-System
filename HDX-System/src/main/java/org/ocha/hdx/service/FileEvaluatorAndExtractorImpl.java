@@ -10,10 +10,11 @@ import javax.annotation.Resource;
 import org.ocha.hdx.config.DummyConfigurationCreator;
 import org.ocha.hdx.importer.HDXWithCountryListImporter;
 import org.ocha.hdx.importer.PreparedData;
+import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.ScraperValidatingImporter;
 import org.ocha.hdx.importer.WfpImporter;
 import org.ocha.hdx.importer.report.ImportReport;
-import org.ocha.hdx.importer.report.ImportStatus;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
@@ -26,7 +27,6 @@ import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
-import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.validation.ScraperValidator;
 import org.ocha.hdx.validation.WfpValidator;
 import org.ocha.hdx.validation.itemvalidator.IValidatorCreator;
@@ -115,32 +115,34 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		}
 		if (preparedData.isSuccess()) {
 			logger.info(String.format("Import successful, about to persist %d values", preparedData.getIndicatorsToImport().size()));
-			final List<Indicator> indicators = indicatorCreationService.createIndicators(preparedData.getIndicatorsToImport());
 			// FIXME here we used to run importer.validations, and this should as well populate one of the report
-			final ImportReport importReport = saveReadIndicatorsToDatabase(indicators, resourceId, revisionId);
+			final ImportReport importReport = saveReadIndicatorsToDatabase(preparedData.getIndicatorsToImport(), resourceId, revisionId);
 			return importReport;
 		} else {
 			logger.info("Import failed");
 			final ImportReport importReport = new ImportReport();
-			importReport.addEntry(ImportStatus.ERROR, "Could not perform import, IMPORTER ran additional validations and found errors. See Validation Report for details");
+			importReport.setErrorMessage("Could not perform import, IMPORTER ran additional validations and found errors. See Validation Report for details");
 			return importReport;
 		}
 
 	}
 
-	private ImportReport saveReadIndicatorsToDatabase(final List<Indicator> indicators, final String resourceId, final String revisionId) {
+	private ImportReport saveReadIndicatorsToDatabase(final List<PreparedIndicator> preparedIndicators, final String resourceId, final String revisionId) {
 		final ImportReport importReport = new ImportReport();
 
 		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
-		for (final Indicator indicator : indicators) {
-			try {
-				curatedDataService.createIndicator(indicator, importFromCKAN);
-				importReport.addEntry(ImportStatus.SUCCESS,
-						String.format("Successfully created indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()));
-			} catch (final Exception e) {
-				logger.trace(String.format("Error trying to save Indicator : %s", indicator.toString()));
-				importReport.addEntry(ImportStatus.ERROR, String.format("Failed to create indicator for source : %s and type : %s", indicator.getSource().getCode(), indicator.getType().getCode()));
+		for (final PreparedIndicator preparedIndicator : preparedIndicators) {
+			if (curatedDataService.indicatorExists(preparedIndicator)) {
+				importReport.addAlreadyExistingRecord(new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()));
+			} else {
+				try {
+					curatedDataService.createIndicator(indicatorCreationService.createIndicator(preparedIndicator), importFromCKAN);
+					importReport.addNewRecord(new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()));
+				} catch (final Exception e) {
+					importReport.addRecordInError(new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()));
+				}
 			}
+
 		}
 
 		return importReport;
