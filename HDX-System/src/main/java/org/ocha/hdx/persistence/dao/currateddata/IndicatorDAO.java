@@ -205,7 +205,7 @@ public interface IndicatorDAO {
 	 * @return list of indicators that have passed the filter
 	 */
 	public List<IntermediaryIndicatorValue> listIndicatorsByCriteria(List<String> indicatorTypeCodes, List<String> sourceCodes,
-			List<String> entityCodes, Integer startYear, Integer endYear, SortingOption sortingOption,
+			List<String> entityCodes, Integer startYear, Integer endYear, List<SortingOption> sortingOptions,
 			Integer startPosition, Integer maxResult, String lang);
 
 	/**

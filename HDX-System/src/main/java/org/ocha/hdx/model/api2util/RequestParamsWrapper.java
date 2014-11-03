@@ -21,7 +21,7 @@ public class RequestParamsWrapper {
 
 	public enum SortingOption {
 		INDICATOR_TYPE_ASC, INDICATOR_TYPE_DESC, SOURCE_TYPE_ASC, SOURCE_TYPE_DESC, COUNTRY_ASC, COUNTRY_DESC,
-		VALUE_ASC, VALUE_DESC
+		VALUE_ASC, VALUE_DESC, START_DATE_ASC, START_DATE_DESC
 	}
 
 	public enum RequestType {
