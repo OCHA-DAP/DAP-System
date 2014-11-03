@@ -24,6 +24,9 @@ public class ApiResultWrapper<T> {
 	/* used for pagination */
 	private Integer totalNumOfPages;
 
+	/* used for pagination */
+	private Integer pageSize;
+
 	/* In case pagination is not used, this flag shows if there are more results than were returned */
 	private boolean moreResults;
 
@@ -35,13 +38,16 @@ public class ApiResultWrapper<T> {
 	}
 
 
-	public ApiResultWrapper(final List<T> results, final Integer totalCount, final Integer currentPage, final Integer totalNumOfPages, final boolean success, final String errorMessage,
+	public ApiResultWrapper(final List<T> results,
+			final Integer totalCount, final Integer currentPage, final Integer totalNumOfPages, final Integer pageSize,
+			final boolean success, final String errorMessage,
 			final boolean moreResults) {
 		super();
 		this.results = results;
 		this.totalCount = totalCount;
 		this.currentPage = currentPage;
 		this.totalNumOfPages = totalNumOfPages;
+		this.pageSize = pageSize;
 		this.success = success;
 		this.errorMessage = errorMessage;
 		this.moreResults = moreResults;
@@ -158,6 +164,23 @@ public class ApiResultWrapper<T> {
 	public void setResults(final List<T> results) {
 		this.results = results;
 	}
+
+
+	/**
+	 * @return the pageSize
+	 */
+	public Integer getPageSize() {
+		return this.pageSize;
+	}
+
+
+	/**
+	 * @param pageSize the pageSize to set
+	 */
+	public void setPageSize(final Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+
 
 
 

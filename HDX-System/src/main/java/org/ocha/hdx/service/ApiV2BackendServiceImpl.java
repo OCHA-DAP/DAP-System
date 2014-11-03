@@ -81,17 +81,22 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 
 	/**
 	 * @param paramsWrapper
+	 * @throws ApiV2ProcessingException
 	 */
-	private ApiResultWrapper<?> searchViaCache(final RequestParamsWrapper paramsWrapper) {
+	private ApiResultWrapper<?> searchViaCache(final RequestParamsWrapper paramsWrapper) throws ApiV2ProcessingException {
 		ApiResultWrapper<?> result;
 		try {
 			result = this.indicatorResultCache.get(paramsWrapper);
 			logger.info(this.indicatorResultCache.stats().toString());
 			return result;
 		} catch (final ExecutionException e) {
-			logger.error(e.getMessage());
-			e.printStackTrace();
-			return null;
+			if ( e.getCause() instanceof ApiV2ProcessingException ) {
+				throw (ApiV2ProcessingException)e.getCause();
+			} else {
+				logger.error(e.getMessage());
+				e.printStackTrace();
+				return null;
+			}
 		}
 	}
 

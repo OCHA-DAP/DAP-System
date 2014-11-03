@@ -173,6 +173,47 @@ public class ApiV2BackendServiceImplCacheTest {
 		this.importFromCKANDAO.deleteImportFromCKAN(importFromCKAN.getId());
 	}
 
+//	This test cannot run on derby: check https://github.com/OCHA-DAP/DAP-System/issues/304
+
+//	@Test
+//	public final void testListIndicatorsByLatestYearByCountryCriteria() {
+//		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord("anyResourceId", "anyRevisionId", new Date());
+//		final Source src1 = this.sourceDAO.getSourceByCode("esa-unpd-WPP2012");
+//		final IndicatorType type1 = this.indicatorTypeDAO.getIndicatorTypeByCode("PSP080");
+//		final Entity entity1 = this.entityDAO.getEntityByCodeAndType("Fi", "country");
+//
+//		final LocalDateTime dateTime2012 = new LocalDateTime(2012, 1, 1, 0, 0);
+//		final Date date2012January = dateTime2012.toDate();
+//		final Date date2012August = dateTime2012.plusMonths(6).toDate();
+//		final Date date2013 = dateTime2012.plusYears(1).toDate();
+//
+//		this.indicatorDAO.createIndicator(src1, entity1, type1, date2012January, date2012January, Periodicity.MONTH, new IndicatorValue(10000.0), "10000$", ValidationStatus.SUCCESS, "http://www.example.com",
+//				importFromCKAN);
+//
+//		this.indicatorDAO.createIndicator(src1, entity1, type1, date2012August, date2012August, Periodicity.MONTH, new IndicatorValue(20000.0), "20000$", ValidationStatus.SUCCESS, "http://www.example2.com",
+//				importFromCKAN);
+//
+//		this.indicatorDAO.createIndicator(src1, entity1, type1, date2013, date2013, Periodicity.MONTH, new IndicatorValue(30000.0), "30000$", ValidationStatus.SUCCESS, "http://www.example3.com",
+//				importFromCKAN);
+//
+//		final ApiResultWrapper<ApiIndicatorValue> resultWrapper1 = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(Arrays.asList("PSP080"),
+//				Arrays.asList("esa-unpd-WPP2012"), Arrays.asList("Fi"), null, null, PeriodType.LATEST_YEAR_BY_COUNTRY, null, null, null, "en");
+//
+//		assertNotNull(resultWrapper1);
+//		assertEquals("There should be 1 indicator matching the criteria in total", new Integer(1), resultWrapper1.getTotalCount());
+//		assertTrue("The year should be 2013", resultWrapper1.getResults().get(0).getTime().contains("2013"));
+//
+//		final ApiResultWrapper<ApiIndicatorValue> resultWrapper2 = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(Arrays.asList("PSP080"),
+//				Arrays.asList("esa-unpd-WPP2012"), Arrays.asList("Fi"), 2012, 2012, PeriodType.LATEST_YEAR_BY_COUNTRY, null, null, null, "en");
+//
+//		assertNotNull(resultWrapper2);
+//		assertEquals("There should be 1 indicator matching the criteria in total", new Integer(1), resultWrapper2.getTotalCount());
+//		assertTrue("The year should be 2012", resultWrapper2.getResults().get(0).getTime().contains("2012-07"));
+//
+//		this.indicatorDAO.deleteAllIndicatorsFromImport(importFromCKAN.getId());
+//		this.importFromCKANDAO.deleteImportFromCKAN(importFromCKAN.getId());
+//	}
+
 	@Test
 	public final void testListIndicatorsSorted() {
 		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord("anyResourceId", "anyRevisionId", new Date());
@@ -213,6 +254,8 @@ public class ApiV2BackendServiceImplCacheTest {
 			}
 		});
 
+//		Below tests cannot run on derby: check https://github.com/OCHA-DAP/DAP-System/issues/304
+//
 //		this.checkSorting(SortingOption.COUNTRY_ASC, new Comparator<ApiIndicatorValue>() {
 //
 //			@Override

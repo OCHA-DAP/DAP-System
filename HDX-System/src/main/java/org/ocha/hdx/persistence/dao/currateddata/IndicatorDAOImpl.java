@@ -502,13 +502,13 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	@Transactional(readOnly = true)
 	@Override
 	public List<IntermediaryIndicatorValue> listIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
-			final List<String> entityCodes, final Integer startYear, final Integer endYear, final SortingOption sortingOption,
+			final List<String> entityCodes, final Integer startYear, final Integer endYear, final List<SortingOption> sortingOptions,
 			final Integer startPosition, final Integer maxResult, final String lang){
 
 		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
 		final CriteriaQuery<IntermediaryIndicatorValue> criteriaQuery =
 				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear,
-						endYear, sortingOption, criteriaBuilder, IntermediaryIndicatorValue.class, true);
+						endYear, sortingOptions, criteriaBuilder, IntermediaryIndicatorValue.class, true);
 
 		final TypedQuery<IntermediaryIndicatorValue> query = this.em.createQuery(criteriaQuery);
 		query.setFirstResult(startPosition);
@@ -528,7 +528,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 */
 	private <T> CriteriaQuery<T> createQueryforIndicatorsByCriteria(final List<String> indicatorTypeCodes,
 			final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear,
-			final Integer endYear, final SortingOption sortingOption, final CriteriaBuilder criteriaBuilder,
+			final Integer endYear, final List<SortingOption> sortingOptions, final CriteriaBuilder criteriaBuilder,
 			final Class<T> responseClass,
 			final boolean addSelectClause) {
 
@@ -588,8 +588,8 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 				)
 				.orderBy(criteriaBuilder.asc(indToIndTypeJoin.get("code")));
 
-			if ( sortingOption != null ) {
-				this.addSorting(sortingOption, criteriaBuilder, criteriaQuery, indicatorRoot, indTypeToTextJoin, srcToTextJoin, entityToTextJoin);
+			if ( sortingOptions != null ) {
+				this.addSorting(sortingOptions, criteriaBuilder, criteriaQuery, indicatorRoot, indTypeToTextJoin, srcToTextJoin, entityToTextJoin);
 			}
 		}
 		criteriaQuery.where(filters.toArray(new Predicate[0]));
@@ -606,34 +606,42 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 * @param srcToTextJoin
 	 * @param entityToTextJoin
 	 */
-	private <T> void addSorting(final SortingOption sortingOption, final CriteriaBuilder criteriaBuilder, final CriteriaQuery<T> criteriaQuery,
+	private <T> void addSorting(final List<SortingOption> sortingOptions, final CriteriaBuilder criteriaBuilder, final CriteriaQuery<T> criteriaQuery,
 			final Root<Indicator> indicatorRoot, final Join<IndicatorType, Text> indTypeToTextJoin, final Join<Object, Object> srcToTextJoin,
 			final Join<Object, Object> entityToTextJoin) {
-		switch (sortingOption) {
-			case VALUE_ASC:
-				criteriaQuery.orderBy(criteriaBuilder.asc(indicatorRoot.get("value").get("numberValue")));
-				break;
-			case VALUE_DESC:
-				criteriaQuery.orderBy(criteriaBuilder.desc(indicatorRoot.get("value").get("numberValue")));
-				break;
-			case COUNTRY_ASC:
-				criteriaQuery.orderBy(criteriaBuilder.asc(entityToTextJoin.get("defaultValue")));
-				break;
-			case COUNTRY_DESC:
-				criteriaQuery.orderBy(criteriaBuilder.desc(entityToTextJoin.get("defaultValue")));
-				break;
-			case INDICATOR_TYPE_ASC:
-				criteriaQuery.orderBy(criteriaBuilder.asc(indTypeToTextJoin.get("defaultValue")));
-				break;
-			case INDICATOR_TYPE_DESC:
-				criteriaQuery.orderBy(criteriaBuilder.desc(indTypeToTextJoin.get("defaultValue")));
-				break;
-			case SOURCE_TYPE_ASC:
-				criteriaQuery.orderBy(criteriaBuilder.asc(srcToTextJoin.get("defaultValue")));
-				break;
-			case SOURCE_TYPE_DESC:
-				criteriaQuery.orderBy(criteriaBuilder.desc(srcToTextJoin.get("defaultValue")));
-				break;
+		for (final SortingOption sortingOption: sortingOptions) {
+			switch (sortingOption) {
+				case VALUE_ASC:
+					criteriaQuery.orderBy(criteriaBuilder.asc(indicatorRoot.get("value").get("numberValue")));
+					break;
+				case VALUE_DESC:
+					criteriaQuery.orderBy(criteriaBuilder.desc(indicatorRoot.get("value").get("numberValue")));
+					break;
+				case COUNTRY_ASC:
+					criteriaQuery.orderBy(criteriaBuilder.asc(entityToTextJoin.get("defaultValue")));
+					break;
+				case COUNTRY_DESC:
+					criteriaQuery.orderBy(criteriaBuilder.desc(entityToTextJoin.get("defaultValue")));
+					break;
+				case INDICATOR_TYPE_ASC:
+					criteriaQuery.orderBy(criteriaBuilder.asc(indTypeToTextJoin.get("defaultValue")));
+					break;
+				case INDICATOR_TYPE_DESC:
+					criteriaQuery.orderBy(criteriaBuilder.desc(indTypeToTextJoin.get("defaultValue")));
+					break;
+				case SOURCE_TYPE_ASC:
+					criteriaQuery.orderBy(criteriaBuilder.asc(srcToTextJoin.get("defaultValue")));
+					break;
+				case SOURCE_TYPE_DESC:
+					criteriaQuery.orderBy(criteriaBuilder.desc(srcToTextJoin.get("defaultValue")));
+					break;
+				case START_DATE_ASC:
+					criteriaQuery.orderBy(criteriaBuilder.asc(indicatorRoot.get("start")));
+					break;
+				case START_DATE_DESC:
+					criteriaQuery.orderBy(criteriaBuilder.desc(indicatorRoot.get("start")));
+					break;
+			}
 		}
 	}
 
