@@ -17,21 +17,11 @@ import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.ocha.hdx.dto.apiv3.DatasetListV3DTO;
 import org.ocha.hdx.dto.apiv3.DatasetV3DTO;
 import org.ocha.hdx.dto.apiv3.DatasetV3DTO.Resource;
@@ -71,9 +61,9 @@ import au.com.bytecode.opencsv.CSVWriter;
 
 import com.google.gson.JsonObject;
 
-public class HDXServiceImpl implements HDXService {
+public class HDXServiceImpl extends CkanClient implements HDXService {
 
-	private static final Logger log = LoggerFactory.getLogger(HDXServiceImpl.class);
+	static final Logger log = LoggerFactory.getLogger(HDXServiceImpl.class);
 
 	private static String DATASET_LIST_V3_API_PATTERN = "http://%s/api/3/action/package_list";
 	private static String GROUP_LIST_V3_API_PATTERN = "http://%s/api/3/action/group_list";
@@ -547,72 +537,6 @@ public class HDXServiceImpl implements HDXService {
 
 		return responseBody;
 
-	}
-
-	private String performHttpPOST(final String url, final String apiKey, final String query) {
-		log.debug(String.format("About to post on : %s", url));
-		String responseBody = null;
-
-		final HttpPost httpPost = new HttpPost(url);
-		try (CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().build()) {
-
-			final StringEntity se = new StringEntity(query);
-			httpPost.setEntity(se);
-
-			// se.setContentType("text/xml");
-			httpPost.addHeader("Content-Type", "application/json");
-			httpPost.addHeader("accept", "application/json");
-
-			if (apiKey != null) {
-				httpPost.addHeader("X-CKAN-API-Key", apiKey);
-			}
-
-			// log.debug("about to send query: " + query);
-
-			final ResponseHandler<String> responseHandler = new BasicResponseHandler();
-			responseBody = closeableHttpClient.execute(httpPost, responseHandler);
-		} catch (final Exception e) {
-			log.debug(e.toString(), e);
-		}
-		return responseBody;
-	}
-
-	private String performHttpPOSTMultipart(final String url, final String apiKey, final String packageId, final File file) {
-		String responseBody = null;
-		final CloseableHttpClient httpclient = HttpClients.createDefault();
-
-		final HttpPost httpPost = new HttpPost(url);
-		try {
-
-			// se.setContentType("text/xml");
-
-			// This does not work yet. CKAN complains if boundary is not set
-			// but the content-Type should be exactly multipart/form-data !!
-			httpPost.addHeader("Content-Type", "multipart/form-data");
-			// httpPost.addHeader("Content-Type", "multipart/form-data; boundary=nwxUuePw4tNxnJqfcLQem2PLZJFBQS");
-			httpPost.addHeader("accept", "application/json");
-
-			if (apiKey != null) {
-				httpPost.addHeader("X-CKAN-API-Key", apiKey);
-			}
-
-			final FileBody bin = new FileBody(file);
-			final StringBody package_id = new StringBody(packageId, ContentType.TEXT_PLAIN);
-
-			final HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("upload", bin).addPart("package_id", package_id).build();
-			// final HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("package_id", package_id).build();
-
-			httpPost.setEntity(reqEntity);
-
-			System.out.println("executing request " + httpPost.getRequestLine());
-			final CloseableHttpResponse response = httpclient.execute(httpPost);
-			final HttpEntity resEntity = response.getEntity();
-			responseBody = EntityUtils.toString(resEntity);
-		} catch (final Exception e) {
-			e.printStackTrace();
-			log.debug(e.toString(), e);
-		}
-		return responseBody;
 	}
 
 	/**
