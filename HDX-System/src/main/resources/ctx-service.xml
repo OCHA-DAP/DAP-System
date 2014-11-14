@@ -76,6 +76,8 @@
   <bean id="apiV2BackendService" class="org.ocha.hdx.service.ApiV2BackendServiceImpl" />
   
   <bean id="intermediaryBackendServiceImpl" class="org.ocha.hdx.service.IntermediaryBackendServiceImpl" />
+  
+  <bean id="ckanSynchronizerService" class="org.ocha.hdx.service.CkanSynchronizerServiceImpl" />
 
   <!-- Helpers -->
   <bean id="readmeHelper" class="org.ocha.hdx.exporter.helper.ReadmeHelperImpl" />
