@@ -309,7 +309,7 @@ public class HDXServiceImpl implements HDXService {
 		// if we can't download the file, the flag will be rolled back
 		final boolean success = this.performDownload(url, destinationFile);
 		if (!success) {
-			throw new RuntimeException("Failed downloading the given resource");
+			throw new RuntimeException("Failed downloading the given resource from url: " + url);
 		}
 
 	}
@@ -375,12 +375,12 @@ public class HDXServiceImpl implements HDXService {
 			final String newUrlStr = uCon.getHeaderField("Location");
 			uCon = (HttpURLConnection) new URL(newUrlStr).openConnection();
 		}
-		final InputStream is = uCon.getInputStream();
 
 		final byte[] buf = new byte[1024];
 		int byteRead = 0;
 		FileOutputStream fos = null;
 		try {
+			final InputStream is = uCon.getInputStream();
 			destinationFile.getParentFile().mkdirs();
 			fos = new FileOutputStream(destinationFile);
 
