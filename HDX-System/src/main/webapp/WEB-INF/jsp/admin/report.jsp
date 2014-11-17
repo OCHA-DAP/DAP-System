@@ -10,12 +10,13 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css" />
 </head>
 <body>
-	<h2>Report for resource id : ${it.id.id}, revision : ${it.id.revision_id}</h2>
+	<h2>Report for resource id : ${it.id}, revision : ${it.revisionId}</h2>
 
-	Validator : ${it.validationReport.validator} Status : ${it.validationReport.status}
+	<h3>  Validator : ${it.validator} Status : ${it.status} </h3>
+	
 	<ul>
-		<c:forEach var="entry" items="${it.validationReport.entries}">
-			<li class="${entry.status}">${entry.status}:${entry.message}</li>
+		<c:forEach var="entry" items="${it.entries}">
+			<li class="${entry.status}">${entry.status} - ${entry.message}</li>
 		</c:forEach>
 	</ul>
 </body>

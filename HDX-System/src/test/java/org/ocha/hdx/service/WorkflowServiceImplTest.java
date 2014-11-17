@@ -3,6 +3,7 @@ package org.ocha.hdx.service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource;
 import org.ocha.hdx.persistence.entity.ckan.CKANResource.WorkflowState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class WorkflowServiceImplTest {
 	@Test
 	public void testNextStateIsPossible() {
 		{
-			final CKANResource resource = new CKANResource("id", "revision_id", true, "theParent");
+			final CKANResource resource = new CKANResource("id", "revision_id", CKANDataset.Type.MANUAL, true, "theParent");
 			Assert.assertTrue(workflowService.nextStateIsPossible(resource, WorkflowState.DOWNLOADED));
 			Assert.assertTrue(workflowService.nextStateIsPossible(resource, WorkflowState.OUTDATED));
 			Assert.assertFalse(workflowService.nextStateIsPossible(resource, WorkflowState.DETECTED_NEW));
@@ -30,7 +31,7 @@ public class WorkflowServiceImplTest {
 			Assert.assertFalse(workflowService.nextStateIsPossible(resource, WorkflowState.IMPORT_FAIL));
 		}
 
-		final CKANResource revision = new CKANResource("id", "revision_id", false, "theParent");
+		final CKANResource revision = new CKANResource("id", "revision_id", CKANDataset.Type.MANUAL, false, "theParent");
 		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.DOWNLOADED));
 		Assert.assertTrue(workflowService.nextStateIsPossible(revision, WorkflowState.OUTDATED));
 		Assert.assertFalse(workflowService.nextStateIsPossible(revision, WorkflowState.DETECTED_NEW));

@@ -25,6 +25,8 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 								datasets detection</a></li>
 						<li ng-class="{ active: isActive('${ctx}/admin/status/manuallyTriggerResourcesDetection', 'status') }"><a href="${ctx}/admin/status/manuallyTriggerResourcesDetection">Manually trigger
 								resources detection</a></li>
+						<li class="divider"></li>
+						<li ng-class="{ active: isActive('${ctx}/admin/status/manualImport', 'status') }"><a href="${ctx}/admin/status/manualImport/">Upload a file to import</a></li>
 					</ul></li>
 			</ul>
 			<ul class="nav navbar-nav">

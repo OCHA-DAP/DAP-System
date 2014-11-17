@@ -31,6 +31,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.FileUtils;
@@ -46,6 +47,7 @@ import org.ocha.hdx.dto.apiv3.DatasetV3DTO;
 import org.ocha.hdx.dto.apiv3.GroupV3DTO;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.JSONable;
+import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.User;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset;
@@ -76,6 +78,7 @@ import org.ocha.hdx.rest.helper.DisplayRegionDictionaries;
 import org.ocha.hdx.rest.helper.DisplaySourceDictionaries;
 import org.ocha.hdx.service.CuratedDataService;
 import org.ocha.hdx.service.HDXService;
+import org.ocha.hdx.service.WorkflowService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +108,9 @@ public class AdminResource {
 
 	@Autowired
 	private CuratedDataService curatedDataService;
+
+	@Autowired
+	private WorkflowService workflowService;
 
 	/*
 	 * Utilities
@@ -670,6 +676,31 @@ public class AdminResource {
 		return jsonTranslations.toString();
 	}
 
+	@GET
+	@Path("/status/manualImport/")
+	public Response uploadFileForm() {
+		final Map<String, Object> jspElement = new HashMap<String, Object>();
+		jspElement.put("configs", hdxService.listConfigurations());
+		return Response.ok(new Viewable("/admin/manualImport", jspElement)).build();
+	}
+
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Path("/status/manualImport/")
+	public Response uploadFile(@FormDataParam("resourceName") final String resourceName, @FormDataParam("resourceConfigurationId") final long resourceConfigurationId,
+			@FormDataParam("resourceFile") final InputStream resourceFile, @Context final UriInfo uriInfo) {
+
+		try {
+			hdxService.addNewCKANResource(resourceName, resourceName, resourceConfigurationId, resourceFile);
+
+			final URI newURI = uriInfo.getBaseUriBuilder().path("/admin/status/resources/").build();
+			return Response.seeOther(newURI).build();
+		} catch (final IOException e) {
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+		}
+
+	}
+
 	/*
 	 * Status / datasets management
 	 */
@@ -785,13 +816,17 @@ public class AdminResource {
 	@GET
 	@Path("/status/resources/{id}/{revision_id}/import-report")
 	public Response getCKANResourceImportReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
-		return Response.ok(new Viewable("/admin/import-report", hdxService.getCKANResource(id, revision_id))).build();
+		// return Response.ok(new Viewable("/admin/import-report", hdxService.getCKANResource(id, revision_id))).build();
+		return Response.ok(new Viewable("/admin/import-report", workflowService.readImportReport(id, revision_id))).build();
 	}
 
 	@GET
 	@Path("/status/resources/{id}/{revision_id}/report")
 	public Response getCKANResourceReport(@PathParam("id") final String id, @PathParam("revision_id") final String revision_id) {
-		return Response.ok(new Viewable("/admin/report", hdxService.getCKANResource(id, revision_id))).build();
+		final ValidationReport validationReport = this.workflowService.readValidationReport(id, revision_id);
+		validationReport.setId(id);
+		validationReport.setRevisionId(revision_id);
+		return Response.ok(new Viewable("/admin/report", validationReport)).build();
 	}
 
 	/*

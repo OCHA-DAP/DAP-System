@@ -16,6 +16,8 @@ import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 @Table(name = "ckan_dataset")
 public class CKANDataset {
 
+	public static final String MANUAL_UPLOAD = "MANUAL_UPLOAD";
+
 	/**
 	 * 
 	 * @author Samuel Eustachi
@@ -32,7 +34,7 @@ public class CKANDataset {
 	}
 
 	public enum Type {
-		SCRAPER_CONFIGURABLE, WFP;
+		SCRAPER_CONFIGURABLE, WFP, MANUAL;
 	}
 
 	@Id

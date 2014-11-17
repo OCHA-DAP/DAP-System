@@ -26,4 +26,8 @@ public interface WorkflowService {
 
 	public boolean flagCKANResourceAsImportFail(final String id, final String revision_id, final CKANDataset.Type importer, final ValidationReport validationReport, final ImportReport importReport);
 
+	public ValidationReport readValidationReport(final String id, final String revision_id);
+
+	public ImportReport readImportReport(final String id, final String revision_id);
+
 }

@@ -3,22 +3,17 @@ package org.ocha.hdx.persistence.entity.ckan;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
-import org.ocha.hdx.importer.report.ImportReport;
-import org.ocha.hdx.model.validation.ValidationReport;
 import org.ocha.hdx.persistence.entity.ckan.CKANDataset.Type;
 import org.ocha.hdx.persistence.entity.configs.ResourceConfiguration;
 
@@ -107,9 +102,10 @@ public class CKANResource {
 		super();
 	}
 
-	public CKANResource(final String id, final String revision_id, final boolean isNew, final String parentDataset_name) {
+	public CKANResource(final String id, final String revision_id, final Type type, final boolean isNew, final String parentDataset_name) {
 		this.id.id = id;
 		this.id.revision_id = revision_id;
+		this.type = type;
 		if (isNew) {
 			this.workflowState = WorkflowState.DETECTED_NEW;
 		} else {
@@ -118,9 +114,9 @@ public class CKANResource {
 		this.parentDataset_name = parentDataset_name;
 	}
 
-
 	/**
 	 * Constructor that skips the huge blob reports. Used in HQL.
+	 * 
 	 * @param name
 	 * @param workflowState
 	 * @param revision_timestamp
@@ -136,13 +132,14 @@ public class CKANResource {
 	 * @param importer
 	 * @param resourceConfiguration
 	 */
-	public CKANResource(final Id id, final String name, final WorkflowState workflowState,
-			final Date revision_timestamp, final String parentDataset_name, final String parentDataset_id,
-			final String parentDataset_revision_id, final Date parentDataset_revision_timestamp, final Date detectionDate, final Date downloadDate, final Date evaluationDate,
-			final Type evaluator, final Date importDate, final Type importer, final ResourceConfiguration resourceConfiguration) {
+	public CKANResource(final Id id, final Type type, final String name, final WorkflowState workflowState, final Date revision_timestamp, final String parentDataset_name,
+			final String parentDataset_id, final String parentDataset_revision_id, final Date parentDataset_revision_timestamp, final Date detectionDate, final Date downloadDate,
+			final Date evaluationDate, final Type evaluator, final Date importDate, final Type importer, final ResourceConfiguration resourceConfiguration) {
 
-		this.id.id  = id.getId();
+		this.id.id = id.getId();
 		this.id.revision_id = id.getRevision_id();
+
+		this.type = type;
 
 		this.name = name;
 		this.workflowState = workflowState;
@@ -160,14 +157,16 @@ public class CKANResource {
 		this.resourceConfiguration = resourceConfiguration;
 	}
 
-
-
 	@EmbeddedId
 	private final Id id = new Id();
 
 	public Id getId() {
 		return this.id;
 	}
+
+	@Column(name = "type", nullable = false, updatable = false)
+	@Enumerated(EnumType.STRING)
+	private Type type;
 
 	@Column(name = "name", nullable = false, updatable = false)
 	private String name;
@@ -207,22 +206,9 @@ public class CKANResource {
 	@Column(name = "importDate", columnDefinition = "timestamp", nullable = true, updatable = true)
 	private Date importDate;
 
-	// FIXME here we store the serialization of the report for fast prototyping
-	// this is something we'll probably want to change
-	@Lob @Basic(fetch=FetchType.LAZY)
-	@Column(name = "validationReport", length = 50000, nullable = true, updatable = true)
-	private ValidationReport validationReport;
-
-	// FIXME here we store the serialization of the report for fast prototyping
-	// this is something we'll probably want to change
-	@Basic(fetch=FetchType.LAZY)
-	@Lob
-	@Column(name = "import_report", length = 50000, nullable = true, updatable = true)
-	private ImportReport importReport;
-
 	@Column(name = "importer", nullable = true, updatable = true)
 	@Enumerated(EnumType.STRING)
-	private CKANDataset.Type importer;
+	private Type importer;
 
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "resource_configuration_id", nullable = false)
@@ -329,22 +315,6 @@ public class CKANResource {
 		this.importDate = importDate;
 	}
 
-	public ValidationReport getValidationReport() {
-		return this.validationReport;
-	}
-
-	public void setValidationReport(final ValidationReport validationReport) {
-		this.validationReport = validationReport;
-	}
-
-	public ImportReport getImportReport() {
-		return this.importReport;
-	}
-
-	public void setImportReport(final ImportReport importReport) {
-		this.importReport = importReport;
-	}
-
 	public CKANDataset.Type getImporter() {
 		return this.importer;
 	}
@@ -359,6 +329,14 @@ public class CKANResource {
 
 	public void setResourceConfiguration(final ResourceConfiguration resourceConfiguration) {
 		this.resourceConfiguration = resourceConfiguration;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(final Type type) {
+		this.type = type;
 	}
 
 }
