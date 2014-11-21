@@ -10,6 +10,7 @@ import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.api2util.IntermediaryIndicatorValue;
 import org.ocha.hdx.model.api2util.RequestParamsWrapper.SortingOption;
 import org.ocha.hdx.model.validation.ValidationStatus;
+import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAOImpl.ImportValueStatus;
 import org.ocha.hdx.persistence.entity.ImportFromCKAN;
 import org.ocha.hdx.persistence.entity.curateddata.Entity;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
@@ -56,7 +57,9 @@ public interface IndicatorDAO {
 	public void createIndicator(final Source source, final Entity entity, final IndicatorType type, final Date start, final Date end, final Periodicity periodicity, final IndicatorValue value,
 			final IndicatorImportConfig indicatorImportConfig, final String sourceLink, final ImportFromCKAN importFromCKAN);
 
-	public boolean indicatorExists(final PreparedIndicator preparedIndicator);
+	public ImportValueStatus updateIndicatorIfNecessary(final PreparedIndicator preparedIndicator, ImportFromCKAN importFromCKAN);
+
+	public Indicator getIndicatorById(long id);
 
 	/**
 	 *

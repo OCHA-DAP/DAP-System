@@ -20,6 +20,7 @@ import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
+import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAOImpl.ImportValueStatus;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
 import org.ocha.hdx.persistence.dao.dictionary.SourceDictionaryDAO;
@@ -86,7 +87,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 			return validationReport;
 
 		default:
-			return defaultValidationFail(file);
+			return this.defaultValidationFail(file);
 		}
 	}
 
@@ -99,24 +100,24 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		final PreparedData preparedData;
 		switch (type) {
 		case SCRAPER_CONFIGURABLE: {
-			final ScraperValidatingImporter importer = new ScraperValidatingImporter(sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(config), config, validatorCreators,
-					preValidatorCreators, validationReport, indicatorCreationService);
-			creatingMissingEntities(file, importer);
+			final ScraperValidatingImporter importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(config), config, this.validatorCreators,
+					this.preValidatorCreators, validationReport, this.indicatorCreationService);
+			this.creatingMissingEntities(file, importer);
 			preparedData = importer.prepareDataForImport(file);
 		}
 			break;
 		case WFP: {
-			final WfpImporter importer = new WfpImporter(curatedDataService);
+			final WfpImporter importer = new WfpImporter(this.curatedDataService);
 			preparedData = importer.prepareDataForImport(file);
 		}
 			break;
 		default:
-			preparedData = defaultImportFail(file);
+			preparedData = this.defaultImportFail(file);
 		}
 		if (preparedData.isSuccess()) {
 			logger.info(String.format("Import successful, about to persist %d values", preparedData.getIndicatorsToImport().size()));
 			// FIXME here we used to run importer.validations, and this should as well populate one of the report
-			final ImportReport importReport = saveReadIndicatorsToDatabase(preparedData.getIndicatorsToImport(), resourceId, revisionId);
+			final ImportReport importReport = this.saveReadIndicatorsToDatabase(preparedData.getIndicatorsToImport(), resourceId, revisionId);
 			return importReport;
 		} else {
 			logger.info("Import failed");
@@ -127,20 +128,32 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 
 	}
 
-	private ImportReport saveReadIndicatorsToDatabase(final List<PreparedIndicator> preparedIndicators, final String resourceId, final String revisionId) {
+	@Override
+	public ImportReport saveReadIndicatorsToDatabase(final List<PreparedIndicator> preparedIndicators, final String resourceId, final String revisionId) {
 		final ImportReport importReport = new ImportReport();
 
-		final ImportFromCKAN importFromCKAN = importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
+		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.createNewImportRecord(resourceId, revisionId, new Date());
 		for (final PreparedIndicator preparedIndicator : preparedIndicators) {
-			if (curatedDataService.indicatorExists(preparedIndicator)) {
-				importReport.addAlreadyExistingRecord(new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()));
-			} else {
-				try {
-					curatedDataService.createIndicator(indicatorCreationService.createIndicator(preparedIndicator), importFromCKAN);
+			final ImportValueStatus status = this.curatedDataService.updateIndicatorIfNecessary(preparedIndicator, importFromCKAN);
+			try {
+				switch (status) {
+				case NOTHING_TO_DO:
+					importReport.addAlreadyExistingRecord(new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()));
+					break;
+				case UPDATED:
+					importReport.addUpdatedRecord(new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()));
+					break;
+				case NEEDS_INSERT:
+					this.curatedDataService.createIndicator(this.indicatorCreationService.createIndicator(preparedIndicator), importFromCKAN);
 					importReport.addNewRecord(new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()));
-				} catch (final Exception e) {
-					importReport.addRecordInError(new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()));
+					break;
+				default:
+					break;
+
 				}
+			}
+			catch (final Exception e) {
+				importReport.addRecordInError(new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()));
 			}
 
 		}
@@ -163,7 +176,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 	private void creatingMissingEntities(final File file, final HDXWithCountryListImporter importer) {
 		for (final Entry<String, String> entry : importer.getCountryList(file).entrySet()) {
 			try {
-				curatedDataService.createEntity(entry.getKey(), entry.getValue(), "country", null);
+				this.curatedDataService.createEntity(entry.getKey(), entry.getValue(), "country", null);
 			} catch (final Exception e) {
 				logger.trace(String.format("Not creating country : %s already exist", entry.getKey()));
 			}

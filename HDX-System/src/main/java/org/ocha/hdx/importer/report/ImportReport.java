@@ -19,6 +19,7 @@ public class ImportReport implements Serializable {
 	private int totalNbOfRecords;
 	private int nbOfNewRecords;
 	private int nbOfAlreadyExistingRecords;
+	private int nbOfUpdatedRecords;
 	private int nbOfRecordsInError;
 
 	private ImportStatus overallStatus;
@@ -35,6 +36,7 @@ public class ImportReport implements Serializable {
 		this.totalNbOfRecords = 0;
 		this.nbOfNewRecords = 0;
 		this.nbOfAlreadyExistingRecords = 0;
+		this.nbOfUpdatedRecords = 0;
 		this.nbOfRecordsInError = 0;
 
 		this.overallStatus = ImportStatus.SUCCESS;
@@ -66,6 +68,13 @@ public class ImportReport implements Serializable {
 		this.nbOfAlreadyExistingRecords++;
 		final ImportReportEntry entryForDataSerie = this.getEntryForDataSerie(dataSerie);
 		entryForDataSerie.addAlreadyExistingRecord();
+	}
+
+	public void addUpdatedRecord(final DataSerie dataSerie) {
+		this.totalNbOfRecords++;
+		this.nbOfUpdatedRecords++;
+		final ImportReportEntry entryForDataSerie = this.getEntryForDataSerie(dataSerie);
+		entryForDataSerie.addUpdatedRecord();
 	}
 
 	public void addRecordInError(final DataSerie dataSerie) {
@@ -113,6 +122,10 @@ public class ImportReport implements Serializable {
 
 	public int getNbOfRecordsInError() {
 		return this.nbOfRecordsInError;
+	}
+
+	public int getNbOfUpdatedRecords() {
+		return this.nbOfUpdatedRecords;
 	}
 
 	public Map<DataSerie, ImportReportEntry> getEntries() {
