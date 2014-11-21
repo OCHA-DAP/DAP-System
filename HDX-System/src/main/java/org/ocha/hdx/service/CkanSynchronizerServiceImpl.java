@@ -4,37 +4,15 @@ import java.util.List;
 
 import org.ocha.hdx.dto.apiv3.HdxPackageUpdateMetadataDTO;
 import org.ocha.hdx.persistence.dao.ckan.DataSerieToCuratedDatasetDAO;
+import org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAO;
 import org.ocha.hdx.persistence.entity.ckan.DataSerieToCuratedDataset;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.ocha.hdx.tools.GSONBuilderWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynchronizerService {
-
-	// When the DATA was updated the last time (i.e last run of Import)
-	private static final String LAST_DATA_UPDATE_DATE = "last_data_update_date";
-
-	// sourceName
-	private static final String DATASET_SOURCE = "dataset_source";
-
-	// sourceCode
-	private static final String DATASET_SOURCE_CODE = "dataset_source_code";
-
-	// indicator type name
-	private static final String INDICATOR_TYPE = "indicator_type";
-
-	// indicator type code
-	private static final String INDICATOR_TYPE_CODE = "indicator_type_code";
-
-	// range of the data, format : 11/02/2014-11/20/2014
-	private static final String DATASET_DATE = "dataset_date";
-
-	private static final String DATASET_SUMMARY = "dataset_summary";
-	private static final String METHODOLOGY = "methodology";
-	private static final String MORE_INFO = "more_info";
-	private static final String TERMS_OF_USE = "terms_of_use";
-	private static final String VALIDATION_NOTES_AND_COMMENTS = "validation_notes_and_comments";
 
 	private static String HDX_PACKAGE_UPDATE_API_PATTERN = "http://%s/api/3/action/hdx_package_update_metadata";
 
@@ -50,15 +28,33 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 	@Autowired
 	private DataSerieToCuratedDatasetDAO dataSerieToCuratedDatasetDAO;
 
+	@Autowired
+	DataSerieMetadataDAO dataSerieMetadataDAO;
+
 	@Override
 	public void updateMetadataToCkan() {
 		final List<DataSerieToCuratedDataset> datasetsWithUnsyncedMetadata = dataSerieToCuratedDatasetDAO.getDatasetsWithUnsyncedMetadata();
 
 		for (final DataSerieToCuratedDataset dataSerieToCuratedDataset : datasetsWithUnsyncedMetadata) {
-			// TODO fetch the right data and populate the dto
+			final String indTypeCode = dataSerieToCuratedDataset.getIndicatorType().getCode();
+			final String sourceCode = dataSerieToCuratedDataset.getSource().getCode();
+			// FIXME fetch the right data and populate the dto
 
 			final HdxPackageUpdateMetadataDTO dto = new HdxPackageUpdateMetadataDTO();
-			dto.setDataset_date("");
+			dto.setId(dataSerieToCuratedDataset.getDatasetName());
+			dto.setDataset_date("11/02/2014-11/20/2014");
+			dto.setDataset_source("The dataset source");
+			dto.setDataset_source_code("WFP");
+			dto.setDataset_summary(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indTypeCode, sourceCode, MetadataName.DATASET_SUMMARY).getEntryValue()
+					.getDefaultValue());
+			dto.setIndicator_type("the name of the indicator type");
+			dto.setIndicator_type_code(indTypeCode);
+			dto.setLast_data_update_date(null);
+			dto.setLast_metadata_update_date(null);
+			dto.setMethodology("the methodology");
+			dto.setMore_info("more info");
+			dto.setTerms_of_use("terms of use");
+			dto.setValidation_notes_and_comments("Notes and comments");
 
 			final String query = GSONBuilderWrapper.getGSON().toJson(dto);
 			performHttpPOST(urlBaseForHdxPackageUpdate, technicalAPIKey, query);

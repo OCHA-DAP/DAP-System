@@ -4,8 +4,14 @@ import java.util.Date;
 
 public class HdxPackageUpdateMetadataDTO {
 
+	// The name of the ckan dataset we want to update
+	private String id;
+
 	// When the DATA was updated the last time (i.e last run of Import)
 	private Date last_data_update_date;
+
+	// When the METADATA was updated the last time
+	private Date last_metadata_update_date;
 
 	// sourceName
 	private String dataset_source;
@@ -28,12 +34,28 @@ public class HdxPackageUpdateMetadataDTO {
 	private String terms_of_use;
 	private String validation_notes_and_comments;
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(final String id) {
+		this.id = id;
+	}
+
 	public Date getLast_data_update_date() {
 		return last_data_update_date;
 	}
 
 	public void setLast_data_update_date(final Date last_data_update_date) {
 		this.last_data_update_date = last_data_update_date;
+	}
+
+	public Date getLast_metadata_update_date() {
+		return last_metadata_update_date;
+	}
+
+	public void setLast_metadata_update_date(final Date last_metadata_update_date) {
+		this.last_metadata_update_date = last_metadata_update_date;
 	}
 
 	public String getDataset_source() {

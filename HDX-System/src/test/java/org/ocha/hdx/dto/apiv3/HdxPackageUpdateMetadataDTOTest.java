@@ -19,6 +19,7 @@ public class HdxPackageUpdateMetadataDTOTest {
 	public void testGson() throws IOException {
 		final HdxPackageUpdateMetadataDTO dto = new HdxPackageUpdateMetadataDTO();
 
+		dto.setId("The name of the ckan dataset");
 		dto.setDataset_date("11/02/2014-11/20/2014");
 		dto.setDataset_source("The dataset source");
 		dto.setDataset_source_code("WFP");
@@ -26,6 +27,7 @@ public class HdxPackageUpdateMetadataDTOTest {
 		dto.setIndicator_type("the name of the indicator type");
 		dto.setIndicator_type_code("PVX040");
 		dto.setLast_data_update_date(new Date(1000000000000L));
+		dto.setLast_metadata_update_date(new Date(1000000000000L));
 		dto.setMethodology("the methodology");
 		dto.setMore_info("more info");
 		dto.setTerms_of_use("terms of use");
