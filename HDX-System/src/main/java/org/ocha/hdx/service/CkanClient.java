@@ -23,8 +23,11 @@ public abstract class CkanClient {
 
 	static final Logger log = LoggerFactory.getLogger(CkanClient.class);
 
-	public CkanClient() {
+	protected final String technicalAPIKey;
+
+	public CkanClient(final String technicalAPIKey) {
 		super();
+		this.technicalAPIKey = technicalAPIKey;
 	}
 
 	protected String performHttpPOST(final String url, final String apiKey, final String query) {

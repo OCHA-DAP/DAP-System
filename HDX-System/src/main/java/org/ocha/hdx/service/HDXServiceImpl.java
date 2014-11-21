@@ -78,12 +78,11 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 	private final String urlBaseForGroupContentV3;
 	private final String urlBaseForResourceCreation;
 	private final String urlBaseForResourceShow;
-	private final String technicalAPIKey;
 
 	private final File stagingDirectory;
 
 	public HDXServiceImpl(final String host, final String technicalAPIKey, final File stagingDirectory) {
-		super();
+		super(technicalAPIKey);
 		if (!stagingDirectory.isDirectory()) {
 			throw new IllegalArgumentException("staging  directory doesn't exist: " + stagingDirectory.getAbsolutePath());
 		}
@@ -96,7 +95,7 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 		this.urlBaseForGroupContentV3 = String.format(GROUP_V3_API_PATTERN, host);
 		this.urlBaseForResourceCreation = String.format(RESOURCE_CREATE_V3_API_PATTERN, host);
 		this.urlBaseForResourceShow = String.format(RESOURCE_SHOW_V3_API_PATTERN, host);
-		this.technicalAPIKey = technicalAPIKey;
+
 	}
 
 	@Autowired
@@ -164,8 +163,8 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 
 		final ResourceConfiguration config = this.resourceConfigurationDAO.getResourceConfigurationById(resourceConfigurationId);
 
-		this.resourceDAO.newCKANResourceDetected(resourceId, resourceId, CKANDataset.Type.MANUAL, resourceName, new Date(), CKANDataset.MANUAL_UPLOAD, CKANDataset.MANUAL_UPLOAD, CKANDataset.MANUAL_UPLOAD,
-				new Date(), config);
+		this.resourceDAO.newCKANResourceDetected(resourceId, resourceId, CKANDataset.Type.MANUAL, resourceName, new Date(), CKANDataset.MANUAL_UPLOAD, CKANDataset.MANUAL_UPLOAD,
+				CKANDataset.MANUAL_UPLOAD, new Date(), config);
 
 		this.writeResourceFileFromInputStream(resourceName, resourceName, resourceFile);
 
@@ -199,8 +198,8 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 								this.workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
 							}
 
-							this.resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), ckanDataset.getType(), resource.getName(), resource.getRevision_timestamp(), datasetName,
-									dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
+							this.resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), ckanDataset.getType(), resource.getName(), resource.getRevision_timestamp(),
+									datasetName, dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
 						}
 					}
 				}
@@ -350,7 +349,7 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return true if the file was successfully downloaded
 	 */
 	private boolean performDownload(final URL url, final File destinationFile) throws IOException {
@@ -409,11 +408,11 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 	}
 
 	/**
-	 *
+	 * 
 	 * The url might change, while ids cannot, so it is best to get the url from the api (just in time), and never store it
-	 *
+	 * 
 	 * Up to now, this requires a very inefficient browsing of the whole tree of datasets and resources
-	 *
+	 * 
 	 * @throws MalformedURLException
 	 * @Deprecated Use {@link #getResourceUrlFromAPIDirectly(String, String)} instead
 	 */
@@ -434,6 +433,7 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 
 	/**
 	 * This uses directly the CKAN API call 'resource_show'
+	 * 
 	 * @param id
 	 * @param revision_id
 	 * @return the url of the resource
@@ -442,7 +442,7 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 	private URL getResourceUrlFromAPIDirectly(final String id, final String revision_id) throws MalformedURLException {
 		final ResourceV3WrapperDTO resourceWrapper = this.getResourceDTOFromQueryV3(id, this.technicalAPIKey);
 		final Resource resource = resourceWrapper.getResult();
-		if ( resource != null && resource.getId().equals(id) && resource.getRevision_id().equals(revision_id) ) {
+		if (resource != null && resource.getId().equals(id) && resource.getRevision_id().equals(revision_id)) {
 			return new URL(resource.getUrl());
 		}
 		return null;
@@ -541,7 +541,7 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 
 	/**
 	 * In order to evaluate a file, we must know its type (to use the appropriate evaluator The Type is defined on the Dataset level)
-	 *
+	 * 
 	 */
 	private Type getTypeForFile(final String id, final String revision_id) {
 		final CKANResource ckanResource = this.resourceDAO.getCKANResource(id, revision_id);
