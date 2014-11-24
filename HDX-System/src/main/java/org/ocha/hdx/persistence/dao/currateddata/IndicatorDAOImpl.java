@@ -40,6 +40,7 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorImportConfig;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -550,6 +551,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 		final Join<Indicator, IndicatorType> indToIndTypeJoin = indicatorRoot.join("type");
 		final Join<IndicatorType, Text> indTypeToTextJoin = indToIndTypeJoin.join("name");
+
+		final Join<IndicatorType, Unit> indTypeToUnitJoin = indToIndTypeJoin.join("unit");
+		final Join<IndicatorType, Unit> unitToTextJoin = indTypeToUnitJoin.join("name");
 //		final Join<Translation, Language> translationToLangJoin = textToTranslationsJoin.join((SingularAttribute) textToTranslationsJoin.get("id").get("language").getModel());
 //		final Join<Id, Language> translationToLangJoin = tempJoin.join("language");
 
@@ -589,6 +593,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 						indToIndTypeJoin.get("code"),
 						indTypeToTextJoin.get("defaultValue"),
 						indTypeToTextJoin.get("id"),
+						indTypeToUnitJoin.get("code"),
+						unitToTextJoin.get("defaultValue"),
+						unitToTextJoin.get("id"),
 						indToEntityJoin.get("code"),
 						entityToTextJoin.get("defaultValue"),
 						entityToTextJoin.get("id"),

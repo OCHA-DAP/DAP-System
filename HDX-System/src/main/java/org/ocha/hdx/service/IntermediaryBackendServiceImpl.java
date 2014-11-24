@@ -324,8 +324,9 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 	private ApiIndicatorValue transform(final IntermediaryIndicatorValue interimValue) {
 		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-		final ApiIndicatorValue value = new ApiIndicatorValue(interimValue.getValue(), interimValue.getIndicatorTypeCode(), interimValue.getIndicatorTypeName(), interimValue.getLocationCode(),
-				interimValue.getLocationName(), interimValue.getSourceCode(), interimValue.getSourceName(), format.format(interimValue.getStartDate()));
+		final ApiIndicatorValue value = new ApiIndicatorValue(interimValue.getValue(), interimValue.getIndicatorTypeCode(), interimValue.getIndicatorTypeName(),
+				interimValue.getUnitCode(), interimValue.getUnitName(), interimValue.getLocationCode(),	interimValue.getLocationName(),
+				interimValue.getSourceCode(), interimValue.getSourceName(), format.format(interimValue.getStartDate()));
 
 		return value;
 	}
