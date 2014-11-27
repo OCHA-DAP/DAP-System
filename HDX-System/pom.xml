@@ -288,11 +288,11 @@
     </dependency>
 
     <dependency>
-      <groupId>postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>9.1-901.jdbc4</version>
-      <scope>test</scope>
-    </dependency>
+		<groupId>org.postgresql</groupId>
+		<artifactId>postgresql</artifactId>
+		<version>9.3-1102-jdbc41</version>
+	</dependency>
+
 
     <dependency>
       <groupId>com.github.springtestdbunit</groupId>
@@ -491,15 +491,6 @@
                 </goals>
               </execution>
             </executions>
-
-            <!--jar file that has the jdbc driver -->
-            <dependencies>
-              <dependency>
-                <groupId>postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <version>9.1-901.jdbc4</version>
-              </dependency>
-            </dependencies>
 
             <!-- common configurations -->
             <configuration>
