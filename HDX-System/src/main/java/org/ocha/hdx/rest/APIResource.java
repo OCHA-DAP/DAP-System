@@ -257,7 +257,7 @@ public class APIResource {
 	//
 	// final Map<String, String> model = new HashMap<String, String>();
 	// model.put("chartType", chartType);
-	// // FIXME Build a title based on the different indicator types
+	//
 	// final IndicatorType indicatorType = curatedDataService.getIndicatorTypeByCode(indicatorTypeCode1);
 	// model.put("title", indicatorType.getDisplayableTitle());
 	// return Response.ok(new Viewable("/analytical/charts", model)).build();

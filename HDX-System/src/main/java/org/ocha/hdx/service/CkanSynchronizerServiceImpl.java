@@ -38,7 +38,6 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		for (final DataSerieToCuratedDataset dataSerieToCuratedDataset : datasetsWithUnsyncedMetadata) {
 			final String indTypeCode = dataSerieToCuratedDataset.getIndicatorType().getCode();
 			final String sourceCode = dataSerieToCuratedDataset.getSource().getCode();
-			// FIXME fetch the right data and populate the dto
 
 			final HdxPackageUpdateMetadataDTO dto = new HdxPackageUpdateMetadataDTO();
 			dto.setId(dataSerieToCuratedDataset.getDatasetName());
