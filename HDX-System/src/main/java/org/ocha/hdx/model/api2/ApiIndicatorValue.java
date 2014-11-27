@@ -8,6 +8,10 @@ public class ApiIndicatorValue {
 
 	private String indicatorTypeName;
 
+	private String unitCode;
+
+	private String unitName;
+
 	private String locationCode;
 
 	private String locationName;
@@ -19,12 +23,15 @@ public class ApiIndicatorValue {
 	private String time;
 
 
-	public ApiIndicatorValue(final double value, final String indicatorTypeCode, final String indicatorTypeName, final String locationCode, final String locationName, final String sourceCode,
+	public ApiIndicatorValue(final double value, final String indicatorTypeCode, final String indicatorTypeName, final String unitCode, final String unitName,
+			final String locationCode, final String locationName, final String sourceCode,
 			final String sourceName, final String time) {
 		super();
 		this.value = value;
 		this.indicatorTypeCode = indicatorTypeCode;
 		this.indicatorTypeName = indicatorTypeName;
+		this.unitCode = unitCode;
+		this.unitName = unitName;
 		this.locationCode = locationCode;
 		this.locationName = locationName;
 		this.sourceCode = sourceCode;
@@ -94,6 +101,22 @@ public class ApiIndicatorValue {
 
 	public void setTime(final String time) {
 		this.time = time;
+	}
+
+	public String getUnitCode() {
+		return this.unitCode;
+	}
+
+	public void setUnitCode(final String unitCode) {
+		this.unitCode = unitCode;
+	}
+
+	public String getUnitName() {
+		return this.unitName;
+	}
+
+	public void setUnitName(final String unitName) {
+		this.unitName = unitName;
 	}
 
 }

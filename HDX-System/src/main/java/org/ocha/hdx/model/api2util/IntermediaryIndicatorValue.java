@@ -11,6 +11,12 @@ public class IntermediaryIndicatorValue {
 
 	private Long indicatorTypeNameId;
 
+	private String unitCode;
+
+	private String unitName;
+
+	private Long unitNameId;
+
 	private String locationCode;
 
 	private String locationName;
@@ -25,13 +31,18 @@ public class IntermediaryIndicatorValue {
 
 	private Date startDate;
 
-	public IntermediaryIndicatorValue(final double value, final String indicatorTypeCode, final String indicatorTypeName, final Long indicatorTypeNameId, final String locationCode,
-			final String locationName, final Long locationNameId, final String sourceCode, final String sourceName, final Long sourceNameId, final Date startDate) {
+	public IntermediaryIndicatorValue(final double value, final String indicatorTypeCode, final String indicatorTypeName, final Long indicatorTypeNameId,
+			final String unitCode, final String unitName, final Long unitNameId,
+			final String locationCode, final String locationName, final Long locationNameId,
+			final String sourceCode, final String sourceName, final Long sourceNameId, final Date startDate) {
 		super();
 		this.value = value;
 		this.indicatorTypeCode = indicatorTypeCode;
 		this.indicatorTypeName = indicatorTypeName;
 		this.indicatorTypeNameId = indicatorTypeNameId;
+		this.unitCode = unitCode;
+		this.unitName = unitName;
+		this.unitNameId = unitNameId;
 		this.locationCode = locationCode;
 		this.locationName = locationName;
 		this.locationNameId = locationNameId;
@@ -127,6 +138,30 @@ public class IntermediaryIndicatorValue {
 
 	public void setStartDate(final Date startDate) {
 		this.startDate = startDate;
+	}
+
+	public Long getUnitNameId() {
+		return this.unitNameId;
+	}
+
+	public void setUnitNameId(final Long unitNameId) {
+		this.unitNameId = unitNameId;
+	}
+
+	public String getUnitCode() {
+		return this.unitCode;
+	}
+
+	public void setUnitCode(final String unitCode) {
+		this.unitCode = unitCode;
+	}
+
+	public String getUnitName() {
+		return this.unitName;
+	}
+
+	public void setUnitName(final String unitName) {
+		this.unitName = unitName;
 	}
 
 
