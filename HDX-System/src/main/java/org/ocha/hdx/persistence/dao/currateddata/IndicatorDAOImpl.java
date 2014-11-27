@@ -40,6 +40,7 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorImportConfig;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.curateddata.Unit;
 import org.ocha.hdx.persistence.entity.i18n.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class IndicatorDAOImpl implements IndicatorDAO {
 
 	private static Logger logger = LoggerFactory.getLogger(IndicatorDAOImpl.class);
+
+	public enum ImportValueStatus{NEEDS_INSERT, UPDATED, NOTHING_TO_DO}
 
 	@PersistenceContext
 	private EntityManager em;
@@ -130,7 +133,17 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	}
 
+
+
 	/* Lists */
+
+	/* (non-Javadoc)
+	 * @see org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO#getIndicatorById(long)
+	 */
+	@Override
+	public Indicator getIndicatorById(final long id) {
+		return this.em.find(Indicator.class, id);
+	}
 
 	@Override
 	public List<Indicator> listLastIndicators(final int limit) {
@@ -538,6 +551,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 		final Join<Indicator, IndicatorType> indToIndTypeJoin = indicatorRoot.join("type");
 		final Join<IndicatorType, Text> indTypeToTextJoin = indToIndTypeJoin.join("name");
+
+		final Join<IndicatorType, Unit> indTypeToUnitJoin = indToIndTypeJoin.join("unit");
+		final Join<IndicatorType, Unit> unitToTextJoin = indTypeToUnitJoin.join("name");
 //		final Join<Translation, Language> translationToLangJoin = textToTranslationsJoin.join((SingularAttribute) textToTranslationsJoin.get("id").get("language").getModel());
 //		final Join<Id, Language> translationToLangJoin = tempJoin.join("language");
 
@@ -577,6 +593,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 						indToIndTypeJoin.get("code"),
 						indTypeToTextJoin.get("defaultValue"),
 						indTypeToTextJoin.get("id"),
+						indTypeToUnitJoin.get("code"),
+						unitToTextJoin.get("defaultValue"),
+						unitToTextJoin.get("id"),
 						indToEntityJoin.get("code"),
 						entityToTextJoin.get("defaultValue"),
 						entityToTextJoin.get("id"),
@@ -646,27 +665,42 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	}
 
 	@Override
-	public boolean indicatorExists(final PreparedIndicator preparedIndicator) {
-		final StringBuilder builder = new StringBuilder("SELECT count(i) FROM Indicator i WHERE");
+	@Transactional
+	public ImportValueStatus updateIndicatorIfNecessary(final PreparedIndicator preparedIndicator, final ImportFromCKAN importFromCKAN) {
+		final StringBuilder builder = new StringBuilder("SELECT i FROM Indicator i WHERE");
 		builder.append(" i.source.code = :sourceCode");
 		builder.append(" AND i.type.code = :indicatorTypeCode");
 		builder.append(" AND i.entity.code = :entityCode");
 		builder.append(" AND i.entity.type.code = :entityTypeCode");
 		builder.append(" AND i.periodicity = :periodicity");
 		builder.append(" AND i.start = :startTime");
-		final TypedQuery<Long> query = this.em.createQuery(builder.toString(), Long.class);
+		final TypedQuery<Indicator> query = this.em.createQuery(builder.toString(), Indicator.class);
 		query.setParameter("sourceCode", preparedIndicator.getSourceCode());
 		query.setParameter("indicatorTypeCode", preparedIndicator.getIndicatorTypeCode());
 		query.setParameter("entityCode", preparedIndicator.getEntityCode());
 		query.setParameter("entityTypeCode", preparedIndicator.getEntityTypeCode());
 		query.setParameter("startTime", preparedIndicator.getStart());
 		query.setParameter("periodicity", preparedIndicator.getPeriodicity());
-		final Long count = query.getSingleResult();
-		if ( count != null && count > 0 ) {
-			return true;
-		} else {
-			return false;
+
+		final List<Indicator> indicators = query.getResultList();
+		if ( CollectionUtils.isEmpty(indicators) ) {
+			return ImportValueStatus.NEEDS_INSERT;
 		}
+		else {
+			if (indicators.size() > 1) {
+				throw new RuntimeException("There shouldn't be more than 1 result when querying by the params in unique constraint");
+			}
+			final Indicator indicator = indicators.get(0);
+			if ( indicator.getValue().equals(preparedIndicator.getValue()) ) {
+				return ImportValueStatus.NOTHING_TO_DO;
+			}
+			else {
+				indicator.setValue(preparedIndicator.getValue());
+				indicator.setIndicatorImportConfig(preparedIndicator.getIndicatorImportConfig());
+				return ImportValueStatus.UPDATED;
+			}
+		}
+
 	}
 
 }

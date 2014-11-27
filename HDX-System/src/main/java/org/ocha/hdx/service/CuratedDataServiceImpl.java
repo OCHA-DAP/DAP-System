@@ -23,6 +23,7 @@ import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO;
+import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAOImpl.ImportValueStatus;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.OrganizationDAO;
 import org.ocha.hdx.persistence.dao.currateddata.SourceDAO;
@@ -116,36 +117,36 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<EntityType> listEntityTypes() {
-		return entityTypeDAO.listEntityTypes();
+		return this.entityTypeDAO.listEntityTypes();
 	}
 
 	@Override
 	@Transactional
 	public EntityType createEntityType(final String code, final String name) {
-		final Text text = textDAO.createText(name);
-		return entityTypeDAO.createEntityType(code, text);
+		final Text text = this.textDAO.createText(name);
+		return this.entityTypeDAO.createEntityType(code, text);
 	}
 
 	@Override
 	public EntityType getEntityType(final long id) {
-		return entityTypeDAO.getEntityTypeById(id);
+		return this.entityTypeDAO.getEntityTypeById(id);
 	}
 
 	@Override
 	public EntityType getEntityTypeByCode(final String code) {
-		return entityTypeDAO.getEntityTypeByCode(code);
+		return this.entityTypeDAO.getEntityTypeByCode(code);
 	}
 
 	@Override
 	@Transactional
 	public void updateEntityType(final long entityTypeId, final String newName) {
-		entityTypeDAO.updateEntityType(entityTypeId, newName);
+		this.entityTypeDAO.updateEntityType(entityTypeId, newName);
 	}
 
 	@Override
 	@Transactional
 	public void deleteEntityType(final long entityTypeId) {
-		entityTypeDAO.deleteEntityType(entityTypeId);
+		this.entityTypeDAO.deleteEntityType(entityTypeId);
 	}
 
 	/*
@@ -153,19 +154,19 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<Entity> listEntities() {
-		return entityDAO.listEntities();
+		return this.entityDAO.listEntities();
 	}
 
 	@Override
 	@Transactional
 	public Entity createEntity(final String code, final String defaultName, final String entityTypeCode, final Long parentId) {
-		final EntityType entityType = entityTypeDAO.getEntityTypeByCode(entityTypeCode);
+		final EntityType entityType = this.entityTypeDAO.getEntityTypeByCode(entityTypeCode);
 		Entity result = null;
-		final Text text = textDAO.createText(defaultName);
+		final Text text = this.textDAO.createText(defaultName);
 		if (null == parentId) {
-			result = entityDAO.createEntity(code, text, entityType);
+			result = this.entityDAO.createEntity(code, text, entityType);
 		} else {
-			result = entityDAO.createEntity(code, text, entityType, parentId);
+			result = this.entityDAO.createEntity(code, text, entityType, parentId);
 		}
 		return result;
 	}
@@ -185,7 +186,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 				// Check if the entity already exists
 				Entity exists = null;
 				try {
-					exists = getEntityByCodeAndType(entity[2], entity[0]);
+					exists = this.getEntityByCodeAndType(entity[2], entity[0]);
 				} catch (final NoResultException e) {
 					// Should happen most frequently
 				}
@@ -197,21 +198,21 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 				// Handle the entity type
 				EntityType entityType = null;
 				try {
-					entityType = getEntityTypeByCode(entity[0]);
+					entityType = this.getEntityTypeByCode(entity[0]);
 				} catch (final NoResultException e) {
 					// Can happen
 				}
 
 				// No existing entity type, so we create a new one
 				if (null == entityType) {
-					entityType = createEntityType(entity[0], entity[1]);
+					entityType = this.createEntityType(entity[0], entity[1]);
 				}
 
 				// Handle the entity parent
 				Entity parent = null;
 				if ((null != entity[4]) && !"".equals(entity[4]) && (null != entity[5]) && !"".equals(entity[5])) {
 					try {
-						parent = getEntityByCodeAndType(entity[4], entity[5]);
+						parent = this.getEntityByCodeAndType(entity[4], entity[5]);
 					} catch (final NoResultException e) {
 						// Should not happen
 						final String msg = "Entity parent with type " + entity[5] + " and code " + entity[4] + " does not exist ! Skipping.";
@@ -223,7 +224,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 				if (null != parent) {
 					parentId = parent.getId();
 				}
-				createEntity(entity[2], entity[3], entityType.getCode(), parentId);
+				this.createEntity(entity[2], entity[3], entityType.getCode(), parentId);
 
 			}
 		}
@@ -232,24 +233,24 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public Entity getEntity(final long id) {
-		return entityDAO.getEntityById(id);
+		return this.entityDAO.getEntityById(id);
 	}
 
 	@Override
 	public Entity getEntityByCodeAndType(final String code, final String type) {
-		return entityDAO.getEntityByCodeAndType(code, type);
+		return this.entityDAO.getEntityByCodeAndType(code, type);
 	}
 
 	@Override
 	@Transactional
 	public void updateEntity(final long entityId, final String newName, final Long parentId) {
-		entityDAO.updateEntity(entityId, newName, parentId);
+		this.entityDAO.updateEntity(entityId, newName, parentId);
 	}
 
 	@Override
 	@Transactional
 	public void deleteEntity(final long entityId) {
-		entityDAO.deleteEntity(entityId);
+		this.entityDAO.deleteEntity(entityId);
 	}
 
 	/*
@@ -257,44 +258,44 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<IndicatorType> listIndicatorTypes() {
-		return indicatorTypeDAO.listIndicatorTypes();
+		return this.indicatorTypeDAO.listIndicatorTypes();
 	}
 
 	@Override
 	public List<IndicatorTypeCount> listIndicatorTypeCounts() {
-		return indicatorTypeDAO.listIndicatorTypeCounts();
+		return this.indicatorTypeDAO.listIndicatorTypeCounts();
 	}
 
 	@Override
 	@Transactional
 	public void createIndicatorType(final String code, final String defaultName, final long unitId, final String valueType) {
-		final Text text = textDAO.createText(defaultName);
-		final Unit unit = unitDAO.getUnitById(unitId);
-		indicatorTypeDAO.createIndicatorType(code, text, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(valueType));
+		final Text text = this.textDAO.createText(defaultName);
+		final Unit unit = this.unitDAO.getUnitById(unitId);
+		this.indicatorTypeDAO.createIndicatorType(code, text, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(valueType));
 	}
 
 	@Override
 	public IndicatorType getIndicatorType(final long id) {
-		return indicatorTypeDAO.getIndicatorTypeById(id);
+		return this.indicatorTypeDAO.getIndicatorTypeById(id);
 	}
 
 	@Override
 	public IndicatorType getIndicatorTypeByCode(final String code) {
-		return indicatorTypeDAO.getIndicatorTypeByCode(code);
+		return this.indicatorTypeDAO.getIndicatorTypeByCode(code);
 	}
 
 	@Override
 	@Transactional
 	public void updateIndicatorType(final long indicatorTypeId, final String newCode, final String newName, final long newUnit, final String newValueType) {
-		final Unit unit = unitDAO.getUnitById(newUnit);
-		indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newCode, newName, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
+		final Unit unit = this.unitDAO.getUnitById(newUnit);
+		this.indicatorTypeDAO.updateIndicatorType(indicatorTypeId, newCode, newName, unit, org.ocha.hdx.persistence.entity.curateddata.IndicatorType.ValueType.valueOf(newValueType));
 	}
 
 	@Override
 	@Transactional
 	public void deleteIndicatorType(final long indicatorTypeId) {
-		dataSerieMetadataDAO.deleteDataSerieMetadataForIndicatorType(indicatorTypeId);
-		indicatorTypeDAO.deleteIndicatorType(indicatorTypeId);
+		this.dataSerieMetadataDAO.deleteDataSerieMetadataForIndicatorType(indicatorTypeId);
+		this.indicatorTypeDAO.deleteIndicatorType(indicatorTypeId);
 	}
 
 	/*
@@ -302,32 +303,32 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<Organization> listOrganizations() {
-		return organizationDAO.listOrganizations();
+		return this.organizationDAO.listOrganizations();
 	}
 
 	@Override
 	@Transactional
 	public void createOrganization(final String shortNameDefaultValue, final String fullNameDefaultValue, final String link) {
-		final Text shortName = textDAO.createText(shortNameDefaultValue);
-		final Text fullName = textDAO.createText(fullNameDefaultValue);
-		organizationDAO.createOrganization(link, fullName, shortName);
+		final Text shortName = this.textDAO.createText(shortNameDefaultValue);
+		final Text fullName = this.textDAO.createText(fullNameDefaultValue);
+		this.organizationDAO.createOrganization(link, fullName, shortName);
 	}
 
 	@Override
 	public Organization getOrganization(final Long id) {
-		return organizationDAO.getOrganizationById(id);
+		return this.organizationDAO.getOrganizationById(id);
 	}
 
 	@Override
 	@Transactional
 	public void updateOrganization(final long organizationId, final String newShortName, final String newFullName, final String newLink) {
-		organizationDAO.updateOrganization(organizationId, newLink, newFullName, newShortName);
+		this.organizationDAO.updateOrganization(organizationId, newLink, newFullName, newShortName);
 	}
 
 	@Override
 	@Transactional
 	public void deleteOrganization(final long organizationId) {
-		organizationDAO.deleteOrganization(organizationId);
+		this.organizationDAO.deleteOrganization(organizationId);
 	}
 
 	/*
@@ -335,43 +336,43 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<Source> listSources() {
-		return sourceDAO.listSources();
+		return this.sourceDAO.listSources();
 	}
 
 	@Override
 	public List<Source> listSourcesForIndicatorType(final String indicatorTypeCode) {
-		return sourceDAO.listSourcesForIndicatorType(indicatorTypeCode);
+		return this.sourceDAO.listSourcesForIndicatorType(indicatorTypeCode);
 	}
 
 	@Override
 	@Transactional
 	public void createSource(final String code, final String defaultValue, final String link, final Long organization) {
-		final Text name = textDAO.createText(defaultValue);
-		final Organization organization_ = organizationDAO.getOrganizationById(organization);
-		sourceDAO.createSource(code, name, link, organization_);
+		final Text name = this.textDAO.createText(defaultValue);
+		final Organization organization_ = this.organizationDAO.getOrganizationById(organization);
+		this.sourceDAO.createSource(code, name, link, organization_);
 	}
 
 	@Override
 	public Source getSource(final Long id) {
-		return sourceDAO.getSourceById(id);
+		return this.sourceDAO.getSourceById(id);
 	}
 
 	@Override
 	public Source getSourceByCode(final String code) {
-		return sourceDAO.getSourceByCode(code);
+		return this.sourceDAO.getSourceByCode(code);
 	}
 
 	@Override
 	@Transactional
 	public void updateSource(final long sourceId, final String newName, final String newLink, final Long newOrganization) {
-		final Organization organization = organizationDAO.getOrganizationById(newOrganization);
-		sourceDAO.updateSource(sourceId, newName, newLink, organization);
+		final Organization organization = this.organizationDAO.getOrganizationById(newOrganization);
+		this.sourceDAO.updateSource(sourceId, newName, newLink, organization);
 	}
 
 	@Override
 	@Transactional
 	public void deleteSource(final long sourceId) {
-		sourceDAO.deleteSource(sourceId);
+		this.sourceDAO.deleteSource(sourceId);
 	}
 
 	/*
@@ -379,19 +380,19 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<ImportFromCKAN> listImportsFromCKAN() {
-		return importFromCKANDAO.listImportsFromCKAN();
+		return this.importFromCKANDAO.listImportsFromCKAN();
 	}
 
 	@Override
 	public Map<Long, Long> countIndicatorsByImport() {
-		return indicatorDAO.countIndicatorsByImport();
+		return this.indicatorDAO.countIndicatorsByImport();
 	}
 
 	@Override
 	@Transactional
 	public void deleteImportFromCKAN(final long id) {
-		indicatorDAO.deleteAllIndicatorsFromImport(id);
-		importFromCKANDAO.deleteImportFromCKAN(id);
+		this.indicatorDAO.deleteAllIndicatorsFromImport(id);
+		this.importFromCKANDAO.deleteImportFromCKAN(id);
 	}
 
 	/*
@@ -401,20 +402,20 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Transactional
 	public void createIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity,
 			final IndicatorValue value, final String initialValue, final String sourceLink) {
-		final Source source = sourceDAO.getSourceByCode(sourceCode);
-		final Entity entity = entityDAO.getEntityById(entityId);
-		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
+		final Source source = this.sourceDAO.getSourceByCode(sourceCode);
+		final Entity entity = this.entityDAO.getEntityById(entityId);
+		final IndicatorType indicatorType = this.indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
 
-		final ImportFromCKAN importFromCKAN = importFromCKANDAO.getDummyImport();
+		final ImportFromCKAN importFromCKAN = this.importFromCKANDAO.getDummyImport();
 
-		indicatorDAO.createIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, ValidationStatus.SUCCESS, sourceLink, importFromCKAN);
+		this.indicatorDAO.createIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, ValidationStatus.SUCCESS, sourceLink, importFromCKAN);
 
 	}
 
 	@Override
-	public boolean indicatorExists(final PreparedIndicator preparedIndicator) {
+	public ImportValueStatus updateIndicatorIfNecessary(final PreparedIndicator preparedIndicator, final ImportFromCKAN importFromCKAN) {
 		// TODO Auto-generated method stub
-		return indicatorDAO.indicatorExists(preparedIndicator);
+		return this.indicatorDAO.updateIndicatorIfNecessary(preparedIndicator, importFromCKAN);
 	}
 
 	// @Override
@@ -433,7 +434,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Transactional
 	public void createIndicator(final Indicator indicator, final ImportFromCKAN importFromCKAN) {
 
-		indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(), indicator.getValue(),
+		this.indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(), indicator.getValue(),
 				indicator.getIndicatorImportConfig(), indicator.getSourceLink(), importFromCKAN);
 
 	}
@@ -441,13 +442,13 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	@Transactional
 	public void deleteIndicator(final long indicatorId) {
-		indicatorDAO.deleteIndicator(indicatorId);
+		this.indicatorDAO.deleteIndicator(indicatorId);
 
 	}
 
 	@Override
 	public List<Indicator> listLastIndicators(final int limit) {
-		return indicatorDAO.listLastIndicators(limit);
+		return this.indicatorDAO.listLastIndicators(limit);
 	}
 
 	@Override
@@ -455,7 +456,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			throws TypeMismatchException {
 
 		// must be sorted by start, entity
-		final List<Indicator> indicators = indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(periodicity, sourceCode, indicatorTypeCode, countryCodes);
+		final List<Indicator> indicators = this.indicatorDAO.listIndicatorsByPeriodicityAndSourceAndIndicatorType(periodicity, sourceCode, indicatorTypeCode, countryCodes);
 		final List<String> years = new ArrayList<String>();
 		final List<Entity> entities = new ArrayList<Entity>();
 		final Map<CellDescriptor, Indicator> tableContent = new HashMap<CellDescriptor, Indicator>();
@@ -516,7 +517,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		// listIndicatorsByPeriodicityAndSourceAndIndicatorType
 
 		// must be sorted by start, source
-		final List<Indicator> indicators = indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(periodicity, entityType, entityCode, indicatorTypeCode);
+		final List<Indicator> indicators = this.indicatorDAO.listIndicatorsByPeriodicityAndEntityAndIndicatorType(periodicity, entityType, entityCode, indicatorTypeCode);
 
 		final DataTable dataTable = new DataTable();
 		dataTable.addColumn(new ColumnDescription("Year", ValueType.TEXT, "Year"));
@@ -554,7 +555,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	public DataTable listIndicatorsByYearAndSourceAndIndicatorType(final int year, final String sourceCode, final String indicatorTypeCode) throws TypeMismatchException {
 		// No filter on country for now
-		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode, null);
+		final List<Indicator> indicators = this.indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode, null);
 
 		final DataTable dataTable = new DataTable();
 		dataTable.addColumn(new ColumnDescription("Entity", ValueType.TEXT, "Entity"));
@@ -575,18 +576,18 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			final String indicatorTypeCode2, final String sourceCode3, final String indicatorTypeCode3, final List<String> countryCodes) throws TypeMismatchException {
 		final DataTable dataTable = new DataTable();
 		dataTable.addColumn(new ColumnDescription("Entity", ValueType.TEXT, "Entity"));
-		dataTable.addColumn(new ColumnDescription(indicatorTypeCode1, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode1).getName().getDefaultValue()));
-		dataTable.addColumn(new ColumnDescription(indicatorTypeCode2, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode2).getName().getDefaultValue()));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode1, ValueType.NUMBER, this.indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode1).getName().getDefaultValue()));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode2, ValueType.NUMBER, this.indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode2).getName().getDefaultValue()));
 		// This is a Hack to have the third indicator moved to the 4th
 		dataTable.addColumn(new ColumnDescription("d", ValueType.NUMBER, "d"));
-		dataTable.addColumn(new ColumnDescription(indicatorTypeCode3, ValueType.NUMBER, indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode3).getName().getDefaultValue()));
+		dataTable.addColumn(new ColumnDescription(indicatorTypeCode3, ValueType.NUMBER, this.indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode3).getName().getDefaultValue()));
 
 		final Map<String, TableRow> rows = new HashMap<String, TableRow>();
-		addColumnData(year, rows, sourceCode1, indicatorTypeCode1, countryCodes);
-		addColumnData(year, rows, sourceCode2, indicatorTypeCode2, countryCodes);
+		this.addColumnData(year, rows, sourceCode1, indicatorTypeCode1, countryCodes);
+		this.addColumnData(year, rows, sourceCode2, indicatorTypeCode2, countryCodes);
 		// This is a Hack to have the third indicator moved to the 4th
 		addACellToEveryRow(rows);
-		addColumnData(year, rows, sourceCode3, indicatorTypeCode3, countryCodes);
+		this.addColumnData(year, rows, sourceCode3, indicatorTypeCode3, countryCodes);
 
 		for (final TableRow row : rows.values()) {
 
@@ -605,12 +606,12 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	/*
 	 * @Override public List<Indicator> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) { final List<Indicator> result =
 	 * indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode);
-	 * 
+	 *
 	 * return result; }
 	 */
 
 	private Map<String, TableRow> addColumnData(final int year, final Map<String, TableRow> rows, final String sourceCode, final String indicatorTypeCode, final List<String> countryCodes) {
-		final List<Indicator> indicators = indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode, countryCodes);
+		final List<Indicator> indicators = this.indicatorDAO.listIndicatorsByYearAndSourceAndIndicatorType(year, sourceCode, indicatorTypeCode, countryCodes);
 
 		for (final Indicator indicator : indicators) {
 			if (rows.containsKey(indicator.getEntity().getCode())) {
@@ -637,22 +638,22 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public List<Source> getExistingSourcesForYearAndIndicatorType(final int year, final String indicatorTypeCode) {
-		final List<String> sourceCodes = indicatorDAO.getExistingSourcesCodesForYearAndIndicatorType(year, indicatorTypeCode);
+		final List<String> sourceCodes = this.indicatorDAO.getExistingSourcesCodesForYearAndIndicatorType(year, indicatorTypeCode);
 
 		final List<Source> sources = new ArrayList<>();
 		for (final String code : sourceCodes) {
-			sources.add(sourceDAO.getSourceByCode(code));
+			sources.add(this.sourceDAO.getSourceByCode(code));
 		}
 		return sources;
 	}
 
 	@Override
 	public List<Source> getExistingSourcesForIndicatorType(final String indicatorTypeCode) {
-		final List<String> sourceCodes = indicatorDAO.getExistingSourcesCodesForIndicatorType(indicatorTypeCode);
+		final List<String> sourceCodes = this.indicatorDAO.getExistingSourcesCodesForIndicatorType(indicatorTypeCode);
 
 		final List<Source> sources = new ArrayList<>();
 		for (final String code : sourceCodes) {
-			sources.add(sourceDAO.getSourceByCode(code));
+			sources.add(this.sourceDAO.getSourceByCode(code));
 		}
 		return sources;
 	}
@@ -662,24 +663,24 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<RegionDictionary> listRegionDictionaries() {
-		return regionDictionaryDAO.listRegionDictionaries();
+		return this.regionDictionaryDAO.listRegionDictionaries();
 	}
 
 	@Override
 	public List<RegionDictionary> listRegionDictionaries(final long configId) {
-		return regionDictionaryDAO.getRegionDictionariesByResourceConfiguration(resourceConfigurationDAO.getResourceConfigurationById(configId));
+		return this.regionDictionaryDAO.getRegionDictionariesByResourceConfiguration(this.resourceConfigurationDAO.getResourceConfigurationById(configId));
 	}
 
 	@Override
 	public void createRegionDictionary(final long configId, final long entityId, final String unnormalizedName) {
-		final Entity entity = entityDAO.getEntityById(entityId);
-		final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
-		regionDictionaryDAO.createRegionDictionary(config, entity, unnormalizedName);
+		final Entity entity = this.entityDAO.getEntityById(entityId);
+		final ResourceConfiguration config = this.resourceConfigurationDAO.getResourceConfigurationById(configId);
+		this.regionDictionaryDAO.createRegionDictionary(config, entity, unnormalizedName);
 	}
 
 	@Override
 	public void deleteRegionDictionary(final long id) {
-		regionDictionaryDAO.deleteRegionDictionary(id);
+		this.regionDictionaryDAO.deleteRegionDictionary(id);
 	}
 
 	/*
@@ -687,24 +688,24 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<SourceDictionary> listSourceDictionaries() {
-		return sourceDictionaryDAO.listSourceDictionaries();
+		return this.sourceDictionaryDAO.listSourceDictionaries();
 	}
 
 	@Override
 	public List<SourceDictionary> listSourceDictionaries(final long configId) {
-		return sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(resourceConfigurationDAO.getResourceConfigurationById(configId));
+		return this.sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(this.resourceConfigurationDAO.getResourceConfigurationById(configId));
 	}
 
 	@Override
 	public void createSourceDictionary(final long configId, final long sourceId, final String unnormalizedName) {
-		final Source source = sourceDAO.getSourceById(sourceId);
-		final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
-		sourceDictionaryDAO.createSourceDictionary(config, source, unnormalizedName);
+		final Source source = this.sourceDAO.getSourceById(sourceId);
+		final ResourceConfiguration config = this.resourceConfigurationDAO.getResourceConfigurationById(configId);
+		this.sourceDictionaryDAO.createSourceDictionary(config, source, unnormalizedName);
 	}
 
 	@Override
 	public void deleteSourceDictionary(final long id) {
-		sourceDictionaryDAO.deleteSourceDictionary(id);
+		this.sourceDictionaryDAO.deleteSourceDictionary(id);
 	}
 
 	/*
@@ -712,24 +713,24 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries() {
-		return indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries();
+		return this.indicatorTypeDictionaryDAO.listIndicatorTypeDictionaries();
 	}
 
 	@Override
 	public List<IndicatorTypeDictionary> listIndicatorTypeDictionaries(final long configId) {
-		return indicatorTypeDictionaryDAO.getIndicatorTypeDictionariesByResourceConfiguration(resourceConfigurationDAO.getResourceConfigurationById(configId));
+		return this.indicatorTypeDictionaryDAO.getIndicatorTypeDictionariesByResourceConfiguration(this.resourceConfigurationDAO.getResourceConfigurationById(configId));
 	}
 
 	@Override
 	public void createIndicatorTypeDictionary(final long configId, final long indicatorTypeId, final String unnormalizedName) {
-		final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeById(indicatorTypeId);
-		final ResourceConfiguration config = resourceConfigurationDAO.getResourceConfigurationById(configId);
-		indicatorTypeDictionaryDAO.createIndicatorTypeDictionary(config, indicatorType, unnormalizedName);
+		final IndicatorType indicatorType = this.indicatorTypeDAO.getIndicatorTypeById(indicatorTypeId);
+		final ResourceConfiguration config = this.resourceConfigurationDAO.getResourceConfigurationById(configId);
+		this.indicatorTypeDictionaryDAO.createIndicatorTypeDictionary(config, indicatorType, unnormalizedName);
 	}
 
 	@Override
 	public void deleteIndicatorTypeDictionary(final long id) {
-		indicatorTypeDictionaryDAO.deleteIndicatorTypeDictionary(id);
+		this.indicatorTypeDictionaryDAO.deleteIndicatorTypeDictionary(id);
 
 	}
 
@@ -738,30 +739,30 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	 */
 	@Override
 	public List<Unit> listUnits() {
-		return unitDAO.listUnits();
+		return this.unitDAO.listUnits();
 	}
 
 	@Override
 	@Transactional
 	public void createUnit(final String code, final String name) {
-		final Text nameText = textDAO.createText(name);
-		unitDAO.createUnit(code, nameText);
+		final Text nameText = this.textDAO.createText(name);
+		this.unitDAO.createUnit(code, nameText);
 	}
 
 	@Override
 	@Transactional
 	public void deleteUnit(final Long id) {
-		unitDAO.deleteUnit(id);
+		this.unitDAO.deleteUnit(id);
 	}
 
 	@Override
 	public void updateUnit(final Long id, final String name) {
-		unitDAO.updateUnit(id, name);
+		this.unitDAO.updateUnit(id, name);
 	}
 
 	@Override
 	public Unit getUnit(final Long id) {
-		return unitDAO.getUnitById(id);
+		return this.unitDAO.getUnitById(id);
 	}
 
 	/*
@@ -773,20 +774,20 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	// Country overview
 	@Override
 	public List<Object[]> listIndicatorsForCountryOverview(final String countryCode, final String languageCode, final String[] indicatorsList) {
-		return indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode, indicatorsList);
+		return this.indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode, indicatorsList);
 	}
 
 	// Country indicators
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final List<DataSerie> dataSeries) {
-		return indicatorDAO.listIndicatorsForCountry(countryCode, fromYear, toYear, languageCode, dataSeries);
+		return this.indicatorDAO.listIndicatorsForCountry(countryCode, fromYear, toYear, languageCode, dataSeries);
 	}
 
 	// Country indicators
 	@Override
 	public Map<Integer, List<Object[]>> listIndicatorsForCountry(final String countryCode, final int fromYear, final int toYear, final String languageCode, final Periodicity periodicity,
 			final List<DataSerie> dataSeries) {
-		return indicatorDAO.listIndicatorsForCountry(countryCode, fromYear, toYear, languageCode, periodicity, dataSeries);
+		return this.indicatorDAO.listIndicatorsForCountry(countryCode, fromYear, toYear, languageCode, periodicity, dataSeries);
 	}
 
 	/* Indicators */
@@ -794,60 +795,60 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	// Indicator overview
 	@Override
 	public Object[] getIndicatorTypeOverview(final String indicatorTypeCode, final String sourceCode, final String languageCode) {
-		return indicatorDAO.getIndicatorTypeOverview(indicatorTypeCode, sourceCode, languageCode);
+		return this.indicatorDAO.getIndicatorTypeOverview(indicatorTypeCode, sourceCode, languageCode);
 	}
 
 	/* Metadata */
 
 	@Override
 	public List<DataSerieMetadata> getMetadataForDataSerie(final DataSerie dataSerie) {
-		return dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(dataSerie);
+		return this.dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCodeAndSourceCode(dataSerie);
 
 	}
 
 	@Override
 	public Map<String, Timestamp> getMinMaxDatesForDataSeries(final DataSerie dataSeries) {
-		return indicatorDAO.getMinMaxDatesForDataSeries(dataSeries);
+		return this.indicatorDAO.getMinMaxDatesForDataSeries(dataSeries);
 	}
 
 	@Override
 	public List<DataSerieMetadata> getMetadataForIndicatorTypeCode(final String indicatorTypeCode) {
-		return dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCode(indicatorTypeCode);
+		return this.dataSerieMetadataDAO.listDataSerieMetadataByIndicatorTypeCode(indicatorTypeCode);
 	}
 
 	@Override
 	public void updateMetadataForIndicatorTypeAndSource(final MetadataName entryKey, final String data, final String languageCode, final String indicatorTypeCode, final String sourceCode) {
-		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
+		final DataSerieMetadata dataSerieMetadata = this.dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
 		if (null == dataSerieMetadata) {
-			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
-			final Source source = sourceDAO.getSourceByCode(sourceCode);
+			final IndicatorType indicatorType = this.indicatorTypeDAO.getIndicatorTypeByCode(indicatorTypeCode);
+			final Source source = this.sourceDAO.getSourceByCode(sourceCode);
 			Text text = null;
 			if ("default".equals(languageCode)) {
-				text = textDAO.createText(data);
+				text = this.textDAO.createText(data);
 			} else {
-				text = textDAO.createText("");
-				textDAO.createTranslationForText(text.getId(), languageCode, data);
+				text = this.textDAO.createText("");
+				this.textDAO.createTranslationForText(text.getId(), languageCode, data);
 			}
-			dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, entryKey, text);
+			this.dataSerieMetadataDAO.createDataSerieMetadata(indicatorType, source, entryKey, text);
 		} else {
 			if ("default".equals(languageCode)) {
-				dataSerieMetadataDAO.updateDataSerieMetadata(indicatorTypeCode, sourceCode, entryKey, data);
+				this.dataSerieMetadataDAO.updateDataSerieMetadata(indicatorTypeCode, sourceCode, entryKey, data);
 			} else {
 				final List<Translation> translations = dataSerieMetadata.getEntryValue().getTranslations();
 				if (null != translations) {
 					boolean found = false;
 					for (final Translation translation : translations) {
 						if (languageCode.equals(translation.getId().getLanguage().getCode())) {
-							textDAO.updateTranslation(dataSerieMetadata.getEntryValue().getId(), languageCode, data);
+							this.textDAO.updateTranslation(dataSerieMetadata.getEntryValue().getId(), languageCode, data);
 							found = true;
 							break;
 						}
 					}
 					if (!found) {
-						textDAO.createTranslationForText(dataSerieMetadata.getEntryValue().getId(), languageCode, data);
+						this.textDAO.createTranslationForText(dataSerieMetadata.getEntryValue().getId(), languageCode, data);
 					}
 				} else {
-					textDAO.createTranslationForText(dataSerieMetadata.getEntryValue().getId(), languageCode, data);
+					this.textDAO.createTranslationForText(dataSerieMetadata.getEntryValue().getId(), languageCode, data);
 				}
 			}
 		}
@@ -855,7 +856,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public void deleteMetadata(final Long id) {
-		dataSerieMetadataDAO.deleteDataSerieMetadata(id);
+		this.dataSerieMetadataDAO.deleteDataSerieMetadata(id);
 	}
 
 	/*
@@ -864,7 +865,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public void updateValidationNotesForIndicatorTypeAndSource(final String validationNotes, final String indicatorTypeCode, final String sourceCode) {
-		updateMetadataForIndicatorTypeAndSource(MetadataName.VALIDATION_NOTES, validationNotes, "default", indicatorTypeCode, sourceCode);
+		this.updateMetadataForIndicatorTypeAndSource(MetadataName.VALIDATION_NOTES, validationNotes, "default", indicatorTypeCode, sourceCode);
 	}
 
 }

@@ -13,6 +13,7 @@ public class ImportReportEntry implements Serializable {
 	private int totalNbOfRecords;
 	private int nbOfNewRecords;
 	private int nbOfAlreadyExistingRecords;
+	private int nbOfUpdatedRecords;
 	private int nbOfRecordsInError;
 
 	public ImportReportEntry(final DataSerie dataserie) {
@@ -22,6 +23,7 @@ public class ImportReportEntry implements Serializable {
 		nbOfNewRecords = 0;
 		nbOfAlreadyExistingRecords = 0;
 		nbOfRecordsInError = 0;
+		nbOfUpdatedRecords = 0;
 	}
 
 	public void addNewRecord() {
@@ -29,6 +31,11 @@ public class ImportReportEntry implements Serializable {
 		nbOfNewRecords++;
 	}
 
+	public void addUpdatedRecord() {
+		totalNbOfRecords++;
+		nbOfUpdatedRecords++;
+	}
+	
 	public void addAlreadyExistingRecord() {
 		totalNbOfRecords++;
 		nbOfAlreadyExistingRecords++;
@@ -53,6 +60,10 @@ public class ImportReportEntry implements Serializable {
 
 	public int getNbOfAlreadyExistingRecords() {
 		return nbOfAlreadyExistingRecords;
+	}
+	
+	public int getNbOfUpdatedRecords() {
+		return nbOfUpdatedRecords;
 	}
 
 	public int getNbOfRecordsInError() {

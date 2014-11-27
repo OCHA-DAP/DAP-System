@@ -3,14 +3,14 @@
   <groupId>org.ocha</groupId>
   <artifactId>hdx</artifactId>
   <packaging>war</packaging>
-  <version>0.4.0</version>
+  <version>0.5.6</version>
   <name>OCHA HDX webapp</name>
 
 
   <properties>
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-    <hdx.official.version>v0.4.0Beta (Simpson's Paradox) - ${project.version} </hdx.official.version>
+    <hdx.official.version>v0.5.6Beta (Simpson's Paradox) - ${project.version} </hdx.official.version>
     <hdx.build.date>Build date : ${timestamp} </hdx.build.date>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>

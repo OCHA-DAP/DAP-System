@@ -134,4 +134,74 @@ public class IndicatorValue {
 			return fmt.print(datetimeValue.getTime());
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dateValue == null) ? 0 : dateValue.hashCode());
+		result = prime * result + ((datetimeValue == null) ? 0 : datetimeValue.hashCode());
+		result = prime * result + ((numberValue == null) ? 0 : numberValue.hashCode());
+		result = prime * result + ((stringValue == null) ? 0 : stringValue.hashCode());
+		result = prime * result + ((textValue == null) ? 0 : textValue.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof IndicatorValue)) {
+			return false;
+		}
+		IndicatorValue other = (IndicatorValue) obj;
+		if (dateValue == null) {
+			if (other.dateValue != null) {
+				return false;
+			}
+		} else if (!dateValue.equals(other.dateValue)) {
+			return false;
+		}
+		if (datetimeValue == null) {
+			if (other.datetimeValue != null) {
+				return false;
+			}
+		} else if (!datetimeValue.equals(other.datetimeValue)) {
+			return false;
+		}
+		if (numberValue == null) {
+			if (other.numberValue != null) {
+				return false;
+			}
+		} else if (!numberValue.equals(other.numberValue)) {
+			return false;
+		}
+		if (stringValue == null) {
+			if (other.stringValue != null) {
+				return false;
+			}
+		} else if (!stringValue.equals(other.stringValue)) {
+			return false;
+		}
+		if (textValue == null) {
+			if (other.textValue != null) {
+				return false;
+			}
+		} else if (!textValue.equals(other.textValue)) {
+			return false;
+		}
+		return true;
+	}
+	
+	
 }
