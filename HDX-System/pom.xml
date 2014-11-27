@@ -24,7 +24,7 @@
     <jersey.version>2.11</jersey.version>
     <aspectj.version>1.7.3</aspectj.version>
     <!-- This value is ok for prod, can be overriden for other environments in profiles -->
-    <HDX_ROOT>/opt/www/tomcat/hdx</HDX_ROOT>
+    <HDX_FOLDER>${env.HDX_FOLDER}</HDX_FOLDER>
     <schema.file>2_schema.ddl</schema.file>
     <schema.dir>resources/db</schema.dir>
   </properties>
@@ -472,7 +472,7 @@
                 </goals>
                 <configuration>
                   <files>
-                    <file>${HDX_ROOT}/config/hdx-config</file>
+                    <file>${HDX_FOLDER}/config/hdx-config</file>
                   </files>
                 </configuration>
               </execution>
