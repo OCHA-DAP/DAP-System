@@ -13,37 +13,37 @@ public class IndicatorImportConfig {
 	/**
 	 * Storing the initial value as represented in the resource before import. For troubleshooting
 	 */
-	@Column(name = "initial_value", nullable = false, updatable = false)
+	@Column(name = "initial_value", nullable = false)
 	private String initialValue;
 
-	@Column(name = "lower_boundary", nullable = true, updatable = false)
+	@Column(name = "lower_boundary", nullable = true)
 	private Double lowerBoundary;
-	@Column(name = "upper_boundary", nullable = true, updatable = false)
+	@Column(name = "upper_boundary", nullable = true)
 	private Double upperBoundary;
 
 	/**
 	 * very likely to be something like 1000, but could also be a float (conversion, currencies ....)
 	 */
-	@Column(name = "multiplier", nullable = true, updatable = false)
+	@Column(name = "multiplier", nullable = true)
 	private Double multiplier;
 
 	/**
 	 * sample : YYYY
 	 */
-	@Column(name = "expected_time_format", nullable = true, updatable = false)
+	@Column(name = "expected_time_format", nullable = true)
 	private String expectedTimeFormat;
 
 	/**
 	 * sample : if expectedTimeFormat is YYYY, interpretedTimeFormat could be YYYY-01-01
 	 */
-	@Column(name = "interpreted_time_format", nullable = true, updatable = false)
+	@Column(name = "interpreted_time_format", nullable = true)
 	private String interpretedTimeFormat;
 
-	@Column(name = "validation_status", nullable = false, updatable = false)
+	@Column(name = "validation_status", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ValidationStatus validationStatus;
 
-	@Column(name = "validation_message", nullable = true, updatable = false)
+	@Column(name = "validation_message", nullable = true)
 	private String validationMessage;
 
 
