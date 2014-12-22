@@ -23,7 +23,6 @@ import org.ocha.hdx.persistence.entity.curateddata.IndicatorValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 
@@ -56,7 +55,6 @@ public class FileEvaluatorAndExtractorImplTest {
 	}
 
 	@Test
-	@Transactional
 	public void testSaveReadIndicatorsToDatabase(){
 
 

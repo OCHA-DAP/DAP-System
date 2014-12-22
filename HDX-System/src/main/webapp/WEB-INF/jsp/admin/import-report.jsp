@@ -18,6 +18,7 @@
 		<li>Total Number of Records: ${it.totalNbOfRecords} </li>
 		<li>Number of New Records: ${it.nbOfNewRecords} </li>
 		<li>Number of Already Existing Records: ${it.nbOfAlreadyExistingRecords} </li>
+		<li>Number of Updated Records: ${it.nbOfUpdatedRecords} </li>
 		<li>Number of Records with Errors: ${it.nbOfRecordsInError} </li>
 	</ul>
 	
@@ -28,6 +29,7 @@
 			<th>Total Number of Records</th>
 			<th>Number of New Records</th>
 			<th>Number of Already Existing Records</th>
+			<th>Number of Updated Records</th>
 			<th>Number of Records with Errors</th>
 		</tr>
 		<c:forEach var="entry" items="${it.entries}">
@@ -37,6 +39,7 @@
 				<td>${entry.value.totalNbOfRecords}</td>
 				<td>${entry.value.nbOfNewRecords}</td>
 				<td>${entry.value.nbOfAlreadyExistingRecords}</td>
+				<td>${entry.value.nbOfUpdatedRecords}</td>
 				<td>${entry.value.nbOfRecordsInError}</td>
 			</tr>
 		</c:forEach>
