@@ -243,11 +243,10 @@
 
     create table hdx_dataserie_to_curated_dataset (
         id int8 not null,
-        datasetName varchar(255),
-        last_data_push date,
-        last_data_update date,
-        last_metadata_push date,
-        last_metadata_update date,
+        last_data_push timestamp,
+        last_data_update timestamp,
+        last_metadata_push timestamp,
+        last_metadata_update timestamp,
         indicator_type_id int8 not null,
         source_id int8 not null,
         primary key (id),
