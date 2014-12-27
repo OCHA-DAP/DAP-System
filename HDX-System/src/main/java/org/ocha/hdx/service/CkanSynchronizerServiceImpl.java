@@ -1,9 +1,14 @@
 package org.ocha.hdx.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.ocha.hdx.dto.apiv3.HdxPackageUpdateMetadataDTO;
+import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.dao.ckan.DataSerieToCuratedDatasetDAO;
 import org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAO;
 import org.ocha.hdx.persistence.entity.ckan.DataSerieToCuratedDataset;
@@ -33,7 +38,10 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 	private DataSerieToCuratedDatasetDAO dataSerieToCuratedDatasetDAO;
 
 	@Autowired
-	DataSerieMetadataDAO dataSerieMetadataDAO;
+	private DataSerieMetadataDAO dataSerieMetadataDAO;
+
+	@Autowired
+	private CuratedDataService curatedDataService;
 
 	@Override
 	public void updateMetadataToCkan() {
@@ -64,9 +72,14 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		final Source source = dataSerieToCuratedDataset.getSource();
 
 		final HdxPackageUpdateMetadataDTO dto = new HdxPackageUpdateMetadataDTO();
-		dto.setId(dataSerieToCuratedDataset.getDatasetName());
-		// FIXME
-		dto.setDataset_date("11/02/2014-11/20/2014");
+		dto.setId(String.format("%s_%s", indType.getCode(), source.getCode()));
+
+		final Map<String, Timestamp> minMaxDatesForDataSeries = curatedDataService.getMinMaxDatesForDataSeries(new DataSerie(indType.getCode(), source.getCode()));
+		final DateTimeFormatter fmt = DateTimeFormat.forPattern("MM/dd/YYYY");
+		final String minDate = fmt.print(minMaxDatesForDataSeries.get("MIN").getTime());
+		final String maxDate = fmt.print(minMaxDatesForDataSeries.get("MAX").getTime());
+		dto.setDataset_date(String.format("%s-%s", minDate, maxDate));
+
 		dto.setDataset_source(source.getName().getDefaultValue());
 		dto.setDataset_source_code(source.getCode());
 		dto.setDataset_summary(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.DATASET_SUMMARY).getEntryValue()
@@ -77,10 +90,14 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		dto.setLast_data_update_date(dataSerieToCuratedDataset.getLastDataUpdate());
 		dto.setLast_metadata_update_date(dataSerieToCuratedDataset.getLastMetadataUpdate());
 
-		dto.setMethodology("the methodology");
-		dto.setMore_info("more info");
-		dto.setTerms_of_use("terms of use");
-		dto.setValidation_notes_and_comments("Notes and comments");
+		dto.setMethodology(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.METHODOLOGY).getEntryValue()
+				.getDefaultValue());
+		dto.setMore_info(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.MORE_INFO).getEntryValue()
+				.getDefaultValue());
+		dto.setTerms_of_use(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.TERMS_OF_USE).getEntryValue()
+				.getDefaultValue());
+		dto.setValidation_notes_and_comments(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.VALIDATION_NOTES)
+				.getEntryValue().getDefaultValue());
 
 		return dto;
 	}

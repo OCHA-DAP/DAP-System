@@ -126,7 +126,7 @@ public interface CuratedDataService {
 
 	/**
 	 * Add an indicator for the provided parameters
-	 *
+	 * 
 	 * The importFromCKAN param is not provided. This will be added to the default "dummy" import
 	 */
 	public void createIndicator(final String sourceCode, final long entityId, final String indicatorTypeCode, final Date start, final Date end, final Periodicity periodicity,
@@ -140,7 +140,7 @@ public interface CuratedDataService {
 
 	/**
 	 * returns a 2D Datatable with Entities as columns, and periods as rows. Something like Year Germany Russia France 2011 2012 2013
-	 *
+	 * 
 	 * @param countryCodes
 	 *            optional. Return all the known entities if null
 	 * @throws TypeMismatchException
@@ -151,7 +151,7 @@ public interface CuratedDataService {
 
 	/**
 	 * returns a 2D Datatable with Sources as columns, and periods as rows. Something like Year WB UN ACLED 2011 2012 2013
-	 *
+	 * 
 	 * @throws TypeMismatchException
 	 *             If some data doest not match the expect type of the column
 	 */
@@ -160,7 +160,7 @@ public interface CuratedDataService {
 
 	/**
 	 * returns a 1D Datatable with entities as rows Country indicatorType Name Germany Russia France
-	 *
+	 * 
 	 * @throws TypeMismatchException
 	 *             If some data doest not match the expect type of the column
 	 */
@@ -189,6 +189,11 @@ public interface CuratedDataService {
 	public void updateMetadataForIndicatorTypeAndSource(MetadataName entryKey, String data, String languageCode, String indicatorTypeCode, String sourceCode);
 
 	public void deleteMetadata(Long id);
+
+	/*
+	 * DataSerieToCuratedDataset (schedules an update to ckan)
+	 */
+	public void updateMetadataTimestamp(final DataSerie dataSerie, final Date newTimestamp);
 
 	/*
 	 * Validation notes
