@@ -39,7 +39,9 @@ public class DataSerieToCuratedDataset {
 	@JoinColumn(name = "indicator_type_id", nullable = false)
 	private IndicatorType indicatorType;
 
-	private String datasetName;
+	// This should not be needed if we apply convention over configuration (the datasetName is always : indicTypeCode_sourceCode)
+	// but this might not be the case if we want human readable titles
+	// private String datasetName;
 
 	@Column(name = "last_metadata_update", nullable = true, updatable = true)
 	@Temporal(TemporalType.DATE)
@@ -79,14 +81,6 @@ public class DataSerieToCuratedDataset {
 
 	public void setIndicatorType(final IndicatorType indicatorType) {
 		this.indicatorType = indicatorType;
-	}
-
-	public String getDatasetName() {
-		return datasetName;
-	}
-
-	public void setDatasetName(final String datasetName) {
-		this.datasetName = datasetName;
 	}
 
 	public Date getLastMetadataUpdate() {

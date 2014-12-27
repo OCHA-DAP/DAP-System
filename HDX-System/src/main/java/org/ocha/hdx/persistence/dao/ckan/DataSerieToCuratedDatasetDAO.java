@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.entity.ckan.DataSerieToCuratedDataset;
+import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
+import org.ocha.hdx.persistence.entity.curateddata.Source;
 
 public interface DataSerieToCuratedDatasetDAO {
 
@@ -14,6 +16,8 @@ public interface DataSerieToCuratedDatasetDAO {
 	 */
 	public List<DataSerieToCuratedDataset> getDatasetsWithUnsyncedMetadata();
 
+	public DataSerieToCuratedDataset getDataSerieToCuratedDataset(final DataSerie dataSerie);
+
 	/**
 	 * updates the lastMetadataUpdate field for the DataSerieToCuratedDataset found with DataSerie
 	 * 
@@ -21,9 +25,9 @@ public interface DataSerieToCuratedDatasetDAO {
 	 *            to find the unique corresponding DataSerieToCuratedDataset
 	 * @param newTimestamp
 	 *            the new lastMetadataUpdate ts
-	 * @return
+	 * @return true if the DataSerieToCuratedDataset existed and could be updated
 	 */
-	public void updateLastMetadataTimestamp(final DataSerie dataSerie, final Date newTimestamp);
+	public boolean updateLastMetadataTimestamp(final DataSerie dataSerie, final Date newTimestamp);
 
 	/**
 	 * updates the lastDataUpdate field for the DataSerieToCuratedDataset found with DataSerie
@@ -32,8 +36,10 @@ public interface DataSerieToCuratedDatasetDAO {
 	 *            to find the unique corresponding DataSerieToCuratedDataset
 	 * @param newTimestamp
 	 *            the new lastDataUpdate ts
-	 * @return
+	 * @return true if the DataSerieToCuratedDataset existed and could be updated
 	 */
-	public void updateLastDataTimestamp(final DataSerie dataSerie, final Date newTimestamp);
+	public boolean updateLastDataTimestamp(final DataSerie dataSerie, final Date newTimestamp);
+
+	public void createDataSerieToCuratedDataset(final Source source, final IndicatorType indicatorType);
 
 }

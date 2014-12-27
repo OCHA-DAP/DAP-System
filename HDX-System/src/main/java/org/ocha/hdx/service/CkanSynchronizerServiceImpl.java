@@ -64,7 +64,7 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		final Source source = dataSerieToCuratedDataset.getSource();
 
 		final HdxPackageUpdateMetadataDTO dto = new HdxPackageUpdateMetadataDTO();
-		dto.setId(dataSerieToCuratedDataset.getDatasetName());
+		dto.setId(String.format("%s_%s", indType.getCode(), source.getCode()));
 		// FIXME
 		dto.setDataset_date("11/02/2014-11/20/2014");
 		dto.setDataset_source(source.getName().getDefaultValue());

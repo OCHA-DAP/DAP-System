@@ -19,6 +19,7 @@ import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.api.CellDescriptor;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
+import org.ocha.hdx.persistence.dao.ckan.DataSerieToCuratedDatasetDAO;
 import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
@@ -111,6 +112,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private ResourceConfigurationDAO resourceConfigurationDAO;
+
+	@Autowired
+	DataSerieToCuratedDatasetDAO dataSerieToCuratedDatasetDAO;
 
 	/*
 	 * Entity types
@@ -434,8 +438,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Transactional
 	public void createIndicator(final Indicator indicator, final ImportFromCKAN importFromCKAN) {
 
-		this.indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(), indicator.getValue(),
-				indicator.getIndicatorImportConfig(), indicator.getSourceLink(), importFromCKAN);
+		this.indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(),
+				indicator.getValue(), indicator.getIndicatorImportConfig(), indicator.getSourceLink(), importFromCKAN);
 
 	}
 
@@ -606,7 +610,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	/*
 	 * @Override public List<Indicator> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) { final List<Indicator> result =
 	 * indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode);
-	 *
+	 * 
 	 * return result; }
 	 */
 
@@ -851,6 +855,10 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 					this.textDAO.createTranslationForText(dataSerieMetadata.getEntryValue().getId(), languageCode, data);
 				}
 			}
+		}
+
+		if (MetadataName.DATASET_SUMMARY.equals(entryKey) && "default".equals(languageCode)) {
+			dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(new DataSerie(indicatorTypeCode, sourceCode), new Date());
 		}
 	}
 
