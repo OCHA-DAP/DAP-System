@@ -45,7 +45,6 @@ import org.ocha.hdx.config.ConfigurationConstants.GeneralConfiguration;
 import org.ocha.hdx.config.ConfigurationConstants.IndicatorConfiguration;
 import org.ocha.hdx.dto.apiv3.DatasetV3DTO;
 import org.ocha.hdx.dto.apiv3.GroupV3DTO;
-import org.ocha.hdx.dto.apiv3.HdxPackageUpdateMetadataDTO;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.JSONable;
 import org.ocha.hdx.model.validation.ValidationReport;
@@ -77,7 +76,6 @@ import org.ocha.hdx.rest.helper.DisplayIndicatorTypeDictionaries;
 import org.ocha.hdx.rest.helper.DisplayIndicators;
 import org.ocha.hdx.rest.helper.DisplayRegionDictionaries;
 import org.ocha.hdx.rest.helper.DisplaySourceDictionaries;
-import org.ocha.hdx.service.CkanSynchronizerService;
 import org.ocha.hdx.service.CuratedDataService;
 import org.ocha.hdx.service.HDXService;
 import org.ocha.hdx.service.WorkflowService;
@@ -114,9 +112,6 @@ public class AdminResource {
 	@Autowired
 	private WorkflowService workflowService;
 
-	@Autowired
-	private CkanSynchronizerService ckanSynchronizerService;
-
 	/*
 	 * Utilities
 	 */
@@ -138,14 +133,6 @@ public class AdminResource {
 	@Path("/adminHome")
 	public Response adminHome() {
 		return Response.ok(new Viewable("/admin/admin_home")).build();
-	}
-
-	@GET
-	@Path("/misc/pendingPackagesupdates")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<HdxPackageUpdateMetadataDTO> listPendingPackageUpdate() {
-		return ckanSynchronizerService.getDatasetsWithUnsyncedMetadata();
-
 	}
 
 	/*
