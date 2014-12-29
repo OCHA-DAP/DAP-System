@@ -1,6 +1,7 @@
 
-create table hdx_dataserie_to_curated_dataset (
+    create table hdx_dataserie_to_curated_dataset (
         id int8 not null,
+        dataset_name varchar(255),
         last_data_push timestamp,
         last_data_update timestamp,
         last_metadata_push timestamp,

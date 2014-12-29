@@ -39,9 +39,11 @@ public class DataSerieToCuratedDataset {
 	@JoinColumn(name = "indicator_type_id", nullable = false)
 	private IndicatorType indicatorType;
 
-	// This should not be needed if we apply convention over configuration (the datasetName is always : indicTypeCode_sourceCode)
-	// but this might not be the case if we want human readable titles
-	// private String datasetName;
+	/**
+	 * The name of the dataset(kind cof id) in CKAN can be arbitrary to get pretty urls, not convention based Needed to communicate changes to CKAN
+	 */
+	@Column(name = "dataset_name", nullable = true, updatable = true)
+	private String datasetName;
 
 	@Column(name = "last_metadata_update", nullable = true, updatable = true)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -81,6 +83,14 @@ public class DataSerieToCuratedDataset {
 
 	public void setIndicatorType(final IndicatorType indicatorType) {
 		this.indicatorType = indicatorType;
+	}
+
+	public String getDatasetName() {
+		return datasetName;
+	}
+
+	public void setDatasetName(final String datasetName) {
+		this.datasetName = datasetName;
 	}
 
 	public Date getLastMetadataUpdate() {
