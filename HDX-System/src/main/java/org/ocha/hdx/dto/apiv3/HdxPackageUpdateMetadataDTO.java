@@ -1,6 +1,5 @@
 package org.ocha.hdx.dto.apiv3;
 
-import java.util.Date;
 
 public class HdxPackageUpdateMetadataDTO {
 
@@ -8,10 +7,10 @@ public class HdxPackageUpdateMetadataDTO {
 	private String id;
 
 	// When the DATA was updated the last time (i.e last run of Import)
-	private Date last_data_update_date;
+	private String last_data_update_date;
 
 	// When the METADATA was updated the last time
-	private Date last_metadata_update_date;
+	private String last_metadata_update_date;
 
 	// sourceName
 	private String dataset_source;
@@ -42,19 +41,19 @@ public class HdxPackageUpdateMetadataDTO {
 		this.id = id;
 	}
 
-	public Date getLast_data_update_date() {
+	public String getLast_data_update_date() {
 		return last_data_update_date;
 	}
 
-	public void setLast_data_update_date(final Date last_data_update_date) {
+	public void setLast_data_update_date(final String last_data_update_date) {
 		this.last_data_update_date = last_data_update_date;
 	}
 
-	public Date getLast_metadata_update_date() {
+	public String getLast_metadata_update_date() {
 		return last_metadata_update_date;
 	}
 
-	public void setLast_metadata_update_date(final Date last_metadata_update_date) {
+	public void setLast_metadata_update_date(final String last_metadata_update_date) {
 		this.last_metadata_update_date = last_metadata_update_date;
 	}
 

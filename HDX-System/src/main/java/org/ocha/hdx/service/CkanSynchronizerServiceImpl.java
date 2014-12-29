@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.ocha.hdx.dto.apiv3.HdxPackageUpdateMetadataDTO;
 import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.persistence.dao.ckan.DataSerieToCuratedDatasetDAO;
@@ -14,6 +15,7 @@ import org.ocha.hdx.persistence.dao.metadata.DataSerieMetadataDAO;
 import org.ocha.hdx.persistence.entity.ckan.DataSerieToCuratedDataset;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorType;
 import org.ocha.hdx.persistence.entity.curateddata.Source;
+import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata;
 import org.ocha.hdx.persistence.entity.metadata.DataSerieMetadata.MetadataName;
 import org.ocha.hdx.tools.GSONBuilderWrapper;
 import org.slf4j.Logger;
@@ -68,6 +70,8 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 	}
 
 	private HdxPackageUpdateMetadataDTO convertDataSerieToCuratedDataset(final DataSerieToCuratedDataset dataSerieToCuratedDataset) {
+		final DateTimeFormatter isoFmt = ISODateTimeFormat.basicDateTime();
+
 		final IndicatorType indType = dataSerieToCuratedDataset.getIndicatorType();
 		final Source source = dataSerieToCuratedDataset.getSource();
 
@@ -75,9 +79,9 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		dto.setId(String.format("%s_%s", indType.getCode(), source.getCode()));
 
 		final Map<String, Timestamp> minMaxDatesForDataSeries = curatedDataService.getMinMaxDatesForDataSeries(new DataSerie(indType.getCode(), source.getCode()));
-		final DateTimeFormatter fmt = DateTimeFormat.forPattern("MM/dd/YYYY");
-		final String minDate = fmt.print(minMaxDatesForDataSeries.get("MIN").getTime());
-		final String maxDate = fmt.print(minMaxDatesForDataSeries.get("MAX").getTime());
+		final DateTimeFormatter customFormatter = DateTimeFormat.forPattern("MM/dd/YYYY");
+		final String minDate = customFormatter.print(minMaxDatesForDataSeries.get("MIN").getTime());
+		final String maxDate = customFormatter.print(minMaxDatesForDataSeries.get("MAX").getTime());
 		dto.setDataset_date(String.format("%s-%s", minDate, maxDate));
 
 		dto.setDataset_source(source.getName().getDefaultValue());
@@ -87,18 +91,23 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		dto.setIndicator_type(indType.getName().getDefaultValue());
 		dto.setIndicator_type_code(indType.getCode());
 
-		dto.setLast_data_update_date(dataSerieToCuratedDataset.getLastDataUpdate());
-		dto.setLast_metadata_update_date(dataSerieToCuratedDataset.getLastMetadataUpdate());
+		dto.setLast_data_update_date(isoFmt.print(dataSerieToCuratedDataset.getLastDataUpdate().getTime()));
+		dto.setLast_metadata_update_date(isoFmt.print(dataSerieToCuratedDataset.getLastMetadataUpdate().getTime()));
 
-		dto.setMethodology(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.METHODOLOGY).getEntryValue()
-				.getDefaultValue());
-		dto.setMore_info(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.MORE_INFO).getEntryValue()
-				.getDefaultValue());
-		dto.setTerms_of_use(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.TERMS_OF_USE).getEntryValue()
-				.getDefaultValue());
-		dto.setValidation_notes_and_comments(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.VALIDATION_NOTES)
-				.getEntryValue().getDefaultValue());
+		dto.setMethodology(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.METHODOLOGY));
+		dto.setMore_info(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.MORE_INFO));
+		dto.setTerms_of_use(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.TERMS_OF_USE));
+		dto.setValidation_notes_and_comments(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.VALIDATION_NOTES));
 
 		return dto;
+	}
+
+	private String getMetadataAsString(final String indicatorTypeCode, final String sourceCode, final MetadataName entryKey) {
+		final DataSerieMetadata dataSerieMetadata = dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indicatorTypeCode, sourceCode, entryKey);
+		if (dataSerieMetadata != null) {
+			return dataSerieMetadata.getEntryValue().getDefaultValue();
+		} else {
+			return null;
+		}
 	}
 }
