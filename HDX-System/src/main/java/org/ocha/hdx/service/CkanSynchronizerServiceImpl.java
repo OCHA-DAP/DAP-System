@@ -2,6 +2,7 @@ package org.ocha.hdx.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -70,8 +71,6 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 	}
 
 	private HdxPackageUpdateMetadataDTO convertDataSerieToCuratedDataset(final DataSerieToCuratedDataset dataSerieToCuratedDataset) {
-		final DateTimeFormatter isoFmt = ISODateTimeFormat.basicDateTime();
-
 		final IndicatorType indType = dataSerieToCuratedDataset.getIndicatorType();
 		final Source source = dataSerieToCuratedDataset.getSource();
 
@@ -91,8 +90,8 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		dto.setIndicator_type(indType.getName().getDefaultValue());
 		dto.setIndicator_type_code(indType.getCode());
 
-		dto.setLast_data_update_date(isoFmt.print(dataSerieToCuratedDataset.getLastDataUpdate().getTime()));
-		dto.setLast_metadata_update_date(isoFmt.print(dataSerieToCuratedDataset.getLastMetadataUpdate().getTime()));
+		dto.setLast_data_update_date(getDateIsoFormatted(dataSerieToCuratedDataset.getLastDataUpdate()));
+		dto.setLast_metadata_update_date(getDateIsoFormatted(dataSerieToCuratedDataset.getLastMetadataUpdate()));
 
 		dto.setMethodology(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.METHODOLOGY));
 		dto.setMore_info(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.MORE_INFO));
@@ -109,5 +108,15 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		} else {
 			return null;
 		}
+	}
+
+	private String getDateIsoFormatted(final Date date) {
+		if (date == null)
+			return "";
+
+		final DateTimeFormatter isoFmt = ISODateTimeFormat.basicDateTime();
+
+		return isoFmt.print(date.getTime());
+
 	}
 }

@@ -2,7 +2,6 @@ package org.ocha.hdx.dto.apiv3;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 import junit.framework.Assert;
 
@@ -26,8 +25,8 @@ public class HdxPackageUpdateMetadataDTOTest {
 		dto.setDataset_summary("the summary");
 		dto.setIndicator_type("the name of the indicator type");
 		dto.setIndicator_type_code("PVX040");
-		dto.setLast_data_update_date(new Date(1000000000000L));
-		dto.setLast_metadata_update_date(new Date(1000000000000L));
+		dto.setLast_data_update_date("2001-09-09T03:46:40.000000");
+		dto.setLast_metadata_update_date("2001-09-09T03:46:40.000000");
 		dto.setMethodology("the methodology");
 		dto.setMore_info("more info");
 		dto.setTerms_of_use("terms of use");
