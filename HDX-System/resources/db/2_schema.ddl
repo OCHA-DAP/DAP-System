@@ -243,6 +243,7 @@
 
     create table hdx_dataserie_to_curated_dataset (
         id int8 not null,
+        ckan_dataset_id varchar(255),
         dataset_name varchar(255),
         last_data_push timestamp,
         last_data_update timestamp,
