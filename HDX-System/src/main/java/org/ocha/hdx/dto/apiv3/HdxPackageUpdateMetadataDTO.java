@@ -1,10 +1,12 @@
 package org.ocha.hdx.dto.apiv3;
 
-
 public class HdxPackageUpdateMetadataDTO {
 
-	// The name of the ckan dataset we want to update
+	// The uuid of the ckan dataset we want to update
 	private String id;
+
+	// The name of the ckan dataset we want to update
+	private String name;
 
 	// When the DATA was updated the last time (i.e last run of Import)
 	private String last_data_update_date;
@@ -39,6 +41,14 @@ public class HdxPackageUpdateMetadataDTO {
 
 	public void setId(final String id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
 	}
 
 	public String getLast_data_update_date() {

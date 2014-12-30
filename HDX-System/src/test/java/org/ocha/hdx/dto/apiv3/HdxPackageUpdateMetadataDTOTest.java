@@ -18,7 +18,8 @@ public class HdxPackageUpdateMetadataDTOTest {
 	public void testGson() throws IOException {
 		final HdxPackageUpdateMetadataDTO dto = new HdxPackageUpdateMetadataDTO();
 
-		dto.setId("The name of the ckan dataset");
+		dto.setId("The uuid of the ckan dataset");
+		dto.setName("The name of the ckan dataset");
 		dto.setDataset_date("11/02/2014-11/20/2014");
 		dto.setDataset_source("The dataset source");
 		dto.setDataset_source_code("WFP");

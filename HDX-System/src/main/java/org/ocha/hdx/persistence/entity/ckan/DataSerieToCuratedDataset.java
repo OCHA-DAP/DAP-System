@@ -41,9 +41,14 @@ public class DataSerieToCuratedDataset {
 
 	/**
 	 * The name of the dataset(kind cof id) in CKAN can be arbitrary to get pretty urls, not convention based Needed to communicate changes to CKAN
+	 * 
+	 * ascii chars only
 	 */
 	@Column(name = "dataset_name", nullable = true, updatable = true)
 	private String datasetName;
+
+	@Column(name = "ckan_dataset_id", nullable = true, updatable = true)
+	private String ckanDatasetId;
 
 	@Column(name = "last_metadata_update", nullable = true, updatable = true)
 	@Temporal(TemporalType.TIMESTAMP)
