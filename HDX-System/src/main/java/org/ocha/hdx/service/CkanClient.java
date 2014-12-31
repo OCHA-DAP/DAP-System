@@ -1,6 +1,7 @@
 package org.ocha.hdx.service;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ResponseHandler;
@@ -52,8 +53,8 @@ public abstract class CkanClient {
 
 			final ResponseHandler<String> responseHandler = new BasicResponseHandler();
 			responseBody = closeableHttpClient.execute(httpPost, responseHandler);
-		} catch (final Exception e) {
-			log.debug(e.toString(), e);
+		} catch (final IOException e) {
+			log.error(e.toString(), e);
 		}
 		return responseBody;
 	}
