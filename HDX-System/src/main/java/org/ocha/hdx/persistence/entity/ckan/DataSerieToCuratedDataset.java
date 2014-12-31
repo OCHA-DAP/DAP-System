@@ -44,7 +44,7 @@ public class DataSerieToCuratedDataset {
 	 * 
 	 * ascii chars only
 	 */
-	@Column(name = "dataset_name", nullable = true, updatable = true)
+	@Column(name = "ckan_dataset_name", nullable = true, updatable = true)
 	private String datasetName;
 
 	@Column(name = "ckan_dataset_id", nullable = true, updatable = true)
