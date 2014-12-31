@@ -41,7 +41,7 @@ public abstract class CkanClient {
 			httpPost.setEntity(se);
 
 			// se.setContentType("text/xml");
-			httpPost.addHeader("Content-Type", "application/json");
+			httpPost.addHeader("Content-Type", "application/json; charset=utf-8");
 			httpPost.addHeader("accept", "application/json");
 
 			if (apiKey != null) {
