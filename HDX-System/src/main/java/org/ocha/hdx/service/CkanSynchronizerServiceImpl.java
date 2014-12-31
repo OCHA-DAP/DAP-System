@@ -75,7 +75,8 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		final Source source = dataSerieToCuratedDataset.getSource();
 
 		final HdxPackageUpdateMetadataDTO dto = new HdxPackageUpdateMetadataDTO();
-		dto.setId(String.format("%s_%s", indType.getCode(), source.getCode()));
+		dto.setId(dataSerieToCuratedDataset.getCkanDatasetId());
+		dto.setId(dataSerieToCuratedDataset.getCkanDatasetName());
 
 		final Map<String, Timestamp> minMaxDatesForDataSeries = curatedDataService.getMinMaxDatesForDataSeries(new DataSerie(indType.getCode(), source.getCode()));
 		final DateTimeFormatter customFormatter = DateTimeFormat.forPattern("MM/dd/YYYY");

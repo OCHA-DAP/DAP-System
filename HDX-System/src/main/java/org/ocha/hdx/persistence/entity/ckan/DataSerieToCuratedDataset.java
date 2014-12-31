@@ -45,7 +45,7 @@ public class DataSerieToCuratedDataset {
 	 * ascii chars only
 	 */
 	@Column(name = "ckan_dataset_name", nullable = true, updatable = true)
-	private String datasetName;
+	private String ckanDatasetName;
 
 	@Column(name = "ckan_dataset_id", nullable = true, updatable = true)
 	private String ckanDatasetId;
@@ -90,12 +90,20 @@ public class DataSerieToCuratedDataset {
 		this.indicatorType = indicatorType;
 	}
 
-	public String getDatasetName() {
-		return datasetName;
+	public String getCkanDatasetName() {
+		return ckanDatasetName;
 	}
 
-	public void setDatasetName(final String datasetName) {
-		this.datasetName = datasetName;
+	public void setCkanDatasetName(final String ckanDatasetName) {
+		this.ckanDatasetName = ckanDatasetName;
+	}
+
+	public String getCkanDatasetId() {
+		return ckanDatasetId;
+	}
+
+	public void setCkanDatasetId(final String ckanDatasetId) {
+		this.ckanDatasetId = ckanDatasetId;
 	}
 
 	public Date getLastMetadataUpdate() {
