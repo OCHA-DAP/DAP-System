@@ -37,10 +37,9 @@ public abstract class CkanClient {
 		final HttpPost httpPost = new HttpPost(url);
 		try (CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().build()) {
 
-			final StringEntity se = new StringEntity(query);
+			final StringEntity se = new StringEntity(query, ContentType.APPLICATION_JSON);
 			httpPost.setEntity(se);
 
-			// se.setContentType("text/xml");
 			httpPost.addHeader("Content-Type", "application/json; charset=utf-8");
 			httpPost.addHeader("accept", "application/json");
 

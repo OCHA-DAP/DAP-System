@@ -23,6 +23,10 @@
     <jstl.impl.version>1.2</jstl.impl.version>
     <jersey.version>2.11</jersey.version>
     <aspectj.version>1.7.3</aspectj.version>
+    
+    <apache.http.version>4.3.6</apache.http.version>
+    <apache.http.core.version>4.3.3</apache.http.core.version>
+    
     <!-- This value is ok for prod, can be overriden for other environments in profiles -->
     <HDX_FOLDER>${env.HDX_FOLDER}</HDX_FOLDER>
     <schema.file>2_schema.ddl</schema.file>
@@ -225,7 +229,7 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.3</version>
+      <version>${apache.http.version}</version>
       <exclusions>
         <exclusion>
           <!-- Already included in poi-ooxml (see below) -->
@@ -238,12 +242,12 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpcore</artifactId>
-      <version>4.3</version>
+      <version>${apache.http.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
-      <version>4.3</version>
+      <version>${apache.http.version}</version>
     </dependency>
 
     <dependency>
