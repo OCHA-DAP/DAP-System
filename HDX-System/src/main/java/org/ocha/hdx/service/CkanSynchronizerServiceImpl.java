@@ -35,7 +35,7 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		this.urlBaseForHdxPackageUpdate = String.format(HDX_PACKAGE_UPDATE_API_PATTERN, host);
 	}
 
-	private static final Logger log = LoggerFactory.getLogger("ckan-updater-logger");
+	private static final Logger ckanUpdaterLogger = LoggerFactory.getLogger("ckan-updater-logger");
 
 	@Autowired
 	private DataSerieToCuratedDatasetDAO dataSerieToCuratedDatasetDAO;
@@ -54,7 +54,15 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 			final HdxPackageUpdateMetadataDTO dto = convertDataSerieToCuratedDataset(dataSerieToCuratedDataset);
 
 			final String query = GSONBuilderWrapper.getGSON().toJson(dto);
-			performHttpPOST(urlBaseForHdxPackageUpdate, technicalAPIKey, query);
+			ckanUpdaterLogger.debug(String.format("about to send message for the dataSerie : %s", dto.getId()));
+			ckanUpdaterLogger.debug(query);
+			final String response = performHttpPOST(urlBaseForHdxPackageUpdate, technicalAPIKey, query);
+			ckanUpdaterLogger.debug(String.format("Got response : %s", response));
+			if (response != null) {
+				// This should always be true, as errors throw an exception
+				// So here we can expect 200 or 204
+				dataSerieToCuratedDatasetDAO.updateLastMetadataPushTimestamp(dataSerieToCuratedDataset.getId(), new Date());
+			}
 
 		}
 

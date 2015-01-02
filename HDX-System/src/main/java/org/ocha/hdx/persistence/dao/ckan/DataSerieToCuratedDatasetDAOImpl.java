@@ -73,4 +73,16 @@ public class DataSerieToCuratedDatasetDAOImpl implements DataSerieToCuratedDatas
 		dataSerieToCuratedDataset.setIndicatorType(indicatorType);
 		em.persist(dataSerieToCuratedDataset);
 	}
+
+	@Override
+	@Transactional
+	public void updateLastMetadataPushTimestamp(final long id, final Date timestamp) {
+		final DataSerieToCuratedDataset dataSerieToCuratedDataset = getDataSerieToCuratedDataset(id);
+		dataSerieToCuratedDataset.setLastMetadataPush(timestamp);
+	}
+
+	@Override
+	public DataSerieToCuratedDataset getDataSerieToCuratedDataset(final long id) {
+		return em.find(DataSerieToCuratedDataset.class, id);
+	}
 }

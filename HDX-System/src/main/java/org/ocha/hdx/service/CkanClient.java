@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class CkanClient {
 
-	static final Logger log = LoggerFactory.getLogger(CkanClient.class);
+	private static final Logger log = LoggerFactory.getLogger(CkanClient.class);
 
 	protected final String technicalAPIKey;
 
@@ -33,7 +33,6 @@ public abstract class CkanClient {
 
 	protected String performHttpPOST(final String url, final String apiKey, final String query) {
 		log.debug(String.format("About to post on : %s", url));
-		String responseBody = null;
 
 		final HttpPost httpPost = new HttpPost(url);
 		try (CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().build()) {
@@ -52,11 +51,11 @@ public abstract class CkanClient {
 			// log.debug("about to send query: " + query);
 
 			final ResponseHandler<String> responseHandler = new BasicResponseHandler();
-			responseBody = closeableHttpClient.execute(httpPost, responseHandler);
+			return closeableHttpClient.execute(httpPost, responseHandler);
 		} catch (final IOException e) {
 			log.error(e.toString(), e);
+			return null;
 		}
-		return responseBody;
 	}
 
 	protected String performHttpPOSTMultipart(final String url, final String apiKey, final String packageId, final File file) {

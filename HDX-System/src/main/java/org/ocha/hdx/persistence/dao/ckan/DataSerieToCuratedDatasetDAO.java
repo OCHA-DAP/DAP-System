@@ -18,6 +18,8 @@ public interface DataSerieToCuratedDatasetDAO {
 
 	public DataSerieToCuratedDataset getDataSerieToCuratedDataset(final DataSerie dataSerie);
 
+	public DataSerieToCuratedDataset getDataSerieToCuratedDataset(final long id);
+
 	/**
 	 * updates the lastMetadataUpdate field for the DataSerieToCuratedDataset found with DataSerie
 	 * 
@@ -28,6 +30,8 @@ public interface DataSerieToCuratedDatasetDAO {
 	 * @return true if the DataSerieToCuratedDataset existed and could be updated
 	 */
 	public boolean updateLastMetadataTimestamp(final DataSerie dataSerie, final Date newTimestamp);
+
+	public void updateLastMetadataPushTimestamp(final long id, final Date timestamp);
 
 	/**
 	 * updates the lastDataUpdate field for the DataSerieToCuratedDataset found with DataSerie
