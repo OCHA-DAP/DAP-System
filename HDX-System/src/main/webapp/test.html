@@ -32,6 +32,7 @@
 		<table class="table table-bordered table-hover table-condensed">
 			<tr style="font-weight: bold">
 				<th>Id</th>
+				<th>Name</th>
 				<th>Last data update date</th>
 				<th>Last metadata update date</th>
 				<th>Dataset source code</th>
@@ -41,27 +42,24 @@
 
 			<tr ng-repeat="pendingPackagesUpdate in pendingPackagesUpdates">
 				<td>
-					<!-- non editable id -->
 					<span e-name="id" e-form="rowform"> {{ pendingPackagesUpdate.id }} </span>
 				</td>
 				<td>
-					<!-- non editable id -->
+					<span e-name="name" e-form="rowform"> {{ pendingPackagesUpdate.name }} </span>
+				</td>
+				<td>
 					<span> {{ pendingPackagesUpdate.last_data_update_date | date : format : timezone }} </span>
 				</td>
 				<td>
-					<!-- non editable id -->
 					<span> {{ pendingPackagesUpdate.last_metadata_update_date | date : 'medium'}} </span>
 				</td>
 				<td>
-					<!-- non editable id -->
 					<span> {{ pendingPackagesUpdate.dataset_source_code }} </span>
 				</td>
 				<td>
-					<!-- non editable id -->
 					<span> {{ pendingPackagesUpdate.indicator_type_code }} </span>
 				</td>
 				<td>
-					<!-- non editable id -->
 					<span> {{ pendingPackagesUpdate.dataset_date }} </span>
 				</td>
 			</tr>

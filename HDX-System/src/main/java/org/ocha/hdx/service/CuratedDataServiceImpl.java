@@ -857,7 +857,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 			}
 		}
 
-		if (MetadataName.DATASET_SUMMARY.equals(entryKey) && "default".equals(languageCode)) {
+		// we don't send anything to ckan if this is for a specific language, at least for now
+		// this might trigger some unnecessary calls, but we might add extras to ckan, and this is convenient to maintain as is
+		if ("default".equals(languageCode)) {
 			updateMetadataTimestamp(new DataSerie(indicatorTypeCode, sourceCode), new Date());
 		}
 	}
