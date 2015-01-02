@@ -31,7 +31,7 @@ public abstract class CkanClient {
 		this.technicalAPIKey = technicalAPIKey;
 	}
 
-	protected String performHttpPOST(final String url, final String apiKey, final String query) {
+	protected String performHttpPOST(final String url, final String apiKey, final String query) throws IOException {
 		log.debug(String.format("About to post on : %s", url));
 
 		final HttpPost httpPost = new HttpPost(url);
@@ -52,9 +52,6 @@ public abstract class CkanClient {
 
 			final ResponseHandler<String> responseHandler = new BasicResponseHandler();
 			return closeableHttpClient.execute(httpPost, responseHandler);
-		} catch (final IOException e) {
-			log.error(e.toString(), e);
-			return null;
 		}
 	}
 

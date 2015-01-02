@@ -134,12 +134,16 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 		resourceCreateQuery.setPackage_id(packageId);
 		resourceCreateQuery.setUrl(resourceUrl);
 		resourceCreateQuery.setName(name);
-		final String result = this.performHttpPOST(this.urlBaseForResourceCreation, this.technicalAPIKey, GSONBuilderWrapper.getGSON().toJson(resourceCreateQuery));
-
-		final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
-
-		log.debug(res.toString());
-		return res.get("success").getAsBoolean();
+		String result;
+		try {
+			result = this.performHttpPOST(this.urlBaseForResourceCreation, this.technicalAPIKey, GSONBuilderWrapper.getGSON().toJson(resourceCreateQuery));
+			final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
+			log.debug(res.toString());
+			return res.get("success").getAsBoolean();
+		} catch (final IOException e) {
+			log.error(e.toString(), e);
+			return false;
+		}
 
 	}
 

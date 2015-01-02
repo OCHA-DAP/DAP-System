@@ -1,5 +1,6 @@
 package org.ocha.hdx.service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,12 +57,17 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 			final String query = GSONBuilderWrapper.getGSON().toJson(dto);
 			ckanUpdaterLogger.debug(String.format("about to send message for the dataSerie : %s", dto.getId()));
 			ckanUpdaterLogger.debug(query);
-			final String response = performHttpPOST(urlBaseForHdxPackageUpdate, technicalAPIKey, query);
-			ckanUpdaterLogger.debug(String.format("Got response : %s", response));
-			if (response != null) {
-				// This should always be true, as errors throw an exception
-				// So here we can expect 200 or 204
-				dataSerieToCuratedDatasetDAO.updateLastMetadataPushTimestamp(dataSerieToCuratedDataset.getId(), new Date());
+			String response;
+			try {
+				response = performHttpPOST(urlBaseForHdxPackageUpdate, technicalAPIKey, query);
+				ckanUpdaterLogger.debug(String.format("Got response : %s", response));
+				if (response != null) {
+					// This should always be true, as errors throw an exception
+					// So here we can expect 200 or 204
+					dataSerieToCuratedDatasetDAO.updateLastMetadataPushTimestamp(dataSerieToCuratedDataset.getId(), new Date());
+				}
+			} catch (final IOException e) {
+				ckanUpdaterLogger.error(e.toString(), e);
 			}
 
 		}
