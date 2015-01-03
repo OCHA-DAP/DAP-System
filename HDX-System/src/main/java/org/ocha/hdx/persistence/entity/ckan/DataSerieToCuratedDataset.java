@@ -21,11 +21,11 @@ import org.ocha.hdx.persistence.entity.curateddata.Source;
 
 @Entity
 @Table(name = "hdx_dataserie_to_curated_dataset", uniqueConstraints = @UniqueConstraint(columnNames = { "source_id", "indicator_type_id" }))
-@SequenceGenerator(name = "hdx_dataserie_metadata_seq", sequenceName = "hdx_dataserie_metadata_seq")
+@SequenceGenerator(name = "hdx_dataserie_to_curated_dataset_seq", sequenceName = "hdx_dataserie_to_curated_dataset_seq")
 public class DataSerieToCuratedDataset {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "hdx_dataserie_metadata_seq")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "hdx_dataserie_to_curated_dataset_seq")
 	@Column(name = "id", nullable = false)
 	private long id;
 

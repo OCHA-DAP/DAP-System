@@ -1,3 +1,5 @@
+create sequence hdx_dataserie_to_curated_dataset_seq;
+
 create table hdx_dataserie_to_curated_dataset (
         id int8 not null,
         ckan_dataset_id varchar(255),
