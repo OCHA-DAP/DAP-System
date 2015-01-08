@@ -50,7 +50,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	private static Logger logger = LoggerFactory.getLogger(IndicatorDAOImpl.class);
 
-	public enum ImportValueStatus{NEEDS_INSERT, UPDATED, NOTHING_TO_DO}
+	public enum ImportValueStatus {
+		NEEDS_INSERT, UPDATED, NOTHING_TO_DO
+	}
 
 	@PersistenceContext
 	private EntityManager em;
@@ -103,7 +105,7 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	/**
 	 * Delete some indicators.
-	 *
+	 * 
 	 * @author Dan TODO: It could delete all indicators in one transaction
 	 */
 	@Override
@@ -133,11 +135,11 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	}
 
-
-
 	/* Lists */
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO#getIndicatorById(long)
 	 */
 	@Override
@@ -221,9 +223,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		} catch (final NoResultException e) {
 			// It is possible that no value exists.
 		}
-		if(null != queryResult) {
+		if (null != queryResult) {
 			for (final Object[] object : queryResult) {
-				result.put((Long)object[0], (Long)object[1]);
+				result.put((Long) object[0], (Long) object[1]);
 			}
 		}
 		return result;
@@ -446,12 +448,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Transactional(readOnly = true)
 	@Override
-	public Long countIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
-			final List<String> entityCodes, final Integer startYear, final Integer endYear){
+	public Long countIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear, final Integer endYear) {
 		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
-		final CriteriaQuery<Long> criteriaQuery =
-				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear,
-				endYear, null, criteriaBuilder, Long.class, false);
+		final CriteriaQuery<Long> criteriaQuery = this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear, null, criteriaBuilder, Long.class, false);
 
 		final Set<Root<?>> roots = criteriaQuery.getRoots();
 		criteriaQuery.select(criteriaBuilder.count(roots.iterator().next()));
@@ -462,13 +461,11 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<Integer> listAvailablePeriods(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
-			final List<String> entityCodes, final Integer startYear, final Integer endYear){
+	public List<Integer> listAvailablePeriods(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear, final Integer endYear) {
 
 		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
-		final CriteriaQuery<Integer> criteriaQuery =
-				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear,
-				endYear, null, criteriaBuilder, Integer.class, false);
+		final CriteriaQuery<Integer> criteriaQuery = this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear, null, criteriaBuilder, Integer.class,
+				false);
 
 		final Set<Root<?>> roots = criteriaQuery.getRoots();
 		final Root<?> root = roots.iterator().next();
@@ -485,12 +482,9 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Transactional(readOnly = true)
 	@Override
-	public Integer latestYearForIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
-			final List<String> entityCodes){
+	public Integer latestYearForIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes) {
 		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
-		final CriteriaQuery<Date> criteriaQuery =
-				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, null,
-				null, null, criteriaBuilder, Date.class, false);
+		final CriteriaQuery<Date> criteriaQuery = this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, null, null, null, criteriaBuilder, Date.class, false);
 
 		final Set<Root<?>> roots = criteriaQuery.getRoots();
 
@@ -498,12 +492,12 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 		final Path<Date> datePath = indicatorRoot.get("start");
 
-		criteriaQuery.select( criteriaBuilder.greatest(datePath) );
+		criteriaQuery.select(criteriaBuilder.greatest(datePath));
 
 		final TypedQuery<Date> query = this.em.createQuery(criteriaQuery);
-		final Date resultDate =  query.getSingleResult();
+		final Date resultDate = query.getSingleResult();
 
-		if ( resultDate != null ) {
+		if (resultDate != null) {
 			final Calendar c = Calendar.getInstance();
 			c.setTime(resultDate);
 			return c.get(Calendar.YEAR);
@@ -514,14 +508,12 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<IntermediaryIndicatorValue> listIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes,
-			final List<String> entityCodes, final Integer startYear, final Integer endYear, final List<SortingOption> sortingOptions,
-			final Integer startPosition, final Integer maxResult, final String lang){
+	public List<IntermediaryIndicatorValue> listIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear,
+			final Integer endYear, final List<SortingOption> sortingOptions, final Integer startPosition, final Integer maxResult, final String lang) {
 
 		final CriteriaBuilder criteriaBuilder = this.em.getCriteriaBuilder();
-		final CriteriaQuery<IntermediaryIndicatorValue> criteriaQuery =
-				this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear,
-						endYear, sortingOptions, criteriaBuilder, IntermediaryIndicatorValue.class, true);
+		final CriteriaQuery<IntermediaryIndicatorValue> criteriaQuery = this.createQueryforIndicatorsByCriteria(indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear, sortingOptions,
+				criteriaBuilder, IntermediaryIndicatorValue.class, true);
 
 		final TypedQuery<IntermediaryIndicatorValue> query = this.em.createQuery(criteriaQuery);
 		query.setFirstResult(startPosition);
@@ -539,23 +531,19 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 * @param criteriaBuilder
 	 * @return
 	 */
-	private <T> CriteriaQuery<T> createQueryforIndicatorsByCriteria(final List<String> indicatorTypeCodes,
-			final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear,
-			final Integer endYear, final List<SortingOption> sortingOptions, final CriteriaBuilder criteriaBuilder,
-			final Class<T> responseClass,
-			final boolean addSelectClause) {
+	private <T> CriteriaQuery<T> createQueryforIndicatorsByCriteria(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes, final Integer startYear,
+			final Integer endYear, final List<SortingOption> sortingOptions, final CriteriaBuilder criteriaBuilder, final Class<T> responseClass, final boolean addSelectClause) {
 
 		final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(responseClass);
 		final Root<Indicator> indicatorRoot = criteriaQuery.from(Indicator.class);
-
 
 		final Join<Indicator, IndicatorType> indToIndTypeJoin = indicatorRoot.join("type");
 		final Join<IndicatorType, Text> indTypeToTextJoin = indToIndTypeJoin.join("name");
 
 		final Join<IndicatorType, Unit> indTypeToUnitJoin = indToIndTypeJoin.join("unit");
 		final Join<IndicatorType, Unit> unitToTextJoin = indTypeToUnitJoin.join("name");
-//		final Join<Translation, Language> translationToLangJoin = textToTranslationsJoin.join((SingularAttribute) textToTranslationsJoin.get("id").get("language").getModel());
-//		final Join<Id, Language> translationToLangJoin = tempJoin.join("language");
+		// final Join<Translation, Language> translationToLangJoin = textToTranslationsJoin.join((SingularAttribute) textToTranslationsJoin.get("id").get("language").getModel());
+		// final Join<Id, Language> translationToLangJoin = tempJoin.join("language");
 
 		final Join<Indicator, Source> indToSrcJoin = indicatorRoot.join("source");
 		final Join<Object, Object> srcToTextJoin = indToSrcJoin.join("name");
@@ -566,48 +554,32 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		final List<Predicate> filters = new ArrayList<>();
 		filters.add(indicatorRoot.get("value").get("numberValue").isNotNull());
 
-		if ( CollectionUtils.isNotEmpty(indicatorTypeCodes) ) {
-			filters.add( indToIndTypeJoin.get("code").in(indicatorTypeCodes) );
+		if (CollectionUtils.isNotEmpty(indicatorTypeCodes)) {
+			filters.add(indToIndTypeJoin.get("code").in(indicatorTypeCodes));
 		}
-		if ( CollectionUtils.isNotEmpty(sourceCodes)) {
-			filters.add( indToSrcJoin.get("code").in(sourceCodes) );
+		if (CollectionUtils.isNotEmpty(sourceCodes)) {
+			filters.add(indToSrcJoin.get("code").in(sourceCodes));
 		}
-		if ( CollectionUtils.isNotEmpty(entityCodes)) {
-			filters.add( indToEntityJoin.get("code").in(entityCodes) );
+		if (CollectionUtils.isNotEmpty(entityCodes)) {
+			filters.add(indToEntityJoin.get("code").in(entityCodes));
 		}
-		if ( startYear != null ) {
-			final LocalDateTime  startDate = new LocalDateTime(startYear, 1, 1, 0, 0);
-			filters.add( criteriaBuilder.greaterThanOrEqualTo(indicatorRoot.<Date>get("start"), startDate.toDate()) );
+		if (startYear != null) {
+			final LocalDateTime startDate = new LocalDateTime(startYear, 1, 1, 0, 0);
+			filters.add(criteriaBuilder.greaterThanOrEqualTo(indicatorRoot.<Date> get("start"), startDate.toDate()));
 		}
-		if ( endYear != null ) {
-			final LocalDateTime  endDate = new LocalDateTime(endYear+1, 1, 1, 0, 0);
-			filters.add( criteriaBuilder.lessThan(indicatorRoot.<Date>get("start"), endDate.toDate()) );
+		if (endYear != null) {
+			final LocalDateTime endDate = new LocalDateTime(endYear + 1, 1, 1, 0, 0);
+			filters.add(criteriaBuilder.lessThan(indicatorRoot.<Date> get("start"), endDate.toDate()));
 		}
-
 
 		if (addSelectClause) {
-			criteriaQuery.
-				select(criteriaBuilder.construct(
-						responseClass,
-						indicatorRoot.get("value").get("numberValue"),
-						indToIndTypeJoin.get("code"),
-						indTypeToTextJoin.get("defaultValue"),
-						indTypeToTextJoin.get("id"),
-						indTypeToUnitJoin.get("code"),
-						unitToTextJoin.get("defaultValue"),
-						unitToTextJoin.get("id"),
-						indToEntityJoin.get("code"),
-						entityToTextJoin.get("defaultValue"),
-						entityToTextJoin.get("id"),
-						indToSrcJoin.get("code"),
-						srcToTextJoin.get("defaultValue"),
-						srcToTextJoin.get("id"),
-						indicatorRoot.get("start")
-					)
-				)
-				.orderBy(criteriaBuilder.asc(indToIndTypeJoin.get("code")));
+			criteriaQuery.select(
+					criteriaBuilder.construct(responseClass, indicatorRoot.get("value").get("numberValue"), indToIndTypeJoin.get("code"), indTypeToTextJoin.get("defaultValue"),
+							indTypeToTextJoin.get("id"), indTypeToUnitJoin.get("code"), unitToTextJoin.get("defaultValue"), unitToTextJoin.get("id"), indToEntityJoin.get("code"),
+							entityToTextJoin.get("defaultValue"), entityToTextJoin.get("id"), indToSrcJoin.get("code"), srcToTextJoin.get("defaultValue"), srcToTextJoin.get("id"),
+							indicatorRoot.get("start"))).orderBy(criteriaBuilder.asc(indToIndTypeJoin.get("code")));
 
-			if ( sortingOptions != null ) {
+			if (sortingOptions != null) {
 				this.addSorting(sortingOptions, criteriaBuilder, criteriaQuery, indicatorRoot, indTypeToTextJoin, srcToTextJoin, entityToTextJoin);
 			}
 		}
@@ -625,41 +597,40 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 	 * @param srcToTextJoin
 	 * @param entityToTextJoin
 	 */
-	private <T> void addSorting(final List<SortingOption> sortingOptions, final CriteriaBuilder criteriaBuilder, final CriteriaQuery<T> criteriaQuery,
-			final Root<Indicator> indicatorRoot, final Join<IndicatorType, Text> indTypeToTextJoin, final Join<Object, Object> srcToTextJoin,
-			final Join<Object, Object> entityToTextJoin) {
-		for (final SortingOption sortingOption: sortingOptions) {
+	private <T> void addSorting(final List<SortingOption> sortingOptions, final CriteriaBuilder criteriaBuilder, final CriteriaQuery<T> criteriaQuery, final Root<Indicator> indicatorRoot,
+			final Join<IndicatorType, Text> indTypeToTextJoin, final Join<Object, Object> srcToTextJoin, final Join<Object, Object> entityToTextJoin) {
+		for (final SortingOption sortingOption : sortingOptions) {
 			switch (sortingOption) {
-				case VALUE_ASC:
-					criteriaQuery.orderBy(criteriaBuilder.asc(indicatorRoot.get("value").get("numberValue")));
-					break;
-				case VALUE_DESC:
-					criteriaQuery.orderBy(criteriaBuilder.desc(indicatorRoot.get("value").get("numberValue")));
-					break;
-				case COUNTRY_ASC:
-					criteriaQuery.orderBy(criteriaBuilder.asc(entityToTextJoin.get("defaultValue")));
-					break;
-				case COUNTRY_DESC:
-					criteriaQuery.orderBy(criteriaBuilder.desc(entityToTextJoin.get("defaultValue")));
-					break;
-				case INDICATOR_TYPE_ASC:
-					criteriaQuery.orderBy(criteriaBuilder.asc(indTypeToTextJoin.get("defaultValue")));
-					break;
-				case INDICATOR_TYPE_DESC:
-					criteriaQuery.orderBy(criteriaBuilder.desc(indTypeToTextJoin.get("defaultValue")));
-					break;
-				case SOURCE_TYPE_ASC:
-					criteriaQuery.orderBy(criteriaBuilder.asc(srcToTextJoin.get("defaultValue")));
-					break;
-				case SOURCE_TYPE_DESC:
-					criteriaQuery.orderBy(criteriaBuilder.desc(srcToTextJoin.get("defaultValue")));
-					break;
-				case START_DATE_ASC:
-					criteriaQuery.orderBy(criteriaBuilder.asc(indicatorRoot.get("start")));
-					break;
-				case START_DATE_DESC:
-					criteriaQuery.orderBy(criteriaBuilder.desc(indicatorRoot.get("start")));
-					break;
+			case VALUE_ASC:
+				criteriaQuery.orderBy(criteriaBuilder.asc(indicatorRoot.get("value").get("numberValue")));
+				break;
+			case VALUE_DESC:
+				criteriaQuery.orderBy(criteriaBuilder.desc(indicatorRoot.get("value").get("numberValue")));
+				break;
+			case COUNTRY_ASC:
+				criteriaQuery.orderBy(criteriaBuilder.asc(entityToTextJoin.get("defaultValue")));
+				break;
+			case COUNTRY_DESC:
+				criteriaQuery.orderBy(criteriaBuilder.desc(entityToTextJoin.get("defaultValue")));
+				break;
+			case INDICATOR_TYPE_ASC:
+				criteriaQuery.orderBy(criteriaBuilder.asc(indTypeToTextJoin.get("defaultValue")));
+				break;
+			case INDICATOR_TYPE_DESC:
+				criteriaQuery.orderBy(criteriaBuilder.desc(indTypeToTextJoin.get("defaultValue")));
+				break;
+			case SOURCE_TYPE_ASC:
+				criteriaQuery.orderBy(criteriaBuilder.asc(srcToTextJoin.get("defaultValue")));
+				break;
+			case SOURCE_TYPE_DESC:
+				criteriaQuery.orderBy(criteriaBuilder.desc(srcToTextJoin.get("defaultValue")));
+				break;
+			case START_DATE_ASC:
+				criteriaQuery.orderBy(criteriaBuilder.asc(indicatorRoot.get("start")));
+				break;
+			case START_DATE_DESC:
+				criteriaQuery.orderBy(criteriaBuilder.desc(indicatorRoot.get("start")));
+				break;
 			}
 		}
 	}
@@ -683,18 +654,16 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 		query.setParameter("periodicity", preparedIndicator.getPeriodicity());
 
 		final List<Indicator> indicators = query.getResultList();
-		if ( CollectionUtils.isEmpty(indicators) ) {
+		if (CollectionUtils.isEmpty(indicators)) {
 			return ImportValueStatus.NEEDS_INSERT;
-		}
-		else {
+		} else {
 			if (indicators.size() > 1) {
 				throw new RuntimeException("There shouldn't be more than 1 result when querying by the params in unique constraint");
 			}
 			final Indicator indicator = indicators.get(0);
-			if ( indicator.getValue().equals(preparedIndicator.getValue()) ) {
+			if (indicator.getValue().equals(preparedIndicator.getValue())) {
 				return ImportValueStatus.NOTHING_TO_DO;
-			}
-			else {
+			} else {
 				indicator.setValue(preparedIndicator.getValue());
 				indicator.setIndicatorImportConfig(preparedIndicator.getIndicatorImportConfig());
 				return ImportValueStatus.UPDATED;
@@ -703,4 +672,11 @@ public class IndicatorDAOImpl implements IndicatorDAO {
 
 	}
 
+	@Override
+	public List<String> listCountryCodesForDataSerie(final String indicatorTypeCode, final String sourceCode) {
+		final TypedQuery<String> query = this.em.createQuery("SELECT DISTINCT i.entity.code FROM Indicator i WHERE i.type.code = :indicatorTypeCode AND i.source.code = :sourceCode", String.class);
+		query.setParameter("indicatorTypeCode", indicatorTypeCode);
+		query.setParameter("sourceCode", sourceCode);
+		return query.getResultList();
+	}
 }

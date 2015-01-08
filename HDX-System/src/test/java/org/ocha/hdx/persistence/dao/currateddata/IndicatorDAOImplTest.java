@@ -267,4 +267,14 @@ public class IndicatorDAOImplTest {
 		integrationTestSetUpAndTearDown.tearDownDataForCountryOverview();
 	}
 
+	@Test
+	public void testListCountryCodesForDataSerie() {
+		integrationTestSetUpAndTearDown.setUpDataForCountryOverview();
+
+		final List<String> countries = indicatorDAO.listCountryCodesForDataSerie("CD010", "WB");
+		Assert.assertEquals(1, countries.size());
+
+		integrationTestSetUpAndTearDown.tearDownDataForCountryOverview();
+	}
+
 }
