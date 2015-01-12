@@ -54,7 +54,7 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		for (final DataSerieToCuratedDataset dataSerieToCuratedDataset : datasetsWithUnsyncedMetadata) {
 			final HdxPackageUpdateMetadataDTO dto = convertDataSerieToCuratedDataset(dataSerieToCuratedDataset);
 
-			final String query = GSONBuilderWrapper.getGSON().toJson(dto);
+			final String query = GSONBuilderWrapper.getGSONIgnoreNulls().toJson(dto);
 			ckanUpdaterLogger.debug(String.format("about to send message for the dataSerie : %s", dto.getId()));
 			ckanUpdaterLogger.debug(query);
 			String response;
@@ -100,10 +100,12 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		}
 
 		final Map<String, Timestamp> minMaxDatesForDataSeries = curatedDataService.getMinMaxDatesForDataSeries(new DataSerie(indType.getCode(), source.getCode()));
-		final DateTimeFormatter customFormatter = DateTimeFormat.forPattern("MM/dd/YYYY");
-		final String minDate = customFormatter.print(minMaxDatesForDataSeries.get("MIN").getTime());
-		final String maxDate = customFormatter.print(minMaxDatesForDataSeries.get("MAX").getTime());
-		dto.setDataset_date(String.format("%s-%s", minDate, maxDate));
+		if (minMaxDatesForDataSeries != null && minMaxDatesForDataSeries.get("MIN") != null) {
+			final DateTimeFormatter customFormatter = DateTimeFormat.forPattern("MM/dd/YYYY");
+			final String minDate = customFormatter.print(minMaxDatesForDataSeries.get("MIN").getTime());
+			final String maxDate = customFormatter.print(minMaxDatesForDataSeries.get("MAX").getTime());
+			dto.setDataset_date(String.format("%s-%s", minDate, maxDate));
+		}
 
 		dto.setDataset_source(source.getName().getDefaultValue());
 		dto.setDataset_source_code(source.getCode());
@@ -123,7 +125,7 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		final List<String> listCountryCodesForDataSerie = curatedDataService.listCountryCodesForDataSerie(indType.getCode(), source.getCode());
 
 		for (final String countryCode : listCountryCodesForDataSerie) {
-			dto.addGroup(countryCode);
+			dto.addGroup(countryCode.toLowerCase());
 		}
 		return dto;
 	}
