@@ -20,9 +20,10 @@ public class DataSerieToCuratedDatasetDAOImpl implements DataSerieToCuratedDatas
 	private EntityManager em;
 
 	@Override
-	public List<DataSerieToCuratedDataset> getDatasetsWithUnsyncedMetadata() {
+	public List<DataSerieToCuratedDataset> getDatasetsWithUnsyncedMetadata(final int limit) {
 		final TypedQuery<DataSerieToCuratedDataset> query = em.createQuery(
 				"SELECT dstcd FROM DataSerieToCuratedDataset dstcd WHERE dstcd.lastMetadataUpdate > dstcd.lastMetadataPush OR dstcd.lastMetadataPush IS NULL", DataSerieToCuratedDataset.class);
+		query.setMaxResults(limit);
 		return query.getResultList();
 	}
 

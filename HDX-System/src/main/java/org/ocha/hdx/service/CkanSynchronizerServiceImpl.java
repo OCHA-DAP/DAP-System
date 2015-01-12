@@ -48,8 +48,8 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 	private CuratedDataService curatedDataService;
 
 	@Override
-	public void updateMetadataToCkan() {
-		final List<DataSerieToCuratedDataset> datasetsWithUnsyncedMetadata = dataSerieToCuratedDatasetDAO.getDatasetsWithUnsyncedMetadata();
+	public void updateMetadataToCkan(final int limit) {
+		final List<DataSerieToCuratedDataset> datasetsWithUnsyncedMetadata = dataSerieToCuratedDatasetDAO.getDatasetsWithUnsyncedMetadata(limit);
 
 		for (final DataSerieToCuratedDataset dataSerieToCuratedDataset : datasetsWithUnsyncedMetadata) {
 			final HdxPackageUpdateMetadataDTO dto = convertDataSerieToCuratedDataset(dataSerieToCuratedDataset);
@@ -77,7 +77,8 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 	@Override
 	public List<HdxPackageUpdateMetadataDTO> getDatasetsWithUnsyncedMetadata() {
 		final List<HdxPackageUpdateMetadataDTO> result = new ArrayList<HdxPackageUpdateMetadataDTO>();
-		for (final DataSerieToCuratedDataset dataSerieToCuratedDataset : dataSerieToCuratedDatasetDAO.getDatasetsWithUnsyncedMetadata()) {
+		// putting a high limit to get all of them
+		for (final DataSerieToCuratedDataset dataSerieToCuratedDataset : dataSerieToCuratedDatasetDAO.getDatasetsWithUnsyncedMetadata(1000)) {
 			final HdxPackageUpdateMetadataDTO dto = convertDataSerieToCuratedDataset(dataSerieToCuratedDataset);
 			result.add(dto);
 		}

@@ -6,7 +6,7 @@ import org.ocha.hdx.dto.apiv3.HdxPackageUpdateMetadataDTO;
 
 public interface CkanSynchronizerService {
 
-	public void updateMetadataToCkan();
+	public void updateMetadataToCkan(final int limit);
 
 	public List<HdxPackageUpdateMetadataDTO> getDatasetsWithUnsyncedMetadata();
 

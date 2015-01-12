@@ -18,7 +18,7 @@ public class MetadataUpdater implements Runnable {
 	public void run() {
 		try {
 			log.debug("Starting MetadataUpdater.run");
-			ckanSynchronizerServiceImpl.updateMetadataToCkan();
+			ckanSynchronizerServiceImpl.updateMetadataToCkan(10);
 			log.debug("After MetadataUpdater.run");
 
 		} catch (final Throwable e) {

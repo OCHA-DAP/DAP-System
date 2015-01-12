@@ -14,7 +14,7 @@ public interface DataSerieToCuratedDatasetDAO {
 	 * 
 	 * @return the datasets where lastMetadataUpdate > lastMetadataPush
 	 */
-	public List<DataSerieToCuratedDataset> getDatasetsWithUnsyncedMetadata();
+	public List<DataSerieToCuratedDataset> getDatasetsWithUnsyncedMetadata(final int limit);
 
 	public DataSerieToCuratedDataset getDataSerieToCuratedDataset(final DataSerie dataSerie);
 
