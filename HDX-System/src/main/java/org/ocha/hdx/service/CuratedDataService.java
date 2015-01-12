@@ -271,4 +271,13 @@ public interface CuratedDataService {
 	// Indicator overview
 	public Object[] getIndicatorTypeOverview(String indicatorTypeCode, String sourceCode, String language);
 
+	/**
+	 * list all the countries for which there is data for the given Dataserie
+	 * 
+	 * @param indicatorTypeCode
+	 * @param sourceCode
+	 * @return
+	 */
+	public List<String> listCountryCodesForDataSerie(String indicatorTypeCode, String sourceCode);
+
 }

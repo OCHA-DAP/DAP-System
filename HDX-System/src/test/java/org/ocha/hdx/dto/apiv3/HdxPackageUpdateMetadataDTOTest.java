@@ -33,7 +33,9 @@ public class HdxPackageUpdateMetadataDTOTest {
 		dto.setTerms_of_use("terms of use");
 		dto.setValidation_notes_and_comments("Notes and comments");
 
-		final Gson gson = GSONBuilderWrapper.getGSON();
+		dto.addGroup("USA");
+
+		final Gson gson = GSONBuilderWrapper.getGSONIgnoreNulls();
 		final String json = gson.toJson(dto);
 
 		final File jsonExpectedResult = new ClassPathResource("samples/json/packageupdate.json").getFile();

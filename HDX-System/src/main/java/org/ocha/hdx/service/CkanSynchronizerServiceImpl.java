@@ -119,6 +119,11 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		dto.setTerms_of_use(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.TERMS_OF_USE));
 		dto.setValidation_notes_and_comments(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.VALIDATION_NOTES));
 
+		final List<String> listCountryCodesForDataSerie = curatedDataService.listCountryCodesForDataSerie(indType.getCode(), source.getCode());
+
+		for (final String countryCode : listCountryCodesForDataSerie) {
+			dto.addGroup(countryCode);
+		}
 		return dto;
 	}
 

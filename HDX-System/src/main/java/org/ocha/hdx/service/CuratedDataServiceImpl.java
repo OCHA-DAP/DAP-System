@@ -114,7 +114,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	private ResourceConfigurationDAO resourceConfigurationDAO;
 
 	@Autowired
-	DataSerieToCuratedDatasetDAO dataSerieToCuratedDatasetDAO;
+	private DataSerieToCuratedDatasetDAO dataSerieToCuratedDatasetDAO;
 
 	/*
 	 * Entity types
@@ -887,6 +887,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	public void updateValidationNotesForIndicatorTypeAndSource(final String validationNotes, final String indicatorTypeCode, final String sourceCode) {
 		this.updateMetadataForIndicatorTypeAndSource(MetadataName.VALIDATION_NOTES, validationNotes, "default", indicatorTypeCode, sourceCode);
+	}
+
+	@Override
+	public List<String> listCountryCodesForDataSerie(final String indicatorTypeCode, final String sourceCode) {
+		return indicatorDAO.listCountryCodesForDataSerie(indicatorTypeCode, sourceCode);
 	}
 
 }

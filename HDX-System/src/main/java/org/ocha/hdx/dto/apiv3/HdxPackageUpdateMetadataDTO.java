@@ -1,6 +1,14 @@
 package org.ocha.hdx.dto.apiv3;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HdxPackageUpdateMetadataDTO {
+
+	public HdxPackageUpdateMetadataDTO() {
+		super();
+		groups.add(new GroupV3DTO("world"));
+	}
 
 	// The uuid of the ckan dataset we want to update
 	private String id;
@@ -34,6 +42,8 @@ public class HdxPackageUpdateMetadataDTO {
 	private String more_info;
 	private String terms_of_use;
 	private String validation_notes_and_comments;
+
+	private List<GroupV3DTO> groups = new ArrayList<GroupV3DTO>();
 
 	public String getId() {
 		return id;
@@ -147,4 +157,16 @@ public class HdxPackageUpdateMetadataDTO {
 		this.validation_notes_and_comments = validation_notes_and_comments;
 	}
 
+	public List<GroupV3DTO> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(final List<GroupV3DTO> groups) {
+		this.groups = groups;
+	}
+
+	public void addGroup(final String countryCode) {
+
+		groups.add(new GroupV3DTO(countryCode));
+	}
 }
