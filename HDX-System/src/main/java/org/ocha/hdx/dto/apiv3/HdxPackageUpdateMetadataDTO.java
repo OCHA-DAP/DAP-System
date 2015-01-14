@@ -22,11 +22,13 @@ public class HdxPackageUpdateMetadataDTO {
 	// When the METADATA was updated the last time
 	private String last_metadata_update_date;
 
-	// sourceName
+	// Organization name
 	private String dataset_source;
 
+	private String dataset_source_short_name;
+
 	// sourceCode
-	private String dataset_source_code;
+	private String source_code;
 
 	// indicator type name
 	private String indicator_type;
@@ -37,7 +39,7 @@ public class HdxPackageUpdateMetadataDTO {
 	// range of the data, format : 11/02/2014-11/20/2014
 	private String dataset_date;
 
-	private String dataset_summary;
+	private String description;
 	private String methodology;
 	private String more_info;
 	private String terms_of_use;
@@ -85,12 +87,20 @@ public class HdxPackageUpdateMetadataDTO {
 		this.dataset_source = dataset_source;
 	}
 
-	public String getDataset_source_code() {
-		return dataset_source_code;
+	public String getDataset_source_short_name() {
+		return dataset_source_short_name;
 	}
 
-	public void setDataset_source_code(final String dataset_source_code) {
-		this.dataset_source_code = dataset_source_code;
+	public void setDataset_source_short_name(final String dataset_source_short_name) {
+		this.dataset_source_short_name = dataset_source_short_name;
+	}
+
+	public String getSource_code() {
+		return source_code;
+	}
+
+	public void setSource_code(final String source_code) {
+		this.source_code = source_code;
 	}
 
 	public String getIndicator_type() {
@@ -117,12 +127,12 @@ public class HdxPackageUpdateMetadataDTO {
 		this.dataset_date = dataset_date;
 	}
 
-	public String getDataset_summary() {
-		return dataset_summary;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDataset_summary(final String dataset_summary) {
-		this.dataset_summary = dataset_summary;
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 	public String getMethodology() {

@@ -107,9 +107,10 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 			dto.setDataset_date(String.format("%s-%s", minDate, maxDate));
 		}
 
-		dto.setDataset_source(source.getName().getDefaultValue());
-		dto.setDataset_source_code(source.getCode());
-		dto.setDataset_summary(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.DATASET_SUMMARY).getEntryValue()
+		dto.setDataset_source(source.getOrganization().getFullName().getDefaultValue());
+		dto.setDataset_source_short_name(source.getOrganization().getShortName().getDefaultValue());
+		dto.setSource_code(source.getCode());
+		dto.setDescription(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.DATASET_SUMMARY).getEntryValue()
 				.getDefaultValue());
 		dto.setIndicator_type(indType.getName().getDefaultValue());
 		dto.setIndicator_type_code(indType.getCode());
@@ -120,7 +121,8 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		dto.setMethodology(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.METHODOLOGY));
 		dto.setMore_info(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.MORE_INFO));
 		dto.setTerms_of_use(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.TERMS_OF_USE));
-		dto.setValidation_notes_and_comments(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.VALIDATION_NOTES));
+		// this is not send to ckan anymore
+		// dto.setValidation_notes_and_comments(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.VALIDATION_NOTES));
 
 		final List<String> listCountryCodesForDataSerie = curatedDataService.listCountryCodesForDataSerie(indType.getCode(), source.getCode());
 
