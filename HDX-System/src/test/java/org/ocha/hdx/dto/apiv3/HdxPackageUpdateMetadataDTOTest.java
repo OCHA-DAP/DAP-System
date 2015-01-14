@@ -21,9 +21,10 @@ public class HdxPackageUpdateMetadataDTOTest {
 		dto.setId("The uuid of the ckan dataset");
 		dto.setName("The name of the ckan dataset");
 		dto.setDataset_date("11/02/2014-11/20/2014");
-		dto.setDataset_source("The dataset source");
-		dto.setDataset_source_code("WFP");
-		dto.setDataset_summary("the summary");
+		dto.setDataset_source("The organization name");
+		dto.setDataset_source_short_name("The organization short name");
+		dto.setDescription("the dataset summary");
+		dto.setSource_code("WFP");
 		dto.setIndicator_type("the name of the indicator type");
 		dto.setIndicator_type_code("PVX040");
 		dto.setLast_data_update_date("2001-09-09T03:46:40.000000");
