@@ -135,7 +135,9 @@ public class IndicatorValue {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -150,7 +152,9 @@ public class IndicatorValue {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -202,6 +206,5 @@ public class IndicatorValue {
 		}
 		return true;
 	}
-
 
 }

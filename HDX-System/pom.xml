@@ -3,14 +3,14 @@
   <groupId>org.ocha</groupId>
   <artifactId>hdx</artifactId>
   <packaging>war</packaging>
-  <version>0.5.9</version>
+  <version>0.6.0</version>
   <name>OCHA HDX webapp</name>
 
 
   <properties>
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-    <hdx.official.version>v0.5.9Beta (Simpson's Paradox) - ${project.version} </hdx.official.version>
+    <hdx.official.version> ${project.version} </hdx.official.version>
     <hdx.build.date>Build date : ${timestamp} </hdx.build.date>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
@@ -23,6 +23,10 @@
     <jstl.impl.version>1.2</jstl.impl.version>
     <jersey.version>2.11</jersey.version>
     <aspectj.version>1.7.3</aspectj.version>
+    
+    <apache.http.version>4.3.6</apache.http.version>
+    <apache.http.core.version>4.3.3</apache.http.core.version>
+    
     <!-- This value is ok for prod, can be overriden for other environments in profiles -->
     <HDX_FOLDER>${env.HDX_FOLDER}</HDX_FOLDER>
     <schema.file>2_schema.ddl</schema.file>
@@ -213,7 +217,7 @@
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
-      <version>2.2.4</version>
+      <version>2.3.1</version>
     </dependency>
 
     <dependency>
@@ -225,7 +229,7 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.3</version>
+      <version>${apache.http.version}</version>
       <exclusions>
         <exclusion>
           <!-- Already included in poi-ooxml (see below) -->
@@ -238,12 +242,12 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpcore</artifactId>
-      <version>4.3</version>
+      <version>${apache.http.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
-      <version>4.3</version>
+      <version>${apache.http.version}</version>
     </dependency>
 
     <dependency>

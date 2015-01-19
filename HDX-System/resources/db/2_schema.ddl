@@ -26,6 +26,12 @@
     alter table hdx_dataserie_metadata 
         drop constraint fk__dataserie_metadata_to_name_text;
 
+    alter table hdx_dataserie_to_curated_dataset 
+        drop constraint fk__dataserie_to_curated_data_to_source;
+
+    alter table hdx_dataserie_to_curated_dataset 
+        drop constraint fk__dataserie_to_curated_data_to_indicator_type;
+
     alter table hdx_indicator 
         drop constraint fk_indicator_to_source;
 
@@ -108,6 +114,8 @@
 
     drop table hdx_dataserie_metadata;
 
+    drop table hdx_dataserie_to_curated_dataset;
+
     drop table hdx_indicator;
 
     drop table hdx_translation;
@@ -145,6 +153,8 @@
     drop sequence entity_type_seq;
 
     drop sequence hdx_dataserie_metadata_seq;
+
+    drop sequence hdx_dataserie_to_curated_dataset_seq;
 
     drop sequence hdx_unit_seq;
 
@@ -233,6 +243,20 @@
         unique (source_id, indicator_type_id, entry_key)
     );
 
+    create table hdx_dataserie_to_curated_dataset (
+        id int8 not null,
+        ckan_dataset_id varchar(255),
+        ckan_dataset_name varchar(255),
+        last_data_push timestamp,
+        last_data_update timestamp,
+        last_metadata_push timestamp,
+        last_metadata_update timestamp,
+        indicator_type_id int8 not null,
+        source_id int8 not null,
+        primary key (id),
+        unique (source_id, indicator_type_id)
+    );
+
     create table hdx_indicator (
         id int8 not null,
         end_time timestamp,
@@ -280,57 +304,6 @@
         password varchar(255),
         role varchar(255),
         primary key (id)
-    );
-
-    create table hdx_view_indicator_max_date (
-        id int8 not null,
-        indicator_type_code varchar(255),
-        indicator_type_name varchar(255),
-        location_code varchar(255),
-        location_name varchar(255),
-        source_code varchar(255),
-        source_name varchar(255),
-        start_time varchar(255),
-        value float8,
-        primary key (id)
-    );
-
-    create table hdx_view_indicator_type_count (
-        id int8 not null,
-        code varchar(255) not null unique,
-        count int4 not null,
-        primary key (id)
-    );
-
-    create table hdx_view_report_indicator_data (
-        indicator_id int8 not null,
-        country_code varchar(255),
-        country_default_value varchar(255),
-        indicator_type_code varchar(255),
-        indicator_value float8,
-        indicator_year int8,
-        source_code varchar(255),
-        source_default_value varchar(255),
-        primary key (indicator_id)
-    );
-
-    create table hdx_view_report_indicator_type_overview (
-        indicator_type_code varchar(255) not null,
-        source_code varchar(255) not null,
-        data_summary_default_value varchar(255),
-        data_summary_id int8,
-        indicator_type_default_value varchar(255),
-        indicator_type_id int8,
-        methodology_default_value varchar(255),
-        methodology_id int8,
-        more_info_default_value varchar(255),
-        more_info_id int8,
-        source_default_value varchar(255),
-        terms_of_use_default_value varchar(255),
-        terms_of_use_id int8,
-        unit_code varchar(255),
-        unit_default_value varchar(255),
-        primary key (indicator_type_code, source_code)
     );
 
     create table import_from_ckan (
@@ -472,6 +445,16 @@
         foreign key (entry_value_text_id) 
         references text;
 
+    alter table hdx_dataserie_to_curated_dataset 
+        add constraint fk__dataserie_to_curated_data_to_source 
+        foreign key (source_id) 
+        references source;
+
+    alter table hdx_dataserie_to_curated_dataset 
+        add constraint fk__dataserie_to_curated_data_to_indicator_type 
+        foreign key (indicator_type_id) 
+        references indicator_type;
+
     alter table hdx_indicator 
         add constraint fk_indicator_to_source 
         foreign key (source_id) 
@@ -603,6 +586,8 @@
     create sequence entity_type_seq;
 
     create sequence hdx_dataserie_metadata_seq;
+
+    create sequence hdx_dataserie_to_curated_dataset_seq;
 
     create sequence hdx_unit_seq;
 

@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 
-//FIXME see how we plan to use this
 /**
  * @author dan
  * 

@@ -19,6 +19,7 @@ import org.ocha.hdx.model.DataSerie;
 import org.ocha.hdx.model.api.CellDescriptor;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
+import org.ocha.hdx.persistence.dao.ckan.DataSerieToCuratedDatasetDAO;
 import org.ocha.hdx.persistence.dao.config.ResourceConfigurationDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
@@ -111,6 +112,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Autowired
 	private ResourceConfigurationDAO resourceConfigurationDAO;
+
+	@Autowired
+	private DataSerieToCuratedDatasetDAO dataSerieToCuratedDatasetDAO;
 
 	/*
 	 * Entity types
@@ -434,8 +438,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Transactional
 	public void createIndicator(final Indicator indicator, final ImportFromCKAN importFromCKAN) {
 
-		this.indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(), indicator.getValue(),
-				indicator.getIndicatorImportConfig(), indicator.getSourceLink(), importFromCKAN);
+		this.indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(),
+				indicator.getValue(), indicator.getIndicatorImportConfig(), indicator.getSourceLink(), importFromCKAN);
 
 	}
 
@@ -606,7 +610,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	/*
 	 * @Override public List<Indicator> listIndicatorsForCountryOverview(final String countryCode, final String languageCode) { final List<Indicator> result =
 	 * indicatorDAO.listIndicatorsForCountryOverview(countryCode, languageCode);
-	 *
+	 * 
 	 * return result; }
 	 */
 
@@ -852,11 +856,28 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 				}
 			}
 		}
+
+		// we don't send anything to ckan if this is for a specific language, at least for now
+		// this might trigger some unnecessary calls, but we might add extras to ckan, and this is convenient to maintain as is
+		if ("default".equals(languageCode)) {
+			updateMetadataTimestamp(new DataSerie(indicatorTypeCode, sourceCode), new Date());
+		}
 	}
 
 	@Override
 	public void deleteMetadata(final Long id) {
 		this.dataSerieMetadataDAO.deleteDataSerieMetadata(id);
+	}
+
+	@Override
+	public void updateMetadataTimestamp(final DataSerie dataSerie, final Date newTimestamp) {
+		final boolean success = dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie, newTimestamp);
+		if (!success) {
+			final Source source = sourceDAO.getSourceByCode(dataSerie.getSourceCode());
+			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(dataSerie.getIndicatorCode());
+			dataSerieToCuratedDatasetDAO.createDataSerieToCuratedDataset(source, indicatorType);
+			dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie, newTimestamp);
+		}
 	}
 
 	/*
@@ -866,6 +887,11 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	public void updateValidationNotesForIndicatorTypeAndSource(final String validationNotes, final String indicatorTypeCode, final String sourceCode) {
 		this.updateMetadataForIndicatorTypeAndSource(MetadataName.VALIDATION_NOTES, validationNotes, "default", indicatorTypeCode, sourceCode);
+	}
+
+	@Override
+	public List<String> listCountryCodesForDataSerie(final String indicatorTypeCode, final String sourceCode) {
+		return indicatorDAO.listCountryCodesForDataSerie(indicatorTypeCode, sourceCode);
 	}
 
 }

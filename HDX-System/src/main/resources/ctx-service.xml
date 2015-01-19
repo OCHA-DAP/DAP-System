@@ -77,6 +77,11 @@
   
   <bean id="intermediaryBackendServiceImpl" class="org.ocha.hdx.service.IntermediaryBackendServiceImpl" />
 
+  <bean id="ckanSynchronizerService" class="org.ocha.hdx.service.CkanSynchronizerServiceImpl">
+    <constructor-arg name="host" value="${ckan.host}" />
+    <constructor-arg name="technicalAPIKey" value="${ckan.technical.api.key}" />
+  </bean>
+
   <!-- Helpers -->
   <bean id="readmeHelper" class="org.ocha.hdx.exporter.helper.ReadmeHelperImpl" />
 

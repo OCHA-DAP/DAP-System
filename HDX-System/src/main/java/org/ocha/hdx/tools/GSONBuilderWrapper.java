@@ -12,4 +12,11 @@ public class GSONBuilderWrapper {
 		return gsonBuilder.create();
 	}
 
+	public static Gson getGSONIgnoreNulls() {
+		final GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSSSSS");
+		gsonBuilder.enableComplexMapKeySerialization();
+		return gsonBuilder.create();
+	}
+
 }

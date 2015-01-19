@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author alexandru-m-g
- *
+ * 
  */
 @Component
 public class MinMaxValidatorCreator implements IValidatorCreator {
@@ -51,33 +51,30 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 		private final AbstractConfigEntry minValueEntry;
 		private final AbstractConfigEntry maxValueEntry;
 
-		boolean minValIsUsable=false;
-		boolean maxValIsUsable=false;
+		boolean minValIsUsable = false;
+		boolean maxValIsUsable = false;
 
 		private IComparableHelper<Double> numericHelper;
 		private IComparableHelper<ReadablePartial> dateHelper;
 		private IComparableHelper<ReadablePartial> datetimeHelper;
-
 
 		public MinMaxValidator(final Map<String, AbstractConfigEntry> generalConfig, final Map<String, AbstractConfigEntry> indConfig) {
 
 			this.minValueEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.MIN_VALUE.getLabel());
 			this.maxValueEntry = indConfig.get(ConfigurationConstants.IndicatorConfiguration.MAX_VALUE.getLabel());
 
-			if ( this.minValueEntry != null && this.minValueEntry.getEntryValue() != null
-					&& !this.minValueEntry.getEntryValue().trim().isEmpty() ) {
-				this.minValIsUsable	= true;
+			if (this.minValueEntry != null && this.minValueEntry.getEntryValue() != null && !this.minValueEntry.getEntryValue().trim().isEmpty()) {
+				this.minValIsUsable = true;
 			}
 
-			if ( this.maxValueEntry != null && this.maxValueEntry.getEntryValue() != null
-					&& !this.maxValueEntry.getEntryValue().trim().isEmpty() ) {
-				this.maxValIsUsable	= true;
+			if (this.maxValueEntry != null && this.maxValueEntry.getEntryValue() != null && !this.maxValueEntry.getEntryValue().trim().isEmpty()) {
+				this.maxValIsUsable = true;
 			}
 
-			this.numericHelper	= new IComparableHelper<Double>() {
+			this.numericHelper = new IComparableHelper<Double>() {
 				@Override
 				public Comparable<Double> transform(final String string) {
-					try{
+					try {
 						return Double.parseDouble(string);
 					} catch (final NumberFormatException e) {
 						throw new WrongParametersForValidationException(e);
@@ -90,47 +87,43 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 				}
 			};
 
-			this.dateHelper	= new IComparableHelper<ReadablePartial>() {
+			this.dateHelper = new IComparableHelper<ReadablePartial>() {
 
 				@Override
 				public Comparable<ReadablePartial> transform(final String string) {
-					try{
+					try {
 						return LocalDate.parse(string, DATE_FORMATTER);
-					}
-					catch(final IllegalArgumentException e) {
+					} catch (final IllegalArgumentException e) {
 						throw new WrongParametersForValidationException(e);
 					}
 				}
 
 				@Override
 				public Comparable<ReadablePartial> getValueFromIndicator(final Indicator indicator) {
-					try{
+					try {
 						return new LocalDate(indicator.getValue().getDateValue());
-					}
-					catch( final IllegalArgumentException e) {
+					} catch (final IllegalArgumentException e) {
 						throw new WrongParametersForValidationException(e);
 					}
 				}
 			};
 
-			this.datetimeHelper	= new IComparableHelper<ReadablePartial>() {
+			this.datetimeHelper = new IComparableHelper<ReadablePartial>() {
 
 				@Override
 				public Comparable<ReadablePartial> transform(final String string) {
-					try{
+					try {
 						return LocalDateTime.parse(string, DATE_TIME_FORMATTER);
-					}
-					catch(final IllegalArgumentException e) {
+					} catch (final IllegalArgumentException e) {
 						throw new WrongParametersForValidationException(e);
 					}
 				}
 
 				@Override
 				public Comparable<ReadablePartial> getValueFromIndicator(final Indicator indicator) {
-					try{
-						return new LocalDateTime(indicator.getValue().getDateValue());
-					}
-					catch( final IllegalArgumentException e) {
+					try {
+						return new LocalDateTime(indicator.getValue().getDatetimeValue());
+					} catch (final IllegalArgumentException e) {
 						throw new WrongParametersForValidationException(e);
 					}
 				}
@@ -143,9 +136,9 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 		}
 
 		/**
-		 *
+		 * 
 		 * @see IValidator#validate(Indicator)
-		 *
+		 * 
 		 */
 		@Override
 		public Response validate(final Indicator indicator) throws WrongParametersForValidationException {
@@ -175,34 +168,32 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 		}
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		private void check(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response,
-				final Indicator indicator, final IComparableHelper<? extends Object> comparableHelper)
-				throws WrongParametersForValidationException {
+		private void check(final AbstractConfigEntry minValueEntry, final AbstractConfigEntry maxValueEntry, final Response response, final Indicator indicator,
+				final IComparableHelper<? extends Object> comparableHelper) throws WrongParametersForValidationException {
 
 			/*
-			 * If we don't need to check for one of the boundaries then we assume the test
-			 * passes for that specific boundary
+			 * If we don't need to check for one of the boundaries then we assume the test passes for that specific boundary
 			 */
-			boolean minCheckPass	= !this.minValIsUsable ;
-			boolean maxCheckPass	= !this.maxValIsUsable ;
+			boolean minCheckPass = !this.minValIsUsable;
+			boolean maxCheckPass = !this.maxValIsUsable;
 
 			final Comparable indValue = comparableHelper.getValueFromIndicator(indicator);
-			if ( this.minValIsUsable ) {
+			if (this.minValIsUsable) {
 				final Comparable min = comparableHelper.transform(minValueEntry.getEntryValue());
-				if (min.compareTo(indValue) <= 0 ) {
-					minCheckPass	= true;
+				if (min.compareTo(indValue) <= 0) {
+					minCheckPass = true;
 				}
 			}
 
-			if ( this.maxValIsUsable ) {
+			if (this.maxValIsUsable) {
 				final Comparable max = comparableHelper.transform(maxValueEntry.getEntryValue());
-				if (max.compareTo(indValue) >= 0 ) {
-					maxCheckPass	= true;
+				if (max.compareTo(indValue) >= 0) {
+					maxCheckPass = true;
 				}
 
 			}
 
-			if ( minCheckPass && maxCheckPass ) {
+			if (minCheckPass && maxCheckPass) {
 				this.populateSuccessResponse(response);
 			} else {
 				this.populateErrorResponse(minValueEntry, maxValueEntry, response, indicator);
@@ -229,33 +220,31 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 		@Override
 		public void populateImportConfig(final IndicatorImportConfig importConfig, final Response response) {
 			/* Populate the indicator's importConfig details with validation result */
-			importConfig.setValidationStatus(response.getStatus() );
-			if ( !ValidationStatus.SUCCESS.equals(response.getStatus()) ) {
-				if ( importConfig.getValidationMessage() == null ) {
-					importConfig.setValidationMessage( response.getDescription() );
+			importConfig.setValidationStatus(response.getStatus());
+			if (!ValidationStatus.SUCCESS.equals(response.getStatus())) {
+				if (importConfig.getValidationMessage() == null) {
+					importConfig.setValidationMessage(response.getDescription());
 				} else {
-					importConfig.setValidationMessage( importConfig.getValidationMessage() + " -- "  + response.getDescription());
+					importConfig.setValidationMessage(importConfig.getValidationMessage() + " -- " + response.getDescription());
 				}
 			}
 
-			importConfig.setUpperBoundary( this.discoverNumericConfig(this.maxValueEntry) );
-			importConfig.setLowerBoundary( this.discoverNumericConfig(this.minValueEntry) );
+			importConfig.setUpperBoundary(this.discoverNumericConfig(this.maxValueEntry));
+			importConfig.setLowerBoundary(this.discoverNumericConfig(this.minValueEntry));
 
 		}
+
 		/**
 		 *
 		 */
 		private Double discoverNumericConfig(final AbstractConfigEntry entry) {
 
 			try {
-				if ( entry != null && entry.getEntryValue() != null ) {
+				if (entry != null && entry.getEntryValue() != null) {
 					return Double.parseDouble(entry.getEntryValue());
 				}
 			} catch (final NumberFormatException e) {
-				logger.error(
-						String.format("Couldn't parse double %s value %s",
-								entry.getEntryKey(), entry.getEntryValue())
-					);
+				logger.error(String.format("Couldn't parse double %s value %s", entry.getEntryKey(), entry.getEntryValue()));
 			}
 			return null;
 		}
@@ -269,6 +258,7 @@ public class MinMaxValidatorCreator implements IValidatorCreator {
 
 	private interface IComparableHelper<T extends Object> {
 		Comparable<T> transform(String string);
+
 		Comparable<T> getValueFromIndicator(Indicator indicator);
 	}
 

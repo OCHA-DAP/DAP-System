@@ -17,6 +17,7 @@ public class MyResourceConfig extends ResourceConfig {
 		register(LoginResource.class);
 		register(APIResource.class);
 		register(ApiV2Resource.class);
+		register(PublicDebugResources.class);
 
 		register(XSSFWorkbookWriter.class);
 		register(MultiPartFeature.class);

@@ -17,21 +17,11 @@ import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.ocha.hdx.dto.apiv3.DatasetListV3DTO;
 import org.ocha.hdx.dto.apiv3.DatasetV3DTO;
 import org.ocha.hdx.dto.apiv3.DatasetV3DTO.Resource;
@@ -71,9 +61,9 @@ import au.com.bytecode.opencsv.CSVWriter;
 
 import com.google.gson.JsonObject;
 
-public class HDXServiceImpl implements HDXService {
+public class HDXServiceImpl extends CkanClient implements HDXService {
 
-	private static final Logger log = LoggerFactory.getLogger(HDXServiceImpl.class);
+	static final Logger log = LoggerFactory.getLogger(HDXServiceImpl.class);
 
 	private static String DATASET_LIST_V3_API_PATTERN = "http://%s/api/3/action/package_list";
 	private static String GROUP_LIST_V3_API_PATTERN = "http://%s/api/3/action/group_list";
@@ -88,12 +78,11 @@ public class HDXServiceImpl implements HDXService {
 	private final String urlBaseForGroupContentV3;
 	private final String urlBaseForResourceCreation;
 	private final String urlBaseForResourceShow;
-	private final String technicalAPIKey;
 
 	private final File stagingDirectory;
 
 	public HDXServiceImpl(final String host, final String technicalAPIKey, final File stagingDirectory) {
-		super();
+		super(technicalAPIKey);
 		if (!stagingDirectory.isDirectory()) {
 			throw new IllegalArgumentException("staging  directory doesn't exist: " + stagingDirectory.getAbsolutePath());
 		}
@@ -106,7 +95,7 @@ public class HDXServiceImpl implements HDXService {
 		this.urlBaseForGroupContentV3 = String.format(GROUP_V3_API_PATTERN, host);
 		this.urlBaseForResourceCreation = String.format(RESOURCE_CREATE_V3_API_PATTERN, host);
 		this.urlBaseForResourceShow = String.format(RESOURCE_SHOW_V3_API_PATTERN, host);
-		this.technicalAPIKey = technicalAPIKey;
+
 	}
 
 	@Autowired
@@ -145,12 +134,16 @@ public class HDXServiceImpl implements HDXService {
 		resourceCreateQuery.setPackage_id(packageId);
 		resourceCreateQuery.setUrl(resourceUrl);
 		resourceCreateQuery.setName(name);
-		final String result = this.performHttpPOST(this.urlBaseForResourceCreation, this.technicalAPIKey, GSONBuilderWrapper.getGSON().toJson(resourceCreateQuery));
-
-		final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
-
-		log.debug(res.toString());
-		return res.get("success").getAsBoolean();
+		String result;
+		try {
+			result = this.performHttpPOST(this.urlBaseForResourceCreation, this.technicalAPIKey, GSONBuilderWrapper.getGSON().toJson(resourceCreateQuery));
+			final JsonObject res = GSONBuilderWrapper.getGSON().fromJson(result, JsonObject.class);
+			log.debug(res.toString());
+			return res.get("success").getAsBoolean();
+		} catch (final IOException e) {
+			log.error(e.toString(), e);
+			return false;
+		}
 
 	}
 
@@ -174,8 +167,8 @@ public class HDXServiceImpl implements HDXService {
 
 		final ResourceConfiguration config = this.resourceConfigurationDAO.getResourceConfigurationById(resourceConfigurationId);
 
-		this.resourceDAO.newCKANResourceDetected(resourceId, resourceId, CKANDataset.Type.MANUAL, resourceName, new Date(), CKANDataset.MANUAL_UPLOAD, CKANDataset.MANUAL_UPLOAD, CKANDataset.MANUAL_UPLOAD,
-				new Date(), config);
+		this.resourceDAO.newCKANResourceDetected(resourceId, resourceId, CKANDataset.Type.MANUAL, resourceName, new Date(), CKANDataset.MANUAL_UPLOAD, CKANDataset.MANUAL_UPLOAD,
+				CKANDataset.MANUAL_UPLOAD, new Date(), config);
 
 		this.writeResourceFileFromInputStream(resourceName, resourceName, resourceFile);
 
@@ -209,8 +202,8 @@ public class HDXServiceImpl implements HDXService {
 								this.workflowService.flagCKANResourceAsOutdated(ckanResource.getId().getId(), ckanResource.getId().getRevision_id());
 							}
 
-							this.resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), ckanDataset.getType(), resource.getName(), resource.getRevision_timestamp(), datasetName,
-									dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
+							this.resourceDAO.newCKANResourceDetected(resource.getId(), resource.getRevision_id(), ckanDataset.getType(), resource.getName(), resource.getRevision_timestamp(),
+									datasetName, dataset.getResult().getId(), dataset.getResult().getRevision_id(), dataset.getResult().getRevision_timestamp(), ckanDataset.getConfiguration());
 						}
 					}
 				}
@@ -360,7 +353,7 @@ public class HDXServiceImpl implements HDXService {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return true if the file was successfully downloaded
 	 */
 	private boolean performDownload(final URL url, final File destinationFile) throws IOException {
@@ -419,11 +412,11 @@ public class HDXServiceImpl implements HDXService {
 	}
 
 	/**
-	 *
+	 * 
 	 * The url might change, while ids cannot, so it is best to get the url from the api (just in time), and never store it
-	 *
+	 * 
 	 * Up to now, this requires a very inefficient browsing of the whole tree of datasets and resources
-	 *
+	 * 
 	 * @throws MalformedURLException
 	 * @Deprecated Use {@link #getResourceUrlFromAPIDirectly(String, String)} instead
 	 */
@@ -444,6 +437,7 @@ public class HDXServiceImpl implements HDXService {
 
 	/**
 	 * This uses directly the CKAN API call 'resource_show'
+	 * 
 	 * @param id
 	 * @param revision_id
 	 * @return the url of the resource
@@ -452,7 +446,7 @@ public class HDXServiceImpl implements HDXService {
 	private URL getResourceUrlFromAPIDirectly(final String id, final String revision_id) throws MalformedURLException {
 		final ResourceV3WrapperDTO resourceWrapper = this.getResourceDTOFromQueryV3(id, this.technicalAPIKey);
 		final Resource resource = resourceWrapper.getResult();
-		if ( resource != null && resource.getId().equals(id) && resource.getRevision_id().equals(revision_id) ) {
+		if (resource != null && resource.getId().equals(id) && resource.getRevision_id().equals(revision_id)) {
 			return new URL(resource.getUrl());
 		}
 		return null;
@@ -549,75 +543,9 @@ public class HDXServiceImpl implements HDXService {
 
 	}
 
-	private String performHttpPOST(final String url, final String apiKey, final String query) {
-		log.debug(String.format("About to post on : %s", url));
-		String responseBody = null;
-
-		final HttpPost httpPost = new HttpPost(url);
-		try (CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().build()) {
-
-			final StringEntity se = new StringEntity(query);
-			httpPost.setEntity(se);
-
-			// se.setContentType("text/xml");
-			httpPost.addHeader("Content-Type", "application/json");
-			httpPost.addHeader("accept", "application/json");
-
-			if (apiKey != null) {
-				httpPost.addHeader("X-CKAN-API-Key", apiKey);
-			}
-
-			// log.debug("about to send query: " + query);
-
-			final ResponseHandler<String> responseHandler = new BasicResponseHandler();
-			responseBody = closeableHttpClient.execute(httpPost, responseHandler);
-		} catch (final Exception e) {
-			log.debug(e.toString(), e);
-		}
-		return responseBody;
-	}
-
-	private String performHttpPOSTMultipart(final String url, final String apiKey, final String packageId, final File file) {
-		String responseBody = null;
-		final CloseableHttpClient httpclient = HttpClients.createDefault();
-
-		final HttpPost httpPost = new HttpPost(url);
-		try {
-
-			// se.setContentType("text/xml");
-
-			// This does not work yet. CKAN complains if boundary is not set
-			// but the content-Type should be exactly multipart/form-data !!
-			httpPost.addHeader("Content-Type", "multipart/form-data");
-			// httpPost.addHeader("Content-Type", "multipart/form-data; boundary=nwxUuePw4tNxnJqfcLQem2PLZJFBQS");
-			httpPost.addHeader("accept", "application/json");
-
-			if (apiKey != null) {
-				httpPost.addHeader("X-CKAN-API-Key", apiKey);
-			}
-
-			final FileBody bin = new FileBody(file);
-			final StringBody package_id = new StringBody(packageId, ContentType.TEXT_PLAIN);
-
-			final HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("upload", bin).addPart("package_id", package_id).build();
-			// final HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("package_id", package_id).build();
-
-			httpPost.setEntity(reqEntity);
-
-			System.out.println("executing request " + httpPost.getRequestLine());
-			final CloseableHttpResponse response = httpclient.execute(httpPost);
-			final HttpEntity resEntity = response.getEntity();
-			responseBody = EntityUtils.toString(resEntity);
-		} catch (final Exception e) {
-			e.printStackTrace();
-			log.debug(e.toString(), e);
-		}
-		return responseBody;
-	}
-
 	/**
 	 * In order to evaluate a file, we must know its type (to use the appropriate evaluator The Type is defined on the Dataset level)
-	 *
+	 * 
 	 */
 	private Type getTypeForFile(final String id, final String revision_id) {
 		final CKANResource ckanResource = this.resourceDAO.getCKANResource(id, revision_id);
