@@ -3,7 +3,7 @@
   <groupId>org.ocha</groupId>
   <artifactId>hdx</artifactId>
   <packaging>war</packaging>
-  <version>0.6.3</version>
+  <version>0.6.4</version>
   <name>OCHA HDX webapp</name>
 
 
