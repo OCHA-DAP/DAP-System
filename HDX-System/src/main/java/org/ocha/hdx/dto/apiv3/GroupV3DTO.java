@@ -13,9 +13,9 @@ public class GroupV3DTO {
 
 	private List<DatasetV3DTO> packages;
 
-	public GroupV3DTO(final String id) {
+	public GroupV3DTO(final String name) {
 		super();
-		this.id = id;
+		this.name = name;
 	}
 
 	public GroupV3DTO() {
