@@ -304,6 +304,9 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 			}
 
 		}
+		if ( maxValue != null ) {
+			result.add(maxValue);
+		}
 
 		return result;
 	}
