@@ -193,7 +193,7 @@ app.controller('SourcesCtrl', function($scope, $filter, utilities) {
     }
     var selected = $filter('filter')($scope.organizations, {
       id : source.organization.id
-    });
+    }, true);
     return (selected.length) ? selected[0].fullName : '';
   };
 
