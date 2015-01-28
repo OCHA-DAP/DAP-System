@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-integration-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml",
-		"classpath:/ctx-persistence-test.xml" })
+"classpath:/ctx-persistence-test.xml" })
 public class ApiV2BackendServiceImplTest {
 
 	@Autowired
@@ -44,15 +44,15 @@ public class ApiV2BackendServiceImplTest {
 		final List<String> countries = new ArrayList<>();
 		{
 			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination =
-					this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, null, null, null, null, null, 0, 1000, null);
+					this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, null, null, null, null, null, null, 0, 1000, null);
 			Assert.assertEquals(2, listIndicatorsByCriteriaWithPagination.getTotalCount().intValue());
 		}
 
 		{
 			countries.add("FAKE");
 			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination =
-					this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, countries, null, null, null, null, 0, 1000,
-					null);
+					this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null,null, countries, null, null, null, null, 0, 1000,
+							null);
 			Assert.assertEquals(0, listIndicatorsByCriteriaWithPagination.getTotalCount().intValue());
 			countries.clear();
 		}
@@ -60,8 +60,8 @@ public class ApiV2BackendServiceImplTest {
 		{
 			countries.add("RUS");
 			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination =
-					this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, countries, null, null, null, null, 0, 1000,
-					null);
+					this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(null, null, null, countries, null, null, null, null, 0, 1000,
+							null);
 			Assert.assertEquals(1, listIndicatorsByCriteriaWithPagination.getTotalCount().intValue());
 		}
 

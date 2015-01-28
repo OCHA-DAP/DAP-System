@@ -47,8 +47,10 @@ public class ApiV2Resource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/values")
-	public ApiResultWrapper<ApiIndicatorValue> getIndicatorValues(@QueryParam("l") final List<String> entityCodes, @QueryParam("it") final List<String> indicatorTypeCodes,
-			@QueryParam("s") final List<String> sourceCodes, @QueryParam("minTime") final String minTime, @QueryParam("maxTime") final String maxTime,
+	public ApiResultWrapper<ApiIndicatorValue> getIndicatorValues(@QueryParam("l") final List<String> entityCodes, 
+			@QueryParam("it") final List<String> indicatorTypeCodes, @QueryParam("s") final List<String> sourceCodes, 
+			@QueryParam("ds") final List<String> dataseriesCodes,
+			@QueryParam("minTime") final String minTime, @QueryParam("maxTime") final String maxTime,
 			@QueryParam("periodType") final PeriodType periodType, @QueryParam("sorting") final SortingOption sortingOption,
 			@QueryParam("pageNum") final Integer pageNum, @QueryParam("pageSize") final Integer pageSize, @QueryParam("lang") final String lang) {
 
@@ -60,7 +62,7 @@ public class ApiV2Resource {
 			final Integer endYear = maxTime == null ? null : new Integer(maxTime);
 
 			final ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination = this.apiV2BackendService.listIndicatorsByCriteriaWithPagination(indicatorTypeCodes, sourceCodes,
-					entityCodes, startYear, endYear, periodType, sortingOption, pageNum, pageSize, lang);
+					dataseriesCodes, entityCodes, startYear, endYear, periodType, sortingOption, pageNum, pageSize, lang);
 
 			return listIndicatorsByCriteriaWithPagination;
 		} catch (final Exception e) {
@@ -74,7 +76,9 @@ public class ApiV2Resource {
 	@Path("/available-periods")
 	public ApiResultWrapper<Integer> getAvailablePeriods(@QueryParam("l") final List<String> entityCodes,
 			@QueryParam("it") final List<String> indicatorTypeCodes,
-			@QueryParam("s") final List<String> sourceCodes, @QueryParam("minTime") final String minTime,
+			@QueryParam("s") final List<String> sourceCodes,
+			@QueryParam("ds") final List<String> dataseriesCodes,
+			@QueryParam("minTime") final String minTime,
 			@QueryParam("maxTime") final String maxTime) {
 
 		LOGGER.debug("Entering getIndicatorValues");
@@ -85,7 +89,7 @@ public class ApiV2Resource {
 			final Integer endYear = maxTime == null ? null : new Integer(maxTime);
 
 			final ApiResultWrapper<Integer> periodList = this.apiV2BackendService.listAvailablePeriods(indicatorTypeCodes, sourceCodes,
-					entityCodes, startYear, endYear);
+					dataseriesCodes, entityCodes, startYear, endYear);
 
 			return periodList;
 		} catch (final Exception e) {

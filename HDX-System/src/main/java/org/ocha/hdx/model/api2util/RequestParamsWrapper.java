@@ -30,6 +30,7 @@ public class RequestParamsWrapper {
 
 	private final List<String> indicatorTypeCodes;
 	private final List<String> sourceCodes;
+	private final List<String> dataseriesCodes;
 	private final List<String> entityCodes;
 	private final Integer startYear;
 	private final Integer endYear;
@@ -41,7 +42,8 @@ public class RequestParamsWrapper {
 	private final RequestType requestType;
 
 	public RequestParamsWrapper(final RequestType requestType, final List<String> indicatorTypeCodes, final List<String> sourceCodes,
-			final List<String> entityCodes, final Integer startYear, final Integer endYear,
+			final List<String> dataseriesCodes,	final List<String> entityCodes, 
+			final Integer startYear, final Integer endYear,
 			final PeriodType periodType, final SortingOption sortingOption, final Integer pageNum,
 			final Integer pageSize, final String lang) throws ApiV2ProcessingException {
 		super();
@@ -50,6 +52,9 @@ public class RequestParamsWrapper {
 
 		this.sourceCodes = new ArrayList<String>();
 		this.populateOrderedList(sourceCodes, this.sourceCodes);
+
+		this.dataseriesCodes = new ArrayList<String>();
+		this.populateOrderedList(dataseriesCodes, this.dataseriesCodes);
 
 		this.entityCodes = new ArrayList<String>();
 		this.populateOrderedList(entityCodes, this.entityCodes);
@@ -81,31 +86,38 @@ public class RequestParamsWrapper {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((this.dataseriesCodes == null) ? 0 : this.dataseriesCodes.hashCode());
 		result = prime * result + ((this.endYear == null) ? 0 : this.endYear.hashCode());
-		result = prime * result + ((this.entityCodes == null) ? 0 : this.entityCodes.hashCode());
-		result = prime * result + ((this.indicatorTypeCodes == null) ? 0 : this.indicatorTypeCodes.hashCode());
+		result = prime * result
+				+ ((this.entityCodes == null) ? 0 : this.entityCodes.hashCode());
+		result = prime
+				* result
+				+ ((this.indicatorTypeCodes == null) ? 0 : this.indicatorTypeCodes
+						.hashCode());
 		result = prime * result + ((this.lang == null) ? 0 : this.lang.hashCode());
 		result = prime * result + ((this.pageNum == null) ? 0 : this.pageNum.hashCode());
-		result = prime * result + ((this.pageSize == null) ? 0 : this.pageSize.hashCode());
-		result = prime * result + ((this.periodType == null) ? 0 : this.periodType.hashCode());
-		result = prime * result + ((this.requestType == null) ? 0 : this.requestType.hashCode());
-		result = prime * result + ((this.sortingOption == null) ? 0 : this.sortingOption.hashCode());
-		result = prime * result + ((this.sourceCodes == null) ? 0 : this.sourceCodes.hashCode());
-		result = prime * result + ((this.startYear == null) ? 0 : this.startYear.hashCode());
+		result = prime * result
+				+ ((this.pageSize == null) ? 0 : this.pageSize.hashCode());
+		result = prime * result
+				+ ((this.periodType == null) ? 0 : this.periodType.hashCode());
+		result = prime * result
+				+ ((this.requestType == null) ? 0 : this.requestType.hashCode());
+		result = prime * result
+				+ ((this.sortingOption == null) ? 0 : this.sortingOption.hashCode());
+		result = prime * result
+				+ ((this.sourceCodes == null) ? 0 : this.sourceCodes.hashCode());
+		result = prime * result
+				+ ((this.startYear == null) ? 0 : this.startYear.hashCode());
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
+	@Override 
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -113,10 +125,17 @@ public class RequestParamsWrapper {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof RequestParamsWrapper)) {
+		if (this.getClass() != obj.getClass()) {
 			return false;
 		}
 		final RequestParamsWrapper other = (RequestParamsWrapper) obj;
+		if (this.dataseriesCodes == null) {
+			if (other.dataseriesCodes != null) {
+				return false;
+			}
+		} else if (!this.dataseriesCodes.equals(other.dataseriesCodes)) {
+			return false;
+		}
 		if (this.endYear == null) {
 			if (other.endYear != null) {
 				return false;
@@ -191,6 +210,10 @@ public class RequestParamsWrapper {
 
 	public List<String> getSourceCodes() {
 		return this.sourceCodes;
+	}
+
+	public List<String> getDataseriesCodes() {
+		return this.dataseriesCodes;
 	}
 
 	public List<String> getEntityCodes() {
