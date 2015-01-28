@@ -41,11 +41,15 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 	 * java.lang.Integer, java.lang.String)
 	 */
 	@Override
-	public ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes,
-			final Integer startYear, final Integer endYear, final PeriodType periodType, final SortingOption sortingOption, final Integer pageNum, final Integer pageSize, final String lang) {
+	public ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination(final List<String> indicatorTypeCodes, final List<String> sourceCodes, 
+			final List<String> dataseriesCodes, 
+			final List<String> entityCodes,
+			final Integer startYear, final Integer endYear, final PeriodType periodType, final SortingOption sortingOption, 
+			final Integer pageNum, final Integer pageSize, final String lang) {
 
 		final Long time = System.currentTimeMillis();
-		final ApiResultWrapper<ApiIndicatorValue> result = this.innerListIndicators(RequestType.INDICATOR_LIST, indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear,
+		final ApiResultWrapper<ApiIndicatorValue> result = this.innerListIndicators(RequestType.INDICATOR_LIST, indicatorTypeCodes, sourceCodes, dataseriesCodes,
+				entityCodes, startYear, endYear,
 				periodType, sortingOption, pageNum, pageSize, lang);
 		logger.info( String.format("Query answered in %s ms", System.currentTimeMillis()-time ) );
 		return result;
@@ -65,12 +69,13 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 	 * @return
 	 */
 	private ApiResultWrapper<ApiIndicatorValue> innerListIndicators(final RequestType requestType, final List<String> indicatorTypeCodes, final List<String> sourceCodes,
+			final List<String> dataseriesCodes,
 			final List<String> entityCodes, final Integer startYear,
 			final Integer endYear, final PeriodType periodType, final SortingOption sortingOption,
 			final Integer pageNum, final Integer pageSize, final String lang) {
 		ApiResultWrapper<ApiIndicatorValue> result;
 		try {
-			final RequestParamsWrapper paramsWrapper = new RequestParamsWrapper(requestType, indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear,
+			final RequestParamsWrapper paramsWrapper = new RequestParamsWrapper(requestType, indicatorTypeCodes, sourceCodes, dataseriesCodes, entityCodes, startYear, endYear,
 					periodType, sortingOption, pageNum, pageSize, lang);
 			result = (ApiResultWrapper<ApiIndicatorValue>) this.searchViaCache(paramsWrapper);
 		} catch (final ApiV2ProcessingException e) {
@@ -102,13 +107,14 @@ public class ApiV2BackendServiceImpl implements ApiV2BackendService {
 
 
 	@Override
-	public ApiResultWrapper<Integer> listAvailablePeriods(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> entityCodes,
+	public ApiResultWrapper<Integer> listAvailablePeriods(final List<String> indicatorTypeCodes, final List<String> sourceCodes, final List<String> dataseriesCodes, 
+			final List<String> entityCodes,
 			final Integer startYear, final Integer endYear) {
 
 		ApiResultWrapper<Integer> result;
 		final Long time = System.currentTimeMillis();
 		try {
-			final RequestParamsWrapper paramsWrapper = new RequestParamsWrapper(RequestType.PERIOD_LIST, indicatorTypeCodes, sourceCodes, entityCodes, startYear, endYear,
+			final RequestParamsWrapper paramsWrapper = new RequestParamsWrapper(RequestType.PERIOD_LIST, indicatorTypeCodes, sourceCodes, dataseriesCodes, entityCodes, startYear, endYear,
 					null, null, null, null, null);
 			result = (ApiResultWrapper<Integer>) this.searchViaCache(paramsWrapper);
 		} catch (final ApiV2ProcessingException e) {

@@ -101,24 +101,24 @@ public class IndicatorDaoImplGeneralFilterTest {
 				"http://www.example2.com", importFromCKAN);
 
 		final List<IntermediaryIndicatorValue> indicatorList1 =
-				this.indicatorDAO.listIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), Arrays.asList("Fi"), 2012, 2012, null, 0, 10, "en");
+				this.indicatorDAO.listIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), null, Arrays.asList("Fi"), 2012, 2012, null, 0, 10, "en");
 		assertNotNull(indicatorList1);
 		assertTrue("There should be exactly 1 indicator matching the criteria", indicatorList1.size() == 1);
 
 		final List<IntermediaryIndicatorValue> indicatorList2 =
-				this.indicatorDAO.listIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("fake"), Arrays.asList("Fi"), 2012, 2012, null, 0, 10, "en");
+				this.indicatorDAO.listIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("fake"), null, Arrays.asList("Fi"), 2012, 2012, null, 0, 10, "en");
 		assertTrue("There should be zero indicators matching the criteria", indicatorList2.size() == 0);
 
 		final List<IntermediaryIndicatorValue> indicatorList3 =
-				this.indicatorDAO.listIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), Arrays.asList("Fake"), 2012, 2012, null, 0, 10, "en");
+				this.indicatorDAO.listIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), null, Arrays.asList("Fake"), 2012, 2012, null, 0, 10, "en");
 		assertTrue("There should be zero indicators matching the criteria", indicatorList3.size() == 0);
 
 		final List<IntermediaryIndicatorValue> indicatorList4 =
-				this.indicatorDAO.listIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), Arrays.asList("Fi"), 2013, 2013, null, 0, 10, "en");
+				this.indicatorDAO.listIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), null, Arrays.asList("Fi"), 2013, 2013, null, 0, 10, "en");
 		assertTrue("There should be zero indicators matching the criteria", indicatorList4.size() == 0);
 
 		final List<IntermediaryIndicatorValue> indicatorList5 =
-				this.indicatorDAO.listIndicatorsByCriteria(Arrays.asList("PSP080", "FY620"), Arrays.asList("esa-unpd-WPP2012", "acled"), Arrays.asList("Ro","Fi"), 2012, 2013, null, 0, 10, "en");
+				this.indicatorDAO.listIndicatorsByCriteria(Arrays.asList("PSP080", "FY620"), Arrays.asList("esa-unpd-WPP2012", "acled"), null, Arrays.asList("Ro","Fi"), 2012, 2013, null, 0, 10, "en");
 		assertTrue("There should be exactly 2 indicators matching the criteria", indicatorList5.size() == 2);
 
 		this.indicatorDAO.deleteAllIndicatorsFromImport(importFromCKAN.getId());
@@ -148,24 +148,24 @@ public class IndicatorDaoImplGeneralFilterTest {
 				"http://www.example2.com", importFromCKAN);
 
 		final Long count1 =
-				this.indicatorDAO.countIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), Arrays.asList("Fi"), 2012, 2012);
+				this.indicatorDAO.countIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), null, Arrays.asList("Fi"), 2012, 2012);
 		assertNotNull(count1);
 		assertTrue("There should be exactly 1 indicator matching the criteria", count1 == 1);
 
 		final Long count2 =
-				this.indicatorDAO.countIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("fake"), Arrays.asList("Fi"), 2012, 2012);
+				this.indicatorDAO.countIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("fake"), null, Arrays.asList("Fi"), 2012, 2012);
 		assertTrue("There should be zero indicators matching the criteria", count2 == 0);
 
 		final Long count3 =
-				this.indicatorDAO.countIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), Arrays.asList("Fake"), 2012, 2012);
+				this.indicatorDAO.countIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), null, Arrays.asList("Fake"), 2012, 2012);
 		assertTrue("There should be zero indicators matching the criteria", count3 == 0);
 
 		final Long count4 =
-				this.indicatorDAO.countIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), Arrays.asList("Fi"), 2013, 2013);
+				this.indicatorDAO.countIndicatorsByCriteria(Arrays.asList("PSP080"), Arrays.asList("esa-unpd-WPP2012"), null, Arrays.asList("Fi"), 2013, 2013);
 		assertTrue("There should be zero indicators matching the criteria", count4 == 0);
 
 		final Long count5 =
-				this.indicatorDAO.countIndicatorsByCriteria(Arrays.asList("PSP080", "FY620"), Arrays.asList("esa-unpd-WPP2012", "acled"), Arrays.asList("Ro","Fi"), 2012, 2013);
+				this.indicatorDAO.countIndicatorsByCriteria(Arrays.asList("PSP080", "FY620"), Arrays.asList("esa-unpd-WPP2012", "acled"), null, Arrays.asList("Ro","Fi"), 2012, 2013);
 		assertTrue("There should be exactly 2 indicators matching the criteria", count5 == 2);
 
 		this.indicatorDAO.deleteAllIndicatorsFromImport(importFromCKAN.getId());
