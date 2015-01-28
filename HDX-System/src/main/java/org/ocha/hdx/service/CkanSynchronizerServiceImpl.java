@@ -110,8 +110,7 @@ public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynch
 		dto.setDataset_source(source.getOrganization().getFullName().getDefaultValue());
 		dto.setDataset_source_short_name(source.getOrganization().getShortName().getDefaultValue());
 		dto.setSource_code(source.getCode());
-		dto.setDescription(dataSerieMetadataDAO.getDataSerieMetadataByIndicatorTypeCodeAndSourceCodeAndEntryKey(indType.getCode(), source.getCode(), MetadataName.DATASET_SUMMARY).getEntryValue()
-				.getDefaultValue());
+		dto.setDescription(getMetadataAsString(indType.getCode(), source.getCode(), MetadataName.DATASET_SUMMARY));
 		dto.setIndicator_type(indType.getName().getDefaultValue());
 		dto.setIndicator_type_code(indType.getCode());
 
