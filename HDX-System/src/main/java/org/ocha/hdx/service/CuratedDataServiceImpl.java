@@ -414,6 +414,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		this.indicatorDAO.createIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, ValidationStatus.SUCCESS, sourceLink, importFromCKAN);
 
+		this.updateDataTimestamp(new DataSerie(indicatorTypeCode, sourceCode));
+
 	}
 
 	@Override
@@ -440,6 +442,8 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		this.indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(),
 				indicator.getValue(), indicator.getIndicatorImportConfig(), indicator.getSourceLink(), importFromCKAN);
+
+		this.updateDataTimestamp(new DataSerie(indicator.getType().getCode(), indicator.getSource().getCode()));
 
 	}
 
@@ -860,7 +864,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		// we don't send anything to ckan if this is for a specific language, at least for now
 		// this might trigger some unnecessary calls, but we might add extras to ckan, and this is convenient to maintain as is
 		if ("default".equals(languageCode)) {
-			updateMetadataTimestamp(new DataSerie(indicatorTypeCode, sourceCode), new Date());
+			updateMetadataTimestamp(new DataSerie(indicatorTypeCode, sourceCode));
 		}
 	}
 
@@ -870,13 +874,27 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void updateMetadataTimestamp(final DataSerie dataSerie, final Date newTimestamp) {
-		final boolean success = dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie, newTimestamp);
+	public void updateMetadataTimestamp(final DataSerie dataSerie) {
+		final boolean success = dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie);
 		if (!success) {
 			final Source source = sourceDAO.getSourceByCode(dataSerie.getSourceCode());
 			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(dataSerie.getIndicatorCode());
 			dataSerieToCuratedDatasetDAO.createDataSerieToCuratedDataset(source, indicatorType);
-			dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie, newTimestamp);
+			dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie);
+		}
+	}
+
+	@Override
+	@Transactional()
+	public void updateDataTimestamp(final DataSerie dataSerie) {
+		final boolean success = dataSerieToCuratedDatasetDAO.updateLastDataTimestamp(dataSerie);
+		if (!success) {
+			final Source source = sourceDAO.getSourceByCode(dataSerie.getSourceCode());
+			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(dataSerie.getIndicatorCode());
+			dataSerieToCuratedDatasetDAO.createDataSerieToCuratedDataset(source, indicatorType);
+			dataSerieToCuratedDatasetDAO.updateLastDataTimestamp(dataSerie);
+			// also need to update metadata to update range of values
+			dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie);
 		}
 	}
 

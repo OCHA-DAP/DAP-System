@@ -25,11 +25,9 @@ public interface DataSerieToCuratedDatasetDAO {
 	 * 
 	 * @param dataSerie
 	 *            to find the unique corresponding DataSerieToCuratedDataset
-	 * @param newTimestamp
-	 *            the new lastMetadataUpdate ts
 	 * @return true if the DataSerieToCuratedDataset existed and could be updated
 	 */
-	public boolean updateLastMetadataTimestamp(final DataSerie dataSerie, final Date newTimestamp);
+	public boolean updateLastMetadataTimestamp(final DataSerie dataSerie);
 
 	public void updateLastMetadataPushTimestamp(final long id, final Date timestamp);
 
@@ -38,12 +36,15 @@ public interface DataSerieToCuratedDatasetDAO {
 	 * 
 	 * @param dataSerie
 	 *            to find the unique corresponding DataSerieToCuratedDataset
-	 * @param newTimestamp
-	 *            the new lastDataUpdate ts
 	 * @return true if the DataSerieToCuratedDataset existed and could be updated
 	 */
-	public boolean updateLastDataTimestamp(final DataSerie dataSerie, final Date newTimestamp);
+	public boolean updateLastDataTimestamp(final DataSerie dataSerie);
 
 	public void createDataSerieToCuratedDataset(final Source source, final IndicatorType indicatorType);
+
+	/**
+	 * for unitTestsOnly
+	 */
+	public void deleteAllDataSerieToCuratedDataset();
 
 }

@@ -8,6 +8,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
 import org.ocha.hdx.model.validation.ValidationStatus;
 import org.ocha.hdx.persistence.dao.ImportFromCKANDAO;
+import org.ocha.hdx.persistence.dao.ckan.DataSerieToCuratedDatasetDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityDAO;
 import org.ocha.hdx.persistence.dao.currateddata.EntityTypeDAO;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO;
@@ -53,6 +54,9 @@ public class IntegrationTestSetUpAndTearDown {
 
 	@Autowired
 	private DataSerieMetadataDAO dataSerieMetadataDAO;
+
+	@Autowired
+	private DataSerieToCuratedDatasetDAO dataSerieToCuratedDatasetDAO;
 
 	@Autowired
 	TextDAO textDAO;
@@ -134,6 +138,8 @@ public class IntegrationTestSetUpAndTearDown {
 		entityDAO.deleteEntityByCodeAndType("COL", "country");
 
 		entityTypeDAO.deleteEntityTypeByCode("country");
+
+		dataSerieToCuratedDatasetDAO.deleteAllDataSerieToCuratedDataset();
 
 		indicatorTypeDAO.deleteIndicatorTypeByCode("per-capita-gdp");
 		indicatorTypeDAO.deleteIndicatorTypeByCode("PVX040");
