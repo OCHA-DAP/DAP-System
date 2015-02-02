@@ -22,6 +22,9 @@ public interface ApiV2BackendService {
 	 *            list of indicator type codes by which the results should be filtered
 	 * @param sourceCodes
 	 *            list of source codes by which the results should be filtered
+	 * @param dataseriesCode 
+	 *            list of dataseries codes. A dataseries code is the 
+	 *            indicator type code and the source code concatenated by "___"  
 	 * @param entityCodes
 	 *            list of location codes by which the results should be filtered
 	 * @param startYear
@@ -36,10 +39,10 @@ public interface ApiV2BackendService {
 	 *            the language in which the names should be represented, by default "en"
 	 * @return a list of ApiIndicatorValue wrapped with information about results,pagination,etc
 	 */
-	ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes, Integer startYear, Integer endYear,
+	ApiResultWrapper<ApiIndicatorValue> listIndicatorsByCriteriaWithPagination(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> dataseriesCode, List<String> entityCodes, Integer startYear, Integer endYear,
 			PeriodType periodType, SortingOption sortingOption, Integer pageNum, Integer pageSize, String lang);
 
-	ApiResultWrapper<Integer> listAvailablePeriods(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes, Integer startYear,
+	ApiResultWrapper<Integer> listAvailablePeriods(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> dataseriesCode, List<String> entityCodes, Integer startYear,
 			Integer endYear);
 
 }
