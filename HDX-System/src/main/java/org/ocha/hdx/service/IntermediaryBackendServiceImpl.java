@@ -32,8 +32,8 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 	@Autowired
 	private IndicatorDAO indicatorDAO;
 
-//	@Autowired
-//	private IndicatorMaxDateDAO indicatorMaxDateDAO;
+	//	@Autowired
+	//	private IndicatorMaxDateDAO indicatorMaxDateDAO;
 
 	@Override
 	public ApiResultWrapper<Integer> listAvailablePeriods(final RequestParamsWrapper paramsWrapper) {
@@ -42,6 +42,7 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 		final Integer endYear = yearPair[1];
 
 		final List<Integer> periods = this.indicatorDAO.listAvailablePeriods(paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes(),
+				paramsWrapper.getDataseriesCodes(),
 				paramsWrapper.getEntityCodes(), startYear, endYear);
 
 		ApiResultWrapper<Integer> result;
@@ -80,14 +81,15 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 
 		final String languageCode = paramsWrapper.getLang() != null ? paramsWrapper.getLang() : Constants.DEFAULT_LANGUAGE;
 		final List<IntermediaryIndicatorValue> interimValues = this.indicatorDAO.listIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes(),
+				paramsWrapper.getDataseriesCodes(),
 				paramsWrapper.getEntityCodes(), startYear, endYear, ImmutableList.of(paramsWrapper.getSortingOption()),
 				startPosition, maxResults, languageCode);
 
 		final ApiResultWrapper<ApiIndicatorValue> resultWrapper;
 		if (interimValues != null) {
 			final List<ApiIndicatorValue> values = this.transformAll(interimValues, interimValues.size());
-			final Long totalCount = this.indicatorDAO.countIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes(), paramsWrapper.getEntityCodes(), startYear,
-					endYear);
+			final Long totalCount = this.indicatorDAO.countIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes(), paramsWrapper.getDataseriesCodes(), 
+					paramsWrapper.getEntityCodes(), startYear, endYear);
 			final Long totalPages = totalCount / maxResults + 1;
 			resultWrapper = new ApiResultWrapper<ApiIndicatorValue>(values, totalCount.intValue(), currentPage, totalPages.intValue(), maxResults, true, "None", currentPage < totalPages);
 		} else {
@@ -123,9 +125,10 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 		List<SortingOption> sortingOptions = ImmutableList.of(paramsWrapper.getSortingOption());
 		Integer maxResults = Constants.MAX_RESULTS;
 		if (PeriodType.LATEST_YEAR_BY_COUNTRY.equals(paramsWrapper.getPeriodType()) ) {
-			if	( CollectionUtils.isEmpty(paramsWrapper.getIndicatorTypeCodes())
-					|| CollectionUtils.isEmpty(paramsWrapper.getSourceCodes()) ) {
-				throw new ApiV2ProcessingException("Period type 'LATEST_YEAR_BY_COUNTRY' needs to be specified together with indicatory type and source");
+			if	( (CollectionUtils.isEmpty(paramsWrapper.getIndicatorTypeCodes())
+					|| CollectionUtils.isEmpty(paramsWrapper.getSourceCodes()) )
+					&& CollectionUtils.isEmpty(paramsWrapper.getDataseriesCodes())) {
+				throw new ApiV2ProcessingException("Period type 'LATEST_YEAR_BY_COUNTRY' needs to be specified together with dataseries or with indicatory type and source");
 			}
 			else {
 				sortingOptions = ImmutableList.of(SortingOption.INDICATOR_TYPE_ASC, SortingOption.SOURCE_TYPE_ASC, SortingOption.COUNTRY_ASC);
@@ -140,6 +143,7 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 
 		final String languageCode = paramsWrapper.getLang() != null ? paramsWrapper.getLang() : Constants.DEFAULT_LANGUAGE;
 		final List<IntermediaryIndicatorValue> interimValues = this.indicatorDAO.listIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes(),
+				paramsWrapper.getDataseriesCodes(),
 				paramsWrapper.getEntityCodes(), startYear, endYear, sortingOptions, 0, maxResults + 1, languageCode);
 
 		final ApiResultWrapper<ApiIndicatorValue> resultWrapper;
@@ -154,7 +158,7 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 			List<ApiIndicatorValue> values;
 			if (PeriodType.LATEST_YEAR_BY_COUNTRY.equals(paramsWrapper.getPeriodType()) ) {
 				final List<IntermediaryIndicatorValue> filteredInterimValues =
-					this.keepOnlyMaxValues(interimValues, this.getComparator(SortingOption.START_DATE_ASC),limit );
+						this.keepOnlyMaxValues(interimValues, this.getComparator(SortingOption.START_DATE_ASC),limit );
 
 				Collections.sort( filteredInterimValues, this.getComparator(paramsWrapper.getSortingOption()) );
 				values = this.transformAll(filteredInterimValues, filteredInterimValues.size());
@@ -175,90 +179,90 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 	private Comparator<IntermediaryIndicatorValue> getComparator(final SortingOption sortingOption) {
 		Comparator<IntermediaryIndicatorValue> c = null;
 		switch (sortingOption) {
-			case COUNTRY_ASC:
-				c = new Comparator<IntermediaryIndicatorValue>() {
-					@Override
-					public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
-						return o1.getLocationName().compareTo(o2.getLocationName());
-					}
-				};
-				break;
-			case COUNTRY_DESC:
-				c = new Comparator<IntermediaryIndicatorValue>() {
-					@Override
-					public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
-						return o2.getLocationName().compareTo(o1.getLocationName());
-					}
-				};
-				break;
-			case INDICATOR_TYPE_ASC:
-				c = new Comparator<IntermediaryIndicatorValue>() {
-					@Override
-					public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
-						return o1.getIndicatorTypeName().compareTo(o2.getIndicatorTypeName());
-					}
-				};
-				break;
-			case INDICATOR_TYPE_DESC:
-				c = new Comparator<IntermediaryIndicatorValue>() {
-					@Override
-					public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
-						return o2.getIndicatorTypeName().compareTo(o1.getIndicatorTypeName());
-					}
-				};
-				break;
-			case SOURCE_TYPE_ASC:
-				c = new Comparator<IntermediaryIndicatorValue>() {
-					@Override
-					public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
-						return o1.getSourceName().compareTo(o2.getSourceName());
-					}
-				};
-				break;
-			case SOURCE_TYPE_DESC:
-				c = new Comparator<IntermediaryIndicatorValue>() {
-					@Override
-					public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
-						return o2.getSourceName().compareTo(o1.getSourceName());
-					}
-				};
-				break;
-			case VALUE_ASC:
-				c = new Comparator<IntermediaryIndicatorValue>() {
-					@Override
-					public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
-						final Double d1 = o1.getValue();
-						final Double d2 = o2.getValue();
-						return d1.compareTo(d2);
-					}
-				};
-				break;
-			case VALUE_DESC:
-				c = new Comparator<IntermediaryIndicatorValue>() {
-					@Override
-					public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
-						final Double d1 = o1.getValue();
-						final Double d2 = o2.getValue();
-						return d2.compareTo(d1);
-					}
-				};
-				break;
-			case START_DATE_ASC:
-				c = new Comparator<IntermediaryIndicatorValue>() {
-					@Override
-					public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
-						return o1.getStartDate().compareTo(o2.getStartDate());
-					}
-				};
-				break;
-			case START_DATE_DESC:
-				c = new Comparator<IntermediaryIndicatorValue>() {
-					@Override
-					public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
-						return o2.getStartDate().compareTo(o1.getStartDate());
-					}
-				};
-				break;
+		case COUNTRY_ASC:
+			c = new Comparator<IntermediaryIndicatorValue>() {
+				@Override
+				public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
+					return o1.getLocationName().compareTo(o2.getLocationName());
+				}
+			};
+			break;
+		case COUNTRY_DESC:
+			c = new Comparator<IntermediaryIndicatorValue>() {
+				@Override
+				public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
+					return o2.getLocationName().compareTo(o1.getLocationName());
+				}
+			};
+			break;
+		case INDICATOR_TYPE_ASC:
+			c = new Comparator<IntermediaryIndicatorValue>() {
+				@Override
+				public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
+					return o1.getIndicatorTypeName().compareTo(o2.getIndicatorTypeName());
+				}
+			};
+			break;
+		case INDICATOR_TYPE_DESC:
+			c = new Comparator<IntermediaryIndicatorValue>() {
+				@Override
+				public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
+					return o2.getIndicatorTypeName().compareTo(o1.getIndicatorTypeName());
+				}
+			};
+			break;
+		case SOURCE_TYPE_ASC:
+			c = new Comparator<IntermediaryIndicatorValue>() {
+				@Override
+				public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
+					return o1.getSourceName().compareTo(o2.getSourceName());
+				}
+			};
+			break;
+		case SOURCE_TYPE_DESC:
+			c = new Comparator<IntermediaryIndicatorValue>() {
+				@Override
+				public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
+					return o2.getSourceName().compareTo(o1.getSourceName());
+				}
+			};
+			break;
+		case VALUE_ASC:
+			c = new Comparator<IntermediaryIndicatorValue>() {
+				@Override
+				public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
+					final Double d1 = o1.getValue();
+					final Double d2 = o2.getValue();
+					return d1.compareTo(d2);
+				}
+			};
+			break;
+		case VALUE_DESC:
+			c = new Comparator<IntermediaryIndicatorValue>() {
+				@Override
+				public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
+					final Double d1 = o1.getValue();
+					final Double d2 = o2.getValue();
+					return d2.compareTo(d1);
+				}
+			};
+			break;
+		case START_DATE_ASC:
+			c = new Comparator<IntermediaryIndicatorValue>() {
+				@Override
+				public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
+					return o1.getStartDate().compareTo(o2.getStartDate());
+				}
+			};
+			break;
+		case START_DATE_DESC:
+			c = new Comparator<IntermediaryIndicatorValue>() {
+				@Override
+				public int compare(final IntermediaryIndicatorValue o1, final IntermediaryIndicatorValue o2) {
+					return o2.getStartDate().compareTo(o1.getStartDate());
+				}
+			};
+			break;
 		}
 
 		return c;
@@ -268,7 +272,8 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 		Integer startYear = paramsWrapper.getStartYear();
 		Integer endYear = paramsWrapper.getEndYear();
 		if (RequestParamsWrapper.PeriodType.LATEST_YEAR.equals(paramsWrapper.getPeriodType())) {
-			startYear = this.indicatorDAO.latestYearForIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes(), paramsWrapper.getEntityCodes());
+			startYear = this.indicatorDAO.latestYearForIndicatorsByCriteria(paramsWrapper.getIndicatorTypeCodes(), paramsWrapper.getSourceCodes(), 
+					paramsWrapper.getDataseriesCodes(), paramsWrapper.getEntityCodes());
 			endYear = startYear;
 		}
 		return new Integer[] { startYear, endYear };
@@ -303,6 +308,9 @@ public class IntermediaryBackendServiceImpl implements IntermediaryBackendServic
 				maxValue = value;
 			}
 
+		}
+		if ( maxValue != null ) {
+			result.add(maxValue);
 		}
 
 		return result;

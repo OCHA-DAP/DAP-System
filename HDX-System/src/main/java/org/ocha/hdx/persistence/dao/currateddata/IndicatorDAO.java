@@ -197,7 +197,8 @@ public interface IndicatorDAO {
 	 * 
 	 * @param indicatorTypeCodes
 	 * @param sourceCodes
-	 * @param entityCodes
+	 * @param dataseriesCodes
+	 * @param entityCodes 
 	 * @param startYear
 	 * @param endYear
 	 * @param startPosition
@@ -207,23 +208,25 @@ public interface IndicatorDAO {
 	 *            this should not be null
 	 * @return list of indicators that have passed the filter
 	 */
-	public List<IntermediaryIndicatorValue> listIndicatorsByCriteria(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes, Integer startYear, Integer endYear,
+	public List<IntermediaryIndicatorValue> listIndicatorsByCriteria(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> dataseriesCodes, List<String> entityCodes, 
+			Integer startYear, Integer endYear,
 			List<SortingOption> sortingOptions, Integer startPosition, Integer maxResult, String lang);
 
 	/**
 	 * 
 	 * @param indicatorTypeCodes
 	 * @param sourceCodes
+	 * @param dataseriesCodes
 	 * @param entityCodes
 	 * @param startYear
 	 * @param endYear
 	 * @return
 	 */
-	public Long countIndicatorsByCriteria(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes, Integer startYear, Integer endYear);
+	public Long countIndicatorsByCriteria(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> dataseriesCodes, List<String> entityCodes, Integer startYear, Integer endYear);
 
-	public Integer latestYearForIndicatorsByCriteria(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes);
+	public Integer latestYearForIndicatorsByCriteria(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> dataseriesCodes, List<String> entityCodes);
 
-	public List<Integer> listAvailablePeriods(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> entityCodes, Integer startYear, Integer endYear);
+	public List<Integer> listAvailablePeriods(List<String> indicatorTypeCodes, List<String> sourceCodes, List<String> dataseriesCodes, List<String> entityCodes, Integer startYear, Integer endYear);
 
 	/**
 	 * list all the countries for which there is data for the given Dataserie

@@ -164,6 +164,14 @@ public class IntermediaryIndicatorValue {
 		this.unitName = unitName;
 	}
 
+	@Override
+	public String toString() {
+		return "IntermediaryIndicatorValue [value=" + this.value
+				+ ", indicatorTypeCode=" + this.indicatorTypeCode
+				+ ", locationCode=" + this.locationCode + ", sourceCode="
+				+ this.sourceCode + ", startDate=" + this.startDate + "]";
+	}
+
 
 
 }
