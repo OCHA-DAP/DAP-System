@@ -423,7 +423,15 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public ImportValueStatus updateIndicatorIfNecessary(final PreparedIndicator preparedIndicator, final ImportFromCKAN importFromCKAN) {
-		return this.indicatorDAO.updateIndicatorIfNecessary(preparedIndicator, importFromCKAN);
+		final ImportValueStatus status = this.indicatorDAO.updateIndicatorIfNecessary(preparedIndicator, importFromCKAN);
+
+		if (ImportValueStatus.UPDATED.equals(status)) {
+			final DataSerie dataSerie = new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
+			this.updateMetadataTimestamp(dataSerie);
+			this.updateDataTimestamp(dataSerie);
+		}
+
+		return status;
 	}
 
 	// @Override
