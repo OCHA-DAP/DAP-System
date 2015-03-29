@@ -15,7 +15,9 @@ import org.ocha.hdx.IntegrationTestSetUpAndTearDown;
 import org.ocha.hdx.importer.PreparedIndicator;
 import org.ocha.hdx.importer.report.ImportReport;
 import org.ocha.hdx.model.validation.ValidationStatus;
+import org.ocha.hdx.persistence.dao.ckan.DataSerieToCuratedDatasetDAO;
 import org.ocha.hdx.persistence.dao.currateddata.IndicatorDAO;
+import org.ocha.hdx.persistence.entity.ckan.DataSerieToCuratedDataset;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator;
 import org.ocha.hdx.persistence.entity.curateddata.Indicator.Periodicity;
 import org.ocha.hdx.persistence.entity.curateddata.IndicatorImportConfig;
@@ -27,7 +29,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.google.common.collect.Lists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-integration-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml", "classpath:/ctx-persistence-test.xml" })
+@ContextConfiguration(locations = { "classpath:/ctx-config-test.xml", "classpath:/ctx-integration-test.xml", "classpath:/ctx-core.xml", "classpath:/ctx-dao.xml", "classpath:/ctx-service.xml",
+		"classpath:/ctx-persistence-test.xml" })
 public class FileEvaluatorAndExtractorImplTest {
 
 	@Autowired
@@ -38,6 +41,9 @@ public class FileEvaluatorAndExtractorImplTest {
 
 	@Autowired
 	private IndicatorDAO indicatorDAO;
+
+	@Autowired
+	private DataSerieToCuratedDatasetDAO dataSerieToCuratedDatasetDAO;
 
 	@Before
 	public void setUp() {
@@ -55,8 +61,14 @@ public class FileEvaluatorAndExtractorImplTest {
 	}
 
 	@Test
-	public void testSaveReadIndicatorsToDatabase(){
+	public void testSaveReadIndicatorsToDatabase() {
 
+		{
+			final List<Indicator> indicators = this.indicatorDAO.listLastIndicators(10);
+			assertEquals(2, indicators.size());
+			final List<DataSerieToCuratedDataset> datasetsWithUnsyncedMetadata = dataSerieToCuratedDatasetDAO.getDatasetsWithUnsyncedMetadata(10);
+			assertEquals(0, datasetsWithUnsyncedMetadata.size());
+		}
 
 		final PreparedIndicator preparedIndicator = new PreparedIndicator();
 		preparedIndicator.setIndicatorTypeCode("per-capita-gdp");
@@ -69,31 +81,33 @@ public class FileEvaluatorAndExtractorImplTest {
 		preparedIndicator.setIndicatorImportConfig(new IndicatorImportConfig("10", ValidationStatus.SUCCESS));
 		preparedIndicator.setValue(new IndicatorValue(10.0));
 
-		final ImportReport report = this.fileEvaluatorAndExtractorImpl.saveReadIndicatorsToDatabase( Lists.newArrayList(preparedIndicator), "test-resource-id", "test-revision-id");
+		final ImportReport report = this.fileEvaluatorAndExtractorImpl.saveReadIndicatorsToDatabase(Lists.newArrayList(preparedIndicator), "test-resource-id", "test-revision-id");
 		assertEquals(1, report.getNbOfNewRecords());
 
-		final List<Indicator> indicators = this.indicatorDAO.listLastIndicators(1);
-		assertEquals(1, indicators.size());
+		{
+			final List<Indicator> indicators = this.indicatorDAO.listLastIndicators(10);
+			assertEquals(3, indicators.size());
 
-		final Indicator indicator = indicators.get(0);
-		final Long indicatorId = indicator.getId();
+			final List<DataSerieToCuratedDataset> datasetsWithUnsyncedMetadata = dataSerieToCuratedDatasetDAO.getDatasetsWithUnsyncedMetadata(10);
+			assertEquals(1, datasetsWithUnsyncedMetadata.size());
+			assertEquals("per-capita-gdp", datasetsWithUnsyncedMetadata.get(0).getIndicatorType().getCode());
 
-		this.checkPreparedIndicatorEqualsIndicator(preparedIndicator, indicator);
+			final Indicator indicator = indicators.get(0);
+			final Long indicatorId = indicator.getId();
+			this.checkPreparedIndicatorEqualsIndicator(preparedIndicator, indicator);
 
-		preparedIndicator.setIndicatorImportConfig(new IndicatorImportConfig("20", ValidationStatus.SUCCESS));
-		preparedIndicator.setValue(new IndicatorValue(20.0));
+			preparedIndicator.setIndicatorImportConfig(new IndicatorImportConfig("20", ValidationStatus.SUCCESS));
+			preparedIndicator.setValue(new IndicatorValue(20.0));
 
-		final ImportReport report2 = this.fileEvaluatorAndExtractorImpl.saveReadIndicatorsToDatabase( Lists.newArrayList(preparedIndicator), "test-resource-id", "test-revision-id");
-		assertEquals(1, report2.getNbOfUpdatedRecords());
+			final ImportReport report2 = this.fileEvaluatorAndExtractorImpl.saveReadIndicatorsToDatabase(Lists.newArrayList(preparedIndicator), "test-resource-id", "test-revision-id");
+			assertEquals(1, report2.getNbOfUpdatedRecords());
 
-		final Indicator indicator2 = this.indicatorDAO.getIndicatorById(indicatorId);
+			final Indicator indicator2 = this.indicatorDAO.getIndicatorById(indicatorId);
 
-		assertNotNull(indicator2);
+			assertNotNull(indicator2);
 
-		this.checkPreparedIndicatorEqualsIndicator(preparedIndicator, indicator2);
-
-
-
+			this.checkPreparedIndicatorEqualsIndicator(preparedIndicator, indicator2);
+		}
 
 	}
 

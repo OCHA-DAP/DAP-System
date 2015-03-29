@@ -132,4 +132,9 @@ public class DataSerie implements Comparable<DataSerie> {
 		}
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "DataSerie [indicatorCode=" + indicatorCode + ", sourceCode=" + sourceCode + "]";
+	}
 }

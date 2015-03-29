@@ -414,13 +414,15 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		this.indicatorDAO.createIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, ValidationStatus.SUCCESS, sourceLink, importFromCKAN);
 
-		this.updateDataTimestamp(new DataSerie(indicatorTypeCode, sourceCode));
+		final DataSerie dataSerie = new DataSerie(indicatorTypeCode, sourceCode);
+
+		this.updateMetadataTimestamp(dataSerie);
+		this.updateDataTimestamp(dataSerie);
 
 	}
 
 	@Override
 	public ImportValueStatus updateIndicatorIfNecessary(final PreparedIndicator preparedIndicator, final ImportFromCKAN importFromCKAN) {
-		// TODO Auto-generated method stub
 		return this.indicatorDAO.updateIndicatorIfNecessary(preparedIndicator, importFromCKAN);
 	}
 
@@ -443,7 +445,9 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		this.indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(),
 				indicator.getValue(), indicator.getIndicatorImportConfig(), indicator.getSourceLink(), importFromCKAN);
 
-		this.updateDataTimestamp(new DataSerie(indicator.getType().getCode(), indicator.getSource().getCode()));
+		final DataSerie dataSerie = new DataSerie(indicator.getType().getCode(), indicator.getSource().getCode());
+		this.updateMetadataTimestamp(dataSerie);
+		this.updateDataTimestamp(dataSerie);
 
 	}
 
@@ -875,6 +879,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 	@Override
 	public void updateMetadataTimestamp(final DataSerie dataSerie) {
+		logger.debug(String.format("about to flag metadata as updated for datserie : %s", dataSerie));
 		final boolean success = dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie);
 		if (!success) {
 			final Source source = sourceDAO.getSourceByCode(dataSerie.getSourceCode());
@@ -887,6 +892,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	@Override
 	@Transactional()
 	public void updateDataTimestamp(final DataSerie dataSerie) {
+		logger.debug(String.format("about to flag data as updated for datserie : %s", dataSerie));
 		final boolean success = dataSerieToCuratedDatasetDAO.updateLastDataTimestamp(dataSerie);
 		if (!success) {
 			final Source source = sourceDAO.getSourceByCode(dataSerie.getSourceCode());
