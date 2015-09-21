@@ -14,11 +14,11 @@ public class MetadataUpdater implements Runnable {
 	private CkanSynchronizerService ckanSynchronizerServiceImpl;
 
 	@Override
-	@Scheduled(fixedDelay = 30000, initialDelay = 1000)
+	@Scheduled(fixedDelay = 300000, initialDelay = 1000)
 	public void run() {
 		try {
 			log.debug("Starting MetadataUpdater.run");
-			ckanSynchronizerServiceImpl.updateMetadataToCkan(10);
+			this.ckanSynchronizerServiceImpl.updateMetadataToCkan(10);
 			log.debug("After MetadataUpdater.run");
 
 		} catch (final Throwable e) {
