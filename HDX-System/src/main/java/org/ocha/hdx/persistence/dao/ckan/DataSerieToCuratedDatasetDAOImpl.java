@@ -29,24 +29,24 @@ public class DataSerieToCuratedDatasetDAOImpl implements DataSerieToCuratedDatas
 
 	@Override
 	@Transactional
-	public boolean updateLastMetadataTimestamp(final DataSerie dataSerie, final Date newTimestamp) {
+	public boolean updateLastMetadataTimestamp(final DataSerie dataSerie) {
 		final DataSerieToCuratedDataset singleResult = getDataSerieToCuratedDataset(dataSerie);
 		if (singleResult == null) {
 			return false;
 		} else {
-			singleResult.setLastMetadataUpdate(newTimestamp);
+			singleResult.setLastMetadataUpdate(new Date());
 			return true;
 		}
 	}
 
 	@Override
 	@Transactional
-	public boolean updateLastDataTimestamp(final DataSerie dataSerie, final Date newTimestamp) {
+	public boolean updateLastDataTimestamp(final DataSerie dataSerie) {
 		final DataSerieToCuratedDataset singleResult = getDataSerieToCuratedDataset(dataSerie);
 		if (singleResult == null) {
 			return false;
 		} else {
-			singleResult.setLastDataUpdate(newTimestamp);
+			singleResult.setLastDataUpdate(new Date());
 			return true;
 		}
 	}
@@ -85,5 +85,12 @@ public class DataSerieToCuratedDatasetDAOImpl implements DataSerieToCuratedDatas
 	@Override
 	public DataSerieToCuratedDataset getDataSerieToCuratedDataset(final long id) {
 		return em.find(DataSerieToCuratedDataset.class, id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteAllDataSerieToCuratedDataset() {
+		em.createQuery("DELETE FROM DataSerieToCuratedDataset").executeUpdate();
+
 	}
 }

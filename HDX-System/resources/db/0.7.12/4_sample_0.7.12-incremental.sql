@@ -1,0 +1,1 @@
+ALTER SEQUENCE hdx_dataserie_to_curated_dataset_seq RESTART WITH 1000;

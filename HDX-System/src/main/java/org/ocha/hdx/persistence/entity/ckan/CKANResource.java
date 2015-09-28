@@ -187,7 +187,7 @@ public class CKANResource {
 	@Column(name = "parentDataset_revision_id", nullable = false, updatable = false)
 	private String parentDataset_revision_id;
 
-	@Column(name = "parentDataset_revision_timestamp", columnDefinition = "timestamp", nullable = false, updatable = false)
+	@Column(name = "parentDataset_revision_timestamp", columnDefinition = "timestamp", nullable = true, updatable = false)
 	private Date parentDataset_revision_timestamp;
 
 	@Column(name = "detectionDate", columnDefinition = "timestamp", nullable = false, updatable = false)
@@ -332,7 +332,7 @@ public class CKANResource {
 	}
 
 	public Type getType() {
-		return type;
+		return this.type;
 	}
 
 	public void setType(final Type type) {

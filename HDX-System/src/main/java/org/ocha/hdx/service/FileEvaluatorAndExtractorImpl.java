@@ -151,8 +151,8 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 					break;
 
 				}
-			}
-			catch (final Exception e) {
+
+			} catch (final Exception e) {
 				importReport.addRecordInError(new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode()));
 			}
 

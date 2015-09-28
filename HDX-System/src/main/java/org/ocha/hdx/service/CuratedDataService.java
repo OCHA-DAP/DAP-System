@@ -193,7 +193,9 @@ public interface CuratedDataService {
 	/*
 	 * DataSerieToCuratedDataset (schedules an update to ckan)
 	 */
-	public void updateMetadataTimestamp(final DataSerie dataSerie, final Date newTimestamp);
+	public void updateMetadataTimestamp(final DataSerie dataSerie);
+
+	public void updateDataTimestamp(final DataSerie dataSerie);
 
 	/*
 	 * Validation notes

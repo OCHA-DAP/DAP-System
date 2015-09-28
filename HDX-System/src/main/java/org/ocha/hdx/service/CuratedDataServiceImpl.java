@@ -414,12 +414,24 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		this.indicatorDAO.createIndicator(source, entity, indicatorType, start, end, periodicity, value, initialValue, ValidationStatus.SUCCESS, sourceLink, importFromCKAN);
 
+		final DataSerie dataSerie = new DataSerie(indicatorTypeCode, sourceCode);
+
+		this.updateMetadataTimestamp(dataSerie);
+		this.updateDataTimestamp(dataSerie);
+
 	}
 
 	@Override
 	public ImportValueStatus updateIndicatorIfNecessary(final PreparedIndicator preparedIndicator, final ImportFromCKAN importFromCKAN) {
-		// TODO Auto-generated method stub
-		return this.indicatorDAO.updateIndicatorIfNecessary(preparedIndicator, importFromCKAN);
+		final ImportValueStatus status = this.indicatorDAO.updateIndicatorIfNecessary(preparedIndicator, importFromCKAN);
+
+		if (ImportValueStatus.UPDATED.equals(status)) {
+			final DataSerie dataSerie = new DataSerie(preparedIndicator.getIndicatorTypeCode(), preparedIndicator.getSourceCode());
+			this.updateMetadataTimestamp(dataSerie);
+			this.updateDataTimestamp(dataSerie);
+		}
+
+		return status;
 	}
 
 	// @Override
@@ -440,6 +452,10 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 
 		this.indicatorDAO.createIndicator(indicator.getSource(), indicator.getEntity(), indicator.getType(), indicator.getStart(), indicator.getEnd(), indicator.getPeriodicity(),
 				indicator.getValue(), indicator.getIndicatorImportConfig(), indicator.getSourceLink(), importFromCKAN);
+
+		final DataSerie dataSerie = new DataSerie(indicator.getType().getCode(), indicator.getSource().getCode());
+		this.updateMetadataTimestamp(dataSerie);
+		this.updateDataTimestamp(dataSerie);
 
 	}
 
@@ -860,7 +876,7 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 		// we don't send anything to ckan if this is for a specific language, at least for now
 		// this might trigger some unnecessary calls, but we might add extras to ckan, and this is convenient to maintain as is
 		if ("default".equals(languageCode)) {
-			updateMetadataTimestamp(new DataSerie(indicatorTypeCode, sourceCode), new Date());
+			updateMetadataTimestamp(new DataSerie(indicatorTypeCode, sourceCode));
 		}
 	}
 
@@ -870,13 +886,29 @@ public class CuratedDataServiceImpl implements CuratedDataService {
 	}
 
 	@Override
-	public void updateMetadataTimestamp(final DataSerie dataSerie, final Date newTimestamp) {
-		final boolean success = dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie, newTimestamp);
+	public void updateMetadataTimestamp(final DataSerie dataSerie) {
+		logger.debug(String.format("about to flag metadata as updated for datserie : %s", dataSerie));
+		final boolean success = dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie);
 		if (!success) {
 			final Source source = sourceDAO.getSourceByCode(dataSerie.getSourceCode());
 			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(dataSerie.getIndicatorCode());
 			dataSerieToCuratedDatasetDAO.createDataSerieToCuratedDataset(source, indicatorType);
-			dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie, newTimestamp);
+			dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie);
+		}
+	}
+
+	@Override
+	@Transactional()
+	public void updateDataTimestamp(final DataSerie dataSerie) {
+		logger.debug(String.format("about to flag data as updated for datserie : %s", dataSerie));
+		final boolean success = dataSerieToCuratedDatasetDAO.updateLastDataTimestamp(dataSerie);
+		if (!success) {
+			final Source source = sourceDAO.getSourceByCode(dataSerie.getSourceCode());
+			final IndicatorType indicatorType = indicatorTypeDAO.getIndicatorTypeByCode(dataSerie.getIndicatorCode());
+			dataSerieToCuratedDatasetDAO.createDataSerieToCuratedDataset(source, indicatorType);
+			dataSerieToCuratedDatasetDAO.updateLastDataTimestamp(dataSerie);
+			// also need to update metadata to update range of values
+			dataSerieToCuratedDatasetDAO.updateLastMetadataTimestamp(dataSerie);
 		}
 	}
 

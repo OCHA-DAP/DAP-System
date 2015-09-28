@@ -363,10 +363,12 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 		}
 
 		HttpURLConnection uCon = (HttpURLConnection) url.openConnection();
+		uCon.setRequestProperty("X-CKAN-API-Key", this.technicalAPIKey);
 		final int httpStatus = uCon.getResponseCode();
 		if (httpStatus == HttpURLConnection.HTTP_MOVED_TEMP || httpStatus == HttpURLConnection.HTTP_MOVED_PERM || httpStatus == HttpURLConnection.HTTP_SEE_OTHER) {
 			final String newUrlStr = uCon.getHeaderField("Location");
 			uCon = (HttpURLConnection) new URL(newUrlStr).openConnection();
+			uCon.setRequestProperty("X-CKAN-API-Key", this.technicalAPIKey);
 		}
 
 		final byte[] buf = new byte[1024];
