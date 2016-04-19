@@ -65,36 +65,41 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 
 	static final Logger log = LoggerFactory.getLogger(HDXServiceImpl.class);
 
-	private static String DATASET_LIST_V3_API_PATTERN = "http://%s/api/3/action/package_list";
-	private static String GROUP_LIST_V3_API_PATTERN = "http://%s/api/3/action/group_list";
-	private static String GROUP_V3_API_PATTERN = "http://%s/api/3/action/group_show?id=";
-	private static String DATASET_V3_API_PATTERN = "http://%s/api/3/action/package_show?id=";
-	private static String RESOURCE_CREATE_V3_API_PATTERN = "http://%s/api/3/action/resource_create";
-	private static String RESOURCE_SHOW_V3_API_PATTERN = "http://%s/api/3/action/resource_show?id=";
+	private static String DATASET_LIST_V3_API_PATTERN = "%s://%s/api/3/action/package_list";
+	private static String GROUP_LIST_V3_API_PATTERN = "%s://%s/api/3/action/group_list";
+	private static String GROUP_V3_API_PATTERN = "%s://%s/api/3/action/group_show?id=";
+	private static String DATASET_V3_API_PATTERN = "%s://%s/api/3/action/package_show?id=";
+	private static String RESOURCE_CREATE_V3_API_PATTERN = "%s://%s/api/3/action/resource_create";
+	private static String RESOURCE_SHOW_V3_API_PATTERN = "%s://%s/api/3/action/resource_show?id=";
 
-	private final String urlBaseForDatasetsList;
-	private final String urlBaseForGroupsList;
-	private final String urlBaseForDatasetContentV3;
-	private final String urlBaseForGroupContentV3;
-	private final String urlBaseForResourceCreation;
-	private final String urlBaseForResourceShow;
+	final String urlBaseForDatasetsList;
+	final String urlBaseForGroupsList;
+	final String urlBaseForDatasetContentV3;
+	final String urlBaseForGroupContentV3;
+	final String urlBaseForResourceCreation;
+	final String urlBaseForResourceShow;
+	
+	private final String protocol;
+	private final String ckanHost;
 
 	private final File stagingDirectory;
 
-	public HDXServiceImpl(final String host, final String technicalAPIKey, final File stagingDirectory) {
+	public HDXServiceImpl(final String host, final Boolean isHTTPS, final String technicalAPIKey, final File stagingDirectory) {
 		super(technicalAPIKey);
-		if (!stagingDirectory.isDirectory()) {
-			throw new IllegalArgumentException("staging  directory doesn't exist: " + stagingDirectory.getAbsolutePath());
-		}
+		verifyStagingDirectory(stagingDirectory);
+		
+		this.protocol = (isHTTPS != null && isHTTPS) ? "https" : "http"; 
+		
+		this.ckanHost = host;
 
 		this.stagingDirectory = stagingDirectory;
 
-		this.urlBaseForDatasetsList = String.format(DATASET_LIST_V3_API_PATTERN, host);
-		this.urlBaseForGroupsList = String.format(GROUP_LIST_V3_API_PATTERN, host);
-		this.urlBaseForDatasetContentV3 = String.format(DATASET_V3_API_PATTERN, host);
-		this.urlBaseForGroupContentV3 = String.format(GROUP_V3_API_PATTERN, host);
-		this.urlBaseForResourceCreation = String.format(RESOURCE_CREATE_V3_API_PATTERN, host);
-		this.urlBaseForResourceShow = String.format(RESOURCE_SHOW_V3_API_PATTERN, host);
+		this.urlBaseForDatasetsList = String.format(DATASET_LIST_V3_API_PATTERN, this.protocol, host);
+		this.urlBaseForGroupsList = String.format(GROUP_LIST_V3_API_PATTERN, this.protocol, host);
+		this.urlBaseForDatasetContentV3 = String.format(DATASET_V3_API_PATTERN, this.protocol, host);
+		this.urlBaseForGroupContentV3 = String.format(GROUP_V3_API_PATTERN, this.protocol, host);
+		this.urlBaseForResourceCreation = String.format(RESOURCE_CREATE_V3_API_PATTERN, this.protocol, host);
+		this.urlBaseForResourceShow = String.format(RESOURCE_SHOW_V3_API_PATTERN, this.protocol, host);
 
 	}
 
@@ -127,6 +132,12 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 
 	@Autowired
 	private DataSerieMetadataDAO dataSerieMetadataDAO;
+	
+	void verifyStagingDirectory(final File stagingDirectory) {
+		if (!stagingDirectory.isDirectory()) {
+			throw new IllegalArgumentException("staging  directory doesn't exist: " + stagingDirectory.getAbsolutePath());
+		}
+	}
 
 	@Override
 	public boolean addResourceToCKANDataset(final String packageId, final String resourceUrl, final String name) {
@@ -361,8 +372,10 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 		if (url == null) {
 			return false;
 		}
-
-		HttpURLConnection uCon = (HttpURLConnection) url.openConnection();
+		
+		final URL finalUrl;
+		finalUrl = hackTheURLProtocol(url);
+		HttpURLConnection uCon = (HttpURLConnection) finalUrl.openConnection();
 		uCon.setRequestProperty("X-CKAN-API-Key", this.technicalAPIKey);
 		final int httpStatus = uCon.getResponseCode();
 		if (httpStatus == HttpURLConnection.HTTP_MOVED_TEMP || httpStatus == HttpURLConnection.HTTP_MOVED_PERM || httpStatus == HttpURLConnection.HTTP_SEE_OTHER) {
@@ -392,6 +405,23 @@ public class HDXServiceImpl extends CkanClient implements HDXService {
 				fos.close();
 			}
 		}
+	}
+
+	/**
+	 * Used to force the connection to CKAN to use HTTPS even when the resource url doesn't specify it 
+	 * @param url
+	 * @return the final URL that should be used
+	 * @throws MalformedURLException
+	 */
+	URL hackTheURLProtocol(final URL url) throws MalformedURLException {
+		final URL finalUrl;
+		if (url.getHost().equals(this.ckanHost) && ! url.getProtocol().equalsIgnoreCase(this.protocol)) {
+			finalUrl = new URL(this.protocol, url.getHost(), url.getPort(), url.getFile());
+		}
+		else {
+			finalUrl = url;
+		}
+		return finalUrl;
 	}
 
 	private File getLocalFileFromResourceIdAndRevisionId(final String id, final String revision_id) {
