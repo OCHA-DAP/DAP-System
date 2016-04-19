@@ -80,6 +80,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		switch (type) {
 		case WFP:
 			return new WfpValidator().evaluateFile(file);
+		case MANUAL:
 		case SCRAPER_CONFIGURABLE:
 			final ValidationReport validationReport = new ScraperValidator().evaluateFile(file);
 			// since we're using the same validator for both types, we're setting the correct type afterwards
@@ -99,6 +100,7 @@ public class FileEvaluatorAndExtractorImpl implements FileEvaluatorAndExtractor 
 		// Factory....
 		final PreparedData preparedData;
 		switch (type) {
+		case MANUAL:
 		case SCRAPER_CONFIGURABLE: {
 			final ScraperValidatingImporter importer = new ScraperValidatingImporter(this.sourceDictionaryDAO.getSourceDictionariesByResourceConfiguration(config), config, this.validatorCreators,
 					this.preValidatorCreators, validationReport, this.indicatorCreationService);

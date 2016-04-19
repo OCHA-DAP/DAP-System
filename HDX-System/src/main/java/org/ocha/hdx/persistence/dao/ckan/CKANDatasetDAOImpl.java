@@ -94,7 +94,13 @@ public class CKANDatasetDAOImpl implements CKANDatasetDAO {
 	@Override
 	public String getMaintainerMailForName(final String name) {
 		final CKANDataset dataset = em.find(CKANDataset.class, name);
-		return dataset.getMaintainer_email();
+		if ( dataset != null ){
+			return dataset.getMaintainer_email();
+		}
+		else {
+			/* This is the case for manually uploaded files to cps (name=="MANUAL_UPLOAD") */
+			return null;
+		}
 	}
 
 }
