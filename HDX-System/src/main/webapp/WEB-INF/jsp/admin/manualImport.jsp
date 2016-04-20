@@ -17,7 +17,7 @@
 				<br/><br/>
 				<input type="text" id="resourceName" name="resourceName" />
 				<input type="file" id="resourceFile" name="resourceFile" />
-				<select>
+				<select name="resourceConfigurationId" >
 					<c:forEach var="config" items="${it.configs}">
 						<option value="${config.id}">${config.name}</option>
 					</c:forEach>

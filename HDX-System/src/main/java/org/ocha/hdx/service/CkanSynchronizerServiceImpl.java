@@ -26,14 +26,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class CkanSynchronizerServiceImpl extends CkanClient implements CkanSynchronizerService {
 
-	private static String HDX_PACKAGE_UPDATE_API_PATTERN = "http://%s/api/3/action/hdx_package_update_metadata";
-	private static String DATASET_UPDATE_V3_API_PATTERN = "http://%s/api/3/action/package_update";
+	private static String HDX_PACKAGE_UPDATE_API_PATTERN = "%s://%s/api/3/action/hdx_package_update_metadata";
+	private static String DATASET_UPDATE_V3_API_PATTERN = "%s://%s/api/3/action/package_update";
+	
+	private final String protocol;
 
-	private final String urlBaseForHdxPackageUpdate;
+	final String urlBaseForHdxPackageUpdate;
 
-	public CkanSynchronizerServiceImpl(final String host, final String technicalAPIKey) {
+	public CkanSynchronizerServiceImpl(final String host, final Boolean isHTTPS,  final String technicalAPIKey) {
 		super(technicalAPIKey);
-		this.urlBaseForHdxPackageUpdate = String.format(HDX_PACKAGE_UPDATE_API_PATTERN, host);
+		
+		this.protocol = (isHTTPS != null && isHTTPS) ? "https" : "http";
+		this.urlBaseForHdxPackageUpdate = String.format(HDX_PACKAGE_UPDATE_API_PATTERN, this.protocol, host);
 	}
 
 	private static final Logger ckanUpdaterLogger = LoggerFactory.getLogger("ckan-updater-logger");
