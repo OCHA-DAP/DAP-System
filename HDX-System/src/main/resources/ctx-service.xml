@@ -80,6 +80,7 @@
 
   <bean id="ckanSynchronizerService" class="org.ocha.hdx.service.CkanSynchronizerServiceImpl">
     <constructor-arg name="host" value="${ckan.host}" />
+    <constructor-arg name="isHTTPS" value="${ckan.host.ishttps}" />
     <constructor-arg name="technicalAPIKey" value="${ckan.technical.api.key}" />
   </bean>
 

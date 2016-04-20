@@ -11,10 +11,6 @@ import java.net.URL;
 
 import org.junit.Test;
 
-/**
- * @author alex
- *
- */
 public class HDXServiceImpl_simple_Test {
 
 	/**
